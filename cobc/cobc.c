@@ -77,6 +77,7 @@ enum cb_compile_level {
  */
 
 int	cb_source_format = CB_FORMAT_FIXED;
+int	cb_source_format1 = 0;
 
 #ifdef	COB_EBCDIC_MACHINE
 int	cb_display_sign = COB_DISPLAY_SIGN_EBCDIC;	/* 1 */
@@ -108,6 +109,7 @@ struct cb_exception cb_exception_table[] = {
 #else
 #define PATHSEPS ":"
 #endif
+
 
 int			cb_id = 1;
 int			cb_attr_id = 1;
@@ -269,6 +271,7 @@ static const struct option long_options[] = {
 	{"debug", no_argument, NULL, 'd'},
 	{"ext", required_argument, NULL, 'e'},
 	{"free", no_argument, &cb_source_format, CB_FORMAT_FREE},
+	{"free_1col_aster", no_argument, &cb_source_format, CB_FORMAT_FREE_1COL_ASTER},  
 	{"fixed", no_argument, &cb_source_format, CB_FORMAT_FIXED},
 	{"static", no_argument, &cb_flag_static_call, 1},
 	{"dynamic", no_argument, &cb_flag_static_call, 0},
@@ -537,6 +540,7 @@ cobc_print_usage (void)
 	puts (_("                          default     When not specified"));
 	puts (_("                        See config/default.conf and config/*.conf"));
 	puts (_("  -free                 Use free source format"));
+	puts (_("  -free_1col_aster      Use free(1col_aster) source format"));
 	puts (_("  -fixed                Use fixed source format (default)"));
 	puts (_("  -O, -O2, -Os          Enable optimization"));
 	puts (_("  -g                    Produce debugging information in the output"));
@@ -839,7 +843,9 @@ process_command_line (int argc, char *argv[])
 			ABORT ();
 		}
 	}
-
+	if (cb_source_format == 2 ) {
+		cb_source_format1 = 1;
+  	}
 	if (cb_config_name == NULL) {
 		if (cb_load_std ("default.conf") != 0) {
 			fprintf (stderr, "Error: failed to load the initial config file\n");

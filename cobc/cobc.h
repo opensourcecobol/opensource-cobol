@@ -38,8 +38,10 @@
 
 #define CB_FORMAT_FIXED	0
 #define CB_FORMAT_FREE	1
+#define CB_FORMAT_FREE_1COL_ASTER 2
 
 extern int	cb_source_format;
+extern int	cb_source_format1;
 
 extern int	cb_display_sign;
 
