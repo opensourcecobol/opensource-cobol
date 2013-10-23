@@ -1048,27 +1048,47 @@ cob_cmp (cob_field *f1, cob_field *f2)
 	} else if ((COB_FIELD_TYPE (f1) == COB_TYPE_GROUP) || (COB_FIELD_TYPE (f2) == COB_TYPE_GROUP)) {
 		return cob_cmp_simple_str (f1, f2);
 	} else {
-		if (COB_FIELD_IS_NUMERIC (f1)
-		    && COB_FIELD_TYPE (f1) != COB_TYPE_NUMERIC_DISPLAY) {
-			temp.size = COB_FIELD_DIGITS(f1);
-			temp.data = buff;
-			temp.attr = &attr;
-			attr = *f1->attr;
-			attr.type = COB_TYPE_NUMERIC_DISPLAY;
-			attr.flags &= ~COB_FLAG_HAVE_SIGN;
-			cob_move (f1, &temp);
-			f1 = &temp;
+		if (COB_FIELD_IS_NUMERIC (f1)) {
+			if (COB_FIELD_TYPE (f1) != COB_TYPE_NUMERIC_DISPLAY) {
+				temp.size = COB_FIELD_DIGITS(f1);
+				temp.data = buff;
+				temp.attr = &attr;
+				attr = *f1->attr;
+				attr.type = COB_TYPE_NUMERIC_DISPLAY;
+				attr.flags &= ~COB_FLAG_HAVE_SIGN;
+				cob_move (f1, &temp);
+				f1 = &temp;
+			} else if (COB_FIELD_SIGN_SEPARATE (f1)) {
+				temp.size = COB_FIELD_DIGITS(f1);
+				temp.data = buff;
+				temp.attr = &attr;
+				attr = *f1->attr;
+				attr.type = COB_TYPE_NUMERIC_DISPLAY;
+				attr.flags = COB_FLAG_HAVE_SIGN;
+				cob_move (f1, &temp);
+				f1 = &temp;
+			}
 		}
-		if (COB_FIELD_IS_NUMERIC (f2)
-		    && COB_FIELD_TYPE (f2) != COB_TYPE_NUMERIC_DISPLAY) {
-			temp.size = COB_FIELD_DIGITS(f2);
-			temp.data = buff;
-			temp.attr = &attr;
-			attr = *f2->attr;
-			attr.type = COB_TYPE_NUMERIC_DISPLAY;
-			attr.flags &= ~COB_FLAG_HAVE_SIGN;
-			cob_move (f2, &temp);
-			f2 = &temp;
+		if (COB_FIELD_IS_NUMERIC (f2)) {
+			if (COB_FIELD_TYPE (f2) != COB_TYPE_NUMERIC_DISPLAY) {
+				temp.size = COB_FIELD_DIGITS(f2);
+				temp.data = buff;
+				temp.attr = &attr;
+				attr = *f2->attr;
+				attr.type = COB_TYPE_NUMERIC_DISPLAY;
+				attr.flags &= ~COB_FLAG_HAVE_SIGN;
+				cob_move (f2, &temp);
+				f2 = &temp;
+			} else if (COB_FIELD_SIGN_SEPARATE (f2)) {
+				temp.size = COB_FIELD_DIGITS(f2);
+				temp.data = buff;
+				temp.attr = &attr;
+				attr = *f2->attr;
+				attr.type = COB_TYPE_NUMERIC_DISPLAY;
+				attr.flags = COB_FLAG_HAVE_SIGN;
+				cob_move (f2, &temp);
+				f2 = &temp;
+			}
 		}
 		return cob_cmp_alnum (f1, f2);
 	}
