@@ -1,0 +1,69 @@
+OpenCOBOL TODO						-*- outline -*-
+
+1 Pending requests
+
+1.1 Handling of EBCDIC files
+
+1.2 Listing file
+(2004-02-13: BUG: "COPY REPLACING ..."  and  REQUEST for "mini-listing")
+
+1.3 Partial expression in the EVALUATE statement
+(2004-02-19: feature request:  EVALUATE: partial-expression)
+
+1.4 READ ... PREVIOUS
+
+1.5 many bugs reported recently
+
+2 Other features to be implemented
+
+2.2 SCREEN SECTION
+
+COBOL 2002 has defined extended ACCEPT/DISPLAY.
+We can do this eventually.
+
+2.3 Embedded SQL
+
+Frank Polscheit posted his implementation of SQL preprocessor.
+(2004-02-17: SQL pre-processor for OPEN-COBOL)
+
+Firebird (firebird.sourceforge.net) has a SQL preprocessor
+for their database.
+
+2.4 New backends for INDEXED files
+
+ - Look at C-ISAM replacements
+
+3 Improvement of compiler internals
+
+3.1 Error checking
+
+3.1.1 Type checking with each statement
+
+Most statements do not check the type of thier parameters.
+We should do it at the beginning of each cb_emit_* functions.
+
+3.1.2 Strict error checking depending on the standard
+Partially implemented
+
+3.1.4 Use `error' token in the parser for better error recovery
+
+4 Optimization
+
+4.1 More inlining of run-time functions
+
+Done with various binary operands
+
+5 Debugging support
+
+5.1 Data access method
+
+We should generate all data hierarchy defined in a COBOL program
+with all relevant information, including data names, picture clauses,
+and source locations.  We should also define a debugging function
+that receives a data name and displays its value using the generated
+data hierarchy.  By calling the function from gdb, we can easily
+access the COBOL data at debugging time.
+
+6 Better user manual
+
+Yes, we should

@@ -1,0 +1,29 @@
+##
+## Copyright (C) 2003-2009 Keisuke Nishida
+## Copyright (C) 2008-2009 Roger While
+##
+CC="@CC@"
+SHREXT="@COB_MODULE_EXT@"
+SHROPT="@COB_SHARED_OPT@ @COB_PIC_FLAGS@ @CFLAGS@ @LDFLAGS@"
+COB_BIGENDIAN="@COB_BIGENDIAN@"
+PATH="${abs_top_builddir}/cobc:${abs_top_builddir}/bin:${abs_top_builddir}/libcob/.libs:${PATH}"
+COBC="${abs_top_builddir}/cobc/cobc"
+COBCRUN="${abs_top_builddir}/bin/cobcrun"
+
+TEMPLATE="${abs_srcdir}/data-rep.src"
+
+FLAGS="-std=cobol2002 -debug -Wall ${COBOL_FLAGS}"
+COMPILE="${COBC} -x ${FLAGS}"
+COMPILE_ONLY="${COBC} -fsyntax-only ${FLAGS}"
+COMPILE_MODULE="${COBC} -m ${FLAGS}"
+
+export COB_CFLAGS="-I${abs_top_srcdir} @COB_CFLAGS@"
+export COB_LDFLAGS="-L${abs_top_builddir}/libcob/.libs @COB_LDFLAGS@"
+export COB_LIBS="-L${abs_top_builddir}/libcob/.libs -lcob @LIBCOB_LIBS@"
+export COB_CONFIG_DIR="${abs_top_srcdir}/config"
+export COB_COPY_DIR="${abs_top_srcdir}/copy"
+export LD_LIBRARY_PATH="${abs_top_builddir}/libcob/.libs:$LD_LIBRARY_PATH"
+export DYLD_LIBRARY_PATH="${abs_top_builddir}/libcob/.libs:$DYLD_LIBRARY_PATH"
+export SHLIB_PATH="${abs_top_builddir}/libcob/.libs:$SHLIB_PATH"
+export LIBPATH="${abs_top_builddir}/libcob/.libs:$LIBPATH"
+

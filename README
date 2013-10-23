@@ -1,0 +1,270 @@
+			       OpenCOBOL
+		       http://www.opencobol.org/
+		http://sourceforge.net/projects/open-cobol/
+
+OpenCOBOL is an open-source COBOL compiler, which translates COBOL
+programs to C code and compiles it using GCC.
+
+This package contains the following subdirectories:
+
+    cobc        COBOL compiler
+    libcob      COBOL run-time library
+    bin		COBOL driver program
+    lib         static library and common headers
+    config      configuration files
+    po          international messages
+    texi        Texinfo files
+    tests       Test suite
+
+All programs except those in lib and libcob are distributed under
+the GNU General Public License.  See COPYING for details.
+
+Programs in lib and libcob are distributed under the GNU Lesser
+General Public License.  See COPYING.LIB for details.
+
+See AUTHORS for the author of each file.
+
+============
+Requirements
+============
+
+  ***
+     NOTE
+	For all the following packages (required or optional),
+	BOTH runtime AND development components are necessary.
+  ***
+  ***
+     NOTE
+	All the following packages are normally part of a Linux
+	distribution. Cygwin also has these as installable packages
+	ALWAYS install the distro packages when available !!
+  ***
+
+OpenCOBOL requires the following external libraries to be installed:
+
+  o GNU MP (libgmp) 4.1.2 or later
+    http://gmplib.org
+
+    BOTH runtime AND development components required.
+
+    libgmp is used to implement decimal arithmetic.
+
+    GNU MP is distributed under GNU Lesser General Public License.
+
+
+  o GNU Libtool (libltdl)
+    http://www.gnu.org/software/libtool/libtool.html
+
+    ***
+	NOTE - libltdl is NOT needed when installing on Linux
+	or Windows (including Cygwin and MingW).
+    ***
+
+    libltdl is used to implement dynamic CALL statements.
+
+    GNU Libtool is distributed under GNU Lesser General Public License.
+
+  **
+
+The following libraries ARE required WHEN :
+
+1) Indexed-Sequential file I/O is used
+
+  o Berkeley DB (libdb) 1.85 or later
+    http://www.oracle.com/
+
+    BOTH runtime AND development components required.
+
+    Recommended is version 4.x as 1.85 is known to have problems.
+
+    * NOTE *
+
+     The following NOTE(S) ONLY apply to DB <= 4.1
+
+	    * NOTE *
+	     The BDB version 4.0 was never officially supported from
+	     sleepycat but, unfortunately, found it's way into Linux
+	     releases. Install a newer version.
+
+	    * NOTE *
+	     If you are generating BDB yourself and the BDB 
+	     version is <= 4 (and version < 1), you need to specify
+	     --enable-compat185 as a minimum to the BDB configure.
+	     BDB does NOT have the usual install path of either
+	     /usr or /usr/local. Therefore, it is recommended to
+	     specify --prefix=/usr/local to the configure.
+
+    libdb is used to implement indexed file I/O and SORT/MERGE.
+
+    Berkeley DB is distributed under the original BSD License (1.85)
+    or their own open-source license (2.x or later).  Note that, as
+    of 2.x, if you linked your software with Berkeley DB, you must
+    distribute the source code of your software along with your
+    software, or you have to pay royalty to Oracle.
+
+2) SCREEN I/O is used or extended ACCEPT/DISPLAY is used
+
+    BOTH runtime AND development components required.
+
+  o Ncurses (ncurses) 5.2 or later
+    http://www.gnu.org/software/ncurses/ncurses.html
+
+    libncurses is used to implement SCREEN SECTION and extended
+    ACCEPT/DISPLAY.
+
+    Ncurses is distributed under a BSD style license.
+
+  o Unix curses
+
+  o PDCurses (pdcurses) for MinGW ports
+    http://pdcurses.sourceforge.net
+
+============
+
+============
+Installation
+============
+
+  **
+	NOTE
+	Due to deficiencies in the tools used to prepare
+	OpenCOBOL (autoconf/automake/libtool), it is
+	NOT generally possible to use path names with
+	spaces embedded within them (Mainly Cygwin/MingW/Windows ports).
+  **
+ 
+To generate/install OpenCOBOL :
+
+**************************************
+
+    ./configure
+    make
+
+ Here you may run
+    make check
+ to run a series of OpenCOBOL test programs (must do!)
+ This MUST succeed - If not, please report.
+
+    make install
+
+** NOTE **
+   On Linux systems, if you are installing for the
+   -first- time, you may need to run "ldconfig" (as root).
+   In fact, it does not hurt if you always do this.
+
+** NOTE **
+   On some Red Hat (Fedora) installations and
+   possibly other Linux distros, /usr/local/lib
+   is NOT automatically searched at runtime. 
+   Edit /etc/ld.so.conf and add /usr/local/lib to the file.
+   Rerun "ldconfig".
+
+You may optionally perform a series of COBOL85 tests.
+See tests/cobol85/README
+It is recommended that you perform this test.
+
+**************************************
+
+If you think you have a problem or just want to
+record the make output, just redirect the output thus :
+    make 1>mymake.log 2>&1
+    make install 1>myinstall.log 2>&1
+
+**************************************
+
+You can get back to a clean installation status by running :
+    make distclean
+
+**************************************
+
+The "make install" will default to "/usr/local" as
+the install path. You may override this by specifying
+"--prefix=<your install path>" to the "./configure"
+command.
+
+***********************************************************
+
+============
+
+The following is only interesting for advanced use.
+A normal user should not have recourse to use these
+options.
+
+There are the following configure options:
+
+  --with-cc=<cc>		Specify C compiler command used by cobc
+				Do not specify this unless you know what
+				you are doing!
+
+  --with-db1			Use Berkeley DB 1.85 (libdb1/libdb-1.85)
+				This overrides --with-db/--without-db
+
+  --with-db			Use Berkeley DB 3.0 or later (libdb)
+				This is the default
+
+  --without-db			Do not use Berkeley DB
+				You will not be able to use SORT/indexed I/O
+
+  --with-dl			Use the system dynamic linker instead of ltdl
+				This is the default
+				(Note on Windows, native loading is used)
+
+  --without-dl			Use ltdl for dynamic program loading
+
+  --with-patch-level=<n>	Set internal patch level to n (default 0)
+
+  --with-varseq=<n>		Define the format for variable length sequential
+				files. For values of 0, 1 and 2, four bytes are
+				written preceeding each record. The format of
+				these four bytes for values of 0, 1, 2 is
+				as follows :
+				n = 0 (default)
+					The first 2 bytes are the record length
+					in big-endian order. This is compatible
+					with mainframe. Bytes 3 and 4 are set
+					to binary 0.
+				n = 1
+					The 4 bytes are the record length in
+					big-endian order.
+				n = 2
+					The 4 bytes are the record length in
+					native machine order (int).
+					(This was previously the default)
+
+				For the value of 3, two bytes are written
+				preceeding each record :
+				n = 3
+					The first 2 bytes are the record length
+					in big-endian order. The record follows
+					immediately after beginning at byte 3.
+
+  --enable-debug		Add '-g' debug option to make
+
+============
+
+============
+Development
+============
+
+If you wish to hack the OpenCOBOL source code, proceed
+as follows.
+
+You need to install the following extra packages with specified
+minimum version before changing/building OpenCOBOL:
+
+For compiling :
+  o Bison 1.875
+  o Flex 2.5.4
+
+If you reconfigure and/or prepare a distribution
+  o Autoconf 2.59
+  o Automake 1.9.6
+  o Libtool 1.5.24
+  o m4 1.4.2
+  o Gettext 0.14.1
+  o Texinfo 4.6 (For makeinfo)
+
+If you modify top-level configure.ac, Makefile.am in any directory,
+or any of the standard OC tests then you will need to
+run "autoreconf -I m4" to regenerate the necessary files.
+
