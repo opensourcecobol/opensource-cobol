@@ -540,31 +540,38 @@ end:
 }
 
 static int
+cob_cmp_simple_str (const cob_field *f1, const cob_field *f2)
+{
+	const unsigned char     *s;
+	size_t                  min;
+	int                     ret;
+
+	min = (f1->size < f2->size) ? f1->size : f2->size;
+	/* compare common substring */
+	s = cob_current_module->collating_sequence;
+	if ((ret = common_cmps (f1->data, f2->data, min, s)) == 0) {
+		/* compare the rest (if any) with spaces */
+		if (f1->size > f2->size) {
+			ret = common_cmpc (f1->data + min, ' ', f1->size - min);
+		} else if (f1->size < f2->size) {
+			ret = -common_cmpc (f2->data + min, ' ', f2->size - min);
+		}
+	}
+	return ret;
+}
+
+static int
 cob_cmp_alnum (cob_field *f1, cob_field *f2)
 {
-	const unsigned char	*s;
-	size_t			min;
 	int			ret;
 	int			sign1;
 	int			sign2;
 
 	sign1 = cob_get_sign (f1);
 	sign2 = cob_get_sign (f2);
-	min = (f1->size < f2->size) ? f1->size : f2->size;
-	s = cob_current_module->collating_sequence;
-	/* compare common substring */
-	if ((ret = common_cmps (f1->data, f2->data, min, s)) != 0) {
-		goto end;
-	}
 
-	/* compare the rest (if any) with spaces */
-	if (f1->size > f2->size) {
-		ret = common_cmpc (f1->data + min, ' ', f1->size - min);
-	} else if (f1->size < f2->size) {
-		ret = -common_cmpc (f2->data + min, ' ', f2->size - min);
-	}
+	ret = cob_cmp_simple_str (f1, f2);
 
-end:
 	if (COB_FIELD_TYPE (f1) != COB_TYPE_NUMERIC_PACKED) {
 		cob_put_sign (f1, sign1);
 	}
@@ -1038,6 +1045,8 @@ cob_cmp (cob_field *f1, cob_field *f2)
 		} else {
 			return -cob_cmp_all (f2, f1);
 		}
+	} else if ((COB_FIELD_TYPE (f1) == COB_TYPE_GROUP) || (COB_FIELD_TYPE (f2) == COB_TYPE_GROUP)) {
+		return cob_cmp_simple_str (f1, f2);
 	} else {
 		if (COB_FIELD_IS_NUMERIC (f1)
 		    && COB_FIELD_TYPE (f1) != COB_TYPE_NUMERIC_DISPLAY) {
