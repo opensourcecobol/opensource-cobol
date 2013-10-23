@@ -3806,12 +3806,19 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 	output (", cob_user_parameters");
 
 	/* Note spare byte at end */
+	if (prog->currency_symbol!='\\'){
 	output (", %d, '%c', '%c', '%c', %d, %d, %d, 0 };\n",
 		cb_display_sign, prog->decimal_point, prog->currency_symbol,
 		prog->numeric_separator, cb_filename_mapping, cb_binary_truncate,
 		cb_pretty_display);
+	}else{
+		output (", %d, '%c', '\\%c', '%c', %d, %d, %d, 0 };\n",
+		cb_display_sign, prog->decimal_point, prog->currency_symbol,
+		prog->numeric_separator, cb_filename_mapping, cb_binary_truncate,
+		cb_pretty_display);
+	}
 	output_newline ();
-
+		
 	/* External items */
 	for (f = prog->working_storage; f; f = f->sister) {
 		if (f->flag_external) {
@@ -4954,8 +4961,13 @@ codegen (struct cb_program *prog, int nested)
 			if (j->pic) {
 				output_storage ("\"");
 				for (s = j->pic; *s; s += 5) {
-					output_storage ("%c\\%03o\\%03o\\%03o\\%03o",
-						s[0], s[1], s[2], s[3], s[4]);
+						if (s[0] == '\\'){
+								output_storage ("\\%c\\%03o\\%03o\\%03o\\%03o",
+								s[0], s[1], s[2], s[3], s[4]);
+						}else{
+								output_storage ("%c\\%03o\\%03o\\%03o\\%03o",
+								s[0], s[1], s[2], s[3], s[4]);
+				}
 				}
 				output_storage ("\"");
 			} else {

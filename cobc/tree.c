@@ -849,7 +849,7 @@ cb_build_program (struct cb_program *last_program, int nest_level)
 	p->next_program = last_program;
 	p->nested_level = nest_level;
 	p->decimal_point = '.';
-	p->currency_symbol = '$';
+	p->currency_symbol = '\\';
 	p->numeric_separator = ',';
 	if (nest_level) {
 		p->global_file_list = last_program->global_file_list;
