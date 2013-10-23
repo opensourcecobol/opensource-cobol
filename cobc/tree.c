@@ -1586,6 +1586,9 @@ build_file (cb_tree name)
 	p->access_mode = COB_ACCESS_SEQUENTIAL;
 	p->handler = CB_LABEL (cb_standard_error_handler);
 	p->handler_prog = current_program;
+	if(external_flg == 1){
+		p->external_assign = 1;
+	}
 	return p;
 }
 
@@ -1733,7 +1736,7 @@ cb_build_reference (const char *name)
 
 	p = make_tree (CB_TAG_REFERENCE, CB_CATEGORY_UNKNOWN, sizeof (struct cb_reference));
 	p->word = lookup_word (name);
-	return CB_TREE (p);
+        return CB_TREE (p);
 }
 
 cb_tree

@@ -1613,6 +1613,14 @@ assign_clause:
 | ASSIGN _to _ext_clause DISK
   {
 	current_file->fileid_assign = 1;
+	current_file->assign = cb_build_assignment_name(current_file, cb_build_reference ("DISK"));
+	
+  }	  
+| ASSIGN _to _ext_clause PRINTER	
+  {
+	current_file->fileid_assign = 1;
+	current_file->assign = cb_build_assignment_name(current_file, cb_build_reference ("PRINTER"));
+	
   }
 ;
 

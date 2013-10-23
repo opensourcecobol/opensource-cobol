@@ -118,6 +118,7 @@ int			cb_field_id = 1;
 int			cb_storage_id = 1;
 int			cb_flag_main = 0;
 
+int         external_flg = 0;
 int			errorcount = 0;
 int			warningcount = 0;
 int			alt_ebcdic = 0;
@@ -212,6 +213,8 @@ static char		*save_temps_dir = NULL;
 
 static jmp_buf		cob_jmpbuf;
 
+
+
 static int		wants_nonfinal = 0;
 static int		cb_flag_module = 0;
 static int		cb_flag_library = 0;
@@ -278,7 +281,8 @@ static const struct option long_options[] = {
 	{"O2", no_argument, NULL, '2'},
 	{"Os", no_argument, NULL, 's'},
 	{"MT", required_argument, NULL, '%'},
-	{"MF", required_argument, NULL, '@'},
+	{"MF", required_argument, NULL, '@'},	
+	{"assign_external", no_argument, NULL, 'A'},	
 #undef	CB_FLAG
 #define	CB_FLAG(var,name,doc)			\
 	{"f"name, no_argument, &var, 1},	\
@@ -568,6 +572,7 @@ cobc_print_usage (void)
 	puts ("");
 	puts (_("  -W                    Enable ALL warnings"));
 	puts (_("  -Wall                 Enable all warnings except as noted below"));
+	puts (_("  -assign_external      Set the file assign to external"));
 #undef	CB_WARNDEF
 #define	CB_WARNDEF(var,name,wall,doc)		\
 	printf ("  -W%-19s %s", name, gettext (doc)); \
@@ -839,6 +844,10 @@ process_command_line (int argc, char *argv[])
 #undef	CB_WARNDEF
 			break;
 
+        case 'A':
+			external_flg = 1;
+			break;
+			
 		default:
 			ABORT ();
 		}
@@ -852,7 +861,13 @@ process_command_line (int argc, char *argv[])
 			exit (1);
 		}
 	}
-
+	if(!external_flg) {
+		if (cb_assign_external) {
+			external_flg = 1;
+		} else {
+			external_flg = 0;
+		}
+	}
 	if (cb_flag_fold_copy_lower && cb_flag_fold_copy_upper) {
 		fprintf (stderr, "Error: Invalid option combination\n");
 		exit (1);

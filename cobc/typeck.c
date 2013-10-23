@@ -683,6 +683,10 @@ cb_build_assignment_name (struct cb_file *cfile, cb_tree name)
 		return cb_error_node;
 	}
 
+	if (cfile ->fileid_assign == 1 && cfile ->external_assign != 1) {
+		return NULL;
+	}
+	
 	switch (CB_TREE_TAG (name)) {
 	case CB_TAG_LITERAL:
 		if (strcmp ((char *)(CB_LITERAL(name)->data), "$#@DUMMY@#$") == 0) {

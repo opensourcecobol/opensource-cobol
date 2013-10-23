@@ -103,6 +103,7 @@ extern int			cb_field_id;
 extern int			cb_storage_id;
 extern int			cb_flag_main;
 
+extern int          external_flg;
 extern int			errorcount;
 extern int			warningcount;
 extern int			alt_ebcdic;

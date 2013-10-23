@@ -139,6 +139,7 @@ cb_load_conf (const char *fname, const int check_nodef, const int prefix_dir)
 	} else {
 		name = fname;
 	}
+	
 	/* open the config file */
 	fp = fopen (name, "r");
 	if (fp == NULL) {
@@ -310,7 +311,14 @@ cb_load_conf (const char *fname, const int check_nodef, const int prefix_dir)
 		}
 	}
 	fclose (fp);
-
+	/* if assign_external is not setted in config file */
+	for(i=0;config_table[i].name;i++) {
+		if(config_table[i].val == NULL && strcmp(config_table[i].name,"assign_external") == 0){
+			config_table[i].val = "no";
+			*((int *)config_table[i].var) = 0;
+		}
+	}
+	
 	/* checks for no definition */
 	if (check_nodef) {
 		for (i = 2; config_table[i].name; i++) {

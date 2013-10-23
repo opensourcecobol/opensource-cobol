@@ -39,7 +39,6 @@
 #define INITIALIZE_ONE		1
 #define INITIALIZE_DEFAULT	2
 #define INITIALIZE_COMPOUND	3
-#define INITIALIZE_EXTERNAL	4
 
 #ifndef __GNUC__
 static int			inside_check = 0;
@@ -591,7 +590,7 @@ output_attr (cb_tree x)
 	int			flags;
 
 	switch (CB_TREE_TAG (x)) {
-	case CB_TAG_LITERAL:
+	case CB_TAG_LITERAL:	
 		l = CB_LITERAL (x);
 		if (CB_TREE_CLASS (x) == CB_CLASS_NUMERIC) {
 			flags = 0;
@@ -1524,10 +1523,6 @@ initialize_type (struct cb_initialize *p, struct cb_field *f, int topfield)
 		return INITIALIZE_ONE;
 	}
 
-	if (f->flag_external) {
-		return INITIALIZE_EXTERNAL;
-	}
-
 	if (f->redefines && (!topfield || !p->flag_statement)) {
 		return INITIALIZE_NONE;
 	}
@@ -1700,12 +1695,22 @@ static void
 output_initialize_external (cb_tree x, struct cb_field *f)
 {
 	unsigned char	*p;
+    cb_tree         file;
 	char		name[COB_MINI_BUFF];
 
 	output_prefix ();
 	output_data (x);
 	if (f->ename) {
 		output (" = cob_external_addr (\"%s\", %d);\n", f->ename, f->size);
+    } else if (f->storage == CB_STORAGE_FILE) {
+            file = CB_TREE (f->file);
+        strcpy (name, CB_FILE(file)->record->name);
+        for (p = name; *p; p++) {
+            if (*p == '-') {
+                *p = '_';
+            }
+        }
+        output (" = cob_external_addr (\"%s\", %d);\n", name, f->size);
 	} else {
 		strcpy (name, f->name);
 		for (p = (unsigned char *)name; *p; p++) {
@@ -1983,14 +1988,17 @@ output_initialize (struct cb_initialize *p)
 	int		c;
 
 	f = cb_field (p->var);
+    if (f->flag_external) {
+        output_initialize_external (p->var, f);
+        if (!p->flag_statement) {
+            return;
+        }
+    }
 	switch (initialize_type (p, f, 1)) {
 	case INITIALIZE_NONE:
 		break;
 	case INITIALIZE_ONE:
 		output_initialize_one (p, p->var);
-		break;
-	case INITIALIZE_EXTERNAL:
-		output_initialize_external (p->var, f);
 		break;
 	case INITIALIZE_DEFAULT:
 		c = initialize_uniform_char (f);
@@ -3294,8 +3302,10 @@ output_file_initialization (struct cb_file *f)
 	struct cb_alt_key	*l;
 
 	if (f->external) {
-		output_line ("%s%s = (cob_file *)cob_external_addr (\"%s\", sizeof(cob_file));",
+	       output_line ("%s%s = (cob_file *)cob_external_addr (\"%s\", sizeof(cob_file));",
 			     CB_PREFIX_FILE, f->cname, f->cname);
+		
+			
 		output_line ("if (cob_initial_external)");
 		output_indent ("{");
 		if (f->linage) {
@@ -3304,7 +3314,7 @@ output_file_initialization (struct cb_file *f)
 	} else {
 		output_line ("if (!%s%s)", CB_PREFIX_FILE, f->cname);
 		output_indent ("{");
-		output_line ("%s%s = cob_malloc (sizeof(cob_file));", CB_PREFIX_FILE, f->cname);
+	       output_line ("%s%s = cob_malloc (sizeof(cob_file));", CB_PREFIX_FILE, f->cname);	
 		if (f->linage) {
 			output_line ("%s%s->linorkeyptr = cob_malloc (sizeof(struct linage_struct));", CB_PREFIX_FILE, f->cname);
 		}
