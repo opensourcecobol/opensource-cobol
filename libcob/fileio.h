@@ -68,6 +68,17 @@
 #define COB_LOCK_MULTIPLE	8
 #define COB_LOCK_MASK		0x7
 
+/* Operate type */
+#define    COB_IO_OPEN   0
+#define    COB_IO_READ   1
+#define    COB_IO_WRITE   2
+#define    COB_IO_CLOSE   3
+#define    COB_IO_DELETE 4
+#define    COB_IO_REWRITE 5
+#define    COB_IO_START    6 
+#define    COB_IO_COMMIT  7
+#define   COB_IO_ROLLBACK 8
+#define   COB_IO_UNLOCK   9
 /* Open mode */
 
 #define COB_OPEN_CLOSED		0
@@ -200,6 +211,17 @@ typedef struct {
 	char			file_version;		/* File I/O version */
 } cob_file;
 
+typedef struct {
+	char selectname[8];
+	char file_stats[2];	
+}cob_ajf_add_file;
+
+ typedef struct {
+ 	 cob_file file;
+	 cob_ajf_add_file addfile;
+	 char   openMode[2];
+	 
+ }cob_ajf_file;
 /* File I-O functions */
 
 /* Struct cob_fileio_funcs
@@ -229,16 +251,35 @@ DLL_EXPIMP extern cob_file	*cob_error_file;
 extern void cob_default_error_handle	(void);
 
 extern void cob_open		(cob_file *, const int, const int, cob_field *);
+extern void  cob_ex_open	(cob_file *, const int, const int, cob_field *);
+extern  int  cob_invoke_fun     (int, char *, cob_field *, char *, cob_field *,
+				 char *, char *, char *);
+
 extern void cob_close		(cob_file *, const int, cob_field *);
+extern void cob_ex_close		(cob_file *, const int, cob_field *);
 extern void cob_read		(cob_file *, cob_field *, cob_field *, int);
+extern void cob_ex_read		(cob_file *, cob_field *, cob_field *, int);
 extern void cob_write		(cob_file *, cob_field *, const int, cob_field *);
+extern void cob_ex_write		(cob_file *, cob_field *, const int, cob_field *);
+
 extern void cob_rewrite		(cob_file *, cob_field *, const int, cob_field *);
+extern void cob_ex_rewrite		(cob_file *, cob_field *, const int, cob_field *);
+
 extern void cob_delete		(cob_file *, cob_field *);
+extern void cob_ex_delete		(cob_file *, cob_field *);
 extern void cob_start		(cob_file *, const int, cob_field *, cob_field *);
+extern void cob_ex_start		(cob_file *, const int, cob_field *, cob_field *);
+
 
 extern void cob_unlock_file	(cob_file *, cob_field *);
+extern void cob_ex_unlock_file	(cob_file *, cob_field *);
+
 extern void cob_commit		(void);
+extern void cob_ex_commit		(void);
+
+
 extern void cob_rollback	(void);
+extern void cob_ex_rollback	(void);
 
 /* System routines */
 extern int CBL_OPEN_FILE	(unsigned char *, unsigned char *,

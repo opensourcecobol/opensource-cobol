@@ -194,6 +194,11 @@ struct cobsort {
 
 /* End SORT definitions */
 
+#define        OPENMODESIZE  3
+#define        READOPTSSIZE  2
+#define        STARTCONDSIZE 2
+#define        EXCPTCODESIZE 6
+
 cob_file		*cob_error_file;
 
 #ifndef _WIN32
@@ -227,6 +232,9 @@ static char		*cob_ls_fixed = NULL;
 static char		*file_open_env;
 static char		*file_open_name;
 static char		*file_open_buff;
+
+#define  TIS_DEFINE_USERFH   "OC_USERFH"
+
 
 /* Emergence buffer in case of malloc fail */
 static char		runtime_buffer[COB_SMALL_BUFF];
@@ -580,6 +588,8 @@ struct indexfile {
 	struct keydesc	key[1];		/* Table of key information */
 					/* keydesc is defined in (d|c|vb)isam.h */
 };
+
+
 
 /* Translate ISAM status to COBOL status and return */
 
@@ -3818,14 +3828,29 @@ cob_file_unlock (cob_file *f)
  */
 
 void
-cob_unlock_file (cob_file *f, cob_field *fnstatus)
+cob_ex_unlock_file (cob_file *f, cob_field *fnstatus)
 {
 	cob_file_unlock (f);
 	RETURN_STATUS (COB_STATUS_00_SUCCESS);
 }
 
 void
-cob_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus)
+cob_unlock_file (cob_file *f, cob_field *fnstatus)
+{
+	 char openMode[OPENMODESIZE];	 
+			  memset(openMode,0,sizeof(openMode));
+	 sprintf(openMode, "%02d",  f->last_open_mode); 
+		
+ 	 if( cob_invoke_fun(COB_IO_UNLOCK, (char*)f, NULL, NULL, fnstatus, openMode, NULL, NULL))
+ 	 {
+ 	 	   return ;
+ 	 }
+	 cob_ex_unlock_file(f,fnstatus);
+		
+}
+
+void
+cob_ex_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus)
 {
 	char		*p;
 	char		*src;
@@ -3928,7 +3953,7 @@ cob_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus)
 						break;
 					}
 				}
-				memcpy (file_open_env, src + 1, i - 1);
+				memcpy (file_open_env, src + 1, i - 1);				
 				file_open_env[i - 1] = 0;
 				if ((p = getenv (file_open_env)) != NULL) {
 					strcpy (dst, p);
@@ -3941,17 +3966,24 @@ cob_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus)
 		}
 		*dst = 0;
 		strncpy (file_open_name, file_open_buff, COB_SMALL_MAX);
-
+		
+		str_physical_filename = cb_get_jisword(file_open_name);
+		memset(file_open_name,0,sizeof(file_open_name));
+		strncpy (file_open_name,str_physical_filename, COB_SMALL_MAX);
+		
 		/* resolve by environment variables */
 		/* ex. "TMPFILE" -> DD_TMPFILE, dd_TMPFILE, or TMPFILE */
 		if (simple) {
 			for (i = 0; i < NUM_PREFIX; i++) {
+				
 				snprintf (file_open_buff, COB_SMALL_MAX, "%s%s",
 					  prefix[i], file_open_name);
+				
 				if ((p = getenv (file_open_buff)) != NULL) {
 					strncpy (file_open_name, p, COB_SMALL_MAX);
 					break;
 				}
+				
 			}
 			if (i == NUM_PREFIX && cob_file_path) {
 				snprintf (file_open_buff, COB_SMALL_MAX, "%s/%s",
@@ -4077,8 +4109,68 @@ file_available:
 	}
 }
 
+int 
+cob_invoke_fun( int operate, char  *f,  cob_field * key, char * rec,
+		cob_field * fnstatus, char * openMode, char * startCond, char * read_opts)
+{
+        int iRet =0;
+	char *s;
+	char funname[256];
+	char ret = '0';   
+	char oper[OPENMODESIZE];
+	char excpcode[EXCPTCODESIZE];
+	int  (*funcint)();	
+
+	sprintf(excpcode, "%05d", 0);
+	sprintf(oper, "%02d",operate);	   
+	s  = getenv (TIS_DEFINE_USERFH);	
+	if( s != NULL)
+	{
+	      strcpy(funname,s);
+	      funcint = cob_resolve_1 (funname);  
+
+	     if( funcint )
+	     {
+		  if( fnstatus == NULL)
+		       funcint (oper, f, key, rec, NULL, openMode,
+				startCond, read_opts, &excpcode, (char*)&ret);
+		  else
+		       funcint (oper, f, key, rec, fnstatus->data, openMode,
+				startCond, read_opts, &excpcode, (char*)&ret);
+
+		  if(ret =='1')
+		       iRet =1;
+		  if( ret == '0')
+		       iRet = 0;		
+
+		  if(excpcode != NULL){
+		       cob_exception_code = atoi(excpcode);
+		  }
+	      }
+	}
+	return iRet ;
+}
+
 void
-cob_close (cob_file *f, const int opt, cob_field *fnstatus)
+cob_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus)
+{
+	 char openMode[OPENMODESIZE];
+	  memset(openMode,0,sizeof(openMode));
+
+	 sprintf(openMode, "%02d",  mode);	
+ 	 if( cob_invoke_fun(COB_IO_OPEN, (char *)f, NULL, NULL, fnstatus, openMode, NULL, NULL))
+ 	 {
+	         f->last_open_mode = atoi(openMode);
+ 	 	   return ;
+ 	 }
+                                             	
+	 f->last_open_mode = atoi(openMode);
+	 cob_ex_open(f,f->last_open_mode,sharing,fnstatus);
+}
+
+
+void
+cob_ex_close (cob_file *f, const int opt, cob_field *fnstatus)
 {
 	int	ret;
 
@@ -4120,6 +4212,19 @@ cob_close (cob_file *f, const int opt, cob_field *fnstatus)
 	RETURN_STATUS (ret);
 }
 
+void
+cob_close (cob_file *f, const int opt, cob_field *fnstatus)
+{
+  
+	 char openMode[OPENMODESIZE];	 
+		 memset(openMode,0,sizeof(openMode));
+	 sprintf(openMode, "%02d",  f->last_open_mode);		
+ 	 if( cob_invoke_fun(COB_IO_CLOSE, (char *)f, NULL, NULL, fnstatus, openMode, NULL, NULL))
+ 	 {
+ 	 	   return ;
+ 	 }
+	 cob_ex_close(f, opt,fnstatus);
+}
 #if 0
 void
 cob_unlock (cob_file *f)
@@ -4143,7 +4248,7 @@ cob_unlock (cob_file *f)
 #endif
 
 void
-cob_start (cob_file *f, const int cond, cob_field *key, cob_field *fnstatus)
+cob_ex_start (cob_file *f, const int cond, cob_field *key, cob_field *fnstatus)
 {
 	int	ret;
 
@@ -4172,7 +4277,22 @@ cob_start (cob_file *f, const int cond, cob_field *key, cob_field *fnstatus)
 }
 
 void
-cob_read (cob_file *f, cob_field *key, cob_field *fnstatus, int read_opts)
+cob_start (cob_file *f, const int cond, cob_field *key, cob_field *fnstatus)
+{
+         char openMode[OPENMODESIZE];	 		
+         char startCond[STARTCONDSIZE];
+	 memset(openMode,0,sizeof(openMode));
+	 memset(startCond,0,sizeof(startCond));
+	 sprintf(openMode, "%02d",  f->last_open_mode); 		
+	 sprintf(startCond, "%01d",  cond);
+ 	 if( cob_invoke_fun(COB_IO_START, (char*)f, key, NULL, fnstatus, openMode, startCond, NULL))
+ 	 {
+ 	 	   return ;
+ 	 }
+	 cob_ex_start(f, cond, key, fnstatus);
+}
+void
+cob_ex_read (cob_file *f, cob_field *key, cob_field *fnstatus, int read_opts)
 {
 	int	ret;
 
@@ -4244,7 +4364,31 @@ cob_read (cob_file *f, cob_field *key, cob_field *fnstatus, int read_opts)
 }
 
 void
-cob_write (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
+cob_read (cob_file *f, cob_field *key, cob_field *fnstatus, int read_opts)
+{  
+         int status;
+	 char sbuff[3];  
+	 char openMode[OPENMODESIZE];	 		
+	 char readOpts[READOPTSSIZE];	 		
+	 memset(openMode,0,sizeof(openMode));	
+	 memset(readOpts,0,sizeof(readOpts));	
+	 sprintf(openMode, "%02d",  f->last_open_mode); 		
+	 sprintf(readOpts, "%01d",  read_opts);
+ 	 if( cob_invoke_fun(COB_IO_READ, (char*)f, key, NULL,  fnstatus, openMode, NULL, readOpts))
+ 	 {
+ 	         memset(sbuff, 0,  sizeof(sbuff));
+		  if( 	 fnstatus == NULL)
+		  	return ;
+		  memcpy(sbuff, fnstatus->data, 2);	 
+	 	  status = atoi(sbuff);
+		  RETURN_STATUS (status);
+
+	 }
+	 cob_ex_read(f, key, fnstatus,read_opts);
+}
+
+void
+cob_ex_write (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
 {
 	int	ret;
 
@@ -4290,9 +4434,22 @@ cob_write (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
 
 	RETURN_STATUS (ret);
 }
+void
+cob_write (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
+{
+                char openMode[OPENMODESIZE];	 		
+		 memset(openMode,0,sizeof(openMode));	
+	 sprintf(openMode, "%02d",  f->last_open_mode); 		
+	 
+ 	 if( cob_invoke_fun(COB_IO_WRITE, (char*)f, NULL, (char*)rec->data, fnstatus, openMode, NULL, NULL))
+ 	 {
+ 	 	   return ;
+ 	 }
+	 cob_ex_write(f, rec,  opt, fnstatus);
+}
 
 void
-cob_rewrite (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
+cob_ex_rewrite (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
 {
 	int	ret;
 	int	read_done = f->flag_read_done;
@@ -4336,9 +4493,23 @@ cob_rewrite (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
 
 	RETURN_STATUS (ret);
 }
-
 void
-cob_delete (cob_file *f, cob_field *fnstatus)
+cob_rewrite (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
+{
+                   char openMode[OPENMODESIZE];	 		
+		memset(openMode,0,sizeof(openMode));	 
+	 sprintf(openMode, "%02d",  f->last_open_mode); 		
+
+		
+ 	 if( cob_invoke_fun(COB_IO_REWRITE, (char*)f, NULL, (char*)rec->data, fnstatus, openMode, NULL, NULL))
+ 	 {
+ 	 	   return ;
+ 	 }
+	 cob_ex_rewrite(f, rec, opt, fnstatus);
+
+}
+void
+cob_ex_delete (cob_file *f, cob_field *fnstatus)
 {
 	int	ret;
 	int	read_done = f->flag_read_done;
@@ -4364,7 +4535,46 @@ cob_delete (cob_file *f, cob_field *fnstatus)
 }
 
 void
+cob_delete (cob_file *f, cob_field *fnstatus)
+{
+        char openMode[OPENMODESIZE];	 		
+	memset(openMode,0,sizeof(openMode));	
+		 
+	 sprintf(openMode, "%02d",  f->last_open_mode); 		
+
+		
+ 	 if( cob_invoke_fun(COB_IO_DELETE, (char*)f, NULL, NULL, fnstatus, openMode, NULL, NULL))
+ 	 {
+ 	 	   return ;
+ 	 }
+	 cob_ex_delete(f, fnstatus);
+}
+
+
+void
+cob_ex_commit (void)
+{
+	struct file_list	*l;
+
+	for (l = file_cache; l; l = l->next) {
+		cob_file_unlock (l->file);
+	}
+}
+
+
+void
 cob_commit (void)
+{
+		
+         if( cob_invoke_fun(COB_IO_COMMIT, NULL,NULL,NULL,NULL,NULL,NULL,NULL))
+ 	 {
+ 	 	   return ;
+ 	 }
+	 cob_ex_commit();
+}
+
+void
+cob_ex_rollback (void)
 {
 	struct file_list	*l;
 
@@ -4376,11 +4586,12 @@ cob_commit (void)
 void
 cob_rollback (void)
 {
-	struct file_list	*l;
-
-	for (l = file_cache; l; l = l->next) {
-		cob_file_unlock (l->file);
-	}
+		
+         if( cob_invoke_fun(COB_IO_ROLLBACK, NULL,NULL,NULL,NULL,NULL,NULL,NULL))
+ 	 {
+ 	 	   return ;
+ 	 }
+	 cob_ex_rollback();
 }
 
 void
@@ -4526,8 +4737,16 @@ cob_exit_fileio (void)
 		     l->file->open_mode != COB_OPEN_LOCKED) {
 			cob_field_to_string (l->file->assign, runtime_buffer);
 			cob_close (l->file, 0, NULL);
+
+			str_logic_filename = cb_get_jisword(l->file->select_name);
+			str_physical_filename = cb_get_jisword(runtime_buffer);
+			fprintf (stderr, "WARNING - Implicit CLOSE of %s (\"%s\")\n",
+				str_logic_filename, str_physical_filename);
+
+			/*delete 20110908
 			fprintf (stderr, "WARNING - Implicit CLOSE of %s (\"%s\")\n",
 				l->file->select_name, runtime_buffer);
+			*/
 			fflush (stderr);
 		}
 	}
