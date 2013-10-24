@@ -127,6 +127,7 @@
 #include "numeric.h"
 #include "fileio.h"
 #include "byteswap.h"
+#include "call.h"
 
 #if !defined(__linux__)
 #define SEEK_INIT(f)	fseek ((FILE *)f->file, (off_t)0, SEEK_CUR)
