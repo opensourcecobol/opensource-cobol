@@ -502,6 +502,9 @@ start:
 	for (n = 0; n < 256 && ipchar != '\n';) {
 		ipchar = getc (ppin);
 		if (ipchar == EOF) {
+			if (n > 0) {
+				break;
+			}
 			if (newline_count == 0) {
 				return 0;
 			}
@@ -531,6 +534,7 @@ start:
 		} else {
 			buff[n++] = ipchar;
 		}
+		
 	}
 
 	if (buff[n - 1] != '\n') {
