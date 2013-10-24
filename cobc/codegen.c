@@ -1568,6 +1568,12 @@ initialize_type (struct cb_initialize *p, struct cb_field *f, int topfield)
 		default:
 			if (cb_tree_type (CB_TREE (f)) == COB_TYPE_NUMERIC_PACKED) {
 				return INITIALIZE_ONE;
+			} else if (cb_tree_type (CB_TREE (f)) == COB_TYPE_NUMERIC_DISPLAY) {
+				if (f->flag_sign_separate) {
+					return INITIALIZE_ONE;
+				} else {
+					return INITIALIZE_DEFAULT;
+				}
 			} else {
 				return INITIALIZE_DEFAULT;
 			}

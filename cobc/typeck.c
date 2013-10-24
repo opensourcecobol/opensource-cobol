@@ -4517,7 +4517,11 @@ cb_build_move_num_zero (cb_tree x)
 		}
 		return cb_build_memset (x, 0);
 	case CB_USAGE_DISPLAY:
-		return cb_build_memset (x, '0');
+		if (f->flag_sign_separate) {
+			return cb_build_move_call (cb_zero, x);
+		} else {
+			return cb_build_memset (x, '0');
+		}
 	case CB_USAGE_PACKED:
 		return cb_build_funcall_1 ("cob_set_packed_zero", x);
 	default:
