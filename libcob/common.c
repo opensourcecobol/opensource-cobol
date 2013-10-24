@@ -60,6 +60,11 @@
 #include "intrinsic.h"
 #include "lib/gettext.h"
 
+
+
+#define   NAMERMCHECK       "OC_Reference_Check"
+#define    VALUERMCHECK      "lenient"
+
 struct cob_exception {
 	const char	*name;
 	const int	code;
@@ -1433,9 +1438,54 @@ cob_check_subscript (const int i, const int min, const int max, const char *name
 	}
 }
 
+
+int 
+cob_check_env(char *name, char *value)
+{
+      char *s;
+      if( name == NULL || value == NULL )
+	  	return 0;
+	s = getenv(name);
+	if( s != NULL)
+	{
+	      if( strcmp(s, value) == 0)
+		  	return 1;
+	}
+
+      return 0;
+}
+
+void
+cob_check_ref_mod_national	( int offset, int length, int size, const char *name)
+{
+       if(cob_check_env(NAMERMCHECK,VALUERMCHECK))
+	   	return ;
+	   
+      /* check the offset */
+	 offset += 1;
+	 offset=offset/2;
+	 length = length/2;
+	 size = size/2;	 
+	  
+	if (offset < 1 || offset > size) {
+		cob_set_exception (COB_EC_BOUND_REF_MOD);
+		cob_runtime_error ("Offset of '%s' out of bounds: %d", name, offset);
+		cob_stop_run (1);
+	}
+
+	/* check the length */
+	if (length < 1 || offset + length - 1 > size) {
+		cob_set_exception (COB_EC_BOUND_REF_MOD);
+		cob_runtime_error ("Length of '%s' out of bounds: %d", name, length);
+		cob_stop_run (1);
+	}
+}
+
 void
 cob_check_ref_mod (const int offset, const int length, const int size, const char *name)
 {
+        if(cob_check_env(NAMERMCHECK,VALUERMCHECK))
+	   	return ;
 	/* check the offset */
 	if (offset < 1 || offset > size) {
 		cob_set_exception (COB_EC_BOUND_REF_MOD);

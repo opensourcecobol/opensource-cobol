@@ -675,7 +675,26 @@ cb_fits_long_long (cb_tree x)
 		return 0;
 	}
 }
+int 
+cb_is_digist_data (cb_tree x)
+{
+  	struct cb_literal	*l;
+	size_t			i;
 
+	l = CB_LITERAL (x);
+	for (i = 0; i < l->size; i++) {
+		if (l->data[i] != '0') {
+			break;
+		}
+	}
+
+	for (; i < l->size; i++) {
+		if( l->data[i] - '0' >9 || l->data[i] - '0' < 0 )
+			return 0;
+	}
+	
+	return 1;
+}
 int
 cb_get_int (cb_tree x)
 {
@@ -1117,6 +1136,7 @@ cb_build_picture (const char *str)
 	int			i;
 	int			n;
 	int			flg = 0;
+	int     character_length = 0;
 	unsigned char		c;
 	unsigned char		lastonechar = 0;
 	unsigned char		lasttwochar = 0;
@@ -1143,6 +1163,7 @@ repeat:
 			flg = 1;
 			i = 0;
 			p += 2;
+			allocated = 0;
 			for (; *p == '0'; p++) {
 				;
 			}
@@ -1166,12 +1187,14 @@ repeat:
 
 		/* check grammar and category */
 		/* FIXME: need more error check */
+		
 		switch (c) {
 		case 'A':
 			if (s_char_seen || p_char_seen) {
 				goto error;
 			}
 			category |= PIC_ALPHABETIC;
+			character_length += n;						
 			break;
 
 		case 'X':
@@ -1179,13 +1202,16 @@ repeat:
 				goto error;
 			}
 			category |= PIC_ALPHANUMERIC;
+			character_length += n;			
 			break;
 
 		case '9':
 			category |= PIC_NUMERIC;
 			digits += n;
+			character_length += n;
 			if (v_count) {
 				scale += n;
+				character_length += n;
 			}
 			break;
 
@@ -1195,6 +1221,7 @@ repeat:
 			}
 			category |= PIC_NATIONAL;
                         pic->national = 1;
+			character_length += n;								
 			break;
 
 		case 'S':
@@ -1272,6 +1299,7 @@ repeat:
 				v_count++;	/* implicit V */
 			}
 			digits += n;
+			character_length += n;
 			if (v_count) {
 				scale += n;
 			} else {
@@ -1285,7 +1313,9 @@ repeat:
 			category |= PIC_EDITED;
 			if (s_char_seen || p_char_seen) {
 				goto error;
-			}
+			}	
+			
+			character_length += n;
 			break;
 
 		case '*':
@@ -1298,6 +1328,7 @@ repeat:
 				goto error;
 			}
 			digits += n;
+			character_length += n;
 			if (v_count) {
 				scale += n;
 			}
@@ -1313,6 +1344,7 @@ repeat:
 				goto error;
 			}
 			digits += n - 1;
+			character_length += n - 1;
 			s_count++;
 			/* FIXME: need more check */
 			break;
@@ -1338,17 +1370,17 @@ repeat:
 				goto error;
 			}
 			p++;
-			s_count++;
+			s_count++;				
 			break;
 
 		default:
 			if (c == current_program->currency_symbol) {
 				category |= PIC_NUMERIC_EDITED;
 				digits += n - 1;
+				character_length += n - 1;
 				/* FIXME: need more check */
 				break;
 			}
-
 			goto error;
 		}
 
@@ -1393,6 +1425,9 @@ repeat:
 	switch (category) {
 	case PIC_ALPHABETIC:
 		pic->category = CB_CATEGORY_ALPHABETIC;
+		if (character_length > 65536) {
+			cb_error (_("Alphabetic field cannot be larger than 65536 digits"));
+		}		
 		break;
 	case PIC_NUMERIC:
 		pic->category = CB_CATEGORY_NUMERIC;
@@ -1401,8 +1436,16 @@ repeat:
 		}
 		break;
 	case PIC_ALPHANUMERIC:
-	case PIC_NATIONAL:
 		pic->category = CB_CATEGORY_ALPHANUMERIC;
+		if (character_length > 65536) {
+			cb_error (_("AlphaNumeric field cannot be larger than 65536 digits"));
+		}
+		break;
+	case PIC_NATIONAL:
+		pic->category = CB_CATEGORY_NATIONAL;
+		if (character_length > 32768) {
+			cb_error (_("National field cannot be larger than 32768 digits"));
+		}		
 		break;
 	case PIC_NUMERIC_EDITED:
 		pic->str = cobc_malloc (idx + 1);
@@ -1417,12 +1460,18 @@ repeat:
 		memcpy (pic->str, buff, idx);
 		pic->category = CB_CATEGORY_ALPHANUMERIC_EDITED;
 		pic->lenstr = idx;
+		if (character_length > 32768) {
+			cb_error (_("AlphaNumericEdit field cannot be larger than 65536 digits"));
+		}			
 		break;		
 	case PIC_NATIONAL_EDITED:
 		pic->str = cobc_malloc (idx + 1);
 		memcpy (pic->str, buff, idx);
 		pic->category = CB_CATEGORY_NATIONAL_EDITED;
 		pic->lenstr = idx;
+		if (character_length > 32768) {
+			cb_error (_("NationalEdit field cannot be larger than 32768 digits"));
+		}
 		break;
 	default:
 		goto error;

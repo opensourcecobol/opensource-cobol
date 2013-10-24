@@ -283,6 +283,7 @@ static const struct option long_options[] = {
 	{"MT", required_argument, NULL, '%'},
 	{"MF", required_argument, NULL, '@'},	
 	{"assign_external", no_argument, NULL, 'A'},	
+	{"reference_check", no_argument, NULL, 'K'},
 #undef	CB_FLAG
 #define	CB_FLAG(var,name,doc)			\
 	{"f"name, no_argument, &var, 1},	\
@@ -573,6 +574,7 @@ cobc_print_usage (void)
 	puts (_("  -W                    Enable ALL warnings"));
 	puts (_("  -Wall                 Enable all warnings except as noted below"));
 	puts (_("  -assign_external      Set the file assign to external"));
+	puts (_("  -reference_check      Set reference check in runtime"));
 #undef	CB_WARNDEF
 #define	CB_WARNDEF(var,name,wall,doc)		\
 	printf ("  -W%-19s %s", name, gettext (doc)); \
@@ -632,7 +634,9 @@ process_command_line (int argc, char *argv[])
 		case 'q':
 			cb_list_mnemonics ();
 			exit (0);
-
+		case 'K':
+  			 CB_EXCEPTION_ENABLE (COB_EC_BOUND_REF_MOD) =1;			
+			break;
 		case 'E':
 			if (wants_nonfinal) {
 				cobc_options_error ();

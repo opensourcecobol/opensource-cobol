@@ -254,6 +254,7 @@ extern int		cb_tree_type (cb_tree x);
 extern int		cb_fits_int (cb_tree x);
 extern int		cb_fits_long_long (cb_tree x);
 extern int		cb_get_int (cb_tree x);
+extern int              cb_is_digist_data (cb_tree x);
 extern long long	cb_get_long_long (cb_tree x);
 
 /*
@@ -1298,8 +1299,11 @@ extern cb_tree		cb_build_assignment_name (struct cb_file *curfile,
 				cb_tree name);
 extern cb_tree		cb_build_index (cb_tree name, cb_tree values,
 					int indexed_by, struct cb_field *qual);
+extern int                  cb_reference_type_check (cb_tree ref,cb_tree x, const char *name,
+	                        int size ,int *retsize,int  type);
 extern cb_tree		cb_build_identifier (cb_tree x);
 extern cb_tree		cb_build_length (cb_tree x);
+extern cb_tree		cb_build_lengths (cb_tree x);
 extern cb_tree		cb_build_const_length (cb_tree x);
 extern cb_tree		cb_build_address (cb_tree x);
 extern cb_tree		cb_build_ppointer (cb_tree x);
@@ -1386,8 +1390,9 @@ extern cb_tree		cb_build_tarrying_all (void);
 extern cb_tree		cb_build_tarrying_leading (void);
 extern cb_tree		cb_build_tarrying_trailing (void);
 extern cb_tree		cb_build_tarrying_value (cb_tree x, cb_tree l);
-extern cb_tree		cb_build_replacing_characters (cb_tree x, cb_tree l);
-extern cb_tree		cb_build_replacing_all (cb_tree x, cb_tree y, cb_tree l);
+extern  int                    cb_validate_inspect(cb_tree var,cb_tree x, cb_tree y);
+extern cb_tree		cb_build_replacing_characters (cb_tree x, cb_tree l,cb_tree var);
+extern cb_tree		cb_build_replacing_all (cb_tree x, cb_tree y, cb_tree l,cb_tree var);
 extern cb_tree		cb_build_replacing_leading (cb_tree x, cb_tree y, cb_tree l);
 extern cb_tree		cb_build_replacing_first (cb_tree x, cb_tree y, cb_tree l);
 extern cb_tree		cb_build_replacing_trailing (cb_tree x, cb_tree y, cb_tree l);

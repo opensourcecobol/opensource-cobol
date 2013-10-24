@@ -4867,7 +4867,7 @@ replacing_list:
 replacing_item:
   CHARACTERS BY simple_value inspect_region
   {
-	$$ = cb_build_replacing_characters ($3, $4);
+	$$ = cb_build_replacing_characters ($3, $4,save_tree_1);
 	inspect_keyword = 0;
   }
 | rep_keyword replacing_region		{ $$ = $2; }
@@ -4886,7 +4886,7 @@ replacing_region:
   {
 	switch (inspect_keyword) {
 		case 1:
-			$$ = cb_build_replacing_all ($1, $3, $4);
+			$$ = cb_build_replacing_all ($1, $3, $4,save_tree_1);
 			break;
 		case 2:
 			$$ = cb_build_replacing_leading ($1, $3, $4);
@@ -4910,6 +4910,8 @@ replacing_region:
 inspect_converting:
   CONVERTING simple_value TO simple_all_value inspect_region
   {
+          if( cb_validate_inspect(save_tree_1 ,$2, $4) < 0 )
+			return cb_error_node;
 	$$ = cb_build_converting ($2, $4, $5);
   }
 ;
