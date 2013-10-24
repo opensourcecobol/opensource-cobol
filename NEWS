@@ -1,5 +1,43 @@
 NEWS - user visible changes				-*- outline -*-
 
+* Changes in opensource COBOL 1.2J
+
+** Support Feature of Japanese, such as constant and definition of data and operation of data.
+
+** New compile option '-assign_external' and variable 'assign_external=[yes|no]'. Set the 
+   file assign to the EXTERNAL file.
+
+** New compile option '-free_1col_aster'. In free format COBOL mode, this option causes the
+   compiler to regard as line comment when first column is asterisk for free format COBOL mode.
+
+** New runtime environment variable OC_USERFH, which enable to run user-defined program in 
+   operation OPEN, CLOSE, DELETE, READ, REWRITE, START, WRITE, COMMIT, ROLLBACK and UNLOCK.
+
+** Support currency symbol for Japanese yen, and modify default currency symbol to
+   Japanese yen.
+
+** Changed to apply the alphabetic manner as comparison method in case its operands include 
+   group fields.
+
+** Fixed the problem that INSPECT causes incorrect result in case given the AFTER/BEFORE 
+   clause with negative value or SIGN SEPARATE field. 
+
+** Fixed the problem that value comparison on SIGN SEPARATE fields in IF or EVALUATE 
+   statements fails treating such field values as if their sign character were a part of 
+   digits.
+
+** Fixed the problem that applying INITIALIZE on 01-level records in EXTERNAL files causes 
+   incorrect behavior of following I/O instructions.
+
+** Changed the default actions on unhandled SIZE ERROR according to that specified in 
+   Programmer's Guide.
+
+** Fixed the problem that applying INITIALIZE or MOVE ZERO on numeric field of SIGN SEPARATE 
+   destroys sign byte.
+
+** Fixed the problem that COPY statement ignores the last line of each copybook when it does 
+   not end with line break.
+
 * OpenCOBOL 1.0 released
 
 * Changes in OpenCOBOL 0.33

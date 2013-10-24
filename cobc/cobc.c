@@ -519,6 +519,9 @@ cobc_sig_handler (int sig)
 static void
 cobc_print_version (void)
 {
+	puts ("Opensource COBOL 1.2J");
+	puts ("OSS Consortium's patched version of OpenCOBOL1.1(Feb.06 2009)");
+	puts ("----");
 	printf ("cobc (%s) %s.%d\n",
 		PACKAGE_NAME, PACKAGE_VERSION, PATCH_LEVEL);
 	puts ("Copyright (C) 2001-2009 Keisuke Nishida / Roger While");
