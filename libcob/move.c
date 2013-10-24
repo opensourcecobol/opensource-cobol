@@ -358,6 +358,48 @@ cob_move_alphanum_to_alphanum (cob_field *f1, cob_field *f2)
 	}
 }
 
+static void
+cob_move_alphanum_to_national (cob_field *f1, cob_field *f2)
+{
+	unsigned char	*data1;
+	unsigned char	*data2;
+	size_t		size1;
+	size_t		size2;
+	char *s;
+	s = "@";
+	int i;
+	int len;
+
+	data1 = f1->data;
+	size1 = f1->size;
+	data2 = f2->data;
+	size2 = f2->size;
+	len = size2 - size1;
+	if (size1 >= size2) {
+		/* move string with truncation */
+		if (COB_FIELD_JUSTIFIED (f2)) {
+			memcpy (data2, data1 + size1 - size2, size2);
+		} else {
+			memcpy (data2, data1, size2);
+		}
+	} else {
+		/* move string with padding */
+		if (COB_FIELD_JUSTIFIED (f2)) {
+			for (i=0;i<len;){
+				memcpy (data2+i, s, 2);
+				i=i+2;
+			}
+			memcpy (data2 + i, data1, size1);
+		} else {
+			memcpy (data2, data1, size1);
+			for (i=0;i<len;){
+				memcpy (data2 + size1, s, size2 - size1);
+				i=i+2;
+				size1=size1+2;
+			}
+		}
+	}
+}
 /*
  * Packed decimal
  */
@@ -956,6 +998,261 @@ cob_move_alphanum_to_edited (cob_field *f1, cob_field *f2)
 	cob_put_sign (f1, sign);
 }
 
+static void
+cob_move_alphanum_to_national_edited (cob_field *f1, cob_field *f2)
+{
+	const char	*p;
+	unsigned char	*max, *src, *dst;
+	int		n;
+	unsigned char	c;
+	
+	src = COB_FIELD_DATA (f1);
+	max = src + COB_FIELD_SIZE (f1);
+	dst = f2->data;
+	for (p = COB_FIELD_PIC (f2); *p;) {
+		c = *p++;	/* PIC char */
+		memcpy ((unsigned char *)&n, p, sizeof(int));	/* PIC char count */
+		p += sizeof(int);
+		for (; n > 0; --n) {
+			switch (c) {
+			case 'N':
+				if (src < max){
+					*dst++ = *src++;
+					*dst++ = *src++;
+				} else {
+					*dst++ = 0x81;
+					*dst++ = 0x40;
+				}
+				break;
+			case '/':
+				*dst++ = 0x81;
+				*dst++ = 0x5E;
+				break;
+			case 'B':
+				*dst++ = 0x81;
+				*dst++ = 0x40;
+				break;
+			case '0':
+				*dst++ = 0x82;
+				*dst++ = 0x4F;
+				break;
+			default:
+				*dst++ = '?';	/* invalid PIC */
+			}
+		}
+	}
+}
+
+static char * 
+han2zen(char *str,int size,int *retsize)
+{
+       char	*buf,*p,*ptr;
+       unsigned char c;
+       int      i;
+       
+       p = str;
+       for( i = size-1; *p != '\0'&&i>=0;i--);
+      
+       if( i>= 0 )
+               size = i;
+                   
+	buf=(char *)calloc(size*2+1,sizeof(char));
+	
+	for(i= 0, ptr=str,p=buf;i< size;ptr++,i++){
+		 c = (unsigned char) *ptr;
+		switch(c){
+			case    0X20: strcpy(p,"@");p+=2;break;
+			case    0X21: strcpy(p,"I");p+=2;break;
+			case    0X22: strcpy(p,"h");p+=2;break;
+			case    0X23: strcpy(p,"”");p+=2;break;
+			case    0X24: strcpy(p,"");p+=2;break;
+			case    0X25: strcpy(p,"“");p+=2;break;
+			case    0X26: strcpy(p,"•");p+=2;break;
+			case    0X27: strcpy(p,"f");p+=2;break;
+			case    0X28: strcpy(p,"i");p+=2;break;
+			case    0X29: strcpy(p,"j");p+=2;break;
+			case    0X2A: strcpy(p,"–");p+=2;break;
+			case    0X2B: strcpy(p,"{");p+=2;break;
+			case    0X2C: strcpy(p,"C");p+=2;break;
+			case    0X2D: strcpy(p,"|");p+=2;break;
+			case    0X2E: strcpy(p,"D");p+=2;break;
+			case    0X2F: strcpy(p,"^");p+=2;break;
+			case    0X30: strcpy(p,"‚O");p+=2;break;
+			case    0X31: strcpy(p,"‚P");p+=2;break;
+			case    0X32: strcpy(p,"‚Q");p+=2;break;
+			case    0X33: strcpy(p,"‚R");p+=2;break;
+			case    0X34: strcpy(p,"‚S");p+=2;break;
+			case    0X35: strcpy(p,"‚T");p+=2;break;
+			case    0X36: strcpy(p,"‚U");p+=2;break;
+			case    0X37: strcpy(p,"‚V");p+=2;break;
+			case    0X38: strcpy(p,"‚W");p+=2;break;
+			case    0X39: strcpy(p,"‚X");p+=2;break;
+			case    0X3A: strcpy(p,"F");p+=2;break;
+			case    0X3B: strcpy(p,"G");p+=2;break;
+			case    0X3C: strcpy(p,"ƒ");p+=2;break;
+			case    0X3D: strcpy(p,"");p+=2;break;
+			case    0X3E: strcpy(p,"„");p+=2;break;
+			case    0X3F: strcpy(p,"H");p+=2;break;
+			case    0X40: strcpy(p,"—");p+=2;break;
+			case    0X41: strcpy(p,"‚`");p+=2;break;
+			case    0X42: strcpy(p,"‚a");p+=2;break;
+			case    0X43: strcpy(p,"‚b");p+=2;break;
+			case    0X44: strcpy(p,"‚c");p+=2;break;
+			case    0X45: strcpy(p,"‚d");p+=2;break;
+			case    0X46: strcpy(p,"‚e");p+=2;break;
+			case    0X47: strcpy(p,"‚f");p+=2;break;
+			case    0X48: strcpy(p,"‚g");p+=2;break;
+			case    0X49: strcpy(p,"‚h");p+=2;break;
+			case    0X4A: strcpy(p,"‚i");p+=2;break;
+			case    0X4B: strcpy(p,"‚j");p+=2;break;
+			case    0X4C: strcpy(p,"‚k");p+=2;break;
+			case    0X4D: strcpy(p,"‚l");p+=2;break;
+			case    0X4E: strcpy(p,"‚m");p+=2;break;
+			case    0X4F: strcpy(p,"‚n");p+=2;break;
+			case    0X50: strcpy(p,"‚o");p+=2;break;
+			case    0X51: strcpy(p,"‚p");p+=2;break;
+			case    0X52: strcpy(p,"‚q");p+=2;break;
+			case    0X53: strcpy(p,"‚r");p+=2;break;
+			case    0X54: strcpy(p,"‚s");p+=2;break;
+			case    0X55: strcpy(p,"‚t");p+=2;break;
+			case    0X56: strcpy(p,"‚u");p+=2;break;
+			case    0X57: strcpy(p,"‚v");p+=2;break;
+			case    0X58: strcpy(p,"‚w");p+=2;break;
+			case    0X59: strcpy(p,"‚x");p+=2;break;
+			case    0X5A: strcpy(p,"‚y");p+=2;break;
+			case    0X5B: strcpy(p,"m");p+=2;break;
+			case    0X5C: strcpy(p,"");p+=2;break;
+			case    0X5D: strcpy(p,"n");p+=2;break;
+			case    0X5E: strcpy(p,"O");p+=2;break;
+			case    0X5F: strcpy(p,"Q");p+=2;break;
+			case    0X60: strcpy(p,"e");p+=2;break;
+			case    0X61: strcpy(p,"‚");p+=2;break;
+			case    0X62: strcpy(p,"‚‚");p+=2;break;
+			case    0X63: strcpy(p,"‚ƒ");p+=2;break;
+			case    0X64: strcpy(p,"‚„");p+=2;break;
+			case    0X65: strcpy(p,"‚…");p+=2;break;
+			case    0X66: strcpy(p,"‚†");p+=2;break;
+			case    0X67: strcpy(p,"‚‡");p+=2;break;
+			case    0X68: strcpy(p,"‚ˆ");p+=2;break;
+			case    0X69: strcpy(p,"‚‰");p+=2;break;
+			case    0X6A: strcpy(p,"‚Š");p+=2;break;
+			case    0X6B: strcpy(p,"‚‹");p+=2;break;
+			case    0X6C: strcpy(p,"‚Œ");p+=2;break;
+			case    0X6D: strcpy(p,"‚");p+=2;break;
+			case    0X6E: strcpy(p,"‚Ž");p+=2;break;
+			case    0X6F: strcpy(p,"‚");p+=2;break;
+			case    0X70: strcpy(p,"‚");p+=2;break;
+			case    0X71: strcpy(p,"‚‘");p+=2;break;
+			case    0X72: strcpy(p,"‚’");p+=2;break;
+			case    0X73: strcpy(p,"‚“");p+=2;break;
+			case    0X74: strcpy(p,"‚”");p+=2;break;
+			case    0X75: strcpy(p,"‚•");p+=2;break;
+			case    0X76: strcpy(p,"‚–");p+=2;break;
+			case    0X77: strcpy(p,"‚—");p+=2;break;
+			case    0X78: strcpy(p,"‚˜");p+=2;break;
+			case    0X79: strcpy(p,"‚™");p+=2;break;
+			case    0X7A: strcpy(p,"‚š");p+=2;break;
+			case    0X7B: strcpy(p,"o");p+=2;break;
+			case    0X7C: strcpy(p,"b");p+=2;break;
+			case    0X7D: strcpy(p,"p");p+=2;break;
+			case    0xB1: strcpy(p,"ƒA");p+=2;break;
+			case    0xB2: strcpy(p,"ƒC");p+=2;break;
+			case    0XB3: strcpy(p,"ƒE");p+=2;break;
+			case    0XB4: strcpy(p,"ƒG");p+=2;break;
+			case    0XB5: strcpy(p,"ƒI");p+=2;break;
+			case    0XB6: strcpy(p,"ƒJ");p+=2;break;
+			case    0XB7: strcpy(p,"ƒL");p+=2;break;
+			case    0XB8: strcpy(p,"ƒN");p+=2;break;
+			case    0XB9: strcpy(p,"ƒP");p+=2;break;
+			case    0XBA: strcpy(p,"ƒR");p+=2;break;
+			case    0XBB: strcpy(p,"ƒT");p+=2;break;
+			case    0XBC: strcpy(p,"ƒV");p+=2;break;
+			case    0XBD: strcpy(p,"ƒX");p+=2;break;
+			case    0XBE: strcpy(p,"ƒZ");p+=2;break;
+                        case    0XBF: strcpy(p,"ƒ\\");p+=2;break;			
+			case    0XC0: strcpy(p,"ƒ^");p+=2;break;
+			case    0XC1: strcpy(p,"ƒ`");p+=2;break;
+			case    0XC2: strcpy(p,"ƒc");p+=2;break;
+			case    0XC3: strcpy(p,"ƒe");p+=2;break;
+			case    0XC4: strcpy(p,"ƒg");p+=2;break;
+			case    0XC5: strcpy(p,"ƒi");p+=2;break;
+			case    0XC6: strcpy(p,"ƒj");p+=2;break;
+			case    0XC7: strcpy(p,"ƒk");p+=2;break;
+			case    0XC8: strcpy(p,"ƒl");p+=2;break;
+			case    0XC9: strcpy(p,"ƒm");p+=2;break;
+			case    0XCA: strcpy(p,"ƒn");p+=2;break;
+			case    0XCB: strcpy(p,"ƒq");p+=2;break;
+			case    0XCC: strcpy(p,"ƒt");p+=2;break;
+			case    0XCD: strcpy(p,"ƒw");p+=2;break;
+			case    0XCE: strcpy(p,"ƒz");p+=2;break;
+			case    0XCF: strcpy(p,"ƒ}");p+=2;break;
+			case    0XD0: strcpy(p,"ƒ~");p+=2;break;
+			case    0XD1: strcpy(p,"ƒ€");p+=2;break;
+			case    0XD2: strcpy(p,"ƒ");p+=2;break;
+			case    0XD3: strcpy(p,"ƒ‚");p+=2;break;
+			case    0XD4: strcpy(p,"ƒ„");p+=2;break;
+			case    0XD5: strcpy(p,"ƒ†");p+=2;break;
+			case    0XD6: strcpy(p,"ƒˆ");p+=2;break;
+			case    0XD7: strcpy(p,"ƒ‰");p+=2;break;
+			case    0XD8: strcpy(p,"ƒŠ");p+=2;break;
+			case    0XD9: strcpy(p,"ƒ‹");p+=2;break;
+			case    0XDA: strcpy(p,"ƒŒ");p+=2;break;
+			case    0XDB: strcpy(p,"ƒ");p+=2;break;
+			case    0XDC: strcpy(p,"ƒ");p+=2;break;
+			case    0XDD: strcpy(p,"ƒ“");p+=2;break;
+			case    0XA6: strcpy(p,"ƒ’");p+=2;break;						
+			case     0:   			
+			case    255:  
+			        *p=*ptr;
+				p++;
+				*p=*ptr;
+				p++;
+				if(i+1 < size) 
+				{
+				    if( *(ptr+1) == *ptr)
+				    {				    	
+				          ptr++;
+				          i++;
+				    }
+			        }
+				
+			 break;	
+			default:
+			       if( 0<c && c<0X20)
+			       {
+			       	 strcpy(p,"@");p+=2;break;
+			       }
+			       else
+			       {
+				*p=*ptr;
+				p++;ptr++;
+				*p=*ptr;
+				p++;
+				i++;
+			        }
+				break;
+		}
+	}
+	
+	*p='\0';
+	*retsize = p-buf;
+	return buf;
+}
+
+static char *
+judge_hankakujpn_exist(cob_field *src, cob_field *dst,int *size){
+       
+	char  *tmp_zenjpn_word = NULL;
+	if (src-> size <= 0 )
+	{
+	   return NULL;
+	}
+      if(strlen((char*)src->data) > 0){
+       	tmp_zenjpn_word = han2zen((char*)src->data, src->size, size);
+	   }	      
+      return tmp_zenjpn_word;	
+}	
+
 /*
  * MOVE dispatcher
  */
@@ -984,7 +1281,24 @@ cob_move_all (cob_field *src, cob_field *dst)
 	size_t			digcount;
 	cob_field		temp;
 	cob_field_attr		attr;
+	char                      *pTmp;
+	cob_field                tmpSrc;
+	int                      size;
 
+	if((COB_FIELD_TYPE (src) != COB_TYPE_NATIONAL ||
+		COB_FIELD_TYPE (src) != COB_TYPE_NATIONAL_EDITED)&&
+		(COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL ||
+		COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL_EDITED)){
+		      pTmp =  judge_hankakujpn_exist(src, dst, &size);
+		      if(pTmp != NULL ){
+
+				tmpSrc.data = pTmp;
+                            tmpSrc.size = size;
+		      }else{
+				tmpSrc.size = 0;
+		      }
+	} 
+	
 	COB_ATTR_INIT (COB_TYPE_ALPHANUMERIC, 0, 0, 0, NULL);
 	if (COB_FIELD_IS_NUMERIC(dst)) {
 		digcount = 18;
@@ -1008,6 +1322,240 @@ cob_move_all (cob_field *src, cob_field *dst)
 	temp.size = digcount;
 	temp.data = lastdata;
 	temp.attr = &attr;
+	if(((COB_FIELD_TYPE (src) != COB_TYPE_NATIONAL ||
+		COB_FIELD_TYPE (src) != COB_TYPE_NATIONAL_EDITED)&&
+		(COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL ||
+		COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL_EDITED))&& tmpSrc.size > 1)
+		{
+			for (i = 0; i < digcount; ++i) {
+				lastdata[i] = tmpSrc.data[i % tmpSrc.size];
+			}
+	       }
+	 else
+	 	{
+			if (likely(src->size == 1)) {
+				memset (lastdata, src->data[0], digcount);
+			} else {
+				for (i = 0; i < digcount; ++i) {
+					lastdata[i] = src->data[i % src->size];
+				}
+				if((0x81 <= lastdata[i -1] && lastdata[i -1] <= 0x9F) || 
+				(0xE0 <= lastdata[i -1] && lastdata[i -1]<= 0xFC)){
+				lastdata[i - 1] = ' ';
+				}
+			}
+	 	}
+
+	cob_move (&temp, dst);
+}
+
+void
+cob_move (cob_field *src, cob_field *dst)
+{     
+       char                      *pTmp;
+       int                       size;
+       
+        cob_field              srcfeild;
+        cob_field              *src1;      
+		
+        memcpy( &srcfeild, src , sizeof(cob_field));
+        src1 = &srcfeild;
+       
+	if (COB_FIELD_TYPE (src1) == COB_TYPE_ALPHANUMERIC_ALL
+           ||COB_FIELD_TYPE (src1) == COB_TYPE_NATIONAL_ALL) {
+		cob_move_all (src1, dst);
+		return;
+	}
+	if (dst->size == 0) {
+		return;
+	}
+	
+	if(COB_FIELD_TYPE (src1) != COB_TYPE_GROUP){
+		if((COB_FIELD_TYPE (src1) != COB_TYPE_NATIONAL ||
+		COB_FIELD_TYPE (src1) != COB_TYPE_NATIONAL_EDITED)&&
+		(COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL ||
+		COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL_EDITED)){
+
+			   
+			pTmp =  judge_hankakujpn_exist(src1, dst, &size);
+		      if(pTmp != NULL ){
+			       src1->data = pTmp;
+		          	src1 ->size = size;
+		      }
+			
+	            if (src1->size == 0) {
+  		            src1 = &cob_zen_space;
+		       }
+		} 
+	}	
+
+	if (src1->size == 0) {
+		src1 = &cob_space;
+	}
+	/* non-elementary move */
+	if (COB_FIELD_TYPE (src1) == COB_TYPE_GROUP || COB_FIELD_TYPE (dst) == COB_TYPE_GROUP) {
+		cob_move_alphanum_to_alphanum (src1, dst);
+		return;
+	}
+
+	/* elementary move */
+       
+	switch (COB_FIELD_TYPE (src1)) {
+	case COB_TYPE_NUMERIC_DISPLAY:
+		switch (COB_FIELD_TYPE (dst)) {
+		case COB_TYPE_NUMERIC_FLOAT:
+		case COB_TYPE_NUMERIC_DOUBLE:
+			cob_move_display_to_fp (src1, dst);
+			return;
+		case COB_TYPE_NUMERIC_DISPLAY:
+			cob_move_display_to_display (src1, dst);
+			return;
+		case COB_TYPE_NUMERIC_PACKED:
+			cob_move_display_to_packed (src1, dst);
+			return;
+		case COB_TYPE_NUMERIC_BINARY:
+			cob_move_display_to_binary (src1, dst);
+			return;
+		case COB_TYPE_NUMERIC_EDITED:
+			cob_move_display_to_edited (src1, dst);
+			return;
+		case COB_TYPE_ALPHANUMERIC_EDITED:
+			if (COB_FIELD_SCALE(src1) < 0 ||
+			    COB_FIELD_SCALE(src1) > COB_FIELD_DIGITS(src1)) {
+				/* expand P's */
+				indirect_move (cob_move_display_to_display, src1, dst,
+					      (size_t)cob_max_int ((int)COB_FIELD_DIGITS(src1), (int)COB_FIELD_SCALE(src1)),
+					      cob_max_int (0, (int)COB_FIELD_SCALE(src1)));
+				return;
+			} else {
+				cob_move_alphanum_to_edited (src1, dst);
+				return;
+			}
+		case COB_TYPE_NATIONAL:
+			cob_move_alphanum_to_national (src1, dst);
+			return;	
+		case COB_TYPE_NATIONAL_EDITED:
+			cob_move_alphanum_to_national_edited(src1,dst);
+			return;			
+		default:
+			cob_move_display_to_alphanum (src1, dst);
+			return;
+		}
+
+	case COB_TYPE_NUMERIC_PACKED:
+		switch (COB_FIELD_TYPE (dst)) {
+		case COB_TYPE_NUMERIC_DISPLAY:
+			cob_move_packed_to_display (src1, dst);
+			return;
+		default:
+			indirect_move (cob_move_packed_to_display, src1, dst,
+				      COB_FIELD_DIGITS(src1), COB_FIELD_SCALE(src1));
+			return;
+		}
+
+	case COB_TYPE_NUMERIC_BINARY:
+		switch (COB_FIELD_TYPE (dst)) {
+		case COB_TYPE_NUMERIC_DISPLAY:
+			cob_move_binary_to_display (src1, dst);
+			return;
+		case COB_TYPE_NUMERIC_BINARY:
+		case COB_TYPE_NUMERIC_PACKED:
+		case COB_TYPE_NUMERIC_EDITED:
+		case COB_TYPE_NUMERIC_FLOAT:
+		case COB_TYPE_NUMERIC_DOUBLE:
+			indirect_move (cob_move_binary_to_display, src1, dst,
+				      20, COB_FIELD_SCALE(src1));
+			return;
+		default:
+			indirect_move (cob_move_binary_to_display, src1, dst,
+				      COB_FIELD_DIGITS(src1), COB_FIELD_SCALE(src1));
+			return;
+		}
+
+	case COB_TYPE_NUMERIC_EDITED:
+		switch (COB_FIELD_TYPE (dst)) {
+		case COB_TYPE_NUMERIC_DISPLAY:
+			cob_move_edited_to_display (src1, dst);
+			return;
+		case COB_TYPE_NUMERIC_PACKED:
+		case COB_TYPE_NUMERIC_BINARY:
+		case COB_TYPE_NUMERIC_EDITED:
+		case COB_TYPE_NUMERIC_FLOAT:
+		case COB_TYPE_NUMERIC_DOUBLE:
+			indirect_move (cob_move_edited_to_display, src1, dst, 36, 18);
+			return;
+		case COB_TYPE_ALPHANUMERIC_EDITED:
+			cob_move_alphanum_to_edited (src1, dst);
+			return;
+		case COB_TYPE_NATIONAL:
+			cob_move_alphanum_to_national (src1, dst);
+			return;	
+		case COB_TYPE_NATIONAL_EDITED:
+			cob_move_alphanum_to_national_edited(src1,dst);
+			return;		
+		default:
+			cob_move_alphanum_to_alphanum (src1, dst);
+			return;
+		}
+
+	case COB_TYPE_NUMERIC_FLOAT:
+	case COB_TYPE_NUMERIC_DOUBLE:
+		indirect_move (cob_move_fp_to_display, src1, dst, 40, 20);
+		return;
+
+	default:
+		switch (COB_FIELD_TYPE (dst)) {
+		case COB_TYPE_NUMERIC_DISPLAY:
+			cob_move_alphanum_to_display (src1, dst);
+			return;
+		case COB_TYPE_NUMERIC_PACKED:
+		case COB_TYPE_NUMERIC_BINARY:
+		case COB_TYPE_NUMERIC_EDITED:
+		case COB_TYPE_NUMERIC_FLOAT:
+		case COB_TYPE_NUMERIC_DOUBLE:
+			indirect_move (cob_move_alphanum_to_display, src1, dst, 36, 18);
+			return;
+		case COB_TYPE_ALPHANUMERIC_EDITED:
+			cob_move_alphanum_to_edited (src1, dst);
+			return;
+		case COB_TYPE_NATIONAL_EDITED:
+			cob_move_alphanum_to_national_edited(src1,dst);
+			return;
+		case COB_TYPE_NATIONAL:
+			cob_move_alphanum_to_national (src1, dst);
+			return;			
+		default:
+			cob_move_alphanum_to_alphanum (src1, dst);
+			return;
+		}
+	}
+}
+
+static void
+cob_hankaku_move_all (cob_field *src, cob_field *dst)
+{
+	size_t			i;
+	size_t			digcount;
+	cob_field		temp;
+	cob_field_attr		attr;
+
+	COB_ATTR_INIT (COB_TYPE_ALPHANUMERIC, 0, 0, 0, NULL);
+	if (COB_FIELD_IS_NUMERIC(dst)) {
+		digcount = 18;
+		attr.type = COB_TYPE_NUMERIC_DISPLAY;
+		attr.digits = 18;
+
+	} else {
+		digcount = dst->size;
+	}
+	if (digcount > lastsize) {
+		free (lastdata);
+		lastdata = cob_malloc (digcount);
+		lastsize = digcount;
+	}
+	temp.size = digcount;
+	temp.data = lastdata;
+	temp.attr = &attr;
 	if (likely(src->size == 1)) {
 		memset (lastdata, src->data[0], digcount);
 	} else {
@@ -1016,23 +1564,25 @@ cob_move_all (cob_field *src, cob_field *dst)
 		}
 	}
 
-	cob_move (&temp, dst);
+	cob_hankaku_move (&temp, dst);
 }
 
 void
-cob_move (cob_field *src, cob_field *dst)
-{
-	if (COB_FIELD_TYPE (src) == COB_TYPE_ALPHANUMERIC_ALL) {
-		cob_move_all (src, dst);
+cob_hankaku_move (cob_field *src, cob_field *dst)
+{     
+	if (COB_FIELD_TYPE (src) == COB_TYPE_ALPHANUMERIC_ALL
+           ||COB_FIELD_TYPE (src) == COB_TYPE_NATIONAL_ALL) {
+		cob_hankaku_move_all (src, dst);
 		return;
 	}
+
 	if (dst->size == 0) {
 		return;
 	}
 	if (src->size == 0) {
 		src = &cob_space;
 	}
-
+		
 	/* non-elementary move */
 	if (COB_FIELD_TYPE (src) == COB_TYPE_GROUP || COB_FIELD_TYPE (dst) == COB_TYPE_GROUP) {
 		cob_move_alphanum_to_alphanum (src, dst);
@@ -1146,6 +1696,10 @@ cob_move (cob_field *src, cob_field *dst)
 		case COB_TYPE_ALPHANUMERIC_EDITED:
 			cob_move_alphanum_to_edited (src, dst);
 			return;
+		case COB_TYPE_NATIONAL_EDITED:			
+		case COB_TYPE_NATIONAL:
+			cob_move_alphanum_to_national (src, dst);
+			return;				
 		default:
 			cob_move_alphanum_to_alphanum (src, dst);
 			return;
@@ -1355,4 +1909,49 @@ cob_init_move (void)
 {
 	lastdata = cob_malloc (COB_SMALL_BUFF);
 	lastsize = COB_SMALL_BUFF;
+}
+
+int cob_la_anstojis( int n)
+{
+      int i ;
+      switch(n)
+      {
+      case '0':
+        i = 0x4f82;
+       break;
+     case ' ':
+        i= 0x4081;
+      break;
+     case '"':
+        i= 0x8d81;
+        break;
+     case 255:
+       i= 0xffff;
+      break;
+      default:
+      i= n;
+      break;
+ }
+   return i;
+}
+
+
+int  cob_la_memset( cob_field *f , int n)
+{
+        unsigned char	*data;	
+	size_t		size;
+	char buff[3] ;
+	int i;	
+         n =  cob_la_anstojis(n);
+        memcpy(buff,&n,2);
+        
+	data = f->data;
+	size = f->size/2;
+	
+	for(i =0;i < size;i++)
+	{
+	    memcpy(&data[i*2],buff,2);
+	       
+	}
+
 }

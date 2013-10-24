@@ -461,6 +461,100 @@ extern int extfh_relative_rewrite	(cob_file *, int);
 extern int extfh_relative_delete	(cob_file *);
 #endif
 
+
+//translate hexadecimal to jpn word
+char     *str_physical_filename;
+char     *str_logic_filename;
+static char cb_get_char(char c[2])
+{
+	int i;
+     
+	unsigned char ch,index[2];
+	for(i=0;i<2;i++){
+		switch(c[i]){
+			case 'A':
+				index[i] = 10;
+				break;
+			case 'B':
+				index[i] = 11;
+				break;
+			case 'C':
+				index[i] = 12;
+				break;
+			case 'D':
+				index[i] = 13;
+				break;
+			case 'E':
+				index[i] = 14;
+				break;
+			case 'F':
+				index[i] = 15;
+				break;
+			default:
+				index[i] = c[i] - '0';
+				break;
+		}
+	}
+	ch = (unsigned char)(index[0] * 16 + index[1]);
+	return ch;		
+	
+}
+static char *cb_get_jisstring(char *name){
+	int  i,j;
+	char pTmp[COB_NORMAL_BUFF], str[2];
+	unsigned char *c;
+	c = name;
+	memset(pTmp, 0,sizeof(pTmp));
+        	
+	i = strlen(name);
+
+	for(  j =0; j<i/2;j++) {
+		strncpy(str,&name[2*j],2);
+		pTmp[j]=cb_get_char(str);
+	}
+	return strdup(pTmp);
+}
+
+static char *cb_get_jisword(char *name)
+{
+	int  i,k;
+ 	char pTmp[COB_NORMAL_BUFF];
+	char pTmp1[COB_NORMAL_BUFF];
+	char *c,*cs,*ce,*ctmp;
+	c = name;
+	memset(pTmp, 0,sizeof(pTmp));
+        	
+	i = strlen(name);
+	for(k=0;k<i;k++){
+		cs=strstr(c,"___");
+		if (cs==NULL){
+			strcat(pTmp,c);
+			break;
+		}else{
+			memset(pTmp1, 0,sizeof(pTmp1)); 
+			strncpy(pTmp1,c,cs - c); 
+			strcat(pTmp,pTmp1);
+			c = cs + 3;
+			ce=strstr(c,"___");
+			if (ce==NULL){
+				break;
+			} else {
+				memset(pTmp1, 0,sizeof(pTmp1)); 
+				strncpy(pTmp1,c,ce-c);
+				c=ce + 3;
+				ctmp=cb_get_jisstring(pTmp1);
+				strcat(pTmp,ctmp);
+			}
+		}
+	
+	}
+
+	return strdup(pTmp);
+}
+
+
+
+
 #if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) 
 /* Isam File handler packet */
 

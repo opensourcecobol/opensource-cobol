@@ -74,8 +74,8 @@ static void switch_to_buffer (const int lineno, const char *filename,
 			      YY_BUFFER_STATE buffer);
 
 %}
-
-WORD		[_0-9A-Z-]+
+JPNWORD [\xA0-\xDF]|([\x81-\x9F\xE0-\xFC][\x40-\x7E\x80-\xFC])
+WORD		([_0-9A-Z-]|{JPNWORD})+
 NUMRIC_LITERAL	[+-]?[0-9,.]*[0-9]
 ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 

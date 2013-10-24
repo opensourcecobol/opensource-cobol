@@ -633,6 +633,7 @@ validate_field_1 (struct cb_field *f)
 			switch (f->pic->category) {
 			case CB_CATEGORY_ALPHABETIC:
 			case CB_CATEGORY_ALPHANUMERIC:
+			case CB_CATEGORY_NATIONAL:
 				break;
 			default:
 				cb_error_x (x, _("'%s' cannot have JUSTIFIED RIGHT"), name);

@@ -599,6 +599,12 @@ output_attr (cb_tree x)
 			}
 			id = lookup_attr (COB_TYPE_NUMERIC_DISPLAY,
 					  (int) l->size, l->scale, flags, NULL, 0);
+		} else if (CB_TREE_CATEGORY(x) == CB_CATEGORY_NATIONAL){
+			if (l->all) {
+				id = lookup_attr (COB_TYPE_NATIONAL_ALL, 0, 0, 0, NULL, 0);
+			} else {
+				id = lookup_attr (COB_TYPE_NATIONAL, 0, 0, 0, NULL, 0);
+			}		
 		} else {
 			if (l->all) {
 				id = lookup_attr (COB_TYPE_ALPHANUMERIC_ALL, 0, 0, 0, NULL, 0);
@@ -613,7 +619,11 @@ output_attr (cb_tree x)
 		f = CB_FIELD (r->value);
 		flags = 0;
 		if (r->offset) {
-			id = lookup_attr (COB_TYPE_ALPHANUMERIC, 0, 0, 0, NULL, 0);
+			if( type == COB_TYPE_NATIONAL ||type == COB_TYPE_NATIONAL_EDITED  )
+                       		id = lookup_attr (COB_TYPE_NATIONAL,  f->pic->digits, f->pic->scale,
+						  flags, (ucharptr) f->pic->str, f->pic->lenstr);
+			else
+				id = lookup_attr (COB_TYPE_ALPHANUMERIC, 0, 0, 0, NULL, 0);
 		} else {
 			switch (type) {
 			case COB_TYPE_GROUP:
@@ -1564,6 +1574,7 @@ initialize_type (struct cb_initialize *p, struct cb_field *f, int topfield)
 		case CB_CATEGORY_NUMERIC_EDITED:
 		case CB_CATEGORY_ALPHANUMERIC_EDITED:
 		case CB_CATEGORY_NATIONAL_EDITED:
+              case CB_CATEGORY_NATIONAL:
 			return INITIALIZE_ONE;
 		default:
 			if (cb_tree_type (CB_TREE (f)) == COB_TYPE_NUMERIC_PACKED) {
@@ -1606,6 +1617,8 @@ initialize_uniform_char (struct cb_field *f)
 			return '0';
 		case COB_TYPE_ALPHANUMERIC:
 			return ' ';
+                case COB_TYPE_NATIONAL:
+                        return ' ';
 		default:
 			return -1;
 		}
@@ -1638,7 +1651,7 @@ output_initialize_literal (cb_tree x, struct cb_field *f, struct cb_literal *l)
 {
 	size_t	i;
 	size_t	n;
-
+	
 	if (l->size == 1) {
 		output_prefix ();
 		output ("memset (");
@@ -1660,7 +1673,7 @@ output_initialize_literal (cb_tree x, struct cb_field *f, struct cb_literal *l)
 		output_string (l->data, f->size);
 		output (", %d);\n", f->size);
 		return;
-	}
+	}	
 	i = f->size / l->size;
 	i_counters[0] = 1;
 	output_line ("for (i0 = 0; i0 < %u; i0++)", (unsigned int)i);
@@ -1732,6 +1745,18 @@ static void
 output_initialize_uniform (cb_tree x, int c, int size)
 {
 	output_prefix ();
+        if(CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL )
+         {
+            if( c == ' ')
+            {
+               	output ("cob_move(");
+		output_param ( cb_space,1 );
+		output (", ");
+		output_param ( x,2 );
+	        output (");\n");
+            } 
+            return ;
+         }
 	if (size == 1) {
 		output ("*(unsigned char *)(");
 		output_data (x);
@@ -1759,14 +1784,16 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 	int			i;
 	int			n;
 	int			buffchar;
-
+       struct cb_reference * tmpx;
+	   
+	   
 	static char		*buff = NULL;
 	static int		lastsize = 0;
-
+ 
 	f = cb_field (x);
 
 	/* CHAINING */
-	if (f->flag_chained) {
+	if (f->flag_chained) {		
 		output_prefix ();
 		output ("cob_chain_setup (");
 		output_data (x);
@@ -1776,6 +1803,30 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 	/* Initialize by value */
 	if (p->val && f->values) {
 		value = CB_VALUE (f->values);
+		if(CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL){
+               	output ("cob_move(");
+			output_param (value, 1);
+			output (", ");
+			output_param (x, 2);
+	        	output (");\n");
+			return;
+		}
+		
+		if(CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL_EDITED){		
+			tmpx =  cb_build_reference(f->name);
+			tmpx->value = cb_ref(tmpx);
+			CB_TREE_CATEGORY (tmpx);
+			tmpx->offset = cb_build_numeric_literal(0,"1",1);
+			tmpx->subs = CB_REFERENCE(x)->subs;
+			
+			output ("cob_move(");
+			output_param (value, 1);
+			output (", ");
+			output_param ((cb_tree)tmpx, 2);			
+	        	output (");\n");
+			return;	        				
+		}
+		
 		if (value == cb_space) {
 			/* Fixme: This is to avoid an error when a
 			   numeric-edited item has VALUE SPACE because
@@ -1793,13 +1844,13 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 		} else if (value == cb_null && f->usage == CB_USAGE_DISPLAY) {
 			output_figurative (x, f, 0);
 		} else if (CB_LITERAL_P (value) && CB_LITERAL (value)->all) {
-			/* ALL literal */
+			/* ALL literal */			
 			output_initialize_literal (x, f, CB_LITERAL (value));
 		} else if (CB_CONST_P (value)
 			   || CB_TREE_CLASS (value) == CB_CLASS_NUMERIC) {
 			/* Figurative literal, numeric literal */
 			output_move (value, x);
-		} else {
+		} else {		
 			/* Alphanumeric literal */
 			/* We do not use output_move here because
 			   we do not want to have the value be edited. */
@@ -1900,6 +1951,7 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 			break;
 		case CB_CATEGORY_ALPHANUMERIC_EDITED:
 		case CB_CATEGORY_NATIONAL_EDITED:
+		case CB_CATEGORY_NATIONAL:
 			output_move (cb_space, x);
 			break;
 		default:
@@ -1908,6 +1960,7 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 		}
 	}
 }
+
 
 static void
 output_initialize_compound (struct cb_initialize *p, cb_tree x)
@@ -1920,7 +1973,7 @@ output_initialize_compound (struct cb_initialize *p, cb_tree x)
 	int		last_char;
 	int		i;
 	size_t		size;
-
+	
 	ff = cb_field (x);
 	for (f = ff->children; f; f = f->sister) {
 		type = initialize_type (p, f, 0);
@@ -1943,7 +1996,9 @@ output_initialize_compound (struct cb_initialize *p, cb_tree x)
 				for (; f->sister; f = f->sister) {
 					if (!f->sister->redefines) {
 						if (initialize_type (p, f->sister, 0) != INITIALIZE_DEFAULT
-						    || initialize_uniform_char (f->sister) != last_char) {
+						    || initialize_uniform_char (f->sister) != last_char
+                                                         ||CB_TREE_CATEGORY(f->sister) != CB_TREE_CATEGORY(last_field)
+                                                      ) {
 							break;
 						}
 					}

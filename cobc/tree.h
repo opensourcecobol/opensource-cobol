@@ -133,15 +133,27 @@ enum cb_switch_name {
 };
 
 enum cb_class {
-	CB_CLASS_UNKNOWN,		/* 0 */
+//	CB_CLASS_UNKNOWN,		/* 0 */
+//	CB_CLASS_ALPHABETIC,		/* 1 */
+//	CB_CLASS_ALPHANUMERIC,		/* 2 */
+//	CB_CLASS_BOOLEAN,		/* 3 */
+//	CB_CLASS_INDEX, 		/* 4 */
+//	CB_CLASS_NATIONAL,		/* 5 */
+//	CB_CLASS_NUMERIC,		/* 6 */
+//	CB_CLASS_OBJECT,		/* 7 */
+//	CB_CLASS_POINTER		/* 8 */
+ 	CB_CLASS_UNKNOWN,		/* 0 */
 	CB_CLASS_ALPHABETIC,		/* 1 */
 	CB_CLASS_ALPHANUMERIC,		/* 2 */
-	CB_CLASS_BOOLEAN,		/* 3 */
-	CB_CLASS_INDEX, 		/* 4 */
-	CB_CLASS_NATIONAL,		/* 5 */
-	CB_CLASS_NUMERIC,		/* 6 */
-	CB_CLASS_OBJECT,		/* 7 */
-	CB_CLASS_POINTER		/* 8 */
+	CB_CLASS_ALPHANUMERICEDITED,       /*3*/
+	CB_CLASS_BOOLEAN,		/* 4 */
+	CB_CLASS_INDEX, 		/* 5 */
+	CB_CLASS_NATIONAL,		/*6 */
+	CB_CLASS_NATIONALEDITED,		/*7 */
+	CB_CLASS_NUMERIC,		/* 8 */
+	CB_CLASS_NUMERICEDIT, /*9*/
+	CB_CLASS_OBJECT,		/* 10 */
+	CB_CLASS_POINTER		/* 11 */
 };
 
 enum cb_category {
@@ -157,7 +169,7 @@ enum cb_category {
 	CB_CATEGORY_NUMERIC_EDITED,		/* 9 */
 	CB_CATEGORY_OBJECT_REFERENCE,		/* 10 */
 	CB_CATEGORY_DATA_POINTER,		/* 11 */
-	CB_CATEGORY_PROGRAM_POINTER		/* 12 */
+	CB_CATEGORY_PROGRAM_POINTER		/* 12 */ 
 };
 
 enum cb_storage {
@@ -411,6 +423,7 @@ struct cb_literal {
 
 extern cb_tree	cb_build_numeric_literal (int sign, const unsigned char *data, int scale);
 extern cb_tree	cb_build_alphanumeric_literal (const unsigned char *data, size_t size);
+extern cb_tree	cb_build_national_literal (const unsigned char *data, size_t size);
 extern cb_tree	cb_concat_literals (cb_tree x1, cb_tree x2);
 
 
@@ -444,6 +457,7 @@ struct cb_picture {
 	signed char		scale;		/* 1/10^scale */
 	unsigned char		have_sign;	/* have 'S' */
 	unsigned char		spare;		/* spare */
+        int                     national;
 };
 
 #define CB_PICTURE(x)	(CB_TREE_CAST (CB_TAG_PICTURE, struct cb_picture, x))
@@ -631,6 +645,9 @@ struct cb_file {
 	int			global;			/* Is GLOBAL */
 };
 
+
+
+
 #define CB_FILE(x)	(CB_TREE_CAST (CB_TAG_FILE, struct cb_file, x))
 #define CB_FILE_P(x)	(CB_TREE_TAG (x) == CB_TAG_FILE)
 
@@ -671,6 +688,7 @@ struct cb_reference {
 
 #define CB_NAME(x)		(CB_REFERENCE (x)->word->name)
 
+extern char*            cb_get_hexword(char *name);
 extern cb_tree		cb_build_filler (void);
 extern cb_tree		cb_build_reference (const char *name);
 extern cb_tree		cb_build_field_reference (struct cb_field *f, cb_tree ref);
@@ -1267,6 +1285,7 @@ extern struct cb_field	*cb_validate_78_item (struct cb_field *p);
 extern void		cb_clear_real_field (void);
 
 /* typeck.c */
+extern    char *cb_get_jisword(char *name);
 extern cb_tree		cb_check_numeric_value (cb_tree x);
 
 extern void		cb_build_registers (void);

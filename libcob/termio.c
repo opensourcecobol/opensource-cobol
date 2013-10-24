@@ -259,7 +259,8 @@ cob_accept (cob_field *f)
 			temp.size = f->size;
 		}
 	}
-	cob_move (&temp, f);
+	//cob_move (&temp, f);
+	cob_hankaku_move(&temp,f);
 /* RXW
 	if (isatty (fileno (stdin))) {
 		temp.size = strlen ((char *)term_buff) - 1;

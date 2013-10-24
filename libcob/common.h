@@ -126,6 +126,7 @@ struct cob_external {
 
 #define COB_TYPE_NATIONAL		0x40
 #define COB_TYPE_NATIONAL_EDITED	0x41
+#define COB_TYPE_NATIONAL_ALL	0x42
 
 /* field flags */
 
@@ -258,6 +259,10 @@ DLL_EXPIMP extern cob_field		cob_high;		/* HIGH-VALUE */
 DLL_EXPIMP extern cob_field		cob_low;		/* LOW-VALUE */
 DLL_EXPIMP extern cob_field		cob_quote;		/* QUOTE */
 DLL_EXPIMP extern cob_field		cob_one;		/* Numeric ONE */
+
+DLL_EXPIMP extern cob_field		cob_zen_zero;	/* zenkaku ZERO */
+DLL_EXPIMP extern cob_field		cob_zen_space;	/* zenkaku SPACE */
+DLL_EXPIMP extern cob_field		cob_zen_quote;	/* zenkaku QUOTE */
 
 /* convert a digit (e.g., '0') into an integer (e.g., 0) */
 #define cob_d2i(x)		((x) - '0')

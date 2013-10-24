@@ -1028,6 +1028,22 @@ cb_build_length (cb_tree x)
 }
 
 cb_tree
+cb_build_lengths (cb_tree x)
+{
+       char			buff[64];
+       if (x == cb_error_node) 
+		return cb_error_node;
+	if (CB_REFERENCE_P (x) && cb_ref (x) == cb_error_node) {
+		return cb_error_node;
+	}	
+       if ((cb_tree_class (x) == CB_CLASS_NATIONAL)||
+	     (CB_TREE_CATEGORY(x) == CB_CATEGORY_NATIONAL) ||
+            (CB_TREE_CATEGORY(x) == CB_CATEGORY_NATIONAL_EDITED)) 
+            sprintf (buff, "%d", (cb_field_size (x)) / 2);
+            return cb_build_numeric_literal (0, (ucharptr)buff, 0);
+}
+
+cb_tree
 cb_build_address (cb_tree x)
 {
 	if (x == cb_error_node ||
@@ -4445,7 +4461,10 @@ static cb_tree
 cb_build_memset (cb_tree x, int c)
 {
 	int size = cb_field_size (x);
-
+        if( cb_field( x)->pic )
+        if (cb_field (x)->pic->national ==1 ) {
+              return cb_build_funcall_2("cob_la_memset",x,cb_int(c));
+        }
 	if (size == 1) {
 		return cb_build_funcall_2 ("$E", x, cb_int (c));
 	} else {
@@ -4743,12 +4762,14 @@ cb_build_move_literal (cb_tree src, cb_tree dst)
 	l = CB_LITERAL (src);
 	f = cb_field (dst);
 	cat = CB_TREE_CATEGORY (dst);
-
 	if (l->all) {
 		if (cat == CB_CATEGORY_NUMERIC || cat == CB_CATEGORY_NUMERIC_EDITED) {
 			return cb_build_move_call (src, dst);
-		}
-		if (l->size == 1) {
+		} else if (cat == CB_CATEGORY_NATIONAL_EDITED ||cat == CB_CATEGORY_NATIONAL) {
+			return cb_build_move_call (src, dst);
+		}else if (cat == CB_CATEGORY_ALPHANUMERIC ||cat == CB_CATEGORY_ALPHANUMERIC_EDITED) {
+			return cb_build_move_call (src, dst);
+		} if (l->size == 1) {
 			return cb_build_funcall_3 ("memset",
 					   cb_build_cast_address (dst),
 					   cb_int (l->data[0]), cb_build_cast_length (dst));
@@ -4771,6 +4792,10 @@ cb_build_move_literal (cb_tree src, cb_tree dst)
 		buff = cobc_malloc ((size_t)f->size);
 		for (i = 0; i < f->size; i++) {
 			buff[i] = l->data[i % l->size];
+		}
+		if((0x81 <= buff[i -1] && buff[i -1] <= 0x9F) || 
+			(0xE0 <= buff[i -1] && buff[i -1]<= 0xFC)){
+			buff[i - 1] = ' ';
 		}
 		return cb_build_funcall_3 ("memcpy",
 					   cb_build_cast_address (dst),
@@ -5091,8 +5116,10 @@ cb_emit_open (cb_tree file, cb_tree mode, cb_tree sharing)
 		sharing = cb_int1;
 	}
 
-	cb_emit (cb_build_funcall_4 ("cob_open", file, mode,
-		 sharing, CB_FILE(file)->file_status));
+     
+		cb_emit (cb_build_funcall_4 ("cob_open", file, mode,
+		       sharing, CB_FILE(file)->file_status));
+    
 }
 
 /*
@@ -5217,14 +5244,18 @@ cb_emit_read (cb_tree ref, cb_tree next, cb_tree into, cb_tree key, cb_tree lock
 		if (key) {
 			cb_warning (_("KEY ignored with sequential READ"));
 		}
-		cb_emit (cb_build_funcall_4 ("cob_read", file, cb_int0,
-			 CB_FILE(file)->file_status,
-			 cb_int (read_opts)));
+		
+			    cb_emit (cb_build_funcall_4 ("cob_read", file, cb_int0,
+		       	 CB_FILE(file)->file_status,
+			       cb_int (read_opts)));
+		
 	} else {
 		/* READ */
-		cb_emit (cb_build_funcall_4 ("cob_read",
-			 file, key ? key : CB_FILE (file)->key,
-			 CB_FILE(file)->file_status, cb_int (read_opts)));
+		
+              		cb_emit (cb_build_funcall_4 ("cob_read",
+		              	 file, key ? key : CB_FILE (file)->key,
+			           CB_FILE(file)->file_status, cb_int (read_opts)));
+			
 	}
 	if (into) {
 		current_statement->handler3 = cb_build_move (rec, into);
@@ -5274,8 +5305,10 @@ cb_emit_rewrite (cb_tree record, cb_tree from, cb_tree lockopt)
 	if (from) {
 		cb_emit (cb_build_move (from, record));
 	}
-	cb_emit (cb_build_funcall_4 ("cob_rewrite", file, record,
+
+		cb_emit (cb_build_funcall_4 ("cob_rewrite", file, record,
 			cb_int (opts), CB_FILE(file)->file_status));
+	
 }
 
 /*
@@ -5356,7 +5389,10 @@ cb_emit_return (cb_tree ref, cb_tree into)
 void
 cb_emit_rollback (void)
 {
-	cb_emit (cb_build_funcall_0 ("cob_rollback"));
+     
+  	   cb_emit (cb_build_funcall_0 ("cob_rollback"));
+	
+	   	
 }
 
 /*
@@ -5765,9 +5801,11 @@ cb_emit_start (cb_tree file, cb_tree op, cb_tree key)
 	}
 	if (file != cb_error_node) {
 		current_statement->file = cb_ref (file);
-		cb_emit (cb_build_funcall_4 ("cob_start", cb_ref (file), op,
+		
+		     cb_emit (cb_build_funcall_4 ("cob_start", cb_ref (file), op,
 					     key ? key : CB_FILE (cb_ref (file))->key,
 						CB_FILE(cb_ref(file))->file_status));
+		
 	}
 }
 
