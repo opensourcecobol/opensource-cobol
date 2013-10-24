@@ -6032,15 +6032,13 @@ opt_not_on_exception:
 on_size_error:
   opt_on_size_error
   opt_not_on_size_error
-  {
-	current_statement->handler_id = COB_EC_SIZE;
-  }
 ;
 
 opt_on_size_error:
 | SIZE_ERROR
   {
 	check_unreached = 0;
+	current_statement->handler_id = COB_EC_SIZE;
   }
   statement_list
   {
@@ -6052,6 +6050,7 @@ opt_not_on_size_error:
 | NOT_SIZE_ERROR
   {
 	check_unreached = 0;
+	current_statement->handler_id = COB_EC_SIZE;
   }
   statement_list
   {
