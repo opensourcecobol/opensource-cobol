@@ -2238,7 +2238,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 490 "scanner.l"
+#line 491 "scanner.l"
 {
 	struct cb_word			*word;
 	struct cb_level_78		*p78;
@@ -2252,9 +2252,9 @@ YY_RULE_SETUP
 	if (wordlen > 31) {
 		cb_error (_("User defined name must be less than 32 characters"));
 	}
-        
-        yytext  = cb_get_hexword(yytext); 
-   
+
+	yytext  = cb_get_hexword (yytext);
+
 	/* Check FUNCTION name without keyword */
 	if (in_procedure && functions_are_all) {
 		cbp = lookup_intrinsic (yytext, 1);
@@ -2354,7 +2354,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 602 "scanner.l"
+#line 604 "scanner.l"
 {
 	yylval = NULL;
 	return LE;
@@ -2362,7 +2362,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 607 "scanner.l"
+#line 609 "scanner.l"
 {
 	yylval = NULL;
 	return GE;
@@ -2370,7 +2370,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 612 "scanner.l"
+#line 614 "scanner.l"
 {
 	yylval = NULL;
 	return NE;
@@ -2378,7 +2378,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 617 "scanner.l"
+#line 619 "scanner.l"
 {
 	yylval = NULL;
 	return '^';
@@ -2386,7 +2386,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 622 "scanner.l"
+#line 624 "scanner.l"
 {
 	last_token_is_dot = 1;
 	yylval = NULL;
@@ -2395,7 +2395,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
-#line 628 "scanner.l"
+#line 630 "scanner.l"
 {
 	yylval = NULL;
 	return yytext[0];
@@ -2404,14 +2404,14 @@ YY_RULE_SETUP
 
 case 95:
 YY_RULE_SETUP
-#line 635 "scanner.l"
+#line 637 "scanner.l"
 {
 	/* ignore */
   }
 	YY_BREAK
 case 96:
 YY_RULE_SETUP
-#line 638 "scanner.l"
+#line 640 "scanner.l"
 {
 	BEGIN INITIAL;
 	return scan_picture (yytext);
@@ -2421,7 +2421,7 @@ YY_RULE_SETUP
 
 case 97:
 YY_RULE_SETUP
-#line 645 "scanner.l"
+#line 647 "scanner.l"
 {
 	BEGIN INITIAL;
 	yylval = cb_build_reference (yytext);
@@ -2470,7 +2470,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
-#line 690 "scanner.l"
+#line 692 "scanner.l"
 {
 	yylval = NULL;
 	return yytext[0];
@@ -2482,7 +2482,7 @@ case YY_STATE_EOF(DECIMAL_IS_PERIOD):
 case YY_STATE_EOF(DECIMAL_IS_COMMA):
 case YY_STATE_EOF(PICTURE_STATE):
 case YY_STATE_EOF(FUNCTION_STATE):
-#line 696 "scanner.l"
+#line 698 "scanner.l"
 {
 	last_token_is_dot = 0;
 	integer_is_label = 0;
@@ -2495,7 +2495,7 @@ case YY_STATE_EOF(FUNCTION_STATE):
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 706 "scanner.l"
+#line 708 "scanner.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
 #line 2502 "scanner.c"
@@ -3494,7 +3494,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 706 "scanner.l"
+#line 708 "scanner.l"
 
 
 
@@ -3503,7 +3503,7 @@ read_literal (int mark)
 {
 	size_t		i = 0;
 	int		c;
-	
+
 	if (!plexbuff) {
 		plexbuff = cobc_malloc (COB_MINI_BUFF);
 		plexsize = COB_MINI_BUFF;
@@ -3528,27 +3528,27 @@ read_literal (int mark)
 		plexbuff[0] = ' ';
 	}
 	plexbuff[i] = 0;
-	
-	if(i % 2 == 0){
+
+	if (i % 2 == 0) {
 		int j;
-		for(j = 0; j < i; j += 2){
-			if((0x81 <= plexbuff[j] && plexbuff[j] <= 0x9F) || 
-			(0xE0 <= plexbuff[j] && plexbuff[j] <= 0xFC)){
-				if(!((0x40 <= plexbuff[j + 1] && plexbuff[j + 1] <= 0x7E) || 
-				(0x80 <= plexbuff[j + 1] && plexbuff[j + 1] <= 0xFC))){
+		for (j = 0; j < i; j += 2) {
+			if ((0x81 <= plexbuff[j] && plexbuff[j] <= 0x9F) ||
+			    (0xE0 <= plexbuff[j] && plexbuff[j] <= 0xFC)) {
+				if (!((0x40 <= plexbuff[j+1] && plexbuff[j+1] <= 0x7E) ||
+				      (0x80 <= plexbuff[j+1] && plexbuff[j+1] <= 0xFC))) {
 					break;
-				}	
-			}else{
+				}
+			} else {
 				break;
 			}
 		}
-		if(i != 0 && j == i){
+		if (i != 0 && j == i) {
 			yylval = cb_build_national_literal (plexbuff, j);
 			SET_LOCATION (yylval);
 			return LITERAL;
 		}
 	}
-	
+
 	yylval = cb_build_alphanumeric_literal (plexbuff, i);
 	SET_LOCATION (yylval);
 	return LITERAL;

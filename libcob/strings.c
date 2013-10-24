@@ -131,30 +131,27 @@ inspect_common (cob_field *f1, cob_field *f2, const int type)
 		f2 = &cob_low;
 	}
 
-	if  (COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL||      
-       COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_EDITED)
-	{	
-		if(f1== &cob_quote){
-			f1= &cob_zen_quote;
-		}else if(f1 == &cob_space){
+	if (COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL ||
+	    COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_EDITED) {
+		if (f1 == &cob_quote) {
+			f1 = &cob_zen_quote;
+		} else if (f1 == &cob_space) {
 			f1 = &cob_zen_space;
-		}else if(f1 == &cob_zero){
+		} else if (f1 == &cob_zero) {
 			f1 = &cob_zen_zero;
 		}
 	}
-
-	if  (COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL||      
-       COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_EDITED)
-	{	
-		if(f2== &cob_quote){
-			f2= &cob_zen_quote;
-		}else if(f2 == &cob_space){
+	if (COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL ||
+	    COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_EDITED) {
+		if (f2 == &cob_quote) {
+			f2 = &cob_zen_quote;
+		} else if (f2 == &cob_space) {
 			f2 = &cob_zen_space;
-		}else if(f2 == &cob_zero){
+		} else if (f2 == &cob_zero) {
 			f2 = &cob_zen_zero;
 		}
-	}	
-	
+	}
+
 	if (inspect_replacing && f1->size != f2->size) {
 		if (COB_FIELD_TYPE (f1) == COB_TYPE_ALPHANUMERIC_ALL) {
 			alloc_figurative (f1, f2);
@@ -271,29 +268,28 @@ cob_inspect_before (const cob_field *str)
 	int		fig;
 
 	switch (COB_FIELD_TYPE (str)) {
-		case COB_TYPE_NUMERIC_DISPLAY:
-			data = COB_FIELD_DATA (str);
-			size = COB_FIELD_SIZE (str);
-			sign = cob_get_sign ((cob_field *)str);
-			n = 0;
-			fig = 0;
-			while (size > 1 && *data == '0') {
-				size--;
-				data++;
-			}
-			while (size--) {
-				n = n * 10 + cob_d2i (*data++);
-				fig++;
-			}
-			buf = cob_malloc(fig);
-			sprintf(buf, "%d", n);
-			p2 = (unsigned char *)buf;
-			break;
-
-		default:
-			fig = str->size;
-			p2 = str->data;
-			break;
+	case COB_TYPE_NUMERIC_DISPLAY:
+		data = COB_FIELD_DATA (str);
+		size = COB_FIELD_SIZE (str);
+		sign = cob_get_sign ((cob_field *)str);
+		n = 0;
+		fig = 0;
+		while (size > 1 && *data == '0') {
+			size--;
+			data++;
+		}
+		while (size--) {
+			n = n * 10 + cob_d2i (*data++);
+			fig++;
+		}
+		buf = cob_malloc (fig);
+		sprintf (buf, "%d", n);
+		p2 = (unsigned char *)buf;
+		break;
+	default:
+		fig = str->size;
+		p2 = str->data;
+		break;
 	}
 
 	for (p = inspect_start; p < inspect_end - fig + 1; p++) {
@@ -303,8 +299,8 @@ cob_inspect_before (const cob_field *str)
 		}
 	}
 
-	if(buf) {
-		free(buf);
+	if (buf) {
+		free (buf);
 	}
 }
 
@@ -327,7 +323,7 @@ cob_inspect_characters (cob_field *f1)
 {
 	int	*mark;
 	int	i;
-	int   j;
+	int	j;
 	int	n;
 	int	len;
 
@@ -337,8 +333,9 @@ cob_inspect_characters (cob_field *f1)
 		/* INSPECT REPLACING CHARACTERS f1 */
 		for (i = 0; i < len; i++) {
 			if (mark[i] == -1) {
-				for(j=0;j<f1->size;j++) // this will be 2
-				     mark[i+j] = f1->data[j];
+				for (j = 0; j < f1->size; j++) {
+					mark[i+j] = f1->data[j];
+				}
 				i += f1->size-1;
 			}
 		}
@@ -352,9 +349,10 @@ cob_inspect_characters (cob_field *f1)
 			}
 		}
 		if (n > 0) {
-			if(COB_FIELD_TYPE (inspect_var) == COB_TYPE_NATIONAL||
-				COB_FIELD_TYPE (inspect_var) == COB_TYPE_NATIONAL_EDITED)
-				n = n/2;			
+			if (COB_FIELD_TYPE (inspect_var) == COB_TYPE_NATIONAL ||
+			    COB_FIELD_TYPE (inspect_var) == COB_TYPE_NATIONAL_EDITED) {
+				n = n / 2;
+			}
 			cob_add_int (f1, n);
 		}
 	}
@@ -390,56 +388,47 @@ cob_inspect_converting (cob_field *f1, cob_field *f2)
 	size_t	i;
 	size_t	j;
 	size_t	len;
-	int x;
-	
-	len = (size_t)(inspect_end - inspect_start);
-	if(COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL||
-				COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_EDITED)
+	int	x;
 
-		{
-				if(f2 == &cob_quote){
+	len = (size_t)(inspect_end - inspect_start);
+	if (COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL ||
+	    COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_EDITED) {
+		if (f2 == &cob_quote) {
 			f2 = &cob_zen_quote;
-		}else if(f2 == &cob_space){
+		} else if (f2 == &cob_space) {
 			f2 = &cob_zen_space;
-		}else if(f2 == &cob_zero){
+		} else if (f2 == &cob_zero) {
 			f2 = &cob_zen_zero;
 		}
-		
-		   for (j = 0; j < f1->size; j+=2) {
-	       	for (i = 0; i < len; i +=2) {		
-		       	if (inspect_mark[i] == -1 &&inspect_mark[i+1] == -1&& memcmp(&inspect_start[i] , &(f1->data[j]),2) == 0 ) {
-					if( f2  == &cob_zen_quote  ||f2 == &cob_zen_space	|| f2 == &cob_zen_zero)
-					{
- 					    inspect_start[i] = f2->data[0];
-					   inspect_start[i+1] = f2->data[1];
-					    
+		for (j = 0; j < f1->size; j += 2) {
+			for (i = 0; i < len; i += 2) {
+				if (inspect_mark[i] == -1 && inspect_mark[i+1] == -1 && memcmp (&inspect_start[i], &(f1->data[j]), 2) == 0) {
+					if (f2 == &cob_zen_quote || f2 == &cob_zen_space || f2 == &cob_zen_zero) {
+						inspect_start[i] = f2->data[0];
+						inspect_start[i+1] = f2->data[1];
+					} else {
+						inspect_start[i] = f2->data[j];
+						inspect_start[i+1] = f2->data[j+1];
 					}
-					else						
-                        		  {
-                        		        inspect_start[i] = f2->data[j];
-  				               inspect_start[i+1] = f2->data[j+1];	
-					 }
-				inspect_mark[i] = 1;
-				inspect_mark[i+1] = 1;
-			   }
-		     }
-	         }
-
+					inspect_mark[i] = 1;
+					inspect_mark[i+1] = 1;
+				}
+			}
 		}
-	else
-		{
-         	for (j = 0; j < f1->size; j++) {
-	       	for (i = 0; i < len; i++) {
-		       	if (inspect_mark[i] == -1 && inspect_start[i] == f1->data[j]) {
-					if( f2  == &cob_quote  ||f2 == &cob_space	|| f2 == &cob_zero)
-						 inspect_start[i] = f2->data[0];
-					else
-						 inspect_start[i] = f2->data[j];
-				inspect_mark[i] = 1;
-			   }
-		     }
-	         }
+	} else {
+		for (j = 0; j < f1->size; j++) {
+			for (i = 0; i < len; i++) {
+				if (inspect_mark[i] == -1 && inspect_start[i] == f1->data[j]) {
+					if (f2 == &cob_quote || f2 == &cob_space || f2 == &cob_zero) {
+						inspect_start[i] = f2->data[0];
+					} else {
+						inspect_start[i] = f2->data[j];
+					}
+					inspect_mark[i] = 1;
+				}
+			}
 		}
+	}
 }
 
 void
@@ -474,36 +463,34 @@ cob_string_init (cob_field *dst, cob_field *ptr)
 	}
 	string_offset = 0;
 	cob_exception_code = 0;
-	
+
 	if (string_ptr) {
 		string_offset = cob_get_int (string_ptr) - 1;
 		if (string_offset < 0 || string_offset >= (int)string_dst->size) {
 			cob_set_exception (COB_EC_OVERFLOW_STRING);
 		}
 	}
-	
-       if  (COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL||
-       COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL_EDITED){
-		string_offset *= 2; 
-       }
-       
+
+	if (COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL ||
+	    COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL_EDITED) {
+		string_offset *= 2;
+	}
 }
 
 void
 cob_string_delimited (cob_field *dlm)
-{     
-	if  (COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL||
-       COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL_EDITED)
-	{	
-		if(dlm == &cob_quote){
+{
+	if (COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL ||
+	    COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL_EDITED) {
+		if (dlm == &cob_quote) {
 			dlm = &cob_zen_quote;
-		}else if(dlm == &cob_space){
+		} else if (dlm == &cob_space) {
 			dlm = &cob_zen_space;
-		}else if(dlm == &cob_zero){
+		} else if (dlm == &cob_zero) {
 			dlm = &cob_zen_zero;
 		}
 	}
-	
+
 	string_dlm = NULL;
 	if (dlm) {
 		string_dlm_copy = *dlm;
@@ -547,10 +534,11 @@ cob_string_append (cob_field *src)
 void
 cob_string_finish (void)
 {
-       if  (COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL||
-       COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL_EDITED){
-		string_offset /= 2; 
-       }
+	if (COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL ||
+	    COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL_EDITED) {
+		string_offset /= 2;
+	}
+
 	if (string_ptr) {
 		cob_set_int (string_ptr, string_offset + 1);
 	}
@@ -600,37 +588,31 @@ cob_unstring_init (cob_field *src, cob_field *ptr, const size_t num_dlm)
 		}
 	}
 
-	if  (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL||
-       COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED){
-		unstring_offset *= 2; 
-       }
-
-  
+	if (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL ||
+	    COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED) {
+		unstring_offset *= 2;
+	}
 }
 
 void
 cob_unstring_delimited (cob_field *dlm, const int all)
 {
- 
-	if  (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL||
-       COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED)
-	{	
-		if(dlm == &cob_quote){
+	if (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL ||
+	    COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED) {
+		if (dlm == &cob_quote) {
 			dlm = &cob_zen_quote;
-		}else if(dlm == &cob_space){
+		} else if (dlm == &cob_space) {
 			dlm = &cob_zen_space;
-		}else if(dlm == &cob_zero){
+		} else if (dlm == &cob_zero) {
 			dlm = &cob_zen_zero;
 		}
 	}
-	
 
 	dlm_list[unstring_ndlms].uns_dlm = dlm;
 	dlm_list[unstring_ndlms].uns_all = all;
 	unstring_ndlms++;
 }
 
- int yy = 0 ;
 void
 cob_unstring_into (cob_field *dst, cob_field *dlm, cob_field *cnt)
 {
@@ -653,7 +635,7 @@ cob_unstring_into (cob_field *dst, cob_field *dlm, cob_field *cnt)
 	if (unstring_offset >= (int)unstring_src->size) {
 		return;
 	}
-       yy++;
+
 	start = unstring_src->data + unstring_offset;
 	dlm_data = NULL;
 	if (unstring_ndlms == 0) {
@@ -662,15 +644,13 @@ cob_unstring_into (cob_field *dst, cob_field *dlm, cob_field *cnt)
 		cob_memcpy (dst, start, match_size);
 		unstring_offset += match_size;
 	} else {
+
 		srsize = (int) unstring_src->size;
 		s = unstring_src->data + srsize;
-
 		for (p = start; p < s; p++) {
-
 			for (i = 0; i < unstring_ndlms; i++) {
-				
 				dlsize = (int) dlm_list[i].uns_dlm->size;
-				dp = dlm_list[i].uns_dlm->data;				
+				dp = dlm_list[i].uns_dlm->data;
 				if (p + dlsize > s) {
 					continue;
 				}
@@ -680,9 +660,8 @@ cob_unstring_into (cob_field *dst, cob_field *dlm, cob_field *cnt)
 					unstring_offset += match_size + dlsize;
 					dlm_data = dp;
 					dlm_size = dlsize;
-			 
 					if (dlm_list[i].uns_all) {
-						for (p+=dlsize ; p < s; p+=dlsize) {
+						for (p += dlsize; p < s; p += dlsize) {
 							if (p + dlsize > s) {
 								break;
 							}
@@ -690,21 +669,16 @@ cob_unstring_into (cob_field *dst, cob_field *dlm, cob_field *cnt)
 								break;
 							}
 							unstring_offset += dlsize;
-							
 						}
 					}
 					brkpt = 1;
 					break;
 				}
-
 			}
-
-			if  (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL||
-			     COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED)
-			{	
-				p++;					
+			if (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL ||
+			    COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED) {
+				p++;
 			}
-
 			if (brkpt) {
 				break;
 			}
@@ -717,11 +691,7 @@ cob_unstring_into (cob_field *dst, cob_field *dlm, cob_field *cnt)
 			dlm_data = NULL;
 		}
 	}
-
-	
- 	
 	unstring_count++;
-
 
 	if (dlm) {
 		if (dlm_data) {
@@ -733,37 +703,33 @@ cob_unstring_into (cob_field *dst, cob_field *dlm, cob_field *cnt)
 		}
 	}
 
-       if  (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL||
-       COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED){
-		match_size /= 2; 
-       }
+	if (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL ||
+	    COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED) {
+		match_size /= 2;
+	}
 
 	if (cnt) {
 		cob_set_int (cnt, match_size);
 	}
-
 }
 
 void
 cob_unstring_tallying (cob_field *f)
-{ 
-   
-	   
+{
 	cob_add_int (f, unstring_count);
 }
 
 void
 cob_unstring_finish (void)
 {
-
 	if (unstring_offset < (int)unstring_src->size) {
 		cob_set_exception (COB_EC_OVERFLOW_UNSTRING);
 	}
 
-	if  (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL||
-       COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED){
-		unstring_offset /= 2; 
-       }
+	if (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL ||
+	    COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED) {
+		unstring_offset /= 2;
+	}
 
 	if (unstring_ptr) {
 		cob_set_int (unstring_ptr, unstring_offset + 1);

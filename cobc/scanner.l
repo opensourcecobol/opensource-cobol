@@ -67,7 +67,7 @@ static void count_lines (char *text);
 %s DECIMAL_IS_PERIOD DECIMAL_IS_COMMA
 %x PICTURE_STATE FUNCTION_STATE
 
-JPNWORD [\xA0-\xDF]|([\x81-\x9F\xE0-\xFC][\x40-\x7E\x80-\xFC])
+JPNWORD		[\xA0-\xDF]|([\x81-\x9F\xE0-\xFC][\x40-\x7E\x80-\xFC])
 
 %%
 %{
@@ -487,6 +487,7 @@ H\"[^\"\n]*\" {
 	SET_LOCATION (yylval);
 	return WORD;
 }
+
 ([A-Z0-9]|{JPNWORD})(([_A-Z0-9-]|{JPNWORD})*([A-Z0-9]|{JPNWORD}+))? {
 	struct cb_word			*word;
 	struct cb_level_78		*p78;
@@ -500,9 +501,9 @@ H\"[^\"\n]*\" {
 	if (wordlen > 31) {
 		cb_error (_("User defined name must be less than 32 characters"));
 	}
-        
-        yytext  = cb_get_hexword(yytext); 
-   
+
+	yytext  = cb_get_hexword (yytext);
+
 	/* Check FUNCTION name without keyword */
 	if (in_procedure && functions_are_all) {
 		cbp = lookup_intrinsic (yytext, 1);
@@ -599,6 +600,7 @@ H\"[^\"\n]*\" {
 	*/
 	return WORD;
 }
+
 "<=" {
 	yylval = NULL;
 	return LE;
@@ -710,7 +712,7 @@ read_literal (int mark)
 {
 	size_t		i = 0;
 	int		c;
-	
+
 	if (!plexbuff) {
 		plexbuff = cobc_malloc (COB_MINI_BUFF);
 		plexsize = COB_MINI_BUFF;
@@ -735,27 +737,27 @@ read_literal (int mark)
 		plexbuff[0] = ' ';
 	}
 	plexbuff[i] = 0;
-	
-	if(i % 2 == 0){
+
+	if (i % 2 == 0) {
 		int j;
-		for(j = 0; j < i; j += 2){
-			if((0x81 <= plexbuff[j] && plexbuff[j] <= 0x9F) || 
-			(0xE0 <= plexbuff[j] && plexbuff[j] <= 0xFC)){
-				if(!((0x40 <= plexbuff[j + 1] && plexbuff[j + 1] <= 0x7E) || 
-				(0x80 <= plexbuff[j + 1] && plexbuff[j + 1] <= 0xFC))){
+		for (j = 0; j < i; j += 2) {
+			if ((0x81 <= plexbuff[j] && plexbuff[j] <= 0x9F) ||
+			    (0xE0 <= plexbuff[j] && plexbuff[j] <= 0xFC)) {
+				if (!((0x40 <= plexbuff[j+1] && plexbuff[j+1] <= 0x7E) ||
+				      (0x80 <= plexbuff[j+1] && plexbuff[j+1] <= 0xFC))) {
 					break;
-				}	
-			}else{
+				}
+			} else {
 				break;
 			}
 		}
-		if(i != 0 && j == i){
+		if (i != 0 && j == i) {
 			yylval = cb_build_national_literal (plexbuff, j);
 			SET_LOCATION (yylval);
 			return LITERAL;
 		}
 	}
-	
+
 	yylval = cb_build_alphanumeric_literal (plexbuff, i);
 	SET_LOCATION (yylval);
 	return LITERAL;

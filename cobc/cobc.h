@@ -38,7 +38,7 @@
 
 #define CB_FORMAT_FIXED	0
 #define CB_FORMAT_FREE	1
-#define CB_FORMAT_FREE_1COL_ASTER 2
+#define CB_FORMAT_FREE_1COL_ASTER	2
 
 extern int	cb_source_format;
 extern int	cb_source_format1;
@@ -103,7 +103,7 @@ extern int			cb_field_id;
 extern int			cb_storage_id;
 extern int			cb_flag_main;
 
-extern int          external_flg;
+extern int			external_flg;
 extern int			errorcount;
 extern int			warningcount;
 extern int			alt_ebcdic;

@@ -28,7 +28,5 @@ extern void		cob_hankaku_move	(cob_field *, cob_field *);
 extern void		cob_set_int	(cob_field *, int);
 extern int		cob_get_int	(cob_field *);
 
-
-extern  int            cob_la_memset( cob_field *, int);
-
+extern int		cob_la_memset	(cob_field *, int);
 #endif /* COB_MOVE_H */

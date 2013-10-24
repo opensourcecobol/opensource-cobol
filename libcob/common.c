@@ -60,10 +60,8 @@
 #include "intrinsic.h"
 #include "lib/gettext.h"
 
-
-
-#define   NAMERMCHECK       "OC_Reference_Check"
-#define    VALUERMCHECK      "lenient"
+#define NAMERMCHECK	"OC_Reference_Check"
+#define VALUERMCHECK	"lenient"
 
 struct cob_exception {
 	const char	*name;
@@ -485,7 +483,6 @@ common_hankaku_cmpc (const unsigned char *s1, const unsigned char *s2, const siz
 	const unsigned char	*s;
 	size_t			i;
 	int			ret;
-	
 
 	s = cob_current_module->collating_sequence;
 	if (unlikely(s)) {
@@ -493,7 +490,7 @@ common_hankaku_cmpc (const unsigned char *s1, const unsigned char *s2, const siz
 			if ((ret = s[s1[i]] - s[s2[0]]) != 0 && (ret = s[s1[i]] - s[s2[1]]) != 0) {
 				return ret;
 			}
-		}		
+		}
 	} else {
 		for (i = 0; i < size; i += 2) {
 			if ((ret = s1[i] - s2[0]) != 0 && (ret = s1[i + 1] - s2[1]) != 0) {
@@ -510,16 +507,16 @@ common_cmps (const unsigned char *s1, const unsigned char *s2, const size_t size
 {
 	size_t			i;
 	int			ret;
-       
+
 	if (unlikely(col)) {
 		for (i = 0; i < size; ++i) {
-			if ((ret = col[s1[i]] - col[s2[i]]) != 0) {			
+			if ((ret = col[s1[i]] - col[s2[i]]) != 0) {
 				return ret;
 			}
 		}
 	} else {
-		for (i = 0; i < size; ++i) {			
-			if ((ret = s1[i] - s2[i]) != 0) {				
+		for (i = 0; i < size; ++i) {
+			if ((ret = s1[i] - s2[i]) != 0) {
 				return ret;
 			}
 		}
@@ -550,15 +547,15 @@ cob_cmp_all (cob_field *f1, cob_field *f2)
 	int			ret;
 	int			sign;
 
-	if((COB_FIELD_TYPE (f1) == COB_TYPE_ALPHANUMERIC_ALL||
-	             COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_ALL)&&
-	             f1->size < f2->size){
+	if ((COB_FIELD_TYPE (f1) == COB_TYPE_ALPHANUMERIC_ALL ||
+	     COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_ALL) &&
+	    f1->size < f2->size) {
 		size = f2->size;
 		data = f2->data;
 		sign = cob_get_sign (f2);
 		ret = 0;
 		s = cob_current_module->collating_sequence;
-		while (size >= f1->size) {		
+		while (size >= f1->size) {
 			if ((ret = common_cmps (f1->data, data, f1->size, s)) != 0) {
 				goto end;
 			}
@@ -568,7 +565,7 @@ cob_cmp_all (cob_field *f1, cob_field *f2)
 		if (size > 0) {
 			ret = common_cmps (f1->data, data,  size, s);
 		}
-	}else{
+	} else {
 		size = f1->size;
 		data = f1->data;
 		sign = cob_get_sign (f1);
@@ -585,7 +582,6 @@ cob_cmp_all (cob_field *f1, cob_field *f2)
 			ret = common_cmps (data, f2->data, size, s);
 		}
 	}
-
 
 end:
 	if (COB_FIELD_TYPE (f1) != COB_TYPE_NUMERIC_PACKED) {
@@ -609,7 +605,7 @@ cob_cmp_simple_str (cob_field *f1, cob_field *f2)
 	/* compare common substring */
 	if ((ret = common_cmps (f1->data, f2->data, min, s)) == 0) {
 		/* compare the rest (if any) with spaces */
-		if ((COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL || 
+		if ((COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL ||
 		     COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_EDITED ||
 		     COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_ALL) &&
 		    (COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL ||
@@ -1130,44 +1126,40 @@ cob_cmp (cob_field *f1, cob_field *f2)
 	cob_field	temp;
 	cob_field_attr	attr;
 	unsigned char	buff[48];
-		
-	if  (COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL||
-       COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_ALL||
-       COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_EDITED)
-	{	
-		if(f2 == &cob_quote){
+
+	if (COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL ||
+	    COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_ALL ||
+	    COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_EDITED) {
+		if (f2 == &cob_quote) {
 			f2 = &cob_zen_quote;
-		}else if(f2 == &cob_space){
+		} else if (f2 == &cob_space) {
 			f2 = &cob_zen_space;
-		}else if(f2 == &cob_zero){
+		} else if (f2 == &cob_zero) {
 			f2 = &cob_zen_zero;
 		}
 	}
-	if  (COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL||
-       COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_ALL||
-       COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_EDITED)
-	{
-		if(f1 == &cob_quote){
+	if (COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL ||
+	    COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_ALL ||
+	    COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_EDITED) {
+		if (f1 == &cob_quote) {
 			f1= &cob_zen_quote;
-		}else if(f1== &cob_space){
+		} else if (f1== &cob_space) {
 			f1 = &cob_zen_space;
-		}else if(f1 == &cob_zero){
+		} else if (f1 == &cob_zero) {
 			f1 = &cob_zen_zero;
 		}
 	}
-	
 	if (COB_FIELD_IS_NUMERIC (f1) && COB_FIELD_IS_NUMERIC (f2)) {
 		return cob_numeric_cmp (f1, f2);
-	}	
+	}
 	if (COB_FIELD_TYPE (f2) == COB_TYPE_ALPHANUMERIC_ALL) {
-		
 		if (f2 == &cob_zero && COB_FIELD_IS_NUMERIC (f1)) {
 			return cob_cmp_int (f1, 0);
 		} else if (f2->size == 1) {
 			return cob_cmp_char (f1, f2->data[0]);
 		} else {
 			return cob_cmp_all (f1, f2);
-		}				
+		}
 	} else if (COB_FIELD_TYPE (f1) == COB_TYPE_ALPHANUMERIC_ALL) {
 		if (f1 == &cob_zero && COB_FIELD_IS_NUMERIC (f2)) {
 			return -cob_cmp_int (f2, 0);
@@ -1176,14 +1168,14 @@ cob_cmp (cob_field *f1, cob_field *f2)
 		} else {
 			return -cob_cmp_all (f2, f1);
 		}
-	} else if (COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_ALL) {		
+	} else if (COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_ALL) {
 		if (f2 == &cob_zero && COB_FIELD_IS_NUMERIC (f1)) {
 			return cob_cmp_int (f1, 0);
 		} else if (f2->size == 1) {
 			return cob_cmp_char (f1, f2->data[0]);
 		} else {
 			return cob_cmp_all (f1, f2);
-		}				
+		}
 	} else if (COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_ALL) {
 		if (f1 == &cob_zero && COB_FIELD_IS_NUMERIC (f2)) {
 			return -cob_cmp_int (f2, 0);
@@ -1438,35 +1430,35 @@ cob_check_subscript (const int i, const int min, const int max, const char *name
 	}
 }
 
-
-int 
-cob_check_env(char *name, char *value)
+int
+cob_check_env (char *name, char *value)
 {
-      char *s;
-      if( name == NULL || value == NULL )
-	  	return 0;
-	s = getenv(name);
-	if( s != NULL)
-	{
-	      if( strcmp(s, value) == 0)
-		  	return 1;
+	char *s;
+	if (name == NULL || value == NULL) {
+		return 0;
 	}
-
-      return 0;
+	s = getenv (name);
+	if (s != NULL) {
+		if (strcmp (s, value) == 0) {
+			return 1;
+		}
+	}
+	return 0;
 }
 
 void
-cob_check_ref_mod_national	( int offset, int length, int size, const char *name)
+cob_check_ref_mod_national (int offset, int length, int size, const char *name)
 {
-       if(cob_check_env(NAMERMCHECK,VALUERMCHECK))
-	   	return ;
-	   
-      /* check the offset */
-	 offset += 1;
-	 offset=offset/2;
-	 length = length/2;
-	 size = size/2;	 
-	  
+	if (cob_check_env (NAMERMCHECK, VALUERMCHECK)) {
+		return;
+	}
+
+	/* check the offset */
+	offset += 1;
+	offset = offset / 2;
+	length = length / 2;
+	size = size / 2;
+
 	if (offset < 1 || offset > size) {
 		cob_set_exception (COB_EC_BOUND_REF_MOD);
 		cob_runtime_error ("Offset of '%s' out of bounds: %d", name, offset);
@@ -1484,8 +1476,9 @@ cob_check_ref_mod_national	( int offset, int length, int size, const char *name)
 void
 cob_check_ref_mod (const int offset, const int length, const int size, const char *name)
 {
-        if(cob_check_env(NAMERMCHECK,VALUERMCHECK))
-	   	return ;
+	if (cob_check_env (NAMERMCHECK, VALUERMCHECK)) {
+		return;
+	}
 	/* check the offset */
 	if (offset < 1 || offset > size) {
 		cob_set_exception (COB_EC_BOUND_REF_MOD);
@@ -1505,7 +1498,6 @@ unsigned char *
 cob_external_addr (const char *exname, const int exlength)
 {
 	static struct cob_external *basext = NULL;
-
 	struct cob_external *eptr;
 
 	for (eptr = basext; eptr; eptr = eptr->next) {
@@ -1797,7 +1789,6 @@ cob_accept_environment (cob_field *f)
 		cob_set_exception (COB_EC_IMP_ACCEPT);
 		p = " ";
 	}
-	//cob_memcpy (f, (ucharptr)p, (int) strlen (p));
 	cob_hankaku_memcpy (f, (ucharptr)p, (int) strlen (p));
 }
 

@@ -110,7 +110,6 @@ struct cb_exception cb_exception_table[] = {
 #define PATHSEPS ":"
 #endif
 
-
 int			cb_id = 1;
 int			cb_attr_id = 1;
 int			cb_literal_id = 1;
@@ -118,7 +117,7 @@ int			cb_field_id = 1;
 int			cb_storage_id = 1;
 int			cb_flag_main = 0;
 
-int         external_flg = 0;
+int			external_flg = 0;
 int			errorcount = 0;
 int			warningcount = 0;
 int			alt_ebcdic = 0;
@@ -213,8 +212,6 @@ static char		*save_temps_dir = NULL;
 
 static jmp_buf		cob_jmpbuf;
 
-
-
 static int		wants_nonfinal = 0;
 static int		cb_flag_module = 0;
 static int		cb_flag_library = 0;
@@ -274,15 +271,15 @@ static const struct option long_options[] = {
 	{"debug", no_argument, NULL, 'd'},
 	{"ext", required_argument, NULL, 'e'},
 	{"free", no_argument, &cb_source_format, CB_FORMAT_FREE},
-	{"free_1col_aster", no_argument, &cb_source_format, CB_FORMAT_FREE_1COL_ASTER},  
+	{"free_1col_aster", no_argument, &cb_source_format, CB_FORMAT_FREE_1COL_ASTER},
 	{"fixed", no_argument, &cb_source_format, CB_FORMAT_FIXED},
 	{"static", no_argument, &cb_flag_static_call, 1},
 	{"dynamic", no_argument, &cb_flag_static_call, 0},
 	{"O2", no_argument, NULL, '2'},
 	{"Os", no_argument, NULL, 's'},
 	{"MT", required_argument, NULL, '%'},
-	{"MF", required_argument, NULL, '@'},	
-	{"assign_external", no_argument, NULL, 'A'},	
+	{"MF", required_argument, NULL, '@'},
+	{"assign_external", no_argument, NULL, 'A'},
 	{"reference_check", no_argument, NULL, 'K'},
 #undef	CB_FLAG
 #define	CB_FLAG(var,name,doc)			\
@@ -637,8 +634,9 @@ process_command_line (int argc, char *argv[])
 		case 'q':
 			cb_list_mnemonics ();
 			exit (0);
+
 		case 'K':
-  			 CB_EXCEPTION_ENABLE (COB_EC_BOUND_REF_MOD) =1;			
+			CB_EXCEPTION_ENABLE (COB_EC_BOUND_REF_MOD) = 1;
 			break;
 		case 'E':
 			if (wants_nonfinal) {
@@ -851,30 +849,34 @@ process_command_line (int argc, char *argv[])
 #undef	CB_WARNDEF
 			break;
 
-        case 'A':
+		case 'A':
 			external_flg = 1;
 			break;
-			
+
 		default:
 			ABORT ();
 		}
 	}
-	if (cb_source_format == 2 ) {
+
+	if (cb_source_format == 2) {
 		cb_source_format1 = 1;
-  	}
+	}
+
 	if (cb_config_name == NULL) {
 		if (cb_load_std ("default.conf") != 0) {
 			fprintf (stderr, "Error: failed to load the initial config file\n");
 			exit (1);
 		}
 	}
-	if(!external_flg) {
+
+	if (!external_flg) {
 		if (cb_assign_external) {
 			external_flg = 1;
 		} else {
 			external_flg = 0;
 		}
 	}
+
 	if (cb_flag_fold_copy_lower && cb_flag_fold_copy_upper) {
 		fprintf (stderr, "Error: Invalid option combination\n");
 		exit (1);

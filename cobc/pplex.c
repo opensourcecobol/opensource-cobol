@@ -2771,10 +2771,9 @@ ppinput (char *buff, int max_size)
 	int	i;
 	int	n;
 	int	coln;
-	char *str1 =NULL,*str2 = NULL;
-	
-	int j,k;
-	
+	char	*str1 = NULL;
+	char	*str2 = NULL;
+	int	j, k;
 
 start:
 	/* read a line */
@@ -2815,7 +2814,6 @@ start:
 		} else {
 			buff[n++] = ipchar;
 		}
-		
 	}
 
 	if (buff[n - 1] != '\n') {
@@ -2823,26 +2821,24 @@ start:
 		buff[n++] = '\n';
 	}
 	buff[n] = 0;
-  if ((cb_source_format1 == 1)&&((buff[1] == '*')||(buff[6] == '*'))){
-	   newline_count++;
-	   goto start;
-	   }
-      
-	str1 = strstr(buff,"*>");
-	if( str1 != NULL)
-	{
-	   if( (str1- buff) >= 7) 
-	       {
-	           str2 = strstr(str1, "\"");
-	           if(str2 == NULL)
-	           {
-	              buff[str1-buff] = '\n';
-	              buff[str1-buff +1] = '\0';
-	              n=strlen(buff);
-	           }
-	       }
+
+	if ((cb_source_format1 == 1) && ((buff[1] == '*') || (buff[6] == '*'))) {
+		newline_count++;
+		goto start;
 	}
-	 
+
+	str1 = strstr (buff, "*>");
+	if (str1 != NULL) {
+		if ((str1- buff) >= 7) {
+			str2 = strstr (str1, "\"");
+			if (str2 == NULL) {
+				buff[str1-buff] = '\n';
+				buff[str1-buff +1] = '\0';
+				n = strlen (buff);
+			}
+		}
+	}
+
 	check_directive (buff, &n);
 
 	/* nothing more to do with free format */
@@ -2994,7 +2990,7 @@ start:
 			}
 		}
 	}
-	
+
 	/* truncate trailing spaces, including the newline */
 	if (quotation_mark) {
 		for (; i < 72;) {
@@ -3008,7 +3004,7 @@ start:
 		}
 		buff[i + 1] = 0;
 	}
-	
+
 	if (continuation) {
 		memmove (buff, bp, strlen (bp) + 1);
 		newline_count++;
@@ -3018,7 +3014,6 @@ start:
 		memset (buff, '\n', newline_count);
 		newline_count = 1;
 	}
-	
 	return strlen (buff);
 }
 

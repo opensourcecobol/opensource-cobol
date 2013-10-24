@@ -133,25 +133,16 @@ enum cb_switch_name {
 };
 
 enum cb_class {
-//	CB_CLASS_UNKNOWN,		/* 0 */
-//	CB_CLASS_ALPHABETIC,		/* 1 */
-//	CB_CLASS_ALPHANUMERIC,		/* 2 */
-//	CB_CLASS_BOOLEAN,		/* 3 */
-//	CB_CLASS_INDEX, 		/* 4 */
-//	CB_CLASS_NATIONAL,		/* 5 */
-//	CB_CLASS_NUMERIC,		/* 6 */
-//	CB_CLASS_OBJECT,		/* 7 */
-//	CB_CLASS_POINTER		/* 8 */
- 	CB_CLASS_UNKNOWN,		/* 0 */
+	CB_CLASS_UNKNOWN,		/* 0 */
 	CB_CLASS_ALPHABETIC,		/* 1 */
 	CB_CLASS_ALPHANUMERIC,		/* 2 */
-	CB_CLASS_ALPHANUMERICEDITED,       /*3*/
+	CB_CLASS_ALPHANUMERICEDITED,	/* 3 */
 	CB_CLASS_BOOLEAN,		/* 4 */
 	CB_CLASS_INDEX, 		/* 5 */
-	CB_CLASS_NATIONAL,		/*6 */
-	CB_CLASS_NATIONALEDITED,		/*7 */
+	CB_CLASS_NATIONAL,		/* 6 */
+	CB_CLASS_NATIONALEDITED,	/* 7 */
 	CB_CLASS_NUMERIC,		/* 8 */
-	CB_CLASS_NUMERICEDIT, /*9*/
+	CB_CLASS_NUMERICEDIT,		/* 9 */
 	CB_CLASS_OBJECT,		/* 10 */
 	CB_CLASS_POINTER		/* 11 */
 };
@@ -169,7 +160,7 @@ enum cb_category {
 	CB_CATEGORY_NUMERIC_EDITED,		/* 9 */
 	CB_CATEGORY_OBJECT_REFERENCE,		/* 10 */
 	CB_CATEGORY_DATA_POINTER,		/* 11 */
-	CB_CATEGORY_PROGRAM_POINTER		/* 12 */ 
+	CB_CATEGORY_PROGRAM_POINTER		/* 12 */
 };
 
 enum cb_storage {
@@ -254,7 +245,7 @@ extern int		cb_tree_type (cb_tree x);
 extern int		cb_fits_int (cb_tree x);
 extern int		cb_fits_long_long (cb_tree x);
 extern int		cb_get_int (cb_tree x);
-extern int              cb_is_digist_data (cb_tree x);
+extern int		cb_is_digist_data (cb_tree x);
 extern long long	cb_get_long_long (cb_tree x);
 
 /*
@@ -458,7 +449,7 @@ struct cb_picture {
 	signed char		scale;		/* 1/10^scale */
 	unsigned char		have_sign;	/* have 'S' */
 	unsigned char		spare;		/* spare */
-        int                     national;
+	int			national;
 };
 
 #define CB_PICTURE(x)	(CB_TREE_CAST (CB_TAG_PICTURE, struct cb_picture, x))
@@ -646,9 +637,6 @@ struct cb_file {
 	int			global;			/* Is GLOBAL */
 };
 
-
-
-
 #define CB_FILE(x)	(CB_TREE_CAST (CB_TAG_FILE, struct cb_file, x))
 #define CB_FILE_P(x)	(CB_TREE_TAG (x) == CB_TAG_FILE)
 
@@ -689,7 +677,7 @@ struct cb_reference {
 
 #define CB_NAME(x)		(CB_REFERENCE (x)->word->name)
 
-extern char*            cb_get_hexword(char *name);
+extern char		*cb_get_hexword (char *name);
 extern cb_tree		cb_build_filler (void);
 extern cb_tree		cb_build_reference (const char *name);
 extern cb_tree		cb_build_field_reference (struct cb_field *f, cb_tree ref);
@@ -1286,7 +1274,7 @@ extern struct cb_field	*cb_validate_78_item (struct cb_field *p);
 extern void		cb_clear_real_field (void);
 
 /* typeck.c */
-extern    char *cb_get_jisword(char *name);
+extern char		*cb_get_jisword (char *name);
 extern cb_tree		cb_check_numeric_value (cb_tree x);
 
 extern void		cb_build_registers (void);
@@ -1299,8 +1287,8 @@ extern cb_tree		cb_build_assignment_name (struct cb_file *curfile,
 				cb_tree name);
 extern cb_tree		cb_build_index (cb_tree name, cb_tree values,
 					int indexed_by, struct cb_field *qual);
-extern int                  cb_reference_type_check (cb_tree ref,cb_tree x, const char *name,
-	                        int size ,int *retsize,int  type);
+extern int		cb_reference_type_check (cb_tree ref, cb_tree x, const char *name,
+					int size, int *retsize, int type);
 extern cb_tree		cb_build_identifier (cb_tree x);
 extern cb_tree		cb_build_length (cb_tree x);
 extern cb_tree		cb_build_lengths (cb_tree x);
@@ -1390,9 +1378,9 @@ extern cb_tree		cb_build_tarrying_all (void);
 extern cb_tree		cb_build_tarrying_leading (void);
 extern cb_tree		cb_build_tarrying_trailing (void);
 extern cb_tree		cb_build_tarrying_value (cb_tree x, cb_tree l);
-extern  int                    cb_validate_inspect(cb_tree var,cb_tree x, cb_tree y);
-extern cb_tree		cb_build_replacing_characters (cb_tree x, cb_tree l,cb_tree var);
-extern cb_tree		cb_build_replacing_all (cb_tree x, cb_tree y, cb_tree l,cb_tree var);
+extern int		cb_validate_inspect (cb_tree var, cb_tree x, cb_tree y);
+extern cb_tree		cb_build_replacing_characters (cb_tree x, cb_tree l, cb_tree var);
+extern cb_tree		cb_build_replacing_all (cb_tree x, cb_tree y, cb_tree l, cb_tree var);
 extern cb_tree		cb_build_replacing_leading (cb_tree x, cb_tree y, cb_tree l);
 extern cb_tree		cb_build_replacing_first (cb_tree x, cb_tree y, cb_tree l);
 extern cb_tree		cb_build_replacing_trailing (cb_tree x, cb_tree y, cb_tree l);

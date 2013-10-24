@@ -233,8 +233,7 @@ static char		*file_open_env;
 static char		*file_open_name;
 static char		*file_open_buff;
 
-#define  TIS_DEFINE_USERFH   "OC_USERFH"
-
+#define TIS_DEFINE_USERFH	"OC_USERFH"
 
 /* Emergence buffer in case of malloc fail */
 static char		runtime_buffer[COB_SMALL_BUFF];
@@ -469,99 +468,98 @@ extern int extfh_relative_rewrite	(cob_file *, int);
 extern int extfh_relative_delete	(cob_file *);
 #endif
 
+/* translate hexadecimal to jpn word */
+char *	str_physical_filename;
+char *	str_logic_filename;
 
-//translate hexadecimal to jpn word
-char     *str_physical_filename;
-char     *str_logic_filename;
-static char cb_get_char(char c[2])
+static char
+cb_get_char (char c[2])
 {
-	int i;
-     
-	unsigned char ch,index[2];
-	for(i=0;i<2;i++){
-		switch(c[i]){
-			case 'A':
-				index[i] = 10;
-				break;
-			case 'B':
-				index[i] = 11;
-				break;
-			case 'C':
-				index[i] = 12;
-				break;
-			case 'D':
-				index[i] = 13;
-				break;
-			case 'E':
-				index[i] = 14;
-				break;
-			case 'F':
-				index[i] = 15;
-				break;
-			default:
-				index[i] = c[i] - '0';
-				break;
+	int		i;
+	unsigned char	ch, index[2];
+
+	for (i = 0; i < 2; i++) {
+		switch (c[i]) {
+		case 'A':
+			index[i] = 10;
+			break;
+		case 'B':
+			index[i] = 11;
+			break;
+		case 'C':
+			index[i] = 12;
+			break;
+		case 'D':
+			index[i] = 13;
+			break;
+		case 'E':
+			index[i] = 14;
+			break;
+		case 'F':
+			index[i] = 15;
+			break;
+		default:
+			index[i] = c[i] - '0';
+			break;
 		}
 	}
 	ch = (unsigned char)(index[0] * 16 + index[1]);
-	return ch;		
-	
-}
-static char *cb_get_jisstring(char *name){
-	int  i,j;
-	char pTmp[COB_NORMAL_BUFF], str[2];
-	unsigned char *c;
-	c = name;
-	memset(pTmp, 0,sizeof(pTmp));
-        	
-	i = strlen(name);
-
-	for(  j =0; j<i/2;j++) {
-		strncpy(str,&name[2*j],2);
-		pTmp[j]=cb_get_char(str);
-	}
-	return strdup(pTmp);
+	return ch;
 }
 
-static char *cb_get_jisword(char *name)
+static char *
+cb_get_jisstring (char *name)
 {
-	int  i,k;
- 	char pTmp[COB_NORMAL_BUFF];
-	char pTmp1[COB_NORMAL_BUFF];
-	char *c,*cs,*ce,*ctmp;
+	int		i, j;
+	char		pTmp[COB_NORMAL_BUFF], str[2];
+	unsigned char	*c;
+
 	c = name;
-	memset(pTmp, 0,sizeof(pTmp));
-        	
-	i = strlen(name);
-	for(k=0;k<i;k++){
-		cs=strstr(c,"___");
-		if (cs==NULL){
-			strcat(pTmp,c);
+	memset (pTmp, 0, sizeof (pTmp));
+	i = strlen (name);
+
+	for (j = 0; j < i/2; j++) {
+		strncpy (str, &name[2*j], 2);
+		pTmp[j] = cb_get_char (str);
+	}
+	return strdup (pTmp);
+}
+
+static char *
+cb_get_jisword (char *name)
+{
+	int		i, k;
+	char		pTmp[COB_NORMAL_BUFF];
+	char		pTmp1[COB_NORMAL_BUFF];
+	char		*c, *cs, *ce, *ctmp;
+
+	c = name;
+	memset (pTmp, 0, sizeof (pTmp));
+	i = strlen (name);
+	for (k = 0; k < i; k++) {
+		cs = strstr (c, "___");
+		if (cs == NULL) {
+			strcat (pTmp, c);
 			break;
-		}else{
-			memset(pTmp1, 0,sizeof(pTmp1)); 
-			strncpy(pTmp1,c,cs - c); 
-			strcat(pTmp,pTmp1);
+		} else {
+			memset (pTmp1, 0, sizeof (pTmp1));
+			strncpy (pTmp1, c, cs - c);
+			strcat (pTmp, pTmp1);
 			c = cs + 3;
-			ce=strstr(c,"___");
-			if (ce==NULL){
+			ce = strstr (c, "___");
+			if (ce == NULL) {
 				break;
 			} else {
-				memset(pTmp1, 0,sizeof(pTmp1)); 
-				strncpy(pTmp1,c,ce-c);
-				c=ce + 3;
-				ctmp=cb_get_jisstring(pTmp1);
-				strcat(pTmp,ctmp);
+				memset (pTmp1, 0, sizeof (pTmp1));
+				strncpy (pTmp1, c, ce-c);
+				c = ce + 3;
+				ctmp = cb_get_jisstring (pTmp1);
+				strcat (pTmp, ctmp);
 			}
 		}
-	
 	}
-
-	return strdup(pTmp);
+	return strdup (pTmp);
 }
-
-
-
 
 #if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) 
 /* Isam File handler packet */
@@ -588,8 +586,6 @@ struct indexfile {
 	struct keydesc	key[1];		/* Table of key information */
 					/* keydesc is defined in (d|c|vb)isam.h */
 };
-
-
 
 /* Translate ISAM status to COBOL status and return */
 
@@ -3307,7 +3303,7 @@ indexed_write_internal (cob_file *f, const int rewrite, const int opt)
 			memcpy (p->temp_key + f->keys[0].field->size, &dupno,
 				   sizeof(unsigned int));
 			p->data.data = p->temp_key;
-			p->data.size = f->keys[0].field->size + sizeof(unsigned int);;
+			p->data.size = f->keys[0].field->size + sizeof(unsigned int);
 		} else {
 #ifdef	USE_DB41
 			flags = DB_NOOVERWRITE;
@@ -3837,16 +3833,14 @@ cob_ex_unlock_file (cob_file *f, cob_field *fnstatus)
 void
 cob_unlock_file (cob_file *f, cob_field *fnstatus)
 {
-	 char openMode[OPENMODESIZE];	 
-			  memset(openMode,0,sizeof(openMode));
-	 sprintf(openMode, "%02d",  f->last_open_mode); 
-		
- 	 if( cob_invoke_fun(COB_IO_UNLOCK, (char*)f, NULL, NULL, fnstatus, openMode, NULL, NULL))
- 	 {
- 	 	   return ;
- 	 }
-	 cob_ex_unlock_file(f,fnstatus);
-		
+	char	openMode[OPENMODESIZE];
+
+	memset (openMode, 0, sizeof (openMode));
+	sprintf (openMode, "%02d", f->last_open_mode);
+	if (cob_invoke_fun (COB_IO_UNLOCK, (char*)f, NULL, NULL, fnstatus, openMode, NULL, NULL)) {
+		return;
+	}
+	cob_ex_unlock_file (f, fnstatus);
 }
 
 void
@@ -3953,7 +3947,7 @@ cob_ex_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus
 						break;
 					}
 				}
-				memcpy (file_open_env, src + 1, i - 1);				
+				memcpy (file_open_env, src + 1, i - 1);
 				file_open_env[i - 1] = 0;
 				if ((p = getenv (file_open_env)) != NULL) {
 					strcpy (dst, p);
@@ -3966,24 +3960,20 @@ cob_ex_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus
 		}
 		*dst = 0;
 		strncpy (file_open_name, file_open_buff, COB_SMALL_MAX);
-		
-		str_physical_filename = cb_get_jisword(file_open_name);
-		memset(file_open_name,0,sizeof(file_open_name));
-		strncpy (file_open_name,str_physical_filename, COB_SMALL_MAX);
-		
+		str_physical_filename = cb_get_jisword (file_open_name);
+		memset (file_open_name, 0, sizeof (file_open_name));
+		strncpy (file_open_name, str_physical_filename, COB_SMALL_MAX);
+
 		/* resolve by environment variables */
 		/* ex. "TMPFILE" -> DD_TMPFILE, dd_TMPFILE, or TMPFILE */
 		if (simple) {
 			for (i = 0; i < NUM_PREFIX; i++) {
-				
 				snprintf (file_open_buff, COB_SMALL_MAX, "%s%s",
 					  prefix[i], file_open_name);
-				
 				if ((p = getenv (file_open_buff)) != NULL) {
 					strncpy (file_open_name, p, COB_SMALL_MAX);
 					break;
 				}
-				
 			}
 			if (i == NUM_PREFIX && cob_file_path) {
 				snprintf (file_open_buff, COB_SMALL_MAX, "%s/%s",
@@ -4109,65 +4099,59 @@ file_available:
 	}
 }
 
-int 
-cob_invoke_fun( int operate, char  *f,  cob_field * key, char * rec,
-		cob_field * fnstatus, char * openMode, char * startCond, char * read_opts)
+int
+cob_invoke_fun (int operate, char *f, cob_field *key, char *rec,
+		cob_field *fnstatus, char *openMode, char *startCond, char *read_opts)
 {
-        int iRet =0;
-	char *s;
-	char funname[256];
-	char ret = '0';   
-	char oper[OPENMODESIZE];
-	char excpcode[EXCPTCODESIZE];
-	int  (*funcint)();	
+	int	iRet = 0;
+	char	*s;
+	char	funname[256];
+	char	ret = '0';
+	char	oper[OPENMODESIZE];
+	char	excpcode[EXCPTCODESIZE];
+	int	(*funcint)();
 
-	sprintf(excpcode, "%05d", 0);
-	sprintf(oper, "%02d",operate);	   
-	s  = getenv (TIS_DEFINE_USERFH);	
-	if( s != NULL)
-	{
-	      strcpy(funname,s);
-	      funcint = cob_resolve_1 (funname);  
-
-	     if( funcint )
-	     {
-		  if( fnstatus == NULL)
-		       funcint (oper, f, key, rec, NULL, openMode,
-				startCond, read_opts, &excpcode, (char*)&ret);
-		  else
-		       funcint (oper, f, key, rec, fnstatus->data, openMode,
-				startCond, read_opts, &excpcode, (char*)&ret);
-
-		  if(ret =='1')
-		       iRet =1;
-		  if( ret == '0')
-		       iRet = 0;		
-
-		  if(excpcode != NULL){
-		       cob_exception_code = atoi(excpcode);
-		  }
-	      }
+	sprintf (excpcode, "%05d", 0);
+	sprintf (oper, "%02d", operate);
+	s = getenv (TIS_DEFINE_USERFH);
+	if (s != NULL) {
+		strcpy (funname, s);
+		funcint = cob_resolve_1 (funname);
+		if (funcint) {
+			if (fnstatus == NULL) {
+				funcint (oper, f, key, rec, NULL, openMode,
+					 startCond, read_opts, &excpcode, (char*)&ret);
+			} else {
+				funcint (oper, f, key, rec, fnstatus->data, openMode,
+					 startCond, read_opts, &excpcode, (char*)&ret);
+			}
+			if (ret == '1') {
+				iRet = 1;
+			} else if (ret == '0') {
+				iRet = 0;
+			}
+			if (excpcode != NULL) {
+				cob_exception_code = atoi (excpcode);
+			}
+		}
 	}
-	return iRet ;
+	return iRet;
 }
 
 void
 cob_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus)
 {
-	 char openMode[OPENMODESIZE];
-	  memset(openMode,0,sizeof(openMode));
+	char	openMode[OPENMODESIZE];
 
-	 sprintf(openMode, "%02d",  mode);	
- 	 if( cob_invoke_fun(COB_IO_OPEN, (char *)f, NULL, NULL, fnstatus, openMode, NULL, NULL))
- 	 {
-	         f->last_open_mode = atoi(openMode);
- 	 	   return ;
- 	 }
-                                             	
-	 f->last_open_mode = atoi(openMode);
-	 cob_ex_open(f,f->last_open_mode,sharing,fnstatus);
+	memset (openMode, 0, sizeof (openMode));
+	sprintf (openMode, "%02d", mode);
+	if (cob_invoke_fun (COB_IO_OPEN, (char *)f, NULL, NULL, fnstatus, openMode, NULL, NULL)) {
+		f->last_open_mode = atoi (openMode);
+		return;
+	}
+	f->last_open_mode = atoi (openMode);
+	cob_ex_open (f, f->last_open_mode, sharing, fnstatus);
 }
-
 
 void
 cob_ex_close (cob_file *f, const int opt, cob_field *fnstatus)
@@ -4215,16 +4199,16 @@ cob_ex_close (cob_file *f, const int opt, cob_field *fnstatus)
 void
 cob_close (cob_file *f, const int opt, cob_field *fnstatus)
 {
-  
-	 char openMode[OPENMODESIZE];	 
-		 memset(openMode,0,sizeof(openMode));
-	 sprintf(openMode, "%02d",  f->last_open_mode);		
- 	 if( cob_invoke_fun(COB_IO_CLOSE, (char *)f, NULL, NULL, fnstatus, openMode, NULL, NULL))
- 	 {
- 	 	   return ;
- 	 }
-	 cob_ex_close(f, opt,fnstatus);
+	char	openMode[OPENMODESIZE];
+
+	memset (openMode, 0, sizeof (openMode));
+	sprintf (openMode, "%02d", f->last_open_mode);
+	if (cob_invoke_fun (COB_IO_CLOSE, (char *)f, NULL, NULL, fnstatus, openMode, NULL, NULL)) {
+		return;
+	}
+	cob_ex_close (f, opt, fnstatus);
 }
+
 #if 0
 void
 cob_unlock (cob_file *f)
@@ -4279,18 +4263,19 @@ cob_ex_start (cob_file *f, const int cond, cob_field *key, cob_field *fnstatus)
 void
 cob_start (cob_file *f, const int cond, cob_field *key, cob_field *fnstatus)
 {
-         char openMode[OPENMODESIZE];	 		
-         char startCond[STARTCONDSIZE];
-	 memset(openMode,0,sizeof(openMode));
-	 memset(startCond,0,sizeof(startCond));
-	 sprintf(openMode, "%02d",  f->last_open_mode); 		
-	 sprintf(startCond, "%01d",  cond);
- 	 if( cob_invoke_fun(COB_IO_START, (char*)f, key, NULL, fnstatus, openMode, startCond, NULL))
- 	 {
- 	 	   return ;
- 	 }
-	 cob_ex_start(f, cond, key, fnstatus);
+	char	openMode[OPENMODESIZE];
+	char	startCond[STARTCONDSIZE];
+
+	memset (openMode, 0, sizeof (openMode));
+	memset (startCond, 0, sizeof (startCond));
+	sprintf (openMode, "%02d", f->last_open_mode);
+	sprintf (startCond, "%01d", cond);
+	if (cob_invoke_fun (COB_IO_START, (char*)f, key, NULL, fnstatus, openMode, startCond, NULL)) {
+		return;
+	}
+	cob_ex_start (f, cond, key, fnstatus);
 }
+
 void
 cob_ex_read (cob_file *f, cob_field *key, cob_field *fnstatus, int read_opts)
 {
@@ -4365,26 +4350,26 @@ cob_ex_read (cob_file *f, cob_field *key, cob_field *fnstatus, int read_opts)
 
 void
 cob_read (cob_file *f, cob_field *key, cob_field *fnstatus, int read_opts)
-{  
-         int status;
-	 char sbuff[3];  
-	 char openMode[OPENMODESIZE];	 		
-	 char readOpts[READOPTSSIZE];	 		
-	 memset(openMode,0,sizeof(openMode));	
-	 memset(readOpts,0,sizeof(readOpts));	
-	 sprintf(openMode, "%02d",  f->last_open_mode); 		
-	 sprintf(readOpts, "%01d",  read_opts);
- 	 if( cob_invoke_fun(COB_IO_READ, (char*)f, key, NULL,  fnstatus, openMode, NULL, readOpts))
- 	 {
- 	         memset(sbuff, 0,  sizeof(sbuff));
-		  if( 	 fnstatus == NULL)
-		  	return ;
-		  memcpy(sbuff, fnstatus->data, 2);	 
-	 	  status = atoi(sbuff);
-		  RETURN_STATUS (status);
+{
+	int	status;
+	char	sbuff[3];
+	char	openMode[OPENMODESIZE];
+	char	readOpts[READOPTSSIZE];
 
-	 }
-	 cob_ex_read(f, key, fnstatus,read_opts);
+	memset (openMode, 0, sizeof (openMode));
+	memset (readOpts, 0, sizeof (readOpts));
+	sprintf (openMode, "%02d", f->last_open_mode);
+	sprintf (readOpts, "%01d", read_opts);
+	if (cob_invoke_fun (COB_IO_READ, (char*)f, key, NULL, fnstatus, openMode, NULL, readOpts)) {
+		memset (sbuff, 0, sizeof (sbuff));
+		if (fnstatus == NULL) {
+			return;
+		}
+		memcpy (sbuff, fnstatus->data, 2);
+		status = atoi (sbuff);
+		RETURN_STATUS (status);
+	}
+	cob_ex_read (f, key, fnstatus, read_opts);
 }
 
 void
@@ -4434,18 +4419,18 @@ cob_ex_write (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
 
 	RETURN_STATUS (ret);
 }
+
 void
 cob_write (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
 {
-                char openMode[OPENMODESIZE];	 		
-		 memset(openMode,0,sizeof(openMode));	
-	 sprintf(openMode, "%02d",  f->last_open_mode); 		
-	 
- 	 if( cob_invoke_fun(COB_IO_WRITE, (char*)f, NULL, (char*)rec->data, fnstatus, openMode, NULL, NULL))
- 	 {
- 	 	   return ;
- 	 }
-	 cob_ex_write(f, rec,  opt, fnstatus);
+	char	openMode[OPENMODESIZE];
+
+	memset (openMode, 0, sizeof (openMode));
+	sprintf (openMode, "%02d", f->last_open_mode);
+	if (cob_invoke_fun (COB_IO_WRITE, (char*)f, NULL, (char*)rec->data, fnstatus, openMode, NULL, NULL)) {
+		return;
+	}
+	cob_ex_write (f, rec, opt, fnstatus);
 }
 
 void
@@ -4493,21 +4478,20 @@ cob_ex_rewrite (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
 
 	RETURN_STATUS (ret);
 }
+
 void
 cob_rewrite (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
 {
-                   char openMode[OPENMODESIZE];	 		
-		memset(openMode,0,sizeof(openMode));	 
-	 sprintf(openMode, "%02d",  f->last_open_mode); 		
+	char	openMode[OPENMODESIZE];
 
-		
- 	 if( cob_invoke_fun(COB_IO_REWRITE, (char*)f, NULL, (char*)rec->data, fnstatus, openMode, NULL, NULL))
- 	 {
- 	 	   return ;
- 	 }
-	 cob_ex_rewrite(f, rec, opt, fnstatus);
-
+	memset (openMode, 0, sizeof (openMode));
+	sprintf (openMode, "%02d", f->last_open_mode);
+	if (cob_invoke_fun (COB_IO_REWRITE, (char*)f, NULL, (char*)rec->data, fnstatus, openMode, NULL, NULL)) {
+		return;
+	}
+	cob_ex_rewrite (f, rec, opt, fnstatus);
 }
+
 void
 cob_ex_delete (cob_file *f, cob_field *fnstatus)
 {
@@ -4537,19 +4521,15 @@ cob_ex_delete (cob_file *f, cob_field *fnstatus)
 void
 cob_delete (cob_file *f, cob_field *fnstatus)
 {
-        char openMode[OPENMODESIZE];	 		
-	memset(openMode,0,sizeof(openMode));	
-		 
-	 sprintf(openMode, "%02d",  f->last_open_mode); 		
+	char	openMode[OPENMODESIZE];
 
-		
- 	 if( cob_invoke_fun(COB_IO_DELETE, (char*)f, NULL, NULL, fnstatus, openMode, NULL, NULL))
- 	 {
- 	 	   return ;
- 	 }
-	 cob_ex_delete(f, fnstatus);
+	memset (openMode, 0, sizeof (openMode));
+	sprintf (openMode, "%02d", f->last_open_mode);
+	if (cob_invoke_fun (COB_IO_DELETE, (char*)f, NULL, NULL, fnstatus, openMode, NULL, NULL)) {
+		return;
+	}
+	cob_ex_delete (f, fnstatus);
 }
-
 
 void
 cob_ex_commit (void)
@@ -4561,16 +4541,13 @@ cob_ex_commit (void)
 	}
 }
 
-
 void
 cob_commit (void)
 {
-		
-         if( cob_invoke_fun(COB_IO_COMMIT, NULL,NULL,NULL,NULL,NULL,NULL,NULL))
- 	 {
- 	 	   return ;
- 	 }
-	 cob_ex_commit();
+	if (cob_invoke_fun (COB_IO_COMMIT, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+		return;
+	}
+	cob_ex_commit ();
 }
 
 void
@@ -4586,12 +4563,10 @@ cob_ex_rollback (void)
 void
 cob_rollback (void)
 {
-		
-         if( cob_invoke_fun(COB_IO_ROLLBACK, NULL,NULL,NULL,NULL,NULL,NULL,NULL))
- 	 {
- 	 	   return ;
- 	 }
-	 cob_ex_rollback();
+	if (cob_invoke_fun (COB_IO_ROLLBACK, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+		return;
+	}
+	cob_ex_rollback ();
 }
 
 void
@@ -4737,16 +4712,10 @@ cob_exit_fileio (void)
 		     l->file->open_mode != COB_OPEN_LOCKED) {
 			cob_field_to_string (l->file->assign, runtime_buffer);
 			cob_close (l->file, 0, NULL);
-
-			str_logic_filename = cb_get_jisword(l->file->select_name);
-			str_physical_filename = cb_get_jisword(runtime_buffer);
+			str_logic_filename = cb_get_jisword (l->file->select_name);
+			str_physical_filename = cb_get_jisword (runtime_buffer);
 			fprintf (stderr, "WARNING - Implicit CLOSE of %s (\"%s\")\n",
-				str_logic_filename, str_physical_filename);
-
-			/*delete 20110908
-			fprintf (stderr, "WARNING - Implicit CLOSE of %s (\"%s\")\n",
-				l->file->select_name, runtime_buffer);
-			*/
+				 str_logic_filename, str_physical_filename);
 			fflush (stderr);
 		}
 	}

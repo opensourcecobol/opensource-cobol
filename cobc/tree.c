@@ -17,7 +17,7 @@
  * the Free Software Foundation, 51 Franklin Street, Fifth Floor
  * Boston, MA 02110-1301 USA
  */
-  
+
 #include "config.h"
 
 #include <stdio.h>
@@ -440,7 +440,7 @@ build_literal (enum cb_category category, const unsigned char *data, size_t size
 char *
 cb_name (cb_tree x)
 {
-      if (!treenamebuff) {
+	if (!treenamebuff) {
 		treenamebuff = cobc_malloc (COB_NORMAL_BUFF);
 	}
 	cb_name_1 (treenamebuff, x);
@@ -460,6 +460,7 @@ cb_tree_category (cb_tree x)
 	struct cb_cast		*p;
 	struct cb_reference	*r;
 	struct cb_field		*f;
+
 	if (x == cb_error_node) {
 		return 0;
 	}
@@ -484,7 +485,7 @@ cb_tree_category (cb_tree x)
 		}
 		break;
 	case CB_TAG_REFERENCE:
-		r = CB_REFERENCE (x);		
+		r = CB_REFERENCE (x);
 		if (r->offset) {
 			x->category = CB_CATEGORY_ALPHANUMERIC;
 		} else {
@@ -544,7 +545,7 @@ cb_tree_type (cb_tree x)
 
 	switch (CB_TREE_CATEGORY (x)) {
 	case CB_CATEGORY_ALPHABETIC:
-		return COB_TYPE_ALPHANUMERIC; 
+		return COB_TYPE_ALPHANUMERIC;
 	case CB_CATEGORY_ALPHANUMERIC:
 		return COB_TYPE_ALPHANUMERIC;
 	case CB_CATEGORY_NATIONAL:
@@ -552,7 +553,7 @@ cb_tree_type (cb_tree x)
 	case CB_CATEGORY_ALPHANUMERIC_EDITED:
 		return COB_TYPE_ALPHANUMERIC_EDITED;
 	case CB_CATEGORY_NATIONAL_EDITED:
-		return COB_TYPE_NATIONAL_EDITED;		
+		return COB_TYPE_NATIONAL_EDITED;
 	case CB_CATEGORY_NUMERIC:
 		switch (f->usage) {
 		case CB_USAGE_DISPLAY:
@@ -675,10 +676,11 @@ cb_fits_long_long (cb_tree x)
 		return 0;
 	}
 }
-int 
+
+int
 cb_is_digist_data (cb_tree x)
 {
-  	struct cb_literal	*l;
+	struct cb_literal	*l;
 	size_t			i;
 
 	l = CB_LITERAL (x);
@@ -687,14 +689,14 @@ cb_is_digist_data (cb_tree x)
 			break;
 		}
 	}
-
 	for (; i < l->size; i++) {
-		if( l->data[i] - '0' >9 || l->data[i] - '0' < 0 )
+		if (l->data[i] - '0' > 9 || l->data[i] - '0' < 0) {
 			return 0;
+		}
 	}
-	
 	return 1;
 }
+
 int
 cb_get_int (cb_tree x)
 {
@@ -1136,7 +1138,7 @@ cb_build_picture (const char *str)
 	int			i;
 	int			n;
 	int			flg = 0;
-	int     character_length = 0;
+	int			character_length = 0;
 	unsigned char		c;
 	unsigned char		lastonechar = 0;
 	unsigned char		lasttwochar = 0;
@@ -1187,14 +1189,13 @@ repeat:
 
 		/* check grammar and category */
 		/* FIXME: need more error check */
-		
 		switch (c) {
 		case 'A':
 			if (s_char_seen || p_char_seen) {
 				goto error;
 			}
 			category |= PIC_ALPHABETIC;
-			character_length += n;						
+			character_length += n;
 			break;
 
 		case 'X':
@@ -1202,7 +1203,7 @@ repeat:
 				goto error;
 			}
 			category |= PIC_ALPHANUMERIC;
-			character_length += n;			
+			character_length += n;
 			break;
 
 		case '9':
@@ -1220,8 +1221,8 @@ repeat:
 				goto error;
 			}
 			category |= PIC_NATIONAL;
-                        pic->national = 1;
-			character_length += n;								
+			pic->national = 1;
+			character_length += n;
 			break;
 
 		case 'S':
@@ -1313,8 +1314,7 @@ repeat:
 			category |= PIC_EDITED;
 			if (s_char_seen || p_char_seen) {
 				goto error;
-			}	
-			
+			}
 			character_length += n;
 			break;
 
@@ -1370,7 +1370,7 @@ repeat:
 				goto error;
 			}
 			p++;
-			s_count++;				
+			s_count++;
 			break;
 
 		default:
@@ -1381,6 +1381,7 @@ repeat:
 				/* FIXME: need more check */
 				break;
 			}
+
 			goto error;
 		}
 
@@ -1388,8 +1389,8 @@ repeat:
 		if (c != 'V' && c != 'P') {
 			size += n;
 		}
-		if (c == 'C' || c == 'D' || c == 'N' || (category == PIC_NATIONAL_EDITED && c == '0' && flg == 1)
-			|| (category == PIC_NATIONAL_EDITED && c == 'B' && flg == 1) || (category == PIC_NATIONAL_EDITED && c == '/' && flg == 1)) {
+		if (c == 'C' || c == 'D' || c == 'N' || (category == PIC_NATIONAL_EDITED && c == '0' && flg == 1) ||
+		    (category == PIC_NATIONAL_EDITED && c == 'B' && flg == 1) || (category == PIC_NATIONAL_EDITED && c == '/' && flg == 1)) {
 			size += n;
 		}
 
@@ -1403,9 +1404,9 @@ repeat:
 	}
 	buff[idx] = 0;
 
-	if(category == PIC_NATIONAL_EDITED && flg == 0){
-		for(p = str; *p; p++){
-			if(*p =='/' || *p =='0' || *p =='B'){
+	if (category == PIC_NATIONAL_EDITED && flg == 0) {
+		for (p = str; *p; p++) {
+			if (*p == '/' || *p == '0' || *p == 'B') {
 				size += 1;
 			}
 		}
@@ -1427,7 +1428,7 @@ repeat:
 		pic->category = CB_CATEGORY_ALPHABETIC;
 		if (character_length > 65536) {
 			cb_error (_("Alphabetic field cannot be larger than 65536 digits"));
-		}		
+		}
 		break;
 	case PIC_NUMERIC:
 		pic->category = CB_CATEGORY_NUMERIC;
@@ -1445,7 +1446,7 @@ repeat:
 		pic->category = CB_CATEGORY_NATIONAL;
 		if (character_length > 32768) {
 			cb_error (_("National field cannot be larger than 32768 digits"));
-		}		
+		}
 		break;
 	case PIC_NUMERIC_EDITED:
 		pic->str = cobc_malloc (idx + 1);
@@ -1462,8 +1463,8 @@ repeat:
 		pic->lenstr = idx;
 		if (character_length > 32768) {
 			cb_error (_("AlphaNumericEdit field cannot be larger than 65536 digits"));
-		}			
-		break;		
+		}
+		break;
 	case PIC_NATIONAL_EDITED:
 		pic->str = cobc_malloc (idx + 1);
 		memcpy (pic->str, buff, idx);
@@ -1481,7 +1482,7 @@ repeat:
 error:
 	cb_error (_("Invalid picture string - '%s'"), str);
 
-end: 
+end:
 	return CB_TREE (pic);
 }
 
@@ -1654,7 +1655,6 @@ build_file (cb_tree name)
 {
 	struct cb_file *p;
 
-     
 	p = make_tree (CB_TAG_FILE, CB_CATEGORY_UNKNOWN, sizeof (struct cb_file));
 	p->name = cb_define (name, CB_TREE (p));
 	p->cname = to_cname (p->name);
@@ -1663,7 +1663,7 @@ build_file (cb_tree name)
 	p->access_mode = COB_ACCESS_SEQUENTIAL;
 	p->handler = CB_LABEL (cb_standard_error_handler);
 	p->handler_prog = current_program;
-	if(external_flg == 1){
+	if (external_flg == 1) {
 		p->external_assign = 1;
 	}
 	return p;
@@ -1813,7 +1813,7 @@ cb_build_reference (const char *name)
 
 	p = make_tree (CB_TAG_REFERENCE, CB_CATEGORY_UNKNOWN, sizeof (struct cb_reference));
 	p->word = lookup_word (name);
-        return CB_TREE (p);
+	return CB_TREE (p);
 }
 
 cb_tree
@@ -2359,13 +2359,13 @@ cb_build_intrinsic (cb_tree name, cb_tree args, cb_tree refmod)
 				cb_error_x (name, _("FUNCTION %s can not have reference modification"), cbp->name);
 				return cb_error_node;
 			}
-			if (CB_LITERAL_P(CB_PAIR_X(refmod)) &&
-			    cb_get_int (CB_PAIR_X(refmod))< 1) {
+			if (CB_LITERAL_P (CB_PAIR_X (refmod)) &&
+			    cb_get_int (CB_PAIR_X (refmod)) < 1) {
 				cb_error_x (name, _("FUNCTION %s has invalid reference modification"), cbp->name);
 				return cb_error_node;
 			}
-			if (CB_PAIR_Y(refmod) && CB_LITERAL_P(CB_PAIR_Y(refmod)) &&
-			    cb_get_int (CB_PAIR_Y(refmod))< 1) {
+			if (CB_PAIR_Y (refmod) && CB_LITERAL_P (CB_PAIR_Y (refmod)) &&
+			    cb_get_int (CB_PAIR_Y (refmod)) < 1) {
 				cb_error_x (name, _("FUNCTION %s has invalid reference modification"), cbp->name);
 				return cb_error_node;
 			}
@@ -2376,23 +2376,22 @@ cb_build_intrinsic (cb_tree name, cb_tree args, cb_tree refmod)
 			x = CB_VALUE (args);
 			if (CB_INTRINSIC_P (x)) {
 				return make_intrinsic (name, cbp, args, NULL, NULL);
-			} else if ((CB_FIELD_P (x) || CB_REFERENCE_P (x)) &&
-				    cb_field(x)->flag_any_length) {
+			} else if ((CB_FIELD_P (x) || CB_REFERENCE_P (x)) && cb_field (x)->flag_any_length) {
 				return make_intrinsic (name, cbp, args, NULL, NULL);
 			} else {
-			       if ((cb_tree_class (x) == CB_CLASS_NATIONAL)||
-	              (CB_TREE_CATEGORY(x) == CB_CATEGORY_NATIONAL) ||
-                (CB_TREE_CATEGORY(x) == CB_CATEGORY_NATIONAL_EDITED)) 
-				          return cb_build_lengths(CB_VALUE (args));
-				     else
-					   return cb_build_length(CB_VALUE (args));
+				if ((cb_tree_class (x) == CB_CLASS_NATIONAL) ||
+				    (CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL) ||
+				    (CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL_EDITED)) {
+					return cb_build_lengths (CB_VALUE (args));
+				} else {
+					return cb_build_length (CB_VALUE (args));
+				}
 			}
 		case CB_INTR_BYTE_LENGTH:
 			x = CB_VALUE (args);
 			if (CB_INTRINSIC_P (x)) {
 				return make_intrinsic (name, cbp, args, NULL, NULL);
-			} else if ((CB_FIELD_P (x) || CB_REFERENCE_P (x)) &&
-				    cb_field(x)->flag_any_length) {
+			} else if ((CB_FIELD_P (x) || CB_REFERENCE_P (x)) && cb_field (x)->flag_any_length) {
 				return make_intrinsic (name, cbp, args, NULL, NULL);
 			} else {
 				return cb_build_length (CB_VALUE (args));
@@ -2501,33 +2500,37 @@ RXW */
 	cb_error_x (name, _("FUNCTION %s not implemented"), CB_NAME (name));
 	return cb_error_node;
 }
-char * cb_get_hexword(char *name)
+
+char *
+cb_get_hexword (char *name)
 {
-	int  i,j;
-	char pTmp[101], str[3];
-	unsigned char *c;
-	int  iDouWord;
+	int		i, j;
+	char		pTmp[101], str[3];
+	unsigned char	*c;
+	int		iDouWord;
+
 	iDouWord = 0;
 	c = name;
-	memset(pTmp, 0,sizeof(pTmp));
-	i = strlen(name);
-	if( i > 100 )
-		i= 100;
-	for( j=0; j<i;j++){
-		if( c[j]>127 ){
+	memset (pTmp, 0, sizeof (pTmp));
+	i = strlen (name);
+	if (i > 100) {
+		i = 100;
+	}
+	for (j = 0; j < i; j++) {
+		if (c[j] > 127) {
 			iDouWord = 1;
 			break;
 		}
 	}
-	if( iDouWord ==0){
+	if (iDouWord == 0) {
 		return name;
 	}
-	strcpy(pTmp,"___");
-	for(  j =0; j<i;j++){
-		memset( str,0,sizeof(str));
-		sprintf( str, "%02X",c[j]);
-		strcat(pTmp,str);
+	strcpy (pTmp, "___");
+	for (j = 0; j < i; j++) {
+		memset (str, 0, sizeof (str));
+		sprintf (str, "%02X", c[j]);
+		strcat (pTmp, str);
 	}
-	strcat(pTmp,"___");
-	return strdup(pTmp);
+	strcat (pTmp, "___");
+	return strdup (pTmp);
 }
