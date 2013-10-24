@@ -238,12 +238,49 @@ void
 cob_inspect_before (const cob_field *str)
 {
 	unsigned char	*p;
+	unsigned char	*data;
+	size_t		size;
+	int		sign;
+	char		*buf = NULL;
+	unsigned char	*p2;
+	unsigned int	n;
+	int		fig;
 
-	for (p = inspect_start; p < inspect_end - str->size + 1; p++) {
-		if (memcmp (p, str->data, str->size) == 0) {
+	switch (COB_FIELD_TYPE (str)) {
+		case COB_TYPE_NUMERIC_DISPLAY:
+			data = COB_FIELD_DATA (str);
+			size = COB_FIELD_SIZE (str);
+			sign = cob_get_sign ((cob_field *)str);
+			n = 0;
+			fig = 0;
+			while (size > 1 && *data == '0') {
+				size--;
+				data++;
+			}
+			while (size--) {
+				n = n * 10 + cob_d2i (*data++);
+				fig++;
+			}
+			buf = cob_malloc(fig);
+			sprintf(buf, "%d", n);
+			p2 = (unsigned char *)buf;
+			break;
+
+		default:
+			fig = str->size;
+			p2 = str->data;
+			break;
+	}
+
+	for (p = inspect_start; p < inspect_end - fig + 1; p++) {
+		if (memcmp (p, p2, fig) == 0) {
 			inspect_end = p;
-			return;
+			break;
 		}
+	}
+
+	if(buf) {
+		free(buf);
 	}
 }
 
