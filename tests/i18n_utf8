@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -363,6 +363,9 @@ at_help_all='1;user-defined-word.at:1;Program name;;
 52;pic-n.at:386;PIC N INSPECT REPLACING by ZERO;;
 53;pic-n.at:405;PIC N INSPECT REPLACING by NATIONAL ZERO;;
 54;pic-n.at:424;PIC N INSPECT TALLYING;;
+55;pic-bn.at:1;PIC BN Value clause;;
+56;pic-bn.at:19;PIC BN Move;;
+57;pic-bn.at:38;PIC BN Refmod char by char;;
 '
 
 at_keywords=
@@ -5219,6 +5222,250 @@ case $at_status in
             exit 77;;
    0) ;;
    *) echo "pic-n.at:440: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  55 ) # 55. pic-bn.at:1: PIC BN Value clause
+    at_setup_line='pic-bn.at:1'
+    at_desc='PIC BN Value clause'
+    $at_quiet $ECHO_N " 55: PIC BN Value clause                          $ECHO_C"
+    at_xfail=no
+    (
+      echo "55. pic-bn.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC BN(3) VALUE "日本語".
+       PROCEDURE        DIVISION.
+           DISPLAY F0 WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "pic-bn.at:14: \${COMPILE} -x prog.cob"
+echo pic-bn.at:14 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "pic-bn.at:14: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "pic-bn.at:15: ./prog"
+echo pic-bn.at:15 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "　日本語" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "pic-bn.at:15: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  56 ) # 56. pic-bn.at:19: PIC BN Move
+    at_setup_line='pic-bn.at:19'
+    at_desc='PIC BN Move'
+    $at_quiet $ECHO_N " 56: PIC BN Move                                  $ECHO_C"
+    at_xfail=no
+    (
+      echo "56. pic-bn.at:19: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC BN(3).
+       PROCEDURE        DIVISION.
+           MOVE "日本語" TO F0.
+           DISPLAY F0 WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "pic-bn.at:33: \${COMPILE} -x prog.cob"
+echo pic-bn.at:33 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "pic-bn.at:33: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "pic-bn.at:34: ./prog"
+echo pic-bn.at:34 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "　日本語" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "pic-bn.at:34: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  57 ) # 57. pic-bn.at:38: PIC BN Refmod char by char
+    at_setup_line='pic-bn.at:38'
+    at_desc='PIC BN Refmod char by char'
+    $at_quiet $ECHO_N " 57: PIC BN Refmod char by char                   $ECHO_C"
+    at_xfail=no
+    (
+      echo "57. pic-bn.at:38: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC BN(3) VALUE "日本語".
+       PROCEDURE        DIVISION.
+           DISPLAY F0(1:3) WITH NO ADVANCING.
+           DISPLAY F0(4:3) WITH NO ADVANCING.
+           DISPLAY F0(7:3) WITH NO ADVANCING.
+           DISPLAY F0(10:3) WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "pic-bn.at:54: \${COMPILE} -x prog.cob"
+echo pic-bn.at:54 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "pic-bn.at:54: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "pic-bn.at:55: ./prog"
+echo pic-bn.at:55 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "　日本語" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "pic-bn.at:55: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then

@@ -1784,7 +1784,6 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 	int			n;
 	int			buffchar;
 
-	struct cb_reference	*tmpx;
 	static char		*buff = NULL;
 	static int		lastsize = 0;
 
@@ -1801,25 +1800,13 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 	/* Initialize by value */
 	if (p->val && f->values) {
 		value = CB_VALUE (f->values);
-		if (CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL) {
+		if (CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL ||
+		    CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL_EDITED) {
+			output_prefix ();
 			output ("cob_move(");
 			output_param (value, 1);
 			output (", ");
 			output_param (x, 2);
-			output (");\n");
-			return;
-		}
-		if (CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL_EDITED) {
-			tmpx = CB_REFERENCE (cb_build_reference (f->name));
-			tmpx->value = cb_ref (CB_TREE (tmpx));
-			CB_TREE_CATEGORY (tmpx);
-			tmpx->offset = cb_build_numeric_literal (0, (unsigned char *)"1", 1);
-			tmpx->subs = CB_REFERENCE(x)->subs;
-
-			output ("cob_move(");
-			output_param (value, 1);
-			output (", ");
-			output_param ((cb_tree)tmpx, 2);
 			output (");\n");
 			return;
 		}

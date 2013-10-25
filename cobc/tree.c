@@ -1118,6 +1118,74 @@ cb_build_decimal (int id)
  * Picture
  */
 
+static int
+guess_pic_category (const char *str)
+{
+	int		category = 0;
+	const char	*p;
+	int		skip = 0;
+
+	for (p = str; *p; p++) {
+		if (*p == '(') {
+			skip++;
+		} else if (*p == ')') {
+			--skip;
+		}
+		if (!skip) {
+			switch (*p) {
+			case 'A':
+				category |= PIC_ALPHABETIC;
+				break;
+			case 'X':
+				category |= PIC_ALPHANUMERIC;
+				break;
+			case '9':
+				category |= PIC_NUMERIC;
+				break;
+			case 'N':
+				category |= PIC_NATIONAL;
+				break;
+			case 'S':
+				category |= PIC_NUMERIC;
+				break;
+			case 'V':
+			case 'P':
+				category |= PIC_NUMERIC;
+				break;
+			case '0':
+			case 'B':
+			case '/':
+				category |= PIC_EDITED;
+				break;
+			case ',':
+			case '.':
+			case '*':
+			case 'Z':
+			case '+':
+			case '-':
+				category |= PIC_NUMERIC_EDITED;
+				break;
+			case 'C':
+				if (p[1] == 'R' && p[2] == 0) {
+					category |= PIC_NUMERIC_EDITED;
+				}
+				break;
+			case 'D':
+				if (p[1] == 'B' && p[2] == 0) {
+					category |= PIC_NUMERIC_EDITED;
+				}
+				break;
+			default:
+				if (*p == current_program->currency_symbol) {
+					category |= PIC_NUMERIC_EDITED;
+				}
+				break;
+			}
+		}
+	}
+	return category;
+}
+
 cb_tree
 cb_build_picture (const char *str)
 {
@@ -1152,6 +1220,10 @@ cb_build_picture (const char *str)
 	memset (buff, 0, sizeof (buff));
 	p_char_seen = 0;
 	s_char_seen = 0;
+
+	/* guess category first */
+	category = guess_pic_category (str);
+
 	for (p = str; *p; p++) {
 		n = 1;
 		c = *p;
@@ -1195,7 +1267,6 @@ repeat:
 			if (s_char_seen || p_char_seen) {
 				goto error;
 			}
-			category |= PIC_ALPHABETIC;
 			character_length += n;
 			break;
 
@@ -1203,12 +1274,10 @@ repeat:
 			if (s_char_seen || p_char_seen) {
 				goto error;
 			}
-			category |= PIC_ALPHANUMERIC;
 			character_length += n;
 			break;
 
 		case '9':
-			category |= PIC_NUMERIC;
 			digits += n;
 			character_length += n;
 			if (v_count) {
@@ -1221,13 +1290,11 @@ repeat:
 			if (s_char_seen || p_char_seen) {
 				goto error;
 			}
-			category |= PIC_NATIONAL;
 			pic->national = 1;
 			character_length += n;
 			break;
 
 		case 'S':
-			category |= PIC_NUMERIC;
 			if (category & PIC_ALPHABETIC) {
 				goto error;
 			}
@@ -1240,7 +1307,6 @@ repeat:
 
 		case ',':
 		case '.':
-			category |= PIC_NUMERIC_EDITED;
 			if (s_char_seen || p_char_seen) {
 				goto error;
 			}
@@ -1249,7 +1315,6 @@ repeat:
 			}
 			/* fall through */
 		case 'V':
-			category |= PIC_NUMERIC;
 			if (category & PIC_ALPHABETIC) {
 				goto error;
 			}
@@ -1260,7 +1325,6 @@ repeat:
 			break;
 
 		case 'P':
-			category |= PIC_NUMERIC;
 			if (category & PIC_ALPHABETIC) {
 				goto error;
 			}
@@ -1312,7 +1376,6 @@ repeat:
 		case '0':
 		case 'B':
 		case '/':
-			category |= PIC_EDITED;
 			if (s_char_seen || p_char_seen) {
 				goto error;
 			}
@@ -1321,7 +1384,6 @@ repeat:
 
 		case '*':
 		case 'Z':
-			category |= PIC_NUMERIC_EDITED;
 			if (category & PIC_ALPHABETIC) {
 				goto error;
 			}
@@ -1337,7 +1399,6 @@ repeat:
 
 		case '+':
 		case '-':
-			category |= PIC_NUMERIC_EDITED;
 			if (category & PIC_ALPHABETIC) {
 				goto error;
 			}
@@ -1363,7 +1424,6 @@ repeat:
 			break;
 
 		case 'D':
-			category |= PIC_NUMERIC_EDITED;
 			if (!(p[1] == 'B' && p[2] == 0)) {
 				goto error;
 			}
@@ -1376,7 +1436,6 @@ repeat:
 
 		default:
 			if (c == current_program->currency_symbol) {
-				category |= PIC_NUMERIC_EDITED;
 				digits += n - 1;
 				character_length += n - 1;
 				/* FIXME: need more check */
@@ -1390,24 +1449,16 @@ repeat:
 		if (c != 'V' && c != 'P') {
 			size += n;
 		}
-#ifdef	I18N_UTF8
 		if (c == 'C' || c == 'D') {
 			size += n;
-		} else if (c == 'N' ||
-			   (category == PIC_NATIONAL_EDITED && c == '0' && flg == 1) ||
-			   (category == PIC_NATIONAL_EDITED && c == 'B' && flg == 1) ||
-			   (category == PIC_NATIONAL_EDITED && c == '/' && flg == 1)) {
-				/* I18N_UTF8: 3bytes for BMP. */
-				size += n * 2;
-		}
+		} else if (c == 'N' || (category == PIC_NATIONAL_EDITED && (c == '0' || c == 'B' || c == '/'))) {
+#ifdef	I18N_UTF8
+ 			/* I18N_UTF8: 3bytes for BMP. */
+ 			size += n * 2;
 #else /*!I18N_UTF8*/
-		if (c == 'C' || c == 'D' || c == 'N' ||
-		    (category == PIC_NATIONAL_EDITED && c == '0' && flg == 1) ||
-		    (category == PIC_NATIONAL_EDITED && c == 'B' && flg == 1) ||
-		    (category == PIC_NATIONAL_EDITED && c == '/' && flg == 1)) {
 			size += n;
-		}
 #endif /*I18N_UTF8*/
+		}
 
 		/* store in the buffer */
 		buff[idx++] = c;
@@ -1418,19 +1469,6 @@ repeat:
 		++buffcnt;
 	}
 	buff[idx] = 0;
-
-	if (category == PIC_NATIONAL_EDITED && flg == 0) {
-		for (p = str; *p; p++) {
-			if (*p == '/' || *p == '0' || *p == 'B') {
-#ifdef	I18N_UTF8
-				/* I18N_UTF8: 3bytes for BMP. */
-				size += 2;
-#else /*!I18N_UTF8*/
-				size += 1;
-#endif /*I18N_UTF8*/
-			}
-		}
-	}
 
 	if (size == 0 && v_count) {
 		goto error;
