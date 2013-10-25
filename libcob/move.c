@@ -419,6 +419,7 @@ cob_move_display_to_packed (cob_field *f1, cob_field *f2)
 	int		sign;
 	int		scale1;
 	int		scale2;
+	int		flag_null;
 	unsigned char	n;
 
 	sign = cob_get_sign (f1);
@@ -428,6 +429,16 @@ cob_move_display_to_packed (cob_field *f1, cob_field *f2)
 	data2 = f2->data;
 	digits2 = COB_FIELD_DIGITS (f2);
 	scale2 = COB_FIELD_SCALE (f2);
+
+	/* null check */
+	flag_null = 1;
+	for (i = 0; i < digits1; i++) {
+		if (f1->data[i] != 0) flag_null = 0;
+	}
+	if (flag_null) {
+		memset (f2->data, 0, f2->size);
+		return;
+	}
 
 	/* pack string */
 	memset (f2->data, 0, f2->size);
@@ -584,10 +595,22 @@ cob_move_display_to_binary (cob_field *f1, cob_field *f2)
 	size_t		size1;
 	long long	val = 0;
 	int		sign;
+	int		flag_null;
 
 	size1 = COB_FIELD_SIZE (f1);
 	data1 = COB_FIELD_DATA (f1);
 	sign = cob_get_sign (f1);
+
+	/* null check */
+	flag_null = 1;
+	for (i = 0; i < size1; i++) {
+		if (f1->data[i] != 0) flag_null = 0;
+	}
+	if (flag_null) {
+		memset (f2->data, 0, f2->size);
+		return;
+	}
+
 	/* get value */
 	size = size1 - COB_FIELD_SCALE(f1) + COB_FIELD_SCALE(f2);
 	for (i = 0; i < size; ++i) {
