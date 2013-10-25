@@ -980,6 +980,15 @@ cb_build_identifier (cb_tree x)
 	/* reference modification check */
 	if (r->offset) {
 		/* compile-time check */
+#ifdef	I18N_UTF8
+		/* I18N_UTF8: No wide char support. */
+		size = 0;
+		if (!cb_reference_type_check (x, r->offset, name, f->size, &size, 1)) {
+			if (size <= f->size && r->length) {
+				cb_reference_type_check (x, r->length, name, f->size - size + 1, &size, 0);
+			}
+		}
+#else /*!I18N_UTF8*/
 		size = 0;
 		if (cb_tree_category (CB_TREE (r)) == CB_CATEGORY_NATIONAL ||
 		    cb_tree_category (CB_TREE (r)) == CB_CATEGORY_NATIONAL_EDITED) {
@@ -999,8 +1008,23 @@ cb_build_identifier (cb_tree x)
 				}
 			}
 		}
+#endif /*I18N_UTF8*/
 
 		/* run-time check */
+#ifdef	I18N_UTF8
+		/* I18N_UTF8: No wide char support. */
+		if (CB_EXCEPTION_ENABLE (COB_EC_BOUND_REF_MOD)) {
+			if (!CB_LITERAL_P (r->offset) ||
+			    (r->length && !CB_LITERAL_P (r->length))) {
+				e1 = cb_build_funcall_4 ("cob_check_ref_mod",
+							 cb_build_cast_integer (r->offset),
+							 r->length ? cb_build_cast_integer (r->length) :
+							 cb_int1, cb_int (f->size),
+							 cb_build_string0 ((ucharptr)f->name));
+				r->check = cb_list_add (r->check, e1);
+			}
+		}
+#else /*!I18N_UTF8*/
 		if (CB_EXCEPTION_ENABLE (COB_EC_BOUND_REF_MOD)) {
 			if (!CB_LITERAL_P (r->offset) ||
 			    (r->length && !CB_LITERAL_P (r->length))) {
@@ -1021,6 +1045,7 @@ cb_build_identifier (cb_tree x)
 				r->check = cb_list_add (r->check, e1);
 			}
 		}
+#endif /*I18N_UTF8*/
 	}
 
 	if (f->storage == CB_STORAGE_CONSTANT) {
@@ -1129,6 +1154,9 @@ cb_build_length (cb_tree x)
 	return temp;
 }
 
+#ifdef	I18N_UTF8
+/* I18N_UTF8: No wide char support. cb_build_lengths() is not needed. */
+#else /*!I18N_UTF8*/
 cb_tree
 cb_build_lengths (cb_tree x)
 {
@@ -1147,6 +1175,7 @@ cb_build_lengths (cb_tree x)
 	}
 	return cb_build_numeric_literal (0, (ucharptr)buff, 0);
 }
+#endif /*I18N_UTF8*/
 
 cb_tree
 cb_build_address (cb_tree x)
@@ -4000,9 +4029,12 @@ cb_validate_inspect (cb_tree var, cb_tree x, cb_tree y)
 		    x != cb_low) {
 			if (CB_TREE_CATEGORY (var) == CB_CATEGORY_NATIONAL ||
 			    CB_TREE_CATEGORY (var) == CB_CATEGORY_NATIONAL_EDITED) {
+#ifndef	I18N_UTF8
+				/* I18N_UTF8: can't count chars of NATINAL according to static size. */
 				if (s1 != 2) {
 					cb_error_x (x, "Illegal replacement size: %s", name1);
 				}
+#endif /*I18N_UTF8*/
 			} else {
 				if (s1 != 1) {
 					cb_error_x (x, "Illegal replacement size: %s", name1);
@@ -4586,9 +4618,24 @@ validate_move (cb_tree src, cb_tree dst, size_t is_value)
 
 			/* size check */
 			size = cb_field_size (dst);
+#ifdef	I18N_UTF8
+			if (CB_TREE_CATEGORY (dst) == CB_CATEGORY_NATIONAL) {
+				/* I18N_UTF8: check in converted length. */
+				i = utf8_national_length (l->data, l->size);
+				if ((int)i < 0) {
+					goto invalid_national;
+				}
+				if (size >= 0 && i > size) {
+					goto size_overflow;
+				}
+			} else if (size >= 0 && (int)l->size > size) {
+				goto size_overflow;
+			}
+#else /*!I18N_UTF8*/
 			if (size >= 0 && (int)l->size > size) {
 				goto size_overflow;
 			}
+#endif /*I18N_UTF8*/
 		}
 		break;
 	case CB_TAG_FIELD:
@@ -4847,6 +4894,12 @@ size_overflow_1:
 size_overflow_2:
 	return move_error (src, dst, is_value, cb_warn_truncate, 1,
 			   _("Some digits may be truncated"));
+ 
+#ifdef	I18N_UTF8
+invalid_national:
+	return move_error (src, dst, is_value, cb_warn_constant, 1,
+			   _("Invalid NATIONAL string."));
+#endif /*I18N_UTF8*/
 }
 
 static cb_tree
@@ -5189,10 +5242,15 @@ cb_build_move_literal (cb_tree src, cb_tree dst)
 		for (i = 0; i < f->size; i++) {
 			buff[i] = l->data[i % l->size];
 		}
+#ifdef	I18N_UTF8
+		/* I18N_UTF8: termination of multi octet
+		   charactrer sequence is pending. */
+#else /*!I18N_UTF8*/
 		if ((0x81 <= buff[i-1] && buff[i-1] <= 0x9F) ||
 		    (0xE0 <= buff[i-1] && buff[i-1] <= 0xFC)) {
 			buff[i-1] = ' ';
 		}
+#endif /*I18N_UTF8*/
 		return cb_build_funcall_3 ("memcpy",
 					   cb_build_cast_address (dst),
 					   cb_build_string (buff, f->size), cb_build_cast_length (dst));

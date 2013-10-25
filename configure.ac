@@ -62,6 +62,7 @@ AH_TEMPLATE([WITH_VBISAM], [Use VBISAM as ISAM handler])
 # AH_TEMPLATE([WITH_LFS64], [Compile with large file system 64])
 AH_TEMPLATE([COB_EXPERIMENTAL], [Enable experimemental code (Developers only!)])
 AH_TEMPLATE([COB_PARAM_CHECK], [Enable CALL parameter checking])
+AH_TEMPLATE([I18N_UTF8], [Enable UTF-8 support])
 AH_TEMPLATE([COB_EXPORT_DYN], [Compile/link option for exporting symbols])
 AH_TEMPLATE([COB_PIC_FLAGS], [Compile/link option for PIC code])
 AH_TEMPLATE([COB_SHARED_OPT], [Compile/link option for shared code])
@@ -211,6 +212,15 @@ AC_ARG_ENABLE(param-check,
    then
 	AC_DEFINE(COB_PARAM_CHECK)
    fi])
+
+AC_ARG_ENABLE(utf8,
+  [  --enable-utf8           (OpenCOBOL) enable UTF-8 support.],
+  [if test "$enable_utf8" = "yes"
+   then
+	AC_DEFINE(I18N_UTF8)
+	COB_M4_FLAGS=-DM4.I18N_UTF8
+   fi])
+AM_CONDITIONAL(I18N_UTF8, test x$COB_M4_FLAGS = x-DM4.I18N_UTF8)
 
 PATCH_LEVEL=0
 AC_ARG_WITH(patch-level, [  --with-patch-level      (OpenCOBOL) define a patch level (default 0)],
@@ -742,6 +752,7 @@ COB_BIGENDIAN="$ac_cv_c_bigendian"
 AC_SUBST(COB_BIGENDIAN)
 AC_SUBST(COB_FIX_LIB)
 AC_SUBST(COB_HAS_INLINE)
+AC_SUBST(COB_M4_FLAGS)
 
 AC_CONFIG_FILES([cob-config
 		Makefile lib/Makefile libcob/Makefile

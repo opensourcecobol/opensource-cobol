@@ -50,6 +50,44 @@
 #define	COB_CHK_PARMS(x, z)
 #endif
 
+/* I18N_UTF8: Full-width char(s) (utf-8 version). */
+#define COB_U8ZERO	"\xef\xbc\x90"
+#define COB_U8SPC	"\xe3\x80\x80"
+#define COB_U8QUOT	"\xe2\x80\x9d"
+#define COB_U8SLAS	"\xef\xbc\x8f"
+#define COB_U8CSIZ	3
+
+/* I18N_UTF8: Full-width char(s) (sjis version). */
+#define COB_SJZERO	"\x82\x4f"
+#define COB_SJSPC	"\x81\x40"
+#define COB_SJQUOT	"\x81\x68"
+#define COB_SJSLAS	"\x81\x5e"
+#define COB_SJCSIZ	2
+
+#ifdef	I18N_UTF8
+#define COB_ZENZERO	COB_U8ZERO
+#define COB_ZENSPC	COB_U8SPC
+#define COB_ZENQUOT	COB_U8QUOT
+#define COB_ZENSLAS	COB_U8SLAS
+#define COB_ZENCSIZ	COB_U8CSIZ
+#else /*!I18N_UTF8*/
+#define COB_ZENZERO	COB_SJZERO
+#define COB_ZENSPC	COB_SJSPC
+#define COB_ZENQUOT	COB_SJQUOT
+#define COB_ZENSLAS	COB_SJSLAS
+#define COB_ZENCSIZ	COB_SJCSIZ
+#endif /*I18N_UTF8*/
+
+#ifdef	I18N_UTF8
+#define COB_U8BYTE_1(c)	((((c)>>7) == 0x00)? 1:		\
+			 (((c)>>5) == 0x06)? 2:		\
+			 (((c)>>4) == 0x0e)? 3:		\
+			 (((c)>>3) == 0x1e)? 4:		\
+			 (((c)>>2) == 0x3e)? 5:		\
+			 (((c)>>1) == 0x7e)? 6: 0)
+#define COB_U8BYTE_N(c)	((c)>>6 == 2)
+#endif /*I18N_UTF8*/
+
 COB_HIDDEN extern int			cob_screen_initialized;
 COB_HIDDEN extern int			cob_got_exception;
 COB_HIDDEN extern unsigned int		cob_orig_line;
@@ -75,5 +113,10 @@ COB_HIDDEN extern void		cob_screen_set_mode	(size_t);
 COB_HIDDEN extern int		cob_real_get_sign	(cob_field *);
 COB_HIDDEN extern void		cob_real_put_sign	(cob_field *, const int);
 COB_HIDDEN extern long long	cob_get_long_long	(cob_field *);
+
+#ifdef	I18N_UTF8
+COB_HIDDEN extern int		ascii_to_utf8		(int, unsigned char *);
+COB_HIDDEN extern unsigned char	*cob_national		(const unsigned char *, int);
+#endif /*I18N_UTF8*/
 
 #endif /* COB_LOCAL_H */

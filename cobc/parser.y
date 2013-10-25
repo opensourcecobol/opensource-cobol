@@ -6659,8 +6659,12 @@ refmod:
   {
 	CB_REFERENCE ($0)->value = CB_TREE (cb_field ($0));
 	if (cb_tree_category ($0) == CB_CATEGORY_NATIONAL || cb_tree_category ($0) == CB_CATEGORY_NATIONAL_EDITED) {
+#ifdef	I18N_UTF8
+		/* I18N_UTF8: No wide char support. */
+#else /*!I18N_UTF8*/
 		$2 = cb_build_binary_op ($2, '*', cb_int2);
 		$2 = cb_build_binary_op ($2, '-', cb_int1);
+#endif /*I18N_UTF8*/
 	} else {
 		CB_TREE ($0)->category = CB_CATEGORY_ALPHANUMERIC;
 	}
@@ -6670,9 +6674,13 @@ refmod:
   {
 	CB_REFERENCE ($0)->value = CB_TREE (cb_field ($0));
 	if (cb_tree_category ($0) == CB_CATEGORY_NATIONAL || cb_tree_category ($0) == CB_CATEGORY_NATIONAL_EDITED) {
+#ifdef	I18N_UTF8
+		/* I18N_UTF8: No wide char support. */
+#else /*!I18N_UTF8*/
 		$2 = cb_build_binary_op ($2, '*', cb_int2);
 		$2 = cb_build_binary_op ($2, '-', cb_int1);
 		$4 = cb_build_binary_op ($4, '*', cb_int2);
+#endif /*I18N_UTF8*/
 	} else {
 		CB_TREE ($0)->category = CB_CATEGORY_ALPHANUMERIC;
 	}

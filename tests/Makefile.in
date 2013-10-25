@@ -88,6 +88,7 @@ COB_HAS_INLINE = @COB_HAS_INLINE@
 COB_LDFLAGS = @COB_LDFLAGS@
 COB_LIBRARY_PATH = @COB_LIBRARY_PATH@
 COB_LIBS = @COB_LIBS@
+COB_M4_FLAGS = @COB_M4_FLAGS@
 COB_MODULE_EXT = @COB_MODULE_EXT@
 COB_PIC_FLAGS = @COB_PIC_FLAGS@
 COB_SHARED_OPT = @COB_SHARED_OPT@
@@ -105,6 +106,8 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 GMSGFMT = @GMSGFMT@
+I18N_UTF8_FALSE = @I18N_UTF8_FALSE@
+I18N_UTF8_TRUE = @I18N_UTF8_TRUE@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
@@ -190,11 +193,19 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 SUBDIRS = cobol85
-TESTS = $(srcdir)/syntax \
-	$(srcdir)/run \
-	$(srcdir)/run-O \
-	$(srcdir)/data-rep \
-	$(srcdir)/data-rep-O
+@I18N_UTF8_FALSE@TESTS = $(srcdir)/syntax \
+@I18N_UTF8_FALSE@	$(srcdir)/run \
+@I18N_UTF8_FALSE@	$(srcdir)/run-O \
+@I18N_UTF8_FALSE@	$(srcdir)/data-rep \
+@I18N_UTF8_FALSE@	$(srcdir)/data-rep-O \
+@I18N_UTF8_FALSE@	$(srcdir)/i18n_sjis
+
+@I18N_UTF8_TRUE@TESTS = $(srcdir)/syntax \
+@I18N_UTF8_TRUE@	$(srcdir)/run \
+@I18N_UTF8_TRUE@	$(srcdir)/run-O \
+@I18N_UTF8_TRUE@	$(srcdir)/data-rep \
+@I18N_UTF8_TRUE@	$(srcdir)/data-rep-O \
+@I18N_UTF8_TRUE@	$(srcdir)/i18n_utf8
 
 syntax_DEPENDENCIES = \
 	syntax.at \
@@ -230,10 +241,24 @@ data_rep_DEPENDENCIES = \
 	data-rep.src/numeric-dump.cob \
 	data-rep.src/numeric-display.cob
 
+i18n_utf8_DEPENDENCIES = \
+	i18n_utf8.at \
+	i18n_utf8.src/user-defined-word.at \
+	i18n_utf8.src/pic-x.at \
+	i18n_utf8.src/pic-n.at
+
+i18n_sjis_DEPENDENCIES = \
+	i18n_sjis.at \
+	i18n_sjis.src/user-defined-word.at \
+	i18n_sjis.src/pic-x.at \
+	i18n_sjis.src/pic-n.at
+
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(syntax_DEPENDENCIES) \
 	$(run_DEPENDENCIES) \
-	$(data_rep_DEPENDENCIES)
+	$(data_rep_DEPENDENCIES) \
+	$(i18n_utf8_DEPENDENCIES) \
+	$(i18n_sjis_DEPENDENCIES)
 
 DISTCLEANFILES = atconfig
 all: all-recursive
@@ -487,7 +512,7 @@ check-TESTS: $(TESTS)
 	else :; fi
 
 distdir: $(DISTFILES)
-	$(mkdir_p) $(distdir)/$(srcdir) $(distdir)/data-rep.src $(distdir)/run.src $(distdir)/syntax.src
+	$(mkdir_p) $(distdir)/$(srcdir) $(distdir)/data-rep.src $(distdir)/i18n_sjis.src $(distdir)/i18n_utf8.src $(distdir)/run.src $(distdir)/syntax.src
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -646,6 +671,8 @@ $(srcdir)/%: $(srcdir)/%.at $(srcdir)/package.m4
 $(srcdir)/syntax: $(syntax_DEPENDENCIES)
 $(srcdir)/run: $(run_DEPENDENCIES)
 $(srcdir)/data-rep: $(data_rep_DEPENDENCIES)
+$(srcdir)/i18n_utf8: $(i18n_utf8_DEPENDENCIES)
+$(srcdir)/i18n_sjis: $(i18n_sjis_DEPENDENCIES)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

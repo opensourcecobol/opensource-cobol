@@ -873,8 +873,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "copy.at:37: \${COMPILE_ONLY} prog.cob"
-echo copy.at:37 >$at_check_line_file
+echo "copy.at:35: \${COMPILE_ONLY} prog.cob"
+echo copy.at:35 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -887,7 +887,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "copy.at:37: exit code was $at_status, expected 1"
+   *) echo "copy.at:35: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1295,8 +1295,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:36: \${COMPILE_ONLY} prog.cob"
-echo definition.at:36 >$at_check_line_file
+echo "definition.at:34: \${COMPILE_ONLY} prog.cob"
+echo definition.at:34 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1309,7 +1309,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:36: exit code was $at_status, expected 1"
+   *) echo "definition.at:34: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1347,8 +1347,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:51: \${COMPILE_ONLY} prog.cob"
-echo definition.at:51 >$at_check_line_file
+echo "definition.at:49: \${COMPILE_ONLY} prog.cob"
+echo definition.at:49 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1361,7 +1361,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:51: exit code was $at_status, expected 1"
+   *) echo "definition.at:49: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1399,8 +1399,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:66: \${COMPILE_ONLY} prog.cob"
-echo definition.at:66 >$at_check_line_file
+echo "definition.at:64: \${COMPILE_ONLY} prog.cob"
+echo definition.at:64 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1413,7 +1413,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:66: exit code was $at_status, expected 1"
+   *) echo "definition.at:64: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1453,8 +1453,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:89: \${COMPILE_ONLY} prog.cob"
-echo definition.at:89 >$at_check_line_file
+echo "definition.at:87: \${COMPILE_ONLY} prog.cob"
+echo definition.at:87 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1467,7 +1467,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:89: exit code was $at_status, expected 1"
+   *) echo "definition.at:87: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1510,8 +1510,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:109: \${COMPILE_ONLY} prog.cob"
-echo definition.at:109 >$at_check_line_file
+echo "definition.at:107: \${COMPILE_ONLY} prog.cob"
+echo definition.at:107 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1524,7 +1524,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:109: exit code was $at_status, expected 1"
+   *) echo "definition.at:107: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1569,8 +1569,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:131: \${COMPILE_ONLY} prog.cob"
-echo definition.at:131 >$at_check_line_file
+echo "definition.at:129: \${COMPILE_ONLY} prog.cob"
+echo definition.at:129 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1583,7 +1583,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:131: exit code was $at_status, expected 1"
+   *) echo "definition.at:129: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1626,8 +1626,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:151: \${COMPILE_ONLY} prog.cob"
-echo definition.at:151 >$at_check_line_file
+echo "definition.at:149: \${COMPILE_ONLY} prog.cob"
+echo definition.at:149 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1640,7 +1640,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:151: exit code was $at_status, expected 1"
+   *) echo "definition.at:149: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1679,8 +1679,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:170: \${COMPILE_ONLY} prog.cob"
-echo definition.at:170 >$at_check_line_file
+echo "definition.at:168: \${COMPILE_ONLY} prog.cob"
+echo definition.at:168 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1693,7 +1693,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:170: exit code was $at_status, expected 1"
+   *) echo "definition.at:168: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1792,8 +1792,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:215: \${COMPILE_ONLY} prog.cob"
-echo definition.at:215 >$at_check_line_file
+echo "definition.at:212: \${COMPILE_ONLY} prog.cob"
+echo definition.at:212 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1807,7 +1807,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "definition.at:215: exit code was $at_status, expected 0"
+   *) echo "definition.at:212: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1847,8 +1847,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:233: \${COMPILE_ONLY} prog.cob"
-echo definition.at:233 >$at_check_line_file
+echo "definition.at:230: \${COMPILE_ONLY} prog.cob"
+echo definition.at:230 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1862,7 +1862,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "definition.at:233: exit code was $at_status, expected 0"
+   *) echo "definition.at:230: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1903,8 +1903,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:252: \${COMPILE_ONLY} prog.cob"
-echo definition.at:252 >$at_check_line_file
+echo "definition.at:249: \${COMPILE_ONLY} prog.cob"
+echo definition.at:249 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1918,7 +1918,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "definition.at:252: exit code was $at_status, expected 0"
+   *) echo "definition.at:249: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1958,8 +1958,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:270: \${COMPILE_ONLY} prog.cob"
-echo definition.at:270 >$at_check_line_file
+echo "definition.at:267: \${COMPILE_ONLY} prog.cob"
+echo definition.at:267 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1973,7 +1973,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "definition.at:270: exit code was $at_status, expected 0"
+   *) echo "definition.at:267: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2013,8 +2013,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:288: \${COMPILE_ONLY} prog.cob"
-echo definition.at:288 >$at_check_line_file
+echo "definition.at:285: \${COMPILE_ONLY} prog.cob"
+echo definition.at:285 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2028,7 +2028,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "definition.at:288: exit code was $at_status, expected 0"
+   *) echo "definition.at:285: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2069,8 +2069,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:307: \${COMPILE_ONLY} prog.cob"
-echo definition.at:307 >$at_check_line_file
+echo "definition.at:304: \${COMPILE_ONLY} prog.cob"
+echo definition.at:304 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2084,7 +2084,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "definition.at:307: exit code was $at_status, expected 0"
+   *) echo "definition.at:304: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2130,8 +2130,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:332: \${COMPILE_ONLY} prog.cob"
-echo definition.at:332 >$at_check_line_file
+echo "definition.at:328: \${COMPILE_ONLY} prog.cob"
+echo definition.at:328 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2146,7 +2146,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:332: exit code was $at_status, expected 1"
+   *) echo "definition.at:328: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2191,8 +2191,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:356: \${COMPILE_ONLY} prog.cob"
-echo definition.at:356 >$at_check_line_file
+echo "definition.at:352: \${COMPILE_ONLY} prog.cob"
+echo definition.at:352 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2207,7 +2207,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:356: exit code was $at_status, expected 1"
+   *) echo "definition.at:352: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2255,8 +2255,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:383: \${COMPILE_ONLY} prog.cob"
-echo definition.at:383 >$at_check_line_file
+echo "definition.at:379: \${COMPILE_ONLY} prog.cob"
+echo definition.at:379 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2271,7 +2271,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:383: exit code was $at_status, expected 1"
+   *) echo "definition.at:379: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2371,8 +2371,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:436: \${COMPILE_ONLY} prog.cob"
-echo definition.at:436 >$at_check_line_file
+echo "definition.at:434: \${COMPILE_ONLY} prog.cob"
+echo definition.at:434 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2385,7 +2385,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:436: exit code was $at_status, expected 1"
+   *) echo "definition.at:434: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2425,8 +2425,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:458: \${COMPILE_ONLY} prog.cob"
-echo definition.at:458 >$at_check_line_file
+echo "definition.at:454: \${COMPILE_ONLY} prog.cob"
+echo definition.at:454 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2441,7 +2441,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:458: exit code was $at_status, expected 1"
+   *) echo "definition.at:454: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2481,8 +2481,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:477: \${COMPILE_ONLY} prog.cob"
-echo definition.at:477 >$at_check_line_file
+echo "definition.at:473: \${COMPILE_ONLY} prog.cob"
+echo definition.at:473 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2497,7 +2497,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:477: exit code was $at_status, expected 1"
+   *) echo "definition.at:473: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2537,8 +2537,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:493: \${COMPILE_ONLY} prog.cob"
-echo definition.at:493 >$at_check_line_file
+echo "definition.at:492: \${COMPILE_ONLY} prog.cob"
+echo definition.at:492 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2550,7 +2550,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "definition.at:493: exit code was $at_status, expected 0"
+   *) echo "definition.at:492: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2601,8 +2601,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:524: \${COMPILE_ONLY} prog.cob"
-echo definition.at:524 >$at_check_line_file
+echo "definition.at:519: \${COMPILE_ONLY} prog.cob"
+echo definition.at:519 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2618,7 +2618,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "definition.at:524: exit code was $at_status, expected 1"
+   *) echo "definition.at:519: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2670,8 +2670,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "definition.at:551: \${COMPILE_ONLY} -conf=test.conf prog.cob"
-echo definition.at:551 >$at_check_line_file
+echo "definition.at:549: \${COMPILE_ONLY} -conf=test.conf prog.cob"
+echo definition.at:549 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} -conf=test.conf prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2684,7 +2684,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "definition.at:551: exit code was $at_status, expected 0"
+   *) echo "definition.at:549: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2730,8 +2730,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "expression.at:41: \${COMPILE_ONLY} prog.cob"
-echo expression.at:41 >$at_check_line_file
+echo "expression.at:38: \${COMPILE_ONLY} prog.cob"
+echo expression.at:38 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2745,7 +2745,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "expression.at:41: exit code was $at_status, expected 0"
+   *) echo "expression.at:38: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2796,8 +2796,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "expression.at:69: \${COMPILE_ONLY} prog.cob"
-echo expression.at:69 >$at_check_line_file
+echo "expression.at:67: \${COMPILE_ONLY} prog.cob"
+echo expression.at:67 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2810,7 +2810,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "expression.at:69: exit code was $at_status, expected 1"
+   *) echo "expression.at:67: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2856,8 +2856,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "subscripts.at:51: \${COMPILE_ONLY} prog.cob"
-echo subscripts.at:51 >$at_check_line_file
+echo "subscripts.at:48: \${COMPILE_ONLY} prog.cob"
+echo subscripts.at:48 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2871,7 +2871,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "subscripts.at:51: exit code was $at_status, expected 1"
+   *) echo "subscripts.at:48: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2926,8 +2926,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "subscripts.at:89: \${COMPILE_ONLY} prog.cob"
-echo subscripts.at:89 >$at_check_line_file
+echo "subscripts.at:84: \${COMPILE_ONLY} prog.cob"
+echo subscripts.at:84 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -2943,7 +2943,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "subscripts.at:89: exit code was $at_status, expected 1"
+   *) echo "subscripts.at:84: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -2987,8 +2987,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "occurs.at:49: \${COMPILE_ONLY} prog.cob"
-echo occurs.at:49 >$at_check_line_file
+echo "occurs.at:43: \${COMPILE_ONLY} prog.cob"
+echo occurs.at:43 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3005,7 +3005,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "occurs.at:49: exit code was $at_status, expected 1"
+   *) echo "occurs.at:43: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3047,8 +3047,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "occurs.at:68: \${COMPILE_ONLY} prog.cob"
-echo occurs.at:68 >$at_check_line_file
+echo "occurs.at:66: \${COMPILE_ONLY} prog.cob"
+echo occurs.at:66 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3061,7 +3061,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "occurs.at:68: exit code was $at_status, expected 1"
+   *) echo "occurs.at:66: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3171,8 +3171,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "occurs.at:161: \${COMPILE_ONLY} prog.cob"
-echo occurs.at:161 >$at_check_line_file
+echo "occurs.at:157: \${COMPILE_ONLY} prog.cob"
+echo occurs.at:157 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3187,7 +3187,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "occurs.at:161: exit code was $at_status, expected 1"
+   *) echo "occurs.at:157: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3228,8 +3228,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "occurs.at:188: \${COMPILE_ONLY} prog.cob"
-echo occurs.at:188 >$at_check_line_file
+echo "occurs.at:186: \${COMPILE_ONLY} prog.cob"
+echo occurs.at:186 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3242,7 +3242,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "occurs.at:188: exit code was $at_status, expected 1"
+   *) echo "occurs.at:186: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3283,8 +3283,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:42: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:42 >$at_check_line_file
+echo "redefines.at:40: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:40 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3297,7 +3297,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:42: exit code was $at_status, expected 1"
+   *) echo "redefines.at:40: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3341,8 +3341,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:66: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:66 >$at_check_line_file
+echo "redefines.at:64: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:64 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3355,7 +3355,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:66: exit code was $at_status, expected 1"
+   *) echo "redefines.at:64: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3400,8 +3400,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:88: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:88 >$at_check_line_file
+echo "redefines.at:86: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:86 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3414,7 +3414,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:88: exit code was $at_status, expected 1"
+   *) echo "redefines.at:86: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3459,8 +3459,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:110: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:110 >$at_check_line_file
+echo "redefines.at:108: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:108 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3473,7 +3473,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:110: exit code was $at_status, expected 1"
+   *) echo "redefines.at:108: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3517,8 +3517,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:131: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:131 >$at_check_line_file
+echo "redefines.at:129: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:129 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3531,7 +3531,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:131: exit code was $at_status, expected 1"
+   *) echo "redefines.at:129: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3577,8 +3577,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:162: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:162 >$at_check_line_file
+echo "redefines.at:160: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:160 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3591,7 +3591,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:162: exit code was $at_status, expected 1"
+   *) echo "redefines.at:160: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3635,8 +3635,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:186: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:186 >$at_check_line_file
+echo "redefines.at:184: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:184 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3649,7 +3649,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "redefines.at:186: exit code was $at_status, expected 0"
+   *) echo "redefines.at:184: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3694,8 +3694,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:208: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:208 >$at_check_line_file
+echo "redefines.at:206: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:206 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3708,7 +3708,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:208: exit code was $at_status, expected 1"
+   *) echo "redefines.at:206: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3761,8 +3761,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:240: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:240 >$at_check_line_file
+echo "redefines.at:236: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:236 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3777,7 +3777,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:240: exit code was $at_status, expected 1"
+   *) echo "redefines.at:236: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3823,8 +3823,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:266: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:266 >$at_check_line_file
+echo "redefines.at:264: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:264 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3837,7 +3837,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:266: exit code was $at_status, expected 1"
+   *) echo "redefines.at:264: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3883,8 +3883,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:292: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:292 >$at_check_line_file
+echo "redefines.at:290: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:290 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3897,7 +3897,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:292: exit code was $at_status, expected 1"
+   *) echo "redefines.at:290: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3974,8 +3974,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:327: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:327 >$at_check_line_file
+echo "redefines.at:323: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:323 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3990,7 +3990,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:327: exit code was $at_status, expected 1"
+   *) echo "redefines.at:323: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4037,8 +4037,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:355: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:355 >$at_check_line_file
+echo "redefines.at:352: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:352 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4052,7 +4052,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:355: exit code was $at_status, expected 1"
+   *) echo "redefines.at:352: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4100,8 +4100,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:384: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:384 >$at_check_line_file
+echo "redefines.at:381: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:381 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4115,7 +4115,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:384: exit code was $at_status, expected 1"
+   *) echo "redefines.at:381: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4218,8 +4218,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "value.at:64: \${COMPILE_ONLY} prog.cob"
-echo value.at:64 >$at_check_line_file
+echo "value.at:59: \${COMPILE_ONLY} prog.cob"
+echo value.at:59 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4235,7 +4235,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "value.at:64: exit code was $at_status, expected 1"
+   *) echo "value.at:59: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4279,8 +4279,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "value.at:86: \${COMPILE_ONLY} prog.cob"
-echo value.at:86 >$at_check_line_file
+echo "value.at:83: \${COMPILE_ONLY} prog.cob"
+echo value.at:83 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4294,7 +4294,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "value.at:86: exit code was $at_status, expected 0"
+   *) echo "value.at:83: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4342,8 +4342,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "value.at:114: \${COMPILE_ONLY} prog.cob"
-echo value.at:114 >$at_check_line_file
+echo "value.at:109: \${COMPILE_ONLY} prog.cob"
+echo value.at:109 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4359,7 +4359,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "value.at:114: exit code was $at_status, expected 0"
+   *) echo "value.at:109: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4403,8 +4403,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "value.at:139: \${COMPILE_ONLY} prog.cob"
-echo value.at:139 >$at_check_line_file
+echo "value.at:136: \${COMPILE_ONLY} prog.cob"
+echo value.at:136 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4418,7 +4418,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "value.at:139: exit code was $at_status, expected 1"
+   *) echo "value.at:136: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4463,8 +4463,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "value.at:167: \${COMPILE_ONLY} prog.cob"
-echo value.at:167 >$at_check_line_file
+echo "value.at:162: \${COMPILE_ONLY} prog.cob"
+echo value.at:162 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4480,7 +4480,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "value.at:167: exit code was $at_status, expected 1"
+   *) echo "value.at:162: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4523,8 +4523,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "value.at:188: \${COMPILE_ONLY} prog.cob"
-echo value.at:188 >$at_check_line_file
+echo "value.at:185: \${COMPILE_ONLY} prog.cob"
+echo value.at:185 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4538,7 +4538,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "value.at:188: exit code was $at_status, expected 0"
+   *) echo "value.at:185: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4584,8 +4584,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "value.at:212: \${COMPILE_ONLY} prog.cob"
-echo value.at:212 >$at_check_line_file
+echo "value.at:209: \${COMPILE_ONLY} prog.cob"
+echo value.at:209 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4599,7 +4599,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "value.at:212: exit code was $at_status, expected 0"
+   *) echo "value.at:209: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4644,8 +4644,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "value.at:245: \${COMPILE_ONLY} prog.cob"
-echo value.at:245 >$at_check_line_file
+echo "value.at:242: \${COMPILE_ONLY} prog.cob"
+echo value.at:242 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4659,7 +4659,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "value.at:245: exit code was $at_status, expected 0"
+   *) echo "value.at:242: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4703,8 +4703,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "value.at:267: \${COMPILE_ONLY} prog.cob"
-echo value.at:267 >$at_check_line_file
+echo "value.at:264: \${COMPILE_ONLY} prog.cob"
+echo value.at:264 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4718,7 +4718,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "value.at:267: exit code was $at_status, expected 0"
+   *) echo "value.at:264: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4762,8 +4762,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "move.at:55: \${COMPILE_ONLY} prog.cob"
-echo move.at:55 >$at_check_line_file
+echo "move.at:52: \${COMPILE_ONLY} prog.cob"
+echo move.at:52 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4777,7 +4777,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "move.at:55: exit code was $at_status, expected 1"
+   *) echo "move.at:52: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4819,8 +4819,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "move.at:77: \${COMPILE_ONLY} prog.cob"
-echo move.at:77 >$at_check_line_file
+echo "move.at:75: \${COMPILE_ONLY} prog.cob"
+echo move.at:75 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4833,7 +4833,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "move.at:77: exit code was $at_status, expected 1"
+   *) echo "move.at:75: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4884,8 +4884,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "move.at:112: \${COMPILE_ONLY} prog.cob"
-echo move.at:112 >$at_check_line_file
+echo "move.at:109: \${COMPILE_ONLY} prog.cob"
+echo move.at:109 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4899,7 +4899,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "move.at:112: exit code was $at_status, expected 1"
+   *) echo "move.at:109: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -5014,8 +5014,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "move.at:167: \${COMPILE_ONLY} prog.cob"
-echo move.at:167 >$at_check_line_file
+echo "move.at:164: \${COMPILE_ONLY} prog.cob"
+echo move.at:164 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -5029,7 +5029,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "move.at:167: exit code was $at_status, expected 1"
+   *) echo "move.at:164: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -5080,8 +5080,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "move.at:195: \${COMPILE_ONLY} prog.cob"
-echo move.at:195 >$at_check_line_file
+echo "move.at:193: \${COMPILE_ONLY} prog.cob"
+echo move.at:193 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -5094,7 +5094,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "move.at:195: exit code was $at_status, expected 1"
+   *) echo "move.at:193: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -5145,8 +5145,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "move.at:225: \${COMPILE_ONLY} prog.cob"
-echo move.at:225 >$at_check_line_file
+echo "move.at:221: \${COMPILE_ONLY} prog.cob"
+echo move.at:221 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -5161,7 +5161,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "move.at:225: exit code was $at_status, expected 1"
+   *) echo "move.at:221: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -5212,8 +5212,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "move.at:253: \${COMPILE_ONLY} prog.cob"
-echo move.at:253 >$at_check_line_file
+echo "move.at:251: \${COMPILE_ONLY} prog.cob"
+echo move.at:251 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -5226,7 +5226,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "move.at:253: exit code was $at_status, expected 1"
+   *) echo "move.at:251: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -5274,8 +5274,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "move.at:287: \${COMPILE_ONLY} prog.cob"
-echo move.at:287 >$at_check_line_file
+echo "move.at:282: \${COMPILE_ONLY} prog.cob"
+echo move.at:282 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -5291,7 +5291,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "move.at:287: exit code was $at_status, expected 1"
+   *) echo "move.at:282: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -5335,8 +5335,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "move.at:312: \${COMPILE_ONLY} prog.cob"
-echo move.at:312 >$at_check_line_file
+echo "move.at:310: \${COMPILE_ONLY} prog.cob"
+echo move.at:310 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -5349,7 +5349,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "move.at:312: exit code was $at_status, expected 1"
+   *) echo "move.at:310: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -5402,8 +5402,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "multiply.at:60: \${COMPILE_ONLY} prog.cob"
-echo multiply.at:60 >$at_check_line_file
+echo "multiply.at:52: \${COMPILE_ONLY} prog.cob"
+echo multiply.at:52 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -5422,7 +5422,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "multiply.at:60: exit code was $at_status, expected 1"
+   *) echo "multiply.at:52: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -5475,8 +5475,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "multiply.at:100: \${COMPILE_ONLY} prog.cob"
-echo multiply.at:100 >$at_check_line_file
+echo "multiply.at:90: \${COMPILE_ONLY} prog.cob"
+echo multiply.at:90 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -5497,7 +5497,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "multiply.at:100: exit code was $at_status, expected 1"
+   *) echo "multiply.at:90: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -5546,8 +5546,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "multiply.at:130: \${COMPILE_ONLY} prog.cob"
-echo multiply.at:130 >$at_check_line_file
+echo "multiply.at:126: \${COMPILE_ONLY} prog.cob"
+echo multiply.at:126 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -5562,7 +5562,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "multiply.at:130: exit code was $at_status, expected 1"
+   *) echo "multiply.at:126: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -5604,8 +5604,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "set.at:39: \${COMPILE_ONLY} prog.cob"
-echo set.at:39 >$at_check_line_file
+echo "set.at:37: \${COMPILE_ONLY} prog.cob"
+echo set.at:37 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -5618,7 +5618,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "set.at:39: exit code was $at_status, expected 1"
+   *) echo "set.at:37: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then

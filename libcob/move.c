@@ -361,12 +361,11 @@ cob_move_alphanum_to_alphanum (cob_field *f1, cob_field *f2)
 static void
 cob_move_alphanum_to_national (cob_field *f1, cob_field *f2)
 {
+	/* I18N_UTF8: Use UTF-8 3bytes/char SPC for padding. */
 	unsigned char	*data1;
 	unsigned char	*data2;
 	size_t		size1;
 	size_t		size2;
-	char		*s;
-	s = "Å@";
 	int		i;
 	int		len;
 
@@ -384,19 +383,21 @@ cob_move_alphanum_to_national (cob_field *f1, cob_field *f2)
 		}
 	} else {
 		/* move string with padding */
+		memset (data2, ' ', size2);
 		if (COB_FIELD_JUSTIFIED (f2)) {
-			for (i = 0; i < len;) {
-				memcpy (data2+i, s, 2);
-				i = i + 2;
+			for (i = 0; i < len; i += COB_ZENCSIZ) {
+				if (len-i >= COB_ZENCSIZ) {
+					memcpy (data2+i, COB_ZENSPC, COB_ZENCSIZ);
+				}
 			}
-			memcpy (data2+i, data1, size1);
+			memcpy (data2+len, data1, size1);
 		} else {
-			memcpy (data2, data1, size1);
-			for (i = 0; i < len;) {
-				memcpy (data2+size1, s, size2-size1);
-				i = i + 2;
-				size1 = size1 + 2;
+			for (i = 0; i < len; i += COB_ZENCSIZ) {
+				if (len-i >= COB_ZENCSIZ) {
+					memcpy (data2+size1+i, COB_ZENSPC, COB_ZENCSIZ);
+				}
 			}
+			memcpy (data2, data1, size1);
 		}
 	}
 }
@@ -1017,25 +1018,29 @@ cob_move_alphanum_to_national_edited (cob_field *f1, cob_field *f2)
 		for (; n > 0; --n) {
 			switch (c) {
 			case 'N':
+			/* I18N_UTF8: NATIONAL uses 3bytes/char for BMP. */
 				if (src < max) {
 					*dst++ = *src++;
 					*dst++ = *src++;
+#ifdef	I18N_UTF8
+					*dst++ = *src++;
+#endif
 				} else {
-					*dst++ = 0x81;
-					*dst++ = 0x40;
+					memcpy (dst, COB_ZENSPC, COB_ZENCSIZ);
+					dst += COB_ZENCSIZ;
 				}
 				break;
 			case '/':
-				*dst++ = 0x81;
-				*dst++ = 0x5E;
+				memcpy (dst, COB_ZENSLAS, COB_ZENCSIZ);
+				dst += COB_ZENCSIZ;
 				break;
 			case 'B':
-				*dst++ = 0x81;
-				*dst++ = 0x40;
+				memcpy (dst, COB_ZENSPC, COB_ZENCSIZ);
+				dst += COB_ZENCSIZ;
 				break;
 			case '0':
-				*dst++ = 0x82;
-				*dst++ = 0x4F;
+				memcpy (dst, COB_ZENZERO, COB_ZENCSIZ);
+				dst += COB_ZENCSIZ;
 				break;
 			default:
 				*dst++ = '?';	/* invalid PIC */
@@ -1047,6 +1052,11 @@ cob_move_alphanum_to_national_edited (cob_field *f1, cob_field *f2)
 static char *
 han2zen (char *str, int size, int *retsize)
 {
+#ifdef	I18N_UTF8
+	char *p = (char *)cob_national ((unsigned char *)str, size);
+	*retsize = strlen (p);
+	return p;
+#else /*!I18N_UTF8*/
 	char		*buf, *p, *ptr;
 	unsigned char	c;
 	int		i;
@@ -1063,146 +1073,146 @@ han2zen (char *str, int size, int *retsize)
 	for (i = 0, ptr = str, p = buf; i < size; ptr++, i++) {
 		c = (unsigned char) *ptr;
 		switch (c) {
-		case    0X20: strcpy(p,"Å@");p+=2;break;
-		case    0X21: strcpy(p,"ÅI");p+=2;break;
-		case    0X22: strcpy(p,"Åh");p+=2;break;
-		case    0X23: strcpy(p,"Åî");p+=2;break;
-		case    0X24: strcpy(p,"Åê");p+=2;break;
-		case    0X25: strcpy(p,"Åì");p+=2;break;
-		case    0X26: strcpy(p,"Åï");p+=2;break;
-		case    0X27: strcpy(p,"Åf");p+=2;break;
-		case    0X28: strcpy(p,"Åi");p+=2;break;
-		case    0X29: strcpy(p,"Åj");p+=2;break;
-		case    0X2A: strcpy(p,"Åñ");p+=2;break;
-		case    0X2B: strcpy(p,"Å{");p+=2;break;
-		case    0X2C: strcpy(p,"ÅC");p+=2;break;
-		case    0X2D: strcpy(p,"Å|");p+=2;break;
-		case    0X2E: strcpy(p,"ÅD");p+=2;break;
-		case    0X2F: strcpy(p,"Å^");p+=2;break;
-		case    0X30: strcpy(p,"ÇO");p+=2;break;
-		case    0X31: strcpy(p,"ÇP");p+=2;break;
-		case    0X32: strcpy(p,"ÇQ");p+=2;break;
-		case    0X33: strcpy(p,"ÇR");p+=2;break;
-		case    0X34: strcpy(p,"ÇS");p+=2;break;
-		case    0X35: strcpy(p,"ÇT");p+=2;break;
-		case    0X36: strcpy(p,"ÇU");p+=2;break;
-		case    0X37: strcpy(p,"ÇV");p+=2;break;
-		case    0X38: strcpy(p,"ÇW");p+=2;break;
-		case    0X39: strcpy(p,"ÇX");p+=2;break;
-		case    0X3A: strcpy(p,"ÅF");p+=2;break;
-		case    0X3B: strcpy(p,"ÅG");p+=2;break;
-		case    0X3C: strcpy(p,"ÅÉ");p+=2;break;
-		case    0X3D: strcpy(p,"ÅÅ");p+=2;break;
-		case    0X3E: strcpy(p,"ÅÑ");p+=2;break;
-		case    0X3F: strcpy(p,"ÅH");p+=2;break;
-		case    0X40: strcpy(p,"Åó");p+=2;break;
-		case    0X41: strcpy(p,"Ç`");p+=2;break;
-		case    0X42: strcpy(p,"Ça");p+=2;break;
-		case    0X43: strcpy(p,"Çb");p+=2;break;
-		case    0X44: strcpy(p,"Çc");p+=2;break;
-		case    0X45: strcpy(p,"Çd");p+=2;break;
-		case    0X46: strcpy(p,"Çe");p+=2;break;
-		case    0X47: strcpy(p,"Çf");p+=2;break;
-		case    0X48: strcpy(p,"Çg");p+=2;break;
-		case    0X49: strcpy(p,"Çh");p+=2;break;
-		case    0X4A: strcpy(p,"Çi");p+=2;break;
-		case    0X4B: strcpy(p,"Çj");p+=2;break;
-		case    0X4C: strcpy(p,"Çk");p+=2;break;
-		case    0X4D: strcpy(p,"Çl");p+=2;break;
-		case    0X4E: strcpy(p,"Çm");p+=2;break;
-		case    0X4F: strcpy(p,"Çn");p+=2;break;
-		case    0X50: strcpy(p,"Ço");p+=2;break;
-		case    0X51: strcpy(p,"Çp");p+=2;break;
-		case    0X52: strcpy(p,"Çq");p+=2;break;
-		case    0X53: strcpy(p,"Çr");p+=2;break;
-		case    0X54: strcpy(p,"Çs");p+=2;break;
-		case    0X55: strcpy(p,"Çt");p+=2;break;
-		case    0X56: strcpy(p,"Çu");p+=2;break;
-		case    0X57: strcpy(p,"Çv");p+=2;break;
-		case    0X58: strcpy(p,"Çw");p+=2;break;
-		case    0X59: strcpy(p,"Çx");p+=2;break;
-		case    0X5A: strcpy(p,"Çy");p+=2;break;
-		case    0X5B: strcpy(p,"Åm");p+=2;break;
-		case    0X5C: strcpy(p,"Åè");p+=2;break;
-		case    0X5D: strcpy(p,"Ån");p+=2;break;
-		case    0X5E: strcpy(p,"ÅO");p+=2;break;
-		case    0X5F: strcpy(p,"ÅQ");p+=2;break;
-		case    0X60: strcpy(p,"Åe");p+=2;break;
-		case    0X61: strcpy(p,"ÇÅ");p+=2;break;
-		case    0X62: strcpy(p,"ÇÇ");p+=2;break;
-		case    0X63: strcpy(p,"ÇÉ");p+=2;break;
-		case    0X64: strcpy(p,"ÇÑ");p+=2;break;
-		case    0X65: strcpy(p,"ÇÖ");p+=2;break;
-		case    0X66: strcpy(p,"ÇÜ");p+=2;break;
-		case    0X67: strcpy(p,"Çá");p+=2;break;
-		case    0X68: strcpy(p,"Çà");p+=2;break;
-		case    0X69: strcpy(p,"Çâ");p+=2;break;
-		case    0X6A: strcpy(p,"Çä");p+=2;break;
-		case    0X6B: strcpy(p,"Çã");p+=2;break;
-		case    0X6C: strcpy(p,"Çå");p+=2;break;
-		case    0X6D: strcpy(p,"Çç");p+=2;break;
-		case    0X6E: strcpy(p,"Çé");p+=2;break;
-		case    0X6F: strcpy(p,"Çè");p+=2;break;
-		case    0X70: strcpy(p,"Çê");p+=2;break;
-		case    0X71: strcpy(p,"Çë");p+=2;break;
-		case    0X72: strcpy(p,"Çí");p+=2;break;
-		case    0X73: strcpy(p,"Çì");p+=2;break;
-		case    0X74: strcpy(p,"Çî");p+=2;break;
-		case    0X75: strcpy(p,"Çï");p+=2;break;
-		case    0X76: strcpy(p,"Çñ");p+=2;break;
-		case    0X77: strcpy(p,"Çó");p+=2;break;
-		case    0X78: strcpy(p,"Çò");p+=2;break;
-		case    0X79: strcpy(p,"Çô");p+=2;break;
-		case    0X7A: strcpy(p,"Çö");p+=2;break;
-		case    0X7B: strcpy(p,"Åo");p+=2;break;
-		case    0X7C: strcpy(p,"Åb");p+=2;break;
-		case    0X7D: strcpy(p,"Åp");p+=2;break;
-		case    0xB1: strcpy(p,"ÉA");p+=2;break;
-		case    0xB2: strcpy(p,"ÉC");p+=2;break;
-		case    0XB3: strcpy(p,"ÉE");p+=2;break;
-		case    0XB4: strcpy(p,"ÉG");p+=2;break;
-		case    0XB5: strcpy(p,"ÉI");p+=2;break;
-		case    0XB6: strcpy(p,"ÉJ");p+=2;break;
-		case    0XB7: strcpy(p,"ÉL");p+=2;break;
-		case    0XB8: strcpy(p,"ÉN");p+=2;break;
-		case    0XB9: strcpy(p,"ÉP");p+=2;break;
-		case    0XBA: strcpy(p,"ÉR");p+=2;break;
-		case    0XBB: strcpy(p,"ÉT");p+=2;break;
-		case    0XBC: strcpy(p,"ÉV");p+=2;break;
-		case    0XBD: strcpy(p,"ÉX");p+=2;break;
-		case    0XBE: strcpy(p,"ÉZ");p+=2;break;
-		case    0XBF: strcpy(p,"É\\");p+=2;break;
-		case    0XC0: strcpy(p,"É^");p+=2;break;
-		case    0XC1: strcpy(p,"É`");p+=2;break;
-		case    0XC2: strcpy(p,"Éc");p+=2;break;
-		case    0XC3: strcpy(p,"Ée");p+=2;break;
-		case    0XC4: strcpy(p,"Ég");p+=2;break;
-		case    0XC5: strcpy(p,"Éi");p+=2;break;
-		case    0XC6: strcpy(p,"Éj");p+=2;break;
-		case    0XC7: strcpy(p,"Ék");p+=2;break;
-		case    0XC8: strcpy(p,"Él");p+=2;break;
-		case    0XC9: strcpy(p,"Ém");p+=2;break;
-		case    0XCA: strcpy(p,"Én");p+=2;break;
-		case    0XCB: strcpy(p,"Éq");p+=2;break;
-		case    0XCC: strcpy(p,"Ét");p+=2;break;
-		case    0XCD: strcpy(p,"Éw");p+=2;break;
-		case    0XCE: strcpy(p,"Éz");p+=2;break;
-		case    0XCF: strcpy(p,"É}");p+=2;break;
-		case    0XD0: strcpy(p,"É~");p+=2;break;
-		case    0XD1: strcpy(p,"ÉÄ");p+=2;break;
-		case    0XD2: strcpy(p,"ÉÅ");p+=2;break;
-		case    0XD3: strcpy(p,"ÉÇ");p+=2;break;
-		case    0XD4: strcpy(p,"ÉÑ");p+=2;break;
-		case    0XD5: strcpy(p,"ÉÜ");p+=2;break;
-		case    0XD6: strcpy(p,"Éà");p+=2;break;
-		case    0XD7: strcpy(p,"Éâ");p+=2;break;
-		case    0XD8: strcpy(p,"Éä");p+=2;break;
-		case    0XD9: strcpy(p,"Éã");p+=2;break;
-		case    0XDA: strcpy(p,"Éå");p+=2;break;
-		case    0XDB: strcpy(p,"Éç");p+=2;break;
-		case    0XDC: strcpy(p,"Éè");p+=2;break;
-		case    0XDD: strcpy(p,"Éì");p+=2;break;
-		case    0XA6: strcpy(p,"Éí");p+=2;break;
+		case    0x20: strcpy(p, "\x81\x40");p+=2;break;
+		case    0x21: strcpy(p, "\x81\x49");p+=2;break;
+		case    0x22: strcpy(p, "\x81\x68");p+=2;break;
+		case    0x23: strcpy(p, "\x81\x94");p+=2;break;
+		case    0x24: strcpy(p, "\x81\x90");p+=2;break;
+		case    0x25: strcpy(p, "\x81\x93");p+=2;break;
+		case    0x26: strcpy(p, "\x81\x95");p+=2;break;
+		case    0x27: strcpy(p, "\x81\x66");p+=2;break;
+		case    0x28: strcpy(p, "\x81\x69");p+=2;break;
+		case    0x29: strcpy(p, "\x81\x6A");p+=2;break;
+		case    0x2A: strcpy(p, "\x81\x96");p+=2;break;
+		case    0x2B: strcpy(p, "\x81\x7B");p+=2;break;
+		case    0x2C: strcpy(p, "\x81\x43");p+=2;break;
+		case    0x2D: strcpy(p, "\x81\x7C");p+=2;break;
+		case    0x2E: strcpy(p, "\x81\x44");p+=2;break;
+		case    0x2F: strcpy(p, "\x81\x5E");p+=2;break;
+		case    0x30: strcpy(p, "\x82\x4F");p+=2;break;
+		case    0x31: strcpy(p, "\x82\x50");p+=2;break;
+		case    0x32: strcpy(p, "\x82\x51");p+=2;break;
+		case    0x33: strcpy(p, "\x82\x52");p+=2;break;
+		case    0x34: strcpy(p, "\x82\x53");p+=2;break;
+		case    0x35: strcpy(p, "\x82\x54");p+=2;break;
+		case    0x36: strcpy(p, "\x82\x55");p+=2;break;
+		case    0x37: strcpy(p, "\x82\x56");p+=2;break;
+		case    0x38: strcpy(p, "\x82\x57");p+=2;break;
+		case    0x39: strcpy(p, "\x82\x58");p+=2;break;
+		case    0x3A: strcpy(p, "\x81\x46");p+=2;break;
+		case    0x3B: strcpy(p, "\x81\x47");p+=2;break;
+		case    0x3C: strcpy(p, "\x81\x83");p+=2;break;
+		case    0x3D: strcpy(p, "\x81\x81");p+=2;break;
+		case    0x3E: strcpy(p, "\x81\x84");p+=2;break;
+		case    0x3F: strcpy(p, "\x81\x48");p+=2;break;
+		case    0x40: strcpy(p, "\x81\x97");p+=2;break;
+		case    0x41: strcpy(p, "\x82\x60");p+=2;break;
+		case    0x42: strcpy(p, "\x82\x61");p+=2;break;
+		case    0x43: strcpy(p, "\x82\x62");p+=2;break;
+		case    0x44: strcpy(p, "\x82\x63");p+=2;break;
+		case    0x45: strcpy(p, "\x82\x64");p+=2;break;
+		case    0x46: strcpy(p, "\x82\x65");p+=2;break;
+		case    0x47: strcpy(p, "\x82\x66");p+=2;break;
+		case    0x48: strcpy(p, "\x82\x67");p+=2;break;
+		case    0x49: strcpy(p, "\x82\x68");p+=2;break;
+		case    0x4A: strcpy(p, "\x82\x69");p+=2;break;
+		case    0x4B: strcpy(p, "\x82\x6A");p+=2;break;
+		case    0x4C: strcpy(p, "\x82\x6B");p+=2;break;
+		case    0x4D: strcpy(p, "\x82\x6C");p+=2;break;
+		case    0x4E: strcpy(p, "\x82\x6D");p+=2;break;
+		case    0x4F: strcpy(p, "\x82\x6E");p+=2;break;
+		case    0x50: strcpy(p, "\x82\x6F");p+=2;break;
+		case    0x51: strcpy(p, "\x82\x70");p+=2;break;
+		case    0x52: strcpy(p, "\x82\x71");p+=2;break;
+		case    0x53: strcpy(p, "\x82\x72");p+=2;break;
+		case    0x54: strcpy(p, "\x82\x73");p+=2;break;
+		case    0x55: strcpy(p, "\x82\x74");p+=2;break;
+		case    0x56: strcpy(p, "\x82\x75");p+=2;break;
+		case    0x57: strcpy(p, "\x82\x76");p+=2;break;
+		case    0x58: strcpy(p, "\x82\x77");p+=2;break;
+		case    0x59: strcpy(p, "\x82\x78");p+=2;break;
+		case    0x5A: strcpy(p, "\x82\x79");p+=2;break;
+		case    0x5B: strcpy(p, "\x81\x6D");p+=2;break;
+		case    0x5C: strcpy(p, "\x81\x8F");p+=2;break;
+		case    0x5D: strcpy(p, "\x81\x6E");p+=2;break;
+		case    0x5E: strcpy(p, "\x81\x4F");p+=2;break;
+		case    0x5F: strcpy(p, "\x81\x51");p+=2;break;
+		case    0x60: strcpy(p, "\x81\x65");p+=2;break;
+		case    0x61: strcpy(p, "\x82\x81");p+=2;break;
+		case    0x62: strcpy(p, "\x82\x82");p+=2;break;
+		case    0x63: strcpy(p, "\x82\x83");p+=2;break;
+		case    0x64: strcpy(p, "\x82\x84");p+=2;break;
+		case    0x65: strcpy(p, "\x82\x85");p+=2;break;
+		case    0x66: strcpy(p, "\x82\x86");p+=2;break;
+		case    0x67: strcpy(p, "\x82\x87");p+=2;break;
+		case    0x68: strcpy(p, "\x82\x88");p+=2;break;
+		case    0x69: strcpy(p, "\x82\x89");p+=2;break;
+		case    0x6A: strcpy(p, "\x82\x8A");p+=2;break;
+		case    0x6B: strcpy(p, "\x82\x8B");p+=2;break;
+		case    0x6C: strcpy(p, "\x82\x8C");p+=2;break;
+		case    0x6D: strcpy(p, "\x82\x8D");p+=2;break;
+		case    0x6E: strcpy(p, "\x82\x8E");p+=2;break;
+		case    0x6F: strcpy(p, "\x82\x8F");p+=2;break;
+		case    0x70: strcpy(p, "\x82\x90");p+=2;break;
+		case    0x71: strcpy(p, "\x82\x91");p+=2;break;
+		case    0x72: strcpy(p, "\x82\x92");p+=2;break;
+		case    0x73: strcpy(p, "\x82\x93");p+=2;break;
+		case    0x74: strcpy(p, "\x82\x94");p+=2;break;
+		case    0x75: strcpy(p, "\x82\x95");p+=2;break;
+		case    0x76: strcpy(p, "\x82\x96");p+=2;break;
+		case    0x77: strcpy(p, "\x82\x97");p+=2;break;
+		case    0x78: strcpy(p, "\x82\x98");p+=2;break;
+		case    0x79: strcpy(p, "\x82\x99");p+=2;break;
+		case    0x7A: strcpy(p, "\x82\x9A");p+=2;break;
+		case    0x7B: strcpy(p, "\x81\x6F");p+=2;break;
+		case    0x7C: strcpy(p, "\x81\x62");p+=2;break;
+		case    0x7D: strcpy(p, "\x81\x70");p+=2;break;
+		case    0xB1: strcpy(p, "\x83\x41");p+=2;break;
+		case    0xB2: strcpy(p, "\x83\x43");p+=2;break;
+		case    0xB3: strcpy(p, "\x83\x45");p+=2;break;
+		case    0xB4: strcpy(p, "\x83\x47");p+=2;break;
+		case    0xB5: strcpy(p, "\x83\x49");p+=2;break;
+		case    0xB6: strcpy(p, "\x83\x4A");p+=2;break;
+		case    0xB7: strcpy(p, "\x83\x4C");p+=2;break;
+		case    0xB8: strcpy(p, "\x83\x4E");p+=2;break;
+		case    0xB9: strcpy(p, "\x83\x50");p+=2;break;
+		case    0xBA: strcpy(p, "\x83\x52");p+=2;break;
+		case    0xBB: strcpy(p, "\x83\x54");p+=2;break;
+		case    0xBC: strcpy(p, "\x83\x56");p+=2;break;
+		case    0xBD: strcpy(p, "\x83\x58");p+=2;break;
+		case    0xBE: strcpy(p, "\x83\x5A");p+=2;break;
+		case    0xBF: strcpy(p, "\x83\x5C");p+=2;break;
+		case    0xC0: strcpy(p, "\x83\x5E");p+=2;break;
+		case    0xC1: strcpy(p, "\x83\x60");p+=2;break;
+		case    0xC2: strcpy(p, "\x83\x63");p+=2;break;
+		case    0xC3: strcpy(p, "\x83\x65");p+=2;break;
+		case    0xC4: strcpy(p, "\x83\x67");p+=2;break;
+		case    0xC5: strcpy(p, "\x83\x69");p+=2;break;
+		case    0xC6: strcpy(p, "\x83\x6A");p+=2;break;
+		case    0xC7: strcpy(p, "\x83\x6B");p+=2;break;
+		case    0xC8: strcpy(p, "\x83\x6C");p+=2;break;
+		case    0xC9: strcpy(p, "\x83\x6D");p+=2;break;
+		case    0xCA: strcpy(p, "\x83\x6E");p+=2;break;
+		case    0xCB: strcpy(p, "\x83\x71");p+=2;break;
+		case    0xCC: strcpy(p, "\x83\x74");p+=2;break;
+		case    0xCD: strcpy(p, "\x83\x77");p+=2;break;
+		case    0xCE: strcpy(p, "\x83\x7A");p+=2;break;
+		case    0xCF: strcpy(p, "\x83\x7D");p+=2;break;
+		case    0xD0: strcpy(p, "\x83\x7E");p+=2;break;
+		case    0xD1: strcpy(p, "\x83\x80");p+=2;break;
+		case    0xD2: strcpy(p, "\x83\x81");p+=2;break;
+		case    0xD3: strcpy(p, "\x83\x82");p+=2;break;
+		case    0xD4: strcpy(p, "\x83\x84");p+=2;break;
+		case    0xD5: strcpy(p, "\x83\x86");p+=2;break;
+		case    0xD6: strcpy(p, "\x83\x88");p+=2;break;
+		case    0xD7: strcpy(p, "\x83\x89");p+=2;break;
+		case    0xD8: strcpy(p, "\x83\x8A");p+=2;break;
+		case    0xD9: strcpy(p, "\x83\x8B");p+=2;break;
+		case    0xDA: strcpy(p, "\x83\x8C");p+=2;break;
+		case    0xDB: strcpy(p, "\x83\x8D");p+=2;break;
+		case    0xDC: strcpy(p, "\x83\x8F");p+=2;break;
+		case    0xDD: strcpy(p, "\x83\x93");p+=2;break;
+		case    0xA6: strcpy(p, "\x83\x92");p+=2;break;
 		case     0:
 		case    255:
 			*p = *ptr;
@@ -1218,7 +1228,7 @@ han2zen (char *str, int size, int *retsize)
 			break;
 		default:
 			if (0 < c && c < 0X20) {
-				strcpy (p,"Å@");
+				strcpy (p, COB_SJSPC);
 				p += 2;
 			} else {
 				*p = *ptr;
@@ -1234,6 +1244,7 @@ han2zen (char *str, int size, int *retsize)
 	*p = '\0';
 	*retsize = p-buf;
 	return buf;
+#endif /*I18N_UTF8*/
 }
 
 static char *
@@ -1333,10 +1344,15 @@ cob_move_all (cob_field *src, cob_field *dst)
 			for (i = 0; i < digcount; ++i) {
 				lastdata[i] = src->data[i % src->size];
 			}
+#ifdef	I18N_UTF8
+			/* I18N_UTF8: termination of multi octet
+			   charactrer sequence is pending. */
+#else /*!I18N_UTF8*/
 			if ((0x81 <= lastdata[i-1] && lastdata[i-1] <= 0x9F) ||
 			    (0xE0 <= lastdata[i-1] && lastdata[i-1] <= 0xFC)) {
 				lastdata[i-1] = ' ';
 			}
+#endif /*I18N_UTF8*/
 		}
 	}
 	cob_move (&temp, dst);
@@ -1892,6 +1908,27 @@ cob_init_move (void)
 	lastsize = COB_SMALL_BUFF;
 }
 
+/* I18N_UTF8: utf-8 version of memset for mbchar. */
+#ifdef	I18N_UTF8
+int
+cob_la_memset (cob_field *f, int n)
+{
+	int		rt = 0;
+	unsigned char	buff[3];
+	int		i, rep = f->size / sizeof (buff);
+	unsigned char	*p = f->data;
+
+	memset (f->data, 0, f->size);
+	rt = ascii_to_utf8 (n, buff);
+	for (i = 0; i < rep; i++) {
+		memcpy (p, buff, sizeof (buff));
+		p += sizeof (buff);
+	}
+	return rt;
+}
+
+#else /*!I18N_UTF8*/
+
 int
 cob_la_anstojis (int n)
 {
@@ -1933,3 +1970,4 @@ cob_la_memset (cob_field *f, int n)
 		memcpy (&data[i*2], buff, 2);
 	}
 }
+#endif /*I18N_UTF8*/

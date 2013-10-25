@@ -106,6 +106,7 @@ COB_HAS_INLINE = @COB_HAS_INLINE@
 COB_LDFLAGS = @COB_LDFLAGS@
 COB_LIBRARY_PATH = @COB_LIBRARY_PATH@
 COB_LIBS = @COB_LIBS@
+COB_M4_FLAGS = @COB_M4_FLAGS@
 COB_MODULE_EXT = @COB_MODULE_EXT@
 COB_PIC_FLAGS = @COB_PIC_FLAGS@
 COB_SHARED_OPT = @COB_SHARED_OPT@
@@ -123,6 +124,8 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 GMSGFMT = @GMSGFMT@
+I18N_UTF8_FALSE = @I18N_UTF8_FALSE@
+I18N_UTF8_TRUE = @I18N_UTF8_TRUE@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
@@ -214,7 +217,7 @@ cobc_SOURCES = cobc.c cobc.h config.c tree.c tree.h reserved.c error.c \
 cobc_CFLAGS = -I$(top_srcdir)
 cobc_LDADD = $(COBC_LIBS) $(top_builddir)/lib/libsupport.a
 BUILT_SOURCES = parser.c parser.h scanner.c ppparse.c ppparse.h pplex.c
-EXTRA_DIST = ppparse.y pplex.l parser.y scanner.l
+EXTRA_DIST = ppparse.y pplex.l parser.y scanner.l pplex.l.m4 scanner.l.m4
 CLEANFILES = parser.output
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -678,6 +681,12 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
 %.c: %.y
 	bison -o $@ $<
+
+%.l: %.l.m4
+	m4 $(COB_M4_FLAGS) $< >$@
+
+pplex.l: pplex.l.m4
+scanner.l: scanner.l.m4
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

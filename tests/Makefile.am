@@ -6,11 +6,21 @@
 
 SUBDIRS = cobol85
 
+if I18N_UTF8
 TESTS = $(srcdir)/syntax \
 	$(srcdir)/run \
 	$(srcdir)/run-O \
 	$(srcdir)/data-rep \
-	$(srcdir)/data-rep-O
+	$(srcdir)/data-rep-O \
+	$(srcdir)/i18n_utf8
+else
+TESTS = $(srcdir)/syntax \
+	$(srcdir)/run \
+	$(srcdir)/run-O \
+	$(srcdir)/data-rep \
+	$(srcdir)/data-rep-O \
+	$(srcdir)/i18n_sjis
+endif
 
 syntax_DEPENDENCIES = \
 	syntax.at \
@@ -46,10 +56,25 @@ data_rep_DEPENDENCIES = \
 	data-rep.src/numeric-dump.cob \
 	data-rep.src/numeric-display.cob
 
+i18n_utf8_DEPENDENCIES = \
+	i18n_utf8.at \
+	i18n_utf8.src/user-defined-word.at \
+	i18n_utf8.src/pic-x.at \
+	i18n_utf8.src/pic-n.at
+
+i18n_sjis_DEPENDENCIES = \
+	i18n_sjis.at \
+	i18n_sjis.src/user-defined-word.at \
+	i18n_sjis.src/pic-x.at \
+	i18n_sjis.src/pic-n.at
+
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(syntax_DEPENDENCIES) \
 	$(run_DEPENDENCIES) \
-	$(data_rep_DEPENDENCIES)
+	$(data_rep_DEPENDENCIES) \
+	$(i18n_utf8_DEPENDENCIES) \
+	$(i18n_sjis_DEPENDENCIES)
+
 
 DISTCLEANFILES = atconfig
 
@@ -76,3 +101,5 @@ $(srcdir)/%: $(srcdir)/%.at $(srcdir)/package.m4
 $(srcdir)/syntax: $(syntax_DEPENDENCIES)
 $(srcdir)/run: $(run_DEPENDENCIES)
 $(srcdir)/data-rep: $(data_rep_DEPENDENCIES)
+$(srcdir)/i18n_utf8: $(i18n_utf8_DEPENDENCIES)
+$(srcdir)/i18n_sjis: $(i18n_sjis_DEPENDENCIES)

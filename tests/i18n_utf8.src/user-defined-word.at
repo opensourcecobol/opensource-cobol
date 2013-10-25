@@ -1,0 +1,178 @@
+AT_SETUP([Program name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      日本語のプログラム名.
+       PROCEDURE        DIVISION.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+
+AT_CLEANUP
+
+AT_SETUP([Field name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 Ｏ−文字列 PIC X(7) USAGE DISPLAY.
+       PROCEDURE        DIVISION.
+           MOVE "Unicode" TO Ｏ−文字列.
+           DISPLAY Ｏ−文字列 WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0], [Unicode])
+
+AT_CLEANUP
+
+AT_SETUP([Long field name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01   項目ＡＢＣＤＥＦＧＨ０１２３４５６７８９
+            PIC X(7).
+       PROCEDURE        DIVISION.
+           MOVE "Unicode"
+             TO
+           項目ＡＢＣＤＥＦＧＨ０１２３４５６７８９.
+           DISPLAY
+            項目ＡＢＣＤＥＦＧＨ０１２３４５６７８９
+	     WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0], [Unicode])
+
+AT_CLEANUP
+
+
+AT_SETUP([Field lookup])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 項目２ PIC X(1) VALUE "A".
+       01 項目Ｒ PIC X(1) VALUE "B".
+       PROCEDURE        DIVISION.
+           DISPLAY 項目２ 項目Ｒ WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0], [AB])
+
+AT_CLEANUP
+
+AT_SETUP([Section name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       PROCEDURE        DIVISION.
+       PERFORM    Ｓ−初期化.
+       PERFORM    Ｓ−終了.
+       Ｓ−初期化       SECTION.
+           DISPLAY "Hello, " WITH NO ADVANCING.
+       Ｓ−終了         SECTION.
+           DISPLAY "and good bye." WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0], [Hello, and good bye.])
+
+AT_CLEANUP
+
+AT_SETUP([Long section name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       PROCEDURE        DIVISION.
+       PERFORM s１２３４５６７８９０12345678901234567890.
+       PERFORM    Ｓ−終了.
+       s１２３４５６７８９０12345678901234567890 SECTION.
+           DISPLAY "Hello, " WITH NO ADVANCING.
+       Ｓ−終了         SECTION.
+           DISPLAY "and good bye." WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0], [Hello, and good bye.])
+
+AT_CLEANUP
+
+AT_SETUP([Too long section name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       PROCEDURE        DIVISION.
+       PERFORM s１２３４５６７８９０123456789012345678901.
+       PERFORM    Ｓ−終了.
+       s１２３４５６７８９０123456789012345678901 SECTION.
+           DISPLAY "Hello, " WITH NO ADVANCING.
+       Ｓ−終了         SECTION.
+           DISPLAY "and good bye." WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [1], [],
+[prog.cob:7: Error: User defined name must be less than 32 characters
+prog.cob:9: Error: User defined name must be less than 32 characters
+])
+
+AT_CLEANUP
+
+AT_SETUP([Nihongo Filename])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT テストファイル ASSIGN TO "./テスト_ファイル"
+                        ORGANIZATION IS  INDEXED
+                        ACCESS MODE  IS  SEQUENTIAL
+                        RECORD KEY   IS  TEST-KEY.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD テストファイル.
+       01 TEST-KEY      PIC X(10).
+       PROCEDURE        DIVISION.
+           OPEN  OUTPUT テストファイル.
+           MOVE "TEST000000" TO TEST-KEY.
+           WRITE TEST-KEY.
+           CLOSE テストファイル.
+           OPEN  INPUT  テストファイル.
+           READ  テストファイル
+               NOT AT END
+                   DISPLAY "OK" NO ADVANCING
+           END-READ.
+           CLOSE テストファイル.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0], [OK])
+
+AT_CLEANUP

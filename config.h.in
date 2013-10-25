@@ -266,6 +266,9 @@
 /* Define to 1 if you have the <wchar.h> header file. */
 #undef HAVE_WCHAR_H
 
+/* Enable UTF-8 support */
+#undef I18N_UTF8
+
 /* Define as const if the declaration of iconv() needs const. */
 #undef ICONV_CONST
 

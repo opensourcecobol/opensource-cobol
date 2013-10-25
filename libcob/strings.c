@@ -349,10 +349,14 @@ cob_inspect_characters (cob_field *f1)
 			}
 		}
 		if (n > 0) {
+#ifdef	I18N_UTF8
+			/* I18N_UTF8: count bytes also in NATIONAL. */
+#else /*!I18N_UTF8*/
 			if (COB_FIELD_TYPE (inspect_var) == COB_TYPE_NATIONAL ||
 			    COB_FIELD_TYPE (inspect_var) == COB_TYPE_NATIONAL_EDITED) {
 				n = n / 2;
 			}
+#endif /*I18N_UTF8*/
 			cob_add_int (f1, n);
 		}
 	}
@@ -388,7 +392,6 @@ cob_inspect_converting (cob_field *f1, cob_field *f2)
 	size_t	i;
 	size_t	j;
 	size_t	len;
-	int	x;
 
 	len = (size_t)(inspect_end - inspect_start);
 	if (COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL ||
@@ -400,6 +403,18 @@ cob_inspect_converting (cob_field *f1, cob_field *f2)
 		} else if (f2 == &cob_zero) {
 			f2 = &cob_zen_zero;
 		}
+#ifdef	I18N_UTF8
+	}
+	/* I18N_UTF8: Can be compared in byte by byte (though SJIS does not). */
+	for (j = 0; j < f1->size; j++) {
+		for (i = 0; i < len; i++) {
+			if (inspect_mark[i] == -1 && inspect_start[i] == f1->data[j]) {
+				inspect_start[i] = f2->data[j];
+				inspect_mark[i] = 1;
+			}
+		}
+	}
+#else /*!I18N_UTF8*/
 		for (j = 0; j < f1->size; j += 2) {
 			for (i = 0; i < len; i += 2) {
 				if (inspect_mark[i] == -1 && inspect_mark[i+1] == -1 && memcmp (&inspect_start[i], &(f1->data[j]), 2) == 0) {
@@ -429,6 +444,7 @@ cob_inspect_converting (cob_field *f1, cob_field *f2)
 			}
 		}
 	}
+#endif /*I18N_UTF8*/
 }
 
 void
@@ -471,10 +487,14 @@ cob_string_init (cob_field *dst, cob_field *ptr)
 		}
 	}
 
+#ifdef	I18N_UTF8
+	/* I18N_UTF8: No offset arrangement needed also in NATIONAL. */
+#else /*!I18N_UTF8*/
 	if (COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL ||
 	    COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL_EDITED) {
 		string_offset *= 2;
 	}
+#endif /*I18N_UTF8*/
 }
 
 void
@@ -534,10 +554,14 @@ cob_string_append (cob_field *src)
 void
 cob_string_finish (void)
 {
+#ifdef	I18N_UTF8
+	/* I18N_UTF8: No offset arrangement needed  also in NATIONAL. */
+#else /*!I18N_UTF8*/
 	if (COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL ||
 	    COB_FIELD_TYPE (string_dst) == COB_TYPE_NATIONAL_EDITED) {
 		string_offset /= 2;
 	}
+#endif /*I18N_UTF8*/
 
 	if (string_ptr) {
 		cob_set_int (string_ptr, string_offset + 1);

@@ -1,0 +1,177 @@
+AT_SETUP([Program name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      ì˙ñ{åÍÇÃÉvÉçÉOÉâÉÄñº.
+       PROCEDURE        DIVISION.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+
+AT_CLEANUP
+
+AT_SETUP([Field name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 ÇnÅ|ï∂éöóÒ PIC X(7) USAGE DISPLAY.
+       PROCEDURE        DIVISION.
+           MOVE "Unicode" TO ÇnÅ|ï∂éöóÒ.
+           DISPLAY ÇnÅ|ï∂éöóÒ WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0], [Unicode])
+
+AT_CLEANUP
+
+AT_SETUP([Long field name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01   çÄñ⁄Ç`ÇaÇbÇcÇdÇeÇfÇgÇOÇPÇQÇRÇS5
+            PIC X(7).
+       PROCEDURE        DIVISION.
+           MOVE "Unicode"
+             TO
+           çÄñ⁄Ç`ÇaÇbÇcÇdÇeÇfÇgÇOÇPÇQÇRÇS5.
+           DISPLAY
+            çÄñ⁄Ç`ÇaÇbÇcÇdÇeÇfÇgÇOÇPÇQÇRÇS5
+	     WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0], [Unicode])
+
+AT_CLEANUP
+
+
+AT_SETUP([Field lookup])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 çÄñ⁄ÇQ PIC X(1) VALUE "A".
+       01 çÄñ⁄Çq PIC X(1) VALUE "B".
+       PROCEDURE        DIVISION.
+           DISPLAY çÄñ⁄ÇQ çÄñ⁄Çq WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0], [AB])
+
+AT_CLEANUP
+
+AT_SETUP([Section name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       PROCEDURE        DIVISION.
+       PERFORM    ÇrÅ|èâä˙âª.
+       PERFORM    ÇrÅ|èIóπ.
+       ÇrÅ|èâä˙âª       SECTION.
+           DISPLAY "Hello, " WITH NO ADVANCING.
+       ÇrÅ|èIóπ         SECTION.
+           DISPLAY "and good bye." WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0], [Hello, and good bye.])
+
+AT_CLEANUP
+
+AT_SETUP([Long section name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       PROCEDURE        DIVISION.
+       PERFORM sÇPÇQÇRÇSÇTÇUÇVÇWÇXÇO1234567890.
+       PERFORM    ÇrÅ|èIóπ.
+       sÇPÇQÇRÇSÇTÇUÇVÇWÇXÇO1234567890 SECTION.
+           DISPLAY "Hello, " WITH NO ADVANCING.
+       ÇrÅ|èIóπ         SECTION.
+           DISPLAY "and good bye." WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0], [Hello, and good bye.])
+
+AT_CLEANUP
+
+AT_SETUP([Too long section name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.       WORKING-STORAGE  SECTION.
+       PROCEDURE        DIVISION.
+       PERFORM sÇPÇQÇRÇSÇTÇUÇVÇWÇXÇO123456789012345678901.
+       PERFORM    ÇrÅ|èIóπ.
+       sÇPÇQÇRÇSÇTÇUÇVÇWÇXÇO123456789012345678901 SECTION.
+           DISPLAY "Hello, " WITH NO ADVANCING.
+       ÇrÅ|èIóπ         SECTION.
+           DISPLAY "and good bye." WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [1], [],
+[prog.cob:6: Error: User defined name must be less than 32 characters
+prog.cob:8: Error: User defined name must be less than 32 characters
+])
+
+AT_CLEANUP
+
+AT_SETUP([Nihongo Filename])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT ÉeÉXÉgÉtÉ@ÉCÉã ASSIGN TO "./ÉeÉXÉg_ÉtÉ@ÉCÉã"
+                        ORGANIZATION IS  INDEXED
+                        ACCESS MODE  IS  SEQUENTIAL
+                        RECORD KEY   IS  TEST-KEY.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD ÉeÉXÉgÉtÉ@ÉCÉã.
+       01 TEST-KEY      PIC X(10).
+       PROCEDURE        DIVISION.
+           OPEN  OUTPUT ÉeÉXÉgÉtÉ@ÉCÉã.
+           MOVE "TEST000000" TO TEST-KEY.
+           WRITE TEST-KEY.
+           CLOSE ÉeÉXÉgÉtÉ@ÉCÉã.
+           OPEN  INPUT  ÉeÉXÉgÉtÉ@ÉCÉã.
+           READ  ÉeÉXÉgÉtÉ@ÉCÉã
+               NOT AT END
+                   DISPLAY "OK" NO ADVANCING
+           END-READ.
+           CLOSE ÉeÉXÉgÉtÉ@ÉCÉã.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0], [OK])
+
+AT_CLEANUP

@@ -254,7 +254,7 @@ cb_resolve_redefines (struct cb_field *field, cb_tree redefines)
 	/* resolve the name in the current group (if any) */
 	if (field->parent && field->parent->children) {
 		for (f = field->parent->children; f; f = f->sister) {
-			if (strcasecmp (f->name, name) == 0) {
+			if (cobc_casecmp (f->name, name) == 0) {
 				break;
 			}
 		}

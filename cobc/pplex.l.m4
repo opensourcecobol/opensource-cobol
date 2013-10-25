@@ -18,7 +18,7 @@
  * Boston, MA 02110-1301 USA
  */
 
-
+changequote(>>>>>,<<<<<)
 
 %option 8bit
 %option caseless
@@ -78,10 +78,23 @@ static void switch_to_buffer (const int lineno, const char *filename,
 			       YY_BUFFER_STATE buffer);
 
 %}
-
+ifdef(M4.I18N_UTF8,>>>>>
+U00_7F		[\x00-\x7F]
+U80_7FF		[\xC2-\xDF][\x80-\xBF]
+U800_FFF	[\xE0][\xA0-\xBF][\x80-\xBF]
+U1000_CFFF	[\xE1-\xEC][\x80-\xBF][\x80-\xBF]
+UD000_D7FF	[\xED][\x80-\x9F][\x80-\xBF]
+UE000_FFFF	[\xEE-\xEF][\x80-\xBF][\x80-\xBF]
+U10000_3FFFF	[\xF0][\x90-\xBF][\x80-\xBF][\x80-\xBF]
+U30000_FFFFF	[\xF1-\xF3][\x80-\xBF][\x80-\xBF][\x80-\xBF]
+U100000_10FFFF	[\xF4][\x80-\x8F][\x80-\xBF][\x80-\xBF]
+UTF8_EXT	{U80_7FF}|{U800_FFF}|{U1000_CFFF}|{UD000_D7FF}|{UE000_FFFF}|{U10000_3FFFF}|{U30000_FFFFF}|{U100000_10FFFF}
+UTF8		{U00_7F}|{UTF8_EXT}
+WORD		({UTF8_EXT}|[_0-9A-Z-])+
+<<<<<,>>>>>
 JPNWORD [\xA0-\xDF]|([\x81-\x9F\xE0-\xFC][\x40-\x7E\x80-\xFC])
 WORD		([_0-9A-Z-]|{JPNWORD})+
-
+<<<<<)
 NUMRIC_LITERAL	[+-]?[0-9,.]*[0-9]
 ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 

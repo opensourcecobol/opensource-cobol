@@ -4577,7 +4577,7 @@ output_entry_function (struct cb_program *prog, cb_tree entry,
 	output ("{\n");
 	for (l1 = parameter_list; l1; l1 = CB_CHAIN (l1)) {
 		for (l2 = using_list; l2; l2 = CB_CHAIN (l2)) {
-			if (strcasecmp (cb_field (CB_VALUE (l1))->name,
+			if (cobc_casecmp (cb_field (CB_VALUE (l1))->name,
 					cb_field (CB_VALUE (l2))->name) == 0) {
 				f = cb_field (CB_VALUE (l2));
 				if (CB_PURPOSE_INT (l2) == CB_CALL_BY_VALUE &&
@@ -4592,7 +4592,7 @@ output_entry_function (struct cb_program *prog, cb_tree entry,
 	output ("  return %s_ (%d", prog->program_id, progid++);
 	for (l1 = parameter_list; l1; l1 = CB_CHAIN (l1)) {
 		for (l2 = using_list; l2; l2 = CB_CHAIN (l2)) {
-			if (strcasecmp (cb_field (CB_VALUE (l1))->name,
+			if (cobc_casecmp (cb_field (CB_VALUE (l1))->name,
 					cb_field (CB_VALUE (l2))->name) == 0) {
 				f = cb_field (CB_VALUE (l2));
 				switch (CB_PURPOSE_INT (l2)) {
@@ -4661,7 +4661,7 @@ static int field_cache_cmp (void *mp1, void *mp2) {
 
 	fl1 = (struct field_list *)mp1;
 	fl2 = (struct field_list *)mp2;
-	ret = strcasecmp (fl1->curr_prog, fl2->curr_prog);
+	ret = cobc_casecmp (fl1->curr_prog, fl2->curr_prog);
 	if (ret) {
 		return ret;
 	}
@@ -4901,7 +4901,7 @@ codegen (struct cb_program *prog, int nested)
 			for (l = cp->entry_list; l; l = CB_CHAIN (l)) {
 				for (l1 = CB_VALUE (l); l1; l1 = CB_CHAIN (l1)) {
 					for (l2 = cp->parameter_list; l2; l2 = CB_CHAIN (l2)) {
-						if (strcasecmp (cb_field (CB_VALUE (l1))->name,
+						if (cobc_casecmp (cb_field (CB_VALUE (l1))->name,
 								cb_field (CB_VALUE (l2))->name) == 0) {
 							break;
 						}

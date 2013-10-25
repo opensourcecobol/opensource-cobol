@@ -181,9 +181,9 @@ cob_field		cob_low = { 1, (ucharptr)"\0", &all_attr };
 cob_field		cob_quote = { 1, (ucharptr)"\"", &all_attr };
 cob_field		cob_one = { 1, (ucharptr)"1", &one_attr };
 
-cob_field		cob_zen_zero = { 2, (ucharptr)"０", &all_attr };
-cob_field		cob_zen_space = { 2, (ucharptr)"　", &all_attr };
-cob_field		cob_zen_quote = { 2, (ucharptr)"”", &all_attr };
+cob_field		cob_zen_zero  = { COB_ZENCSIZ, (ucharptr)COB_ZENZERO, &all_attr };
+cob_field		cob_zen_space = { COB_ZENCSIZ, (ucharptr)COB_ZENSPC, &all_attr };
+cob_field		cob_zen_quote = { COB_ZENCSIZ, (ucharptr)COB_ZENQUOT, &all_attr };
 
 /* Local functions */
 
@@ -480,6 +480,21 @@ common_cmpc (const unsigned char *s1, const unsigned int c, const size_t size)
 static int
 common_hankaku_cmpc (const unsigned char *s1, const unsigned char *s2, const size_t size)
 {
+#ifdef	I18N_UTF8
+	size_t	i, n = COB_U8BYTE_1(*s2);
+	int	ret = 0;
+
+	if (n < 2) {
+		/* I18N_UTF8: collating sequence has no effects to MB chars. */
+		ret = common_cmpc (s1, *s2, size);
+	} else {
+		/* I18N_UTF8: TODO: Normalization? */
+		for (i = 0; i < size && !ret; i += n) {
+			ret = (size-i < n) ? -1 : memcmp (s1, s2, n);
+		}
+	}
+	return ret;
+#else /*!I18N_UTF8*/
 	const unsigned char	*s;
 	size_t			i;
 	int			ret;
@@ -499,6 +514,7 @@ common_hankaku_cmpc (const unsigned char *s1, const unsigned char *s2, const siz
 		}
 	}
 	return 0;
+#endif /*I18N_UTF8*/
 }
 
 static int
@@ -593,6 +609,62 @@ end:
 static int
 cob_cmp_simple_str (cob_field *f1, cob_field *f2)
 {
+#ifdef	I18N_UTF8
+	const unsigned char	*s;
+	size_t			min;
+	int			ret;
+
+	min = (f1->size < f2->size) ? f1->size : f2->size;
+	s = cob_current_module->collating_sequence;
+
+	/* compare common substring */
+	if ((ret = common_cmps (f1->data, f2->data, min, s)) == 0) {
+		/* compare the rest (if any) with spaces */
+		if ((COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL || 
+		     COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_EDITED ||
+		     COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_ALL) &&
+		    (COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL ||
+		     COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_EDITED ||
+		     COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_ALL)) {
+			if (f1->size > f2->size) {
+				ret = common_hankaku_cmpc (f1->data + min,
+							   (unsigned char *)COB_U8SPC,
+							   f1->size - min);
+				if (ret != 0) {
+					ret = common_cmpc (f1->data + min,
+							   ' ',  f1->size - min);
+				}
+			} else if (f1->size < f2->size) {
+				ret = -common_hankaku_cmpc (f2->data + min,
+							    (unsigned char *)COB_U8SPC,
+							    f2->size - min);
+				if (ret != 0) {
+					ret = -common_cmpc (f2->data + min,
+							    ' ', f2->size - min);
+				}
+			}
+		} else {
+			if (f1->size > f2->size) {
+				ret = common_cmpc (f1->data + min,
+						   ' ', f1->size - min);
+				if (ret != 0) {
+					ret = common_hankaku_cmpc (f1->data + min,
+								   (unsigned char *)COB_U8SPC,
+								   f1->size - min);
+				}
+			} else if (f1->size < f2->size) {
+				ret = -common_cmpc (f2->data + min,
+						    ' ', f2->size - min);
+				if (ret != 0) {
+					ret = -common_hankaku_cmpc (f2->data + min,
+								    (unsigned char *)COB_U8SPC,
+								    f2->size - min);
+				}
+			}
+		}
+	}
+	return ret;
+#else /*!I18N_UTF8*/
 	const unsigned char	*s;
 	size_t			min;
 	int			ret;
@@ -612,12 +684,12 @@ cob_cmp_simple_str (cob_field *f1, cob_field *f2)
 		     COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_EDITED ||
 		     COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_ALL)) {
 			if (f1->size > f2->size) {
-				ret1 = common_hankaku_cmpc (f1->data + min,"　",  f1->size - min);
+				ret1 = common_hankaku_cmpc (f1->data + min, COB_SJSPC, f1->size - min);
 				if (ret1 != 0) {
 					ret2 = common_cmpc (f1->data + min,' ',  f1->size - min);
 				}
 			} else if (f1->size < f2->size) {
-				ret1 = -common_hankaku_cmpc (f2->data + min,"　", f2->size - min);
+				ret1 = -common_hankaku_cmpc (f2->data + min, COB_SJSPC, f2->size - min);
 				if (ret1 != 0) {
 					ret2 = common_cmpc (f2->data + min,' ', f2->size - min);
 				}
@@ -626,12 +698,12 @@ cob_cmp_simple_str (cob_field *f1, cob_field *f2)
 			if (f1->size > f2->size) {
 				ret1 = common_cmpc (f1->data + min, ' ', f1->size - min);
 				if (ret1 != 0) {
-					ret2 = common_hankaku_cmpc (f1->data + min, "　", f1->size - min);
+					ret2 = common_hankaku_cmpc (f1->data + min, COB_SJSPC, f1->size - min);
 				}
 			} else if (f1->size < f2->size) {
 				ret1 = -common_cmpc (f2->data + min, ' ', f2->size - min);
 				if (ret1 != 0) {
-					ret2 = common_hankaku_cmpc (f2->data + min, "　", f2->size - min);
+					ret2 = common_hankaku_cmpc (f2->data + min, COB_SJSPC, f2->size - min);
 				}
 			}
 		}
@@ -646,6 +718,7 @@ cob_cmp_simple_str (cob_field *f1, cob_field *f2)
 	} else {
 		return ret;
 	}
+#endif /*I18N_UTF8*/
 }
 
 static int
@@ -1454,10 +1527,14 @@ cob_check_ref_mod_national (int offset, int length, int size, const char *name)
 	}
 
 	/* check the offset */
+#ifdef	I18N_UTF8
+	/* I18N_UTF8: Double bytes arragements on params are deleted. */
+#else /*!I18N_UTF8*/
 	offset += 1;
 	offset = offset / 2;
 	length = length / 2;
 	size = size / 2;
+#endif /*I18N_UTF8*/
 
 	if (offset < 1 || offset > size) {
 		cob_set_exception (COB_EC_BOUND_REF_MOD);
@@ -2457,3 +2534,151 @@ cob_acuw_justify (unsigned char *data, ...)
 	}
 	return 0;
 }
+
+/* I18N_UTF8: Map half width chars to full width correspondings. */
+#ifdef	I18N_UTF8
+int
+ascii_to_utf8 (int c, unsigned char *p)
+{
+	int	rt = 0;
+
+	if (c == 0x5C) {			/* Yen sign */
+		*p++ = 0xEF;
+		*p++ = 0xBF;
+		*p++ = 0xA5;
+	} else if (c == 0x20) {			/* SPC */
+		*p++ = 0xE3;
+		*p++ = 0x80;
+		*p++ = 0x80;
+	} else if (c >= 0x21 && c <= 0x7E) {	/* ASCII */
+		*p++ = 0xEF;
+		*p++ = 0xBC;
+		*p++ = 0x60 + c;
+	} else {				/* No char. mapped there */
+		*p++ = 0xEF;
+		*p++ = 0xBF;
+		*p++ = 0xBD;
+		rt = 1;
+	}
+	return rt;
+}
+#endif /*I18N_UTF8*/
+
+/* I18N_UTF8: convert into NATIONAL charset. */
+#ifdef I18N_UTF8
+unsigned char *
+cob_national (const unsigned char * src_data, int src_size)
+{
+	static const char* hankana[] = {
+		"\xEF\xBD\xB1","\xEF\xBD\xB2","\xEF\xBD\xB3",
+		"\xEF\xBD\xB4","\xEF\xBD\xB5","\xEF\xBD\xB6","\xEF\xBD\xB7",
+		"\xEF\xBD\xB8","\xEF\xBD\xB9","\xEF\xBD\xBA","\xEF\xBD\xBB",
+		"\xEF\xBD\xBC","\xEF\xBD\xBD","\xEF\xBD\xBE","\xEF\xBD\xBF",
+		"\xEF\xBE\x80","\xEF\xBE\x81","\xEF\xBE\x82","\xEF\xBE\x83",
+		"\xEF\xBE\x84","\xEF\xBE\x85","\xEF\xBE\x86","\xEF\xBE\x87",
+		"\xEF\xBE\x88","\xEF\xBE\x89","\xEF\xBE\x8A","\xEF\xBE\x8B",
+		"\xEF\xBE\x8C","\xEF\xBE\x8D","\xEF\xBE\x8E","\xEF\xBE\x8F",
+		"\xEF\xBE\x90","\xEF\xBE\x91","\xEF\xBE\x92","\xEF\xBE\x93",
+		"\xEF\xBE\x94","\xEF\xBE\x95","\xEF\xBE\x96","\xEF\xBE\x97",
+		"\xEF\xBE\x98","\xEF\xBE\x99","\xEF\xBE\x9A","\xEF\xBE\x9B",
+		"\xEF\xBE\x9C","\xEF\xBE\x9D",
+		"\xEF\xBD\xA1","\xEF\xBD\xA2","\xEF\xBD\xA3",
+		"\xEF\xBD\xA4","\xEF\xBD\xA5",
+		"\xEF\xBD\xA6","\xEF\xBD\xA7",
+		"\xEF\xBD\xA8","\xEF\xBD\xA9","\xEF\xBD\xAA","\xEF\xBD\xAB",
+		"\xEF\xBD\xAC","\xEF\xBD\xAD","\xEF\xBD\xAE","\xEF\xBD\xAF",
+		"\xEF\xBD\xB0",
+		(char*)0
+	};
+	static const char* zenkana[] = {
+		"\xE3\x82\xA2","\xE3\x82\xA4","\xE3\x82\xA6",
+		"\xE3\x82\xA8","\xE3\x82\xAA","\xE3\x82\xAB","\xE3\x82\xAD",
+		"\xE3\x82\xAF","\xE3\x82\xB1","\xE3\x82\xB3","\xE3\x82\xB5",
+		"\xE3\x82\xB7","\xE3\x82\xB9","\xE3\x82\xBB","\xE3\x82\xBD",
+		"\xE3\x82\xBF","\xE3\x83\x81","\xE3\x83\x84","\xE3\x83\x86",
+		"\xE3\x83\x88","\xE3\x83\x8A","\xE3\x83\x8B","\xE3\x83\x8C",
+		"\xE3\x83\x8D","\xE3\x83\x8E","\xE3\x83\x8F","\xE3\x83\x92",
+		"\xE3\x83\x95","\xE3\x83\x98","\xE3\x83\x9B","\xE3\x83\x9E",
+		"\xE3\x83\x9F","\xE3\x83\xA0","\xE3\x83\xA1","\xE3\x83\xA2",
+		"\xE3\x83\xA4","\xE3\x83\xA6","\xE3\x83\xA8","\xE3\x83\xA9",
+		"\xE3\x83\xAA","\xE3\x83\xAB","\xE3\x83\xAC","\xE3\x83\xAD",
+		"\xE3\x83\xAF","\xE3\x83\xB3",
+		"\xE3\x80\x82","\xE3\x80\x8C","\xE3\x80\x8D",
+		"\xE3\x80\x81","\xE3\x83\xBA",
+		"\xE3\x83\xB2","\xE3\x82\xA1",
+		"\xE3\x82\xA3","\xE3\x82\xA5","\xE3\x82\xA7","\xE3\x82\xA9",
+		"\xE3\x83\xA3","\xE3\x83\xA5","\xE3\x83\xA7","\xE3\x83\x83",
+		"\xE3\x83\xBC"
+	};
+	const unsigned char	*p, *ub = src_data + src_size;
+	unsigned char		*dst_data, *p2, *p3;
+	size_t			n, dst_size = 0;
+	int			i;
+
+	for (p = src_data; p < ub; p += n) {
+		n = COB_U8BYTE_1(*p);
+		if (n == 1) {
+			/*ASCII to be expanded*/
+			dst_size += 3;
+		} else if (n == 3) {
+			if (p+2 < ub &&
+			    *p == 0xEF &&
+			    *(p+1) == 0xBE &&
+			    (*(p+2) == 0x9E || *(p+2) == 0x9F)) {
+				/*Dakuten,Han-dakuten*/
+			} else {
+				dst_size += 3;
+			}
+		} else {
+			dst_size += n;
+		}
+	}
+	dst_data = cob_malloc (dst_size + 1);
+	for (p = src_data, p2 = dst_data; p < ub; p += n) {
+		n = COB_U8BYTE_1(*p);
+		if (n == 1) {
+			ascii_to_utf8 (*p, p2);
+			p2 += 3;
+		} else if (n == 3) {
+			p3 = (unsigned char*)0;
+			if (*p == 0xEF && (*(p+1) == 0xBD || *(p+1) == 0xBE)) {
+				/*Hankaku to Zenkaku*/
+				for (i = 0;
+				     hankana[i] && memcmp (hankana[i], p, 3);
+				     i++)
+					;
+				if (hankana[i]) {
+					p3 = (unsigned char*)zenkana[i];
+				}
+			}
+			if (p3) {
+				*p2++ = *p3++;
+				*p2++ = *p3++;
+				*p2++ = *p3++;
+			} else if (*p == 0xEF && *(p+1) == 0xBE && *(p+2) == 0x9E) {
+				/* Dakuten */
+				--p2;
+				if (*(p2-2) == 0xE3 && *(p2-1) == 0x82 && *p2 == 0xBF) {
+					*(p2-1) = 0x83;
+					*p2++   = 0x80;
+				} else {
+					(*p2++)++;
+				}
+			} else if (*p == 0xEF && *(p+1) == 0xBE && *(p+2) == 0x9F) {
+				/* Han-dakuten */
+				--p2;
+				(*p2++) += 2;
+			} else {
+				*p2++ = *p;
+				*p2++ = *(p+1);
+				*p2++ = *(p+2);
+			}
+		} else {
+			memcpy (p2, p, n);
+			p2 += n;
+		}
+	}
+	*p2 = '\0';
+	return dst_data;
+}
+#endif /*I18N_UTF8*/

@@ -149,6 +149,29 @@ extern void	cobc_abort (const char *filename, const int linenum);
 
 extern size_t			cobc_check_valid_name (char *name);
 
+#ifdef	I18N_UTF8
+#  define COB_U8BYTE_1(c)	((((c)>>7) == 0x00)? 1:		\
+				 (((c)>>5) == 0x06)? 2:		\
+				 (((c)>>4) == 0x0e)? 3:		\
+				 (((c)>>3) == 0x1e)? 4:		\
+				 (((c)>>2) == 0x3e)? 5:		\
+				 (((c)>>1) == 0x7e)? 6: 0)
+#  define COB_U8BYTE_N(c)	((c)>>6 == 2)
+#endif /*I18N_UTF8*/
+
+extern const unsigned char	*utf8_ext_pick (const unsigned char *);
+extern size_t			utf8_strlen (const unsigned char* p);
+extern int			utf8_casecmp (const char* s1, const char* s2);
+extern int	utf8_national_length(const unsigned char* str, int len);
+
+#ifdef	I18N_UTF8
+#  define cobc_strlen  utf8_strlen
+#  define cobc_casecmp utf8_casecmp
+#else /*!I18N_UTF8*/
+#  define cobc_strlen  strlen
+#  define cobc_casecmp strcasecmp
+#endif /*I18N_UTF8*/
+
 /* config.c */
 
 struct noreserve {

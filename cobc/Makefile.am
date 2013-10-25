@@ -13,7 +13,7 @@ cobc_CFLAGS = -I$(top_srcdir)
 cobc_LDADD = $(COBC_LIBS) $(top_builddir)/lib/libsupport.a
 
 BUILT_SOURCES = parser.c parser.h scanner.c ppparse.c ppparse.h pplex.c
-EXTRA_DIST = ppparse.y pplex.l parser.y scanner.l
+EXTRA_DIST = ppparse.y pplex.l parser.y scanner.l pplex.l.m4 scanner.l.m4
 CLEANFILES = parser.output
 
 %.c: %.l
@@ -21,3 +21,10 @@ CLEANFILES = parser.output
 
 %.c: %.y
 	bison -o $@ $<
+
+%.l: %.l.m4
+	m4 $(COB_M4_FLAGS) $< >$@
+
+pplex.l: pplex.l.m4
+scanner.l: scanner.l.m4
+

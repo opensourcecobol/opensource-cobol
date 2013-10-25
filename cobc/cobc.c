@@ -387,6 +387,165 @@ cobc_check_valid_name (char *name)
 	return 0;
 }
 
+#ifdef	I18N_UTF8
+const unsigned char *
+utf8_ext_pick (const unsigned char *p)
+{
+	const unsigned char	*rp = (unsigned char *)0;
+
+	for (; *p; p++) {
+		if (*p & 0x80) {
+			rp = p;
+			break;
+		}
+	}
+	return rp;
+}
+#else /*!I18N_UTF8*/
+const unsigned char *
+sjis_pick (const unsigned char *p)
+{
+	const unsigned char	*rp = (unsigned char*)0;
+	char			sjis1 = 0;
+
+	for (; *p; p++) {
+		if (sjis1) {
+			if ((*p >= 0x40 && *p <= 0x7f) || (*p >= 0x80 && *p <= 0xfc)) {
+				rp = --p;
+				break;
+			}
+			sjis1 = 0;
+		} else if ((*p >= 0x81 && *p <= 0x9f) || (*p >= 0xe0 && *p <= 0xfc)) {
+			sjis1 = 1;
+		}
+	}
+	return rp;
+}
+#endif /*I18N_UTF8*/
+
+#ifdef	I18N_UTF8
+size_t
+utf8_strlen (const unsigned char *p)
+{
+	const unsigned char	*ub = p + strlen ((const char *)p);
+	size_t			siz = 0;
+
+	while (p < ub) {
+		p += 	((*p >>7) == 0x00)? 1:
+			((*p >>5) == 0x06)? 2:
+			((*p >>4) == 0x0e)? 3:
+			((*p >>3) == 0x1e)? 4:
+			((*p >>2) == 0x3e)? 5:
+			((*p >>1) == 0x7e)? 6: 1;
+		siz++;		
+	}
+	return siz;
+}
+#else /*!I18N_UTF8*/
+size_t
+sjis_strlen (const unsigned char *p)
+{
+	size_t	siz = 0;
+	char	sjis1 = 0;
+
+	for (; *p; p++) {
+		if (sjis1) {
+			if ((*p >= 0x40 && *p <= 0x7f) || (*p >= 0x80 && *p <= 0xfc)) {
+				--siz;
+			}
+			sjis1 = 0;
+		} else if ((*p >= 0x81 && *p <= 0x9f) || (*p >= 0xe0 && *p <= 0xfc)) {
+			sjis1 = 1;
+		}
+		siz++;
+	}
+	return siz;
+}
+#endif /*I18N_UTF8*/
+
+#ifdef	I18N_UTF8
+int
+utf8_casecmp (const char *s1, const char *s2)
+{
+	size_t	n1 = strlen (s1);
+	int	rt = n1 - strlen (s2);
+
+	if (!rt) {
+		if (utf8_ext_pick ((unsigned char *)s1) == 0 ||
+		    utf8_ext_pick ((unsigned char *)s2) == 0) {
+			rt = strcasecmp (s1, s2);
+		} else {
+			rt = memcmp (s1, s2, n1);
+		}
+	}
+	return rt;
+}
+#else /*!I18N_UTF8*/
+int
+sjis_casecmp (const char *s1, const char *s2)
+{
+	size_t	n1 = strlen (s1);
+	int	rt = n1 - strlen (s2);
+
+	if (!rt) {
+		if (sjis_pick ((unsigned char*)s1) == 0 ||
+		    sjis_pick ((unsigned char*)s2) == 0) {
+			rt = strcasecmp (s1, s2);
+		} else {
+			rt = memcmp (s1, s2, n1);
+		}
+	}
+	return rt;
+}
+#endif /*I18N_UTF8*/
+
+#ifdef	I18N_UTF8
+int
+utf8_national_length (const unsigned char *str, int len)
+{
+	const unsigned char	*p, *ub = &(str[len]);
+	int			mb_len = 0;
+	int			n, siz = 0;
+
+	for (p = str; p < ub; p++) {
+		if (0 != (n = COB_U8BYTE_1(*p))) {
+			if (n > 6) {
+				siz = -1;
+				break;
+			} else if (mb_len) {
+				siz = -2;	/* byte_N expected */
+				break;
+			} else {
+				mb_len = n - 1;
+			}
+			if (n == 1) {
+				siz += 3;	/* to be converted to Zenkaku */
+			} else {
+				siz += n;
+			}
+		} else if (COB_U8BYTE_N(*p)) {
+			if (0 >= mb_len) {
+				siz = -3;	/* byte_1 expected */
+				break;
+			} else {
+				--mb_len;
+				if (0 == mb_len && siz >= 3 && (*(p-2) == 0xEF && *(p-1) == 0xBE && (*p == 0x9E || *p == 0x9F))) {
+					/* Dakuten to be merged */
+					siz -= 3;
+				}
+			}
+		} else {
+			siz = -4;		/* unexpected char */
+			break;
+		}
+	}
+	if (siz >= 0 && mb_len != 0) {	
+		siz = -5;			/* immature end of multibytes sequence */
+	}
+	return siz;
+}
+#endif /*I18N_UTF8*/
+
 /*
  * Local functions
  */
@@ -518,6 +677,9 @@ cobc_print_version (void)
 {
 	puts ("Opensource COBOL 1.2J");
 	puts ("OSS Consortium's patched version of OpenCOBOL1.1(Feb.06 2009)");
+#ifdef	I18N_UTF8
+	puts ("[unicode/utf-8 support]");
+#endif /*I18N_UTF8*/
 	puts ("----");
 	printf ("cobc (%s) %s.%d\n",
 		PACKAGE_NAME, PACKAGE_VERSION, PATCH_LEVEL);

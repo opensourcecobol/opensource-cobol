@@ -136,7 +136,7 @@ lookup_word (const char *name)
 	/* find the existing word */
 	if (current_program) {
 		for (p = current_program->word_table[val]; p; p = p->next) {
-			if (strcasecmp (p->name, name) == 0) {
+			if (cobc_casecmp (p->name, name) == 0) {
 				return p;
 			}
 		}
@@ -393,7 +393,7 @@ global_check (struct cb_reference *r, cb_tree items, size_t *ambiguous)
 			}
 			/* resolve by parents */
 			for (; p; p = p->parent) {
-				if (c && strcasecmp (CB_NAME (c), p->name) == 0) {
+				if (c && cobc_casecmp (CB_NAME (c), p->name) == 0) {
 					c = CB_REFERENCE (c)->chain;
 				}
 			}
@@ -1389,10 +1389,22 @@ repeat:
 		if (c != 'V' && c != 'P') {
 			size += n;
 		}
+#ifdef	I18N_UTF8
+		if (c == 'C' || c == 'D') {
+			size += n;
+		} else if (c == 'N'
+		      || (category == PIC_NATIONAL_EDITED && c == '0' && flg == 1)
+		      || (category == PIC_NATIONAL_EDITED && c == 'B' && flg == 1)
+		      || (category == PIC_NATIONAL_EDITED && c == '/' && flg == 1)) {
+			/* I18N_UTF8: 3bytes for BMP. */
+			size += n * 2;
+		}
+#else /*!I18N_UTF8*/
 		if (c == 'C' || c == 'D' || c == 'N' || (category == PIC_NATIONAL_EDITED && c == '0' && flg == 1) ||
 		    (category == PIC_NATIONAL_EDITED && c == 'B' && flg == 1) || (category == PIC_NATIONAL_EDITED && c == '/' && flg == 1)) {
 			size += n;
 		}
+#endif /*I18N_UTF8*/
 
 		/* store in the buffer */
 		buff[idx++] = c;
@@ -1407,7 +1419,12 @@ repeat:
 	if (category == PIC_NATIONAL_EDITED && flg == 0) {
 		for (p = str; *p; p++) {
 			if (*p == '/' || *p == '0' || *p == 'B') {
+#ifdef	I18N_UTF8
+				/* I18N_UTF8: 3bytes for BMP. */
+				size += 2;
+#else /*!I18N_UTF8*/
 				size += 1;
+#endif /*I18N_UTF8*/
 			}
 		}
 	}
@@ -1444,9 +1461,16 @@ repeat:
 		break;
 	case PIC_NATIONAL:
 		pic->category = CB_CATEGORY_NATIONAL;
+#ifdef	I18N_UTF8
+		if (character_length > 21845) {
+			/* I18N_UTF8: NATIONAL allocates 3bytes/char for BMP. */
+			cb_error (_("National field cannot be larger than 21845 digits"));
+		}
+#else /*!I18N_UTF8*/
 		if (character_length > 32768) {
 			cb_error (_("National field cannot be larger than 32768 digits"));
 		}
+#endif /*I18N_UTF8*/
 		break;
 	case PIC_NUMERIC_EDITED:
 		pic->str = cobc_malloc (idx + 1);
@@ -1470,9 +1494,16 @@ repeat:
 		memcpy (pic->str, buff, idx);
 		pic->category = CB_CATEGORY_NATIONAL_EDITED;
 		pic->lenstr = idx;
+#ifdef	I18N_UTF8
+		if (character_length > 21845) {
+			/* I18N_UTF8: NATIONAL allocates 3bytes/char for BMP. */
+			cb_error (_("NationalEdit field cannot be larger than 21845 digits"));
+		}
+#else /*!I18N_UTF8*/
 		if (character_length > 32768) {
 			cb_error (_("NationalEdit field cannot be larger than 32768 digits"));
 		}
+#endif /*I18N_UTF8*/
 		break;
 	default:
 		goto error;
@@ -1911,7 +1942,7 @@ cb_ref (cb_tree x)
 			}
 			/* resolve by parents */
 			for (; p; p = p->parent) {
-				if (c && strcasecmp (CB_NAME (c), p->name) == 0) {
+				if (c && cobc_casecmp (CB_NAME (c), p->name) == 0) {
 					c = CB_REFERENCE (c)->chain;
 				}
 			}
@@ -1945,7 +1976,7 @@ cb_ref (cb_tree x)
 			}
 
 			/* resolve by section name */
-			if (c && s && strcasecmp (CB_NAME (c), (char *)s->name) == 0) {
+			if (c && s && cobc_casecmp (CB_NAME (c), (char *)s->name) == 0) {
 				c = CB_REFERENCE (c)->chain;
 			}
 
@@ -1981,7 +2012,7 @@ cb_ref (cb_tree x)
 					continue;
 				}
 				for (w = prog->word_table[val]; w; w = w->next) {
-					if (strcasecmp (r->word->name, w->name) == 0) {
+					if (cobc_casecmp (r->word->name, w->name) == 0) {
 						candidate = global_check (r, w->items, &ambiguous);
 						if (candidate) {
 							if (ambiguous) {
@@ -2379,6 +2410,11 @@ cb_build_intrinsic (cb_tree name, cb_tree args, cb_tree refmod)
 			} else if ((CB_FIELD_P (x) || CB_REFERENCE_P (x)) && cb_field (x)->flag_any_length) {
 				return make_intrinsic (name, cbp, args, NULL, NULL);
 			} else {
+#ifdef	I18N_UTF8
+				/* I18N_UTF8: No wide char support,         */
+				/*            use normal length() function. */
+				return cb_build_length (CB_VALUE (args));
+#else /*!I18N_UTF8*/
 				if ((cb_tree_class (x) == CB_CLASS_NATIONAL) ||
 				    (CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL) ||
 				    (CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL_EDITED)) {
@@ -2386,6 +2422,7 @@ cb_build_intrinsic (cb_tree name, cb_tree args, cb_tree refmod)
 				} else {
 					return cb_build_length (CB_VALUE (args));
 				}
+#endif /*I18N_UTF8*/
 			}
 		case CB_INTR_BYTE_LENGTH:
 			x = CB_VALUE (args);
@@ -2504,6 +2541,30 @@ RXW */
 char *
 cb_get_hexword (char *name)
 {
+#ifdef	I18N_UTF8
+	/* I18N_UTF8: Needs longer buffer than Shift_JIS. */
+	unsigned char	*p;
+	char		buf[512]; /* > 32*6*2+length("___")*2+1 */
+	char		*rt = NULL, *p2;
+
+	if (!utf8_ext_pick ((unsigned char *)name)) {
+		rt = strdup (name);
+	} else {
+		p = (unsigned char *)name;
+		p2 = buf;
+		memcpy (p2, "___", 3);
+		p2 += 3;
+		while (*p) {
+			sprintf (p2, "%02X", *p++);
+			p2 += 2;
+		}
+		memcpy (p2, "___", 3);
+		p2 += 3;
+		*p2 = '\0';
+		rt = strdup (buf);
+	}
+	return rt;
+#else /*!I18N_UTF8*/
 	int		i, j;
 	char		pTmp[101], str[3];
 	unsigned char	*c;
@@ -2533,4 +2594,5 @@ cb_get_hexword (char *name)
 	}
 	strcat (pTmp, "___");
 	return strdup (pTmp);
+#endif /*I18N_UTF8*/
 }
