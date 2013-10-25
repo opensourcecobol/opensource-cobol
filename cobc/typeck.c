@@ -3182,15 +3182,34 @@ cb_emit_accept_mnemonic (cb_tree var, cb_tree mnemonic)
 	if (cb_validate_one (var)) {
 		return;
 	}
-	switch (CB_SYSTEM_NAME (cb_ref (mnemonic))->token) {
-	case CB_DEVICE_CONSOLE:
-	case CB_DEVICE_SYSIN:
-		cb_emit (cb_build_funcall_1 ("cob_accept", var));
-		break;
-	default:
-		cb_error_x (mnemonic, _("Invalid input stream '%s'"),
-			    cb_name (mnemonic));
-		break;
+	if (CB_SYSTEM_NAME (cb_ref (mnemonic))->category == CB_DEVICE_NAME) {
+		switch (CB_SYSTEM_NAME (cb_ref (mnemonic))->token) {
+		case CB_DEVICE_CONSOLE:
+		case CB_DEVICE_SYSIN:
+			cb_emit (cb_build_funcall_1 ("cob_accept", var));
+			break;
+		default:
+			cb_error_x (mnemonic, _("Invalid input stream '%s'"),
+				    cb_name (mnemonic));
+			break;
+		}
+	}
+	if (CB_SYSTEM_NAME (cb_ref (mnemonic))->category == CB_INTERFACE_NAME) {
+		switch (CB_SYSTEM_NAME (cb_ref (mnemonic))->token) {
+		case CB_ARGUMENT_NUMBER:
+			cb_emit_accept_arg_number (var);
+			break;
+		case CB_ARGUMENT_VALUE:
+			cb_emit_accept_arg_value (var);
+			break;
+		case CB_ENVIRONMENT_VALUE:
+			cb_emit_accept_environment (var);
+			break;
+		default:
+			cb_error_x (mnemonic, _("Invalid interface name '%s'"),
+				    cb_name (mnemonic));
+			break;
+		}
 	}
 }
 
@@ -3575,6 +3594,33 @@ cb_emit_display (cb_tree values, cb_tree upon, cb_tree no_adv, cb_tree pos,
 				CB_FIELD (cb_ref (x))->count++;
 			}
 		}
+	}
+}
+
+void
+cb_emit_display_mnemonic (cb_tree values, cb_tree mnemonic, cb_tree no_adv, 
+			   cb_tree pos, cb_tree fgc, cb_tree bgc, 
+			   cb_tree scroll, int dispattrs)
+{
+	if (CB_SYSTEM_NAME (cb_ref (mnemonic))->category == CB_INTERFACE_NAME) {
+		cb_tree v = CB_VALUE(values);
+		switch (CB_SYSTEM_NAME (cb_ref (mnemonic))->token) {
+		case CB_ARGUMENT_NUMBER:
+			cb_emit_arg_number (v);
+			break;
+		case CB_ENVIRONMENT_NAME:
+			cb_emit_env_name (v);
+			break;
+		case CB_ENVIRONMENT_VALUE:
+			cb_emit_env_value (v);
+			break;
+		default:
+			cb_error_x (mnemonic, _("Invalid interface name '%s'"), cb_name (mnemonic));
+			break;
+		}
+	} else {
+		cb_tree var = cb_build_display_upon (mnemonic);
+		cb_emit_display (values, var, no_adv, pos, fgc, bgc, scroll, dispattrs);
 	}
 }
 

@@ -42,6 +42,8 @@ CB_CONFIG_BOOLEAN (cb_allow_missing_also_clause_in_evaluate, "allow-missing-also
 CB_CONFIG_BOOLEAN (cb_allow_empty_imperative_statement, "allow-empty-imperative-statement")
 CB_CONFIG_BOOLEAN (cb_enable_program_status_register, "enable-program-status-register")
 CB_CONFIG_BOOLEAN (cb_enable_sort_status_register, "enable-sort-status-register")
+CB_CONFIG_BOOLEAN (cb_enable_special_names_argument_clause, "enable-special-names-argument-clause")
+CB_CONFIG_BOOLEAN (cb_enable_special_names_environment_clause, "enable-special-names-environment-clause")
 CB_CONFIG_SUPPORT (cb_author_paragraph, "author-paragraph")
 CB_CONFIG_SUPPORT (cb_memory_size_clause, "memory-size-clause")
 CB_CONFIG_SUPPORT (cb_multiple_file_tape_clause, "multiple-file-tape-clause")

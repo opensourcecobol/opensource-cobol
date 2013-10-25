@@ -1254,6 +1254,62 @@ mnemonic_name_clause:
 	save_tree_2 = $3;
   }
   special_name_mnemonic_on_off
+| ARGUMENT_NUMBER _is undefined_word
+  {
+	if (cb_enable_special_names_argument_clause) {
+		save_tree_1 = lookup_system_name ("ARGUMENT-NUMBER");
+		if (save_tree_1 == cb_error_node) {
+			cb_error_x ($1, _("Unknown system-name '%s'"), CB_NAME ($1));
+		} else {
+			cb_define ($3, save_tree_1);
+		}
+		save_tree_2 = $3;
+	} else {
+		cb_error (_("SPECIAL-NAMES with ARGUMENT-NUMBER clause is not yet supported"));
+	}
+  }
+| ARGUMENT_VALUE _is undefined_word
+  {
+	if (cb_enable_special_names_argument_clause) {
+		save_tree_1 = lookup_system_name ("ARGUMENT-VALUE");
+		if (save_tree_1 == cb_error_node) {
+			cb_error_x ($1, _("Unknown system-name '%s'"), CB_NAME ($1));
+		} else {
+			cb_define ($3, save_tree_1);
+		}
+		save_tree_2 = $3;
+	} else {
+		cb_error (_("SPECIAL-NAMES with ARGUMENT-VALUE clause is not yet supported"));
+	}
+  }
+| ENVIRONMENT_NAME _is undefined_word
+  {
+	if (cb_enable_special_names_environment_clause) {
+		save_tree_1 = lookup_system_name ("ENVIRONMENT-NAME");
+		if (save_tree_1 == cb_error_node) {
+			cb_error_x ($1, _("Unknown system-name '%s'"), CB_NAME ($1));
+		} else {
+			cb_define ($3, save_tree_1);
+		}
+		save_tree_2 = $3;
+	} else {
+		cb_error (_("SPECIAL-NAMES with ENVIRONMENT-NAME clause is not yet supported"));
+	}
+  }
+| ENVIRONMENT_VALUE _is undefined_word
+  {
+	if (cb_enable_special_names_environment_clause) {
+		save_tree_1 = lookup_system_name ("ENVIRONMENT-VALUE");
+		if (save_tree_1 == cb_error_node) {
+			cb_error_x ($1, _("Unknown system-name '%s'"), CB_NAME ($1));
+		} else {
+			cb_define ($3, save_tree_1);
+		}
+		save_tree_2 = $3;
+	} else {
+		cb_error (_("SPECIAL-NAMES with ENVIRONMENT-VALUE clause is not yet supported"));
+	}
+  }
 ;
 
 special_name_mnemonic_on_off:
@@ -4328,18 +4384,27 @@ display_body:
   {
 	cb_emit_command_line ($1);
   }
-| x_list opt_at_line_column display_upon with_clause on_disp_exception
+| x_list opt_at_line_column with_clause on_disp_exception
   {
-	cb_emit_display ($1, $3, $4, $2, fgc, bgc, scroll, dispattrs);
+	cb_emit_display ($1, cb_int0, $3, $2, fgc, bgc, scroll, dispattrs);
   }
-;
-
-display_upon:
-  /* empty */			{ $$ = cb_int0; }
-| UPON mnemonic_name		{ $$ = cb_build_display_upon ($2); }
-| UPON WORD			{ $$ = cb_build_display_upon_direct ($2); }
-| UPON PRINTER			{ $$ = cb_int0; }
-| UPON CRT			{ $$ = cb_int0; }
+| x_list opt_at_line_column UPON mnemonic_name with_clause on_disp_exception
+  {
+	cb_emit_display_mnemonic ($1, $4, $5, $2, fgc, bgc, scroll, dispattrs);
+  }
+| x_list opt_at_line_column UPON WORD with_clause on_disp_exception
+  {
+	cb_tree word = cb_build_display_upon_direct ($4);
+	cb_emit_display ($1, word, $5, $2, fgc, bgc, scroll, dispattrs);
+  }
+| x_list opt_at_line_column UPON PRINTER with_clause on_disp_exception
+  {
+	cb_emit_display ($1, cb_int0, $5, $2, fgc, bgc, scroll, dispattrs);
+  }
+| x_list opt_at_line_column UPON CRT with_clause on_disp_exception
+  {
+	cb_emit_display ($1, cb_int0, $5, $2, fgc, bgc, scroll, dispattrs);
+  }
 ;
 
 with_clause:

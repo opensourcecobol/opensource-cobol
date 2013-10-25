@@ -100,7 +100,8 @@ enum cb_system_name_category {
 	CB_FEATURE_NAME,
 	CB_LIBRARY_NAME,
 	CB_SWITCH_NAME,
-	CB_TEXT_NAME
+	CB_TEXT_NAME,
+	CB_INTERFACE_NAME
 };
 
 enum cb_device_name {
@@ -135,6 +136,13 @@ enum cb_switch_name {
 	CB_SWITCH_6,
 	CB_SWITCH_7,
 	CB_SWITCH_8
+};
+
+enum cb_interface_name {
+	CB_ARGUMENT_NUMBER,
+	CB_ARGUMENT_VALUE,
+	CB_ENVIRONMENT_NAME,
+	CB_ENVIRONMENT_VALUE
 };
 
 enum cb_class {
@@ -1425,6 +1433,11 @@ extern void		cb_emit_display (cb_tree values, cb_tree upon,
 					 cb_tree no_adv, cb_tree pos,
 					 cb_tree fgc, cb_tree bgc,
 					 cb_tree scroll, int dispattrs);
+
+extern void		cb_emit_display_mnemonic (cb_tree values, cb_tree mnemonic, cb_tree no_adv,
+						  cb_tree pos, cb_tree fgc, cb_tree bgc,
+						  cb_tree scroll, int dispattrs);
+
 extern cb_tree		cb_build_display_upon (cb_tree x);
 extern cb_tree		cb_build_display_upon_direct (cb_tree x);
 extern void		cb_emit_env_name (cb_tree value);
