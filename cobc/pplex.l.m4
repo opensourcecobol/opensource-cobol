@@ -553,9 +553,6 @@ start:
 	for (n = 0; n < 256 && ipchar != '\n';) {
 		ipchar = getc (ppin);
 		if (ipchar == EOF) {
-			if (n > 0) {
-				break;
-			}
 			if (newline_count == 0) {
 				return 0;
 			}
@@ -564,7 +561,7 @@ start:
 			newline_count = 0;
 			return strlen (buff);
 		}
-		if (n == 0 && cb_source_format != CB_FORMAT_FIXED) {
+		if (n == 0 && cb_source_format != CB_FORMAT_FIXED && cb_source_format1 != 1) {
 			if (ipchar != ' ' && ipchar != '\n') {
 				buff[n++] = ' ';
 			}
@@ -593,9 +590,9 @@ start:
 		buff[n++] = '\n';
 	}
 	buff[n] = 0;
-	if ((cb_source_format1 == 1) && ((buff[1] == '*') || (buff[6] == '*'))) {
-		newline_count++;
-		goto start;
+	if (cb_source_format1 == 1 && buff[0] == '*' && buff[1] != '>') {
+		strcpy (buff, "\n");
+		return strlen (buff);
 	}
 	str1 = strstr (buff, "*>");
 	if (str1 != NULL) {

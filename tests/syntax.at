@@ -36,3 +36,5 @@ m4_include([value.at])		# 13.16.61 VALUE clause
 m4_include([move.at])		# 14.8.24 MOVE statement
 m4_include([multiply.at])	# 14.8.25 MULTIPLY statement
 m4_include([set.at])		# 14.8.35 MULTIPLY statement
+
+m4_include([free-1col-aster.at])
