@@ -43,6 +43,8 @@ static char *fold_lower (char *name);
 static char *fold_upper (char *name);
 
 static struct cb_replace_list *cb_replace_list_add (struct cb_replace_list *replace_list, struct cb_text_list *old_text, struct cb_text_list *new_text);
+static void cb_replace_list_set_type (struct cb_replace_list *list, int replace_type);
+static struct cb_replace_list *cb_replace_list_add_list (struct cb_replace_list *replace_list, struct cb_replace_list *replace_list_next);
 %}
 
 %union {
@@ -52,11 +54,11 @@ static struct cb_replace_list *cb_replace_list_add (struct cb_replace_list *repl
 }
 
 %token TOKEN_EOF 0 "end of file"
-%token COPY REPLACE SUPPRESS PRINTING REPLACING OFF IN OF BY EQEQ
+%token COPY REPLACE SUPPRESS PRINTING REPLACING OFF IN OF BY EQEQ LEADING TRAILING
 %token <s> TOKEN
 %type <s> copy_in
 %type <l> text pseudo_text token_list identifier subscripts
-%type <r> copy_replacing replacing_list
+%type <r> copy_replacing replacing_list replacing_tokens
 
 %%
 
@@ -106,8 +108,22 @@ replace_statement:
 ;
 
 replacing_list:
+  replacing_tokens			{ $$ = cb_replace_list_add_list (NULL, $1); }
+| replacing_list replacing_tokens	{ $$ = cb_replace_list_add_list ($1, $2); }
+;
+
+replacing_tokens:
   text BY text			{ $$ = cb_replace_list_add (NULL, $1, $3); }
-| replacing_list text BY text	{ $$ = cb_replace_list_add ($1, $2, $4); }
+| LEADING pseudo_text BY pseudo_text
+  {
+	$$ = cb_replace_list_add (NULL, $2, $4);
+	cb_replace_list_set_type ($$, CB_REPLACE_LEADING);
+  }
+| TRAILING pseudo_text BY pseudo_text
+  {
+	$$ = cb_replace_list_add (NULL, $2, $4);
+	cb_replace_list_set_type ($$, CB_REPLACE_TRAILING);
+  }
 ;
 
 text:
@@ -213,12 +229,37 @@ cb_replace_list_add (struct cb_replace_list *list,
 	p = cobc_malloc (sizeof (struct cb_replace_list));
 	p->old_text = old_text;
 	p->new_text = new_text;
+	p->replace_type = CB_REPLACE_OTHER;
 	p->next = NULL;
 	if (!list) {
 		return p;
 	} else {
 		for (l = list; l->next; l = l->next) ;
 		l->next = p;
+		return list;
+	}
+}
+
+static void
+cb_replace_list_set_type (struct cb_replace_list *list, int replace_type)
+{
+	struct cb_replace_list *l;
+	if (list) {
+		for (l = list; l->next; l = l->next) ;
+		l->replace_type = replace_type;
+	}
+}
+
+static struct cb_replace_list *
+cb_replace_list_add_list (struct cb_replace_list *list, struct cb_replace_list *list_next)
+{
+	struct cb_replace_list *l;
+
+	if (!list) {
+		return list_next;
+	} else {
+		for (l = list; l->next; l = l->next) ;
+		l->next = list_next;
 		return list;
 	}
 }

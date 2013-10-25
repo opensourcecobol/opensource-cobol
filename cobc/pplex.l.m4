@@ -144,6 +144,8 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
   "SUPPRESS"		{ return SUPPRESS; }
   "PRINTING"		{ return PRINTING; }
   "REPLACING"		{ return REPLACING; }
+  "LEADING"		{ return LEADING; }
+  "TRAILING"		{ return TRAILING; }
   {WORD}		{
 #ifdef	I18N_UTF8
 			  convert_ucs_hyphen_minus (yytext);
@@ -803,43 +805,106 @@ ppecho (const char *text)
 
 		text_queue = cb_text_list_add (text_queue, text);
 
-		for (r = current_replace_list; r; r = r->next) {
-			queue = text_queue;
-			for (l = r->old_text; l; l = l->next) {
+		while (text_queue) {
+			for (r = current_replace_list; r; r = r->next) {
+				queue = text_queue;
+				for (l = r->old_text; l; l = l->next) {
+					while (l && (l->text[0] == ' ' || l->text[0] == '\n')) {
+						l = l->next;
+					}
+					if (l == NULL) {
+						break;
+					}
+					while (queue && (queue->text[0] == ' ' ||
+							 queue->text[0] == '\n')) {
+						queue = queue->next;
+					}
+					if (queue == NULL) {
+						return;	/* partial match */
+					}
+					if (r->replace_type == CB_REPLACE_LEADING) {
+						break;
+					} else if (r->replace_type == CB_REPLACE_TRAILING) {
+						break;
+					} else if (r->replace_type == CB_REPLACE_OTHER) {
+						if (strcasecmp (l->text, queue->text) != 0) {
+							break;
+						}
+					}
+					queue = queue->next;
+				}
+				if (r->replace_type == CB_REPLACE_LEADING) {
+					if (!l || !queue) {
+						continue;
+					}
+					if (strncasecmp (l->text, queue->text, strlen (l->text)) == 0) {
+						break;
+					}
+				} else if (r->replace_type == CB_REPLACE_TRAILING) {
+					if (!l || !queue || strlen (queue->text) < strlen (r->old_text->text)) {
+						continue;
+					}
+					if (strcasecmp (queue->text + strlen (queue->text) - strlen (r->old_text->text), r->old_text->text) == 0) {
+						break;
+					}
+				} else if (l == NULL) {
+					/* match */
+					break;
+				}
+			}
+
+			/* match */
+			if (r && r->replace_type == CB_REPLACE_LEADING) {
+				int oldlen = strlen (l->text);
+				for (l = text_queue; l != queue; l = l->next) {
+					fputs (l->text, ppout);
+				}
+				l = r->new_text;
 				while (l && (l->text[0] == ' ' || l->text[0] == '\n')) {
 					l = l->next;
 				}
-				if (l == NULL) {
-					break;
+				if (l) {
+					fputs (l->text, ppout);
 				}
-				while (queue && (queue->text[0] == ' ' ||
-				       queue->text[0] == '\n')) {
-					queue = queue->next;
+				fputs (queue->text + oldlen, ppout);
+				queue = queue->next;
+			} else if (r && r->replace_type == CB_REPLACE_TRAILING) {
+				int i;
+				int oldlen = strlen (l->text);
+				for (l = text_queue; l != queue; l = l->next) {
+					fputs (l->text, ppout);
 				}
-				if (queue == NULL) {
-					return;	/* partial match */
+				for (i = 0; i < strlen (queue->text) - oldlen; i++) {
+					fputc (queue->text[i], ppout);
 				}
-				if (strcasecmp (l->text, queue->text) != 0) {
-					break;
+				l = r->new_text;
+				while (l && (l->text[0] == ' ' || l->text[0] == '\n')) {
+					l = l->next;
+				}
+				if (l) {
+					fputs (l->text, ppout);
 				}
 				queue = queue->next;
-			}
-			if (l == NULL) {
-				/* match */
+			} else if (r && l == NULL) {
 				for (l = r->new_text; l; l = l->next) {
 					fputs (l->text, ppout);
 				}
-/*
-				text_queue = queue ? queue->next : NULL;
-*/
-				text_queue = queue;
-				continue;
+			} else {
+				/* no match */
+				if (!text_queue) {
+					break;
+				}
+				fputs (text_queue->text, ppout);
+				queue = text_queue->next;
 			}
-		}
 
-		/* no match */
-		for (; text_queue; text_queue = text_queue->next) {
-			fputs (text_queue->text, ppout);
+			while (text_queue != queue) {
+				if (!text_queue) break;
+
+				l = text_queue->next;
+				free (text_queue);
+				text_queue = l;
+			}
 		}
 	}
 }

@@ -74,6 +74,7 @@ struct cb_replace_list {
 	struct cb_text_list	*old_text;
 	struct cb_text_list	*new_text;
 	struct cb_replace_list	*next;
+	int			replace_type;
 };
 
 struct local_filename {
@@ -219,6 +220,12 @@ enum cb_support {
 	CB_IGNORE,
 	CB_ERROR,
 	CB_UNCONFORMABLE
+};
+
+enum cb_replace_type {
+	CB_REPLACE_LEADING,
+	CB_REPLACE_TRAILING,
+	CB_REPLACE_OTHER
 };
 
 #undef	CB_CONFIG_ANY
