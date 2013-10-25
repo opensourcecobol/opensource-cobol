@@ -12,14 +12,16 @@ TESTS = $(srcdir)/syntax \
 	$(srcdir)/run-O \
 	$(srcdir)/data-rep \
 	$(srcdir)/data-rep-O \
-	$(srcdir)/i18n_utf8
+	$(srcdir)/i18n_utf8 \
+	$(srcdir)/jp-compat
 else
 TESTS = $(srcdir)/syntax \
 	$(srcdir)/run \
 	$(srcdir)/run-O \
 	$(srcdir)/data-rep \
 	$(srcdir)/data-rep-O \
-	$(srcdir)/i18n_sjis
+	$(srcdir)/i18n_sjis \
+	$(srcdir)/jp-compat
 endif
 
 syntax_DEPENDENCIES = \
@@ -69,12 +71,16 @@ i18n_sjis_DEPENDENCIES = \
 	i18n_sjis.src/pic-x.at \
 	i18n_sjis.src/pic-n.at
 
+jp_compat_DEPENDENCIES = \
+	jp-compat.at
+
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(syntax_DEPENDENCIES) \
 	$(run_DEPENDENCIES) \
 	$(data_rep_DEPENDENCIES) \
 	$(i18n_utf8_DEPENDENCIES) \
-	$(i18n_sjis_DEPENDENCIES)
+	$(i18n_sjis_DEPENDENCIES) \
+	$(jp_compat_DEPENDENCIES)
 
 
 DISTCLEANFILES = atconfig
@@ -104,3 +110,4 @@ $(srcdir)/run: $(run_DEPENDENCIES)
 $(srcdir)/data-rep: $(data_rep_DEPENDENCIES)
 $(srcdir)/i18n_utf8: $(i18n_utf8_DEPENDENCIES)
 $(srcdir)/i18n_sjis: $(i18n_sjis_DEPENDENCIES)
+$(srcdir)/jp-compat: $(jp_compat_DEPENDENCIES)

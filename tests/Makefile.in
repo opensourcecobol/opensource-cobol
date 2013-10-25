@@ -198,14 +198,16 @@ SUBDIRS = cobol85
 @I18N_UTF8_FALSE@	$(srcdir)/run-O \
 @I18N_UTF8_FALSE@	$(srcdir)/data-rep \
 @I18N_UTF8_FALSE@	$(srcdir)/data-rep-O \
-@I18N_UTF8_FALSE@	$(srcdir)/i18n_sjis
+@I18N_UTF8_FALSE@	$(srcdir)/i18n_sjis \
+@I18N_UTF8_FALSE@	$(srcdir)/jp-compat
 
 @I18N_UTF8_TRUE@TESTS = $(srcdir)/syntax \
 @I18N_UTF8_TRUE@	$(srcdir)/run \
 @I18N_UTF8_TRUE@	$(srcdir)/run-O \
 @I18N_UTF8_TRUE@	$(srcdir)/data-rep \
 @I18N_UTF8_TRUE@	$(srcdir)/data-rep-O \
-@I18N_UTF8_TRUE@	$(srcdir)/i18n_utf8
+@I18N_UTF8_TRUE@	$(srcdir)/i18n_utf8 \
+@I18N_UTF8_TRUE@	$(srcdir)/jp-compat
 
 syntax_DEPENDENCIES = \
 	syntax.at \
@@ -254,12 +256,16 @@ i18n_sjis_DEPENDENCIES = \
 	i18n_sjis.src/pic-x.at \
 	i18n_sjis.src/pic-n.at
 
+jp_compat_DEPENDENCIES = \
+	jp-compat.at
+
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(syntax_DEPENDENCIES) \
 	$(run_DEPENDENCIES) \
 	$(data_rep_DEPENDENCIES) \
 	$(i18n_utf8_DEPENDENCIES) \
-	$(i18n_sjis_DEPENDENCIES)
+	$(i18n_sjis_DEPENDENCIES) \
+	$(jp_compat_DEPENDENCIES)
 
 DISTCLEANFILES = atconfig
 all: all-recursive
@@ -674,6 +680,7 @@ $(srcdir)/run: $(run_DEPENDENCIES)
 $(srcdir)/data-rep: $(data_rep_DEPENDENCIES)
 $(srcdir)/i18n_utf8: $(i18n_utf8_DEPENDENCIES)
 $(srcdir)/i18n_sjis: $(i18n_sjis_DEPENDENCIES)
+$(srcdir)/jp-compat: $(jp_compat_DEPENDENCIES)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
