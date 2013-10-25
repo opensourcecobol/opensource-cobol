@@ -116,6 +116,7 @@ AC_ARG_WITH(cisam,
 	AC_CHECK_LIB([ifisam], [isopen], , AC_MSG_ERROR(libifisam is required for CISAM), [ifisamx])
 	AC_DEFINE(WITH_CISAM)
 	LIBCOB_LIBS="$LIBCOB_LIBS -lifisam -lifisamx"
+	WITH_ISAM_DEFINED=yes
     fi ], [])
 
 if test "$with_cisam" != "yes"
@@ -128,6 +129,7 @@ then
 	AC_CHECK_LIB([disam], [isopen], , AC_MSG_ERROR(libdisam is required for DISAM))
 	AC_DEFINE(WITH_DISAM)
 	LIBCOB_LIBS="$LIBCOB_LIBS -ldisam"
+	WITH_ISAM_DEFINED=yes
     fi ], [])
 fi
 
@@ -141,8 +143,11 @@ AC_ARG_WITH(vbisam,
 	AC_CHECK_LIB([vbisam], [isopen], , AC_MSG_ERROR(libvbisam is required for VBISAM))
 	AC_DEFINE(WITH_VBISAM)
 	LIBCOB_LIBS="$LIBCOB_LIBS -lvbisam"
+	WITH_ISAM_DEFINED=yes
     fi ], [])
 fi
+
+AM_CONDITIONAL(WITH_ISAM, test x$WITH_ISAM_DEFINED = xyes)
 
 LIBDB=""
 
@@ -167,6 +172,9 @@ then
 		  fi ],
 		[ LIBDB="3"
 		  AC_DEFINE(WITH_DB, 3) ]) ]) ])
+  cp tests/jp-compat_notisam.at tests/jp-compat.at
+else
+  cp tests/jp-compat_isam.at tests/jp-compat.at
 fi
 
 #AC_ARG_WITH(lfs64,

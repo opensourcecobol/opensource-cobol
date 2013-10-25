@@ -285,6 +285,8 @@ static int relative_delete (cob_file *f);
 
 struct indexfile;
 
+#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+
 static int extract_key (
 	  struct indexfile *fh
 	, int ix_cob_key
@@ -295,6 +297,8 @@ static int keycmp (
 	, int ix_cob_key
 	, const void *pb_rec
 	, const void *pb_key);
+
+#endif
 
 #if	defined(WITH_DB) || defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) || defined(WITH_INDEX_EXTFH)
 
@@ -6018,6 +6022,8 @@ cob_file_return (cob_file *f)
 	}
 }
 
+#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+
 /*
 ** Using the offset:length of the (component parts) of the ix_cob_key key,
 ** extract the key-value from the given data record.
@@ -6067,3 +6073,5 @@ static int keycmp (
 	free (pb_key2);
 	return (cmp);
 }
+
+#endif
