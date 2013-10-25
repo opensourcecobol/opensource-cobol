@@ -3294,6 +3294,23 @@ derror:
 	return curr_field;
 }
 
+cob_field *
+cob_intr_national (cob_field *srcfield)
+{
+	cob_field_attr	attr;
+	cob_field	field;
+	char		*pdata;
+	int		ndata;
+
+	pdata = han2zen ((char *)srcfield->data, srcfield->size, &ndata);
+	COB_ATTR_INIT (COB_TYPE_NATIONAL, 0, 0, 0, NULL);
+	COB_FIELD_INIT (ndata, NULL, &attr);
+	make_field_entry (&field);
+	memcpy (curr_field->data, pdata, ndata);
+	free (pdata);
+	return curr_field;
+}
+
 /* Initialization routine */
 
 void

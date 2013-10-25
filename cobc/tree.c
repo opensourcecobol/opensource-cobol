@@ -2704,6 +2704,13 @@ RXW */
 		case CB_INTR_TEST_DAY_YYYYDDD:
 		case CB_INTR_TRIM:
 			return make_intrinsic (name, cbp, args, NULL, refmod);
+		case CB_INTR_NATIONAL:
+			if (cb_enable_national_intrinsic_function) {
+				return make_intrinsic (name, cbp, args, NULL, refmod);
+			} else {
+				cb_error_x (name, _("FUNCTION %s not implemented"), CB_NAME (name));
+				return cb_error_node;
+			}
 
 		case CB_INTR_CONCATENATE:
 			return make_intrinsic (name, cbp, args, cb_int1, refmod);

@@ -23,6 +23,7 @@
 
 #include <libcob/common.h>
 
+extern char		*han2zen	(char *, int, int *);
 extern void		cob_move	(cob_field *, cob_field *);
 extern void		cob_hankaku_move	(cob_field *, cob_field *);
 extern void		cob_set_int	(cob_field *, int);

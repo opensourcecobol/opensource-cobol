@@ -98,5 +98,6 @@ extern cob_field *cob_intr_seconds_past_midnight	(void);
 extern cob_field *cob_intr_lcl_time_from_secs		(const int, const int,
 							 cob_field *, cob_field *);
 extern cob_field *cob_intr_seconds_from_formatted_time	(cob_field *, cob_field *);
+extern cob_field *cob_intr_national		(cob_field *);
 
 #endif /* COB_INTRINSIC_H */

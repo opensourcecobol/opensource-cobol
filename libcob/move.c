@@ -1083,7 +1083,7 @@ cob_move_alphanum_to_national_edited (cob_field *f1, cob_field *f2)
 	}
 }
 
-static char *
+char *
 han2zen (char *str, int size, int *retsize)
 {
 #ifdef	I18N_UTF8
