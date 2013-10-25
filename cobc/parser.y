@@ -6716,43 +6716,51 @@ qualified_word:
 subref:
   '(' exp_list ')'
   {
-	$$ = $0;
-	CB_REFERENCE ($0)->subs = cb_list_reverse ($2);
+	if (cb_ref ($0) != cb_error_node) {
+		$$ = $0;
+		CB_REFERENCE ($0)->subs = cb_list_reverse ($2);
+	}
   }
 ;
 
 refmod:
   '(' exp ':' ')'
   {
-	CB_REFERENCE ($0)->value = CB_TREE (cb_field ($0));
-	if (cb_tree_category ($0) == CB_CATEGORY_NATIONAL || cb_tree_category ($0) == CB_CATEGORY_NATIONAL_EDITED) {
+	if (cb_ref ($0) != cb_error_node) {
+		CB_REFERENCE ($0)->value = CB_TREE (cb_field ($0));
+		if (cb_tree_category ($0) == CB_CATEGORY_NATIONAL ||
+		    cb_tree_category ($0) == CB_CATEGORY_NATIONAL_EDITED) {
 #ifdef	I18N_UTF8
-		/* I18N_UTF8: No wide char support. */
+			/* I18N_UTF8: No wide char support. */
 #else /*!I18N_UTF8*/
-		$2 = cb_build_binary_op ($2, '*', cb_int2);
-		$2 = cb_build_binary_op ($2, '-', cb_int1);
+			$2 = cb_build_binary_op ($2, '*', cb_int2);
+			$2 = cb_build_binary_op ($2, '-', cb_int1);
 #endif /*I18N_UTF8*/
-	} else {
-		CB_TREE ($0)->category = CB_CATEGORY_ALPHANUMERIC;
+		} else {
+			CB_TREE ($0)->category = CB_CATEGORY_ALPHANUMERIC;
+		}
+		CB_REFERENCE ($0)->offset = $2;
 	}
-	CB_REFERENCE ($0)->offset = $2;
   }
 | '(' exp ':' exp ')'
   {
-	CB_REFERENCE ($0)->value = CB_TREE (cb_field ($0));
-	if (cb_tree_category ($0) == CB_CATEGORY_NATIONAL || cb_tree_category ($0) == CB_CATEGORY_NATIONAL_EDITED) {
+	if (cb_ref ($0) != cb_error_node) {
+		CB_REFERENCE ($0)->value = CB_TREE (cb_field ($0));
+		if (cb_tree_category ($0) == CB_CATEGORY_NATIONAL ||
+		    cb_tree_category ($0) == CB_CATEGORY_NATIONAL_EDITED) {
 #ifdef	I18N_UTF8
-		/* I18N_UTF8: No wide char support. */
+			/* I18N_UTF8: No wide char support. */
 #else /*!I18N_UTF8*/
-		$2 = cb_build_binary_op ($2, '*', cb_int2);
-		$2 = cb_build_binary_op ($2, '-', cb_int1);
-		$4 = cb_build_binary_op ($4, '*', cb_int2);
+			$2 = cb_build_binary_op ($2, '*', cb_int2);
+			$2 = cb_build_binary_op ($2, '-', cb_int1);
+			$4 = cb_build_binary_op ($4, '*', cb_int2);
 #endif /*I18N_UTF8*/
-	} else {
-		CB_TREE ($0)->category = CB_CATEGORY_ALPHANUMERIC;
+		} else {
+			CB_TREE ($0)->category = CB_CATEGORY_ALPHANUMERIC;
+		}
+		CB_REFERENCE ($0)->offset = $2;
+		CB_REFERENCE ($0)->length = $4;
 	}
-	CB_REFERENCE ($0)->offset = $2;
-	CB_REFERENCE ($0)->length = $4;
   }
 ;
 
