@@ -29,6 +29,7 @@
 #include "tree.h"
 
 static char	*errnamebuff = NULL;
+static char	*errmsgbuff = NULL;
 
 static char
 cb_get_char (char c[2])
@@ -118,37 +119,11 @@ cb_get_jisword (const char *name)
 }
 
 static void
-change_ap (const char *fmt, va_list ap)
-{
-	char	*errname;
-	char	*strap;
-	int	i;
-
-	for (i = 0; i < strlen (fmt) - 1; i++) {
-		if (fmt[i] == '%') {
-			if (fmt[i+1] != '%') {
-				strap = va_arg (ap, char *);
-				if (fmt[i+1] == 's') {
-					errname = cb_get_jisword (strap);
-					if (strlen (errname) < strlen (strap)){
-						strcpy (strap, errname);
-					}
-				}
-			}
-		}
-	}
-}
-
-static void
 print_error (char *file, int line, const char *prefix, const char *fmt, va_list ap)
 {
 	static struct cb_label *last_section = NULL;
 	static struct cb_label *last_paragraph = NULL;
-	va_list va;
-	char *fmtTmp;
-
-	va_copy (va, ap);
-	change_ap (fmt, va);
+	char		*jmsg;
 
 	file = file ? file : cb_source_file;
 	line = line ? line : cb_source_line;
@@ -168,11 +143,15 @@ print_error (char *file, int line, const char *prefix, const char *fmt, va_list 
 		last_paragraph = current_paragraph;
 	}
 
-	/* print the error */
+	/* print error */
 	fprintf (stderr, "%s:%d: %s", file, line, prefix);
-	fmtTmp = cb_get_jisword (fmt);
-	vfprintf (stderr, fmtTmp, ap);
-	fputs ("\n", stderr);
+	if (!errmsgbuff) {
+		errmsgbuff = cobc_malloc (COB_NORMAL_BUFF);
+	}
+	vsnprintf (errmsgbuff, COB_NORMAL_BUFF, fmt, ap);
+	jmsg = cb_get_jisword (errmsgbuff);
+	fprintf (stderr, "%s\n", jmsg);
+	free (jmsg);
 }
 
 char *

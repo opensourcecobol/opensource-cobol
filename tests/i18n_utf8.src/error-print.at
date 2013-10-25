@@ -1,0 +1,23 @@
+AT_SETUP([undefined not message])
+
+AT_DATA([prog.cob], [
+       identification division.
+       program-id. prog.
+       data division.
+       working-storage section.
+       01 wk-01.
+         03 wk-02  pic x(4).
+         03 ｗｋ－０３  redefines wk-02 pic n(2).
+       01 cnt  pic 9(1).
+       procedure division.
+          inspect ｗｋ－０３ tallying cnt
+            for characters before initial space.
+          stop run.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [1], [],
+[prog.cob:8: Error: Size of 'ｗｋ－０３' larger than size of 'wk-02'
+])
+
+AT_CLEANUP
+
