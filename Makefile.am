@@ -15,6 +15,7 @@ BUILT_SOURCES = defaults.h
 DISTCLEANFILES = $(BUILT_SOURCES) cpucheck
 EXTRA_DIST = cpucheck.c COPYING.DOC
 
+distdir = $(PACKAGE)
 dist-hook:
 	echo "static char octardate[] = \"`date +'%b %d %Y %T %Z'`\";" > $(distdir)/tarstamp.h
 	find $(distdir) -type d -print | xargs chmod 777

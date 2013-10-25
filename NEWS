@@ -1,5 +1,94 @@
 NEWS - user visible changes				-*- outline -*-
 
+* Changes in opensource COBOL 1.3J
+
+** New features
+
+*** Unicode (UTF-8 encoding) support. Add --enable-utf8 option to 'configure' parameters 
+    to activate. Without the option, SHIFT-JIS support is default for the configure.
+    The features of Unicode support are:
+    1. allocate 3 bytes for single 'N' in PICUTURE clause.
+    2. unit of arguments in reference modification and parameter values in
+       INSPECT statement are bytes (not a count of characters).
+    3. padding blank by half-with (1 byte for each) spaces.
+    4. suppress check for mixed full-witdth/half-width char. strings in
+       STRING statement parameters.
+    * These semantics of the UTF-8 support may change in the future.
+
+*** Support some of COBOL dialect and unsupported statements/functions frequently used 
+    in existing COBOL program assets.
+
+*** SPLIT KEYS (for VBISAM) based on the article on The OpenCOBOL Project FORUM. 
+    http://www.opencobol.org/modules/newbb/viewtopic.php?topic_id=1503&forum=1
+    *** Thank you! the author Mr. JoeRobbins and The OpenCOBOL Project. ***
+
+*** LEADING/TRAILING phrases in COPY - REPLACING statements.
+
+*** add option to allow inconsistent program-id in END-PROGRAM.
+    (allow-end-program-with-wrong-name in conf. setting)
+
+*** add option to allow ommiting ALSO keyword in EVALUATE.
+    (allow-missing-also-clause-in-evaluate in conf. setting)
+
+*** add option to allow empty (0 line) imperative statement in EVALUATE.
+    (allow-empty-imperative-statement in conf. setting)
+
+*** add option to enable PROGRAM-STATUS register.
+    (enable-program-status-register in conf. setting)
+
+*** add option to enable SORT-STATUS register.
+    (enable-sort-status-register in conf. setting)
+
+*** add option to support function names below in SPECIAL-NAMES.
+    ARGUMENT-NUMBER
+    ARGUMENT-VALUE    (enable-special-names-argument-clause in conf. setting)
+    ENVIRONMENT-NAME
+    ENVIRONMENT-VALUE (eable-special-names-environment-clause in conf. setting)
+
+*** add option to enable function LENG.
+    (enable-leng-intrinsic-function in conf. setting)
+
+*** add option to enable function LENGTH-AN.
+    (enable-length-an-intrinsic-function in conf. setting)
+
+*** add option to enable function NATIONAL.
+    (enable-national-intrinsic-function in conf. setting)
+
+** Changes
+
+*** now currency symbol can be changed in conf. setting.
+    (default-currency-symbol)
+
+*** length check limits are loosen, and enable to be changed in conf. setting.
+    (max-alpha-character-data-size for alnum, default to 2147483647,
+     max-sjis-character-data-size for SHIFT-JIS, default to 1073741823,
+     max-utf8-character-data-size for UTF-8, default to 715827882)
+
+** Bug fixes
+
+*** invalid adress reference in external file handler (USERFH) (only occurs in 64bit 
+    environment).
+
+*** wrong line number in compilation messeages when -free_1col_aster is applied.
+
+*** failure in reference modification at NATIONAL EDITED field.
+
+*** internal error on Japanese string in PROGRAM-ID.
+
+*** ABEND on compiling reference modification at undefined field.
+
+*** symbol table corrupt once after put error message including japanese symbol.
+
+*** fail to lookup japanese symble including "___".
+
+*** failure in converting alnum to national string.
+
+*** invalid result of MOVE LOW-VALUE to COMP or COMP-3 field.
+
+*** compiler warnings on building v1.2J.
+
+-----------------------------------------------------------------------
+
 * Changes in opensource COBOL 1.2J
 
 ** Support Feature of Japanese, such as constant and definition of data and operation of data.
@@ -37,6 +126,8 @@ NEWS - user visible changes				-*- outline -*-
 
 ** Fixed the problem that COPY statement ignores the last line of each copybook when it does 
    not end with line break.
+
+-----------------------------------------------------------------------
 
 * OpenCOBOL 1.0 released
 
