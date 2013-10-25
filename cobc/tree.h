@@ -360,6 +360,7 @@ struct cb_class_name {
 #define CB_CLASS_NAME_P(x)	(CB_TREE_TAG (x) == CB_TAG_CLASS_NAME)
 
 extern cb_tree		cb_build_class_name (cb_tree name, cb_tree list);
+extern cb_tree		cb_lookup_class_name (const char *name);
 
 
 /*

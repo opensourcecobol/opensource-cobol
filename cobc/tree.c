@@ -975,6 +975,26 @@ cb_build_class_name (cb_tree name, cb_tree list)
 	return CB_TREE (p);
 }
 
+cb_tree
+cb_lookup_class_name (const char *name)
+{
+	struct cb_class_name	*p = NULL;
+	cb_tree			l;
+
+	if (!current_program) {
+		return NULL;
+	}
+	l = current_program->class_name_list;
+	while (l) {
+		if (!cobc_casecmp (CB_CLASS_NAME (CB_VALUE (l))->name, name)) {
+			p = CB_CLASS_NAME (CB_VALUE (l));
+			break;
+		}
+		l = CB_CHAIN (l);
+	}
+	return CB_TREE (p);
+}
+
 /*
  * Locale-name
  */

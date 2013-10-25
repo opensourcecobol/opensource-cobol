@@ -616,6 +616,14 @@ ifdef(M4.I18N_UTF8,>>>>>
 	yylval = cb_build_reference (yytext);
 	SET_LOCATION (yylval);
 
+	/*
+	 * Distinguish the user defined classnames for parser to help
+	 * processing the class conditional expression.
+	 */
+	if (cb_lookup_class_name (yytext)) {
+		return CLASS_NAME;
+	}
+
 	/* Special name handling */
 	word = CB_REFERENCE (yylval)->word;
 	if (word->count > 0) {

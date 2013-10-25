@@ -18,7 +18,7 @@
  * Boston, MA 02110-1301 USA
  */
 
-%expect 118
+%expect 134
 
 %defines
 %verbose
@@ -362,6 +362,7 @@ setup_use_file (struct cb_file *fileptr)
 %token CHARACTER
 %token CHARACTERS
 %token CLASS
+%token CLASS_NAME		/* user defined classname */
 %token CLOSE
 %token CODE
 %token CODE_SET			"CODE-SET"
@@ -4478,8 +4479,14 @@ evaluate_statement:
 
 evaluate_subject_list:
   evaluate_subject		{ $$ = cb_list_init ($1); }
-| evaluate_subject_list ALSO
-  evaluate_subject		{ $$ = cb_list_add ($1, $3); }
+| evaluate_subject_list _also
+  evaluate_subject
+  {
+ 	if (!cb_allow_missing_also_clause_in_evaluate && $2 != cb_int1) {
+ 		cb_error  (_("Invalid expression"));
+ 	}
+ 	$$ = cb_list_add ($1, $3);
+  }
 ;
 
 evaluate_subject:
@@ -4556,8 +4563,14 @@ evaluate_when_list:
 
 evaluate_object_list:
   evaluate_object		{ $$ = cb_list_init ($1); }
-| evaluate_object_list ALSO
-  evaluate_object		{ $$ = cb_list_add ($1, $3); }
+| evaluate_object_list _also
+  evaluate_object
+  {
+ 	if (!cb_allow_missing_also_clause_in_evaluate && $2 != cb_int1) {
+ 		cb_error  (_("Invalid expression"));
+ 	}
+ 	$$ = cb_list_add ($1, $3);
+  }
 ;
 
 evaluate_object:
@@ -6350,43 +6363,57 @@ partial_expr:
 ;
 
 expr_tokens:
-  expr_token
-| expr_tokens IS
-| expr_tokens expr_token
+  expr_tokens IS
+| expr_token x		{ push_expr ('x', $2); }
+| expr_tokens ')'	{ push_expr (')', NULL); }
+/* class condition */
+| expr_tokens OMITTED		{ push_expr ('O', NULL); }
+| expr_tokens NUMERIC		{ push_expr ('9', NULL); }
+| expr_tokens ALPHABETIC	{ push_expr ('A', NULL); }
+| expr_tokens ALPHABETIC_LOWER	{ push_expr ('L', NULL); }
+| expr_tokens ALPHABETIC_UPPER	{ push_expr ('U', NULL); }
+| expr_tokens CLASS_NAME	{ push_expr ('x', $2); }
+/* sign condition */
+| expr_tokens POSITIVE	{ push_expr ('P', NULL); }
+| expr_tokens NEGATIVE	{ push_expr ('N', NULL); }
+| expr_tokens ZERO	{ push_expr ('x', cb_zero); }
+/* logical operators (unary/complex) */
+| expr_tokens NOT	{ push_expr ('!', NULL); }
 ;
 
 expr_token:
-  x				{ push_expr ('x', $1); }
-/* parenthesis */
-| '('				{ push_expr ('(', NULL); }
-| ')'				{ push_expr (')', NULL); }
-/* arithmetic operators */
-| '+'				{ push_expr ('+', NULL); }
-| '-'				{ push_expr ('-', NULL); }
-| '*'				{ push_expr ('*', NULL); }
-| '/'				{ push_expr ('/', NULL); }
-| '^'				{ push_expr ('^', NULL); }
-/* conditional operators */
-| eq				{ push_expr ('=', NULL); }
-| gt				{ push_expr ('>', NULL); }
-| lt				{ push_expr ('<', NULL); }
-| GE				{ push_expr (']', NULL); }
-| LE				{ push_expr ('[', NULL); }
-| NE				{ push_expr ('~', NULL); }
-/* logical operators */
-| NOT				{ push_expr ('!', NULL); }
-| AND				{ push_expr ('&', NULL); }
-| OR				{ push_expr ('|', NULL); }
-/* class condition */
-| OMITTED			{ push_expr ('O', NULL); }
-| NUMERIC			{ push_expr ('9', NULL); }
-| ALPHABETIC			{ push_expr ('A', NULL); }
-| ALPHABETIC_LOWER		{ push_expr ('L', NULL); }
-| ALPHABETIC_UPPER		{ push_expr ('U', NULL); }
-/* sign condition */
-/* ZERO is defined in 'x' */
-| POSITIVE			{ push_expr ('P', NULL); }
-| NEGATIVE			{ push_expr ('N', NULL); }
+  /* empty */
+| expr_token IS
+| expr_token '('	{ push_expr ('(', NULL); }
+/* arithmetic operators (unary) */
+| expr_token '+'	{ push_expr ('+', NULL); }
+| expr_token '-'	{ push_expr ('-', NULL); }
+| expr_token '^'	{ push_expr ('^', NULL); }
+/* logical operators (unary/complex) */
+| expr_token NOT	{ push_expr ('!', NULL); }
+/* arithmetic operators (binary) */
+| expr_tokens '+'	{ push_expr ('+', NULL); }
+| expr_tokens '-'	{ push_expr ('-', NULL); }
+| expr_tokens '*'	{ push_expr ('*', NULL); }
+| expr_tokens '/'	{ push_expr ('/', NULL); }
+| expr_tokens '^'	{ push_expr ('^', NULL); }
+/* conditional operators (binary) */
+| expr_tokens eq	{ push_expr ('=', NULL); }
+| expr_tokens gt	{ push_expr ('>', NULL); }
+| expr_tokens lt	{ push_expr ('<', NULL); }
+| expr_tokens ge	{ push_expr (']', NULL); }
+| expr_tokens le	{ push_expr ('[', NULL); }
+| expr_tokens NE	{ push_expr ('~', NULL); }
+/* conditional operators (abbrev.) */
+| expr_token eq		{ push_expr ('=', NULL); }
+| expr_token gt		{ push_expr ('>', NULL); }
+| expr_token lt		{ push_expr ('<', NULL); }
+| expr_token ge		{ push_expr (']', NULL); }
+| expr_token le		{ push_expr ('[', NULL); }
+| expr_token NE		{ push_expr ('~', NULL); }
+/* logical operators (binary) */
+| expr_tokens AND	{ push_expr ('&', NULL); }
+| expr_tokens OR	{ push_expr ('|', NULL); }
 ;
 
 eq:	'=' | EQUAL _to | EQUALS;
@@ -7003,6 +7030,7 @@ with_dups:	WITH DUPLICATES | DUPLICATES ;
 coll_sequence:	COLLATING SEQUENCE | SEQUENCE ;
 
 _advancing:	| ADVANCING ;
+_also:		| ALSO { $$ = cb_int1; } ;
 _are:		| ARE ;
 _area:		| AREA ;
 _as:		| AS ;
