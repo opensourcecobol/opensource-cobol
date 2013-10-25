@@ -1158,11 +1158,41 @@ cob_intr_stored_char_length (cob_field *srcfield)
 	int		count;
 	cob_field_attr	attr;
 	cob_field	field;
+#ifdef	I18N_UTF8
+	unsigned char	*ub;
+	int		sp;
+#endif /*I18N_UTF8*/
 
 	COB_ATTR_INIT (COB_TYPE_NUMERIC_BINARY, 8, 0, 0, NULL);
 	COB_FIELD_INIT (4, NULL, &attr);
 	make_field_entry (&field);
-	
+
+#ifdef	I18N_UTF8
+	count = 0;
+	sp = 0;
+	p  = srcfield->data;
+	ub = srcfield->data + srcfield->size;
+	while (p < ub) {
+		if (*p == ' '
+		|| (ub - p >= COB_ZENCSIZ
+		    && !memcmp(COB_ZENSPC, p, COB_ZENCSIZ))) {
+			sp++;
+		} else {
+			if (sp) {
+				count += sp;
+				sp = 0;
+			}
+			count++;
+		}
+
+		p +=  ((*p >>7) == 0x00)? 1:
+		      ((*p >>5) == 0x06)? 2:
+		      ((*p >>4) == 0x0e)? 3:
+		      ((*p >>3) == 0x1e)? 4:
+		      ((*p >>2) == 0x3e)? 5:
+		      ((*p >>1) == 0x7e)? 6: 1;
+	}
+#else /*!I18N_UTF8*/
 	count = srcfield->size;
 	p = srcfield->data + srcfield->size - 1;
 	for (; count > 0; count--, p--) {
@@ -1170,6 +1200,7 @@ cob_intr_stored_char_length (cob_field *srcfield)
 			break;
 		}
 	}
+#endif /*I18N_UTF8*/
 	cob_set_int (curr_field, count);
 	return curr_field;
 }

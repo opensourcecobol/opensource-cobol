@@ -66,7 +66,8 @@ i18n_utf8_DEPENDENCIES = \
 	i18n_utf8.src/pic-n.at \
 	i18n_utf8.src/pic-bn.at \
 	i18n_utf8.src/program-id.at \
-	i18n_utf8.src/error-print.at
+	i18n_utf8.src/error-print.at \
+	i18n_utf8.src/stored-char-length.at
 
 i18n_sjis_DEPENDENCIES = \
 	i18n_sjis.at \
