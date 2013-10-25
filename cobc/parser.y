@@ -18,7 +18,7 @@
  * Boston, MA 02110-1301 USA
  */
 
-%expect 134
+%expect 137
 
 %defines
 %verbose
@@ -735,6 +735,7 @@ setup_use_file (struct cb_file *fileptr)
 %token WAIT
 %token WHEN
 %token WHEN_COMPILED_FUNC	"FUNCTION WHEN-COMPILED"
+%token WHEN_OTHER		"WHEN OTHER"
 %token WITH
 %token WORD			"Identifier"
 %token WORDS
@@ -3624,10 +3625,6 @@ procedure:
   {
 	check_unreached = 0;
   }
-| '.'
-  {
-	/* check_unreached = 0; */
-  }
 ;
 
 
@@ -3763,7 +3760,7 @@ statements:
 			cb_cons (CB_TREE (current_paragraph), current_section->children);
 	}
   }
-  statement
+  /*statement*/
 | statements statement
 ;
 
@@ -4516,6 +4513,25 @@ evaluate_condition_list:
   {
 	$$ = $1;
 	if ($2) {
+		if (cb_allow_empty_imperative_statement) {
+			/*
+			 * some compiler implementation allow empty
+			 * imperative statements in WHEN phrases, and
+			 * treats WHEN OTHER phrase following that
+			 * asif the rest part of when_list belonging
+			 * to that.
+			 */
+			cb_tree l, case_item;
+			l = $$;
+			while (CB_CHAIN (l)) {
+				l = CB_CHAIN (l);
+			}
+			case_item = CB_VALUE (l);
+			if (!CB_VALUE (case_item)) {
+				 /* warning: duplecates ptr. here */
+				CB_VALUE (case_item) = CB_VALUE ($2);
+			}
+		}
 		$$ = cb_list_add ($$, $2);
 	}
   }
@@ -4534,6 +4550,9 @@ evaluate_case:
   }
   statement_list
   {
+	if (!cb_allow_empty_imperative_statement && $3 == NULL) {
+		cb_error (_("syntax error"));
+	}
 	$$ = cb_cons ($3, $1);
 	eval_inc2 = 0;
   }
@@ -4544,13 +4563,16 @@ evaluate_other:
   {
 	$$ = NULL;
   }
-| WHEN OTHER
+| WHEN_OTHER
   {
 	check_unreached = 0;
   }
   statement_list
   {
-	$$ = cb_cons ($4, NULL);
+	if (!cb_allow_empty_imperative_statement && $3 == NULL) {
+		cb_error (_("syntax error"));
+	}
+	$$ = cb_cons ($3, NULL);
 	eval_inc2 = 0;
   }
 ;
@@ -4787,6 +4809,9 @@ if_statement:
   statement_list if_else_sentence
   end_if
   {
+	if (!cb_allow_empty_imperative_statement && $6 == NULL) {
+		cb_error (_("syntax error"));
+	}
 	cb_emit_if ($3, $6, $7);
   }
 | IF error END_IF
@@ -4803,6 +4828,9 @@ if_else_sentence:
   }
   statement_list
   {
+	if (!cb_allow_empty_imperative_statement && $3 == NULL) {
+		cb_error (_("syntax error"));
+	}
 	$$ = $3;
   }
 ;

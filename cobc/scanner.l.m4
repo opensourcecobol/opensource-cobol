@@ -517,6 +517,11 @@ H\"[^\"\n]*\" {
 	SET_LOCATION (yylval);
 	return WORD;
 }
+
+"WHEN"[ \t\n]+"OTHER" {
+	count_lines (yytext);
+	return WHEN_OTHER;
+}
 ifdef(M4.I18N_UTF8,>>>>>
 ([A-Z0-9]|{UTF8_EXT})(([_A-Z0-9-]|{UTF8_EXT})*([A-Z0-9]|{UTF8_EXT})+)? {
 <<<<<,>>>>>

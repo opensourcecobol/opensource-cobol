@@ -494,6 +494,11 @@ H\"[^\"\n]*\" {
 	return WORD;
 }
 
+"WHEN"[ \t\n]+"OTHER" {
+	count_lines (yytext);
+	return WHEN_OTHER;
+}
+
 ([A-Z0-9]|{JPNWORD})(([_A-Z0-9-]|{JPNWORD})*([A-Z0-9]|{JPNWORD}+))? {
 
 	struct cb_word			*word;
