@@ -174,8 +174,8 @@ extern int			sjis_casecmp (const char *, const char *);
 #  define cobc_strlen  utf8_strlen
 #  define cobc_casecmp utf8_casecmp
 #else /*!I18N_UTF8*/
-#  define cobc_strlen  strlen
-#  define cobc_casecmp strcasecmp
+#  define cobc_strlen  sjis_strlen
+#  define cobc_casecmp sjis_casecmp
 #endif /*I18N_UTF8*/
 
 /* config.c */

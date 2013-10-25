@@ -529,11 +529,7 @@ ifdef(M4.I18N_UTF8,>>>>>
 	int				token;
 
 	/* Check word length */
-ifdef(M4.I18N_UTF8,>>>>>
 	if (cobc_strlen ((unsigned char*)yytext) > 31) {
-<<<<<,>>>>>
-	if (cobc_strlen (yytext) > 31) {
-<<<<<)
 		cb_error (_("User defined name must be less than 32 characters"));
 	}
         

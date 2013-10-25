@@ -53,3 +53,35 @@ AT_CHECK([${COMPILE} -x prog.cob], [0])
 
 AT_CLEANUP
 
+AT_SETUP([PROGRAM-ID NATIONAL 32 character no over])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      あいうえおかきくけこさしすせそ
+      -たちつてとなにぬねのはひふへほ.
+       DATA             DIVISION.
+       PROCEDURE DIVISION.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [0])
+
+AT_CLEANUP
+
+AT_SETUP([PROGRAM-ID NATIONAL 32 character over])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      あいうえおかきくけこさしすせそ
+      -たちつてとなにぬねのはひふへほまみ.
+       DATA             DIVISION.
+       PROCEDURE DIVISION.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [1], [],
+[prog.cob:3: Error: User defined name must be less than 32 characters
+])
+
+AT_CLEANUP
+
