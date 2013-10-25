@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -358,6 +358,39 @@ at_help_all='1;user-defined-word.at:1;Program name;;
 47;pic-n.at:310;PIC N INSPECT REPLACING by ZERO;;
 48;pic-n.at:329;PIC N INSPECT REPLACING by NATIONAL ZERO;;
 49;pic-n.at:350;PIC N INSPECT TALLYING;;
+50;pic-n.at:370;PIC N Move with half-width dakuten kana.;;
+51;pic-n.at:389;PIC N Move with half-width han-dakuten kana.;;
+52;program-id.at:1;PROGRAM-ID NATIONAL C89 no warning;;
+53;program-id.at:20;PROGRAM-ID NATIONAL C89 warning;;
+54;program-id.at:42;PROGRAM-ID NATIONAL C89 ignore;;
+55;program-id.at:56;PROGRAM-ID NATIONAL 32 character no over;;
+56;program-id.at:71;PROGRAM-ID NATIONAL 32 character over;;
+57;error-print.at:1;undefined not message;;
+58;error-print.at:24;Encoding alphanumeric name item;;
+59;error-print.at:41;Encoding national name item;;
+60;limits.at:1;Field length limit PIC A/VALID;;
+61;limits.at:17;Field length limit PIC A/TOO LONG;;
+62;limits.at:35;Field length limit PIC X/VALID;;
+63;limits.at:51;Field length limit PIC X/TOO LONG;;
+64;limits.at:69;Field length limit PIC B9/VALID;;
+65;limits.at:85;Field length limit PIC B9/TOO LONG;;
+66;limits.at:103;Field length limit PIC B/VALID;;
+67;limits.at:119;Field length limit PIC B/TOO LONG;;
+68;limits.at:137;Field length limit PIC BA/VALID;;
+69;limits.at:153;Field length limit PIC BA/TOO LONG;;
+70;limits.at:171;Field length limit PIC BX/VALID;;
+71;limits.at:187;Field length limit PIC BX/TOO LONG;;
+72;limits.at:205;Field length limit PIC N/VALID (SJIS);;
+73;limits.at:221;Field length limit PIC N/TOO LONG (SJIS);;
+74;limits.at:239;Field length limit PIC BN/VALID (SJIS);;
+75;limits.at:255;Field length limit PIC BN/TOO LONG (SJIS);;
+76;national.at:1;FUNCTION NATIONAL single-byte;;
+77;national.at:22;FUNCTION NATIONAL multi-byte;;
+78;national.at:43;FUNCTION NATIONAL KIGOU-exclamation;;
+79;national.at:64;FUNCTION NATIONAL KIGOU-yen;;
+80;national.at:85;FUNCTION NATIONAL KIGOU-plus;;
+81;national.at:106;FUNCTION NATIONAL (HanKana w/ Daku-on);;
+82;national.at:127;FUNCTION NATIONAL (HanKana w/ Han-daku-on);;
 '
 
 at_keywords=
@@ -3972,7 +4005,7 @@ grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
 $at_diff $at_devnull $at_stderr || at_failed=:
-echo >>$at_stdout; echo " 5283 8183 5e83 bade cbb0 00b0 4081
+echo >>$at_stdout; echo " 5283 8183 5f83 5283 5b81 7183 5b81
 " | $at_diff - $at_stdout || at_failed=:
 case $at_status in
    77) echo 77 > $at_status_file
@@ -4763,6 +4796,2068 @@ case $at_status in
             exit 77;;
    0) ;;
    *) echo "pic-n.at:366: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  50 ) # 50. pic-n.at:370: PIC N Move with half-width dakuten kana.
+    at_setup_line='pic-n.at:370'
+    at_desc='PIC N Move with half-width dakuten kana.'
+    $at_quiet $ECHO_N " 50: PIC N Move with half-width dakuten kana.     $ECHO_C"
+    at_xfail=no
+    (
+      echo "50. pic-n.at:370: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC N(7).
+       PROCEDURE        DIVISION.
+           MOVE "ÞÀÞ¥³Þ¨ÝÁ" TO F0.
+           DISPLAY F0 WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "pic-n.at:384: \${COMPILE} -x prog.cob"
+echo pic-n.at:384 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "pic-n.at:384: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "pic-n.at:385: ./prog"
+echo pic-n.at:385 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "Jƒ_Eƒ”ƒBƒ“ƒ\`" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "pic-n.at:385: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  51 ) # 51. pic-n.at:389: PIC N Move with half-width han-dakuten kana.
+    at_setup_line='pic-n.at:389'
+    at_desc='PIC N Move with half-width han-dakuten kana.'
+    $at_quiet $ECHO_N " 51: PIC N Move with half-width han-dakuten kana. $ECHO_C"
+    at_xfail=no
+    (
+      echo "51. pic-n.at:389: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC N(7).
+       PROCEDURE        DIVISION.
+           MOVE "ßÎßÝÃÞØÝ¸Þ" TO F0.
+           DISPLAY F0 WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "pic-n.at:403: \${COMPILE} -x prog.cob"
+echo pic-n.at:403 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "pic-n.at:403: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "pic-n.at:404: ./prog"
+echo pic-n.at:404 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "Kƒ|ƒ“ƒfƒŠƒ“ƒO" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "pic-n.at:404: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  52 ) # 52. program-id.at:1: PROGRAM-ID NATIONAL C89 no warning
+    at_setup_line='program-id.at:1'
+    at_desc='PROGRAM-ID NATIONAL C89 no warning'
+    $at_quiet $ECHO_N " 52: PROGRAM-ID NATIONAL C89 no warning           $ECHO_C"
+    at_xfail=no
+    (
+      echo "52. program-id.at:1: testing ..."
+      $at_traceon
+
+
+cat >test.conf <<'_ATEOF'
+
+include "default.conf"
+c89-identifier-length-check: yes
+_ATEOF
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      “Œ‹ž“s.
+       DATA             DIVISION.
+       PROCEDURE DIVISION.
+           END PROGRAM “Œ‹ž“s.
+_ATEOF
+
+
+$at_traceoff
+echo "program-id.at:16: \${COMPILE} -conf=test.conf -x prog.cob"
+echo program-id.at:16 >$at_check_line_file
+( $at_traceon; ${COMPILE} -conf=test.conf -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "program-id.at:16: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  53 ) # 53. program-id.at:20: PROGRAM-ID NATIONAL C89 warning
+    at_setup_line='program-id.at:20'
+    at_desc='PROGRAM-ID NATIONAL C89 warning'
+    $at_quiet $ECHO_N " 53: PROGRAM-ID NATIONAL C89 warning              $ECHO_C"
+    at_xfail=no
+    (
+      echo "53. program-id.at:20: testing ..."
+      $at_traceon
+
+
+cat >test.conf <<'_ATEOF'
+
+include "default.conf"
+c89-identifier-length-check: yes
+_ATEOF
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      “Œ‹ž˜pŠÝ`˜p‹Ç.
+       DATA             DIVISION.
+       PROCEDURE DIVISION.
+           END PROGRAM “Œ‹ž˜pŠÝ`˜p‹Ç.
+_ATEOF
+
+
+$at_traceoff
+echo "program-id.at:35: \${COMPILE} -conf=test.conf -x prog.cob"
+echo program-id.at:35 >$at_check_line_file
+( $at_traceon; ${COMPILE} -conf=test.conf -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:3: Warning: PROGRAM-ID length exceeds C89 function name limit
+prog.cob:6: Warning: PROGRAM-ID length exceeds C89 function name limit
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "program-id.at:35: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  54 ) # 54. program-id.at:42: PROGRAM-ID NATIONAL C89 ignore
+    at_setup_line='program-id.at:42'
+    at_desc='PROGRAM-ID NATIONAL C89 ignore'
+    $at_quiet $ECHO_N " 54: PROGRAM-ID NATIONAL C89 ignore               $ECHO_C"
+    at_xfail=no
+    (
+      echo "54. program-id.at:42: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      “Œ‹ž˜pŠÝ`˜p‹Ç.
+       DATA             DIVISION.
+       PROCEDURE DIVISION.
+           END PROGRAM “Œ‹ž˜pŠÝ`˜p‹Ç.
+_ATEOF
+
+
+$at_traceoff
+echo "program-id.at:52: \${COMPILE} -x prog.cob"
+echo program-id.at:52 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "program-id.at:52: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  55 ) # 55. program-id.at:56: PROGRAM-ID NATIONAL 32 character no over
+    at_setup_line='program-id.at:56'
+    at_desc='PROGRAM-ID NATIONAL 32 character no over'
+    $at_quiet $ECHO_N " 55: PROGRAM-ID NATIONAL 32 character no over     $ECHO_C"
+    at_xfail=no
+    (
+      echo "55. program-id.at:56: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      ‚ ‚¢‚¤‚¦‚¨‚©‚«‚­‚¯‚±‚³‚µ‚·‚¹‚»
+      -‚½‚¿‚Â‚Ä‚Æ‚È‚É‚Ê‚Ë‚Ì‚Í‚Ð‚Ó‚Ö‚Ù.
+       DATA             DIVISION.
+       PROCEDURE DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "program-id.at:67: \${COMPILE} -x prog.cob"
+echo program-id.at:67 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "program-id.at:67: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  56 ) # 56. program-id.at:71: PROGRAM-ID NATIONAL 32 character over
+    at_setup_line='program-id.at:71'
+    at_desc='PROGRAM-ID NATIONAL 32 character over'
+    $at_quiet $ECHO_N " 56: PROGRAM-ID NATIONAL 32 character over        $ECHO_C"
+    at_xfail=no
+    (
+      echo "56. program-id.at:71: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      ‚ ‚¢‚¤‚¦‚¨‚©‚«‚­‚¯‚±‚³‚µ‚·‚¹‚»
+      -‚½‚¿‚Â‚Ä‚Æ‚È‚É‚Ê‚Ë‚Ì‚Í‚Ð‚Ó‚Ö‚Ù‚Ü‚Ý.
+       DATA             DIVISION.
+       PROCEDURE DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "program-id.at:82: \${COMPILE} -x prog.cob"
+echo program-id.at:82 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:3: Error: User defined name must be less than 32 characters
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "program-id.at:82: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  57 ) # 57. error-print.at:1: undefined not message
+    at_setup_line='error-print.at:1'
+    at_desc='undefined not message'
+    $at_quiet $ECHO_N " 57: undefined not message                        $ECHO_C"
+    at_xfail=no
+    (
+      echo "57. error-print.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       identification division.
+       program-id. prog.
+       data division.
+       working-storage section.
+       01 wk-01.
+         03 wk-02  pic x(2).
+         03 ‚—‚‹|‚O‚R  redefines wk-02 pic n(2).
+       01 cnt  pic 9(1).
+       procedure division.
+          inspect ‚—‚‹|‚O‚R tallying cnt
+            for characters before initial space.
+          stop run.
+_ATEOF
+
+
+$at_traceoff
+echo "error-print.at:18: \${COMPILE} -x prog.cob"
+echo error-print.at:18 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:8: Error: Size of '‚—‚‹|‚O‚R' larger than size of 'wk-02'
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "error-print.at:18: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  58 ) # 58. error-print.at:24: Encoding alphanumeric name item
+    at_setup_line='error-print.at:24'
+    at_desc='Encoding alphanumeric name item'
+    $at_quiet $ECHO_N " 58: Encoding alphanumeric name item              $ECHO_C"
+    at_xfail=no
+    (
+      echo "58. error-print.at:24: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       PROCEDURE DIVISION.
+           DISPLAY A___82A0___A.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "error-print.at:35: \${COMPILE} -x prog.cob"
+echo error-print.at:35 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:6: Error: 'A___82A0___A' undefined
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "error-print.at:35: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  59 ) # 59. error-print.at:41: Encoding national name item
+    at_setup_line='error-print.at:41'
+    at_desc='Encoding national name item'
+    $at_quiet $ECHO_N " 59: Encoding national name item                  $ECHO_C"
+    at_xfail=no
+    (
+      echo "59. error-print.at:41: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       PROCEDURE DIVISION.
+           DISPLAY A___‚ ___A.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "error-print.at:52: \${COMPILE} -x prog.cob"
+echo error-print.at:52 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:6: Error: 'A___‚ ___A' undefined
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "error-print.at:52: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  60 ) # 60. limits.at:1: Field length limit PIC A/VALID
+    at_setup_line='limits.at:1'
+    at_desc='Field length limit PIC A/VALID'
+    $at_quiet $ECHO_N " 60: Field length limit PIC A/VALID               $ECHO_C"
+    at_xfail=no
+    (
+      echo "60. limits.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-X       PIC A(16777216).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:13: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:13 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "limits.at:13: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  61 ) # 61. limits.at:17: Field length limit PIC A/TOO LONG
+    at_setup_line='limits.at:17'
+    at_desc='Field length limit PIC A/TOO LONG'
+    $at_quiet $ECHO_N " 61: Field length limit PIC A/TOO LONG            $ECHO_C"
+    at_xfail=no
+    (
+      echo "61. limits.at:17: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-X       PIC A(16777217).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:29: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:29 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:6: Error: Alphabetic field cannot be larger than 16777216 digits
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "limits.at:29: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  62 ) # 62. limits.at:35: Field length limit PIC X/VALID
+    at_setup_line='limits.at:35'
+    at_desc='Field length limit PIC X/VALID'
+    $at_quiet $ECHO_N " 62: Field length limit PIC X/VALID               $ECHO_C"
+    at_xfail=no
+    (
+      echo "62. limits.at:35: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-X       PIC X(16777216).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:47: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:47 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "limits.at:47: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  63 ) # 63. limits.at:51: Field length limit PIC X/TOO LONG
+    at_setup_line='limits.at:51'
+    at_desc='Field length limit PIC X/TOO LONG'
+    $at_quiet $ECHO_N " 63: Field length limit PIC X/TOO LONG            $ECHO_C"
+    at_xfail=no
+    (
+      echo "63. limits.at:51: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-X       PIC X(16777217).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:63: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:63 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:6: Error: AlphaNumeric field cannot be larger than 16777216 digits
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "limits.at:63: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  64 ) # 64. limits.at:69: Field length limit PIC B9/VALID
+    at_setup_line='limits.at:69'
+    at_desc='Field length limit PIC B9/VALID'
+    $at_quiet $ECHO_N " 64: Field length limit PIC B9/VALID              $ECHO_C"
+    at_xfail=no
+    (
+      echo "64. limits.at:69: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-X       PIC B9(159).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:81: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:81 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "limits.at:81: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  65 ) # 65. limits.at:85: Field length limit PIC B9/TOO LONG
+    at_setup_line='limits.at:85'
+    at_desc='Field length limit PIC B9/TOO LONG'
+    $at_quiet $ECHO_N " 65: Field length limit PIC B9/TOO LONG           $ECHO_C"
+    at_xfail=no
+    (
+      echo "65. limits.at:85: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-X       PIC B9(160).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:97: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:97 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:6: Error: NumericEdit field cannot be larger than 160 digits
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "limits.at:97: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  66 ) # 66. limits.at:103: Field length limit PIC B/VALID
+    at_setup_line='limits.at:103'
+    at_desc='Field length limit PIC B/VALID'
+    $at_quiet $ECHO_N " 66: Field length limit PIC B/VALID               $ECHO_C"
+    at_xfail=no
+    (
+      echo "66. limits.at:103: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-X       PIC B(16777216).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:115: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:115 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "limits.at:115: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  67 ) # 67. limits.at:119: Field length limit PIC B/TOO LONG
+    at_setup_line='limits.at:119'
+    at_desc='Field length limit PIC B/TOO LONG'
+    $at_quiet $ECHO_N " 67: Field length limit PIC B/TOO LONG            $ECHO_C"
+    at_xfail=no
+    (
+      echo "67. limits.at:119: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-X       PIC B(16777217).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:131: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:131 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:6: Error: AlphaNumericEdit field cannot be larger than 16777216 digits
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "limits.at:131: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  68 ) # 68. limits.at:137: Field length limit PIC BA/VALID
+    at_setup_line='limits.at:137'
+    at_desc='Field length limit PIC BA/VALID'
+    $at_quiet $ECHO_N " 68: Field length limit PIC BA/VALID              $ECHO_C"
+    at_xfail=no
+    (
+      echo "68. limits.at:137: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-X       PIC BA(16777215).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:149: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:149 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "limits.at:149: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  69 ) # 69. limits.at:153: Field length limit PIC BA/TOO LONG
+    at_setup_line='limits.at:153'
+    at_desc='Field length limit PIC BA/TOO LONG'
+    $at_quiet $ECHO_N " 69: Field length limit PIC BA/TOO LONG           $ECHO_C"
+    at_xfail=no
+    (
+      echo "69. limits.at:153: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-X       PIC BA(16777216).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:165: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:165 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:6: Error: AlphaNumericEdit field cannot be larger than 16777216 digits
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "limits.at:165: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  70 ) # 70. limits.at:171: Field length limit PIC BX/VALID
+    at_setup_line='limits.at:171'
+    at_desc='Field length limit PIC BX/VALID'
+    $at_quiet $ECHO_N " 70: Field length limit PIC BX/VALID              $ECHO_C"
+    at_xfail=no
+    (
+      echo "70. limits.at:171: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-X       PIC BX(16777215).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:183: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:183 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "limits.at:183: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  71 ) # 71. limits.at:187: Field length limit PIC BX/TOO LONG
+    at_setup_line='limits.at:187'
+    at_desc='Field length limit PIC BX/TOO LONG'
+    $at_quiet $ECHO_N " 71: Field length limit PIC BX/TOO LONG           $ECHO_C"
+    at_xfail=no
+    (
+      echo "71. limits.at:187: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-X       PIC BX(16777216).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:199: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:199 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:6: Error: AlphaNumericEdit field cannot be larger than 16777216 digits
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "limits.at:199: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  72 ) # 72. limits.at:205: Field length limit PIC N/VALID (SJIS)
+    at_setup_line='limits.at:205'
+    at_desc='Field length limit PIC N/VALID (SJIS)'
+    $at_quiet $ECHO_N " 72: Field length limit PIC N/VALID (SJIS)        $ECHO_C"
+    at_xfail=no
+    (
+      echo "72. limits.at:205: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-N       PIC N(8388608).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:217: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:217 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "limits.at:217: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  73 ) # 73. limits.at:221: Field length limit PIC N/TOO LONG (SJIS)
+    at_setup_line='limits.at:221'
+    at_desc='Field length limit PIC N/TOO LONG (SJIS)'
+    $at_quiet $ECHO_N " 73: Field length limit PIC N/TOO LONG (SJIS)     $ECHO_C"
+    at_xfail=no
+    (
+      echo "73. limits.at:221: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 INVALID-N     PIC N(8388609).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:233: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:233 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:6: Error: National field cannot be larger than 8388608 digits
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "limits.at:233: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  74 ) # 74. limits.at:239: Field length limit PIC BN/VALID (SJIS)
+    at_setup_line='limits.at:239'
+    at_desc='Field length limit PIC BN/VALID (SJIS)'
+    $at_quiet $ECHO_N " 74: Field length limit PIC BN/VALID (SJIS)       $ECHO_C"
+    at_xfail=no
+    (
+      echo "74. limits.at:239: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 VALID-BN      PIC BN(8388607).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:251: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:251 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "limits.at:251: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  75 ) # 75. limits.at:255: Field length limit PIC BN/TOO LONG (SJIS)
+    at_setup_line='limits.at:255'
+    at_desc='Field length limit PIC BN/TOO LONG (SJIS)'
+    $at_quiet $ECHO_N " 75: Field length limit PIC BN/TOO LONG (SJIS)    $ECHO_C"
+    at_xfail=no
+    (
+      echo "75. limits.at:255: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 INVALID-BN    PIC BN(8388608).
+       PROCEDURE        DIVISION.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "limits.at:267: \${COMPILE_LIMIT_TEST} -o prog prog.cob"
+echo limits.at:267 >$at_check_line_file
+( $at_traceon; ${COMPILE_LIMIT_TEST} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:6: Error: NationalEdit field cannot be larger than 8388608 digits
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "limits.at:267: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  76 ) # 76. national.at:1: FUNCTION NATIONAL single-byte
+    at_setup_line='national.at:1'
+    at_desc='FUNCTION NATIONAL single-byte'
+    $at_quiet $ECHO_N " 76: FUNCTION NATIONAL single-byte                $ECHO_C"
+    at_xfail=no
+    (
+      echo "76. national.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 I-STR    PIC X(5).
+       01 O-STR    PIC X(10).
+       PROCEDURE        DIVISION.
+           MOVE "ABCDZ" TO I-STR.
+           MOVE FUNCTION NATIONAL(I-STR) TO O-STR.
+           DISPLAY O-STR WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "national.at:17: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo national.at:17 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:17: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "national.at:18: ./prog"
+echo national.at:18 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "‚\`‚a‚b‚c‚y" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:18: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  77 ) # 77. national.at:22: FUNCTION NATIONAL multi-byte
+    at_setup_line='national.at:22'
+    at_desc='FUNCTION NATIONAL multi-byte'
+    $at_quiet $ECHO_N " 77: FUNCTION NATIONAL multi-byte                 $ECHO_C"
+    at_xfail=no
+    (
+      echo "77. national.at:22: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 I-STR    PIC X(9).
+       01 O-STR    PIC X(12).
+       PROCEDURE        DIVISION.
+           MOVE "A‚aC‚P2‚R" TO I-STR.
+           MOVE FUNCTION NATIONAL(I-STR) TO O-STR.
+           DISPLAY O-STR WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "national.at:38: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo national.at:38 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:38: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "national.at:39: ./prog"
+echo national.at:39 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "‚\`‚a‚b‚P‚Q‚R" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:39: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  78 ) # 78. national.at:43: FUNCTION NATIONAL KIGOU-exclamation
+    at_setup_line='national.at:43'
+    at_desc='FUNCTION NATIONAL KIGOU-exclamation'
+    $at_quiet $ECHO_N " 78: FUNCTION NATIONAL KIGOU-exclamation          $ECHO_C"
+    at_xfail=no
+    (
+      echo "78. national.at:43: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 I-STR    PIC X(5).
+       01 O-STR    PIC X(10).
+       PROCEDURE        DIVISION.
+           MOVE "!!!!!" TO I-STR.
+           MOVE FUNCTION NATIONAL(I-STR) TO O-STR.
+           DISPLAY O-STR WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "national.at:59: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo national.at:59 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:59: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "national.at:60: ./prog"
+echo national.at:60 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "IIIII" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:60: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  79 ) # 79. national.at:64: FUNCTION NATIONAL KIGOU-yen
+    at_setup_line='national.at:64'
+    at_desc='FUNCTION NATIONAL KIGOU-yen'
+    $at_quiet $ECHO_N " 79: FUNCTION NATIONAL KIGOU-yen                  $ECHO_C"
+    at_xfail=no
+    (
+      echo "79. national.at:64: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 I-STR    PIC X(1).
+       01 O-STR    PIC X(10).
+       PROCEDURE        DIVISION.
+           MOVE "\" TO I-STR.
+           MOVE FUNCTION NATIONAL(I-STR) TO O-STR.
+           DISPLAY O-STR WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "national.at:80: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo national.at:80 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:80: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "national.at:81: ./prog"
+echo national.at:81 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "        " | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:81: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  80 ) # 80. national.at:85: FUNCTION NATIONAL KIGOU-plus
+    at_setup_line='national.at:85'
+    at_desc='FUNCTION NATIONAL KIGOU-plus'
+    $at_quiet $ECHO_N " 80: FUNCTION NATIONAL KIGOU-plus                 $ECHO_C"
+    at_xfail=no
+    (
+      echo "80. national.at:85: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 I-STR    PIC X(2).
+       01 O-STR    PIC X(10).
+       PROCEDURE        DIVISION.
+           MOVE "+ " TO I-STR.
+           MOVE FUNCTION NATIONAL(I-STR) TO O-STR.
+           DISPLAY O-STR WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "national.at:101: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo national.at:101 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:101: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "national.at:102: ./prog"
+echo national.at:102 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "{@      " | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:102: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  81 ) # 81. national.at:106: FUNCTION NATIONAL (HanKana w/ Daku-on)
+    at_setup_line='national.at:106'
+    at_desc='FUNCTION NATIONAL (HanKana w/ Daku-on)'
+    $at_quiet $ECHO_N " 81: FUNCTION NATIONAL (HanKana w/ Daku-on)       $ECHO_C"
+    at_xfail=no
+    (
+      echo "81. national.at:106: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 I-STR    PIC X(16).
+       01 O-STR    PIC X(16).
+       PROCEDURE        DIVISION.
+           MOVE "ÚÃÞ¨¶Þ¶Þ" TO I-STR.
+           MOVE FUNCTION NATIONAL(I-STR) TO O-STR.
+           DISPLAY O-STR WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "national.at:122: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo national.at:122 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:122: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "national.at:123: ./prog"
+echo national.at:123 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "ƒŒƒfƒBƒKƒK@@@" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:123: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  82 ) # 82. national.at:127: FUNCTION NATIONAL (HanKana w/ Han-daku-on)
+    at_setup_line='national.at:127'
+    at_desc='FUNCTION NATIONAL (HanKana w/ Han-daku-on)'
+    $at_quiet $ECHO_N " 82: FUNCTION NATIONAL (HanKana w/ Han-daku-on)   $ECHO_C"
+    at_xfail=no
+    (
+      echo "82. national.at:127: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 I-STR    PIC X(10).
+       01 O-STR    PIC X(10).
+       PROCEDURE        DIVISION.
+           MOVE "ÎßËßÝ" TO I-STR.
+           MOVE FUNCTION NATIONAL(I-STR) TO O-STR.
+           DISPLAY O-STR WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "national.at:143: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo national.at:143 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:143: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "national.at:144: ./prog"
+echo national.at:144 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "ƒ|ƒsƒ“@@" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:144: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then

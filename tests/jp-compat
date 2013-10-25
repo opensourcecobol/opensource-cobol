@@ -1,0 +1,3833 @@
+#! /bin/sh
+## --------------------- ##
+## M4sh Initialization.  ##
+## --------------------- ##
+
+# Be Bourne compatible
+if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
+  emulate sh
+  NULLCMD=:
+  # Zsh 3.x and 4.x performs word splitting on ${1+"$@"}, which
+  # is contrary to our usage.  Disable this feature.
+  alias -g '${1+"$@"}'='"$@"'
+elif test -n "${BASH_VERSION+set}" && (set -o posix) >/dev/null 2>&1; then
+  set -o posix
+fi
+DUALCASE=1; export DUALCASE # for MKS sh
+
+# Support unset when possible.
+if ( (MAIL=60; unset MAIL) || exit) >/dev/null 2>&1; then
+  as_unset=unset
+else
+  as_unset=false
+fi
+
+
+# Work around bugs in pre-3.0 UWIN ksh.
+$as_unset ENV MAIL MAILPATH
+PS1='$ '
+PS2='> '
+PS4='+ '
+
+# NLS nuisances.
+for as_var in \
+  LANG LANGUAGE LC_ADDRESS LC_ALL LC_COLLATE LC_CTYPE LC_IDENTIFICATION \
+  LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER \
+  LC_TELEPHONE LC_TIME
+do
+  if (set +x; test -z "`(eval $as_var=C; export $as_var) 2>&1`"); then
+    eval $as_var=C; export $as_var
+  else
+    $as_unset $as_var
+  fi
+done
+
+# Required to use basename.
+if expr a : '\(a\)' >/dev/null 2>&1; then
+  as_expr=expr
+else
+  as_expr=false
+fi
+
+if (basename /) >/dev/null 2>&1 && test "X`basename / 2>&1`" = "X/"; then
+  as_basename=basename
+else
+  as_basename=false
+fi
+
+
+# Name of the executable.
+as_me=`$as_basename "$0" ||
+$as_expr X/"$0" : '.*/\([^/][^/]*\)/*$' \| \
+	 X"$0" : 'X\(//\)$' \| \
+	 X"$0" : 'X\(/\)$' \| \
+	 .     : '\(.\)' 2>/dev/null ||
+echo X/"$0" |
+    sed '/^.*\/\([^/][^/]*\)\/*$/{ s//\1/; q; }
+  	  /^X\/\(\/\/\)$/{ s//\1/; q; }
+  	  /^X\/\(\/\).*/{ s//\1/; q; }
+  	  s/.*/./; q'`
+
+
+# PATH needs CR, and LINENO needs CR and PATH.
+# Avoid depending upon Character Ranges.
+as_cr_letters='abcdefghijklmnopqrstuvwxyz'
+as_cr_LETTERS='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+as_cr_Letters=$as_cr_letters$as_cr_LETTERS
+as_cr_digits='0123456789'
+as_cr_alnum=$as_cr_Letters$as_cr_digits
+
+# The user is always right.
+if test "${PATH_SEPARATOR+set}" != set; then
+  echo "#! /bin/sh" >conf$$.sh
+  echo  "exit 0"   >>conf$$.sh
+  chmod +x conf$$.sh
+  if (PATH="/nonexistent;."; conf$$.sh) >/dev/null 2>&1; then
+    PATH_SEPARATOR=';'
+  else
+    PATH_SEPARATOR=:
+  fi
+  rm -f conf$$.sh
+fi
+
+
+  as_lineno_1=$LINENO
+  as_lineno_2=$LINENO
+  as_lineno_3=`(expr $as_lineno_1 + 1) 2>/dev/null`
+  test "x$as_lineno_1" != "x$as_lineno_2" &&
+  test "x$as_lineno_3"  = "x$as_lineno_2"  || {
+  # Find who we are.  Look in the path if we contain no path at all
+  # relative or not.
+  case $0 in
+    *[\\/]* ) as_myself=$0 ;;
+    *) as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  test -r "$as_dir/$0" && as_myself=$as_dir/$0 && break
+done
+
+       ;;
+  esac
+  # We did not find ourselves, most probably we were run as `sh COMMAND'
+  # in which case we are not to be found in the path.
+  if test "x$as_myself" = x; then
+    as_myself=$0
+  fi
+  if test ! -f "$as_myself"; then
+    { echo "$as_me: error: cannot find myself; rerun with an absolute path" >&2
+   { (exit 1); exit 1; }; }
+  fi
+  case $CONFIG_SHELL in
+  '')
+    as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in /bin$PATH_SEPARATOR/usr/bin$PATH_SEPARATOR$PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for as_base in sh bash ksh sh5; do
+	 case $as_dir in
+	 /*)
+	   if ("$as_dir/$as_base" -c '
+  as_lineno_1=$LINENO
+  as_lineno_2=$LINENO
+  as_lineno_3=`(expr $as_lineno_1 + 1) 2>/dev/null`
+  test "x$as_lineno_1" != "x$as_lineno_2" &&
+  test "x$as_lineno_3"  = "x$as_lineno_2" ') 2>/dev/null; then
+	     $as_unset BASH_ENV || test "${BASH_ENV+set}" != set || { BASH_ENV=; export BASH_ENV; }
+	     $as_unset ENV || test "${ENV+set}" != set || { ENV=; export ENV; }
+	     CONFIG_SHELL=$as_dir/$as_base
+	     export CONFIG_SHELL
+	     exec "$CONFIG_SHELL" "$0" ${1+"$@"}
+	   fi;;
+	 esac
+       done
+done
+;;
+  esac
+
+  # Create $as_me.lineno as a copy of $as_myself, but with $LINENO
+  # uniformly replaced by the line number.  The first 'sed' inserts a
+  # line-number line before each line; the second 'sed' does the real
+  # work.  The second script uses 'N' to pair each line-number line
+  # with the numbered line, and appends trailing '-' during
+  # substitution so that $LINENO is not a special case at line end.
+  # (Raja R Harinath suggested sed '=', and Paul Eggert wrote the
+  # second 'sed' script.  Blame Lee E. McMahon for sed's syntax.  :-)
+  sed '=' <$as_myself |
+    sed '
+      N
+      s,$,-,
+      : loop
+      s,^\(['$as_cr_digits']*\)\(.*\)[$]LINENO\([^'$as_cr_alnum'_]\),\1\2\1\3,
+      t loop
+      s,-$,,
+      s,^['$as_cr_digits']*\n,,
+    ' >$as_me.lineno &&
+  chmod +x $as_me.lineno ||
+    { echo "$as_me: error: cannot create $as_me.lineno; rerun with a POSIX shell" >&2
+   { (exit 1); exit 1; }; }
+
+  # Don't try to exec as it changes $[0], causing all sort of problems
+  # (the dirname of $[0] is not the place where we might find the
+  # original and so on.  Autoconf is especially sensible to this).
+  . ./$as_me.lineno
+  # Exit status is that of the last command.
+  exit
+}
+
+
+case `echo "testing\c"; echo 1,2,3`,`echo -n testing; echo 1,2,3` in
+  *c*,-n*) ECHO_N= ECHO_C='
+' ECHO_T='	' ;;
+  *c*,*  ) ECHO_N=-n ECHO_C= ECHO_T= ;;
+  *)       ECHO_N= ECHO_C='\c' ECHO_T= ;;
+esac
+
+if expr a : '\(a\)' >/dev/null 2>&1; then
+  as_expr=expr
+else
+  as_expr=false
+fi
+
+rm -f conf$$ conf$$.exe conf$$.file
+echo >conf$$.file
+if ln -s conf$$.file conf$$ 2>/dev/null; then
+  # We could just check for DJGPP; but this test a) works b) is more generic
+  # and c) will remain valid once DJGPP supports symlinks (DJGPP 2.04).
+  if test -f conf$$.exe; then
+    # Don't use ln at all; we don't have any links
+    as_ln_s='cp -p'
+  else
+    as_ln_s='ln -s'
+  fi
+elif ln conf$$.file conf$$ 2>/dev/null; then
+  as_ln_s=ln
+else
+  as_ln_s='cp -p'
+fi
+rm -f conf$$ conf$$.exe conf$$.file
+
+if mkdir -p . 2>/dev/null; then
+  as_mkdir_p=:
+else
+  test -d ./-p && rmdir ./-p
+  as_mkdir_p=false
+fi
+
+as_executable_p="test -f"
+
+# Sed expression to map a string onto a valid CPP name.
+as_tr_cpp="eval sed 'y%*$as_cr_letters%P$as_cr_LETTERS%;s%[^_$as_cr_alnum]%_%g'"
+
+# Sed expression to map a string onto a valid variable name.
+as_tr_sh="eval sed 'y%*+%pp%;s%[^_$as_cr_alnum]%_%g'"
+
+
+# IFS
+# We need space, tab and new line, in precisely that order.
+as_nl='
+'
+IFS=" 	$as_nl"
+
+# CDPATH.
+$as_unset CDPATH
+
+
+SHELL=${CONFIG_SHELL-/bin/sh}
+
+# How were we run?
+at_cli_args="$@"
+
+# Load the config file.
+for at_file in atconfig atlocal
+do
+  test -r $at_file || continue
+  . ./$at_file || { echo "$as_me: error: invalid content: $at_file" >&2
+   { (exit 1); exit 1; }; }
+done
+
+# atconfig delivers paths relative to the directory the test suite is
+# in, but the groups themselves are run in testsuite-dir/group-dir.
+if test -n "$at_top_srcdir"; then
+  builddir=../..
+  for at_dir in srcdir top_srcdir top_builddir
+  do
+    at_val=`eval echo '${'at_$at_dir'}'`
+    eval "$at_dir=\$at_val/../.."
+  done
+fi
+
+# Not all shells have the 'times' builtin; the subshell is needed to make
+# sure we discard the 'times: not found' message from the shell.
+at_times_p=false
+(times) >/dev/null 2>&1 && at_times_p=:
+
+# CLI Arguments to pass to the debugging scripts.
+at_debug_args=
+# -e sets to true
+at_errexit_p=false
+# Shall we be verbose?
+at_verbose=:
+at_quiet=echo
+
+# Shall we keep the debug scripts?  Must be `:' when the suite is
+# run by a debug script, so that the script doesn't remove itself.
+at_debug_p=false
+# Display help message?
+at_help_p=false
+# List test groups?
+at_list_p=false
+# Test groups to run
+at_groups=
+
+# The directory we are in.
+at_dir=`pwd`
+# The directory the whole suite works in.
+# Should be absolutely to let the user `cd' at will.
+at_suite_dir=$at_dir/$as_me.dir
+# The file containing the suite.
+at_suite_log=$at_dir/$as_me.log
+# The file containing the location of the last AT_CHECK.
+at_check_line_file=$at_suite_dir/at-check-line
+# The file containing the exit status of the last command.
+at_status_file=$at_suite_dir/at-status
+# The files containing the output of the tested commands.
+at_stdout=$at_suite_dir/at-stdout
+at_stder1=$at_suite_dir/at-stder1
+at_stderr=$at_suite_dir/at-stderr
+# The file containing dates.
+at_times_file=$at_suite_dir/at-times
+
+# List of the tested programs.
+at_tested='cobc'
+# List of the all the test groups.
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27'
+# As many dots as there are digits in the last test group number.
+# Used to normalize the test group numbers so that `ls' lists them in
+# numerical order.
+at_format='..'
+# Description of all the test groups.
+at_help_all='1;split-keys.at:1;SPLIT KEYS (ALTERNATE KEY);;
+2;end-program-wrong.at:1;Allow wrong pgm-name in END-PROGRAM;;
+3;evaluate-also-missing.at:1;Allow missing ALSO in EVALUATE-WHEN;;
+4;evaluate-also-missing.at:25;Allow missing both ALSO and class condition IS in EVALUATE;;
+5;empty-imperative.at:1;Allow empty EVALUATE-WHEN OTHER;;
+6;empty-imperative.at:24;Allow empty ELSE;;
+7;empty-imperative.at:46;Allow empty EVALUATE- before WHEN OTHER;;
+8;empty-imperative.at:70;Allow empty EVALUATE- semantics;;
+9;empty-imperative.at:93;Allow empty EVALUATE- semantics 2;;
+10;empty-imperative.at:118;Allow empty EVALUATE- semantics 3;;
+11;spl-registers.at:1;PROGRAM-STATUS;;
+12;spl-registers.at:16;SORT-STATUS (alias SORT-RETURN);;
+13;spl-registers.at:32;SORT-STATUS (Break in input section);;
+14;spl-registers.at:96;SORT-STATUS (Break in output section);;
+15;spl-registers.at:160;SORT-STATUS (Break in section with THRU);;
+16;spl-registers.at:228;SORT-STATUS break in MERGE;;
+17;spl-registers.at:288;SORT-STATUS break with No SORT-STATUS in pgm;;
+18;special-names.at:1;ACCEPT ARGUMENT-NUMBER;;
+19;special-names.at:24;ACCEPT ARGUMENT-VALUE;;
+20;special-names.at:48;ACCEPT ENVIRONMENT-VALUE;;
+21;special-names.at:72;DISPLAY ARGUMENT-NUMBER;;
+22;special-names.at:96;DISPLAY ENVIRONMENT-NAME;;
+23;special-names.at:120;DISPLAY ENVIRONMENT-VALUE;;
+24;intr-funcs.at:1;FUNCTION LENG (fixed);;
+25;intr-funcs.at:21;FUNCTION LENG (occur. depending);;
+26;intr-funcs.at:44;FUNCTION LENGTH-AN (fixed);;
+27;intr-funcs.at:64;FUNCTION LENGTH-AN (occur. depending);;
+'
+
+at_keywords=
+at_prev=
+for at_option
+do
+  # If the previous option needs an argument, assign it.
+  if test -n "$at_prev"; then
+    at_option=$at_prev=$at_option
+    at_prev=
+  fi
+
+  at_optarg=`expr "x$at_option" : 'x[^=]*=\(.*\)'`
+
+  # Accept the important Cygnus configure options, so we can diagnose typos.
+
+  case $at_option in
+    --help | -h )
+	at_help_p=:
+	;;
+
+    --list | -l )
+	at_list_p=:
+	;;
+
+    --version | -V )
+	echo "$as_me (OpenCOBOL 1.1)"
+	exit 0
+	;;
+
+    --clean | -c )
+	rm -rf $at_suite_dir $at_suite_log
+	exit 0
+	;;
+
+    --debug | -d )
+	at_debug_p=:
+	;;
+
+    --errexit | -e )
+	at_debug_p=:
+	at_errexit_p=:
+	;;
+
+    --verbose | -v )
+	at_verbose=echo; at_quiet=:
+	;;
+
+    --trace | -x )
+	at_traceon='set -vx'; at_traceoff='set +vx'
+	;;
+
+    [0-9] | [0-9][0-9] | [0-9][0-9][0-9] | [0-9][0-9][0-9][0-9])
+	at_groups="$at_groups$at_option "
+	;;
+
+    # Ranges
+    [0-9]- | [0-9][0-9]- | [0-9][0-9][0-9]- | [0-9][0-9][0-9][0-9]-)
+	at_range_start=`echo $at_option |tr -d '-'`
+	at_range=`echo " $at_groups_all " | \
+	  sed -e 's,^.* '$at_range_start' ,'$at_range_start' ,'`
+	at_groups="$at_groups$at_range "
+	;;
+
+    -[0-9] | -[0-9][0-9] | -[0-9][0-9][0-9] | -[0-9][0-9][0-9][0-9])
+	at_range_end=`echo $at_option |tr -d '-'`
+	at_range=`echo " $at_groups_all " | \
+	  sed -e 's, '$at_range_end' .*$, '$at_range_end','`
+	at_groups="$at_groups$at_range "
+	;;
+
+    [0-9]-[0-9] | [0-9]-[0-9][0-9] | [0-9]-[0-9][0-9][0-9] | \
+    [0-9]-[0-9][0-9][0-9][0-9] | [0-9][0-9]-[0-9][0-9] | \
+    [0-9][0-9]-[0-9][0-9][0-9] | [0-9][0-9]-[0-9][0-9][0-9][0-9] | \
+    [0-9][0-9][0-9]-[0-9][0-9][0-9] | \
+    [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9] | \
+    [0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9] )
+	at_range_start=`echo $at_option |sed 's,-.*,,'`
+	at_range_end=`echo $at_option |sed 's,.*-,,'`
+	# FIXME: Maybe test to make sure start <= end?
+	at_range=`echo " $at_groups_all " | \
+	  sed -e 's,^.* '$at_range_start' ,'$at_range_start' ,' \
+	      -e 's, '$at_range_end' .*$, '$at_range_end','`
+	at_groups="$at_groups$at_range "
+	;;
+
+    # Keywords.
+    --keywords | -k )
+	at_prev=--keywords
+	;;
+    --keywords=* )
+	at_keywords="$at_keywords,$at_optarg"
+	;;
+
+    *=*)
+  	at_envvar=`expr "x$at_option" : 'x\([^=]*\)='`
+  	# Reject names that are not valid shell variable names.
+  	expr "x$at_envvar" : ".*[^_$as_cr_alnum]" >/dev/null &&
+  	  { echo "$as_me: error: invalid variable name: $at_envvar" >&2
+   { (exit 1); exit 1; }; }
+  	at_value=`echo "$at_optarg" | sed "s/'/'\\\\\\\\''/g"`
+  	eval "$at_envvar='$at_value'"
+  	export $at_envvar
+	# Propagate to debug scripts.
+  	at_debug_args="$at_debug_args $at_option"
+  	;;
+
+     *) echo "$as_me: invalid option: $at_option" >&2
+	echo "Try \`$0 --help' for more information." >&2
+	exit 1
+	;;
+  esac
+done
+
+# Process the --keywords
+if test -n "$at_keywords"; then
+  at_groups_selected=$at_help_all
+  for at_keyword in `IFS=,; set X $at_keywords; shift; echo ${1+$@}`
+  do
+    # It is on purpose that we match the test group titles too.
+    at_groups_selected=`echo "$at_groups_selected" |
+			grep -i "^[^;]*;[^;]*.*[; ]$at_keyword[ ;]"`
+  done
+  at_groups_selected=`echo "$at_groups_selected" | sed 's/;.*//'`
+  # Smash the end of lines.
+  at_groups_selected=`echo $at_groups_selected`
+  at_groups="$at_groups$at_groups_selected "
+fi
+
+# Selected test groups.
+test -z "$at_groups" && at_groups=$at_groups_all
+
+# Help message.
+if $at_help_p; then
+  cat <<_ATEOF
+Usage: $0 [OPTION]... [VARIABLE=VALUE]... [TESTS]
+
+Run all the tests, or the selected TESTS, and save a detailed log file.
+Upon failure, create debugging scripts.
+
+You should not change environment variables unless explicitly passed
+as command line arguments.  Set \`AUTOTEST_PATH' to select the executables
+to exercise.  Each relative directory is expanded as build and source
+directories relatively to the top level of this distribution.  E.g.,
+
+  $ $0 AUTOTEST_PATH=bin
+
+possibly amounts into
+
+  PATH=/tmp/foo-1.0/bin:/src/foo-1.0/bin:\$PATH
+_ATEOF
+cat <<_ATEOF
+
+Operation modes:
+  -h, --help     print the help message, then exit
+  -V, --version  print version number, then exit
+  -c, --clean    remove all the files this test suite might create and exit
+  -l, --list     describes all the tests, or the selected TESTS
+_ATEOF
+cat <<_ATEOF
+
+Execution tuning:
+  -k, --keywords=KEYWORDS
+	         select the tests matching all the comma separated KEYWORDS
+	         accumulates
+  -e, --errexit  abort as soon as a test fails; implies --debug
+  -v, --verbose  force more detailed output
+	         default for debugging scripts
+  -d, --debug    inhibit clean up and debug script creation
+	         default for debugging scripts
+  -x, --trace    enable tests shell tracing
+_ATEOF
+cat <<_ATEOF
+
+Report bugs to <open-cobol-list@lists.sourceforge.net>.
+_ATEOF
+  exit 0
+fi
+
+# List of tests.
+if $at_list_p; then
+  cat <<_ATEOF
+OpenCOBOL 1.1 test suite: JP products compatibility test groups:
+
+ NUM: FILENAME:LINE      TEST-GROUP-NAME
+      KEYWORDS
+
+_ATEOF
+  # "  1 42  45 " => "^(1|42|45);".
+  at_groups_pattern=`echo "$at_groups" | sed 's/^  *//;s/  *$//;s/  */|/g'`
+  echo "$at_help_all" |
+    awk 'BEGIN { FS = ";" }
+	 { if ($1 !~ /^('"$at_groups_pattern"')$/) next }
+	 { if ($1) printf " %3d: %-18s %s\n", $1, $2, $3
+	   if ($4) printf "      %s\n", $4 } '
+  exit 0
+fi
+
+# Don't take risks: use only absolute directories in PATH.
+#
+# For stand-alone test suites, AUTOTEST_PATH is relative to `.'.
+#
+# For embedded test suites, AUTOTEST_PATH is relative to the top level
+# of the package.  Then expand it into build/src parts, since users
+# may create executables in both places.
+#
+# There might be directories that don't exist, but don't redirect
+# builtins' (eg., cd) stderr directly: Ultrix's sh hates that.
+AUTOTEST_PATH=`echo $AUTOTEST_PATH | tr ':' $PATH_SEPARATOR`
+at_path=
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $AUTOTEST_PATH $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  case $as_dir in
+  [\\/]* | ?:[\\/]* )
+    at_path=$at_path$PATH_SEPARATOR$as_dir
+    ;;
+  * )
+    if test -z "$at_top_builddir"; then
+      # Stand-alone test suite.
+      at_path=$at_path$PATH_SEPARATOR$as_dir
+    else
+      # Embedded test suite.
+      at_path=$at_path$PATH_SEPARATOR$at_top_builddir/$as_dir
+      at_path=$at_path$PATH_SEPARATOR$at_top_srcdir/$as_dir
+    fi
+    ;;
+esac
+done
+
+
+# Now build and simplify PATH.
+PATH=
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $at_path
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  as_dir=`(cd "$as_dir" && pwd) 2>/dev/null`
+test -d "$as_dir" || continue
+case $PATH in
+	          $as_dir                 | \
+	          $as_dir$PATH_SEPARATOR* | \
+  *$PATH_SEPARATOR$as_dir                 | \
+  *$PATH_SEPARATOR$as_dir$PATH_SEPARATOR* ) ;;
+
+  '') PATH=$as_dir ;;
+   *) PATH=$PATH$PATH_SEPARATOR$as_dir ;;
+esac
+done
+
+export PATH
+
+# Setting up the FDs.
+# 5 is the log file.  Not to be overwritten if `-d'.
+
+$at_debug_p && at_suite_log=/dev/null
+exec 5>$at_suite_log
+
+# Banners and logs.
+cat <<\_ASBOX
+## ---------------------------------------------------- ##
+## OpenCOBOL 1.1 test suite: JP products compatibility. ##
+## ---------------------------------------------------- ##
+_ASBOX
+{
+  cat <<\_ASBOX
+## ---------------------------------------------------- ##
+## OpenCOBOL 1.1 test suite: JP products compatibility. ##
+## ---------------------------------------------------- ##
+_ASBOX
+  echo
+
+  echo "$as_me: command line was:"
+  echo "  $ $0 $at_cli_args"
+  echo
+
+  # Try to find a few ChangeLogs in case it might help determining the
+  # exact version.  Use the relative dir: if the top dir is a symlink,
+  # find will not follow it (and options to follow the links are not
+  # portable), which would result in no output here.
+  if test -n "$at_top_srcdir"; then
+    cat <<\_ASBOX
+## ----------- ##
+## ChangeLogs. ##
+## ----------- ##
+_ASBOX
+    echo
+    for at_file in `find "$at_top_srcdir" -name ChangeLog -print`
+    do
+      echo "$as_me: $at_file:"
+      sed 's/^/| /;10q' $at_file
+      echo
+    done
+
+    {
+cat <<_ASUNAME
+## --------- ##
+## Platform. ##
+## --------- ##
+
+hostname = `(hostname || uname -n) 2>/dev/null | sed 1q`
+uname -m = `(uname -m) 2>/dev/null || echo unknown`
+uname -r = `(uname -r) 2>/dev/null || echo unknown`
+uname -s = `(uname -s) 2>/dev/null || echo unknown`
+uname -v = `(uname -v) 2>/dev/null || echo unknown`
+
+/usr/bin/uname -p = `(/usr/bin/uname -p) 2>/dev/null || echo unknown`
+/bin/uname -X     = `(/bin/uname -X) 2>/dev/null     || echo unknown`
+
+/bin/arch              = `(/bin/arch) 2>/dev/null              || echo unknown`
+/usr/bin/arch -k       = `(/usr/bin/arch -k) 2>/dev/null       || echo unknown`
+/usr/convex/getsysinfo = `(/usr/convex/getsysinfo) 2>/dev/null || echo unknown`
+hostinfo               = `(hostinfo) 2>/dev/null               || echo unknown`
+/bin/machine           = `(/bin/machine) 2>/dev/null           || echo unknown`
+/usr/bin/oslevel       = `(/usr/bin/oslevel) 2>/dev/null       || echo unknown`
+/bin/universe          = `(/bin/universe) 2>/dev/null          || echo unknown`
+
+_ASUNAME
+
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  echo "PATH: $as_dir"
+done
+
+}
+    echo
+  fi
+
+  # Contents of the config files.
+  for at_file in atconfig atlocal
+  do
+    test -r $at_file || continue
+    echo "$as_me: $at_file:"
+    sed 's/^/| /' $at_file
+    echo
+  done
+
+  cat <<\_ASBOX
+## ---------------- ##
+## Tested programs. ##
+## ---------------- ##
+_ASBOX
+  echo
+} >&5
+
+# Report what programs are being tested.
+for at_program in : $at_tested
+do
+  test "$at_program" = : && continue
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  test -f $as_dir/$at_program && break
+done
+
+  if test -f $as_dir/$at_program; then
+    {
+      echo "jp-compat.at:21: $as_dir/$at_program --version"
+      $as_dir/$at_program --version
+      echo
+    } >&5 2>&1
+  else
+    { { echo "$as_me:$LINENO: error: cannot find $at_program" >&5
+echo "$as_me: error: cannot find $at_program" >&2;}
+   { (exit 1); exit 1; }; }
+  fi
+done
+
+{
+  cat <<\_ASBOX
+## ------------------ ##
+## Running the tests. ##
+## ------------------ ##
+_ASBOX
+} >&5
+
+at_start_date=`date`
+at_start_time=`(date +%s) 2>/dev/null`
+echo "$as_me: starting at: $at_start_date" >&5
+at_xpass_list=
+at_xfail_list=
+at_pass_list=
+at_fail_list=
+at_skip_list=
+at_group_count=0
+
+# Create the master directory if it doesn't already exist.
+test -d $at_suite_dir ||
+  mkdir $at_suite_dir ||
+  { { echo "$as_me:$LINENO: error: cannot create $at_suite_dir" >&5
+echo "$as_me: error: cannot create $at_suite_dir" >&2;}
+   { (exit 1); exit 1; }; }
+
+# Can we diff with `/dev/null'?  DU 5.0 refuses.
+if diff /dev/null /dev/null >/dev/null 2>&1; then
+  at_devnull=/dev/null
+else
+  at_devnull=$at_suite_dir/devnull
+  cp /dev/null $at_devnull
+fi
+
+# Use `diff -u' when possible.
+if diff -u $at_devnull $at_devnull >/dev/null 2>&1; then
+  at_diff='diff -u'
+else
+  at_diff=diff
+fi
+
+
+for at_group in $at_groups
+do
+  # Be sure to come back to the top test directory.
+  cd $at_suite_dir
+
+  case $at_group in
+    banner-*)
+      at_group_log=$at_suite_log
+      ;;
+
+    *)
+      # Skip tests we already run (using --keywords makes it easy to get
+      # duplication).
+      case " $at_pass_test $at_skip_test $at_fail_test " in
+	*" $at_group "* ) continue;;
+      esac
+
+      # Normalize the test group number.
+      at_group_normalized=`expr "00000$at_group" : ".*\($at_format\)"`
+
+      # Create a fresh directory for the next test group, and enter.
+      at_group_dir=$at_suite_dir/$at_group_normalized
+      at_group_log=$at_group_dir/$as_me.log
+      rm -rf $at_group_dir
+      mkdir $at_group_dir ||
+	{ { echo "$as_me:$LINENO: error: cannot create $at_group_dir" >&5
+echo "$as_me: error: cannot create $at_group_dir" >&2;}
+   { (exit 1); exit 1; }; }
+      cd $at_group_dir
+      ;;
+  esac
+
+  echo 0 > $at_status_file
+
+  # Clearly separate the test groups when verbose.
+  test $at_group_count != 0 && $at_verbose
+
+  # In verbose mode, append to the log file *and* show on
+  # the standard output; in quiet mode only write to the log
+  if test $at_verbose = echo; then
+    at_tee_pipe="tee -a $at_group_log"
+  else
+    at_tee_pipe="cat >> $at_group_log"
+  fi
+
+  case $at_group in
+  1 ) # 1. split-keys.at:1: SPLIT KEYS (ALTERNATE KEY)
+    at_setup_line='split-keys.at:1'
+    at_desc='SPLIT KEYS (ALTERNATE KEY)'
+    $at_quiet $ECHO_N "  1: SPLIT KEYS (ALTERNATE KEY)                   $ECHO_C"
+    at_xfail=no
+    (
+      echo "1. split-keys.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN TO "./TEST-FILE"
+                        ORGANIZATION IS  INDEXED
+                        ACCESS MODE  IS  RANDOM
+                        RECORD KEY   IS  TEST-KEY1
+                        ALTERNATE RECORD KEY IS ALT-KEY1
+                                                ALT-KEY2.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-REC.
+          03 TEST-KEY1  PIC X(4).
+          03 ALT-KEY1   PIC X(4).
+          03 ALT-KEY2   PIC X(4).
+       PROCEDURE        DIVISION.
+           OPEN  OUTPUT TEST-FILE.
+           MOVE "AAAA" TO TEST-KEY1.
+           MOVE "ALT1" TO  ALT-KEY1.
+           MOVE "-001" TO  ALT-KEY2.
+           WRITE TEST-REC.
+           MOVE "BBBB" TO TEST-KEY1.
+           MOVE "ALT2" TO  ALT-KEY1.
+           MOVE "-002" TO  ALT-KEY2.
+           WRITE TEST-REC.
+           MOVE "CCCC" TO TEST-KEY1.
+           MOVE "ALT3" TO  ALT-KEY1.
+           MOVE "-003" TO  ALT-KEY2.
+           WRITE TEST-REC.
+           CLOSE TEST-FILE.
+           OPEN  INPUT  TEST-FILE.
+           MOVE "ALT2" TO  ALT-KEY1.
+           MOVE "-002" TO  ALT-KEY2.
+           READ  TEST-FILE KEY IS ALT-KEY1 ALT-KEY2.
+           DISPLAY TEST-KEY1 NO ADVANCING.
+           CLOSE TEST-FILE.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "split-keys.at:46: \${COMPILE} -o prog prog.cob"
+echo split-keys.at:46 >$at_check_line_file
+( $at_traceon; ${COMPILE} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "split-keys.at:46: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "split-keys.at:47: ./prog"
+echo split-keys.at:47 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "BBBB" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "split-keys.at:47: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  2 ) # 2. end-program-wrong.at:1: Allow wrong pgm-name in END-PROGRAM
+    at_setup_line='end-program-wrong.at:1'
+    at_desc='Allow wrong pgm-name in END-PROGRAM'
+    $at_quiet $ECHO_N "  2: Allow wrong pgm-name in END-PROGRAM          $ECHO_C"
+    at_xfail=no
+    (
+      echo "2. end-program-wrong.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       PROCEDURE        DIVISION.
+          DISPLAY "OK" WITH NO ADVANCING.
+       END PROGRAM      progprog.
+_ATEOF
+
+
+$at_traceoff
+echo "end-program-wrong.at:12: \${COMPILE_JP_COMPAT} prog.cob"
+echo end-program-wrong.at:12 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "end-program-wrong.at:12: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  3 ) # 3. evaluate-also-missing.at:1: Allow missing ALSO in EVALUATE-WHEN
+    at_setup_line='evaluate-also-missing.at:1'
+    at_desc='Allow missing ALSO in EVALUATE-WHEN'
+    $at_quiet $ECHO_N "  3: Allow missing ALSO in EVALUATE-WHEN          $ECHO_C"
+    at_xfail=no
+    (
+      echo "3. evaluate-also-missing.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 A PIC 9 VALUE 1.
+       01 B PIC 9 VALUE 1.
+       PROCEDURE        DIVISION.
+       EVALUATE A B
+          WHEN 1 1
+             DISPLAY "OK" WITH NO ADVANCING
+          WHEN OTHER
+             DISPLAY "NG" WITH NO ADVANCING
+       END-EVALUATE.
+       GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "evaluate-also-missing.at:20: \${COMPILE_JP_COMPAT} prog.cob"
+echo evaluate-also-missing.at:20 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "evaluate-also-missing.at:20: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "evaluate-also-missing.at:21: ./prog"
+echo evaluate-also-missing.at:21 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "evaluate-also-missing.at:21: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  4 ) # 4. evaluate-also-missing.at:25: Allow missing both ALSO and class condition IS in EVALUATE
+    at_setup_line='evaluate-also-missing.at:25'
+    at_desc='Allow missing both ALSO and class condition IS in EVALUATE'
+    $at_quiet $ECHO_N "  4: Allow missing both ALSO and class condition IS in EVALUATE$ECHO_C"
+    at_xfail=no
+    (
+      echo "4. evaluate-also-missing.at:25: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       CONFIGURATION    SECTION.
+       SPECIAL-NAMES.
+       CLASS C-ALPHA IS "A" THRU "Z".
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 C PIC X VALUE "C".
+       PROCEDURE        DIVISION.
+       EVALUATE C C-ALPHA
+          WHEN TRUE
+             DISPLAY "OK" WITH NO ADVANCING
+          WHEN OTHER
+             DISPLAY "NG" WITH NO ADVANCING
+       END-EVALUATE.
+       GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "evaluate-also-missing.at:47: \${COMPILE_JP_COMPAT} prog.cob"
+echo evaluate-also-missing.at:47 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "evaluate-also-missing.at:47: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "evaluate-also-missing.at:48: ./prog"
+echo evaluate-also-missing.at:48 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "evaluate-also-missing.at:48: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  5 ) # 5. empty-imperative.at:1: Allow empty EVALUATE-WHEN OTHER
+    at_setup_line='empty-imperative.at:1'
+    at_desc='Allow empty EVALUATE-WHEN OTHER'
+    $at_quiet $ECHO_N "  5: Allow empty EVALUATE-WHEN OTHER              $ECHO_C"
+    at_xfail=no
+    (
+      echo "5. empty-imperative.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 A PIC 9 VALUE 1.
+       01 B PIC 9 VALUE 1.
+       PROCEDURE        DIVISION.
+       EVALUATE A ALSO B
+          WHEN 1 ALSO 1
+             DISPLAY "OK" WITH NO ADVANCING
+          WHEN OTHER
+       END-EVALUATE.
+       GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "empty-imperative.at:19: \${COMPILE_JP_COMPAT} prog.cob"
+echo empty-imperative.at:19 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "empty-imperative.at:19: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "empty-imperative.at:20: ./prog"
+echo empty-imperative.at:20 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "empty-imperative.at:20: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  6 ) # 6. empty-imperative.at:24: Allow empty ELSE
+    at_setup_line='empty-imperative.at:24'
+    at_desc='Allow empty ELSE'
+    $at_quiet $ECHO_N "  6: Allow empty ELSE                             $ECHO_C"
+    at_xfail=no
+    (
+      echo "6. empty-imperative.at:24: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 A PIC 9 VALUE 1.
+       01 B PIC 9 VALUE 1.
+       PROCEDURE        DIVISION.
+       IF A = B THEN
+          DISPLAY "OK" WITH NO ADVANCING
+       ELSE
+       END-IF.
+       GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "empty-imperative.at:41: \${COMPILE_JP_COMPAT} prog.cob"
+echo empty-imperative.at:41 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "empty-imperative.at:41: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "empty-imperative.at:42: ./prog"
+echo empty-imperative.at:42 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "empty-imperative.at:42: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  7 ) # 7. empty-imperative.at:46: Allow empty EVALUATE- before WHEN OTHER
+    at_setup_line='empty-imperative.at:46'
+    at_desc='Allow empty EVALUATE- before WHEN OTHER'
+    $at_quiet $ECHO_N "  7: Allow empty EVALUATE- before WHEN OTHER      $ECHO_C"
+    at_xfail=no
+    (
+      echo "7. empty-imperative.at:46: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 A PIC 9 VALUE 0.
+       PROCEDURE        DIVISION.
+           EVALUATE A
+             WHEN 1
+               DISPLAY "NG" WITH NO ADVANCING
+             WHEN 2
+             WHEN OTHER
+               DISPLAY "OK" WITH NO ADVANCING
+           END-EVALUATE.
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "empty-imperative.at:65: \${COMPILE_JP_COMPAT} prog.cob"
+echo empty-imperative.at:65 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "empty-imperative.at:65: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "empty-imperative.at:66: ./prog"
+echo empty-imperative.at:66 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "empty-imperative.at:66: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  8 ) # 8. empty-imperative.at:70: Allow empty EVALUATE- semantics
+    at_setup_line='empty-imperative.at:70'
+    at_desc='Allow empty EVALUATE- semantics'
+    $at_quiet $ECHO_N "  8: Allow empty EVALUATE- semantics              $ECHO_C"
+    at_xfail=no
+    (
+      echo "8. empty-imperative.at:70: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 A PIC 9 VALUE 1.
+       PROCEDURE        DIVISION.
+           EVALUATE A
+             WHEN 1
+             WHEN 2
+             WHEN OTHER
+               DISPLAY "OK" WITH NO ADVANCING
+           END-EVALUATE.
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "empty-imperative.at:88: \${COMPILE_JP_COMPAT} prog.cob"
+echo empty-imperative.at:88 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "empty-imperative.at:88: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "empty-imperative.at:89: ./prog"
+echo empty-imperative.at:89 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "empty-imperative.at:89: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  9 ) # 9. empty-imperative.at:93: Allow empty EVALUATE- semantics 2
+    at_setup_line='empty-imperative.at:93'
+    at_desc='Allow empty EVALUATE- semantics 2'
+    $at_quiet $ECHO_N "  9: Allow empty EVALUATE- semantics 2            $ECHO_C"
+    at_xfail=no
+    (
+      echo "9. empty-imperative.at:93: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 A PIC 9 VALUE 1.
+       PROCEDURE        DIVISION.
+           EVALUATE A
+             WHEN 0
+               DISPLAY "NG" WITH NO ADVANCING
+             WHEN 1
+             WHEN 2
+             WHEN OTHER
+               DISPLAY "OK" WITH NO ADVANCING
+           END-EVALUATE.
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "empty-imperative.at:113: \${COMPILE_JP_COMPAT} prog.cob"
+echo empty-imperative.at:113 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "empty-imperative.at:113: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "empty-imperative.at:114: ./prog"
+echo empty-imperative.at:114 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "empty-imperative.at:114: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  10 ) # 10. empty-imperative.at:118: Allow empty EVALUATE- semantics 3
+    at_setup_line='empty-imperative.at:118'
+    at_desc='Allow empty EVALUATE- semantics 3'
+    $at_quiet $ECHO_N " 10: Allow empty EVALUATE- semantics 3            $ECHO_C"
+    at_xfail=no
+    (
+      echo "10. empty-imperative.at:118: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 A PIC 9 VALUE 0.
+       PROCEDURE        DIVISION.
+           EVALUATE A
+             WHEN 1
+             WHEN 2
+             WHEN OTHER
+               DISPLAY "OK" WITH NO ADVANCING
+           END-EVALUATE.
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "empty-imperative.at:136: \${COMPILE_JP_COMPAT} prog.cob"
+echo empty-imperative.at:136 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "empty-imperative.at:136: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "empty-imperative.at:137: ./prog"
+echo empty-imperative.at:137 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "empty-imperative.at:137: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  11 ) # 11. spl-registers.at:1: PROGRAM-STATUS
+    at_setup_line='spl-registers.at:1'
+    at_desc='PROGRAM-STATUS'
+    $at_quiet $ECHO_N " 11: PROGRAM-STATUS                               $ECHO_C"
+    at_xfail=no
+    (
+      echo "11. spl-registers.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE        DIVISION.
+           MOVE 99 TO PROGRAM-STATUS.
+           EXIT PROGRAM.
+_ATEOF
+
+
+$at_traceoff
+echo "spl-registers.at:11: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo spl-registers.at:11 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:11: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:12: ./prog"
+echo spl-registers.at:12 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   99) ;;
+   *) echo "spl-registers.at:12: exit code was $at_status, expected 99"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  12 ) # 12. spl-registers.at:16: SORT-STATUS (alias SORT-RETURN)
+    at_setup_line='spl-registers.at:16'
+    at_desc='SORT-STATUS (alias SORT-RETURN)'
+    $at_quiet $ECHO_N " 12: SORT-STATUS (alias SORT-RETURN)              $ECHO_C"
+    at_xfail=no
+    (
+      echo "12. spl-registers.at:16: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION       DIVISION.
+       PROGRAM-ID.          prog.
+       PROCEDURE            DIVISION.
+          MOVE 16 TO SORT-STATUS.
+          DISPLAY SORT-RETURN WITH NO ADVANCING.
+          STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "spl-registers.at:27: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo spl-registers.at:27 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:27: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:28: ./prog"
+echo spl-registers.at:28 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "+000000016" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:28: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  13 ) # 13. spl-registers.at:32: SORT-STATUS (Break in input section)
+    at_setup_line='spl-registers.at:32'
+    at_desc='SORT-STATUS (Break in input section)'
+    $at_quiet $ECHO_N " 13: SORT-STATUS (Break in input section)         $ECHO_C"
+    at_xfail=no
+    (
+      echo "13. spl-registers.at:32: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION       DIVISION.
+       PROGRAM-ID.          prog.
+       ENVIRONMENT          DIVISION.
+       INPUT-OUTPUT         SECTION.
+       FILE-CONTROL.
+           SELECT SORT-FILE1 ASSIGN TO "S01".
+           SELECT INPUT-FILE1  ASSIGN TO "./input.txt".
+           SELECT OUTPUT-FILE1 ASSIGN TO "./output.txt".
+       DATA                 DIVISION.
+       FILE		    SECTION.
+       SD SORT-FILE1.
+       01 SORT-REC1.
+          02 SORT-KEY1  PIC XX.
+          02 SORT-DATA1 PIC XX.
+       FD INPUT-FILE1.
+       01 INPUT-REC1.
+          02 XFLD1   PIC X(2).
+          02 XFLD2   PIC X(2).
+       FD OUTPUT-FILE1.
+       01 OUTPUT-REC1.
+          02 XFLD1   PIC X(2).
+          02 XFLD2   PIC X(2).
+       PROCEDURE            DIVISION.
+          SORT SORT-FILE1 ON ASCENDING KEY SORT-KEY1
+             INPUT  PROCEDURE IS IPROC1
+             OUTPUT PROCEDURE IS OPROC1.
+          GOBACK.
+       IPROC1               SECTION.
+          OPEN INPUT INPUT-FILE1.
+       BEGIN-IPROC1.
+          READ INPUT-FILE1 AT END GO TO END-IPROC1.
+          MOVE INPUT-REC1 TO SORT-REC1.
+          RELEASE SORT-REC1.
+      * Break by SORT-STATUS!!
+          MOVE 16 TO SORT-STATUS.
+          GO TO BEGIN-IPROC1.
+       END-IPROC1.
+          CLOSE INPUT-FILE1.
+          EXIT.
+       OPROC1               SECTION.
+          OPEN OUTPUT OUTPUT-FILE1.
+       BEGIN-OPROC1.
+          RETURN SORT-FILE1 AT END GO TO END-OPROC1.
+          MOVE SORT-REC1 TO OUTPUT-REC1.
+          WRITE OUTPUT-REC1.
+          GO TO BEGIN-OPROC1.
+       END-OPROC1.
+          CLOSE OUTPUT-FILE1.
+          EXIT.
+       END PROGRAM prog.
+_ATEOF
+
+
+$at_traceoff
+echo "spl-registers.at:87: echo -n 030303020301020302020201010301020101 >input.txt"
+echo spl-registers.at:87 >$at_check_line_file
+( $at_traceon; echo -n 030303020301020302020201010301020101 >input.txt ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:87: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:88: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo spl-registers.at:88 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:88: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:89: ./prog"
+echo spl-registers.at:89 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "WARNING - Implicit CLOSE of INPUT-FILE1 (\"./input.txt\")
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:89: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:92: if test -f output.txt ; then echo -n NG ; else echo -n OK ; fi"
+echo spl-registers.at:92 >$at_check_line_file
+( $at_traceon; if test -f output.txt ; then echo -n NG ; else echo -n OK ; fi ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:92: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  14 ) # 14. spl-registers.at:96: SORT-STATUS (Break in output section)
+    at_setup_line='spl-registers.at:96'
+    at_desc='SORT-STATUS (Break in output section)'
+    $at_quiet $ECHO_N " 14: SORT-STATUS (Break in output section)        $ECHO_C"
+    at_xfail=no
+    (
+      echo "14. spl-registers.at:96: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION       DIVISION.
+       PROGRAM-ID.          prog.
+       ENVIRONMENT          DIVISION.
+       INPUT-OUTPUT         SECTION.
+       FILE-CONTROL.
+           SELECT SORT-FILE1 ASSIGN TO "S01".
+           SELECT INPUT-FILE1  ASSIGN TO "./input.txt".
+           SELECT OUTPUT-FILE1 ASSIGN TO "./output.txt".
+       DATA                 DIVISION.
+       FILE		    SECTION.
+       SD SORT-FILE1.
+       01 SORT-REC1.
+          02 SORT-KEY1  PIC XX.
+          02 SORT-DATA1 PIC XX.
+       FD INPUT-FILE1.
+       01 INPUT-REC1.
+          02 XFLD1   PIC X(2).
+          02 XFLD2   PIC X(2).
+       FD OUTPUT-FILE1.
+       01 OUTPUT-REC1.
+          02 XFLD1   PIC X(2).
+          02 XFLD2   PIC X(2).
+       PROCEDURE            DIVISION.
+          SORT SORT-FILE1 ON ASCENDING KEY SORT-KEY1
+             INPUT  PROCEDURE IS IPROC1
+             OUTPUT PROCEDURE IS OPROC1.
+          GOBACK.
+       IPROC1               SECTION.
+          OPEN INPUT INPUT-FILE1.
+       BEGIN-IPROC1.
+          READ INPUT-FILE1 AT END GO TO END-IPROC1.
+          MOVE INPUT-REC1 TO SORT-REC1.
+          RELEASE SORT-REC1.
+          GO TO BEGIN-IPROC1.
+       END-IPROC1.
+          CLOSE INPUT-FILE1.
+          EXIT.
+       OPROC1               SECTION.
+          OPEN OUTPUT OUTPUT-FILE1.
+       BEGIN-OPROC1.
+          RETURN SORT-FILE1 AT END GO TO END-OPROC1.
+          MOVE SORT-REC1 TO OUTPUT-REC1.
+          WRITE OUTPUT-REC1.
+      * Break by SORT-STATUS!!
+          MOVE 16 TO SORT-STATUS.
+          GO TO BEGIN-OPROC1.
+       END-OPROC1.
+          CLOSE OUTPUT-FILE1.
+          EXIT.
+       END PROGRAM prog.
+_ATEOF
+
+
+$at_traceoff
+echo "spl-registers.at:151: echo -n 030303020301020302020201010301020101 >input.txt"
+echo spl-registers.at:151 >$at_check_line_file
+( $at_traceon; echo -n 030303020301020302020201010301020101 >input.txt ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:151: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:152: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo spl-registers.at:152 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:152: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:153: ./prog"
+echo spl-registers.at:153 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "WARNING - Implicit CLOSE of OUTPUT-FILE1 (\"./output.txt\")
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:153: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:156: cat output.txt"
+echo spl-registers.at:156 >$at_check_line_file
+( $at_traceon; cat output.txt ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "0103" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:156: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  15 ) # 15. spl-registers.at:160: SORT-STATUS (Break in section with THRU)
+    at_setup_line='spl-registers.at:160'
+    at_desc='SORT-STATUS (Break in section with THRU)'
+    $at_quiet $ECHO_N " 15: SORT-STATUS (Break in section with THRU)     $ECHO_C"
+    at_xfail=no
+    (
+      echo "15. spl-registers.at:160: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION       DIVISION.
+       PROGRAM-ID.          prog.
+       ENVIRONMENT          DIVISION.
+       INPUT-OUTPUT         SECTION.
+       FILE-CONTROL.
+           SELECT SORT-FILE1 ASSIGN TO "S01".
+           SELECT INPUT-FILE1  ASSIGN TO "./input.txt".
+           SELECT OUTPUT-FILE1 ASSIGN TO "./output.txt".
+       DATA                 DIVISION.
+       FILE		    SECTION.
+       SD SORT-FILE1.
+       01 SORT-REC1.
+          02 SORT-KEY1  PIC XX.
+          02 SORT-DATA1 PIC XX.
+       FD INPUT-FILE1.
+       01 INPUT-REC1.
+          02 XFLD1   PIC X(2).
+          02 XFLD2   PIC X(2).
+       FD OUTPUT-FILE1.
+       01 OUTPUT-REC1.
+          02 XFLD1   PIC X(2).
+          02 XFLD2   PIC X(2).
+       PROCEDURE            DIVISION.
+          SORT SORT-FILE1 ON ASCENDING KEY SORT-KEY1
+             INPUT  PROCEDURE IS IPROC1 THRU END-IPROC1
+             OUTPUT PROCEDURE IS OPROC1.
+          GOBACK.
+       IPROC1               SECTION.
+          OPEN INPUT INPUT-FILE1.
+       BEGIN-IPROC1.
+          READ INPUT-FILE1 AT END GO TO END-IPROC1.
+          MOVE INPUT-REC1 TO SORT-REC1.
+          RELEASE SORT-REC1.
+          GO TO BEGIN-IPROC1.
+       END-IPROC1           SECTION.
+          CLOSE INPUT-FILE1.
+       AFTER-IPROC1         SECTION.
+          DISPLAY "OVERRUN!!!!" WITH NO ADVANCING.
+          EXIT.
+       OPROC1               SECTION.
+          OPEN OUTPUT OUTPUT-FILE1.
+       BEGIN-OPROC1.
+          RETURN SORT-FILE1 AT END GO TO END-OPROC1.
+          MOVE SORT-REC1 TO OUTPUT-REC1.
+          WRITE OUTPUT-REC1.
+      * Break by SORT-STATUS!!
+          MOVE 16 TO SORT-STATUS.
+          GO TO BEGIN-OPROC1.
+       END-OPROC1           SECTION.
+          CLOSE OUTPUT-FILE1.
+       AFTER-OPROC1         SECTION.
+          DISPLAY "OVERRUN!!!!" WITH NO ADVANCING.
+          EXIT.
+       END PROGRAM prog.
+_ATEOF
+
+
+$at_traceoff
+echo "spl-registers.at:219: echo -n 030303020301020302020201010301020101 >input.txt"
+echo spl-registers.at:219 >$at_check_line_file
+( $at_traceon; echo -n 030303020301020302020201010301020101 >input.txt ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:219: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:220: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo spl-registers.at:220 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:220: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:221: ./prog"
+echo spl-registers.at:221 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "WARNING - Implicit CLOSE of OUTPUT-FILE1 (\"./output.txt\")
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:221: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:224: cat output.txt"
+echo spl-registers.at:224 >$at_check_line_file
+( $at_traceon; cat output.txt ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "0103" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:224: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  16 ) # 16. spl-registers.at:228: SORT-STATUS break in MERGE
+    at_setup_line='spl-registers.at:228'
+    at_desc='SORT-STATUS break in MERGE'
+    $at_quiet $ECHO_N " 16: SORT-STATUS break in MERGE                   $ECHO_C"
+    at_xfail=no
+    (
+      echo "16. spl-registers.at:228: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION       DIVISION.
+       PROGRAM-ID.          prog.
+       ENVIRONMENT          DIVISION.
+       INPUT-OUTPUT         SECTION.
+       FILE-CONTROL.
+           SELECT MERGE-FILE1 ASSIGN TO "M01".
+           SELECT INPUT-FILE1  ASSIGN TO "./input.txt".
+           SELECT INPUT-FILE2  ASSIGN TO "./input2.txt".
+           SELECT OUTPUT-FILE1 ASSIGN TO "./output.txt".
+       DATA                 DIVISION.
+       FILE		    SECTION.
+       SD MERGE-FILE1.
+       01 MERGE-REC1.
+          02 MERGE-KEY1  PIC XX.
+          02 MERGE-DATA1 PIC XX.
+       FD INPUT-FILE1.
+       01 INPUT-REC1.
+          02 XFLD1   PIC X(2).
+          02 XFLD2   PIC X(2).
+       FD INPUT-FILE2.
+       01 INPUT-REC2.
+          02 XFLD1   PIC X(2).
+          02 XFLD2   PIC X(2).
+       FD OUTPUT-FILE1.
+       01 OUTPUT-REC1.
+          02 XFLD1   PIC X(2).
+          02 XFLD2   PIC X(2).
+       PROCEDURE            DIVISION.
+          MERGE MERGE-FILE1 ON ASCENDING KEY MERGE-KEY1
+             USING INPUT-FILE1 INPUT-FILE2
+             OUTPUT PROCEDURE IS OPROC1.
+          GOBACK.
+       OPROC1               SECTION.
+          OPEN OUTPUT OUTPUT-FILE1.
+       BEGIN-OPROC1.
+          RETURN MERGE-FILE1 AT END GO TO END-OPROC1.
+          MOVE MERGE-REC1 TO OUTPUT-REC1.
+          WRITE OUTPUT-REC1.
+      * Break by SORT-STATUS!!
+          MOVE 16 TO SORT-STATUS.
+          GO TO BEGIN-OPROC1.
+       END-OPROC1.
+          CLOSE OUTPUT-FILE1.
+          EXIT.
+       END PROGRAM prog.
+_ATEOF
+
+
+$at_traceoff
+echo "spl-registers.at:278: echo -n 030303020301020302020201010301020101 >input.txt"
+echo spl-registers.at:278 >$at_check_line_file
+( $at_traceon; echo -n 030303020301020302020201010301020101 >input.txt ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:278: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:279: echo -n 030603040305020502060204010601040104 >input2.txt"
+echo spl-registers.at:279 >$at_check_line_file
+( $at_traceon; echo -n 030603040305020502060204010601040104 >input2.txt ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:279: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:280: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo spl-registers.at:280 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:280: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:281: ./prog"
+echo spl-registers.at:281 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "WARNING - Implicit CLOSE of OUTPUT-FILE1 (\"./output.txt\")
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:281: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:284: cat output.txt"
+echo spl-registers.at:284 >$at_check_line_file
+( $at_traceon; cat output.txt ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "0103" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:284: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  17 ) # 17. spl-registers.at:288: SORT-STATUS break with No SORT-STATUS in pgm
+    at_setup_line='spl-registers.at:288'
+    at_desc='SORT-STATUS break with No SORT-STATUS in pgm'
+    $at_quiet $ECHO_N " 17: SORT-STATUS break with No SORT-STATUS in pgm $ECHO_C"
+    at_xfail=no
+    (
+      echo "17. spl-registers.at:288: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION       DIVISION.
+       PROGRAM-ID.          prog.
+       ENVIRONMENT          DIVISION.
+       INPUT-OUTPUT         SECTION.
+       FILE-CONTROL.
+           SELECT SORT-FILE1 ASSIGN TO "S01".
+           SELECT INPUT-FILE1  ASSIGN TO "./input.txt".
+           SELECT OUTPUT-FILE1 ASSIGN TO "./output.txt".
+       DATA                 DIVISION.
+       FILE		    SECTION.
+       SD SORT-FILE1.
+       01 SORT-REC1.
+          02 SORT-KEY1  PIC XX.
+          02 SORT-DATA1 PIC XX.
+       FD INPUT-FILE1.
+       01 INPUT-REC1.
+          02 XFLD1   PIC X(2).
+          02 XFLD2   PIC X(2).
+       FD OUTPUT-FILE1.
+       01 OUTPUT-REC1.
+          02 XFLD1   PIC X(2).
+          02 XFLD2   PIC X(2).
+       PROCEDURE            DIVISION.
+          SORT SORT-FILE1 ON ASCENDING KEY SORT-KEY1
+             INPUT  PROCEDURE IS IPROC1
+             OUTPUT PROCEDURE IS OPROC1.
+          GOBACK.
+       IPROC1               SECTION.
+          OPEN INPUT INPUT-FILE1.
+       BEGIN-IPROC1.
+          READ INPUT-FILE1 AT END GO TO END-IPROC1.
+          MOVE INPUT-REC1 TO SORT-REC1.
+          RELEASE SORT-REC1.
+          GO TO BEGIN-IPROC1.
+       END-IPROC1.
+          CLOSE INPUT-FILE1.
+          EXIT.
+       OPROC1               SECTION.
+          OPEN OUTPUT OUTPUT-FILE1.
+       BEGIN-OPROC1.
+          RETURN SORT-FILE1 AT END GO TO END-OPROC1.
+          MOVE SORT-REC1 TO OUTPUT-REC1.
+          WRITE OUTPUT-REC1.
+      * Break by SORT-RETURN!!
+          MOVE 16 TO SORT-RETURN.
+          GO TO BEGIN-OPROC1.
+       END-OPROC1.
+          CLOSE OUTPUT-FILE1.
+          EXIT.
+       END PROGRAM prog.
+_ATEOF
+
+
+$at_traceoff
+echo "spl-registers.at:343: echo -n 030303020301020302020201010301020101 >input.txt"
+echo spl-registers.at:343 >$at_check_line_file
+( $at_traceon; echo -n 030303020301020302020201010301020101 >input.txt ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:343: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:344: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo spl-registers.at:344 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:344: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:345: ./prog"
+echo spl-registers.at:345 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:42: libcob: SORT-STATUS is set to 16.
+WARNING - Implicit CLOSE of OUTPUT-FILE1 (\"./output.txt\")
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "spl-registers.at:345: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "spl-registers.at:349: cat output.txt"
+echo spl-registers.at:349 >$at_check_line_file
+( $at_traceon; cat output.txt ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "0103" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "spl-registers.at:349: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  18 ) # 18. special-names.at:1: ACCEPT ARGUMENT-NUMBER
+    at_setup_line='special-names.at:1'
+    at_desc='ACCEPT ARGUMENT-NUMBER'
+    $at_quiet $ECHO_N " 18: ACCEPT ARGUMENT-NUMBER                       $ECHO_C"
+    at_xfail=no
+    (
+      echo "18. special-names.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       CONFIGURATION    SECTION.
+       SPECIAL-NAMES.
+           ARGUMENT-NUMBER IS NUMARG.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 argc  PIC 99  USAGE DISPLAY.
+       PROCEDURE        DIVISION.
+           ACCEPT argc FROM NUMARG.
+           DISPLAY argc WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "special-names.at:19: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo special-names.at:19 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "special-names.at:19: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "special-names.at:20: ./prog this is arg"
+echo special-names.at:20 >$at_check_line_file
+( $at_traceon; ./prog this is arg ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "03" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "special-names.at:20: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  19 ) # 19. special-names.at:24: ACCEPT ARGUMENT-VALUE
+    at_setup_line='special-names.at:24'
+    at_desc='ACCEPT ARGUMENT-VALUE'
+    $at_quiet $ECHO_N " 19: ACCEPT ARGUMENT-VALUE                        $ECHO_C"
+    at_xfail=no
+    (
+      echo "19. special-names.at:24: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       CONFIGURATION    SECTION.
+       SPECIAL-NAMES.
+           ARGUMENT-VALUE  IS ARGVAL.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 argv PIC X(8) USAGE DISPLAY.
+       PROCEDURE        DIVISION.
+           DISPLAY 3   UPON ARGUMENT-NUMBER
+           ACCEPT argv FROM ARGVAL.
+           DISPLAY argv NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "special-names.at:43: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo special-names.at:43 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "special-names.at:43: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "special-names.at:44: ./prog this is arg"
+echo special-names.at:44 >$at_check_line_file
+( $at_traceon; ./prog this is arg ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "arg     " | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "special-names.at:44: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  20 ) # 20. special-names.at:48: ACCEPT ENVIRONMENT-VALUE
+    at_setup_line='special-names.at:48'
+    at_desc='ACCEPT ENVIRONMENT-VALUE'
+    $at_quiet $ECHO_N " 20: ACCEPT ENVIRONMENT-VALUE                     $ECHO_C"
+    at_xfail=no
+    (
+      echo "20. special-names.at:48: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       CONFIGURATION    SECTION.
+       SPECIAL-NAMES.
+           ENVIRONMENT-VALUE IS ENVVAL.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 env1 PIC X(8) USAGE DISPLAY.
+       PROCEDURE        DIVISION.
+           DISPLAY 'TESTENV' UPON ENVIRONMENT-NAME.
+           ACCEPT env1 FROM ENVVAL.
+           DISPLAY env1 WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "special-names.at:67: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo special-names.at:67 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "special-names.at:67: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "special-names.at:68: export TESTENV=envvalue && ./prog"
+echo special-names.at:68 >$at_check_line_file
+( $at_traceon; export TESTENV=envvalue && ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "envvalue" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "special-names.at:68: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  21 ) # 21. special-names.at:72: DISPLAY ARGUMENT-NUMBER
+    at_setup_line='special-names.at:72'
+    at_desc='DISPLAY ARGUMENT-NUMBER'
+    $at_quiet $ECHO_N " 21: DISPLAY ARGUMENT-NUMBER                      $ECHO_C"
+    at_xfail=no
+    (
+      echo "21. special-names.at:72: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       CONFIGURATION    SECTION.
+       SPECIAL-NAMES.
+           ARGUMENT-NUMBER IS NUMARG.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 argv PIC X(8) USAGE DISPLAY.
+       PROCEDURE        DIVISION.
+           DISPLAY 3 UPON NUMARG.
+           ACCEPT argv FROM ARGUMENT-VALUE.
+           DISPLAY argv WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "special-names.at:91: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo special-names.at:91 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "special-names.at:91: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "special-names.at:92: ./prog this is arg"
+echo special-names.at:92 >$at_check_line_file
+( $at_traceon; ./prog this is arg ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "arg     " | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "special-names.at:92: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  22 ) # 22. special-names.at:96: DISPLAY ENVIRONMENT-NAME
+    at_setup_line='special-names.at:96'
+    at_desc='DISPLAY ENVIRONMENT-NAME'
+    $at_quiet $ECHO_N " 22: DISPLAY ENVIRONMENT-NAME                     $ECHO_C"
+    at_xfail=no
+    (
+      echo "22. special-names.at:96: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       CONFIGURATION    SECTION.
+       SPECIAL-NAMES.
+           ENVIRONMENT-NAME IS ENVNAME.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 env1 PIC X(8) USAGE DISPLAY.
+       PROCEDURE        DIVISION.
+           DISPLAY 'TESTENV' UPON ENVNAME.
+           ACCEPT env1 FROM ENVIRONMENT-VALUE.
+           DISPLAY env1 WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "special-names.at:115: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo special-names.at:115 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "special-names.at:115: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "special-names.at:116: export TESTENV=envvalue && ./prog"
+echo special-names.at:116 >$at_check_line_file
+( $at_traceon; export TESTENV=envvalue && ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "envvalue" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "special-names.at:116: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  23 ) # 23. special-names.at:120: DISPLAY ENVIRONMENT-VALUE
+    at_setup_line='special-names.at:120'
+    at_desc='DISPLAY ENVIRONMENT-VALUE'
+    $at_quiet $ECHO_N " 23: DISPLAY ENVIRONMENT-VALUE                    $ECHO_C"
+    at_xfail=no
+    (
+      echo "23. special-names.at:120: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       CONFIGURATION    SECTION.
+       SPECIAL-NAMES.
+           ENVIRONMENT-VALUE IS ENVVAL.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 env1 PIC X(8) USAGE DISPLAY.
+       PROCEDURE        DIVISION.
+           DISPLAY 'TESTENV' UPON ENVIRONMENT-NAME.
+           ACCEPT env1 FROM ENVVAL.
+           DISPLAY env1 WITH NO ADVANCING.
+           DISPLAY ":" WITH NO ADVANCING.
+           DISPLAY 'newvalue' UPON ENVVAL.
+           ACCEPT env1 FROM ENVVAL.
+           DISPLAY env1 WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "special-names.at:143: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo special-names.at:143 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "special-names.at:143: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "special-names.at:144: export TESTENV=envvalue && ./prog"
+echo special-names.at:144 >$at_check_line_file
+( $at_traceon; export TESTENV=envvalue && ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "envvalue:newvalue" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "special-names.at:144: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  24 ) # 24. intr-funcs.at:1: FUNCTION LENG (fixed)
+    at_setup_line='intr-funcs.at:1'
+    at_desc='FUNCTION LENG (fixed)'
+    $at_quiet $ECHO_N " 24: FUNCTION LENG (fixed)                        $ECHO_C"
+    at_xfail=no
+    (
+      echo "24. intr-funcs.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       77 FIXED_FLD PIC X(8) USAGE DISPLAY.
+       77 NLEN      PIC 9(2) USAGE DISPLAY.
+       PROCEDURE        DIVISION.
+           MOVE FUNCTION LENG (FIXED_FLD) TO NLEN.
+           DISPLAY NLEN WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "intr-funcs.at:16: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo intr-funcs.at:16 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "intr-funcs.at:16: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "intr-funcs.at:17: ./prog"
+echo intr-funcs.at:17 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "08" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "intr-funcs.at:17: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  25 ) # 25. intr-funcs.at:21: FUNCTION LENG (occur. depending)
+    at_setup_line='intr-funcs.at:21'
+    at_desc='FUNCTION LENG (occur. depending)'
+    $at_quiet $ECHO_N " 25: FUNCTION LENG (occur. depending)             $ECHO_C"
+    at_xfail=no
+    (
+      echo "25. intr-funcs.at:21: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 DEP_FLD.
+          03 DEP_ITEM  PIC X(2) OCCURS 1 TO 10 DEPENDING ON NDEP.
+       77 NDEP         PIC 9(2) USAGE DISPLAY.
+       77 NLEN         PIC 9(2) USAGE DISPLAY.
+       PROCEDURE        DIVISION.
+           MOVE 2 TO NDEP.
+           MOVE FUNCTION LENG (DEP_FLD) TO NLEN.
+           DISPLAY NLEN WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "intr-funcs.at:39: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo intr-funcs.at:39 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "intr-funcs.at:39: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "intr-funcs.at:40: ./prog"
+echo intr-funcs.at:40 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "04" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "intr-funcs.at:40: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  26 ) # 26. intr-funcs.at:44: FUNCTION LENGTH-AN (fixed)
+    at_setup_line='intr-funcs.at:44'
+    at_desc='FUNCTION LENGTH-AN (fixed)'
+    $at_quiet $ECHO_N " 26: FUNCTION LENGTH-AN (fixed)                   $ECHO_C"
+    at_xfail=no
+    (
+      echo "26. intr-funcs.at:44: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       77 FIXED_FLD PIC X(8) USAGE DISPLAY.
+       77 NLEN      PIC 9(2) USAGE DISPLAY.
+       PROCEDURE        DIVISION.
+           MOVE FUNCTION LENGTH-AN (FIXED_FLD) TO NLEN.
+           DISPLAY NLEN WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "intr-funcs.at:59: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo intr-funcs.at:59 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "intr-funcs.at:59: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "intr-funcs.at:60: ./prog"
+echo intr-funcs.at:60 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "08" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "intr-funcs.at:60: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  27 ) # 27. intr-funcs.at:64: FUNCTION LENGTH-AN (occur. depending)
+    at_setup_line='intr-funcs.at:64'
+    at_desc='FUNCTION LENGTH-AN (occur. depending)'
+    $at_quiet $ECHO_N " 27: FUNCTION LENGTH-AN (occur. depending)        $ECHO_C"
+    at_xfail=no
+    (
+      echo "27. intr-funcs.at:64: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 DEP_FLD.
+          03 DEP_ITEM  PIC X(2) OCCURS 1 TO 10 DEPENDING ON NDEP.
+       77 NDEP         PIC 9(2) USAGE DISPLAY.
+       77 NLEN         PIC 9(2) USAGE DISPLAY.
+       PROCEDURE        DIVISION.
+           MOVE 2 TO NDEP.
+           MOVE FUNCTION LENGTH-AN (DEP_FLD) TO NLEN.
+           DISPLAY NLEN WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "intr-funcs.at:82: \${COMPILE_JP_COMPAT} -x prog.cob"
+echo intr-funcs.at:82 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "intr-funcs.at:82: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "intr-funcs.at:83: ./prog"
+echo intr-funcs.at:83 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "04" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "intr-funcs.at:83: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+
+  * )
+    echo "$as_me: no such test group: $at_group" >&2
+    continue
+    ;;
+  esac
+
+  # Be sure to come back to the suite directory, in particular
+  # since below we might `rm' the group directory we are in currently.
+  cd $at_suite_dir
+
+  case $at_group in
+    banner-*) ;;
+    *)
+      if test ! -f $at_check_line_file; then
+	sed "s/^ */$as_me: warning: /" <<_ATEOF
+	A failure happened in a test group before any test could be
+	run. This means that test suite is improperly designed.  Please
+	report this failure to <open-cobol-list@lists.sourceforge.net>.
+_ATEOF
+    	echo "$at_setup_line" >$at_check_line_file
+      fi
+      at_group_count=`expr 1 + $at_group_count`
+      $at_verbose $ECHO_N "$at_group. $at_setup_line: $ECHO_C"
+      echo $ECHO_N "$at_group. $at_setup_line: $ECHO_C" >> $at_group_log
+      case $at_xfail:$at_status in
+	yes:0)
+	    at_msg="UNEXPECTED PASS"
+	    at_xpass_list="$at_xpass_list $at_group"
+	    at_errexit=$at_errexit_p
+	    ;;
+	no:0)
+	    at_msg="ok"
+	    at_pass_list="$at_pass_list $at_group"
+	    at_errexit=false
+	    ;;
+	*:77)
+	    at_msg="skipped (`cat $at_check_line_file`)"
+	    at_skip_list="$at_skip_list $at_group"
+	    at_errexit=false
+	    ;;
+	yes:*)
+	    at_msg="expected failure (`cat $at_check_line_file`)"
+	    at_xfail_list="$at_xfail_list $at_group"
+	    at_errexit=false
+	    ;;
+	no:*)
+	    at_msg="FAILED (`cat $at_check_line_file`)"
+	    at_fail_list="$at_fail_list $at_group"
+	    at_errexit=$at_errexit_p
+	    ;;
+      esac
+      echo $at_msg
+      at_log_msg="$at_group. $at_desc ($at_setup_line): $at_msg"
+      case $at_status in
+	0|77)
+	  # $at_times_file is only available if the group succeeded.
+	  # We're not including the group log, so the success message
+	  # is written in the global log separately.  But we also
+	  # write to the group log in case they're using -d.
+	  if test -f $at_times_file; then
+	    at_log_msg="$at_log_msg	(`sed 1d $at_times_file`)"
+	    rm -f $at_times_file
+          fi
+	  echo "$at_log_msg" >> $at_group_log
+	  echo "$at_log_msg" >&5
+
+	  # Cleanup the group directory, unless the user wants the files.
+	  $at_debug_p || rm -rf $at_group_dir
+	  ;;
+	*)
+	  # Upon failure, include the log into the testsuite's global
+	  # log.  The failure message is written in the group log.  It
+	  # is later included in the global log.
+	  echo "$at_log_msg" >> $at_group_log
+
+	  # Upon failure, keep the group directory for autopsy, and
+	  # create the debugging script.
+	  {
+	    echo "#! /bin/sh"
+	    echo 'test "${ZSH_VERSION+set}" = set && alias -g '\''${1+"$@"}'\''='\''"$@"'\'''
+	    echo "cd $at_dir"
+	    echo 'exec ${CONFIG_SHELL-'"$SHELL"'}' "$0" \
+	         '-v -d' "$at_debug_args" "$at_group" '${1+"$@"}'
+	    echo 'exit 1'
+	  } >$at_group_dir/run
+	  chmod +x $at_group_dir/run
+	  $at_errexit && break
+	  ;;
+      esac
+      ;;
+  esac
+done
+
+# Back to the top directory.
+cd $at_dir
+
+# Compute the duration of the suite.
+at_stop_date=`date`
+at_stop_time=`(date +%s) 2>/dev/null`
+echo "$as_me: ending at: $at_stop_date" >&5
+at_duration_s=`(expr $at_stop_time - $at_start_time) 2>/dev/null`
+at_duration_m=`(expr $at_duration_s / 60) 2>/dev/null`
+at_duration_h=`(expr $at_duration_m / 60) 2>/dev/null`
+at_duration_s=`(expr $at_duration_s % 60) 2>/dev/null`
+at_duration_m=`(expr $at_duration_m % 60) 2>/dev/null`
+at_duration="${at_duration_h}h ${at_duration_m}m ${at_duration_s}s"
+if test "$at_duration" != "h m s"; then
+  echo "$as_me: test suite duration: $at_duration" >&5
+fi
+
+# Wrap up the test suite with summary statistics.
+at_skip_count=`set dummy $at_skip_list; shift; echo $#`
+at_fail_count=`set dummy $at_fail_list; shift; echo $#`
+at_xpass_count=`set dummy $at_xpass_list; shift; echo $#`
+at_xfail_count=`set dummy $at_xfail_list; shift; echo $#`
+
+at_run_count=`expr $at_group_count - $at_skip_count`
+at_unexpected_count=`expr $at_xpass_count + $at_fail_count`
+at_total_fail_count=`expr $at_xfail_count + $at_fail_count`
+
+echo
+cat <<\_ASBOX
+## ------------- ##
+## Test results. ##
+## ------------- ##
+_ASBOX
+echo
+{
+  echo
+  cat <<\_ASBOX
+## ------------- ##
+## Test results. ##
+## ------------- ##
+_ASBOX
+  echo
+} >&5
+
+if test $at_run_count = 1; then
+  at_result="1 test"
+  at_were=was
+else
+  at_result="$at_run_count tests"
+  at_were=were
+fi
+if $at_errexit_p && test $at_unexpected_count != 0; then
+  if test $at_xpass_count = 1; then
+    at_result="$at_result $at_were run, one passed"
+  else
+    at_result="$at_result $at_were run, one failed"
+  fi
+  at_result="$at_result unexpectedly and inhibited subsequent tests."
+else
+  # Don't you just love exponential explosion of the number of cases?
+  case $at_xpass_count:$at_fail_count:$at_xfail_count in
+    # So far, so good.
+    0:0:0) at_result="$at_result $at_were successful." ;;
+    0:0:*) at_result="$at_result behaved as expected." ;;
+
+    # Some unexpected failures
+    0:*:0) at_result="$at_result $at_were run,
+$at_fail_count failed unexpectedly." ;;
+
+    # Some failures, both expected and unexpected
+    0:*:1) at_result="$at_result $at_were run,
+$at_total_fail_count failed ($at_xfail_count expected failure)." ;;
+    0:*:*) at_result="$at_result $at_were run,
+$at_total_fail_count failed ($at_xfail_count expected failures)." ;;
+
+    # No unexpected failures, but some xpasses
+    *:0:*) at_result="$at_result $at_were run,
+$at_xpass_count passed unexpectedly." ;;
+
+    # No expected failures, but failures and xpasses
+    *:1:0) at_result="$at_result $at_were run,
+$at_unexpected_count did not behave as expected ($at_fail_count unexpected failure)." ;;
+    *:*:0) at_result="$at_result $at_were run,
+$at_unexpected_count did not behave as expected ($at_fail_count unexpected failures)." ;;
+
+    # All of them.
+    *:*:1) at_result="$at_result $at_were run,
+$at_xpass_count passed unexpectedly,
+$at_total_fail_count failed ($at_xfail_count expected failure)." ;;
+    *:*:*) at_result="$at_result $at_were run,
+$at_xpass_count passed unexpectedly,
+$at_total_fail_count failed ($at_xfail_count expected failures)." ;;
+  esac
+
+  if test $at_skip_count = 0 && test $at_run_count -gt 1; then
+    at_result="All $at_result"
+  fi
+fi
+
+# Now put skips in the mix.
+case $at_skip_count in
+  0) ;;
+  1) at_result="$at_result
+1 test was skipped." ;;
+  *) at_result="$at_result
+$at_skip_count tests were skipped." ;;
+esac
+
+if test $at_unexpected_count = 0; then
+  echo "$at_result"
+  echo "$at_result" >&5
+else
+  echo "ERROR: $at_result" >&2
+  echo "ERROR: $at_result" >&5
+  {
+    echo
+    cat <<\_ASBOX
+## ------------------------ ##
+## Summary of the failures. ##
+## ------------------------ ##
+_ASBOX
+
+    # Summary of failed and skipped tests.
+    if test $at_fail_count != 0; then
+      echo "Failed tests:"
+      $SHELL $0 $at_fail_list --list
+      echo
+    fi
+    if test $at_skip_count != 0; then
+      echo "Skipped tests:"
+      $SHELL $0 $at_skip_list --list
+      echo
+    fi
+    if test $at_xpass_count != 0; then
+      echo "Unexpected passes:"
+      $SHELL $0 $at_xpass_list --list
+      echo
+    fi
+    if test $at_fail_count != 0; then
+      cat <<\_ASBOX
+## ---------------------- ##
+## Detailed failed tests. ##
+## ---------------------- ##
+_ASBOX
+      echo
+      for at_group in $at_fail_list
+      do
+        # Normalize the test group number.
+        at_group_normalized=`expr "00000$at_group" : ".*\($at_format\)"`
+        # Create a fresh directory for the next test group, and enter.
+        at_group_dir=$at_suite_dir/$at_group_normalized
+        at_group_log=$at_group_dir/$as_me.log
+        cat $at_group_log
+        echo
+      done
+      echo
+    fi
+    if test -n "$at_top_srcdir"; then
+      sed 'h;s/./-/g;s/^.../## /;s/...$/ ##/;p;x;p;x' <<_ASBOX
+## $at_top_builddir/config.log ##
+_ASBOX
+      sed 's/^/| /' $at_top_builddir/config.log
+      echo
+    fi
+  } >&5
+
+  sed 'h;s/./-/g;s/^.../## /;s/...$/ ##/;p;x;p;x' <<_ASBOX
+## $as_me.log was created. ##
+_ASBOX
+
+  echo
+  echo "Please send \`$as_me.log' and all information you think might help:"
+  echo
+  echo "   To: <open-cobol-list@lists.sourceforge.net>"
+  echo "   Subject: [OpenCOBOL 1.1] $as_me:$at_fail_list${at_fail_list:+ failed${at_xpass_list:+,}}$at_xpass_list${at_xpass_list:+ passed unexpectedly}"
+  echo
+  if test $at_debug_p = false; then
+    echo
+    echo 'You may investigate any problem if you feel able to do so, in which'
+    echo 'case the test suite provides a good starting point.'
+    echo
+  fi
+    exit 1
+fi
+
+exit 0
+
+

@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -386,6 +386,8 @@ at_help_all='1;copy.at:22;COPY: file not found;copy;
 75;multiply.at:66;Category check of Format 2;;
 76;multiply.at:106;Category check of literals;;
 77;set.at:24;SET: misc;;
+78;free-1col-aster.at:1;free_1col_aster OPTION;;
+79;free-1col-aster.at:15;newline_count with free_1col_aster;;
 '
 
 at_keywords=
@@ -5619,6 +5621,112 @@ case $at_status in
             exit 77;;
    1) ;;
    *) echo "set.at:37: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  78 ) # 78. free-1col-aster.at:1: free_1col_aster OPTION
+    at_setup_line='free-1col-aster.at:1'
+    at_desc='free_1col_aster OPTION'
+    $at_quiet $ECHO_N " 78: free_1col_aster OPTION                       $ECHO_C"
+    at_xfail=no
+    (
+      echo "78. free-1col-aster.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE DIVISION.
+*          DISPLAY A.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "free-1col-aster.at:11: \${COMPILE} -x -free_1col_aster prog.cob"
+echo free-1col-aster.at:11 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x -free_1col_aster prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "free-1col-aster.at:11: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  79 ) # 79. free-1col-aster.at:15: newline_count with free_1col_aster
+    at_setup_line='free-1col-aster.at:15'
+    at_desc='newline_count with free_1col_aster'
+    $at_quiet $ECHO_N " 79: newline_count with free_1col_aster           $ECHO_C"
+    at_xfail=no
+    (
+      echo "79. free-1col-aster.at:15: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE DIVISION.
+*
+           DISPLAY A.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "free-1col-aster.at:26: \${COMPILE} -x -free_1col_aster prog.cob"
+echo free-1col-aster.at:26 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x -free_1col_aster prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:6: Error: 'A' undefined
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "free-1col-aster.at:26: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
