@@ -2604,17 +2604,18 @@ cob_national (const unsigned char * src_data, int src_size)
 		"\xE3\x83\xAA","\xE3\x83\xAB","\xE3\x83\xAC","\xE3\x83\xAD",
 		"\xE3\x83\xAF","\xE3\x83\xB3",
 		"\xE3\x80\x82","\xE3\x80\x8C","\xE3\x80\x8D",
-		"\xE3\x80\x81","\xE3\x83\xBA",
+		"\xE3\x80\x81","\xE3\x83\xBB",
 		"\xE3\x83\xB2","\xE3\x82\xA1",
 		"\xE3\x82\xA3","\xE3\x82\xA5","\xE3\x82\xA7","\xE3\x82\xA9",
 		"\xE3\x83\xA3","\xE3\x83\xA5","\xE3\x83\xA7","\xE3\x83\x83",
 		"\xE3\x83\xBC"
 	};
-	const unsigned char	*p, *ub = src_data + src_size;
+	const unsigned char	*p, *q, *ub = src_data + src_size;
 	unsigned char		*dst_data, *p2, *p3;
 	size_t			n, dst_size = 0;
 	int			i;
 
+	q = src_data;
 	for (p = src_data; p < ub; p += n) {
 		n = COB_U8BYTE_1(*p);
 		if (n == 1) {
@@ -2622,9 +2623,11 @@ cob_national (const unsigned char * src_data, int src_size)
 			dst_size += 3;
 		} else if (n == 3) {
 			if (p+2 < ub &&
-			    *p == 0xEF &&
-			    *(p+1) == 0xBE &&
-			    (*(p+2) == 0x9E || *(p+2) == 0x9F)) {
+			    ((*q == 0xEF && *(q+1) == 0xBD && *(q+2) == 0xB3) ||
+			     (*q == 0xEF && *(q+1) == 0xBD && (*(q+2) >= 0xB6 && *(q+2) <= 0xBF)) ||
+			     (*q == 0xEF && *(q+1) == 0xBE && (*(q+2) >= 0x80 && *(q+2) <= 0x84)) ||
+			     (*q == 0xEF && *(q+1) == 0xBE && (*(q+2) >= 0x8A && *(q+2) <= 0x8E))) &&
+			    (*p == 0xEF && *(p+1) == 0xBE && (*(p+2) == 0x9E || *(p+2) == 0x9F))) {
 				/*Dakuten,Han-dakuten*/
 			} else {
 				dst_size += 3;
@@ -2632,8 +2635,10 @@ cob_national (const unsigned char * src_data, int src_size)
 		} else {
 			dst_size += n;
 		}
+		q = p;
 	}
 	dst_data = cob_malloc (dst_size + 1);
+	q = src_data;
 	for (p = src_data, p2 = dst_data; p < ub; p += n) {
 		n = COB_U8BYTE_1(*p);
 		if (n == 1) {
@@ -2657,17 +2662,35 @@ cob_national (const unsigned char * src_data, int src_size)
 				*p2++ = *p3++;
 			} else if (*p == 0xEF && *(p+1) == 0xBE && *(p+2) == 0x9E) {
 				/* Dakuten */
-				--p2;
-				if (*(p2-2) == 0xE3 && *(p2-1) == 0x82 && *p2 == 0xBF) {
-					*(p2-1) = 0x83;
-					*p2++   = 0x80;
+				if ((*q == 0xEF && *(q+1) == 0xBD && *(q+2) == 0xB3) ||
+				    (*q == 0xEF && *(q+1) == 0xBD && (*(q+2) >= 0xB6 && *(q+2) <= 0xBF)) ||
+				    (*q == 0xEF && *(q+1) == 0xBE && (*(q+2) >= 0x80 && *(q+2) <= 0x84)) ||
+				    (*q == 0xEF && *(q+1) == 0xBE && (*(q+2) >= 0x8A && *(q+2) <= 0x8E))) {
+					--p2;
+					if (*(p2-2) == 0xE3 && *(p2-1) == 0x82 && *p2 == 0xBF) {
+						*(p2-1) = 0x83;
+						*p2++   = 0x80;
+					} else if (*(p2-2) == 0xE3 && *(p2-1) == 0x82 && *p2 == 0xA6) {
+						*(p2-1) = 0x83;
+						*p2++   = 0xB4;
+					} else {
+						(*p2++)++;
+					}
 				} else {
-					(*p2++)++;
+					*p2++ = 0xE3;
+					*p2++ = 0x82;
+					*p2++ = 0x9B;
 				}
 			} else if (*p == 0xEF && *(p+1) == 0xBE && *(p+2) == 0x9F) {
 				/* Han-dakuten */
-				--p2;
-				(*p2++) += 2;
+				if (*q == 0xEF && *(q+1) == 0xBE && (*(q+2) >= 0x8A && *(q+2) <= 0x8E)) {
+					--p2;
+					(*p2++) += 2;
+				} else {
+					*p2++ = 0xE3;
+					*p2++ = 0x82;
+					*p2++ = 0x9C;
+				}
 			} else {
 				*p2++ = *p;
 				*p2++ = *(p+1);
@@ -2677,6 +2700,7 @@ cob_national (const unsigned char * src_data, int src_size)
 			memcpy (p2, p, n);
 			p2 += n;
 		}
+		q = p;
 	}
 	*p2 = '\0';
 	return dst_data;

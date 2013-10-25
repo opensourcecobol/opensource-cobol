@@ -1058,7 +1058,7 @@ han2zen (char *str, int size, int *retsize)
 	return p;
 #else /*!I18N_UTF8*/
 	char		*buf, *p, *ptr;
-	unsigned char	c;
+	unsigned char	c, d = '\0';
 	int		i;
 
 	p = str;
@@ -1167,6 +1167,23 @@ han2zen (char *str, int size, int *retsize)
 		case    0x7B: strcpy(p, "\x81\x6F");p+=2;break;
 		case    0x7C: strcpy(p, "\x81\x62");p+=2;break;
 		case    0x7D: strcpy(p, "\x81\x70");p+=2;break;
+		case    0x7E: strcpy(p, "\x81\x60");p+=2;break;
+		case    0xA1: strcpy(p, "\x81\x42");p+=2;break;
+		case    0xA2: strcpy(p, "\x81\x75");p+=2;break;
+		case    0xA3: strcpy(p, "\x81\x76");p+=2;break;
+		case    0xA4: strcpy(p, "\x81\x41");p+=2;break;
+		case    0xA5: strcpy(p, "\x81\x45");p+=2;break;
+		case    0xA6: strcpy(p, "\x83\x92");p+=2;break;
+		case    0xA7: strcpy(p, "\x83\x40");p+=2;break;
+		case    0xA8: strcpy(p, "\x83\x42");p+=2;break;
+		case    0xA9: strcpy(p, "\x83\x44");p+=2;break;
+		case    0xAA: strcpy(p, "\x83\x46");p+=2;break;
+		case    0xAB: strcpy(p, "\x83\x48");p+=2;break;
+		case    0xAC: strcpy(p, "\x83\x83");p+=2;break;
+		case    0xAD: strcpy(p, "\x83\x85");p+=2;break;
+		case    0xAE: strcpy(p, "\x83\x87");p+=2;break;
+		case    0xAF: strcpy(p, "\x83\x62");p+=2;break;
+		case    0xB0: strcpy(p, "\x81\x5B");p+=2;break;
 		case    0xB1: strcpy(p, "\x83\x41");p+=2;break;
 		case    0xB2: strcpy(p, "\x83\x43");p+=2;break;
 		case    0xB3: strcpy(p, "\x83\x45");p+=2;break;
@@ -1212,7 +1229,33 @@ han2zen (char *str, int size, int *retsize)
 		case    0xDB: strcpy(p, "\x83\x8D");p+=2;break;
 		case    0xDC: strcpy(p, "\x83\x8F");p+=2;break;
 		case    0xDD: strcpy(p, "\x83\x93");p+=2;break;
-		case    0xA6: strcpy(p, "\x83\x92");p+=2;break;
+		case    0xDE:
+			/* Dakuten */
+			if ((d >= 0xB6 && d <= 0xC4) ||
+			    (d >= 0xCA && d <= 0xCE)) {
+				p--;
+				(*p)++;
+				p++;
+			} else if (d == 0xB3) {
+				p--;
+				*p = 0x94;
+				p++;
+			} else {
+				strcpy (p, "\x81\x4A");
+				p+=2;
+			}
+			break;
+		case    0xDF:
+			/* Han-dakuten */
+			if (d >= 0xCA && d <= 0xCE) {
+				p--;
+				(*p)+=2;
+				p++;
+			} else {
+				strcpy (p, "\x81\x4B");
+				p+=2;
+			}
+			break;
 		case     0:
 		case    255:
 			*p = *ptr;
@@ -1227,7 +1270,7 @@ han2zen (char *str, int size, int *retsize)
 			}
 			break;
 		default:
-			if (0 < c && c < 0X20) {
+			if (0 < c && c < 0x20) {
 				strcpy (p, COB_SJSPC);
 				p += 2;
 			} else {
@@ -1240,6 +1283,7 @@ han2zen (char *str, int size, int *retsize)
 			}
 			break;
 		}
+		d = c;
 	}
 	*p = '\0';
 	*retsize = p-buf;

@@ -148,7 +148,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog | od -x -An], [0], [ 5283 8183 5e83 bade cbb0 00b0 4081
+AT_CHECK([./prog | od -x -An], [0], [ 5283 8183 5f83 5283 5b81 7183 5b81
 ])
 
 AT_CLEANUP
@@ -364,5 +364,43 @@ AT_DATA([prog.cob], [
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
 AT_CHECK([./prog], [0], [02])
+
+AT_CLEANUP
+
+AT_SETUP([PIC N Move with half-width dakuten kana.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC N(7).
+       PROCEDURE        DIVISION.
+           MOVE "ﾞﾀﾞ･ｳﾞｨﾝﾁ" TO F0.
+           DISPLAY F0 WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [0])
+AT_CHECK([./prog], [0], [゛ダ・ヴィンチ])
+
+AT_CLEANUP
+
+AT_SETUP([PIC N Move with half-width han-dakuten kana.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC N(7).
+       PROCEDURE        DIVISION.
+           MOVE "ﾟﾎﾟﾝﾃﾞﾘﾝｸﾞ" TO F0.
+           DISPLAY F0 WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [0])
+AT_CHECK([./prog], [0], [゜ポンデリング])
 
 AT_CLEANUP
