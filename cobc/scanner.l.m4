@@ -526,11 +526,9 @@ ifdef(M4.I18N_UTF8,>>>>>
 	struct cb_level_78		*p78;
 	struct cb_intrinsic_table	*cbp;
 	cb_tree				x;
-	size_t				wordlen;
 	int				token;
 
 	/* Check word length */
-	wordlen = strlen (yytext);
 ifdef(M4.I18N_UTF8,>>>>>
 	if (cobc_strlen ((unsigned char*)yytext) > 31) {
 <<<<<,>>>>>
@@ -611,8 +609,11 @@ ifdef(M4.I18N_UTF8,>>>>>
 	if (cb_force_pid_literal) {
 		/* Force PROGRAM-ID / END PROGRAM */
 		cb_force_pid_literal = 0;
+		if ((cb_c89_identifier_length_check) && (strlen (yytext) > 31)) {
+			cb_warning (_("PROGRAM-ID length exceeds C89 function name limit"));
+		}
 		yylval = cb_build_alphanumeric_literal ((unsigned char *)yytext,
-							 wordlen);
+							 strlen (yytext));
 		SET_LOCATION (yylval);
 		return PROGRAM_NAME;
 	}

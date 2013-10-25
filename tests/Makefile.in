@@ -249,13 +249,15 @@ i18n_utf8_DEPENDENCIES = \
 	i18n_utf8.src/user-defined-word.at \
 	i18n_utf8.src/pic-x.at \
 	i18n_utf8.src/pic-n.at \
-	i18n_utf8.src/pic-bn.at
+	i18n_utf8.src/pic-bn.at \
+	i18n_utf8.src/program-id.at
 
 i18n_sjis_DEPENDENCIES = \
 	i18n_sjis.at \
 	i18n_sjis.src/user-defined-word.at \
 	i18n_sjis.src/pic-x.at \
-	i18n_sjis.src/pic-n.at
+	i18n_sjis.src/pic-n.at \
+	i18n_sjis.src/program-id.at
 
 jp_compat_DEPENDENCIES = \
 	jp-compat.at \
