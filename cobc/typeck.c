@@ -5835,7 +5835,7 @@ cb_emit_release (cb_tree record, cb_tree from)
 	if (from) {
 		cb_emit (cb_build_move (from, record));
 	}
-	cb_emit (cb_build_funcall_1 ("cob_file_release", file));
+	cb_emit (cb_build_release (file, cb_build_cast_address (current_program->cb_sort_return)));
 }
 
 /*
@@ -5859,7 +5859,7 @@ cb_emit_return (cb_tree ref, cb_tree into)
 		return;
 	}
 	rec = cb_build_field_reference (CB_FILE (file)->record, ref);
-	cb_emit (cb_build_funcall_1 ("cob_file_return", file));
+	cb_emit (cb_build_return (file, cb_build_cast_address (current_program->cb_sort_return)));
 	if (into) {
 		current_statement->handler3 = cb_build_move (rec, into);
 	}
@@ -6186,7 +6186,7 @@ cb_emit_sort_init (cb_tree name, cb_tree keys, cb_tree col)
 			cb_error_x (name, _("Invalid SORT filename"));
 		}
 		cb_field (current_program->cb_sort_return)->count++;
-		cb_emit (cb_build_funcall_5 ("cob_file_sort_init", cb_ref (name),
+		cb_emit (cb_build_sort_init ("cob_file_sort_init", cb_ref (name),
 					     cb_int (cb_list_length (keys)), col,
 					     cb_build_cast_address (current_program->cb_sort_return),
 					     CB_FILE(cb_ref (name))->file_status));
@@ -6231,9 +6231,10 @@ cb_emit_sort_using (cb_tree file, cb_tree l)
 }
 
 void
-cb_emit_sort_input (cb_tree proc)
+cb_emit_sort_input (cb_tree proc, cb_tree file)
 {
-	cb_emit (cb_build_perform_once (proc));
+	cb_emit (cb_build_sort_proc (proc, cb_ref (file),
+				     cb_build_cast_address (current_program->cb_sort_return)));
 }
 
 void
@@ -6257,17 +6258,17 @@ cb_emit_sort_giving (cb_tree file, cb_tree l)
 }
 
 void
-cb_emit_sort_output (cb_tree proc)
+cb_emit_sort_output (cb_tree proc, cb_tree file)
 {
-	cb_emit (cb_build_perform_once (proc));
+	cb_emit (cb_build_sort_proc (proc, cb_ref (file),
+				     cb_build_cast_address (current_program->cb_sort_return)));
 }
 
 void
 cb_emit_sort_finish (cb_tree file)
 {
-	if (CB_FILE_P (cb_ref (file))) {
-		cb_emit (cb_build_funcall_1 ("cob_file_sort_close", cb_ref (file)));
-	}
+	cb_emit (cb_build_sort_finish ((CB_FILE_P (cb_ref (file)))? cb_ref (file): NULL,
+				       cb_build_cast_address (current_program->cb_sort_return)));
 }
 
 /*

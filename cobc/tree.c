@@ -2427,6 +2427,71 @@ cb_build_perform_varying (cb_tree name, cb_tree from, cb_tree by, cb_tree until)
 }
 
 /*
+ * SORT
+ */
+
+cb_tree
+cb_build_sort_init (const char *name, cb_tree sort_file, cb_tree nkeys, cb_tree col,
+		     cb_tree sort_return, cb_tree file_status)
+{
+	struct cb_sort_init *p;
+
+	p = make_tree (CB_TAG_SORT_INIT, CB_CATEGORY_UNKNOWN, sizeof (struct cb_sort_init));
+	p->name = name;
+	p->sort_file = sort_file;
+	p->nkeys = nkeys;
+	p->col = col;
+	p->sort_return = sort_return;
+	p->file_status = file_status;
+	return CB_TREE (p);
+}
+
+cb_tree
+cb_build_sort_proc (cb_tree body, cb_tree sort_file, cb_tree sort_return)
+{
+	struct cb_sort_proc *p;
+
+	p = make_tree (CB_TAG_SORT_PROC, CB_CATEGORY_UNKNOWN, sizeof (struct cb_sort_proc));
+	p->body = body;
+	p->sort_file = sort_file;
+	p->sort_return = sort_return;
+	return CB_TREE (p);
+}
+
+cb_tree
+cb_build_return (cb_tree sort_file, cb_tree sort_return)
+{
+	struct cb_return *p;
+
+	p = make_tree (CB_TAG_RETURN, CB_CATEGORY_UNKNOWN, sizeof (struct cb_return));
+	p->proc.sort_file = sort_file;
+	p->proc.sort_return = sort_return;
+	return CB_TREE (p);
+}
+
+cb_tree
+cb_build_release (cb_tree sort_file, cb_tree sort_return)
+{
+	struct cb_release *p;
+
+	p = make_tree (CB_TAG_RELEASE, CB_CATEGORY_UNKNOWN, sizeof (struct cb_release));
+	p->proc.sort_file = sort_file;
+	p->proc.sort_return = sort_return;
+	return CB_TREE (p);
+}
+
+cb_tree
+cb_build_sort_finish (cb_tree sort_file, cb_tree sort_return)
+{
+	struct cb_sort_finish *p;
+
+	p = make_tree (CB_TAG_SORT_FINISH, CB_CATEGORY_UNKNOWN, sizeof (struct cb_sort_finish));
+	p->sort_file = sort_file;
+	p->sort_return = sort_return;
+	return CB_TREE (p);
+}
+
+/*
  * Statement
  */
 

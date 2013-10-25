@@ -5616,7 +5616,7 @@ sort_input:
 	if (!CB_FILE_P (cb_ref (save_tree_1))) {
 		cb_error (_("INPUT PROCEDURE invalid with table SORT"));
 	} else {
-		cb_emit_sort_input ($4);
+		cb_emit_sort_input ($4, save_tree_1);
 	}
   }
 ;
@@ -5641,7 +5641,7 @@ sort_output:
 	if (!CB_FILE_P (cb_ref (save_tree_1))) {
 		cb_error (_("OUTPUT PROCEDURE invalid with table SORT"));
 	} else {
-		cb_emit_sort_output ($4);
+		cb_emit_sort_output ($4, save_tree_1);
 	}
   }
 ;

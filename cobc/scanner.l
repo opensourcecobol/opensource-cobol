@@ -595,6 +595,9 @@ H\"[^\"\n]*\" {
 	/* Check aliases before building reference */
 	if ((cb_enable_program_status_register) && (cobc_casecmp (yytext, "PROGRAM-STATUS") == 0)) {
 		yylval = cb_build_reference ("RETURN-CODE");
+	} else if ((cb_enable_sort_status_register) && (cobc_casecmp (yytext, "SORT-STATUS") == 0)) {
+		current_program->flag_sort_status_used = 1;
+		yylval = cb_build_reference ("SORT-RETURN");
 	} else {
 		yylval = cb_build_reference (yytext);
 	}

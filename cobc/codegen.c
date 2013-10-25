@@ -2750,6 +2750,7 @@ output_perform_call (struct cb_label *lb, struct cb_label *le)
 		output_line ("/* PERFORM %s THRU %s */", lb->name, le->name);
 	}
 	output_line ("frame_ptr++;");
+	output_line ("memset (frame_ptr, 0, sizeof (struct cob_frame));");
 	if (cb_flag_stack_check) {
 		output_line ("if (unlikely(frame_ptr == frame_overflow))");
 		output_line ("    cob_fatal_error (COB_FERROR_STACK);");
@@ -2920,6 +2921,149 @@ output_perform (struct cb_perform *p)
 	}
 	if (p->exit_label) {
 		output_stmt (cb_ref (p->exit_label));
+	}
+}
+
+/*
+ * SORT
+ */
+
+static void
+output_sort_init (struct cb_sort_init *p)
+{
+	output_prefix ();
+	output ("%s (", p->name);
+	output_param (p->sort_file, 0);
+	output (", ");
+	output_param (p->nkeys, 1);
+	output (", ");
+	output_param (p->col, 2);
+	output (", ");
+	output_param (p->sort_return, 3);
+	output (", ");
+	output_param (p->file_status, 4);
+	output (");\n");
+}
+
+static void
+output_sort_proc (struct cb_sort_proc *p)
+{
+	struct cb_label *lb = CB_LABEL (cb_ref (CB_PAIR_X (p->body)));
+	struct cb_label *le = CB_LABEL (cb_ref (CB_PAIR_Y (p->body)));
+#ifndef	__GNUC__
+	struct label_list *l;
+#endif
+
+	if (lb == le) {
+		output_line ("/* PERFORM %s */", lb->name);
+	} else {
+		output_line ("/* PERFORM %s THRU %s */", lb->name, le->name);
+	}
+	output_line ("frame_ptr++;");
+	output_line ("memset (frame_ptr, 0, sizeof (struct cob_frame));");
+	if (cb_flag_stack_check) {
+		output_line ("if (unlikely(frame_ptr == frame_overflow))");
+		output_line ("    cob_fatal_error (COB_FERROR_STACK);");
+	}
+	output_line ("frame_ptr->perform_through = %d;", le->id);
+	output_prefix ();
+	output ("frame_ptr->current_sort_merge_file = ");
+	output_param (p->sort_file, 0);
+	output (";\n");
+#ifndef	__GNUC__
+	l = cobc_malloc (sizeof (struct label_list));
+	l->next = label_cache;
+	l->id = cb_id;
+	if (label_cache == NULL) {
+		l->call_num = 0;
+	} else {
+		l->call_num = label_cache->call_num + 1;
+	}
+	label_cache = l;
+	output_line ("frame_ptr->return_address = %d;", l->call_num);
+	output_line ("goto %s%d;", CB_PREFIX_LABEL, lb->id);
+	output_line ("%s%d:", CB_PREFIX_LABEL, cb_id);
+#elif	COB_USE_SETJMP
+	output_line ("if (setjmp (frame_ptr->return_address) == 0)");
+	output_line ("  goto %s%d;", CB_PREFIX_LABEL, lb->id);
+#else
+	output_line ("frame_ptr->return_address = &&%s%d;",
+		     CB_PREFIX_LABEL, cb_id);
+	output_prefix ();
+	output ("if (unlikely(*(int*)(");
+	output_param (p->sort_return, 0);
+	output (") != 0))\n");
+	output_prefix ();
+	output_line ("goto %s%d;", CB_PREFIX_LABEL, cb_id);
+	output_line ("goto %s%d;", CB_PREFIX_LABEL, lb->id);
+	output_line ("%s%d:", CB_PREFIX_LABEL, cb_id);
+#endif
+	cb_id++;
+	output_line ("frame_ptr--;");
+}
+
+static void
+output_sort_proc_escape (struct cb_sort_proc *p)
+{
+	output ("    if (*(int*)(");
+	output_param (p->sort_return, 0);
+	output (") != 0)\n");
+	output ("      {\n");
+	output ("        while (frame_ptr->current_sort_merge_file != ");
+	output_param (p->sort_file, 0);
+	output (")\n");
+	output ("             --frame_ptr;\n");
+	output ("    ");
+#ifndef	__GNUC__
+		output_line ("goto P_switch;");
+#elif	COB_USE_SETJMP
+		output_line ("longjmp (frame_ptr->return_address, 1);");
+#else
+		output_line ("goto *frame_ptr->return_address;");
+#endif
+	output ("      }\n");
+}
+
+static void
+output_file_return (struct cb_return *p)
+{
+	output_sort_proc_escape (&(p->proc));
+	output_prefix ();
+	output ("cob_file_return (");
+	output_param (p->proc.sort_file, 0);
+	output (");\n");
+}
+
+static void
+output_file_release (struct cb_release *p)
+{
+	output_sort_proc_escape (&(p->proc));
+	output_prefix ();
+	output ("cob_file_release (");
+	output_param (p->proc.sort_file, 0);
+	output (");\n");
+}
+
+static void
+output_sort_finish (struct cb_sort_finish *p)
+{
+	if (p->sort_file != NULL) {
+		output_prefix ();
+		output ("cob_file_sort_close (");
+		output_param (p->sort_file, 0);
+		output (");\n");
+	}
+	if (cb_enable_sort_status_register && !current_program->flag_sort_status_used) {
+		output ("    if (*(int*)(");
+		output_param (p->sort_return, 0);
+		output (") != 0)\n");
+		output ("      {\n");
+		output ("        cob_runtime_error (");
+		output ("\"SORT-STATUS is set to %%d.\", (*(int*)");
+		output_param (p->sort_return, 0);
+		output ("));\n");
+		output ("        cob_stop_run (1);\n");
+		output ("      }\n");
 	}
 }
 
@@ -3280,6 +3424,21 @@ output_stmt (cb_tree x)
 		break;
 	case CB_TAG_PERFORM:
 		output_perform (CB_PERFORM (x));
+		break;
+	case CB_TAG_SORT_INIT:
+		output_sort_init (CB_SORT_INIT (x));
+		break;
+	case CB_TAG_SORT_PROC:
+		output_sort_proc (CB_SORT_PROC (x));
+		break;
+	case CB_TAG_RETURN:
+		output_file_return (CB_RETURN (x));
+		break;
+	case CB_TAG_RELEASE:
+		output_file_release (CB_RELEASE (x));
+		break;
+	case CB_TAG_SORT_FINISH:
+		output_sort_finish (CB_SORT_FINISH (x));
 		break;
 	case CB_TAG_CONTINUE:
 		output_prefix ();
@@ -4822,6 +4981,7 @@ codegen (struct cb_program *prog, int nested)
 #else
 		output_storage ("\tvoid\t*return_address;\n");
 #endif
+		output_storage ("\tvoid\t*current_sort_merge_file;\n");
 		output_storage ("};\n\n");
 		output_storage ("/* Union for CALL statement */\n");
 		output_storage ("union cob_call_union {\n");

@@ -74,7 +74,12 @@ enum cb_tag {
 	/* miscellaneous */
 	CB_TAG_PERFORM_VARYING,	/* 26 PERFORM VARYING parameter */
 	CB_TAG_PICTURE,		/* 27 PICTURE clause */
-	CB_TAG_LIST		/* 28 list */
+	CB_TAG_LIST,		/* 28 list */
+	CB_TAG_SORT_INIT,	/* 29 SORT initializer */
+	CB_TAG_SORT_PROC,	/* 30 SORT INPUT/OUTPUT clause */
+	CB_TAG_RETURN,		/* 31 RETURN statement */
+	CB_TAG_RELEASE,		/* 32 RELEASE statement */
+	CB_TAG_SORT_FINISH	/* 33 SORT terminator */
 };
 
 enum cb_alphabet_name_type {
@@ -1076,6 +1081,67 @@ extern cb_tree	cb_build_perform (int type);
 extern cb_tree	cb_build_perform_varying (cb_tree name, cb_tree from, cb_tree step, cb_tree until);
 
 /*
+ * SORT
+ */
+
+struct cb_sort_init {
+	struct cb_tree_common	common;
+	const char		*name;
+	cb_tree			sort_file;
+	cb_tree			nkeys;
+	cb_tree			col;
+	cb_tree			sort_return;
+	cb_tree			file_status;
+};
+
+#define CB_SORT_INIT(x)		(CB_TREE_CAST (CB_TAG_SORT_INIT, struct cb_sort_init, x))
+#define CB_SORT_INIT_P(x)	(CB_TREE_TAG (x) == CB_TAG_SORT_INIT)
+
+extern cb_tree cb_build_sort_init (const char *name, cb_tree sort_file, cb_tree nkeys, cb_tree col,
+				    cb_tree sort_return, cb_tree file_status);
+
+struct cb_sort_proc {
+	struct cb_tree_common	common;
+	cb_tree			body;
+	cb_tree			sort_file;
+	cb_tree			sort_return;
+};
+
+#define CB_SORT_PROC(x)		(CB_TREE_CAST (CB_TAG_SORT_PROC, struct cb_sort_proc, x))
+#define CB_SORT_PROC_P(x)	(CB_TREE_TAG (x) == CB_TAG_SORT_PROC)
+
+extern cb_tree cb_build_sort_proc (cb_tree body, cb_tree sort_file, cb_tree sort_return);
+
+struct cb_return {
+	struct cb_sort_proc	proc;
+};
+
+#define CB_RETURN(x)		(CB_TREE_CAST (CB_TAG_RETURN, struct cb_return, x))
+#define CB_RETURN_P(x)		(CB_TREE_TAG (x) == CB_TAG_RETURN)
+
+extern cb_tree cb_build_return (cb_tree sort_file, cb_tree sort_return);
+
+struct cb_release {
+	struct cb_sort_proc	proc;
+};
+
+#define CB_RELEASE(x)		(CB_TREE_CAST (CB_TAG_RELEASE, struct cb_release, x))
+#define CB_RELEASE_P(x)		(CB_TREE_TAG (x) == CB_TAG_RELEASE)
+
+extern cb_tree cb_build_release (cb_tree sort_file, cb_tree sort_return);
+
+struct cb_sort_finish {
+	struct cb_tree_common	common;
+	cb_tree			sort_file;
+	cb_tree			sort_return;
+};
+
+#define CB_SORT_FINISH(x)	(CB_TREE_CAST (CB_TAG_SORT_FINISH, struct cb_sort_finish, x))
+#define CB_SORT_FINISH_P(x)	(CB_TREE_TAG (x) == CB_TAG_SORT_FINISH)
+
+extern cb_tree cb_build_sort_finish (cb_tree sort_file, cb_tree sort_return);
+
+/*
  * Statement
  */
 
@@ -1221,6 +1287,7 @@ struct cb_program {
 	unsigned char		flag_validated;		/* End program validate */
 	unsigned char		flag_chained;		/* PROCEDURE CHAINING */
 	unsigned char		flag_global_use;	/* USE GLOBAL */
+	unsigned char		flag_sort_status_used;	/* SORT-STAUS is used in program. */
 	unsigned char		gen_decset;		/* Gen decimal_set_int */
 	unsigned char		gen_udecset;		/* Gen decimal_set_uint */
 	unsigned char		gen_ptrmanip;		/* Gen cob_pointer_manip */
@@ -1435,9 +1502,9 @@ extern void		cb_emit_set_false (cb_tree l);
 
 extern void		cb_emit_sort_init (cb_tree name, cb_tree keys, cb_tree col);
 extern void		cb_emit_sort_using (cb_tree file, cb_tree l);
-extern void		cb_emit_sort_input (cb_tree proc);
+extern void		cb_emit_sort_input (cb_tree proc, cb_tree file);
 extern void		cb_emit_sort_giving (cb_tree file, cb_tree l);
-extern void		cb_emit_sort_output (cb_tree proc);
+extern void		cb_emit_sort_output (cb_tree proc, cb_tree file);
 extern void		cb_emit_sort_finish (cb_tree file);
 
 extern void		cb_emit_start (cb_tree file, cb_tree op, cb_tree key);
