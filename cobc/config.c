@@ -314,7 +314,7 @@ cb_load_conf (const char *fname, const int check_nodef, const int prefix_dir)
 	/* if assign_external is not setted in config file */
 	for (i = 0; config_table[i].name; i++) {
 		if (config_table[i].val == NULL && strcmp (config_table[i].name, "assign_external") == 0) {
-			config_table[i].val = "no";
+			config_table[i].val = (char *)"no";
 			*((int *)config_table[i].var) = 0;
 		}
 	}

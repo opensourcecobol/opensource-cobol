@@ -513,12 +513,9 @@ cb_get_jisstring (char *name)
 {
 	int		i, j;
 	char		pTmp[COB_NORMAL_BUFF], str[2];
-	unsigned char	*c;
 
-	c = name;
 	memset (pTmp, 0, sizeof (pTmp));
 	i = strlen (name);
-
 	for (j = 0; j < i/2; j++) {
 		strncpy (str, &name[2*j], 2);
 		pTmp[j] = cb_get_char (str);
@@ -527,12 +524,13 @@ cb_get_jisstring (char *name)
 }
 
 static char *
-cb_get_jisword (char *name)
+cb_get_jisword (const char *name)
 {
-	int		i, k;
-	char		pTmp[COB_NORMAL_BUFF];
-	char		pTmp1[COB_NORMAL_BUFF];
-	char		*c, *cs, *ce, *ctmp;
+	int	i, k;
+	char	pTmp[COB_NORMAL_BUFF];
+	char	pTmp1[COB_NORMAL_BUFF];
+	const char	*c;
+	char	*cs, *ce, *ctmp;
 
 	c = name;
 	memset (pTmp, 0, sizeof (pTmp));
@@ -544,7 +542,7 @@ cb_get_jisword (char *name)
 			break;
 		} else {
 			memset (pTmp1, 0, sizeof (pTmp1));
-			strncpy (pTmp1, c, cs - c);
+			strncpy (pTmp1, c, cs-c);
 			strcat (pTmp, pTmp1);
 			c = cs + 3;
 			ce = strstr (c, "___");

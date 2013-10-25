@@ -1725,7 +1725,7 @@ output_initialize_external (cb_tree x, struct cb_field *f)
 	} else if (f->storage == CB_STORAGE_FILE) {
 		file = CB_TREE (f->file);
 		strcpy (name, CB_FILE(file)->record->name);
-		for (p = name; *p; p++) {
+		for (p = (unsigned char *)name; *p; p++) {
 			if (*p == '-') {
 				*p = '_';
 			}
@@ -1810,10 +1810,10 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 			return;
 		}
 		if (CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL_EDITED) {
-			tmpx =  cb_build_reference (f->name);
-			tmpx->value = cb_ref (tmpx);
+			tmpx = CB_REFERENCE (cb_build_reference (f->name));
+			tmpx->value = cb_ref (CB_TREE (tmpx));
 			CB_TREE_CATEGORY (tmpx);
-			tmpx->offset = cb_build_numeric_literal (0, "1", 1);
+			tmpx->offset = cb_build_numeric_literal (0, (unsigned char *)"1", 1);
 			tmpx->subs = CB_REFERENCE(x)->subs;
 
 			output ("cob_move(");

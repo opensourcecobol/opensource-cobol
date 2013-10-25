@@ -4909,9 +4909,10 @@ inspect_converting:
   CONVERTING simple_value TO simple_all_value inspect_region
   {
 	if (cb_validate_inspect (save_tree_1, $2, $4) < 0 ) {
-		return cb_error_node;
+		$$ = cb_error_node;
+	} else {
+		$$ = cb_build_converting ($2, $4, $5);
 	}
-	$$ = cb_build_converting ($2, $4, $5);
   }
 ;
 

@@ -1392,16 +1392,18 @@ repeat:
 #ifdef	I18N_UTF8
 		if (c == 'C' || c == 'D') {
 			size += n;
-		} else if (c == 'N'
-		      || (category == PIC_NATIONAL_EDITED && c == '0' && flg == 1)
-		      || (category == PIC_NATIONAL_EDITED && c == 'B' && flg == 1)
-		      || (category == PIC_NATIONAL_EDITED && c == '/' && flg == 1)) {
-			/* I18N_UTF8: 3bytes for BMP. */
-			size += n * 2;
+		} else if (c == 'N' ||
+			   (category == PIC_NATIONAL_EDITED && c == '0' && flg == 1) ||
+			   (category == PIC_NATIONAL_EDITED && c == 'B' && flg == 1) ||
+			   (category == PIC_NATIONAL_EDITED && c == '/' && flg == 1)) {
+				/* I18N_UTF8: 3bytes for BMP. */
+				size += n * 2;
 		}
 #else /*!I18N_UTF8*/
-		if (c == 'C' || c == 'D' || c == 'N' || (category == PIC_NATIONAL_EDITED && c == '0' && flg == 1) ||
-		    (category == PIC_NATIONAL_EDITED && c == 'B' && flg == 1) || (category == PIC_NATIONAL_EDITED && c == '/' && flg == 1)) {
+		if (c == 'C' || c == 'D' || c == 'N' ||
+		    (category == PIC_NATIONAL_EDITED && c == '0' && flg == 1) ||
+		    (category == PIC_NATIONAL_EDITED && c == 'B' && flg == 1) ||
+		    (category == PIC_NATIONAL_EDITED && c == '/' && flg == 1)) {
 			size += n;
 		}
 #endif /*I18N_UTF8*/
@@ -2571,7 +2573,7 @@ cb_get_hexword (char *name)
 	int		iDouWord;
 
 	iDouWord = 0;
-	c = name;
+	c = (unsigned char *)name;
 	memset (pTmp, 0, sizeof (pTmp));
 	i = strlen (name);
 	if (i > 100) {

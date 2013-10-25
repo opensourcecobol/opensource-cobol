@@ -70,9 +70,7 @@ cb_get_jisstring (char *name)
 {
 	int		i, j;
 	char		pTmp[COB_NORMAL_BUFF], str[2];
-	unsigned char	*c;
 
-	c = name;
 	memset (pTmp, 0, sizeof (pTmp));
 	i = strlen (name);
 	for (j = 0; j < i/2; j++) {
@@ -83,12 +81,13 @@ cb_get_jisstring (char *name)
 }
 
 char *
-cb_get_jisword (char *name)
+cb_get_jisword (const char *name)
 {
 	int	i, k;
 	char	pTmp[COB_NORMAL_BUFF];
 	char	pTmp1[COB_NORMAL_BUFF];
-	char	*c, *cs, *ce, *ctmp;
+	const char	*c;
+	char	*cs, *ce, *ctmp;
 
 	c = name;
 	memset (pTmp, 0, sizeof (pTmp));

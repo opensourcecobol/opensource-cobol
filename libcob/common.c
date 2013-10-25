@@ -684,12 +684,12 @@ cob_cmp_simple_str (cob_field *f1, cob_field *f2)
 		     COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_EDITED ||
 		     COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_ALL)) {
 			if (f1->size > f2->size) {
-				ret1 = common_hankaku_cmpc (f1->data + min, COB_SJSPC, f1->size - min);
+				ret1 = common_hankaku_cmpc (f1->data + min, (unsigned char *)COB_SJSPC, f1->size - min);
 				if (ret1 != 0) {
 					ret2 = common_cmpc (f1->data + min,' ',  f1->size - min);
 				}
 			} else if (f1->size < f2->size) {
-				ret1 = -common_hankaku_cmpc (f2->data + min, COB_SJSPC, f2->size - min);
+				ret1 = -common_hankaku_cmpc (f2->data + min, (unsigned char *)COB_SJSPC, f2->size - min);
 				if (ret1 != 0) {
 					ret2 = common_cmpc (f2->data + min,' ', f2->size - min);
 				}
@@ -698,12 +698,12 @@ cob_cmp_simple_str (cob_field *f1, cob_field *f2)
 			if (f1->size > f2->size) {
 				ret1 = common_cmpc (f1->data + min, ' ', f1->size - min);
 				if (ret1 != 0) {
-					ret2 = common_hankaku_cmpc (f1->data + min, COB_SJSPC, f1->size - min);
+					ret2 = common_hankaku_cmpc (f1->data + min, (unsigned char *)COB_SJSPC, f1->size - min);
 				}
 			} else if (f1->size < f2->size) {
 				ret1 = -common_cmpc (f2->data + min, ' ', f2->size - min);
 				if (ret1 != 0) {
-					ret2 = common_hankaku_cmpc (f2->data + min, COB_SJSPC, f2->size - min);
+					ret2 = common_hankaku_cmpc (f2->data + min, (unsigned char *)COB_SJSPC, f2->size - min);
 				}
 			}
 		}
@@ -845,7 +845,7 @@ cob_memcpy (cob_field *dst, unsigned char *src, const int size)
 	cob_move (&temp, dst);
 }
 
-void
+static void
 cob_hankaku_memcpy (cob_field *dst, unsigned char *src, const int size)
 {
 	cob_field	temp;
@@ -1504,7 +1504,7 @@ cob_check_subscript (const int i, const int min, const int max, const char *name
 }
 
 int
-cob_check_env (char *name, char *value)
+cob_check_env (const char *name, const char *value)
 {
 	char *s;
 	if (name == NULL || value == NULL) {

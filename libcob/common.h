@@ -395,7 +395,7 @@ extern void cob_check_odo			(const int, const int,
 extern void cob_check_subscript			(const int, const int,
 						 const int, const char *);
 extern void cob_check_ref_mod_national		(int, int, int, const char *);
-extern int  cob_check_env			(char *, char *);
+extern int  cob_check_env			(const char *, const char *);
 extern void cob_check_ref_mod			(const int, const int,
 						 const int, const char *);
 

@@ -1260,6 +1260,8 @@ extern void		level_except_error (cb_tree x, const char *clause);
 struct cb_literal	*build_literal (enum cb_category category,
 					const unsigned char *data, size_t size);
 
+extern char		*cb_get_jisword (const char *name);
+
 /* field.c */
 extern size_t		cb_needs_01;
 extern int		cb_get_level (cb_tree x);
@@ -1274,7 +1276,6 @@ extern struct cb_field	*cb_validate_78_item (struct cb_field *p);
 extern void		cb_clear_real_field (void);
 
 /* typeck.c */
-extern char		*cb_get_jisword (char *name);
 extern cb_tree		cb_check_numeric_value (cb_tree x);
 
 extern void		cb_build_registers (void);

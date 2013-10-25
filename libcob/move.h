@@ -28,5 +28,8 @@ extern void		cob_hankaku_move	(cob_field *, cob_field *);
 extern void		cob_set_int	(cob_field *, int);
 extern int		cob_get_int	(cob_field *);
 
+#ifndef	I18N_UTF8
+extern int		cob_la_anstojis (int);
+#endif /*I18N_UTF8*/
 extern int		cob_la_memset	(cob_field *, int);
 #endif /* COB_MOVE_H */

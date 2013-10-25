@@ -1299,7 +1299,7 @@ cob_move_all (cob_field *src, cob_field *dst)
 	     COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL_EDITED)) {
 		pTmp = judge_hankakujpn_exist (src, dst, &size);
 		if (pTmp != NULL) {
-			tmpSrc.data = pTmp;
+			tmpSrc.data = (unsigned char *)pTmp;
 			tmpSrc.size = size;
 		} else {
 			tmpSrc.size = 0;
@@ -1385,7 +1385,7 @@ cob_move (cob_field *src, cob_field *dst)
 		     COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL_EDITED)) {
 			pTmp = judge_hankakujpn_exist (src1, dst, &size);
 			if (pTmp != NULL) {
-				src1->data = pTmp;
+				src1->data = (unsigned char *)pTmp;
 				src1->size = size;
 			}
 			if (src1->size == 0) {
@@ -1969,5 +1969,6 @@ cob_la_memset (cob_field *f, int n)
 	for (i = 0; i < size; i++) {
 		memcpy (&data[i*2], buff, 2);
 	}
+	return n;
 }
 #endif /*I18N_UTF8*/

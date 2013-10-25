@@ -159,10 +159,16 @@ extern size_t			cobc_check_valid_name (char *name);
 #  define COB_U8BYTE_N(c)	((c)>>6 == 2)
 #endif /*I18N_UTF8*/
 
+#ifdef	I18N_UTF8
 extern const unsigned char	*utf8_ext_pick (const unsigned char *);
 extern size_t			utf8_strlen (const unsigned char* p);
 extern int			utf8_casecmp (const char* s1, const char* s2);
 extern int	utf8_national_length(const unsigned char* str, int len);
+#else /*!I18N_UTF8*/
+extern const unsigned char	*sjis_pick (const unsigned char *);
+extern size_t			sjis_strlen (const unsigned char *);
+extern int			sjis_casecmp (const char *, const char *);
+#endif /*I18N_UTF8*/
 
 #ifdef	I18N_UTF8
 #  define cobc_strlen  utf8_strlen

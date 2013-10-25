@@ -505,7 +505,9 @@ H\"[^\"\n]*\" {
 
 	/* Check word length */
 	wordlen = strlen (yytext);
-	if (cobc_strlen ((unsigned char*)yytext) > 31) {
+
+	if (cobc_strlen (yytext) > 31) {
+
 		cb_error (_("User defined name must be less than 32 characters"));
 	}
         

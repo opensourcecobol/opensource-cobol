@@ -2504,7 +2504,7 @@ cb_chk_alpha_cond (cb_tree x)
 	return 1;
 }
 
-int
+static int
 national_kanji_comparison (cb_tree x, cb_tree y)
 {
 	if (((CB_LITERAL_P (x) &&

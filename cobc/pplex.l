@@ -72,7 +72,9 @@ static struct copy_info {
 static int ppinput (char *buf, int max_size);
 static void ppecho (const char *text);
 
+#ifdef	I18N_UTF8
 static void convert_ucs_hyphen_minus (char *namebuf);
+#endif /*I18N_UTF8*/
 
 static void switch_to_buffer (const int lineno, const char *filename,
 			       YY_BUFFER_STATE buffer);
@@ -528,10 +530,8 @@ ppinput (char *buff, int max_size)
 	int	i;
 	int	n;
 	int	coln;
-	char *str1 =NULL,*str2 = NULL;
-	
-	int j,k;
-	
+	char	*str1 = NULL;
+	char	*str2 = NULL;
 
 start:
 	/* read a line */
