@@ -308,11 +308,7 @@ AT_DATA([prog.cob], [
            STOP RUN.
 ])
 
-AT_CHECK([${COMPILE} -x prog.cob], [0], [],
-[prog.cob:12: Warning: F0 and '△' and FF have not same national type!
-prog.cob:12: Warning: F1 and '△' and FF have not same national type!
-prog.cob:12: Warning: F2 and '△' and FF have not same national type!
-])
+AT_CHECK([${COMPILE} -x prog.cob], [0])
 AT_CHECK([./prog], [0], [私の名前])
 
 AT_CLEANUP

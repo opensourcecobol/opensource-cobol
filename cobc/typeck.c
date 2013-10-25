@@ -6453,10 +6453,12 @@ cb_validate_string (cb_tree items, cb_tree into)
 						break;
 					}
 					break;
+#ifndef	I18N_UTF8
 				case CB_CATEGORY_NATIONAL:
 				case CB_CATEGORY_NATIONAL_EDITED:
 					cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
 					break;
+#endif /*I18N_UTF8*/
 				default:
 					break;
 				}
@@ -6475,10 +6477,12 @@ cb_validate_string (cb_tree items, cb_tree into)
 						break;
 					}
 					break;
+#ifndef	I18N_UTF8
 				case CB_CATEGORY_NATIONAL:
 				case CB_CATEGORY_NATIONAL_EDITED:
 					cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
 					break;
+#endif /*I18N_UTF8*/
 				default:
 					break;
 				}
@@ -6522,7 +6526,10 @@ cb_validate_string (cb_tree items, cb_tree into)
 								break;
 							}
 						default:
+#ifndef	I18N_UTF8
 							cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
+#endif /*I18N_UTF8*/
+							break;
 						}
 					}
 					break;
@@ -6540,6 +6547,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 						break;
 					}
 				default:
+#ifndef	I18N_UTF8
 					if (CB_PAIR_X (CB_VALUE (item_purpose)) == cb_zero ||
 					    CB_PAIR_X (CB_VALUE (item_purpose)) == cb_space ||
 					    CB_PAIR_X (CB_VALUE (item_purpose)) == cb_quote ||
@@ -6549,6 +6557,8 @@ cb_validate_string (cb_tree items, cb_tree into)
 					} else {
 						cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
 					}
+#endif /*I18N_UTF8*/
+					break;
 				}
 				break;
 			case CB_CATEGORY_ALPHABETIC:
@@ -6583,7 +6593,10 @@ cb_validate_string (cb_tree items, cb_tree into)
 							}
 							break;
 						default:
+#ifndef	I18N_UTF8
 							cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
+#endif /*I18N_UTF8*/
+							break;
 						}
 					}
 					break;
@@ -6607,10 +6620,12 @@ cb_validate_string (cb_tree items, cb_tree into)
 							break;
 						}
 						switch (CB_TREE_CATEGORY (CB_PAIR_X (CB_VALUE (item_purpose)))) {
+#ifndef	I18N_UTF8
 						case CB_CATEGORY_NATIONAL:
 						case CB_CATEGORY_NATIONAL_EDITED:
 							cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
 							break;
+#endif /*I18N_UTF8*/
 						case CB_CATEGORY_NUMERIC:
 						case CB_CATEGORY_NUMERIC_EDITED:
 							switch (CB_FIELD (cb_ref (CB_PAIR_X (CB_VALUE (item_purpose))))->usage) {
@@ -6631,7 +6646,10 @@ cb_validate_string (cb_tree items, cb_tree into)
 					}
 					break;
 				default:
+#ifndef	I18N_UTF8
 					cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
+#endif /*I18N_UTF8*/
+					break;
 				}
 				break;
 			default:
