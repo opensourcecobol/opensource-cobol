@@ -64,6 +64,7 @@ static struct int_node {
 
 static char	*treenamebuff = NULL;
 static int	filler_id = 1;
+static int	anonymous_id = 1;
 
 /* Global variables */
 
@@ -1737,6 +1738,30 @@ finalize_file (struct cb_file *f, struct cb_field *records)
 							    strlen (f->name));
 	}
 
+	/* compute composite key total length */
+	if (f->alt_key_list != NULL) {
+		int cb;
+		char pic[32]; 
+		struct cb_alt_key *alt_key;
+		struct cb_key_component *key_component;
+		struct cb_field *composite_key;
+		for (alt_key = f->alt_key_list; alt_key != NULL; alt_key = alt_key->next) {
+			if (alt_key->component_list != NULL) {
+				cb = 0;
+				for (key_component = alt_key->component_list; key_component != NULL; key_component = key_component->next) {
+					/* resolution of references in key components must be done here */
+					cb += cb_field_size (cb_ref (key_component->component));
+				}
+				composite_key = (struct cb_field *)cb_ref (alt_key->key);
+				memset (pic, 0, sizeof (pic));
+				sprintf (pic, "X(%d)", cb);
+				if (composite_key->pic != NULL) free (composite_key->pic);
+				composite_key->pic = CB_PICTURE (cb_build_picture (pic));
+				cb_validate_field (composite_key);
+			}
+		}
+	} 
+
 	/* check the record size if it is limited */
 	for (p = records; p; p = p->sister) {
 		if (f->record_min > 0) {
@@ -1856,6 +1881,18 @@ cb_build_filler (void)
 	char		name[16];
 
 	sprintf (name, "WORK$%d", filler_id++);
+	x = cb_build_reference (name);
+	x->source_line = cb_source_line;
+	return x;
+}
+
+cb_tree
+cb_build_anonymous (void)
+{
+	cb_tree		x;
+	char		name[16];
+
+	sprintf (name, "ANON$%d", anonymous_id++);
 	x = cb_build_reference (name);
 	x->source_line = cb_source_line;
 	return x;

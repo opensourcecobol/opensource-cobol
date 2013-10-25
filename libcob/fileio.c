@@ -283,6 +283,19 @@ static int relative_write (cob_file *f, const int opt);
 static int relative_rewrite (cob_file *f, const int opt);
 static int relative_delete (cob_file *f);
 
+struct indexfile;
+
+static int extract_key (
+	  struct indexfile *fh
+	, int ix_cob_key
+	, const void *pb_rec
+	, void *ret_key_value);
+static int keycmp (
+	  struct indexfile *fh
+	, int ix_cob_key
+	, const void *pb_rec
+	, const void *pb_key);
+
 #if	defined(WITH_DB) || defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) || defined(WITH_INDEX_EXTFH)
 
 #ifdef	WITH_DB
@@ -683,7 +696,9 @@ restorefileposition (cob_file *f)
 			}
 		}
 	} else if (fh->readdone && fh->curkey == 0) {
-		memcpy (fh->recwrk + fh->key[0].k_start, fh->savekey, fh->key[0].k_leng);
+		/* Original BCS/JR patch: extract_key(fh, 0, fh->recwrk, fh->savekey); */
+		memcpy (fh->recwrk + fh->key[fh->curkey].k_start, fh->savekey,
+			fh->key[fh->curkey].k_leng);
 		isstart (fh->isfd, &fh->key[fh->curkey], fh->key[fh->curkey].k_leng, fh->recwrk, ISGTEQ);
 	}
 }
@@ -1806,6 +1821,7 @@ indexed_open (cob_file *f, char *filename, const int mode, const int sharing)
 	int			dobld = 0;
 	int			isfd = -1;
 	int			k;
+	int			kp;
 	struct dictinfo		di;			/* defined in (c|d|vb)isam.h */
 
 #if defined(ISVARLEN)
@@ -1873,13 +1889,23 @@ indexed_open (cob_file *f, char *filename, const int mode, const int sharing)
 	for (k = 0; k < f->nkeys; k++) {
 		memset (&fh->key[k], 0, sizeof(struct keydesc));
 		fh->key[k].k_flags = f->keys[k].flag ? ISDUPS : ISNODUPS;
-		fh->key[k].k_nparts = 1;		/* Single field key */
-		fh->key[k].k_start = f->keys[k].offset;
-		fh->key[k].k_leng = f->keys[k].field->size;
-		if (fh->lenkey < fh->key[k].k_leng) {
+		/* additional change to BCS/JR patch: put off the simple-key assamption. */
+		if (!f->keys[k].count_components) {
+			fh->key[k].k_nparts = 1;
+			fh->key[k].k_start = f->keys[k].offset;
+			fh->key[k].k_leng = f->keys[k].field->size;
+			fh->key[k].k_type = CHARTYPE;
+		}else{
+			fh->key[k].k_nparts = f->keys[k].count_components;
+			for (kp = 0; kp < f->keys[k].count_components; kp++) {
+				fh->key[k].k_part[kp].kp_start = f->keys[k].component[kp].rb;
+				fh->key[k].k_part[kp].kp_leng  = f->keys[k].component[kp].field->size;
+				fh->key[k].k_part[kp].kp_type  = CHARTYPE;
+			}
+		}
+		if (fh->lenkey < f->keys[k].field->size) {
 			fh->lenkey = fh->key[k].k_leng;
 		}
-		fh->key[k].k_type = CHARTYPE;
 	}
 	iserrno = 0;
 	fh->lmode = 0;
@@ -1936,9 +1962,10 @@ dobuild:
 						ret = COB_STATUS_39_CONFLICT_ATTRIBUTE;
 					}
 				}
-				if (fh->key[k].k_nparts != 1
-				||  fh->key[k].k_start != f->keys[k].offset
-				||  fh->key[k].k_leng != f->keys[k].field->size) {
+				/* additional change to BCS/JR patch: put off the simple-key assamption. */
+				if (fh->key[k].k_nparts == 1
+				&& (fh->key[k].k_start != f->keys[k].offset
+				||  fh->key[k].k_leng != f->keys[k].field->size)) {
 					ret = COB_STATUS_39_CONFLICT_ATTRIBUTE;
 				}
 			}
@@ -2487,7 +2514,7 @@ indexed_start (cob_file *f, const int cond, cob_field *key)
 	} else {
 		if (ret == COB_STATUS_00_SUCCESS) {
 			fh->startcond = cond;
-			memcpy (fh->savekey, f->record->data + fh->key[k].k_start, fh->key[k].k_leng);
+			extract_key (fh, k, f->record->data, fh->savekey);
 			fh->curkey = k;
 			f->flag_end_of_file = 0;
 			f->flag_begin_of_file = 0;
@@ -2600,7 +2627,7 @@ indexed_read (cob_file *f, cob_field *key, const int read_opts)
 		fh->readdone = 1;
 		f->flag_end_of_file = 0;
 		f->flag_begin_of_file = 0;
-		memcpy (fh->savekey, f->record->data + fh->key[0].k_start, fh->key[0].k_leng);
+		extract_key (fh, 0, f->record->data, fh->savekey);
 		fh->recnum = isrecnum;
 #if defined(ISVARLEN)
 		if (f->record_min != f->record_max) {
@@ -2851,7 +2878,7 @@ indexed_read_next (cob_file *f, const int read_opts)
 		fh->readdone = 1;
 		f->flag_end_of_file = 0;
 		f->flag_begin_of_file = 0;
-		memcpy (fh->savekey, f->record->data + fh->key[0].k_start, fh->key[0].k_leng);
+		extract_key (fh, 0, f->record->data, fh->savekey);
 		fh->recnum = isrecnum;
 #if defined(ISVARLEN)
 		if (f->record_min != f->record_max) {
@@ -3375,7 +3402,7 @@ indexed_write (cob_file *f, const int opt)
 			}
 		}
 	} else {
-		memcpy (fh->savekey, f->record->data + fh->key[0].k_start, fh->key[0].k_leng);
+		extract_key (fh, 0, f->record->data, fh->savekey);
 	}
 	return ret;
 #else	/* WITH_INDEX_EXTFH */
@@ -3584,7 +3611,7 @@ indexed_rewrite (cob_file *f, const int opt)
 	}
 
 	if (f->access_mode == COB_ACCESS_SEQUENTIAL
-	&& memcmp (fh->savekey, f->record->data + fh->key[0].k_start, fh->key[0].k_leng) != 0) {
+	&& keycmp (fh, 0, f->record->data, fh->savekey) != 0) {
 		return COB_STATUS_21_KEY_INVALID;
 	}
 	if (fh->curkey >= 0) {		/* Index is active */
@@ -5982,4 +6009,54 @@ cob_file_return (cob_file *f)
 		RETURN_STATUS (COB_STATUS_30_PERMANENT_ERROR);
 		break;
 	}
+}
+
+/*
+** Using the offset:length of the (component parts) of the ix_cob_key key,
+** extract the key-value from the given data record.
+*/
+
+static int extract_key (
+	  struct indexfile *fh
+	, int ix_cob_key	/* ordinal of key to use */
+	, const void *pb_rec	/* pointer to data-record */
+	, void *ret_key_value)	/* the composited key-value */
+{
+	int ix;
+	struct keydesc *kd_cob = fh->key + ix_cob_key;
+	char *p_val = ret_key_value;
+	for (ix = 0; ix < kd_cob->k_nparts; ++ix) {
+		memcpy (p_val
+			, pb_rec + kd_cob->k_part[ix].kp_start
+			, kd_cob->k_part[ix].kp_leng);
+		p_val += kd_cob->k_part[ix].kp_leng;
+	}
+	return(0);
+}
+
+/*
+** Using the offset:length of the (component parts) of the ix_cob_key key,
+** extract the key-value from the given data record and compare it
+** to the given key-value.
+** Returns: -1 ... extracted key is less than given key.
+**           0 ... extracted key is equal to given key.
+**          +0 ... extracted key is greater than given key.
+**
+** DEVELOPER TODO:
+** Determine max possible size of a key and use local variable instead of malloc() free()
+*/
+
+static int keycmp (
+	  struct indexfile *fh
+	, int ix_cob_key	/* ordinal of key to use */
+	, const void *pb_rec	/* pointer to data-record */
+	, const void *pb_key)	/* the composited key-value to be compared */
+{
+	char *pb_key2;
+	int cmp;
+	pb_key2 = malloc (fh->key[ix_cob_key].k_len);
+	extract_key (fh, ix_cob_key, pb_rec, pb_key2);
+	cmp = memcmp (pb_key2, pb_key, fh->key[fh->curkey].k_len);
+	free (pb_key2);
+	return (cmp);
 }

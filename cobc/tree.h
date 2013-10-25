@@ -595,11 +595,17 @@ struct handler_struct {
  * File
  */
 
+struct cb_key_component {
+	struct cb_key_component	*next;
+	cb_tree			component;
+};
+
 struct cb_alt_key {
 	struct cb_alt_key	*next;
 	cb_tree			key;
 	int			duplicates;
 	int			offset;
+	struct cb_key_component	*component_list;
 };
 
 struct cb_file {
@@ -679,6 +685,7 @@ struct cb_reference {
 
 extern char		*cb_get_hexword (char *name);
 extern cb_tree		cb_build_filler (void);
+extern cb_tree		cb_build_anonymous (void);
 extern cb_tree		cb_build_reference (const char *name);
 extern cb_tree		cb_build_field_reference (struct cb_field *f, cb_tree ref);
 extern const char	*cb_define (cb_tree name, cb_tree val);

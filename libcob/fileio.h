@@ -162,11 +162,20 @@
 
 /* File connector */
 
+#define COB_MAX_KEY_COMPONENTS	8	/* synch with disam.h :: NPARTS */
+
+struct key_component {
+	cob_field	*field;	/* split-key field */
+	size_t		rb;	/* relative-byte of field in record */
+};
+
 struct cob_file_key {
 	cob_field	*field;	/* key field */
 	int		flag;	/* WITH DUPLICATES (for RELATIVE/INDEXED) */
 				/* ASCENDING/DESCENDING (for SORT) */
 	size_t		offset;	/* Offset of field */
+	int			count_components;			/* 0::simple-key  1..n::split-key */
+	struct key_component	component[COB_MAX_KEY_COMPONENTS];	/* key-components iff split-key */
 };
 
 struct linage_struct {

@@ -257,7 +257,8 @@ i18n_sjis_DEPENDENCIES = \
 	i18n_sjis.src/pic-n.at
 
 jp_compat_DEPENDENCIES = \
-	jp-compat.at
+	jp-compat.at \
+	jp-compat.src/split-keys.at
 
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(syntax_DEPENDENCIES) \
@@ -519,7 +520,7 @@ check-TESTS: $(TESTS)
 	else :; fi
 
 distdir: $(DISTFILES)
-	$(mkdir_p) $(distdir)/$(srcdir) $(distdir)/data-rep.src $(distdir)/i18n_sjis.src $(distdir)/i18n_utf8.src $(distdir)/run.src $(distdir)/syntax.src
+	$(mkdir_p) $(distdir)/$(srcdir) $(distdir)/data-rep.src $(distdir)/i18n_sjis.src $(distdir)/i18n_utf8.src $(distdir)/jp-compat.src $(distdir)/run.src $(distdir)/syntax.src
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

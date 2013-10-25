@@ -3355,6 +3355,8 @@ static void
 output_file_initialization (struct cb_file *f)
 {
 	int			nkeys = 1;
+	int			i_keycomp;
+	struct cb_key_component	*key_component;
 	struct cb_alt_key	*l;
 
 	if (f->external) {
@@ -3408,9 +3410,25 @@ output_file_initialization (struct cb_file *f)
 			output_prefix ();
 			output ("(%s%s + %d)->flag = %d;\n", CB_PREFIX_KEYS, f->cname,
 				nkeys, l->duplicates);
+			/* BCS/JR PATCH split-keys May 2012: */
 			output_prefix ();
 			output ("(%s%s + %d)->offset = %d;\n", CB_PREFIX_KEYS, f->cname,
-				nkeys, cb_field (l->key)->offset);
+				nkeys, (l->component_list == NULL) ? cb_field (l->key)->offset : -1);
+			if (l->component_list != NULL) {
+				for (key_component = l->component_list, i_keycomp = 0;
+				     key_component != NULL;
+				     key_component = key_component->next, ++i_keycomp) {
+					output_prefix ();
+					output ("(%s%s + %d)->component[%d].field = ", CB_PREFIX_KEYS, f->cname, nkeys, i_keycomp);
+					output_param (key_component->component, -1);
+					output (";\n");
+					output_prefix ();
+					output ("(%s%s + %d)->component[%d].rb = %d;\n"
+						, CB_PREFIX_KEYS, f->cname, nkeys, i_keycomp, cb_field (key_component->component)->offset);
+				}
+				output_prefix ();
+				output ("(%s%s + %d)->count_components = %d;\n", CB_PREFIX_KEYS, f->cname, nkeys, i_keycomp);
+			}
 			nkeys++;
 		}
 	}

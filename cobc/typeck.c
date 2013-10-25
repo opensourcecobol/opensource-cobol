@@ -5653,12 +5653,42 @@ cb_build_perform_exit (struct cb_label *label)
  * READ statement
  */
 
+static cb_tree lookup_compound_key (struct cb_file *f, struct cb_list *keys)
+{
+	struct cb_alt_key	*paltkey;
+	struct cb_list		*plskey;
+	struct cb_key_component	*pkcomp;
+	struct cb_field         *pfld;
+	struct cb_reference	*pref;
+	cb_tree key = NULL;
+
+	for (paltkey = f->alt_key_list; paltkey; paltkey = paltkey->next) {
+		plskey = keys;
+		pkcomp = paltkey->component_list;
+		while (plskey && pkcomp) {
+			pfld = CB_FIELD (CB_REFERENCE (plskey->value)->value);
+			pref = CB_REFERENCE (pkcomp->component);
+			if (pfld != CB_FIELD (pref->value)) {
+				break;
+			}
+			plskey = (plskey->chain) ? CB_LIST (plskey->chain): NULL;
+			pkcomp = pkcomp->next;
+		}
+		if (!plskey && !pkcomp) {
+			key = paltkey->key;
+			break;
+		}
+	}
+	return key;
+}
+
 void
-cb_emit_read (cb_tree ref, cb_tree next, cb_tree into, cb_tree key, cb_tree lock_opts)
+cb_emit_read (cb_tree ref, cb_tree next, cb_tree into, cb_tree keys, cb_tree lock_opts)
 {
 	int	read_opts = 0;
 	cb_tree	file;
 	cb_tree	rec;
+	cb_tree key = NULL;
 
 	if (lock_opts == cb_int1) {
 		read_opts = COB_READ_LOCK;
@@ -5700,6 +5730,14 @@ cb_emit_read (cb_tree ref, cb_tree next, cb_tree into, cb_tree key, cb_tree lock
 			 CB_FILE(file)->file_status,
 			 cb_int (read_opts)));
 	} else {
+		if (keys) {
+			if (CB_LIST (keys)->chain != NULL) {
+				key = lookup_compound_key (CB_FILE (file),
+							   CB_LIST (keys));
+			} else {
+				key = CB_LIST (keys)->value;
+			}
+		} 
 		/* READ */
 		cb_emit (cb_build_funcall_4 ("cob_read",
 			 file, key ? key : CB_FILE (file)->key,

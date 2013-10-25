@@ -72,7 +72,8 @@ i18n_sjis_DEPENDENCIES = \
 	i18n_sjis.src/pic-n.at
 
 jp_compat_DEPENDENCIES = \
-	jp-compat.at
+	jp-compat.at \
+	jp-compat.src/split-keys.at
 
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(syntax_DEPENDENCIES) \
