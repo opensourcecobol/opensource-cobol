@@ -612,10 +612,14 @@ cob_unstring_init (cob_field *src, cob_field *ptr, const size_t num_dlm)
 		}
 	}
 
+#ifdef	I18N_UTF8
+	/* I18N_UTF8: No offset arrangement needed also in NATIONAL. */
+#else /*!I18N_UTF8*/
 	if (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL ||
 	    COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED) {
 		unstring_offset *= 2;
 	}
+#endif /*I18N_UTF8*/
 }
 
 void
@@ -699,10 +703,14 @@ cob_unstring_into (cob_field *dst, cob_field *dlm, cob_field *cnt)
 					break;
 				}
 			}
+#ifdef	I18N_UTF8
+			/* I18N_UTF8: No offset arrangement needed also in NATIONAL. */
+#else /*!I18N_UTF8*/
 			if (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL ||
 			    COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED) {
 				p++;
 			}
+#endif /*I18N_UTF8*/
 			if (brkpt) {
 				break;
 			}
@@ -727,10 +735,14 @@ cob_unstring_into (cob_field *dst, cob_field *dlm, cob_field *cnt)
 		}
 	}
 
+#ifdef	I18N_UTF8
+	/* I18N_UTF8: No offset arrangement needed also in NATIONAL. */
+#else /*!I18N_UTF8*/
 	if (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL ||
 	    COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED) {
 		match_size /= 2;
 	}
+#endif /*I18N_UTF8*/
 
 	if (cnt) {
 		cob_set_int (cnt, match_size);
@@ -750,10 +762,14 @@ cob_unstring_finish (void)
 		cob_set_exception (COB_EC_OVERFLOW_UNSTRING);
 	}
 
+#ifdef	I18N_UTF8
+	/* I18N_UTF8: No offset arrangement needed also in NATIONAL. */
+#else /*!I18N_UTF8*/
 	if (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL ||
 	    COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED) {
 		unstring_offset /= 2;
 	}
+#endif /*I18N_UTF8*/
 
 	if (unstring_ptr) {
 		cob_set_int (unstring_ptr, unstring_offset + 1);
