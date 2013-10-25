@@ -1,0 +1,14 @@
+AT_SETUP([PROGRAM-STATUS])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE        DIVISION.
+           MOVE 99 TO PROGRAM-STATUS.
+           EXIT PROGRAM.
+])
+
+AT_CHECK([${COMPILE_JP_COMPAT} -o prog prog.cob])
+AT_CHECK([./prog], [99])
+
+AT_CLEANUP

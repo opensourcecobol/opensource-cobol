@@ -40,6 +40,7 @@ CB_CONFIG_BOOLEAN (cb_c89_identifier_length_check, "c89-identifier-length-check"
 CB_CONFIG_BOOLEAN (cb_allow_end_program_with_wrong_name, "allow-end-program-with-wrong-name")
 CB_CONFIG_BOOLEAN (cb_allow_missing_also_clause_in_evaluate, "allow-missing-also-clause-in-evaluate")
 CB_CONFIG_BOOLEAN (cb_allow_empty_imperative_statement, "allow-empty-imperative-statement")
+CB_CONFIG_BOOLEAN (cb_enable_program_status_register, "enable-program-status-register")
 CB_CONFIG_SUPPORT (cb_author_paragraph, "author-paragraph")
 CB_CONFIG_SUPPORT (cb_memory_size_clause, "memory-size-clause")
 CB_CONFIG_SUPPORT (cb_multiple_file_tape_clause, "multiple-file-tape-clause")

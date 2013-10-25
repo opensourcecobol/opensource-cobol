@@ -618,7 +618,12 @@ ifdef(M4.I18N_UTF8,>>>>>
 		SET_LOCATION (yylval);
 		return PROGRAM_NAME;
 	}
-	yylval = cb_build_reference (yytext);
+	/* Check aliases before building reference */
+	if ((cb_enable_program_status_register) && (cobc_casecmp (yytext, "PROGRAM-STATUS") == 0)) {
+		yylval = cb_build_reference ("RETURN-CODE");
+	} else {
+		yylval = cb_build_reference (yytext);
+	}
 	SET_LOCATION (yylval);
 
 	/*
