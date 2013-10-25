@@ -19,6 +19,7 @@
  */
 
 CB_CONFIG_STRING  (cb_config_name, "name")
+CB_CONFIG_CHAR  (cb_default_currency_symbol, "default-currency-symbol")
 CB_CONFIG_INT (cb_tab_width, "tab-width")
 CB_CONFIG_INT (cb_text_column, "text-column")
 CB_CONFIG_INT (cb_max_alpha_character_data_size, "max-alpha-character-data-size")

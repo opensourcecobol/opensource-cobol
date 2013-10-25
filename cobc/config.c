@@ -31,11 +31,13 @@
 #undef CB_CONFIG_ANY
 #undef CB_CONFIG_INT
 #undef CB_CONFIG_STRING
+#undef CB_CONFIG_CHAR
 #undef CB_CONFIG_BOOLEAN
 #undef CB_CONFIG_SUPPORT
 #define CB_CONFIG_ANY(type,var,name)	type var;
 #define CB_CONFIG_INT(var,name)		int var;
 #define CB_CONFIG_STRING(var,name)	const char *var;
+#define CB_CONFIG_CHAR(var,name)	char var;
 #define CB_CONFIG_BOOLEAN(var,name)	int var;
 #define CB_CONFIG_SUPPORT(var,name)	enum cb_support var;
 #include "config.def"
@@ -44,6 +46,7 @@ enum cb_config_type {
 	ANY,
 	INT,			/* integer */
 	STRING,			/* "..." */
+	CHAR,			/* single character */
 	BOOLEAN,		/* 'yes', 'no' */
 	SUPPORT			/* 'ok', 'archaic', 'obsolete',
 				   'skip', 'ignore', 'unconformable' */
@@ -62,11 +65,13 @@ static struct {
 #undef CB_CONFIG_ANY
 #undef CB_CONFIG_INT
 #undef CB_CONFIG_STRING
+#undef CB_CONFIG_CHAR
 #undef CB_CONFIG_BOOLEAN
 #undef CB_CONFIG_SUPPORT
 #define CB_CONFIG_ANY(type,var,name)	{ANY, name, &var, NULL},
 #define CB_CONFIG_INT(var,name)		{INT, name, &var, NULL},
 #define CB_CONFIG_STRING(var,name)	{STRING, name, &var, NULL},
+#define CB_CONFIG_CHAR(var,name)	{CHAR, name, &var, NULL},
 #define CB_CONFIG_BOOLEAN(var,name)	{BOOLEAN, name, &var, NULL},
 #define CB_CONFIG_SUPPORT(var,name)	{SUPPORT, name, &var, NULL},
 #include "config.def"
@@ -268,6 +273,14 @@ cb_load_conf (const char *fname, const int check_nodef, const int prefix_dir)
 				norestab = noresptr;
 			} else {
 				*((const char **)var) = val;
+			}
+			break;
+		case CHAR:
+			if (1 != strnlen (val, 2)) {
+				invalid_value (fname, line, name);
+				ret = -1;
+			} else {
+				*((char *)var) = *val;
 			}
 			break;
 		case BOOLEAN:

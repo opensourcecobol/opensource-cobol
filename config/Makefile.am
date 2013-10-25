@@ -8,4 +8,11 @@ configdir = @COB_CONFIG_DIR@
 config_DATA = default.conf cobol85.conf cobol2002.conf \
 	mf.conf ibm.conf mvs.conf bs2000.conf
 
-EXTRA_DIST = $(config_DATA)
+EXTRA_DIST = $(config_DATA) \
+	default-en.conf \
+	default-jp.conf \
+	jp-compat.conf \
+	boundary-limit.conf
+
+install-data-hook:
+	$(configDATA_INSTALL) 'default-jp.conf' '$(DESTDIR)$(configdir)/default.conf'

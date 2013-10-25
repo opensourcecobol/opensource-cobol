@@ -237,6 +237,7 @@ enum cb_replace_type {
 #define	CB_CONFIG_ANY(type,var,name)	extern type var;
 #define	CB_CONFIG_INT(var,name)		extern int var;
 #define	CB_CONFIG_STRING(var,name)	extern const char *var;
+#define	CB_CONFIG_CHAR(var,name)	extern char var;
 #define	CB_CONFIG_BOOLEAN(var,name)	extern int var;
 #define	CB_CONFIG_SUPPORT(var,name)	extern enum cb_support var;
 #include "config.def"

@@ -193,7 +193,7 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 configdir = @COB_CONFIG_DIR@
-config_DATA = default.conf cobol85.conf cobol2002.conf \
+config_DATA = default.conf default-en.conf default-jp.conf cobol85.conf cobol2002.conf \
 	mf.conf ibm.conf mvs.conf bs2000.conf
 
 EXTRA_DIST = $(config_DATA)
@@ -340,6 +340,8 @@ info: info-am
 info-am:
 
 install-data-am: install-configDATA
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 
 install-exec-am:
 
@@ -370,13 +372,17 @@ uninstall-am: uninstall-configDATA uninstall-info-am
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	distclean distclean-generic distclean-libtool distdir dvi \
 	dvi-am html html-am info info-am install install-am \
-	install-configDATA install-data install-data-am install-exec \
-	install-exec-am install-info install-info-am install-man \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	uninstall uninstall-am uninstall-configDATA uninstall-info-am
+	install-configDATA install-data install-data-am \
+	install-data-hook install-exec install-exec-am install-info \
+	install-info-am install-man install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am uninstall uninstall-am \
+	uninstall-configDATA uninstall-info-am
 
+
+install-data-hook:
+	$(configDATA_INSTALL) 'default-jp.conf' '$(DESTDIR)$(configdir)/default.conf'
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

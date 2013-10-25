@@ -207,7 +207,7 @@ struct cob_module {
 	cob_field			**cob_procedure_parameters;
 	const unsigned char		display_sign;
 	const unsigned char		decimal_point;
-	const unsigned char		currency_symbol;
+	unsigned char			currency_symbol;
 	const unsigned char		numeric_separator;
 	const unsigned char		flag_filename_mapping;
 	const unsigned char		flag_binary_truncate;
