@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <limits.h>
 
 #include "cobc.h"
 #include "tree.h"
@@ -37,6 +38,17 @@
 #define PIC_ALPHANUMERIC_EDITED	(PIC_ALPHANUMERIC | PIC_EDITED)
 #define PIC_NUMERIC_EDITED	(PIC_NUMERIC | PIC_EDITED)
 #define PIC_NATIONAL_EDITED	(PIC_NATIONAL | PIC_EDITED)
+
+/* Local macros */
+
+#define CHARACTER_LENGTH_OVERFLOW	(-1)
+#define INCREASE_CHARACTER_LENGTH(increase) increase_character_length (&character_length, (increase))
+#define CHECK_CHARACTER_LENGTH(limit, msg) \
+	{ \
+		if (character_length == CHARACTER_LENGTH_OVERFLOW || character_length > (limit)) { \
+			cb_error (_(msg), (limit)); \
+		} \
+	}
 
 /* Local variables */
 
@@ -161,6 +173,25 @@ file_error (cb_tree name, const char *clause)
 {
 	cb_error_x (name, _("%s clause is required for file '%s'"), clause,
 		    CB_NAME (name));
+}
+
+static void
+increase_character_length (int *character_length, int increase)
+{
+	unsigned int	remain;
+
+	if (*character_length != CHARACTER_LENGTH_OVERFLOW) {
+		if (increase == CHARACTER_LENGTH_OVERFLOW) {
+			*character_length = CHARACTER_LENGTH_OVERFLOW;
+		} else {
+			remain = INT_MAX - *character_length;
+			if (remain < increase) {
+				*character_length = CHARACTER_LENGTH_OVERFLOW;
+			} else {
+				*character_length += increase;
+			}
+		}
+	}
 }
 
 /*
@@ -1219,15 +1250,16 @@ cb_build_picture (const char *str)
 	size_t			s_char_seen;
 	int			category = 0;
 	int			size = 0;
-	int			allocated = 0;
 	int			digits = 0;
 	int			scale = 0;
 	int			s_count = 0;
 	int			v_count = 0;
-	int			i;
+	int			count_value;
+	int			count_increase;
 	int			n;
 	int			flg = 0;
 	int			character_length = 0;
+	int			remain;
 	unsigned char		c;
 	unsigned char		lastonechar = 0;
 	unsigned char		lasttwochar = 0;
@@ -1256,9 +1288,8 @@ repeat:
 		/* add parenthesized numbers */
 		if (p[1] == '(') {
 			flg = 1;
-			i = 0;
+			count_value = 0;
 			p += 2;
-			allocated = 0;
 			for (; *p == '0'; p++) {
 				;
 			}
@@ -1266,17 +1297,32 @@ repeat:
 				if (!isdigit (*p)) {
 					goto error;
 				} else {
-					allocated++;
-					if (allocated > 9) {
-						goto error;
+					if (count_value > INT_MAX / 10) {
+						count_value = CHARACTER_LENGTH_OVERFLOW;
+					} else {
+						count_value *= 10;
+						count_increase = *p - '0';
+						remain = INT_MAX - count_value;
+						if (remain < count_increase) {
+							count_value = CHARACTER_LENGTH_OVERFLOW;
+						} else {
+							count_value += count_increase;
+						}
 					}
-					i = i * 10 + (*p - '0');
 				}
 			}
-			if (i == 0) {
+			if (count_value == 0) {
 				goto error;
+			} else if (count_value == CHARACTER_LENGTH_OVERFLOW) {
+				n = CHARACTER_LENGTH_OVERFLOW;	
+			} else if (n != CHARACTER_LENGTH_OVERFLOW) {
+				remain = INT_MAX - n;
+				if (remain < (count_value - 1)) {
+					n = CHARACTER_LENGTH_OVERFLOW;
+				} else {
+					n += count_value - 1;
+				}
 			}
-			n += i - 1;
 			goto repeat;
 		}
 
@@ -1287,22 +1333,21 @@ repeat:
 			if (s_char_seen || p_char_seen) {
 				goto error;
 			}
-			character_length += n;
+			INCREASE_CHARACTER_LENGTH (n);
 			break;
 
 		case 'X':
 			if (s_char_seen || p_char_seen) {
 				goto error;
 			}
-			character_length += n;
+			INCREASE_CHARACTER_LENGTH (n);
 			break;
 
 		case '9':
 			digits += n;
-			character_length += n;
+			INCREASE_CHARACTER_LENGTH (n);
 			if (v_count) {
 				scale += n;
-				character_length += n;
 			}
 			break;
 
@@ -1311,7 +1356,7 @@ repeat:
 				goto error;
 			}
 			pic->national = 1;
-			character_length += n;
+			INCREASE_CHARACTER_LENGTH (n);
 			break;
 
 		case 'S':
@@ -1385,7 +1430,7 @@ repeat:
 				v_count++;	/* implicit V */
 			}
 			digits += n;
-			character_length += n;
+			INCREASE_CHARACTER_LENGTH (n);
 			if (v_count) {
 				scale += n;
 			} else {
@@ -1399,7 +1444,7 @@ repeat:
 			if (s_char_seen || p_char_seen) {
 				goto error;
 			}
-			character_length += n;
+			INCREASE_CHARACTER_LENGTH (n);
 			break;
 
 		case '*':
@@ -1411,7 +1456,7 @@ repeat:
 				goto error;
 			}
 			digits += n;
-			character_length += n;
+			INCREASE_CHARACTER_LENGTH (n);
 			if (v_count) {
 				scale += n;
 			}
@@ -1426,7 +1471,7 @@ repeat:
 				goto error;
 			}
 			digits += n - 1;
-			character_length += n - 1;
+			INCREASE_CHARACTER_LENGTH (n - 1);
 			s_count++;
 			/* FIXME: need more check */
 			break;
@@ -1457,7 +1502,7 @@ repeat:
 		default:
 			if (c == current_program->currency_symbol) {
 				digits += n - 1;
-				character_length += n - 1;
+				INCREASE_CHARACTER_LENGTH (n - 1);
 				/* FIXME: need more check */
 				break;
 			}
@@ -1504,9 +1549,7 @@ repeat:
 	switch (category) {
 	case PIC_ALPHABETIC:
 		pic->category = CB_CATEGORY_ALPHABETIC;
-		if (character_length > 65536) {
-			cb_error (_("Alphabetic field cannot be larger than 65536 digits"));
-		}
+		CHECK_CHARACTER_LENGTH (cb_max_alpha_character_data_size, "Alphabetic field cannot be larger than %d digits");
 		break;
 	case PIC_NUMERIC:
 		pic->category = CB_CATEGORY_NUMERIC;
@@ -1516,21 +1559,15 @@ repeat:
 		break;
 	case PIC_ALPHANUMERIC:
 		pic->category = CB_CATEGORY_ALPHANUMERIC;
-		if (character_length > 65536) {
-			cb_error (_("AlphaNumeric field cannot be larger than 65536 digits"));
-		}
+		CHECK_CHARACTER_LENGTH (cb_max_alpha_character_data_size, "AlphaNumeric field cannot be larger than %d digits");
 		break;
 	case PIC_NATIONAL:
 		pic->category = CB_CATEGORY_NATIONAL;
 #ifdef	I18N_UTF8
-		if (character_length > 21845) {
-			/* I18N_UTF8: NATIONAL allocates 3bytes/char for BMP. */
-			cb_error (_("National field cannot be larger than 21845 digits"));
-		}
+		/* I18N_UTF8: NATIONAL allocates 3bytes/char for BMP. */
+		CHECK_CHARACTER_LENGTH (cb_max_utf8_character_data_size, "National field cannot be larger than %d digits");
 #else /*!I18N_UTF8*/
-		if (character_length > 32768) {
-			cb_error (_("National field cannot be larger than 32768 digits"));
-		}
+		CHECK_CHARACTER_LENGTH (cb_max_sjis_character_data_size, "National field cannot be larger than %d digits");
 #endif /*I18N_UTF8*/
 		break;
 	case PIC_NUMERIC_EDITED:
@@ -1538,6 +1575,7 @@ repeat:
 		memcpy (pic->str, buff, idx);
 		pic->category = CB_CATEGORY_NUMERIC_EDITED;
 		pic->lenstr = idx;
+		CHECK_CHARACTER_LENGTH (160, "NumericEdit field cannot be larger than %d digits");
 		break;
 	case PIC_EDITED:
 	case PIC_ALPHABETIC_EDITED:
@@ -1546,9 +1584,7 @@ repeat:
 		memcpy (pic->str, buff, idx);
 		pic->category = CB_CATEGORY_ALPHANUMERIC_EDITED;
 		pic->lenstr = idx;
-		if (character_length > 32768) {
-			cb_error (_("AlphaNumericEdit field cannot be larger than 65536 digits"));
-		}
+		CHECK_CHARACTER_LENGTH (cb_max_alpha_character_data_size, "AlphaNumericEdit field cannot be larger than %d digits");
 		break;
 	case PIC_NATIONAL_EDITED:
 		pic->str = cobc_malloc (idx + 1);
@@ -1556,14 +1592,10 @@ repeat:
 		pic->category = CB_CATEGORY_NATIONAL_EDITED;
 		pic->lenstr = idx;
 #ifdef	I18N_UTF8
-		if (character_length > 21845) {
-			/* I18N_UTF8: NATIONAL allocates 3bytes/char for BMP. */
-			cb_error (_("NationalEdit field cannot be larger than 21845 digits"));
-		}
+		/* I18N_UTF8: NATIONAL allocates 3bytes/char for BMP. */
+		CHECK_CHARACTER_LENGTH (cb_max_utf8_character_data_size, "NationalEdit field cannot be larger than %d digits");
 #else /*!I18N_UTF8*/
-		if (character_length > 32768) {
-			cb_error (_("NationalEdit field cannot be larger than 32768 digits"));
-		}
+		CHECK_CHARACTER_LENGTH (cb_max_sjis_character_data_size, "NationalEdit field cannot be larger than %d digits");
 #endif /*I18N_UTF8*/
 		break;
 	default:

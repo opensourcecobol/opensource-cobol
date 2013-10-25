@@ -68,7 +68,8 @@ i18n_utf8_DEPENDENCIES = \
 	i18n_utf8.src/program-id.at \
 	i18n_utf8.src/error-print.at \
 	i18n_utf8.src/stored-char-length.at \
-	i18n_utf8.src/warn-mixture-byte.at
+	i18n_utf8.src/warn-mixture-byte.at \
+	i18n_utf8.src/limits.at
 
 i18n_sjis_DEPENDENCIES = \
 	i18n_sjis.at \
@@ -76,7 +77,8 @@ i18n_sjis_DEPENDENCIES = \
 	i18n_sjis.src/pic-x.at \
 	i18n_sjis.src/pic-n.at \
 	i18n_sjis.src/program-id.at \
-	i18n_sjis.src/error-print.at
+	i18n_sjis.src/error-print.at \
+	i18n_sjis.src/limits.at
 
 jp_compat_DEPENDENCIES = \
 	jp-compat.at \
