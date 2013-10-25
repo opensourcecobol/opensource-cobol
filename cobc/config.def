@@ -48,6 +48,7 @@ CB_CONFIG_BOOLEAN (cb_enable_sort_status_register, "enable-sort-status-register"
 CB_CONFIG_BOOLEAN (cb_enable_special_names_argument_clause, "enable-special-names-argument-clause")
 CB_CONFIG_BOOLEAN (cb_enable_special_names_environment_clause, "enable-special-names-environment-clause")
 CB_CONFIG_BOOLEAN (cb_enable_leng_intrinsic_function, "enable-leng-intrinsic-function")
+CB_CONFIG_BOOLEAN (cb_enable_length_an_intrinsic_function, "enable-length-an-intrinsic-function")
 CB_CONFIG_BOOLEAN (cb_enable_national_intrinsic_function, "enable-national-intrinsic-function")
 CB_CONFIG_SUPPORT (cb_author_paragraph, "author-paragraph")
 CB_CONFIG_SUPPORT (cb_memory_size_clause, "memory-size-clause")

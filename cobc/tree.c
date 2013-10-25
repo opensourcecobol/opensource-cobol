@@ -2620,13 +2620,15 @@ cb_build_intrinsic (cb_tree name, cb_tree args, cb_tree refmod)
 				}
 #endif /*I18N_UTF8*/
 			}
+
+		case CB_INTR_BYTE_LENGTH:
 		case CB_INTR_LENG:
-			if (!cb_enable_leng_intrinsic_function) {
+		case CB_INTR_LENGTH_AN:
+			if ((cbp->intr_enum == CB_INTR_LENG && !cb_enable_leng_intrinsic_function) ||
+			    (cbp->intr_enum == CB_INTR_LENGTH_AN && !cb_enable_length_an_intrinsic_function)) {
 				cb_error_x (name, _("FUNCTION %s not implemented"), CB_NAME (name));
 				return cb_error_node;
 			}
-			/* do same as CB_INTR_BYTE_LENGTH continue. */
-		case CB_INTR_BYTE_LENGTH:
 			x = CB_VALUE (args);
 			if (CB_INTRINSIC_P (x)) {
 				return make_intrinsic (name, cbp, args, NULL, NULL);
