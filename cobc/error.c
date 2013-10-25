@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <ctype.h>
 
 #include "cobc.h"
 #include "tree.h"
@@ -84,36 +85,43 @@ cb_get_jisstring (char *name)
 char *
 cb_get_jisword (const char *name)
 {
-	int	i, k;
-	char	pTmp[COB_NORMAL_BUFF];
-	char	pTmp1[COB_NORMAL_BUFF];
-	const char	*c;
-	char	*cs, *ce, *ctmp;
+	int		i;
+	int		flag_quoted = 0;
+	char		pTmp[COB_NORMAL_BUFF];
+	char		pTmp1[COB_NORMAL_BUFF];
+	const char	*c, *cs, *ce;
+	char		*ctmp;
 
 	c = name;
 	memset (pTmp, 0, sizeof (pTmp));
 	i = strlen (name);
-	for (k = 0; k < i; k++) {
-		cs = strstr (c, "___");
-		if (cs == NULL) {
-			strcat (pTmp, c);
-			break;
+
+	/* cursor */
+	cs = c;
+	ce = c + i - 1;
+
+	/* strip quotes */
+	if ((strncmp (cs, "\'", 1) == 0) && (strncmp (ce, "\'", 1) == 0)) {
+		cs++;
+		--ce;
+		flag_quoted = 1;
+	}
+
+	/* decode if encoded */
+	if ((strncmp (cs, "___", 3) == 0) && (strncmp (ce-2, "___", 3) == 0)) {
+		cs += 3;
+		ce -= 2;
+		memset (pTmp1, 0, sizeof (pTmp1));
+		strncpy (pTmp1, cs, ce - cs);
+		ctmp = cb_get_jisstring (pTmp1);
+		if (flag_quoted) {
+			snprintf (pTmp, COB_NORMAL_BUFF, "\'%s\'", ctmp);
 		} else {
-			memset (pTmp1, 0, sizeof (pTmp1));
-			strncpy (pTmp1, c, cs-c);
-			strcat (pTmp, pTmp1);
-			c = cs + 3;
-			ce = strstr (c, "___");
-			if (ce == NULL) {
-				break;
-			} else {
-				memset (pTmp1, 0, sizeof (pTmp1));
-				strncpy (pTmp1, c, ce-c);
-				c = ce + 3;
-				ctmp = cb_get_jisstring (pTmp1);
-				strcat (pTmp, ctmp);
-			}
+			snprintf (pTmp, COB_NORMAL_BUFF, "%s", ctmp);
 		}
+		free (ctmp);
+	} else {
+		strcat (pTmp, c);
 	}
 	return strdup (pTmp);
 }
@@ -121,9 +129,15 @@ cb_get_jisword (const char *name)
 static void
 print_error (char *file, int line, const char *prefix, const char *fmt, va_list ap)
 {
+	static const int max_names = 5;
+	int flag_too_many_names = 0;
 	static struct cb_label *last_section = NULL;
 	static struct cb_label *last_paragraph = NULL;
-	char		*jmsg;
+	int		cnt = 0;
+	const char	*pfmt, *pstr;
+	void		*param;
+	void		*allname[max_names];
+	void		*p_bfree[max_names];
 
 	file = file ? file : cb_source_file;
 	line = line ? line : cb_source_line;
@@ -148,10 +162,69 @@ print_error (char *file, int line, const char *prefix, const char *fmt, va_list 
 	if (!errmsgbuff) {
 		errmsgbuff = cobc_malloc (COB_NORMAL_BUFF);
 	}
-	vsnprintf (errmsgbuff, COB_NORMAL_BUFF, fmt, ap);
-	jmsg = cb_get_jisword (errmsgbuff);
-	fprintf (stderr, "%s\n", jmsg);
-	free (jmsg);
+
+	/* decode arguments */
+	memset (p_bfree, 0, sizeof (p_bfree));
+	pfmt = fmt;
+	while ((pstr = strchr (pfmt, '%')) != NULL) {
+		while (isalnum (*(pstr+=1)) != 0) {
+			if (isalpha (*pstr) != 0) {
+				param = va_arg (ap, void *);
+				switch (*pstr) {
+				case 's':
+				case 'c':
+					allname[cnt] = p_bfree[cnt] = cb_get_jisword (param);
+					cnt++;
+					break;
+				case 'd':
+				default:
+					allname[cnt] = param;
+					cnt++;
+					break;
+				}
+			}
+		}
+		if (cnt > max_names) {
+			flag_too_many_names = 1;
+			break;
+		}
+		pfmt = pstr;
+	}
+
+	if (flag_too_many_names) {
+		fputs (_("Internal error: Too many params in message. output suppressed.\n"),
+			stderr);
+	} else {
+		/* error output */
+		switch (cnt) {
+		case 0:
+			snprintf (errmsgbuff, COB_NORMAL_BUFF, fmt);
+			break;
+		case 1:
+			snprintf (errmsgbuff, COB_NORMAL_BUFF, fmt, allname[0]);
+			break;
+		case 2:
+			snprintf (errmsgbuff, COB_NORMAL_BUFF, fmt, allname[0], allname[1]);
+			break;
+		case 3:
+			snprintf (errmsgbuff, COB_NORMAL_BUFF, fmt, allname[0], allname[1], allname[2]);
+			break;
+		case 4:
+			snprintf (errmsgbuff, COB_NORMAL_BUFF, fmt, allname[0], allname[1], allname[2], allname[3]);
+			break;
+		case 5:
+		default:
+			/* upper limit of cnt should be checked above. */
+			snprintf (errmsgbuff, COB_NORMAL_BUFF, fmt, allname[0], allname[1], allname[2], allname[3], allname[4]);
+			break;
+		}
+		fprintf (stderr, "%s\n", errmsgbuff);
+	}
+	for (cnt = 0; cnt < max_names; cnt++) {
+		if (p_bfree[cnt]) {
+			free (p_bfree[cnt]);
+		}
+	}
 }
 
 char *

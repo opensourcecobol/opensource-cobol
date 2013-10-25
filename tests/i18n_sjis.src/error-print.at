@@ -21,3 +21,37 @@ AT_CHECK([${COMPILE} -x prog.cob], [1], [],
 
 AT_CLEANUP
 
+AT_SETUP([Encoding alphanumeric name item])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       PROCEDURE DIVISION.
+           DISPLAY A___82A0___A.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [1], [],
+[prog.cob:6: Error: 'A___82A0___A' undefined
+])
+
+AT_CLEANUP
+
+AT_SETUP([Encoding national name item])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       PROCEDURE DIVISION.
+           DISPLAY A___‚ ___A.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [1], [],
+[prog.cob:6: Error: 'A___‚ ___A' undefined
+])
+
+AT_CLEANUP
+

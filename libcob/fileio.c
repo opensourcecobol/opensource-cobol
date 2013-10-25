@@ -539,36 +539,43 @@ cb_get_jisstring (char *name)
 static char *
 cb_get_jisword (const char *name)
 {
-	int	i, k;
-	char	pTmp[COB_NORMAL_BUFF];
-	char	pTmp1[COB_NORMAL_BUFF];
-	const char	*c;
-	char	*cs, *ce, *ctmp;
+	int		i;
+	int		flag_quoted = 0;
+	char		pTmp[COB_NORMAL_BUFF];
+	char		pTmp1[COB_NORMAL_BUFF];
+	const char	*c, *cs, *ce;
+	char		*ctmp;
 
 	c = name;
 	memset (pTmp, 0, sizeof (pTmp));
 	i = strlen (name);
-	for (k = 0; k < i; k++) {
-		cs = strstr (c, "___");
-		if (cs == NULL) {
-			strcat (pTmp, c);
-			break;
+
+	/* cursor */
+	cs = c;
+	ce = c + i - 1;
+
+	/* strip quotes */
+	if ((strncmp (cs, "\'", 1) == 0) && (strncmp (ce, "\'", 1) == 0)) {
+		cs++;
+		--ce;
+		flag_quoted = 1;
+	}
+
+	/* decode if encoded */
+	if ((strncmp (cs, "___", 3) == 0) && (strncmp (ce-2, "___", 3) == 0)) {
+		cs += 3;
+		ce -= 2;
+		memset (pTmp1, 0, sizeof (pTmp1));
+		strncpy (pTmp1, cs, ce - cs);
+		ctmp = cb_get_jisstring (pTmp1);
+		if (flag_quoted) {
+			snprintf (pTmp, COB_NORMAL_BUFF, "\'%s\'", ctmp);
 		} else {
-			memset (pTmp1, 0, sizeof (pTmp1));
-			strncpy (pTmp1, c, cs-c);
-			strcat (pTmp, pTmp1);
-			c = cs + 3;
-			ce = strstr (c, "___");
-			if (ce == NULL) {
-				break;
-			} else {
-				memset (pTmp1, 0, sizeof (pTmp1));
-				strncpy (pTmp1, c, ce-c);
-				c = ce + 3;
-				ctmp = cb_get_jisstring (pTmp1);
-				strcat (pTmp, ctmp);
-			}
+			snprintf (pTmp, COB_NORMAL_BUFF, "%s", ctmp);
 		}
+		free (ctmp);
+	} else {
+		strcat (pTmp, c);
 	}
 	return strdup (pTmp);
 }
