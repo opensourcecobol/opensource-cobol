@@ -110,7 +110,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog], [0], [日本語の文字列　　])
+AT_CHECK([./prog], [0], [日本語の文字列      ])
 
 AT_CLEANUP
 
@@ -129,7 +129,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog], [0], [α　 ])
+AT_CHECK([./prog], [0], [α    ])
 
 AT_CLEANUP
 
@@ -149,7 +149,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog], [0], [　　日本語の文字列])
+AT_CHECK([./prog], [0], [      日本語の文字列])
 
 AT_CLEANUP
 
@@ -168,7 +168,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog], [0], [　 α])
+AT_CHECK([./prog], [0], [    α])
 
 AT_CLEANUP
 

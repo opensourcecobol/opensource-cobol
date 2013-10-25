@@ -5055,6 +5055,19 @@ cb_build_move_space (cb_tree x)
 }
 
 static cb_tree
+cb_build_move_blank (cb_tree x)
+{
+	switch (CB_TREE_CATEGORY (x)) {
+	case CB_CATEGORY_NUMERIC:
+	case CB_CATEGORY_ALPHABETIC:
+	case CB_CATEGORY_ALPHANUMERIC:
+		return cb_build_memset (x, ' ');
+	default:
+		return cb_build_move_call (cb_blank, x);
+	}
+}
+
+static cb_tree
 cb_build_move_zero (cb_tree x)
 {
 	switch (CB_TREE_CATEGORY (x)) {
@@ -5558,6 +5571,8 @@ cb_build_move (cb_tree src, cb_tree dst)
 		return cb_build_move_zero (dst);
 	} else if (src == cb_space) {
 		return cb_build_move_space (dst);
+	} else if (src == cb_blank) {
+		return cb_build_move_blank (dst);
 	} else if (src == cb_high) {
 		return cb_build_move_high (dst);
 	} else if (src == cb_low) {

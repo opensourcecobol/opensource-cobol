@@ -366,7 +366,9 @@ cob_move_alphanum_to_national (cob_field *f1, cob_field *f2)
 	unsigned char	*data2;
 	size_t		size1;
 	size_t		size2;
+#ifndef	I18N_UTF8
 	int		i;
+#endif /*I18N_UTF8*/
 	int		len;
 
 	data1 = f1->data;
@@ -385,18 +387,22 @@ cob_move_alphanum_to_national (cob_field *f1, cob_field *f2)
 		/* move string with padding */
 		memset (data2, ' ', size2);
 		if (COB_FIELD_JUSTIFIED (f2)) {
+#ifndef	I18N_UTF8
 			for (i = 0; i < len; i += COB_ZENCSIZ) {
 				if (len-i >= COB_ZENCSIZ) {
-					memcpy (data2+i, COB_ZENSPC, COB_ZENCSIZ);
+					memcpy (data2+i, COB_ZENBLK, COB_ZENCSIZ);
 				}
 			}
+#endif /*I18N_UTF8*/
 			memcpy (data2+len, data1, size1);
 		} else {
+#ifndef	I18N_UTF8
 			for (i = 0; i < len; i += COB_ZENCSIZ) {
 				if (len-i >= COB_ZENCSIZ) {
-					memcpy (data2+size1+i, COB_ZENSPC, COB_ZENCSIZ);
+					memcpy (data2+size1+i, COB_ZENBLK, COB_ZENCSIZ);
 				}
 			}
+#endif /*I18N_UTF8*/
 			memcpy (data2, data1, size1);
 		}
 	}
@@ -1034,6 +1040,10 @@ cob_move_alphanum_to_national_edited (cob_field *f1, cob_field *f2)
 	src = COB_FIELD_DATA (f1);
 	max = src + COB_FIELD_SIZE (f1);
 	dst = f2->data;
+
+	/* move string with padding */
+	memset (dst, ' ', f2->size);
+
 	for (p = COB_FIELD_PIC (f2); *p;) {
 		c = *p++;	/* PIC char */
 		memcpy ((unsigned char *)&n, p, sizeof (int));	/* PIC char count */
@@ -1047,10 +1057,11 @@ cob_move_alphanum_to_national_edited (cob_field *f1, cob_field *f2)
 					*dst++ = *src++;
 #ifdef	I18N_UTF8
 					*dst++ = *src++;
-#endif
+#else /*!I18N_UTF8*/
 				} else {
-					memcpy (dst, COB_ZENSPC, COB_ZENCSIZ);
+					memcpy (dst, COB_ZENBLK, COB_ZENCSIZ);
 					dst += COB_ZENCSIZ;
+#endif /*I18N_UTF8*/
 				}
 				break;
 			case '/':
@@ -1359,21 +1370,42 @@ cob_move_all (cob_field *src, cob_field *dst)
 	char			*pTmp;
 	cob_field		tmpSrc;
 	int			size;
+	int			x_to_n = 0;
+#ifdef	I18N_UTF8
+	int			j;
+#endif /*I18N_UTF8*/
 
-	if ((COB_FIELD_TYPE (src) != COB_TYPE_NATIONAL ||
-	     COB_FIELD_TYPE (src) != COB_TYPE_NATIONAL_EDITED) &&
+	if ((!(COB_FIELD_TYPE (src) == COB_TYPE_NATIONAL ||
+	       COB_FIELD_TYPE (src) == COB_TYPE_NATIONAL_EDITED)) &&
 	    (COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL ||
 	     COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL_EDITED)) {
+#ifdef	I18N_UTF8
+		if (src == &cob_blank) {
+			pTmp = cob_malloc (dst->size);
+			for (j = 0; j < dst->size; j+=COB_ZENCSIZ) {
+				strncat (pTmp, COB_ZENBLK, COB_ZENCSIZ);
+			}
+			size = dst->size;
+		} else {
+			pTmp = judge_hankakujpn_exist (src, dst, &size);
+		}
+#else /*!I18N_UTF8*/
 		pTmp = judge_hankakujpn_exist (src, dst, &size);
+#endif /*I18N_UTF8*/
 		if (pTmp != NULL) {
 			tmpSrc.data = (unsigned char *)pTmp;
 			tmpSrc.size = size;
 		} else {
 			tmpSrc.size = 0;
 		}
+		x_to_n = 1;
 	}
 
-	COB_ATTR_INIT (COB_TYPE_ALPHANUMERIC, 0, 0, 0, NULL);
+	if (x_to_n == 1) {
+		COB_ATTR_INIT (COB_TYPE_NATIONAL, 0, 0, 0, NULL);
+	} else {
+		COB_ATTR_INIT (COB_TYPE_ALPHANUMERIC, 0, 0, 0, NULL);
+	}
 	if (COB_FIELD_IS_NUMERIC(dst)) {
 		digcount = 18;
 		attr.type = COB_TYPE_NUMERIC_DISPLAY;
@@ -1396,11 +1428,7 @@ cob_move_all (cob_field *src, cob_field *dst)
 	temp.size = digcount;
 	temp.data = lastdata;
 	temp.attr = &attr;
-	if (((COB_FIELD_TYPE (src) != COB_TYPE_NATIONAL ||
-	      COB_FIELD_TYPE (src) != COB_TYPE_NATIONAL_EDITED) &&
-	     (COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL ||
-	      COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL_EDITED)) &&
-	    tmpSrc.size > 1) {
+	if ( x_to_n == 1 && tmpSrc.size > 1) {
 		for (i = 0; i < digcount; ++i) {
 			lastdata[i] = tmpSrc.data[i % tmpSrc.size];
 		}
@@ -1428,13 +1456,35 @@ cob_move_all (cob_field *src, cob_field *dst)
 void
 cob_move (cob_field *src, cob_field *dst)
 {
-	char		*pTmp;
+	char		*pTmp = NULL;
 	int		size;
 	cob_field	srcfeild;
 	cob_field	*src1;
+#ifdef	I18N_UTF8
+	cob_field_attr	attr;
+	int		j;
+#endif /*I18N_UTF8*/
 
-	memcpy (&srcfeild, src, sizeof (cob_field));
-	src1 = &srcfeild;
+	if (src == &cob_quote) {
+		src1 = &cob_quote;
+	} else if (src == &cob_zen_quote) {
+		src1 = &cob_zen_quote;
+	} else if (src == &cob_space) {
+		src1 = &cob_space;
+	} else if (src == &cob_zen_space) {
+		src1 = &cob_zen_space;
+	} else if (src == &cob_blank) {
+		src1 = &cob_blank;
+	} else if (src == &cob_zen_blank) {
+		src1 = &cob_zen_blank;
+	} else if (src == &cob_zero) {
+		src1 = &cob_zero;
+	} else if (src == &cob_zen_zero) {
+		src1 = &cob_zen_zero;
+	} else {
+		memcpy (&srcfeild, src, sizeof (cob_field));
+		src1 = &srcfeild;
+	}
 
 	if (COB_FIELD_TYPE (src1) == COB_TYPE_ALPHANUMERIC_ALL ||
 	    COB_FIELD_TYPE (src1) == COB_TYPE_NATIONAL_ALL) {
@@ -1446,11 +1496,25 @@ cob_move (cob_field *src, cob_field *dst)
 	}
 
 	if (COB_FIELD_TYPE (src1) != COB_TYPE_GROUP) {
-		if ((COB_FIELD_TYPE (src1) != COB_TYPE_NATIONAL ||
-		     COB_FIELD_TYPE (src1) != COB_TYPE_NATIONAL_EDITED) &&
+		if ((!(COB_FIELD_TYPE (src1) == COB_TYPE_NATIONAL ||
+		       COB_FIELD_TYPE (src1) == COB_TYPE_NATIONAL_EDITED)) &&
 		    (COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL ||
 		     COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL_EDITED)) {
+#ifdef	I18N_UTF8
+			if (src1 == &cob_blank) {
+				pTmp = cob_malloc (dst->size);
+				for (j = 0; j < dst->size; j+=COB_ZENCSIZ) {
+					strncat (pTmp, COB_ZENBLK, COB_ZENCSIZ);
+				}
+				size = dst->size;
+			} else {
+				pTmp = judge_hankakujpn_exist (src1, dst, &size);
+			}
+			COB_ATTR_INIT (COB_TYPE_NATIONAL, 0, 0, 0, NULL);
+			src1->attr = &attr;
+#else /*!I18N_UTF8*/
 			pTmp = judge_hankakujpn_exist (src1, dst, &size);
+#endif /*I18N_UTF8*/
 			if (pTmp != NULL) {
 				src1->data = (unsigned char *)pTmp;
 				src1->size = size;
@@ -1467,6 +1531,9 @@ cob_move (cob_field *src, cob_field *dst)
 	/* non-elementary move */
 	if (COB_FIELD_TYPE (src1) == COB_TYPE_GROUP || COB_FIELD_TYPE (dst) == COB_TYPE_GROUP) {
 		cob_move_alphanum_to_alphanum (src1, dst);
+		if (pTmp != NULL) {
+			free (pTmp);
+		}
 		return;
 	}
 
@@ -1477,19 +1544,19 @@ cob_move (cob_field *src, cob_field *dst)
 		case COB_TYPE_NUMERIC_FLOAT:
 		case COB_TYPE_NUMERIC_DOUBLE:
 			cob_move_display_to_fp (src1, dst);
-			return;
+			break;
 		case COB_TYPE_NUMERIC_DISPLAY:
 			cob_move_display_to_display (src1, dst);
-			return;
+			break;
 		case COB_TYPE_NUMERIC_PACKED:
 			cob_move_display_to_packed (src1, dst);
-			return;
+			break;
 		case COB_TYPE_NUMERIC_BINARY:
 			cob_move_display_to_binary (src1, dst);
-			return;
+			break;
 		case COB_TYPE_NUMERIC_EDITED:
 			cob_move_display_to_edited (src1, dst);
-			return;
+			break;
 		case COB_TYPE_ALPHANUMERIC_EDITED:
 			if (COB_FIELD_SCALE (src1) < 0 ||
 			    COB_FIELD_SCALE (src1) > COB_FIELD_DIGITS (src1)) {
@@ -1497,36 +1564,38 @@ cob_move (cob_field *src, cob_field *dst)
 				indirect_move (cob_move_display_to_display, src1, dst,
 					       (size_t)cob_max_int ((int)COB_FIELD_DIGITS (src1), (int)COB_FIELD_SCALE (src1)),
 					       cob_max_int (0, (int)COB_FIELD_SCALE (src1)));
-				return;
+				break;
 			} else {
 				cob_move_alphanum_to_edited (src1, dst);
-				return;
+				break;
 			}
 		case COB_TYPE_NATIONAL:
 			cob_move_alphanum_to_national (src1, dst);
-			return;
+			break;
 		case COB_TYPE_NATIONAL_EDITED:
 			cob_move_alphanum_to_national_edited (src1, dst);
-			return;
+			break;
 		default:
 			cob_move_display_to_alphanum (src1, dst);
-			return;
+			break;
 		}
+		break;
 	case COB_TYPE_NUMERIC_PACKED:
 		switch (COB_FIELD_TYPE (dst)) {
 		case COB_TYPE_NUMERIC_DISPLAY:
 			cob_move_packed_to_display (src1, dst);
-			return;
+			break;
 		default:
 			indirect_move (cob_move_packed_to_display, src1, dst,
 				       COB_FIELD_DIGITS (src1), COB_FIELD_SCALE (src1));
-			return;
+			break;
 		}
+		break;
 	case COB_TYPE_NUMERIC_BINARY:
 		switch (COB_FIELD_TYPE (dst)) {
 		case COB_TYPE_NUMERIC_DISPLAY:
 			cob_move_binary_to_display (src1, dst);
-			return;
+			break;
 		case COB_TYPE_NUMERIC_BINARY:
 		case COB_TYPE_NUMERIC_PACKED:
 		case COB_TYPE_NUMERIC_EDITED:
@@ -1534,67 +1603,74 @@ cob_move (cob_field *src, cob_field *dst)
 		case COB_TYPE_NUMERIC_DOUBLE:
 			indirect_move (cob_move_binary_to_display, src1, dst,
 				       20, COB_FIELD_SCALE (src1));
-			return;
+			break;
 		default:
 			indirect_move (cob_move_binary_to_display, src1, dst,
 				       COB_FIELD_DIGITS (src1), COB_FIELD_SCALE (src1));
-			return;
+			break;
 		}
+		break;
 	case COB_TYPE_NUMERIC_EDITED:
 		switch (COB_FIELD_TYPE (dst)) {
 		case COB_TYPE_NUMERIC_DISPLAY:
 			cob_move_edited_to_display (src1, dst);
-			return;
+			break;
 		case COB_TYPE_NUMERIC_PACKED:
 		case COB_TYPE_NUMERIC_BINARY:
 		case COB_TYPE_NUMERIC_EDITED:
 		case COB_TYPE_NUMERIC_FLOAT:
 		case COB_TYPE_NUMERIC_DOUBLE:
 			indirect_move (cob_move_edited_to_display, src1, dst, 36, 18);
-			return;
+			break;
 		case COB_TYPE_ALPHANUMERIC_EDITED:
 			cob_move_alphanum_to_edited (src1, dst);
-			return;
+			break;
 		case COB_TYPE_NATIONAL:
 			cob_move_alphanum_to_national (src1, dst);
-			return;
+			break;
 		case COB_TYPE_NATIONAL_EDITED:
 			cob_move_alphanum_to_national_edited (src1, dst);
-			return;
+			break;
 		default:
 			cob_move_alphanum_to_alphanum (src1, dst);
-			return;
+			break;
 		}
+		break;
 	case COB_TYPE_NUMERIC_FLOAT:
 	case COB_TYPE_NUMERIC_DOUBLE:
 		indirect_move (cob_move_fp_to_display, src1, dst, 40, 20);
-		return;
+		break;
 	default:
 		switch (COB_FIELD_TYPE (dst)) {
 		case COB_TYPE_NUMERIC_DISPLAY:
 			cob_move_alphanum_to_display (src1, dst);
-			return;
+			break;
 		case COB_TYPE_NUMERIC_PACKED:
 		case COB_TYPE_NUMERIC_BINARY:
 		case COB_TYPE_NUMERIC_EDITED:
 		case COB_TYPE_NUMERIC_FLOAT:
 		case COB_TYPE_NUMERIC_DOUBLE:
 			indirect_move (cob_move_alphanum_to_display, src1, dst, 36, 18);
-			return;
+			break;
 		case COB_TYPE_ALPHANUMERIC_EDITED:
 			cob_move_alphanum_to_edited (src1, dst);
-			return;
+			break;
 		case COB_TYPE_NATIONAL_EDITED:
 			cob_move_alphanum_to_national_edited (src1, dst);
-			return;
+			break;
 		case COB_TYPE_NATIONAL:
 			cob_move_alphanum_to_national (src1, dst);
-			return;
+			break;
 		default:
 			cob_move_alphanum_to_alphanum (src1, dst);
-			return;
+			break;
 		}
+		break;
 	}
+	if (pTmp != NULL) {
+		free (pTmp);
+	}
+	return;
 }
 
 static void

@@ -625,12 +625,15 @@ cob_unstring_init (cob_field *src, cob_field *ptr, const size_t num_dlm)
 void
 cob_unstring_delimited (cob_field *dlm, const int all)
 {
+	cob_field	*add_dlm = NULL;
+
 	if (COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL ||
 	    COB_FIELD_TYPE (unstring_src) == COB_TYPE_NATIONAL_EDITED) {
 		if (dlm == &cob_quote) {
 			dlm = &cob_zen_quote;
 		} else if (dlm == &cob_space) {
 			dlm = &cob_zen_space;
+			add_dlm = &cob_zen_blank;
 		} else if (dlm == &cob_zero) {
 			dlm = &cob_zen_zero;
 		}
@@ -639,6 +642,12 @@ cob_unstring_delimited (cob_field *dlm, const int all)
 	dlm_list[unstring_ndlms].uns_dlm = dlm;
 	dlm_list[unstring_ndlms].uns_all = all;
 	unstring_ndlms++;
+
+	if (add_dlm) {
+		dlm_list[unstring_ndlms].uns_dlm = add_dlm;
+		dlm_list[unstring_ndlms].uns_all = all;
+		unstring_ndlms++;
+	}
 }
 
 void

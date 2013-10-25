@@ -14,7 +14,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob])
-AT_CHECK([./prog], [0], [procob　　　　])
+AT_CHECK([./prog], [0], [procob            ])
 
 AT_CLEANUP
 

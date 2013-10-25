@@ -272,6 +272,7 @@ extern cb_tree	cb_null;
 extern cb_tree	cb_zero;
 extern cb_tree	cb_one;
 extern cb_tree	cb_space;
+extern cb_tree	cb_blank;
 extern cb_tree	cb_low;
 extern cb_tree	cb_high;
 extern cb_tree	cb_norm_low;

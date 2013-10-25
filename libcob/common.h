@@ -255,6 +255,7 @@ DLL_EXPIMP extern int			cob_initial_external;
 
 DLL_EXPIMP extern cob_field		cob_zero;		/* ZERO */
 DLL_EXPIMP extern cob_field		cob_space;		/* SPACE */
+DLL_EXPIMP extern cob_field		cob_blank;		/* BLANK */
 DLL_EXPIMP extern cob_field		cob_high;		/* HIGH-VALUE */
 DLL_EXPIMP extern cob_field		cob_low;		/* LOW-VALUE */
 DLL_EXPIMP extern cob_field		cob_quote;		/* QUOTE */
@@ -262,6 +263,7 @@ DLL_EXPIMP extern cob_field		cob_one;		/* Numeric ONE */
 
 DLL_EXPIMP extern cob_field		cob_zen_zero;		/* zenkaku ZERO */
 DLL_EXPIMP extern cob_field		cob_zen_space;		/* zenkaku SPACE */
+DLL_EXPIMP extern cob_field		cob_zen_blank;		/* zenkaku BLANK */
 DLL_EXPIMP extern cob_field		cob_zen_quote;		/* zenkaku QUOTE */
 
 /* convert a digit (e.g., '0') into an integer (e.g., 0) */

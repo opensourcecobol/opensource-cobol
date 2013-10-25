@@ -176,6 +176,7 @@ unsigned int		cob_orig_line = 0;
 
 cob_field		cob_zero = { 1, (ucharptr)"0", &all_attr };
 cob_field		cob_space = { 1, (ucharptr)" ", &all_attr };
+cob_field		cob_blank = { 1, (ucharptr)" ", &all_attr };
 cob_field		cob_high = { 1, (ucharptr)"\xff", &all_attr };
 cob_field		cob_low = { 1, (ucharptr)"\0", &all_attr };
 cob_field		cob_quote = { 1, (ucharptr)"\"", &all_attr };
@@ -183,6 +184,7 @@ cob_field		cob_one = { 1, (ucharptr)"1", &one_attr };
 
 cob_field		cob_zen_zero  = { COB_ZENCSIZ, (ucharptr)COB_ZENZERO, &all_attr };
 cob_field		cob_zen_space = { COB_ZENCSIZ, (ucharptr)COB_ZENSPC, &all_attr };
+cob_field		cob_zen_blank = { COB_ZENCSIZ, (ucharptr)COB_ZENBLK, &all_attr };
 cob_field		cob_zen_quote = { COB_ZENCSIZ, (ucharptr)COB_ZENQUOT, &all_attr };
 
 /* Local functions */
@@ -1199,6 +1201,11 @@ cob_cmp (cob_field *f1, cob_field *f2)
 	cob_field	temp;
 	cob_field_attr	attr;
 	unsigned char	buff[48];
+#ifdef	I18N_UTF8
+	cob_field	g1;
+	cob_field	g2;
+	unsigned char	*p;
+#endif /*I18N_UTF8*/
 
 	if (COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL ||
 	    COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_ALL ||
@@ -1207,6 +1214,22 @@ cob_cmp (cob_field *f1, cob_field *f2)
 			f2 = &cob_zen_quote;
 		} else if (f2 == &cob_space) {
 			f2 = &cob_zen_space;
+#ifdef	I18N_UTF8
+			memcpy (&g1, f1, sizeof (cob_field));
+			p = g1.data + g1.size - 1;
+			while (g1.size > 0) {
+				if (*p == ' ') {
+					g1.size--;
+					p--;
+				} else {
+					break;
+				}
+			}
+			if (!g1.size) {
+				return 0;
+			}
+#endif /*I18N_UTF8*/
+
 		} else if (f2 == &cob_zero) {
 			f2 = &cob_zen_zero;
 		}
@@ -1215,13 +1238,29 @@ cob_cmp (cob_field *f1, cob_field *f2)
 	    COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_ALL ||
 	    COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_EDITED) {
 		if (f1 == &cob_quote) {
-			f1= &cob_zen_quote;
-		} else if (f1== &cob_space) {
+			f1 = &cob_zen_quote;
+		} else if (f1 == &cob_space) {
 			f1 = &cob_zen_space;
+#ifdef	I18N_UTF8
+			memcpy (&g2, f2, sizeof (cob_field));
+			p = g2.data + g2.size - 1;
+			while (g2.size > 0) {
+				if (*p == ' ') {
+					g2.size--;
+					p--;
+				} else {
+					break;
+				}
+			}
+	  		if (!g2.size) {
+				return 0;
+			}
+#endif /*I18N_UTF8*/
 		} else if (f1 == &cob_zero) {
 			f1 = &cob_zen_zero;
 		}
 	}
+
 	if (COB_FIELD_IS_NUMERIC (f1) && COB_FIELD_IS_NUMERIC (f2)) {
 		return cob_numeric_cmp (f1, f2);
 	}

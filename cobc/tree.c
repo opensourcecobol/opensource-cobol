@@ -91,6 +91,7 @@ cb_tree cb_null;
 cb_tree cb_zero;
 cb_tree cb_one;
 cb_tree cb_space;
+cb_tree cb_blank;
 cb_tree cb_low;
 cb_tree cb_high;
 cb_tree cb_norm_low;
@@ -799,6 +800,7 @@ cb_init_constants (void)
 	cb_zero = make_constant (CB_CATEGORY_NUMERIC, "&cob_zero");
 	cb_one = make_constant (CB_CATEGORY_NUMERIC, "&cob_one");
 	cb_space = make_constant (CB_CATEGORY_ALPHANUMERIC, "&cob_space");
+	cb_blank = make_constant (CB_CATEGORY_ALPHANUMERIC, "&cob_blank");
 	cb_low = make_constant (CB_CATEGORY_ALPHANUMERIC, "&cob_low");
 	cb_norm_low = cb_low;
 	cb_high = make_constant (CB_CATEGORY_ALPHANUMERIC, "&cob_high");

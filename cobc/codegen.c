@@ -1936,7 +1936,11 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 		case CB_CATEGORY_ALPHANUMERIC_EDITED:
 		case CB_CATEGORY_NATIONAL_EDITED:
 		case CB_CATEGORY_NATIONAL:
-			output_move (cb_space, x);
+			if (CB_TREE_TAG (p) == CB_TAG_INITIALIZE) {
+				output_move (cb_blank, x);
+			} else {
+				output_move (cb_space, x);
+			}
 			break;
 		default:
 			fprintf (stderr, "Unexpected tree category %d\n", CB_TREE_CATEGORY (x));

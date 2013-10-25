@@ -53,6 +53,7 @@
 /* I18N_UTF8: Full-width char(s) (utf-8 version). */
 #define COB_U8ZERO	"\xef\xbc\x90"
 #define COB_U8SPC	"\xe3\x80\x80"
+#define COB_U8BLK	"\x20\x20\x20"
 #define COB_U8QUOT	"\xe2\x80\x9d"
 #define COB_U8SLAS	"\xef\xbc\x8f"
 #define COB_U8CSIZ	3
@@ -60,6 +61,7 @@
 /* I18N_UTF8: Full-width char(s) (sjis version). */
 #define COB_SJZERO	"\x82\x4f"
 #define COB_SJSPC	"\x81\x40"
+#define COB_SJBLK	"\x81\x40"
 #define COB_SJQUOT	"\x81\x68"
 #define COB_SJSLAS	"\x81\x5e"
 #define COB_SJCSIZ	2
@@ -67,12 +69,14 @@
 #ifdef	I18N_UTF8
 #define COB_ZENZERO	COB_U8ZERO
 #define COB_ZENSPC	COB_U8SPC
+#define COB_ZENBLK	COB_U8BLK
 #define COB_ZENQUOT	COB_U8QUOT
 #define COB_ZENSLAS	COB_U8SLAS
 #define COB_ZENCSIZ	COB_U8CSIZ
 #else /*!I18N_UTF8*/
 #define COB_ZENZERO	COB_SJZERO
 #define COB_ZENSPC	COB_SJSPC
+#define COB_ZENBLK	COB_SJBLK
 #define COB_ZENQUOT	COB_SJQUOT
 #define COB_ZENSLAS	COB_SJSLAS
 #define COB_ZENCSIZ	COB_SJCSIZ
