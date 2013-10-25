@@ -23,3 +23,4 @@ AT_INIT([JP products compatibility])
 AT_TESTED([cobc])
 
 m4_include([split-keys.at])
+m4_include([end-program-wrong.at])

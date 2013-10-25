@@ -850,7 +850,9 @@ end_program:
 	if (depth) {
 		depth--;
 	}
-	if (strcmp (stack_progid[depth], s)) {
+	if (cb_allow_end_program_with_wrong_name) {
+		/* ignore wrong program-id. */
+	} else if (strcmp (stack_progid[depth], s)) {
 		cb_error (_("END PROGRAM '%s' is different to PROGRAM-ID '%s'"),
 			s, stack_progid[depth]);
 	}
