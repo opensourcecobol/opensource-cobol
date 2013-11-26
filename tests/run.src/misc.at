@@ -1720,3 +1720,144 @@ AT_CHECK([${COMPILE} -o prog prog.cob], [0], [],
 ])
 
 AT_CLEANUP
+
+AT_SETUP([SORT - missing fcd in variable-length WRITE])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       prog.
+       ENVIRONMENT       DIVISION.
+       INPUT-OUTPUT      SECTION.
+       FILE-CONTROL.
+       SELECT MAKE-F     ASSIGN TO "./TEST-FILE"
+                         ORGANIZATION LINE SEQUENTIAL
+                         FILE STATUS M-STATUS.
+       SELECT SIN-F      ASSIGN TO "./TEST-FILE"
+                         ORGANIZATION LINE SEQUENTIAL
+                         FILE STATUS I-STATUS.
+       SELECT SOUT-F     ASSIGN TO DISK
+                         ORGANIZATION SEQUENTIAL
+                         FILE STATUS O-STATUS.
+       DATA              DIVISION.
+       FILE              SECTION.
+       FD MAKE-F
+           RECORD IS VARYING IN SIZE FROM 1 TO 50 CHARACTERS
+           DEPENDING ON M-RECL.
+       01 MAKE-REC       PIC X(50).
+       FD SIN-F
+           RECORD IS VARYING IN SIZE FROM 1 TO 50 CHARACTERS
+           DEPENDING ON I-RECL.
+       01 SIN-REC        PIC X(50).
+       SD SOUT-F
+           RECORD IS VARYING IN SIZE FROM 1 TO 50 CHARACTERS
+           DEPENDING ON O-RECL.
+       01 SOUT-REC.
+          05  SOUT-KEY1  PIC X(5).
+          05  SOUT-KEY2  PIC X(5).
+          05  SOUT-VAL   PIC X(40).
+       WORKING-STORAGE   SECTION.
+       01 M-STATUS       PIC XX.
+       01 I-STATUS       PIC XX.
+       01 O-STATUS       PIC XX.
+       01 M-RECL         PIC 9(3) VALUE 50.
+       01 I-RECL         PIC 9(3) VALUE 50.
+       01 O-RECL         PIC 9(3) VALUE 50.
+       PROCEDURE         DIVISION.
+       MAIN-01.
+           PERFORM MAKE-PROC.
+           SORT SOUT-F ON ASCENDING  KEY SOUT-KEY1
+                      ON DESCENDING KEY SOUT-KEY2
+                      INPUT  PROCEDURE SIN-PROC
+                      OUTPUT PROCEDURE SOT-PROC.
+       MAIN-EXIT.
+           GOBACK.
+       MAKE-PROC.
+           OPEN OUTPUT MAKE-F.
+           MOVE 21 TO M-RECL.
+           MOVE "aaaaa111111aaaaaaaaaa" TO MAKE-REC.
+           WRITE MAKE-REC.
+           MOVE 27 TO M-RECL.
+           MOVE "aaaaa666666xxxxxxxxxxxxxxxx" TO MAKE-REC.
+           WRITE MAKE-REC.
+           MOVE 13 TO M-RECL.
+           MOVE "ccccc555555ll" TO MAKE-REC.
+           write MAKE-REC.
+           CLOSE MAKE-F.
+       SIN-PROC.
+           OPEN INPUT SIN-F.
+           PERFORM FOREVER
+              MOVE 0 TO I-RECL
+              MOVE SPACE TO SIN-REC
+              READ SIN-F AT END EXIT PERFORM END-READ
+              MOVE I-RECL TO O-RECL
+              MOVE SIN-REC TO SOUT-REC
+              RELEASE SOUT-REC
+           END-PERFORM.
+           CLOSE SIN-F.
+       SOT-PROC.
+           PERFORM FOREVER
+              MOVE 0 TO O-RECL
+              MOVE SPACE TO SOUT-REC
+              RETURN SOUT-F AT END EXIT PERFORM END-RETURN
+              DISPLAY O-RECL NO ADVANCING
+           END-PERFORM.
+])
+
+AT_CHECK([${COMPILE} -o prog prog.cob])
+AT_CHECK([./prog], [0], [027021013])
+
+AT_CLEANUP
+
+AT_SETUP([READ - missing fcd in variable-length WRITE])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       prog.
+       ENVIRONMENT       DIVISION.
+       INPUT-OUTPUT      SECTION.
+       FILE-CONTROL.
+       SELECT SIN-F      ASSIGN TO "./TEST-FILE"
+                         ORGANIZATION LINE SEQUENTIAL
+                         FILE STATUS I-STATUS.
+       DATA              DIVISION.
+       FILE              SECTION.
+       FD SIN-F
+           RECORD IS VARYING IN SIZE FROM 1 TO 50 CHARACTERS
+           DEPENDING ON I-RECL.
+       01 SIN-REC        PIC X(50).
+       WORKING-STORAGE   SECTION.
+       01 I-STATUS       PIC XX.
+       01 I-RECL         PIC 9(3) VALUE 50.
+       PROCEDURE         DIVISION.
+       MAIN-01.
+           PERFORM MAKE-PROC.
+           PERFORM READ-PROC.
+       MAIN-EXIT.
+           GOBACK.
+       MAKE-PROC.
+           OPEN OUTPUT SIN-F.
+           MOVE 21 TO I-RECL.
+           MOVE "aaaaa111111aaaaaaaaaa" TO SIN-REC.
+           WRITE SIN-REC.
+           MOVE 27 TO I-RECL.
+           MOVE "aaaaa666666xxxxxxxxxxxxxxxx" TO SIN-REC.
+           WRITE SIN-REC.
+           MOVE 13 TO I-RECL.
+           MOVE "ccccc555555ll" TO SIN-REC.
+           WRITE SIN-REC.
+           CLOSE SIN-F.
+       READ-PROC.
+           OPEN INPUT SIN-F.
+           PERFORM FOREVER
+              MOVE 0 TO I-RECL
+              MOVE SPACE TO SIN-REC
+              READ SIN-F AT END EXIT PERFORM END-READ
+              DISPLAY I-RECL NO ADVANCING
+           END-PERFORM.
+           CLOSE SIN-F.
+])
+
+AT_CHECK([${COMPILE} -o prog prog.cob])
+AT_CHECK([./prog], [0], [021027013])
+
+AT_CLEANUP

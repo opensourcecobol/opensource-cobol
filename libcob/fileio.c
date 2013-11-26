@@ -159,6 +159,7 @@
 struct cobitem {
 	struct cobitem		*next;
 	size_t			end_of_block;
+	int				record_size;
 	unsigned char		block_byte;
 	unsigned char		unique[sizeof(size_t)];
 	unsigned char		item[1];
@@ -4438,6 +4439,7 @@ void
 cob_ex_write (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
 {
 	int	ret;
+	int	tmpsize;
 
 	f->flag_read_done = 0;
 
@@ -4454,7 +4456,7 @@ cob_ex_write (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
 			RETURN_STATUS (COB_STATUS_48_OUTPUT_DENIED);
 		}
 	}
-
+	tmpsize = f->record->size;
 	if (f->record_size) {
 		f->record->size = cob_get_int (f->record_size);
 	} else {
@@ -4478,6 +4480,7 @@ cob_ex_write (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
 	if (unlikely(cob_do_sync && ret == 0)) {
 		cob_sync (f, cob_do_sync);
 	}
+	f->record->size = tmpsize;
 
 	RETURN_STATUS (ret);
 }
@@ -5933,6 +5936,11 @@ cob_file_sort_submit (cob_file *f, const unsigned char *p)
 		hp->destination_file ^= 1;
 	}
 	q = cob_new_item (hp, sizeof (struct cobitem) + hp->size);
+	if (f->record_size) {
+		q->record_size = cob_get_int (f->record_size);
+	} else {
+		q->record_size = hp->size;
+	}
 	q->end_of_block = 1;
 	unique_copy (q->unique, (unsigned char *)&(hp->unique));
 	hp->unique++;
@@ -5993,6 +6001,9 @@ cob_file_sort_retrieve (cob_file *f, unsigned char *p)
 			return COBSORTEND;
 		}
 		memcpy (p, z->first->item, hp->size);
+		if (f->record_size) {
+			cob_set_int (f->record_size, z->first->record_size);
+		}
 		next = z->first->next;
 		z->first->next = hp->empty;
 		hp->empty = z->first;
