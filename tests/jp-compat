@@ -628,6 +628,14 @@ at_help_all="1;split-keys.at:1;SPLIT KEYS (ALTERNATE KEY);;
 33;intr-funcs.at:21;FUNCTION LENG (occur. depending);;
 34;intr-funcs.at:44;FUNCTION LENGTH-AN (fixed);;
 35;intr-funcs.at:64;FUNCTION LENGTH-AN (occur. depending);;
+36;file-control.at:1;Allow no file open (I-O, SEQUENTIAL);;
+37;file-control.at:32;Allow no file open (I-O, LINE SEQ);;
+38;file-control.at:63;Allow no file open (I-O, RELATIVE);;
+39;file-control.at:96;Allow no file open (I-O, INDEXED);;
+40;file-control.at:129;Allow no file open (EXTEND, SEQUENTIAL);;
+41;file-control.at:160;Allow no file open (EXTEND, LINE SEQ);;
+42;file-control.at:191;Allow no file open (EXTEND, RELATIVE);;
+43;file-control.at:224;Allow no file open (EXTEND, INDEXED);;
 "
 # List of the all the test groups.
 at_groups_all=`$as_echo "$at_help_all" | sed 's/;.*//'`
@@ -641,7 +649,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 35; then
+    if test $at_value -lt 1 || test $at_value -gt 43; then
       $as_echo "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -4832,3 +4840,555 @@ $at_traceon; }
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
 #AT_STOP_35
+#AT_START_36
+at_fn_group_banner 36 'file-control.at:1' \
+  "Allow no file open (I-O, SEQUENTIAL)" "           "
+at_xfail=no
+(
+  $as_echo "36. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION SEQUENTIAL
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN I-O TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:26: \${COMPILE_MODULE} -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:26"
+( $at_check_trace; ${COMPILE_MODULE} -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:26"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:27: export OC_IO_CREATES=yes && \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:27"
+( $at_check_trace; export OC_IO_CREATES=yes && ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "00
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:27"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_36
+#AT_START_37
+at_fn_group_banner 37 'file-control.at:32' \
+  "Allow no file open (I-O, LINE SEQ)" "             "
+at_xfail=no
+(
+  $as_echo "37. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION LINE SEQUENTIAL
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN I-O TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:57: \${COMPILE_MODULE} -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:57"
+( $at_check_trace; ${COMPILE_MODULE} -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:57"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:58: export OC_IO_CREATES=yes && \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:58"
+( $at_check_trace; export OC_IO_CREATES=yes && ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "00
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:58"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_37
+#AT_START_38
+at_fn_group_banner 38 'file-control.at:63' \
+  "Allow no file open (I-O, RELATIVE)" "             "
+at_xfail=no
+(
+  $as_echo "38. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION RELATIVE
+                        ACCESS MODE  DYNAMIC
+                        RELATIVE KEY TEST-KEY
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN I-O TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:90: \${COMPILE_MODULE} -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:90"
+( $at_check_trace; ${COMPILE_MODULE} -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:90"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:91: export OC_IO_CREATES=yes && \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:91"
+( $at_check_trace; export OC_IO_CREATES=yes && ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "00
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:91"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_38
+#AT_START_39
+at_fn_group_banner 39 'file-control.at:96' \
+  "Allow no file open (I-O, INDEXED)" "              "
+at_xfail=no
+(
+  $as_echo "39. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION INDEXED
+                        ACCESS MODE  DYNAMIC
+                        RECORD KEY TEST-KEY
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN I-O TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:123: \${COMPILE_MODULE} -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:123"
+( $at_check_trace; ${COMPILE_MODULE} -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:123"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:124: export OC_IO_CREATES=yes && \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:124"
+( $at_check_trace; export OC_IO_CREATES=yes && ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "00
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:124"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_39
+#AT_START_40
+at_fn_group_banner 40 'file-control.at:129' \
+  "Allow no file open (EXTEND, SEQUENTIAL)" "        "
+at_xfail=no
+(
+  $as_echo "40. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION SEQUENTIAL
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN EXTEND TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:154: \${COMPILE_MODULE} -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:154"
+( $at_check_trace; ${COMPILE_MODULE} -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:154"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:155: export OC_EXTEND_CREATES=yes && \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:155"
+( $at_check_trace; export OC_EXTEND_CREATES=yes && ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "00
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:155"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_40
+#AT_START_41
+at_fn_group_banner 41 'file-control.at:160' \
+  "Allow no file open (EXTEND, LINE SEQ)" "          "
+at_xfail=no
+(
+  $as_echo "41. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION LINE SEQUENTIAL
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN EXTEND TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:185: \${COMPILE_MODULE} -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:185"
+( $at_check_trace; ${COMPILE_MODULE} -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:185"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:186: export OC_EXTEND_CREATES=yes && \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:186"
+( $at_check_trace; export OC_EXTEND_CREATES=yes && ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "00
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:186"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_41
+#AT_START_42
+at_fn_group_banner 42 'file-control.at:191' \
+  "Allow no file open (EXTEND, RELATIVE)" "          "
+at_xfail=no
+(
+  $as_echo "42. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION RELATIVE
+                        ACCESS MODE  DYNAMIC
+                        RELATIVE KEY TEST-KEY
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN EXTEND TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:218: \${COMPILE_MODULE} -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:218"
+( $at_check_trace; ${COMPILE_MODULE} -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:218"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:219: export OC_EXTEND_CREATES=yes && \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:219"
+( $at_check_trace; export OC_EXTEND_CREATES=yes && ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "00
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:219"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_42
+#AT_START_43
+at_fn_group_banner 43 'file-control.at:224' \
+  "Allow no file open (EXTEND, INDEXED)" "           "
+at_xfail=no
+(
+  $as_echo "43. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION INDEXED
+                        ACCESS MODE  DYNAMIC
+                        RECORD KEY TEST-KEY
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN EXTEND TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:251: \${COMPILE_MODULE} -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:251"
+( $at_check_trace; ${COMPILE_MODULE} -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:251"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/file-control.at:252: export OC_EXTEND_CREATES=yes && \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-control.at:252"
+( $at_check_trace; export OC_EXTEND_CREATES=yes && ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "00
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-control.at:252"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_43

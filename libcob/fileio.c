@@ -235,6 +235,8 @@ static char		*file_open_name;
 static char		*file_open_buff;
 
 #define TIS_DEFINE_USERFH	"OC_USERFH"
+#define COB_IO_CREATES		"OC_IO_CREATES"
+#define COB_EXTEND_CREATES	"OC_EXTEND_CREATES"
 
 /* Emergence buffer in case of malloc fail */
 static char		runtime_buffer[COB_SMALL_BUFF];
@@ -933,11 +935,20 @@ cob_file_open (cob_file *f, char *filename, const int mode, const int sharing)
 		break;
 	case COB_OPEN_I_O:
 #if !defined(_WIN32) || defined(_MSC_VER)
-		if (f->organization == COB_ORG_LINE_SEQUENTIAL)
+		if (f->organization == COB_ORG_LINE_SEQUENTIAL) {
 			fp = fopen (filename, "r+");
-		else
+			if ((fp == NULL) && (errno == ENOENT) && cob_check_env (COB_IO_CREATES, "yes")) {
+				fp = fopen (filename, "w+");
+ 			}
+		} else {
+#else
+		{
 #endif
 			fp = fopen (filename, "rb+");
+			if ((fp == NULL) && (errno == ENOENT) && cob_check_env (COB_IO_CREATES, "yes")) {
+				fp = fopen (filename, "wb+");
+			}
+		}
 		break;
 	case COB_OPEN_EXTEND:
 #if !defined(_WIN32) || defined(_MSC_VER)
@@ -1949,6 +1960,12 @@ dobuild:
 				}
 				f->flag_nonexistent = 1;
 				return COB_STATUS_05_SUCCESS_OPTIONAL;
+			} else if (iserrno == ENOENT) {
+				if ((mode == COB_OPEN_EXTEND && cob_check_env (COB_EXTEND_CREATES, "yes")) ||
+				    (mode == COB_OPEN_I_O && cob_check_env (COB_IO_CREATES, "yes"))) {
+					dobld = 1;
+					goto dobuild;
+				}
 			}
 		} else {
 			memset(&di, 0, sizeof(di));
@@ -4026,7 +4043,9 @@ cob_ex_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus
 		if ((bdb_env && bdb_nofile (file_open_name)) ||
 		     (!bdb_env && stat (file_open_name, &st) == -1 && errno == ENOENT)) {
 			was_not_exist = 1;
-			if (mode != COB_OPEN_OUTPUT && f->flag_optional == 0) {
+			if (mode != COB_OPEN_OUTPUT && f->flag_optional == 0 &&
+			    (mode != COB_OPEN_I_O || !cob_check_env (COB_IO_CREATES, "yes")) &&
+			    (mode != COB_OPEN_EXTEND || !cob_check_env (COB_EXTEND_CREATES, "yes"))) {
 				RETURN_STATUS (COB_STATUS_35_NOT_EXISTS);
 			}
 		}
@@ -4039,7 +4058,9 @@ cob_ex_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus
 		strcat (file_open_buff, ".idx");
 		if (stat (file_open_buff, &st) == -1 && errno == ENOENT) {
 			was_not_exist = 1;
-			if (mode != COB_OPEN_OUTPUT && f->flag_optional == 0) {
+			if (mode != COB_OPEN_OUTPUT && f->flag_optional == 0 &&
+			    (mode != COB_OPEN_I_O || !cob_check_env (COB_IO_CREATES, "yes")) &&
+			    (mode != COB_OPEN_EXTEND || !cob_check_env (COB_EXTEND_CREATES, "yes"))) {
 				RETURN_STATUS (COB_STATUS_35_NOT_EXISTS);
 			}
 		}
@@ -4047,7 +4068,9 @@ cob_ex_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus
 		strcat (file_open_buff, ".dat");
 		if (stat (file_open_buff, &st) == -1 && errno == ENOENT) {
 			was_not_exist = 1;
-			if (mode != COB_OPEN_OUTPUT && f->flag_optional == 0) {
+			if (mode != COB_OPEN_OUTPUT && f->flag_optional == 0 &&
+			    (mode != COB_OPEN_I_O || !cob_check_env (COB_IO_CREATES, "yes")) &&
+			    (mode != COB_OPEN_EXTEND || !cob_check_env (COB_EXTEND_CREATES, "yes"))) {
 				RETURN_STATUS (COB_STATUS_35_NOT_EXISTS);
 			}
 		}
@@ -4059,7 +4082,9 @@ cob_ex_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus
 #endif	/* USE_DB41 */
 
 		was_not_exist = 1;
-		if (mode != COB_OPEN_OUTPUT && f->flag_optional == 0) {
+		if (mode != COB_OPEN_OUTPUT && f->flag_optional == 0 &&
+		    (mode != COB_OPEN_I_O || !cob_check_env (COB_IO_CREATES, "yes")) &&
+		    (mode != COB_OPEN_EXTEND || !cob_check_env (COB_EXTEND_CREATES, "yes"))) {
 			RETURN_STATUS (COB_STATUS_35_NOT_EXISTS);
 		}
 	}
