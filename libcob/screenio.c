@@ -1075,13 +1075,15 @@ cob_screen_terminate (void)
 
 void
 cob_field_display (cob_field *f, cob_field *line, cob_field *column,
-		   cob_field *fgc, cob_field *bgc, const int attr)
+		  cob_field *fgc, cob_field *bgc, cob_field *scroll,
+		  const int attr)
 {
 }
 
 void
 cob_field_accept (cob_field *f, cob_field *line, cob_field *column,
-		  cob_field *fgc, cob_field *bgc, const int attr)
+		  cob_field *fgc, cob_field *bgc, cob_field *scroll,
+		  const int attr)
 {
 }
 
