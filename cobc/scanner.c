@@ -2250,7 +2250,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 502 "scanner.l"
+#line 503 "scanner.l"
 {
 
 	struct cb_word			*word;
@@ -2384,7 +2384,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 632 "scanner.l"
+#line 633 "scanner.l"
 {
 	yylval = NULL;
 	return LE;
@@ -2392,7 +2392,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 637 "scanner.l"
+#line 638 "scanner.l"
 {
 	yylval = NULL;
 	return GE;
@@ -2400,7 +2400,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 642 "scanner.l"
+#line 643 "scanner.l"
 {
 	yylval = NULL;
 	return NE;
@@ -2408,7 +2408,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 647 "scanner.l"
+#line 648 "scanner.l"
 {
 	yylval = NULL;
 	return '^';
@@ -2416,7 +2416,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
-#line 652 "scanner.l"
+#line 653 "scanner.l"
 {
 	last_token_is_dot = 1;
 	yylval = NULL;
@@ -2425,7 +2425,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
-#line 658 "scanner.l"
+#line 659 "scanner.l"
 {
 	yylval = NULL;
 	return yytext[0];
@@ -2434,14 +2434,14 @@ YY_RULE_SETUP
 
 case 96:
 YY_RULE_SETUP
-#line 665 "scanner.l"
+#line 666 "scanner.l"
 {
 	/* ignore */
   }
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
-#line 668 "scanner.l"
+#line 669 "scanner.l"
 {
 	BEGIN INITIAL;
 	return scan_picture (yytext);
@@ -2451,7 +2451,7 @@ YY_RULE_SETUP
 
 case 98:
 YY_RULE_SETUP
-#line 675 "scanner.l"
+#line 676 "scanner.l"
 {
 	BEGIN INITIAL;
 	yylval = cb_build_reference (yytext);
@@ -2500,7 +2500,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 720 "scanner.l"
+#line 721 "scanner.l"
 {
 	yylval = NULL;
 	return yytext[0];
@@ -2512,7 +2512,7 @@ case YY_STATE_EOF(DECIMAL_IS_PERIOD):
 case YY_STATE_EOF(DECIMAL_IS_COMMA):
 case YY_STATE_EOF(PICTURE_STATE):
 case YY_STATE_EOF(FUNCTION_STATE):
-#line 726 "scanner.l"
+#line 727 "scanner.l"
 {
 	last_token_is_dot = 0;
 	integer_is_label = 0;
@@ -2525,7 +2525,7 @@ case YY_STATE_EOF(FUNCTION_STATE):
 	YY_BREAK
 case 100:
 YY_RULE_SETUP
-#line 736 "scanner.l"
+#line 737 "scanner.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
 #line 2532 "scanner.c"
@@ -3524,7 +3524,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 736 "scanner.l"
+#line 737 "scanner.l"
 
 
 
@@ -3533,7 +3533,7 @@ read_literal (int mark, enum cb_category category)
 {
 	size_t		i = 0;
 	int		c;
-	
+
 	if (!plexbuff) {
 		plexbuff = cobc_malloc (COB_MINI_BUFF);
 		plexsize = COB_MINI_BUFF;

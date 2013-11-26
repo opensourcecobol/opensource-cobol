@@ -172,9 +172,13 @@ then
 		  fi ],
 		[ LIBDB="3"
 		  AC_DEFINE(WITH_DB, 3) ]) ]) ])
-  cp tests/jp-compat_notisam.at tests/jp-compat.at
+fi
+
+if test "$with_cisam" != "yes" -a "$with_disam" != "yes" -a "$with_vbisam" != "yes" -a "$with_index_extfh" != "yes" -a "$with_db" != "yes"
+then
+	COB_HAS_ISAM="no"
 else
-  cp tests/jp-compat_isam.at tests/jp-compat.at
+	COB_HAS_ISAM="yes"
 fi
 
 #AC_ARG_WITH(lfs64,
@@ -760,6 +764,7 @@ COB_BIGENDIAN="$ac_cv_c_bigendian"
 AC_SUBST(COB_BIGENDIAN)
 AC_SUBST(COB_FIX_LIB)
 AC_SUBST(COB_HAS_INLINE)
+AC_SUBST(COB_HAS_ISAM)
 AC_SUBST(COB_M4_FLAGS)
 
 AC_CONFIG_FILES([cob-config

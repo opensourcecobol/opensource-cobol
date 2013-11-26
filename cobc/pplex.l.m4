@@ -77,7 +77,7 @@ static void convert_ucs_hyphen_minus (char *namebuf);
 #endif /*I18N_UTF8*/
 
 static void switch_to_buffer (const int lineno, const char *filename,
-			       YY_BUFFER_STATE buffer);
+			      YY_BUFFER_STATE buffer);
 
 %}
 ifdef(M4.I18N_UTF8,>>>>>
@@ -584,7 +584,6 @@ start:
 		} else {
 			buff[n++] = ipchar;
 		}
-		
 	}
 
 	if (buff[n - 1] != '\n') {
@@ -758,7 +757,7 @@ start:
 			}
 		}
 	}
-	
+
 	/* truncate trailing spaces, including the newline */
 	if (quotation_mark) {
 		for (; i < 72;) {
@@ -772,7 +771,7 @@ start:
 		}
 		buff[i + 1] = 0;
 	}
-	
+
 	if (continuation) {
 		memmove (buff, bp, strlen (bp) + 1);
 		newline_count++;
@@ -782,7 +781,7 @@ start:
 		memset (buff, '\n', newline_count);
 		newline_count = 1;
 	}
-	
+
 	return strlen (buff);
 }
 

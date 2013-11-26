@@ -6,6 +6,7 @@ CC="@CC@"
 SHREXT="@COB_MODULE_EXT@"
 SHROPT="@COB_SHARED_OPT@ @COB_PIC_FLAGS@ @CFLAGS@ @LDFLAGS@"
 COB_BIGENDIAN="@COB_BIGENDIAN@"
+COB_HAS_ISAM="@COB_HAS_ISAM@"
 PATH="${abs_top_builddir}/cobc:${abs_top_builddir}/bin:${abs_top_builddir}/libcob/.libs:${PATH}"
 CONF_JP_COMPAT="-conf=${abs_top_builddir}/config/jp-compat.conf"
 CONF_LIMIT_TEST="-conf=${abs_top_builddir}/config/boundary-limit.conf"
@@ -36,4 +37,5 @@ export LD_LIBRARY_PATH="${abs_top_builddir}/libcob/.libs:$LD_LIBRARY_PATH"
 export DYLD_LIBRARY_PATH="${abs_top_builddir}/libcob/.libs:$DYLD_LIBRARY_PATH"
 export SHLIB_PATH="${abs_top_builddir}/libcob/.libs:$SHLIB_PATH"
 export LIBPATH="${abs_top_builddir}/libcob/.libs:$LIBPATH"
+export COB_HAS_ISAM
 

@@ -1,5 +1,7 @@
 AT_SETUP([SPLIT KEYS (ALTERNATE KEY)])
 
+AT_CHECK([test $COB_HAS_ISAM = "yes" || exit 77])
+
 AT_DATA([prog.cob], [
        IDENTIFICATION   DIVISION.
        PROGRAM-ID.      prog.
@@ -45,5 +47,59 @@ AT_DATA([prog.cob], [
 
 AT_CHECK([${COMPILE} -o prog prog.cob])
 AT_CHECK([./prog], [0], [BBBB])
+
+AT_CLEANUP
+
+AT_SETUP([SPLIT KEYS (ALTERNATE KEY - NOT YET)])
+
+AT_CHECK([test $COB_HAS_ISAM = "no" || exit 77])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN TO "./TEST-FILE"
+                        ORGANIZATION IS  INDEXED
+                        ACCESS MODE  IS  RANDOM
+                        RECORD KEY   IS  TEST-KEY1
+                        ALTERNATE RECORD KEY IS ALT-KEY1
+                                                ALT-KEY2.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-REC.
+          03 TEST-KEY1  PIC X(4).
+          03 ALT-KEY1   PIC X(4).
+          03 ALT-KEY2   PIC X(4).
+       PROCEDURE        DIVISION.
+           OPEN  OUTPUT TEST-FILE.
+           MOVE "AAAA" TO TEST-KEY1.
+           MOVE "ALT1" TO  ALT-KEY1.
+           MOVE "-001" TO  ALT-KEY2.
+           WRITE TEST-REC.
+           MOVE "BBBB" TO TEST-KEY1.
+           MOVE "ALT2" TO  ALT-KEY1.
+           MOVE "-002" TO  ALT-KEY2.
+           WRITE TEST-REC.
+           MOVE "CCCC" TO TEST-KEY1.
+           MOVE "ALT3" TO  ALT-KEY1.
+           MOVE "-003" TO  ALT-KEY2.
+           WRITE TEST-REC.
+           CLOSE TEST-FILE.
+           OPEN  INPUT  TEST-FILE.
+           MOVE "ALT2" TO  ALT-KEY1.
+           MOVE "-002" TO  ALT-KEY2.
+           READ  TEST-FILE KEY IS ALT-KEY1 ALT-KEY2.
+           DISPLAY TEST-KEY1 NO ADVANCING.
+           CLOSE TEST-FILE.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -o prog prog.cob], [0], [],
+	[prog.cob:12: Warning: 'SPLIT KEYS' not implemented
+prog.cob:38: Warning: 'SPLIT KEYS' not implemented
+])
 
 AT_CLEANUP

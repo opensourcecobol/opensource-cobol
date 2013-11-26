@@ -522,6 +522,7 @@ H\"[^\"\n]*\" {
 	count_lines (yytext);
 	return WHEN_OTHER;
 }
+
 ifdef(M4.I18N_UTF8,>>>>>
 ([A-Z0-9]|{UTF8_EXT})(([_A-Z0-9-]|{UTF8_EXT})*([A-Z0-9]|{UTF8_EXT})+)? {
 <<<<<,>>>>>
@@ -766,7 +767,7 @@ read_literal (int mark, enum cb_category category)
 {
 	size_t		i = 0;
 	int		c;
-	
+
 	if (!plexbuff) {
 		plexbuff = cobc_malloc (COB_MINI_BUFF);
 		plexsize = COB_MINI_BUFF;

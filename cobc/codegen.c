@@ -3019,11 +3019,11 @@ output_sort_proc_escape (struct cb_sort_proc *p)
 	output ("             --frame_ptr;\n");
 	output ("    ");
 #ifndef	__GNUC__
-		output_line ("goto P_switch;");
+	output_line ("goto P_switch;");
 #elif	COB_USE_SETJMP
-		output_line ("longjmp (frame_ptr->return_address, 1);");
+	output_line ("longjmp (frame_ptr->return_address, 1);");
 #else
-		output_line ("goto *frame_ptr->return_address;");
+	output_line ("goto *frame_ptr->return_address;");
 #endif
 	output ("      }\n");
 }

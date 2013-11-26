@@ -1747,6 +1747,7 @@ alternative_record_key_clause:
   }
 | ALTERNATE RECORD _key _is reference key_is_eq split_key_list flag_duplicates
   {
+#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) || defined(WITH_INDEX_EXTFH)
 	struct cb_alt_key *p;
 	struct cb_alt_key *l;
 	cb_tree composite_key;
@@ -1768,7 +1769,7 @@ alternative_record_key_clause:
 	if (composite_key == cb_error_node) {
 		YYERROR;
 	} else {
-		composite_key->category = CB_CATEGORY_ALPHANUMERIC; 
+		composite_key->category = CB_CATEGORY_ALPHANUMERIC;
 		((struct cb_field *)composite_key)->count = 1;
 		p->key = cb_build_field_reference ((struct cb_field *)composite_key, NULL);
 		p->component_list = key_component_list;
@@ -1784,6 +1785,9 @@ alternative_record_key_clause:
 			l->next = p;
 		}
 	}
+#else
+	PENDING ("SPLIT KEYS");
+#endif
   }
 ;
 
@@ -5356,7 +5360,18 @@ with_lock:
 
 read_key:
   /* empty */			{ $$ = NULL; }
-| KEY _is identifier_list	{ $$ = $3; }
+| KEY _is identifier_list
+  {
+#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) || defined(WITH_INDEX_EXTFH)
+	$$ = $3;
+#else
+	if (CB_LIST($3)->chain) {
+		PENDING ("SPLIT KEYS");
+	} else {
+		$$ = $3;
+	}
+#endif
+  }
 ;
 
 read_handler:

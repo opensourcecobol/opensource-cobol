@@ -499,6 +499,7 @@ H\"[^\"\n]*\" {
 	return WHEN_OTHER;
 }
 
+
 ([A-Z0-9]|{JPNWORD})(([_A-Z0-9-]|{JPNWORD})*([A-Z0-9]|{JPNWORD}+))? {
 
 	struct cb_word			*word;
@@ -740,7 +741,7 @@ read_literal (int mark, enum cb_category category)
 {
 	size_t		i = 0;
 	int		c;
-	
+
 	if (!plexbuff) {
 		plexbuff = cobc_malloc (COB_MINI_BUFF);
 		plexsize = COB_MINI_BUFF;

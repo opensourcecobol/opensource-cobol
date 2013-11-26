@@ -82,7 +82,6 @@ i18n_sjis_DEPENDENCIES = \
 	i18n_sjis.src/limits.at \
 	i18n_sjis.src/national.at
 
-if WITH_ISAM
 jp_compat_DEPENDENCIES = \
 	jp-compat.at \
 	jp-compat.src/split-keys.at \
@@ -92,16 +91,6 @@ jp_compat_DEPENDENCIES = \
 	jp-compat.src/spl-registers.at \
 	jp-compat.src/special-names.at \
 	jp-compat.src/intr-funcs.at
-else
-jp_compat_DEPENDENCIES = \
-	jp-compat.at \
-	jp-compat.src/end-program-wrong.at \
-	jp-compat.src/evaluate-also-missing.at \
-	jp-compat.src/empty-imperative.at \
-	jp-compat.src/spl-registers.at \
-	jp-compat.src/special-names.at \
-	jp-compat.src/intr-funcs.at
-endif
 
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(syntax_DEPENDENCIES) \
@@ -109,9 +98,7 @@ EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(data_rep_DEPENDENCIES) \
 	$(i18n_utf8_DEPENDENCIES) \
 	$(i18n_sjis_DEPENDENCIES) \
-	$(jp_compat_DEPENDENCIES) \
-	$(srcdir)/jp-compat_isam.at \
-	$(srcdir)/jp-compat_notisam.at
+	$(jp_compat_DEPENDENCIES)
 
 
 DISTCLEANFILES = atconfig
