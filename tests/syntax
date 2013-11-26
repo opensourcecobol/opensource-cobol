@@ -679,7 +679,8 @@ at_help_all="1;copy.at:22;COPY: file not found;copy;
 84;indicator.at:59;dollarif value match - false;;
 85;indicator.at:79;dollarif value match - not true;;
 86;indicator.at:99;dollarif value match - not false;;
-87;assign-external.at:1;ASSIGN TO DYNAMIC create file (assign_external);;
+87;indicator.at:119;column 7 is undefined value;;
+88;assign-external.at:1;ASSIGN TO DYNAMIC create file (assign_external);;
 "
 # List of the all the test groups.
 at_groups_all=`$as_echo "$at_help_all" | sed 's/;.*//'`
@@ -693,7 +694,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 87; then
+    if test $at_value -lt 1 || test $at_value -gt 88; then
       $as_echo "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -6284,11 +6285,53 @@ $at_traceon; }
 read at_status <"$at_status_file"
 #AT_STOP_86
 #AT_START_87
-at_fn_group_banner 87 'assign-external.at:1' \
-  "ASSIGN TO DYNAMIC create file (assign_external)" ""
+at_fn_group_banner 87 'indicator.at:119' \
+  "column 7 is undefined value" "                    "
 at_xfail=no
 (
   $as_echo "87. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+      1WORKING-STORAGE  SECTION.
+       PROCEDURE        DIVISION.
+           DISPLAY "OK".
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:131: \${COMPILE} -x prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:131"
+( $at_check_trace; ${COMPILE} -x prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+echo >>"$at_stderr"; $as_echo "prog.cob:4: Error: Invalid indicator '1' at column 7
+" | \
+  $at_diff - "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 1 $at_status "$at_srcdir/indicator.at:131"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_87
+#AT_START_88
+at_fn_group_banner 88 'assign-external.at:1' \
+  "ASSIGN TO DYNAMIC create file (assign_external)" ""
+at_xfail=no
+(
+  $as_echo "88. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -6363,4 +6406,4 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_87
+#AT_STOP_88
