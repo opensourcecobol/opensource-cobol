@@ -5714,30 +5714,38 @@ cb_build_perform_exit (struct cb_label *label)
  * READ statement
  */
 
-static cb_tree lookup_compound_key (struct cb_file *f, struct cb_list *keys)
+static int
+match_compound_key (struct cb_key_component *pkcomp, struct cb_list *keys)
+{
+	struct cb_field		*pfld;
+	struct cb_reference	*pref;
+
+	while (pkcomp && keys) {
+		pfld = CB_FIELD (CB_REFERENCE (keys->value)->value);
+		pref = CB_REFERENCE (pkcomp->component);
+		if (pfld != CB_FIELD (pref->value)) {
+			break;
+		}
+		pkcomp = pkcomp->next;
+		keys = (keys->chain) ? CB_LIST (keys->chain): NULL;
+	}
+	return (!pkcomp && !keys);
+}
+
+static cb_tree
+lookup_compound_key (struct cb_file *f, struct cb_list *keys)
 {
 	struct cb_alt_key	*paltkey;
-	struct cb_list		*plskey;
-	struct cb_key_component	*pkcomp;
-	struct cb_field         *pfld;
-	struct cb_reference	*pref;
-	cb_tree key = NULL;
+	cb_tree			key = NULL;
 
-	for (paltkey = f->alt_key_list; paltkey; paltkey = paltkey->next) {
-		plskey = keys;
-		pkcomp = paltkey->component_list;
-		while (plskey && pkcomp) {
-			pfld = CB_FIELD (CB_REFERENCE (plskey->value)->value);
-			pref = CB_REFERENCE (pkcomp->component);
-			if (pfld != CB_FIELD (pref->value)) {
+	if (match_compound_key (f->component_list, keys)) {
+		key = f->key;
+	} else {
+		for (paltkey = f->alt_key_list; paltkey; paltkey = paltkey->next) {
+			if (match_compound_key (paltkey->component_list, keys)) {
+				key = paltkey->key;
 				break;
 			}
-			plskey = (plskey->chain) ? CB_LIST (plskey->chain): NULL;
-			pkcomp = pkcomp->next;
-		}
-		if (!plskey && !pkcomp) {
-			key = paltkey->key;
-			break;
 		}
 	}
 	return key;
@@ -5797,6 +5805,10 @@ cb_emit_read (cb_tree ref, cb_tree next, cb_tree into, cb_tree keys, cb_tree loc
 							   CB_LIST (keys));
 			} else {
 				key = CB_LIST (keys)->value;
+			}
+			if (!key) {
+				cb_error_x (CB_TREE (current_statement), _("Undefined compound keys"));
+				return;
 			}
 		} 
 		/* READ */
@@ -6337,10 +6349,24 @@ cb_emit_sort_finish (cb_tree file)
  */
 
 void
-cb_emit_start (cb_tree file, cb_tree op, cb_tree key)
+cb_emit_start (cb_tree file, cb_tree op, cb_tree keys)
 {
-	if (cb_validate_one (key)) {
+	cb_tree	key = NULL;
+
+	if (cb_validate_one (keys)) {
 		return;
+	}
+	if (keys) {
+		if (CB_LIST (keys)->chain != NULL) {
+			key = lookup_compound_key (CB_FILE (cb_ref (file)),
+						   CB_LIST (keys));
+		} else {
+			key = CB_LIST (keys)->value;
+		}
+		if (!key) {
+			cb_error_x (CB_TREE (current_statement), _("Undefined compound keys"));
+			return;
+		}
 	}
 	if (file != cb_error_node) {
 		current_statement->file = cb_ref (file);

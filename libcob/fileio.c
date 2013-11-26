@@ -2485,8 +2485,8 @@ indexed_start (cob_file *f, const int cond, cob_field *key)
 	}
 	/* Use size of data field; This may indicate a partial key */
 	klen = key->size;
-	if (klen < 1 || klen > fh->key[k].k_leng) {
-		klen = fh->key[k].k_leng;	/* Max key length for this index */
+	if (klen < 1 || klen > fh->key[k].k_len) {
+		klen = fh->key[k].k_len;	/* Max key length for this index */
 	}
 	mode = ISGTEQ;
 	fh->startiscur = 1;
@@ -2568,7 +2568,7 @@ indexed_read (cob_file *f, cob_field *key, const int read_opts)
 		}
 	}
 	if (fh->curkey != k) {				/* Switch to this index */
-		isstart (fh->isfd, &fh->key[k], fh->key[0].k_leng, (void *)f->record->data, ISEQUAL);
+		isstart (fh->isfd, &fh->key[k], fh->key[0].k_len, (void *)f->record->data, ISEQUAL);
 		fh->curkey = k;
 		fh->wrkhasrec = 0;
 		if (fh->key[k].k_flags & ISDUPS) {
@@ -2646,7 +2646,7 @@ indexed_read (cob_file *f, cob_field *key, const int read_opts)
 		}
 #endif
 	} else {
-		memset (fh->savekey, 0, fh->key[0].k_leng);
+		memset (fh->savekey, 0, fh->key[0].k_len);
 		fh->recnum = 0;
 		fh->readdone = 0;
 	}
@@ -2739,7 +2739,7 @@ indexed_read_next (cob_file *f, const int read_opts)
 				case COB_GE:
 					domoveback = 0;
 					while (iserrno == 0
-					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_leng) == 0) {
+					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_len) == 0) {
 						isread (fh->isfd, (void *)f->record->data, ISPREV);
 						domoveback = 1;
 					}
@@ -2750,7 +2750,7 @@ indexed_read_next (cob_file *f, const int read_opts)
 				case COB_LE:
 					domoveback = 0;
 					while (iserrno == 0
-					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_leng) == 0) {
+					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_len) == 0) {
 						isread (fh->isfd, (void *)f->record->data, ISNEXT);
 						domoveback = 1;
 					}
@@ -2760,13 +2760,13 @@ indexed_read_next (cob_file *f, const int read_opts)
 					break;
 				case COB_LT:
 					while (iserrno == 0
-					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_leng) >= 0) {
+					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_len) >= 0) {
 						isread (fh->isfd, (void *)f->record->data, ISPREV);
 					}
 					break;
 				case COB_GT:
 					while (iserrno == 0
-					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_leng)<=0) {
+					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_len)<=0) {
 						isread (fh->isfd, (void *)f->record->data, ISNEXT);
 					}
 					break;
@@ -2811,7 +2811,7 @@ indexed_read_next (cob_file *f, const int read_opts)
 				case COB_LE:
 					domoveback = 0;
 					while (iserrno == 0
-					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_leng) == 0) {
+					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_len) == 0) {
 						isread (fh->isfd, (void *)f->record->data, ISNEXT);
 						domoveback = 1;
 					}
@@ -2821,19 +2821,19 @@ indexed_read_next (cob_file *f, const int read_opts)
 					break;
 				case COB_LT:
 					while (iserrno == 0
-					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_leng) >= 0) {
+					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_len) >= 0) {
 						isread (fh->isfd, (void *)f->record->data, ISPREV);
 					}
 					break;
 				case COB_GT:
 					while (iserrno == 0
-					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_leng) <= 0) {
+					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_len) <= 0) {
 						isread (fh->isfd, (void *)f->record->data, ISNEXT);
 					}
 					break;
 				case COB_GE:
 					while (iserrno == 0
-					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_leng) < 0) {
+					&& memcmp (f->record->data + fh->key[fh->curkey].k_start, fh->savekey, fh->key[fh->curkey].k_len) < 0) {
 						isread (fh->isfd, (void *)f->record->data, ISNEXT);
 					}
 					break;
@@ -2907,7 +2907,7 @@ indexed_read_next (cob_file *f, const int read_opts)
 				fh->saverecnum = isrecnum;
 				if (memcmp (f->record->data + fh->key[fh->curkey].k_start, 
 				    fh->recwrk + fh->key[fh->curkey].k_start,
-				    fh->key[fh->curkey].k_leng) == 0) {
+				    fh->key[fh->curkey].k_len) == 0) {
 					ret = COB_STATUS_02_SUCCESS_DUPLICATE;
 				}
 			}
@@ -2918,7 +2918,7 @@ indexed_read_next (cob_file *f, const int read_opts)
 		}
 #endif
 	} else {
-		memset (fh->savekey, 0, fh->key[0].k_leng);
+		memset (fh->savekey, 0, fh->key[0].k_len);
 		fh->recnum = 0;
 		fh->readdone = 0;
 		fh->wrkhasrec = 0;

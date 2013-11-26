@@ -5786,7 +5786,19 @@ start_statement:
 
 start_key:
   /* empty */			{ $$ = NULL; }
-| KEY _is start_op x		{ $0 = $3; $$ = $4; }
+| KEY _is start_op identifier_list
+  {
+	$0 = $3;
+#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) || defined(WITH_INDEX_EXTFH)
+	$$ = $4;
+#else
+	if (CB_LIST($4)->chain) {
+		PENDING ("SPLIT KEYS");
+	} else {
+		$$ = $4;
+ 	}
+#endif
+  }
 ;
 
 start_op:
