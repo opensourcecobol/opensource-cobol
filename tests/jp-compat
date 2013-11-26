@@ -641,6 +641,7 @@ at_help_all="1;split-keys.at:1;SPLIT KEYS (ALTERNATE KEY);;
 46;file-control.at:321;Allow file delete (RELATIVE);;
 47;file-control.at:355;Allow file delete (INDEXED);;
 48;file-control.at:391;Allow file delete (INDEXED) - not available;;
+49;file-userfh.at:1;USERFH - READ LOCK;;
 "
 # List of the all the test groups.
 at_groups_all=`$as_echo "$at_help_all" | sed 's/;.*//'`
@@ -654,7 +655,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 48; then
+    if test $at_value -lt 1 || test $at_value -gt 49; then
       $as_echo "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -5776,3 +5777,111 @@ $at_traceon; }
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
 #AT_STOP_48
+#AT_START_49
+at_fn_group_banner 49 'file-userfh.at:1' \
+  "USERFH - READ LOCK" "                             "
+at_xfail=no
+(
+  $as_echo "49. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >hoge.c <<'_ATEOF'
+
+#include <stdio.h>
+#include <string.h>
+#include <libcob/fileio.h>
+
+int hoge (unsigned char *s1, unsigned char *s2, unsigned char *s3, unsigned char *s4,
+          unsigned char *s5, unsigned char *s6, unsigned char *s7, unsigned char *s8,
+          unsigned char **s9, unsigned char *s10)
+{
+	if (s8) {
+		printf("%s", s8);
+	}
+	return 0;
+}
+_ATEOF
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION        DIVISION.
+       PROGRAM-ID.           prog.
+       ENVIRONMENT           DIVISION.
+       INPUT-OUTPUT          SECTION.
+       FILE-CONTROL.
+       SELECT INPUT-FILE     ASSIGN TO "./input.txt".
+       DATA                  DIVISION.
+       FILE                  SECTION.
+       FD  INPUT-FILE.
+       01  INPUT-REC.
+           03  REC-KEY1      PIC X(4).
+           03  REC-KEY2      PIC X(4).
+       PROCEDURE             DIVISION.
+           OPEN INPUT INPUT-FILE.
+           READ INPUT-FILE WITH IGNORE LOCK.
+           CLOSE INPUT-FILE.
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/file-userfh.at:39: echo -n 12341234 >input.txt"
+at_fn_check_prepare_trace "file-userfh.at:39"
+( $at_check_trace; echo -n 12341234 >input.txt
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-userfh.at:39"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/file-userfh.at:40: \${CC} -shared -o hoge.so hoge.c -fPIC"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-userfh.at:40"
+( $at_check_trace; ${CC} -shared -o hoge.so hoge.c -fPIC
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-userfh.at:40"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/file-userfh.at:41: \${COMPILE} -x prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "file-userfh.at:41"
+( $at_check_trace; ${COMPILE} -x prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-userfh.at:41"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/file-userfh.at:42: export OC_USERFH=hoge && ./prog"
+at_fn_check_prepare_trace "file-userfh.at:42"
+( $at_check_trace; export OC_USERFH=hoge && ./prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "257" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/file-userfh.at:42"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_49

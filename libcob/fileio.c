@@ -196,7 +196,7 @@ struct cobsort {
 /* End SORT definitions */
 
 #define        OPENMODESIZE  3
-#define        READOPTSSIZE  2
+#define        READOPTSSIZE  4
 #define        STARTCONDSIZE 2
 #define        EXCPTCODESIZE 6
 
@@ -4421,7 +4421,7 @@ cob_read (cob_file *f, cob_field *key, cob_field *fnstatus, int read_opts)
 	memset (openMode, 0, sizeof (openMode));
 	memset (readOpts, 0, sizeof (readOpts));
 	sprintf (openMode, "%02d", f->last_open_mode);
-	sprintf (readOpts, "%01d", read_opts);
+	sprintf (readOpts, "%03d", read_opts);
 	if (cob_invoke_fun (COB_IO_READ, (char*)f, key, NULL, fnstatus, openMode, NULL, readOpts)) {
 		memset (sbuff, 0, sizeof (sbuff));
 		if (fnstatus == NULL) {
