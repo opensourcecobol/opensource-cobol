@@ -39,3 +39,4 @@ m4_include([multiply.at])	# 14.8.25 MULTIPLY statement
 m4_include([set.at])		# 14.8.35 MULTIPLY statement
 
 m4_include([free-1col-aster.at])
+m4_include([indicator.at])

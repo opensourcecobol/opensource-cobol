@@ -225,7 +225,8 @@ syntax_DEPENDENCIES = \
 	syntax.src/set.at \
 	syntax.src/occurs.at \
 	syntax.src/subscripts.at \
-	syntax.src/free-1col-aster.at
+	syntax.src/free-1col-aster.at \
+	syntax.src/indicator.at
 
 run_DEPENDENCIES = \
 	run.at \

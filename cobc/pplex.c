@@ -73,7 +73,6 @@ typedef int flex_int32_t;
 typedef unsigned char flex_uint8_t; 
 typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
-#endif /* ! C99 */
 
 /* Limits of integral types. */
 #ifndef INT8_MIN
@@ -103,6 +102,8 @@ typedef unsigned int flex_uint32_t;
 #ifndef UINT32_MAX
 #define UINT32_MAX             (4294967295U)
 #endif
+
+#endif /* ! C99 */
 
 #endif /* ! FLEXINT_H */
 
@@ -160,7 +161,15 @@ typedef unsigned int flex_uint32_t;
 
 /* Size of default input buffer. */
 #ifndef YY_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k.
+ * Moreover, YY_BUF_SIZE is 2*YY_READ_BUF_SIZE in the general case.
+ * Ditto for the __ia64__ case accordingly.
+ */
+#define YY_BUF_SIZE 32768
+#else
 #define YY_BUF_SIZE 16384
+#endif /* __ia64__ */
 #endif
 
 /* The state buf must be large enough to hold one state per character in the main buffer.
@@ -882,17 +891,17 @@ char *pptext;
 /*							-*- c -*-
  * Copyright (C) 2001-2009 Keisuke Nishida
  * Copyright (C) 2007-2009 Roger While
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, 51 Franklin Street, Fifth Floor
@@ -916,6 +925,16 @@ char *pptext;
 #include "cobc.h"
 #include "ppparse.h"
 
+enum {
+	CB_COMPILE_STATUS_NONE,
+	CB_COMPILE_STATUS_TRUE,
+	CB_COMPILE_STATUS_FALSE,
+	CB_COMPILE_STATUS_FALSE_END,
+	CB_COMPILE_STATUS_TRUE_ELSE,
+	CB_COMPILE_STATUS_FALSE_ELSE,
+	CB_COMPILE_STATUS_ERROR
+};
+
 static char	*plexbuff1 = NULL;
 static char	*plexbuff2 = NULL;
 static size_t	newline_count = 0;
@@ -925,6 +944,13 @@ static size_t	consecutive_quotation = 0;
 static int	quotation_mark = 0;
 static int	last_line_1 = -1;
 static int	last_line_2 = -1;
+
+
+#define MAX_DEPTH 10
+static int	cb_compile_status = CB_COMPILE_STATUS_NONE;
+static int	cb_compile_status_list[MAX_DEPTH];
+static int	compile_directive_depth = -1;
+
 
 static struct cb_replace_list	*current_replace_list = NULL;
 
@@ -952,7 +978,7 @@ static void switch_to_buffer (const int lineno, const char *filename,
 			      YY_BUFFER_STATE buffer);
 
 
-#line 956 "pplex.c"
+#line 982 "pplex.c"
 
 #define INITIAL 0
 #define PROCESS_STATE 1
@@ -1036,7 +1062,12 @@ static int input (void );
 
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k */
+#define YY_READ_BUF_SIZE 16384
+#else
 #define YY_READ_BUF_SIZE 8192
+#endif /* __ia64__ */
 #endif
 
 /* Copy whatever the last rule matched to the standard output. */
@@ -1055,7 +1086,7 @@ static int input (void );
 	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
 		{ \
 		int c = '*'; \
-		unsigned n; \
+		size_t n; \
 		for ( n = 0; n < max_size && \
 			     (c = getc( ppin )) != EOF && c != '\n'; ++n ) \
 			buf[n] = (char) c; \
@@ -1140,13 +1171,13 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 92 "pplex.l"
+#line 109 "pplex.l"
 
 
 
 
 
-#line 1150 "pplex.c"
+#line 1181 "pplex.c"
 
 	if ( !(yy_init) )
 		{
@@ -1228,16 +1259,16 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 97 "pplex.l"
+#line 114 "pplex.l"
 {
 	ppecho (" ");
 }
 	YY_BREAK
 case 2:
-#line 102 "pplex.l"
+#line 119 "pplex.l"
 case 3:
 YY_RULE_SETUP
-#line 102 "pplex.l"
+#line 119 "pplex.l"
 {
 	ppecho (" ");
 	if (cb_source_format != CB_FORMAT_FIXED) {
@@ -1247,117 +1278,117 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 109 "pplex.l"
+#line 126 "pplex.l"
 { BEGIN PROCESS_STATE; }
 	YY_BREAK
 
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 112 "pplex.l"
+#line 129 "pplex.l"
 { BEGIN INITIAL; unput ('\n'); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 113 "pplex.l"
+#line 130 "pplex.l"
 { cb_warning (_("PROCESS statement is ignored")); }
 	YY_BREAK
 
 case 7:
 YY_RULE_SETUP
-#line 116 "pplex.l"
+#line 133 "pplex.l"
 { BEGIN COPY_STATE; return COPY; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 117 "pplex.l"
+#line 134 "pplex.l"
 { BEGIN COPY_STATE; return COPY; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 118 "pplex.l"
+#line 135 "pplex.l"
 { BEGIN COPY_STATE; return REPLACE; }
 	YY_BREAK
 
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 121 "pplex.l"
+#line 138 "pplex.l"
 { ECHO; cb_source_line++; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 122 "pplex.l"
+#line 139 "pplex.l"
 { /* ignore */ }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 123 "pplex.l"
+#line 140 "pplex.l"
 { BEGIN INITIAL; return '.'; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 124 "pplex.l"
+#line 141 "pplex.l"
 { BEGIN PSEUDO_STATE; return EQEQ; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 125 "pplex.l"
+#line 142 "pplex.l"
 { return '('; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 126 "pplex.l"
+#line 143 "pplex.l"
 { return ')'; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 127 "pplex.l"
+#line 144 "pplex.l"
 { return BY; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 128 "pplex.l"
+#line 145 "pplex.l"
 { return IN; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 129 "pplex.l"
+#line 146 "pplex.l"
 { return OF; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 130 "pplex.l"
+#line 147 "pplex.l"
 { return OFF; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 131 "pplex.l"
+#line 148 "pplex.l"
 { return SUPPRESS; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 132 "pplex.l"
+#line 149 "pplex.l"
 { return PRINTING; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 133 "pplex.l"
+#line 150 "pplex.l"
 { return REPLACING; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 134 "pplex.l"
+#line 151 "pplex.l"
 { return LEADING; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 135 "pplex.l"
+#line 152 "pplex.l"
 { return TRAILING; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 136 "pplex.l"
+#line 153 "pplex.l"
 {
 #ifdef	I18N_UTF8
 			  convert_ucs_hyphen_minus (pptext);
@@ -1365,12 +1396,12 @@ YY_RULE_SETUP
 			  pplval.s = strdup (pptext); return TOKEN; }
 	YY_BREAK
 case 26:
-#line 142 "pplex.l"
+#line 159 "pplex.l"
 case 27:
-#line 143 "pplex.l"
+#line 160 "pplex.l"
 case 28:
 YY_RULE_SETUP
-#line 143 "pplex.l"
+#line 160 "pplex.l"
 { pplval.s = strdup (pptext); return TOKEN; }
 	YY_BREAK
 
@@ -1378,22 +1409,22 @@ YY_RULE_SETUP
 case 29:
 /* rule 29 can match eol */
 YY_RULE_SETUP
-#line 147 "pplex.l"
+#line 164 "pplex.l"
 { ECHO; cb_source_line++; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 148 "pplex.l"
+#line 165 "pplex.l"
 { pplval.s = strdup (" "); return TOKEN; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 149 "pplex.l"
+#line 166 "pplex.l"
 { BEGIN COPY_STATE; return EQEQ; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 150 "pplex.l"
+#line 167 "pplex.l"
 {
 #ifdef	I18N_UTF8
 			  convert_ucs_hyphen_minus (pptext);
@@ -1401,30 +1432,30 @@ YY_RULE_SETUP
 			  pplval.s = strdup (pptext); return TOKEN; }
 	YY_BREAK
 case 33:
-#line 156 "pplex.l"
+#line 173 "pplex.l"
 case 34:
-#line 157 "pplex.l"
+#line 174 "pplex.l"
 case 35:
 YY_RULE_SETUP
-#line 157 "pplex.l"
+#line 174 "pplex.l"
 { pplval.s = strdup (pptext); return TOKEN; }
 	YY_BREAK
 
 case 36:
-#line 161 "pplex.l"
+#line 178 "pplex.l"
 case 37:
-#line 162 "pplex.l"
+#line 179 "pplex.l"
 case 38:
-#line 163 "pplex.l"
+#line 180 "pplex.l"
 case 39:
-#line 164 "pplex.l"
+#line 181 "pplex.l"
 case 40:
-#line 165 "pplex.l"
+#line 182 "pplex.l"
 case 41:
-#line 166 "pplex.l"
+#line 183 "pplex.l"
 case 42:
 YY_RULE_SETUP
-#line 166 "pplex.l"
+#line 183 "pplex.l"
 {
 	/* these words are treated as comments */
 	if (cb_verify (cb_author_paragraph, pptext)) {
@@ -1442,14 +1473,14 @@ YY_RULE_SETUP
 }
 	YY_BREAK
 case 43:
-#line 183 "pplex.l"
+#line 200 "pplex.l"
 case 44:
-#line 184 "pplex.l"
+#line 201 "pplex.l"
 case 45:
-#line 185 "pplex.l"
+#line 202 "pplex.l"
 case 46:
 YY_RULE_SETUP
-#line 185 "pplex.l"
+#line 202 "pplex.l"
 {
 	/* these words are comments in IBM COBOL */
 	if (cb_verify (cb_eject_statement, pptext)) {
@@ -1462,17 +1493,17 @@ YY_RULE_SETUP
 case 47:
 /* rule 47 can match eol */
 YY_RULE_SETUP
-#line 194 "pplex.l"
+#line 211 "pplex.l"
 { ppecho ("\n"); cb_source_line++; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 196 "pplex.l"
+#line 213 "pplex.l"
 { ppecho (" "); }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 198 "pplex.l"
+#line 215 "pplex.l"
 {
 	if (inside_bracket) {
 		ppecho (", ");
@@ -1483,7 +1514,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 206 "pplex.l"
+#line 223 "pplex.l"
 {
 	inside_bracket++;
 	ppecho ("(");
@@ -1491,7 +1522,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 211 "pplex.l"
+#line 228 "pplex.l"
 {
 	if (inside_bracket) {
 		inside_bracket--;
@@ -1501,7 +1532,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 218 "pplex.l"
+#line 235 "pplex.l"
 {
 #ifdef	I18N_UTF8
 			  convert_ucs_hyphen_minus (pptext);
@@ -1509,19 +1540,19 @@ YY_RULE_SETUP
 			  ppecho (pptext); }
 	YY_BREAK
 case 53:
-#line 224 "pplex.l"
+#line 241 "pplex.l"
 case 54:
-#line 225 "pplex.l"
+#line 242 "pplex.l"
 case 55:
 YY_RULE_SETUP
-#line 225 "pplex.l"
+#line 242 "pplex.l"
 { ppecho (pptext); }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(PROCESS_STATE):
 case YY_STATE_EOF(COPY_STATE):
 case YY_STATE_EOF(PSEUDO_STATE):
-#line 227 "pplex.l"
+#line 244 "pplex.l"
 {
 	struct copy_info *p;
 
@@ -1560,10 +1591,10 @@ case YY_STATE_EOF(PSEUDO_STATE):
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 263 "pplex.l"
+#line 280 "pplex.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 1567 "pplex.c"
+#line 1598 "pplex.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2319,8 +2350,8 @@ YY_BUFFER_STATE pp_scan_string (yyconst char * yystr )
 
 /** Setup the input buffer state to scan the given bytes. The next call to pplex() will
  * scan from a @e copy of @a bytes.
- * @param bytes the byte buffer to scan
- * @param len the number of bytes in the buffer pointed to by @a bytes.
+ * @param yybytes the byte buffer to scan
+ * @param _yybytes_len the number of bytes in the buffer pointed to by @a bytes.
  * 
  * @return the newly allocated buffer state object.
  */
@@ -2559,7 +2590,7 @@ void ppfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 263 "pplex.l"
+#line 280 "pplex.l"
 
 
 
@@ -2818,6 +2849,192 @@ check_directive (char *buff, int *line_size)
 	cb_warning (_("Invalid directive - ignored"));
 }
 
+static void
+check_dollar_directive (char *buff, int *line_size)
+{
+	struct cb_constant_list	*l;
+	char			*s;
+	size_t			cnt;
+	int			n;
+	char			sbuff[5][256];
+	int			isDEFINED, isNOT;
+	int			i;
+
+	if (cb_source_format == CB_FORMAT_FIXED) {
+		if (*line_size < 8) {
+			return;
+		}
+		if (buff[6] != '$') {
+			return;
+		}
+		if (*line_size > cb_text_column + 1) {
+			strcpy (buff + cb_text_column, "\n");
+		}
+		s = &buff[6];
+	} else {
+		if (buff[1] != '$') {
+			return;
+		}
+		s = buff;
+	}
+
+	memset (sbuff[0], 0, sizeof (sbuff));
+	n = sscanf (s, "%255s %255s %255s %255s %255s",
+		sbuff[0], sbuff[1], sbuff[2], sbuff[3], sbuff[4]);
+	for (cnt = 0; cnt < newline_count; cnt++) {
+		buff[cnt] = '\n';
+	}
+	buff[cnt] = 0;
+	newline_count = 0;
+	strcat (buff, "      *> DIRECTIVE\n");
+	*line_size = strlen (buff);
+
+	if (strcasecmp (sbuff[0], "$IF") == 0) {
+		compile_directive_depth++;
+		if (compile_directive_depth >= MAX_DEPTH) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("$IF is nested more than 10 times"));
+			return;
+		}
+		if (compile_directive_depth < 0) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("Fatal error in $IF statement"));
+			return;
+		}
+		if (strlen (sbuff[1]) <= 0) {
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("Arguments not enough to $IF statemen"));
+			return;
+		}
+
+		isDEFINED = 0;
+		isNOT = 0;
+		cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_FALSE;
+		if (strcasecmp (sbuff[2], "NOT") == 0) {
+			isNOT = 1;
+			cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_TRUE;
+		}
+		if (strcasecmp (sbuff[2+isNOT], "DEFINED") == 0) {
+			isDEFINED = 1;
+		} else if (strcasecmp (sbuff[2+isNOT], "=") != 0 ||
+				strlen (sbuff[3+isNOT]) <= 0) {
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("Invalid argument $IF statemen"));
+			return;
+		}
+		l = cb_const_list;
+		while (l) {
+			if (strcasecmp (l->name, sbuff[1]) == 0) {
+				if (isDEFINED) {
+					if (isNOT) cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_FALSE;
+					else cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_TRUE;
+					break;
+				} else {
+					switch (l->type) {
+					case CB_CONSTANT_TYPE_ALPANUM:
+						if (strlen (sbuff[3+isNOT]) < 3 ||
+								sbuff[3+isNOT] != strchr (sbuff[3+isNOT], '\"') ||
+								sbuff[3+isNOT] == strrchr (sbuff[3+isNOT], '\"') ||
+								strlen (strchr (sbuff[3+isNOT]+1, '\"')) > 1) {
+							cb_compile_status = CB_COMPILE_STATUS_ERROR;
+							cb_error (_("%s is not a string"), sbuff[3+isNOT]);
+							return;
+						}
+						strcpy (strchr (sbuff[3+isNOT]+1, '\"'), "");
+						if (strcasecmp (sbuff[3+isNOT]+1, l->alphavalue) == 0) {
+							if (isNOT) cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_FALSE;
+							else cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_TRUE;
+						}
+						break;
+					case CB_CONSTANT_TYPE_NUMERIC:
+						//TODO
+						break;
+					default:
+						break;
+					}
+					break;
+				}
+			}
+			l = l->next;
+		}
+	} else if (strcasecmp (sbuff[0], "$ELSE") == 0) {
+		if (compile_directive_depth >= MAX_DEPTH) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("Fatal error in $ELSE statement"));
+			return;
+		}
+		if (compile_directive_depth < 0) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("$IF has no defined before the $ELSE"));
+			return;
+		}
+		if (cb_compile_status_list[compile_directive_depth] == CB_COMPILE_STATUS_TRUE_ELSE ||
+				cb_compile_status_list[compile_directive_depth] == CB_COMPILE_STATUS_FALSE_ELSE) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("$ELSE has continued"));
+			return;
+		}
+		if (cb_compile_status_list[compile_directive_depth] == CB_COMPILE_STATUS_FALSE)
+			cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_TRUE_ELSE;
+		else cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_FALSE_ELSE;
+	} else if (strcasecmp (sbuff[0], "$END") == 0) {
+		if (compile_directive_depth >= MAX_DEPTH) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("Fatal error in $END statement"));
+			return;
+		}
+		if (compile_directive_depth < 0) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("$IF has no defined before the $END"));
+			return;
+		}
+		cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_NONE;
+		compile_directive_depth--;
+	} else if (strcasecmp (sbuff[0], "$SET") == 0) {
+		if (strcasecmp (sbuff[1], "SOURCEFORMAT(FREE)") == 0) {
+			cb_source_format = CB_FORMAT_FREE;
+			return;
+		} else if (strcasecmp (sbuff[1], "SOURCEFORMAT(FIXED)") == 0) {
+			cb_source_format = CB_FORMAT_FIXED;
+			return;
+		} else if (strcasecmp (sbuff[1], "SOURCEFORMAT(FREE_1COL_ASTER)") == 0) {
+			cb_source_format = CB_FORMAT_FREE_1COL_ASTER;
+			cb_source_format1 = 1;
+			return;
+		} else {
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("Invalid $SET"));
+			return;
+		}
+	} else {
+		cb_compile_status = CB_COMPILE_STATUS_ERROR;
+		cb_error (_("Invalid $ statements"));
+		return;
+	}
+
+	if (compile_directive_depth > -1) {
+		for (i = 0; i <= compile_directive_depth; i++) {
+			if (cb_compile_status_list[i] != CB_COMPILE_STATUS_TRUE &&
+					cb_compile_status_list[i] != CB_COMPILE_STATUS_TRUE_ELSE) {
+				cb_compile_status = CB_COMPILE_STATUS_FALSE;
+				return;
+			}
+		}
+	}
+	if (*buff == '\n') {
+		cb_compile_status = CB_COMPILE_STATUS_FALSE_END;
+	} else {
+		cb_compile_status = CB_COMPILE_STATUS_TRUE;
+	}
+}
+
 /*
  * Read line
  */
@@ -2898,6 +3115,19 @@ start:
 		}
 	}
 	check_directive (buff, &n);
+	check_dollar_directive (buff, &n);
+	if (cb_compile_status ==  CB_COMPILE_STATUS_ERROR) {
+		return YY_NULL;
+	}
+	if (cb_compile_status == CB_COMPILE_STATUS_FALSE) {
+		newline_count++;
+		goto start;
+	}
+	if (cb_compile_status == CB_COMPILE_STATUS_FALSE_END) {
+		cb_compile_status = CB_COMPILE_STATUS_NONE;
+		newline_count++;
+		goto start;
+	}
 
 	/* nothing more to do with free format */
 	if (cb_source_format != CB_FORMAT_FIXED) {

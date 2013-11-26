@@ -673,6 +673,12 @@ at_help_all="1;copy.at:22;COPY: file not found;copy;
 78;set.at:24;SET: misc;;
 79;free-1col-aster.at:1;free_1col_aster OPTION;;
 80;free-1col-aster.at:15;newline_count with free_1col_aster;;
+81;indicator.at:1;dollarif defined - true;;
+82;indicator.at:19;dollarif defined - false;;
+83;indicator.at:39;dollarif value match - true;;
+84;indicator.at:59;dollarif value match - false;;
+85;indicator.at:79;dollarif value match - not true;;
+86;indicator.at:99;dollarif value match - not false;;
 "
 # List of the all the test groups.
 at_groups_all=`$as_echo "$at_help_all" | sed 's/;.*//'`
@@ -686,7 +692,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 80; then
+    if test $at_value -lt 1 || test $at_value -gt 86; then
       $as_echo "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -5936,3 +5942,343 @@ $at_traceon; }
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
 #AT_STOP_80
+#AT_START_81
+at_fn_group_banner 81 'indicator.at:1' \
+  "dollarif defined - true" "                        "
+at_xfail=no
+(
+  $as_echo "81. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE DIVISION.
+      $IF SW1 DEFINED
+           DISPLAY 'SW1 DEFINED'.
+      $END
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:13: \${COMPILE_MODULE} --constant=SW1 -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:13"
+( $at_check_trace; ${COMPILE_MODULE} --constant=SW1 -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/indicator.at:13"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:14: \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:14"
+( $at_check_trace; ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "SW1 DEFINED
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/indicator.at:14"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_81
+#AT_START_82
+at_fn_group_banner 82 'indicator.at:19' \
+  "dollarif defined - false" "                       "
+at_xfail=no
+(
+  $as_echo "82. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE DIVISION.
+      $IF SW2 NOT DEFINED
+           DISPLAY 'SW2 NOT DEFINED'.
+      $ELSE
+           DISPLAY 'SW2 DEFINED'.
+      $END
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:33: \${COMPILE_MODULE} --constant=SW2 -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:33"
+( $at_check_trace; ${COMPILE_MODULE} --constant=SW2 -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/indicator.at:33"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:34: \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:34"
+( $at_check_trace; ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "SW2 DEFINED
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/indicator.at:34"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_82
+#AT_START_83
+at_fn_group_banner 83 'indicator.at:39' \
+  "dollarif value match - true" "                    "
+at_xfail=no
+(
+  $as_echo "83. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE DIVISION.
+      $IF SW3 = "1"
+           DISPLAY 'SW3 = 1'.
+      $ELSE
+           DISPLAY 'SW3 != 1'.
+      $END
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:53: \${COMPILE_MODULE} --constant=SW3\\\"1\\\" -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:53"
+( $at_check_trace; ${COMPILE_MODULE} --constant=SW3\"1\" -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/indicator.at:53"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:54: \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:54"
+( $at_check_trace; ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "SW3 = 1
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/indicator.at:54"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_83
+#AT_START_84
+at_fn_group_banner 84 'indicator.at:59' \
+  "dollarif value match - false" "                   "
+at_xfail=no
+(
+  $as_echo "84. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE DIVISION.
+      $IF SW3 = "1"
+           DISPLAY 'SW3 = 1'.
+      $ELSE
+           DISPLAY 'SW3 != 1'.
+      $END
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:73: \${COMPILE_MODULE} --constant=SW3\\\"2\\\" -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:73"
+( $at_check_trace; ${COMPILE_MODULE} --constant=SW3\"2\" -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/indicator.at:73"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:74: \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:74"
+( $at_check_trace; ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "SW3 != 1
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/indicator.at:74"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_84
+#AT_START_85
+at_fn_group_banner 85 'indicator.at:79' \
+  "dollarif value match - not true" "                "
+at_xfail=no
+(
+  $as_echo "85. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE DIVISION.
+      $IF SW4 NOT = "1"
+           DISPLAY 'SW4 != 1'.
+      $ELSE
+           DISPLAY 'SW4 = 1'.
+      $END
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:93: \${COMPILE_MODULE} --constant=SW4\\\"2\\\" -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:93"
+( $at_check_trace; ${COMPILE_MODULE} --constant=SW4\"2\" -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/indicator.at:93"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:94: \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:94"
+( $at_check_trace; ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "SW4 != 1
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/indicator.at:94"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_85
+#AT_START_86
+at_fn_group_banner 86 'indicator.at:99' \
+  "dollarif value match - not false" "               "
+at_xfail=no
+(
+  $as_echo "86. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE DIVISION.
+      $IF SW4 NOT = "1"
+           DISPLAY 'SW4 != 1'.
+      $ELSE
+           DISPLAY 'SW4 = 1'.
+      $END
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:113: \${COMPILE_MODULE} --constant=SW4\\\"1\\\" -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:113"
+( $at_check_trace; ${COMPILE_MODULE} --constant=SW4\"1\" -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/indicator.at:113"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/indicator.at:114: \${COBCRUN} prog"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "indicator.at:114"
+( $at_check_trace; ${COBCRUN} prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "SW4 = 1
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/indicator.at:114"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_86

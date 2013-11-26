@@ -70,6 +70,14 @@ struct cb_text_list {
 	struct cb_text_list	*next;
 };
 
+struct cb_constant_list {
+	struct cb_constant_list	*next;
+	char			*name;
+	int			type;
+	int			numvalue;
+	char			*alphavalue;
+};
+
 struct cb_replace_list {
 	struct cb_text_list	*old_text;
 	struct cb_text_list	*new_text;
@@ -131,6 +139,7 @@ extern char			*cb_depend_target;
 extern struct cb_text_list	*cb_depend_list;
 extern struct cb_text_list	*cb_include_list;
 extern struct cb_text_list	*cb_extension_list;
+extern struct cb_constant_list	*cb_const_list;
 
 extern struct cb_program	*current_program;
 extern struct cb_statement	*current_statement;
@@ -139,6 +148,7 @@ extern struct cb_label		*current_paragraph;
 extern size_t			functions_are_all;
 
 extern struct cb_text_list	*cb_text_list_add (struct cb_text_list *list, const char *name);
+extern void			cb_constant_list_add (char *buff);
 extern void			*cobc_malloc (const size_t size);
 extern void			*cobc_realloc (void *prevptr, const size_t size);
 
@@ -226,6 +236,12 @@ enum cb_replace_type {
 	CB_REPLACE_LEADING,
 	CB_REPLACE_TRAILING,
 	CB_REPLACE_OTHER
+};
+
+enum cb_constant_type {
+	CB_CONSTANT_TYPE_NONE,
+	CB_CONSTANT_TYPE_ALPANUM,
+	CB_CONSTANT_TYPE_NUMERIC
 };
 
 #undef	CB_CONFIG_ANY

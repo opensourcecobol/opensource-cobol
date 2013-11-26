@@ -6,12 +6,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, 51 Franklin Street, Fifth Floor
@@ -138,6 +138,7 @@ char			*cb_depend_target = NULL;
 struct cb_text_list	*cb_depend_list = NULL;
 struct cb_text_list	*cb_include_list = NULL;
 struct cb_text_list	*cb_extension_list = NULL;
+struct cb_constant_list	*cb_const_list = NULL;
 
 int			cb_saveargc;
 char			**cb_saveargv;
@@ -281,6 +282,7 @@ static const struct option long_options[] = {
 	{"MF", required_argument, NULL, '@'},
 	{"assign_external", no_argument, NULL, 'A'},
 	{"reference_check", no_argument, NULL, 'K'},
+	{"constant", optional_argument, NULL, '3'},
 #undef	CB_FLAG
 #define	CB_FLAG(var,name,doc)			\
 	{"f"name, no_argument, &var, 1},	\
@@ -374,6 +376,60 @@ cb_text_list_add (struct cb_text_list *list, const char *text)
 	}
 }
 
+void
+cb_constant_list_add (char *buff)
+{
+	struct cb_constant_list *p;
+	struct cb_constant_list *l;
+	char	*s1, *s2;
+
+	p = cobc_malloc (sizeof (struct cb_constant_list));
+
+	s1 = strchr (buff, '\"');
+	s2 = strchr (buff, '(');
+
+	if ((s1 && s2) || buff == s1 || buff == s2) {
+		/* ERROR */
+		fprintf (stderr, "Invalid format constant option : %s \n", buff);
+		free (p);
+		return;
+	} else if (s1) {
+		if (strlen (s1) < 3 ||
+		    s1 == strrchr (buff, '\"') ||
+		    strlen (strchr (s1+1, '\"')) > 1) {
+			/* ERROR */
+			fprintf (stderr, "Invalid format constant option1 : %s \n", buff);
+			free (p->name);
+			free (p->alphavalue);
+			free (p);
+			return;
+		}
+		p->name = strndup (buff, s1-buff);
+		s1 = s1 + 1;
+		strcpy (strrchr (s1, '\"'), "");
+		p->alphavalue = strdup (s1);
+		p->type = CB_CONSTANT_TYPE_ALPANUM;
+		p->numvalue = -1;
+	} else if (s2) {
+		cb_warning (_("'%s' not implemented"), "CONSTANT NUMLIC LITERAL");
+		free (p);
+		return;
+	} else {
+		p->name = strdup (buff);
+		p->type = CB_CONSTANT_TYPE_NONE;
+		p->alphavalue = NULL;
+		p->numvalue = -1;
+	}
+	p->next = NULL;
+
+	if (!cb_const_list) {
+		cb_const_list = p;
+	} else {
+		for (l = cb_const_list; l->next; l = l->next);
+		l->next = p;
+	}
+}
+
 size_t
 cobc_check_valid_name (char *name)
 {
@@ -437,7 +493,7 @@ utf8_strlen (const unsigned char *p)
 			((*p >>3) == 0x1e)? 4:
 			((*p >>2) == 0x3e)? 5:
 			((*p >>1) == 0x7e)? 6: 1;
-		siz++;		
+		siz++;
 	}
 	return siz;
 }
@@ -539,7 +595,7 @@ utf8_national_length (const unsigned char *str, int len)
 			break;
 		}
 	}
-	if (siz >= 0 && mb_len != 0) {	
+	if (siz >= 0 && mb_len != 0) {
 		siz = -5;			/* immature end of multibytes sequence */
 	}
 	return siz;
@@ -732,11 +788,12 @@ cobc_print_usage (void)
 	puts (_("  -MT <target>          Set target file used in dependency list"));
 	puts (_("  -MF <file>            Place dependency list into <file>"));
 	puts (_("  -ext <extension>      Add default file extension"));
+	puts (_("  -assign_external      Set the file assign to external"));
+	puts (_("  -reference_check      Set reference check in runtime"));
+	puts (_("  -constant(=<name\"value\">) define <name> to <value> for $IF statement"));
 	puts ("");
 	puts (_("  -W                    Enable ALL warnings"));
 	puts (_("  -Wall                 Enable all warnings except as noted below"));
-	puts (_("  -assign_external      Set the file assign to external"));
-	puts (_("  -reference_check      Set reference check in runtime"));
 #undef	CB_WARNDEF
 #define	CB_WARNDEF(var,name,wall,doc)		\
 	printf ("  -W%-19s %s", name, gettext (doc)); \
@@ -932,6 +989,12 @@ process_command_line (int argc, char *argv[])
 			}
 			break;
 
+		case '3':	/* --constant */
+			if (optarg) {
+				cb_constant_list_add (optarg);
+			}
+			break;
+
 		case 't':
 			cb_listing_file = fopen (optarg, "w");
 			if (!cb_listing_file) {
@@ -1080,8 +1143,8 @@ process_command_line (int argc, char *argv[])
 	return optind;
 }
 
-static void 
-process_env_copy_path (void) 
+static void
+process_env_copy_path (void)
 {
 	char	*value;
 	char	*token;
@@ -1092,7 +1155,7 @@ process_env_copy_path (void)
 		cobcpy = NULL;
 		return;
 	}
-	
+
 	/* clone value to avoid memory corruption */
 	value = strdup (cobcpy);
 
@@ -1581,7 +1644,7 @@ process_compile (struct filename *fn)
 #endif
 	}
 #ifdef _MSC_VER
-	sprintf (buff, gflag_set ? 
+	sprintf (buff, gflag_set ?
 		"%s /c %s %s /Od /MDd /Zi /FR /c /Fa%s /Fo%s %s" :
 		"%s /c %s %s /MD /c /Fa%s /Fo%s %s",
 			cob_cc, cob_cflags, cob_define_flags, name,
@@ -1599,7 +1662,7 @@ process_assemble (struct filename *fn)
 	char buff[COB_MEDIUM_BUFF];
 
 #ifdef _MSC_VER
-	sprintf (buff, gflag_set ? 
+	sprintf (buff, gflag_set ?
 		"%s /c %s %s /Od /MDd /Zi /FR /Fo%s %s" :
 		"%s /c %s %s /MD /Fo%s %s",
 			cob_cc, cob_cflags, cob_define_flags,
@@ -1642,7 +1705,7 @@ process_module_direct (struct filename *fn)
 #endif
 	}
 #ifdef _MSC_VER
-	sprintf (buff, gflag_set ? 
+	sprintf (buff, gflag_set ?
 		"%s %s %s /Od /MDd /LDd /Zi /FR /Fe%s /Fo%s %s %s %s" :
 		"%s %s %s /MD /LD /Fe%s /Fo%s %s %s %s",
 			cob_cc, cob_cflags, cob_define_flags, name, name,
@@ -1692,7 +1755,7 @@ process_module (struct filename *fn)
 		strcat (name, COB_MODULE_EXT);
 	}
 #ifdef _MSC_VER
-	sprintf (buff, gflag_set ? 
+	sprintf (buff, gflag_set ?
 		"%s /Od /MDd /LDd /Zi /FR /Fe%s %s %s %s" :
 		"%s /MD /LD /Fe%s %s %s %s",
 			cob_cc, name, cob_ldflags, fn->object, cob_libs);
@@ -1772,7 +1835,7 @@ process_library (struct filename *l)
 	}
 
 #ifdef _MSC_VER
-	sprintf (buff, gflag_set ? 
+	sprintf (buff, gflag_set ?
 		"%s /Od /MDd /LDd /Zi /FR /Fe%s %s %s %s" :
 		"%s /MD /LD /Fe%s %s %s %s",
 			cob_cc, name, cob_ldflags, objsptr, cob_libs);
@@ -1840,7 +1903,7 @@ process_link (struct filename *l)
 		buffptr = buff;
 	}
 #ifdef _MSC_VER
-	sprintf (buff, gflag_set ? 
+	sprintf (buff, gflag_set ?
 		"%s /Od /MDd /Zi /FR /Fe%s %s %s %s" :
 		"%s /MD /Fe%s %s %s %s",
 			cob_cc, name, cob_ldflags, objsptr, cob_libs);
@@ -1987,7 +2050,7 @@ main (int argc, char *argv[])
 	process_env_copy_path ();
 
 	cb_include_list = cb_text_list_add (cb_include_list, cob_copy_dir);
-	
+
 	file_list = NULL;
 
 	if (setjmp (cob_jmpbuf) != 0) {

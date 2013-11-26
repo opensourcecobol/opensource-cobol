@@ -1,17 +1,17 @@
 /*							-*- c -*-
  * Copyright (C) 2001-2009 Keisuke Nishida
  * Copyright (C) 2007-2009 Roger While
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, 51 Franklin Street, Fifth Floor
@@ -44,6 +44,16 @@ changequote(>>>>>,<<<<<)
 #include "cobc.h"
 #include "ppparse.h"
 
+enum {
+	CB_COMPILE_STATUS_NONE,
+	CB_COMPILE_STATUS_TRUE,
+	CB_COMPILE_STATUS_FALSE,
+	CB_COMPILE_STATUS_FALSE_END,
+	CB_COMPILE_STATUS_TRUE_ELSE,
+	CB_COMPILE_STATUS_FALSE_ELSE,
+	CB_COMPILE_STATUS_ERROR
+};
+
 static char	*plexbuff1 = NULL;
 static char	*plexbuff2 = NULL;
 static size_t	newline_count = 0;
@@ -53,6 +63,13 @@ static size_t	consecutive_quotation = 0;
 static int	quotation_mark = 0;
 static int	last_line_1 = -1;
 static int	last_line_2 = -1;
+
+
+#define MAX_DEPTH 10
+static int	cb_compile_status = CB_COMPILE_STATUS_NONE;
+static int	cb_compile_status_list[MAX_DEPTH];
+static int	compile_directive_depth = -1;
+
 
 static struct cb_replace_list	*current_replace_list = NULL;
 
@@ -530,6 +547,192 @@ check_directive (char *buff, int *line_size)
 	cb_warning (_("Invalid directive - ignored"));
 }
 
+static void
+check_dollar_directive (char *buff, int *line_size)
+{
+	struct cb_constant_list	*l;
+	char			*s;
+	size_t			cnt;
+	int			n;
+	char			sbuff[5][256];
+	int			isDEFINED, isNOT;
+	int			i;
+
+	if (cb_source_format == CB_FORMAT_FIXED) {
+		if (*line_size < 8) {
+			return;
+		}
+		if (buff[6] != '$') {
+			return;
+		}
+		if (*line_size > cb_text_column + 1) {
+			strcpy (buff + cb_text_column, "\n");
+		}
+		s = &buff[6];
+	} else {
+		if (buff[1] != '$') {
+			return;
+		}
+		s = buff;
+	}
+
+	memset (sbuff[0], 0, sizeof (sbuff));
+	n = sscanf (s, "%255s %255s %255s %255s %255s",
+		sbuff[0], sbuff[1], sbuff[2], sbuff[3], sbuff[4]);
+	for (cnt = 0; cnt < newline_count; cnt++) {
+		buff[cnt] = '\n';
+	}
+	buff[cnt] = 0;
+	newline_count = 0;
+	strcat (buff, "      *> DIRECTIVE\n");
+	*line_size = strlen (buff);
+
+	if (strcasecmp (sbuff[0], "$IF") == 0) {
+		compile_directive_depth++;
+		if (compile_directive_depth >= MAX_DEPTH) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("$IF is nested more than 10 times"));
+			return;
+		}
+		if (compile_directive_depth < 0) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("Fatal error in $IF statement"));
+			return;
+		}
+		if (strlen (sbuff[1]) <= 0) {
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("Arguments not enough to $IF statemen"));
+			return;
+		}
+
+		isDEFINED = 0;
+		isNOT = 0;
+		cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_FALSE;
+		if (strcasecmp (sbuff[2], "NOT") == 0) {
+			isNOT = 1;
+			cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_TRUE;
+		}
+		if (strcasecmp (sbuff[2+isNOT], "DEFINED") == 0) {
+			isDEFINED = 1;
+		} else if (strcasecmp (sbuff[2+isNOT], "=") != 0 ||
+				strlen (sbuff[3+isNOT]) <= 0) {
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("Invalid argument $IF statemen"));
+			return;
+		}
+		l = cb_const_list;
+		while (l) {
+			if (strcasecmp (l->name, sbuff[1]) == 0) {
+				if (isDEFINED) {
+					if (isNOT) cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_FALSE;
+					else cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_TRUE;
+					break;
+				} else {
+					switch (l->type) {
+					case CB_CONSTANT_TYPE_ALPANUM:
+						if (strlen (sbuff[3+isNOT]) < 3 ||
+								sbuff[3+isNOT] != strchr (sbuff[3+isNOT], '\"') ||
+								sbuff[3+isNOT] == strrchr (sbuff[3+isNOT], '\"') ||
+								strlen (strchr (sbuff[3+isNOT]+1, '\"')) > 1) {
+							cb_compile_status = CB_COMPILE_STATUS_ERROR;
+							cb_error (_("%s is not a string"), sbuff[3+isNOT]);
+							return;
+						}
+						strcpy (strchr (sbuff[3+isNOT]+1, '\"'), "");
+						if (strcasecmp (sbuff[3+isNOT]+1, l->alphavalue) == 0) {
+							if (isNOT) cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_FALSE;
+							else cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_TRUE;
+						}
+						break;
+					case CB_CONSTANT_TYPE_NUMERIC:
+						//TODO
+						break;
+					default:
+						break;
+					}
+					break;
+				}
+			}
+			l = l->next;
+		}
+	} else if (strcasecmp (sbuff[0], "$ELSE") == 0) {
+		if (compile_directive_depth >= MAX_DEPTH) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("Fatal error in $ELSE statement"));
+			return;
+		}
+		if (compile_directive_depth < 0) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("$IF has no defined before the $ELSE"));
+			return;
+		}
+		if (cb_compile_status_list[compile_directive_depth] == CB_COMPILE_STATUS_TRUE_ELSE ||
+				cb_compile_status_list[compile_directive_depth] == CB_COMPILE_STATUS_FALSE_ELSE) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("$ELSE has continued"));
+			return;
+		}
+		if (cb_compile_status_list[compile_directive_depth] == CB_COMPILE_STATUS_FALSE)
+			cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_TRUE_ELSE;
+		else cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_FALSE_ELSE;
+	} else if (strcasecmp (sbuff[0], "$END") == 0) {
+		if (compile_directive_depth >= MAX_DEPTH) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("Fatal error in $END statement"));
+			return;
+		}
+		if (compile_directive_depth < 0) {
+			compile_directive_depth = -1;
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("$IF has no defined before the $END"));
+			return;
+		}
+		cb_compile_status_list[compile_directive_depth] = CB_COMPILE_STATUS_NONE;
+		compile_directive_depth--;
+	} else if (strcasecmp (sbuff[0], "$SET") == 0) {
+		if (strcasecmp (sbuff[1], "SOURCEFORMAT(FREE)") == 0) {
+			cb_source_format = CB_FORMAT_FREE;
+			return;
+		} else if (strcasecmp (sbuff[1], "SOURCEFORMAT(FIXED)") == 0) {
+			cb_source_format = CB_FORMAT_FIXED;
+			return;
+		} else if (strcasecmp (sbuff[1], "SOURCEFORMAT(FREE_1COL_ASTER)") == 0) {
+			cb_source_format = CB_FORMAT_FREE_1COL_ASTER;
+			cb_source_format1 = 1;
+			return;
+		} else {
+			cb_compile_status = CB_COMPILE_STATUS_ERROR;
+			cb_error (_("Invalid $SET"));
+			return;
+		}
+	} else {
+		cb_compile_status = CB_COMPILE_STATUS_ERROR;
+		cb_error (_("Invalid $ statements"));
+		return;
+	}
+
+	if (compile_directive_depth > -1) {
+		for (i = 0; i <= compile_directive_depth; i++) {
+			if (cb_compile_status_list[i] != CB_COMPILE_STATUS_TRUE &&
+					cb_compile_status_list[i] != CB_COMPILE_STATUS_TRUE_ELSE) {
+				cb_compile_status = CB_COMPILE_STATUS_FALSE;
+				return;
+			}
+		}
+	}
+	if (*buff == '\n') {
+		cb_compile_status = CB_COMPILE_STATUS_FALSE_END;
+	} else {
+		cb_compile_status = CB_COMPILE_STATUS_TRUE;
+	}
+}
+
 /*
  * Read line
  */
@@ -610,6 +813,19 @@ start:
 		}
 	}
 	check_directive (buff, &n);
+	check_dollar_directive (buff, &n);
+	if (cb_compile_status ==  CB_COMPILE_STATUS_ERROR) {
+		return YY_NULL;
+	}
+	if (cb_compile_status == CB_COMPILE_STATUS_FALSE) {
+		newline_count++;
+		goto start;
+	}
+	if (cb_compile_status == CB_COMPILE_STATUS_FALSE_END) {
+		cb_compile_status = CB_COMPILE_STATUS_NONE;
+		newline_count++;
+		goto start;
+	}
 
 	/* nothing more to do with free format */
 	if (cb_source_format != CB_FORMAT_FIXED) {
