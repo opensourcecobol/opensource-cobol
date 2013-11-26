@@ -598,80 +598,81 @@ at_help_all="1;copy.at:22;COPY: file not found;copy;
 3;copy.at:69;COPY: separators;copy;
 4;copy.at:98;COPY: partial replacement;copy;
 5;copy.at:128;COPY: recursive replacement;copy;
-6;definition.at:25;Invalid PROGRAM-ID;;
-7;definition.at:40;Invalid PROGRAM-ID type clause (1);;
-8;definition.at:55;Invalid PROGRAM-ID type clause (2);;
-9;definition.at:76;Undefined data name;;
-10;definition.at:93;Undefined group name;;
-11;definition.at:113;Undefined data name in group;;
-12;definition.at:135;Reference not a group name;;
-13;definition.at:158;Incomplete 01 definition;;
-14;definition.at:177;Same labels in different sections;;
-15;definition.at:201;Redefinition of 01 items;;
-16;definition.at:219;Redefinition of 01 and 02 items;;
-17;definition.at:237;Redefinition of 02 items;;
-18;definition.at:256;Redefinition of 77 items;;
-19;definition.at:274;Redefinition of 01 and 77 items;;
-20;definition.at:292;Redefinition of 88 items;;
-21;definition.at:311;Ambiguous reference to 02 items;;
-22;definition.at:336;Ambiguous reference to 02 and 03 items;;
-23;definition.at:360;Ambiguous reference with qualification;;
-24;definition.at:389;Unique reference with ambiguous qualifiers;;
-25;definition.at:424;Undefined procedure name;;
-26;definition.at:443;Redefinition of section names;;
-27;definition.at:462;Redefinition of section and paragraph names;;
-28;definition.at:481;Redefinition of paragraph names;;
-29;definition.at:504;Ambiguous reference to paragraph name;;
-30;definition.at:528;Non-matching level numbers (extension);;
-31;expression.at:21;Ambiguous AND/OR;;
-32;expression.at:45;START on SEQUENTIAL file;;
-33;subscripts.at:31;Subscripted item requires OCCURS clause;;
-34;subscripts.at:58;The number of subscripts;;
-35;occurs.at:28;OCCURS with level 01, 66, 77, and 88;;
-36;occurs.at:53;OCCURS with variable-occurrence data item;;
-37;occurs.at:90;Nested OCCURS clause;;
-38;occurs.at:136;OCCURS DEPENDING followed by another field;;
-39;occurs.at:174;OCCURS DEPENDING without TO clause;;
-40;redefines.at:28;REDEFINES: not following entry-name;redefines;
-41;redefines.at:49;REDEFINES: level 02 by 01;redefines;
-42;redefines.at:70;REDEFINES: level 03 by 02;redefines;
-43;redefines.at:92;REDEFINES: level 66;redefines;
-44;redefines.at:114;REDEFINES: level 88;redefines;
-45;redefines.at:143;REDEFINES: lower level number;redefines;
-46;redefines.at:169;REDEFINES: with OCCURS;redefines;
-47;redefines.at:190;REDEFINES: with subscript;redefines;
-48;redefines.at:212;REDEFINES: with variable occurrence;redefines;
-49;redefines.at:247;REDEFINES: with qualification;redefines;
-50;redefines.at:273;REDEFINES: multiple redefinition;redefines;
-51;redefines.at:301;REDEFINES: size exceeds;redefines;
-52;redefines.at:334;REDEFINES: with VALUE;redefines;
-53;redefines.at:362;REDEFINES: with intervention;redefines;
-54;redefines.at:391;REDEFINES: within REDEFINES;redefines;
-55;value.at:43;Numeric item (integer);;
-56;value.at:68;Numeric item (non-integer);;
-57;value.at:90;Numeric item with picture P;;
-58;value.at:121;Signed numeric literal;;
-59;value.at:146;Alphabetic item;;
-60;value.at:171;Alphanumeric item;;
-61;value.at:192;Alphanumeric group item;;
-62;value.at:226;Numeric-edited item;;
-63;value.at:249;Alphanumeric-edited item;;
-64;move.at:37;MOVE SPACE TO numeric or numeric-edited item;;
-65;move.at:62;MOVE ZERO TO alphabetic item;;
-66;move.at:87;MOVE alphabetic TO x;;
-67;move.at:116;MOVE alphanumeric TO x;;
-68;move.at:142;MOVE alphanumeric-edited TO x;;
-69;move.at:171;MOVE numeric (integer) TO x;;
-70;move.at:199;MOVE numeric (non-integer) TO x;;
-71;move.at:229;MOVE numeric-edited TO x;;
-72;move.at:263;Operands must be groups;;
-73;move.at:295;MOVE: misc;;
-74;multiply.at:28;Category check of Format 1;;
-75;multiply.at:66;Category check of Format 2;;
-76;multiply.at:106;Category check of literals;;
-77;set.at:24;SET: misc;;
-78;free-1col-aster.at:1;free_1col_aster OPTION;;
-79;free-1col-aster.at:15;newline_count with free_1col_aster;;
+6;unmatured-copy.at:1;COPY: last line break in copybook;copy;
+7;definition.at:25;Invalid PROGRAM-ID;;
+8;definition.at:40;Invalid PROGRAM-ID type clause (1);;
+9;definition.at:55;Invalid PROGRAM-ID type clause (2);;
+10;definition.at:76;Undefined data name;;
+11;definition.at:93;Undefined group name;;
+12;definition.at:113;Undefined data name in group;;
+13;definition.at:135;Reference not a group name;;
+14;definition.at:158;Incomplete 01 definition;;
+15;definition.at:177;Same labels in different sections;;
+16;definition.at:201;Redefinition of 01 items;;
+17;definition.at:219;Redefinition of 01 and 02 items;;
+18;definition.at:237;Redefinition of 02 items;;
+19;definition.at:256;Redefinition of 77 items;;
+20;definition.at:274;Redefinition of 01 and 77 items;;
+21;definition.at:292;Redefinition of 88 items;;
+22;definition.at:311;Ambiguous reference to 02 items;;
+23;definition.at:336;Ambiguous reference to 02 and 03 items;;
+24;definition.at:360;Ambiguous reference with qualification;;
+25;definition.at:389;Unique reference with ambiguous qualifiers;;
+26;definition.at:424;Undefined procedure name;;
+27;definition.at:443;Redefinition of section names;;
+28;definition.at:462;Redefinition of section and paragraph names;;
+29;definition.at:481;Redefinition of paragraph names;;
+30;definition.at:504;Ambiguous reference to paragraph name;;
+31;definition.at:528;Non-matching level numbers (extension);;
+32;expression.at:21;Ambiguous AND/OR;;
+33;expression.at:45;START on SEQUENTIAL file;;
+34;subscripts.at:31;Subscripted item requires OCCURS clause;;
+35;subscripts.at:58;The number of subscripts;;
+36;occurs.at:28;OCCURS with level 01, 66, 77, and 88;;
+37;occurs.at:53;OCCURS with variable-occurrence data item;;
+38;occurs.at:90;Nested OCCURS clause;;
+39;occurs.at:136;OCCURS DEPENDING followed by another field;;
+40;occurs.at:174;OCCURS DEPENDING without TO clause;;
+41;redefines.at:28;REDEFINES: not following entry-name;redefines;
+42;redefines.at:49;REDEFINES: level 02 by 01;redefines;
+43;redefines.at:70;REDEFINES: level 03 by 02;redefines;
+44;redefines.at:92;REDEFINES: level 66;redefines;
+45;redefines.at:114;REDEFINES: level 88;redefines;
+46;redefines.at:143;REDEFINES: lower level number;redefines;
+47;redefines.at:169;REDEFINES: with OCCURS;redefines;
+48;redefines.at:190;REDEFINES: with subscript;redefines;
+49;redefines.at:212;REDEFINES: with variable occurrence;redefines;
+50;redefines.at:247;REDEFINES: with qualification;redefines;
+51;redefines.at:273;REDEFINES: multiple redefinition;redefines;
+52;redefines.at:301;REDEFINES: size exceeds;redefines;
+53;redefines.at:334;REDEFINES: with VALUE;redefines;
+54;redefines.at:362;REDEFINES: with intervention;redefines;
+55;redefines.at:391;REDEFINES: within REDEFINES;redefines;
+56;value.at:43;Numeric item (integer);;
+57;value.at:68;Numeric item (non-integer);;
+58;value.at:90;Numeric item with picture P;;
+59;value.at:121;Signed numeric literal;;
+60;value.at:146;Alphabetic item;;
+61;value.at:171;Alphanumeric item;;
+62;value.at:192;Alphanumeric group item;;
+63;value.at:226;Numeric-edited item;;
+64;value.at:249;Alphanumeric-edited item;;
+65;move.at:37;MOVE SPACE TO numeric or numeric-edited item;;
+66;move.at:62;MOVE ZERO TO alphabetic item;;
+67;move.at:87;MOVE alphabetic TO x;;
+68;move.at:116;MOVE alphanumeric TO x;;
+69;move.at:142;MOVE alphanumeric-edited TO x;;
+70;move.at:171;MOVE numeric (integer) TO x;;
+71;move.at:199;MOVE numeric (non-integer) TO x;;
+72;move.at:229;MOVE numeric-edited TO x;;
+73;move.at:263;Operands must be groups;;
+74;move.at:295;MOVE: misc;;
+75;multiply.at:28;Category check of Format 1;;
+76;multiply.at:66;Category check of Format 2;;
+77;multiply.at:106;Category check of literals;;
+78;set.at:24;SET: misc;;
+79;free-1col-aster.at:1;free_1col_aster OPTION;;
+80;free-1col-aster.at:15;newline_count with free_1col_aster;;
 "
 # List of the all the test groups.
 at_groups_all=`$as_echo "$at_help_all" | sed 's/;.*//'`
@@ -685,7 +686,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 79; then
+    if test $at_value -lt 1 || test $at_value -gt 80; then
       $as_echo "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -2377,11 +2378,84 @@ $at_traceon; }
 read at_status <"$at_status_file"
 #AT_STOP_5
 #AT_START_6
-at_fn_group_banner 6 'definition.at:25' \
-  "Invalid PROGRAM-ID" "                             "
+at_fn_group_banner 6 'unmatured-copy.at:1' \
+  "COPY: last line break in copybook" "              "
 at_xfail=no
 (
   $as_echo "6. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       COPY "copy.inc".
+       PROCEDURE        DIVISION.
+           DISPLAY TEST-VAR NO ADVANCING
+           END-DISPLAY.
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/unmatured-copy.at:16: echo -n '       01 TEST-VAR PIC X(2) VALUE \"OK\".' > copy.inc
+"
+at_fn_check_prepare_notrace 'an embedded newline' "unmatured-copy.at:16"
+( $at_check_trace; echo -n '       01 TEST-VAR PIC X(2) VALUE "OK".' > copy.inc
+
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/unmatured-copy.at:16"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/unmatured-copy.at:18: \${COMPILE} -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "unmatured-copy.at:18"
+( $at_check_trace; ${COMPILE} -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+echo >>"$at_stderr"; $as_echo "copy.inc:1: Warning: Line not terminated by a newline
+" | \
+  $at_diff - "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/unmatured-copy.at:18"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/unmatured-copy.at:21: ./prog"
+at_fn_check_prepare_trace "unmatured-copy.at:21"
+( $at_check_trace; ./prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "OK" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/unmatured-copy.at:21"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_6
+#AT_START_7
+at_fn_group_banner 7 'definition.at:25' \
+  "Invalid PROGRAM-ID" "                             "
+at_xfail=no
+(
+  $as_echo "7. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2414,13 +2488,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_6
-#AT_START_7
-at_fn_group_banner 7 'definition.at:40' \
+#AT_STOP_7
+#AT_START_8
+at_fn_group_banner 8 'definition.at:40' \
   "Invalid PROGRAM-ID type clause (1)" "             "
 at_xfail=no
 (
-  $as_echo "7. $at_setup_line: testing $at_desc ..."
+  $as_echo "8. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2453,13 +2527,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_7
-#AT_START_8
-at_fn_group_banner 8 'definition.at:55' \
+#AT_STOP_8
+#AT_START_9
+at_fn_group_banner 9 'definition.at:55' \
   "Invalid PROGRAM-ID type clause (2)" "             "
 at_xfail=no
 (
-  $as_echo "8. $at_setup_line: testing $at_desc ..."
+  $as_echo "9. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2492,13 +2566,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_8
-#AT_START_9
-at_fn_group_banner 9 'definition.at:76' \
+#AT_STOP_9
+#AT_START_10
+at_fn_group_banner 10 'definition.at:76' \
   "Undefined data name" "                            "
 at_xfail=no
 (
-  $as_echo "9. $at_setup_line: testing $at_desc ..."
+  $as_echo "10. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2533,13 +2607,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_9
-#AT_START_10
-at_fn_group_banner 10 'definition.at:93' \
+#AT_STOP_10
+#AT_START_11
+at_fn_group_banner 11 'definition.at:93' \
   "Undefined group name" "                           "
 at_xfail=no
 (
-  $as_echo "10. $at_setup_line: testing $at_desc ..."
+  $as_echo "11. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2577,13 +2651,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_10
-#AT_START_11
-at_fn_group_banner 11 'definition.at:113' \
+#AT_STOP_11
+#AT_START_12
+at_fn_group_banner 12 'definition.at:113' \
   "Undefined data name in group" "                   "
 at_xfail=no
 (
-  $as_echo "11. $at_setup_line: testing $at_desc ..."
+  $as_echo "12. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2623,13 +2697,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_11
-#AT_START_12
-at_fn_group_banner 12 'definition.at:135' \
+#AT_STOP_12
+#AT_START_13
+at_fn_group_banner 13 'definition.at:135' \
   "Reference not a group name" "                     "
 at_xfail=no
 (
-  $as_echo "12. $at_setup_line: testing $at_desc ..."
+  $as_echo "13. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2667,13 +2741,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_12
-#AT_START_13
-at_fn_group_banner 13 'definition.at:158' \
+#AT_STOP_13
+#AT_START_14
+at_fn_group_banner 14 'definition.at:158' \
   "Incomplete 01 definition" "                       "
 at_xfail=no
 (
-  $as_echo "13. $at_setup_line: testing $at_desc ..."
+  $as_echo "14. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2707,13 +2781,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_13
-#AT_START_14
-at_fn_group_banner 14 'definition.at:177' \
+#AT_STOP_14
+#AT_START_15
+at_fn_group_banner 15 'definition.at:177' \
   "Same labels in different sections" "              "
 at_xfail=no
 (
-  $as_echo "14. $at_setup_line: testing $at_desc ..."
+  $as_echo "15. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2752,13 +2826,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_14
-#AT_START_15
-at_fn_group_banner 15 'definition.at:201' \
+#AT_STOP_15
+#AT_START_16
+at_fn_group_banner 16 'definition.at:201' \
   "Redefinition of 01 items" "                       "
 at_xfail=no
 (
-  $as_echo "15. $at_setup_line: testing $at_desc ..."
+  $as_echo "16. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2794,13 +2868,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_15
-#AT_START_16
-at_fn_group_banner 16 'definition.at:219' \
+#AT_STOP_16
+#AT_START_17
+at_fn_group_banner 17 'definition.at:219' \
   "Redefinition of 01 and 02 items" "                "
 at_xfail=no
 (
-  $as_echo "16. $at_setup_line: testing $at_desc ..."
+  $as_echo "17. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2836,13 +2910,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_16
-#AT_START_17
-at_fn_group_banner 17 'definition.at:237' \
+#AT_STOP_17
+#AT_START_18
+at_fn_group_banner 18 'definition.at:237' \
   "Redefinition of 02 items" "                       "
 at_xfail=no
 (
-  $as_echo "17. $at_setup_line: testing $at_desc ..."
+  $as_echo "18. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2879,13 +2953,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_17
-#AT_START_18
-at_fn_group_banner 18 'definition.at:256' \
+#AT_STOP_18
+#AT_START_19
+at_fn_group_banner 19 'definition.at:256' \
   "Redefinition of 77 items" "                       "
 at_xfail=no
 (
-  $as_echo "18. $at_setup_line: testing $at_desc ..."
+  $as_echo "19. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2921,13 +2995,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_18
-#AT_START_19
-at_fn_group_banner 19 'definition.at:274' \
+#AT_STOP_19
+#AT_START_20
+at_fn_group_banner 20 'definition.at:274' \
   "Redefinition of 01 and 77 items" "                "
 at_xfail=no
 (
-  $as_echo "19. $at_setup_line: testing $at_desc ..."
+  $as_echo "20. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2963,13 +3037,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_19
-#AT_START_20
-at_fn_group_banner 20 'definition.at:292' \
+#AT_STOP_20
+#AT_START_21
+at_fn_group_banner 21 'definition.at:292' \
   "Redefinition of 88 items" "                       "
 at_xfail=no
 (
-  $as_echo "20. $at_setup_line: testing $at_desc ..."
+  $as_echo "21. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3006,13 +3080,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_20
-#AT_START_21
-at_fn_group_banner 21 'definition.at:311' \
+#AT_STOP_21
+#AT_START_22
+at_fn_group_banner 22 'definition.at:311' \
   "Ambiguous reference to 02 items" "                "
 at_xfail=no
 (
-  $as_echo "21. $at_setup_line: testing $at_desc ..."
+  $as_echo "22. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3055,13 +3129,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_21
-#AT_START_22
-at_fn_group_banner 22 'definition.at:336' \
+#AT_STOP_22
+#AT_START_23
+at_fn_group_banner 23 'definition.at:336' \
   "Ambiguous reference to 02 and 03 items" "         "
 at_xfail=no
 (
-  $as_echo "22. $at_setup_line: testing $at_desc ..."
+  $as_echo "23. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3103,13 +3177,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_22
-#AT_START_23
-at_fn_group_banner 23 'definition.at:360' \
+#AT_STOP_23
+#AT_START_24
+at_fn_group_banner 24 'definition.at:360' \
   "Ambiguous reference with qualification" "         "
 at_xfail=no
 (
-  $as_echo "23. $at_setup_line: testing $at_desc ..."
+  $as_echo "24. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3154,13 +3228,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_23
-#AT_START_24
-at_fn_group_banner 24 'definition.at:389' \
+#AT_STOP_24
+#AT_START_25
+at_fn_group_banner 25 'definition.at:389' \
   "Unique reference with ambiguous qualifiers" "     "
 at_xfail=no
 (
-  $as_echo "24. $at_setup_line: testing $at_desc ..."
+  $as_echo "25. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3201,13 +3275,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_24
-#AT_START_25
-at_fn_group_banner 25 'definition.at:424' \
+#AT_STOP_25
+#AT_START_26
+at_fn_group_banner 26 'definition.at:424' \
   "Undefined procedure name" "                       "
 at_xfail=no
 (
-  $as_echo "25. $at_setup_line: testing $at_desc ..."
+  $as_echo "26. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3241,13 +3315,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_25
-#AT_START_26
-at_fn_group_banner 26 'definition.at:443' \
+#AT_STOP_26
+#AT_START_27
+at_fn_group_banner 27 'definition.at:443' \
   "Redefinition of section names" "                  "
 at_xfail=no
 (
-  $as_echo "26. $at_setup_line: testing $at_desc ..."
+  $as_echo "27. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3284,13 +3358,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_26
-#AT_START_27
-at_fn_group_banner 27 'definition.at:462' \
+#AT_STOP_27
+#AT_START_28
+at_fn_group_banner 28 'definition.at:462' \
   "Redefinition of section and paragraph names" "    "
 at_xfail=no
 (
-  $as_echo "27. $at_setup_line: testing $at_desc ..."
+  $as_echo "28. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3327,13 +3401,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_27
-#AT_START_28
-at_fn_group_banner 28 'definition.at:481' \
+#AT_STOP_28
+#AT_START_29
+at_fn_group_banner 29 'definition.at:481' \
   "Redefinition of paragraph names" "                "
 at_xfail=no
 (
-  $as_echo "28. $at_setup_line: testing $at_desc ..."
+  $as_echo "29. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3373,13 +3447,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_28
-#AT_START_29
-at_fn_group_banner 29 'definition.at:504' \
+#AT_STOP_29
+#AT_START_30
+at_fn_group_banner 30 'definition.at:504' \
   "Ambiguous reference to paragraph name" "          "
 at_xfail=no
 (
-  $as_echo "29. $at_setup_line: testing $at_desc ..."
+  $as_echo "30. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3421,13 +3495,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_29
-#AT_START_30
-at_fn_group_banner 30 'definition.at:528' \
+#AT_STOP_30
+#AT_START_31
+at_fn_group_banner 31 'definition.at:528' \
   "Non-matching level numbers (extension)" "         "
 at_xfail=no
 (
-  $as_echo "30. $at_setup_line: testing $at_desc ..."
+  $as_echo "31. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3474,13 +3548,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_30
-#AT_START_31
-at_fn_group_banner 31 'expression.at:21' \
+#AT_STOP_31
+#AT_START_32
+at_fn_group_banner 32 'expression.at:21' \
   "Ambiguous AND/OR" "                               "
 at_xfail=no
 (
-  $as_echo "31. $at_setup_line: testing $at_desc ..."
+  $as_echo "32. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3522,13 +3596,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_31
-#AT_START_32
-at_fn_group_banner 32 'expression.at:45' \
+#AT_STOP_32
+#AT_START_33
+at_fn_group_banner 33 'expression.at:45' \
   "START on SEQUENTIAL file" "                       "
 at_xfail=no
 (
-  $as_echo "32. $at_setup_line: testing $at_desc ..."
+  $as_echo "33. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3574,13 +3648,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_32
-#AT_START_33
-at_fn_group_banner 33 'subscripts.at:31' \
+#AT_STOP_33
+#AT_START_34
+at_fn_group_banner 34 'subscripts.at:31' \
   "Subscripted item requires OCCURS clause" "        "
 at_xfail=no
 (
-  $as_echo "33. $at_setup_line: testing $at_desc ..."
+  $as_echo "34. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3622,13 +3696,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_33
-#AT_START_34
-at_fn_group_banner 34 'subscripts.at:58' \
+#AT_STOP_34
+#AT_START_35
+at_fn_group_banner 35 'subscripts.at:58' \
   "The number of subscripts" "                       "
 at_xfail=no
 (
-  $as_echo "34. $at_setup_line: testing $at_desc ..."
+  $as_echo "35. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3681,13 +3755,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_34
-#AT_START_35
-at_fn_group_banner 35 'occurs.at:28' \
+#AT_STOP_35
+#AT_START_36
+at_fn_group_banner 36 'occurs.at:28' \
   "OCCURS with level 01, 66, 77, and 88" "           "
 at_xfail=no
 (
-  $as_echo "35. $at_setup_line: testing $at_desc ..."
+  $as_echo "36. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3730,13 +3804,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_35
-#AT_START_36
-at_fn_group_banner 36 'occurs.at:53' \
+#AT_STOP_36
+#AT_START_37
+at_fn_group_banner 37 'occurs.at:53' \
   "OCCURS with variable-occurrence data item" "      "
 at_xfail=no
 (
-  $as_echo "36. $at_setup_line: testing $at_desc ..."
+  $as_echo "37. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3773,13 +3847,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_36
-#AT_START_37
-at_fn_group_banner 37 'occurs.at:90' \
+#AT_STOP_37
+#AT_START_38
+at_fn_group_banner 38 'occurs.at:90' \
   "Nested OCCURS clause" "                           "
 at_xfail=no
 (
-  $as_echo "37. $at_setup_line: testing $at_desc ..."
+  $as_echo "38. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3819,13 +3893,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_37
-#AT_START_38
-at_fn_group_banner 38 'occurs.at:136' \
+#AT_STOP_38
+#AT_START_39
+at_fn_group_banner 39 'occurs.at:136' \
   "OCCURS DEPENDING followed by another field" "     "
 at_xfail=no
 (
-  $as_echo "38. $at_setup_line: testing $at_desc ..."
+  $as_echo "39. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3872,13 +3946,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_38
-#AT_START_39
-at_fn_group_banner 39 'occurs.at:174' \
+#AT_STOP_39
+#AT_START_40
+at_fn_group_banner 40 'occurs.at:174' \
   "OCCURS DEPENDING without TO clause" "             "
 at_xfail=no
 (
-  $as_echo "39. $at_setup_line: testing $at_desc ..."
+  $as_echo "40. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3914,13 +3988,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_39
-#AT_START_40
-at_fn_group_banner 40 'redefines.at:28' \
+#AT_STOP_40
+#AT_START_41
+at_fn_group_banner 41 'redefines.at:28' \
   "REDEFINES: not following entry-name" "            "
 at_xfail=no
 (
-  $as_echo "40. $at_setup_line: testing $at_desc ..."
+  $as_echo "41. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3956,13 +4030,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_40
-#AT_START_41
-at_fn_group_banner 41 'redefines.at:49' \
+#AT_STOP_41
+#AT_START_42
+at_fn_group_banner 42 'redefines.at:49' \
   "REDEFINES: level 02 by 01" "                      "
 at_xfail=no
 (
-  $as_echo "41. $at_setup_line: testing $at_desc ..."
+  $as_echo "42. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4001,13 +4075,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_41
-#AT_START_42
-at_fn_group_banner 42 'redefines.at:70' \
+#AT_STOP_42
+#AT_START_43
+at_fn_group_banner 43 'redefines.at:70' \
   "REDEFINES: level 03 by 02" "                      "
 at_xfail=no
 (
-  $as_echo "42. $at_setup_line: testing $at_desc ..."
+  $as_echo "43. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4047,13 +4121,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_42
-#AT_START_43
-at_fn_group_banner 43 'redefines.at:92' \
+#AT_STOP_43
+#AT_START_44
+at_fn_group_banner 44 'redefines.at:92' \
   "REDEFINES: level 66" "                            "
 at_xfail=no
 (
-  $as_echo "43. $at_setup_line: testing $at_desc ..."
+  $as_echo "44. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4093,13 +4167,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_43
-#AT_START_44
-at_fn_group_banner 44 'redefines.at:114' \
+#AT_STOP_44
+#AT_START_45
+at_fn_group_banner 45 'redefines.at:114' \
   "REDEFINES: level 88" "                            "
 at_xfail=no
 (
-  $as_echo "44. $at_setup_line: testing $at_desc ..."
+  $as_echo "45. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4138,13 +4212,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_44
-#AT_START_45
-at_fn_group_banner 45 'redefines.at:143' \
+#AT_STOP_45
+#AT_START_46
+at_fn_group_banner 46 'redefines.at:143' \
   "REDEFINES: lower level number" "                  "
 at_xfail=no
 (
-  $as_echo "45. $at_setup_line: testing $at_desc ..."
+  $as_echo "46. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4185,13 +4259,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_45
-#AT_START_46
-at_fn_group_banner 46 'redefines.at:169' \
+#AT_STOP_46
+#AT_START_47
+at_fn_group_banner 47 'redefines.at:169' \
   "REDEFINES: with OCCURS" "                         "
 at_xfail=no
 (
-  $as_echo "46. $at_setup_line: testing $at_desc ..."
+  $as_echo "47. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4230,13 +4304,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_46
-#AT_START_47
-at_fn_group_banner 47 'redefines.at:190' \
+#AT_STOP_47
+#AT_START_48
+at_fn_group_banner 48 'redefines.at:190' \
   "REDEFINES: with subscript" "                      "
 at_xfail=no
 (
-  $as_echo "47. $at_setup_line: testing $at_desc ..."
+  $as_echo "48. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4276,13 +4350,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_47
-#AT_START_48
-at_fn_group_banner 48 'redefines.at:212' \
+#AT_STOP_48
+#AT_START_49
+at_fn_group_banner 49 'redefines.at:212' \
   "REDEFINES: with variable occurrence" "            "
 at_xfail=no
 (
-  $as_echo "48. $at_setup_line: testing $at_desc ..."
+  $as_echo "49. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4332,13 +4406,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_48
-#AT_START_49
-at_fn_group_banner 49 'redefines.at:247' \
+#AT_STOP_49
+#AT_START_50
+at_fn_group_banner 50 'redefines.at:247' \
   "REDEFINES: with qualification" "                  "
 at_xfail=no
 (
-  $as_echo "49. $at_setup_line: testing $at_desc ..."
+  $as_echo "50. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4379,13 +4453,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_49
-#AT_START_50
-at_fn_group_banner 50 'redefines.at:273' \
+#AT_STOP_50
+#AT_START_51
+at_fn_group_banner 51 'redefines.at:273' \
   "REDEFINES: multiple redefinition" "               "
 at_xfail=no
 (
-  $as_echo "50. $at_setup_line: testing $at_desc ..."
+  $as_echo "51. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4440,13 +4514,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_50
-#AT_START_51
-at_fn_group_banner 51 'redefines.at:301' \
+#AT_STOP_51
+#AT_START_52
+at_fn_group_banner 52 'redefines.at:301' \
   "REDEFINES: size exceeds" "                        "
 at_xfail=no
 (
-  $as_echo "51. $at_setup_line: testing $at_desc ..."
+  $as_echo "52. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4494,13 +4568,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_51
-#AT_START_52
-at_fn_group_banner 52 'redefines.at:334' \
+#AT_STOP_52
+#AT_START_53
+at_fn_group_banner 53 'redefines.at:334' \
   "REDEFINES: with VALUE" "                          "
 at_xfail=no
 (
-  $as_echo "52. $at_setup_line: testing $at_desc ..."
+  $as_echo "53. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4543,13 +4617,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_52
-#AT_START_53
-at_fn_group_banner 53 'redefines.at:362' \
+#AT_STOP_53
+#AT_START_54
+at_fn_group_banner 54 'redefines.at:362' \
   "REDEFINES: with intervention" "                   "
 at_xfail=no
 (
-  $as_echo "53. $at_setup_line: testing $at_desc ..."
+  $as_echo "54. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4593,13 +4667,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_53
-#AT_START_54
-at_fn_group_banner 54 'redefines.at:391' \
+#AT_STOP_54
+#AT_START_55
+at_fn_group_banner 55 'redefines.at:391' \
   "REDEFINES: within REDEFINES" "                    "
 at_xfail=no
 (
-  $as_echo "54. $at_setup_line: testing $at_desc ..."
+  $as_echo "55. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4637,13 +4711,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_54
-#AT_START_55
-at_fn_group_banner 55 'value.at:43' \
+#AT_STOP_55
+#AT_START_56
+at_fn_group_banner 56 'value.at:43' \
   "Numeric item (integer)" "                         "
 at_xfail=no
 (
-  $as_echo "55. $at_setup_line: testing $at_desc ..."
+  $as_echo "56. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4686,13 +4760,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_55
-#AT_START_56
-at_fn_group_banner 56 'value.at:68' \
+#AT_STOP_56
+#AT_START_57
+at_fn_group_banner 57 'value.at:68' \
   "Numeric item (non-integer)" "                     "
 at_xfail=no
 (
-  $as_echo "56. $at_setup_line: testing $at_desc ..."
+  $as_echo "57. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4732,13 +4806,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_56
-#AT_START_57
-at_fn_group_banner 57 'value.at:90' \
+#AT_STOP_57
+#AT_START_58
+at_fn_group_banner 58 'value.at:90' \
   "Numeric item with picture P" "                    "
 at_xfail=no
 (
-  $as_echo "57. $at_setup_line: testing $at_desc ..."
+  $as_echo "58. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4784,13 +4858,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_57
-#AT_START_58
-at_fn_group_banner 58 'value.at:121' \
+#AT_STOP_58
+#AT_START_59
+at_fn_group_banner 59 'value.at:121' \
   "Signed numeric literal" "                         "
 at_xfail=no
 (
-  $as_echo "58. $at_setup_line: testing $at_desc ..."
+  $as_echo "59. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4830,13 +4904,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_58
-#AT_START_59
-at_fn_group_banner 59 'value.at:146' \
+#AT_STOP_59
+#AT_START_60
+at_fn_group_banner 60 'value.at:146' \
   "Alphabetic item" "                                "
 at_xfail=no
 (
-  $as_echo "59. $at_setup_line: testing $at_desc ..."
+  $as_echo "60. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4879,13 +4953,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_59
-#AT_START_60
-at_fn_group_banner 60 'value.at:171' \
+#AT_STOP_60
+#AT_START_61
+at_fn_group_banner 61 'value.at:171' \
   "Alphanumeric item" "                              "
 at_xfail=no
 (
-  $as_echo "60. $at_setup_line: testing $at_desc ..."
+  $as_echo "61. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4924,13 +4998,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_60
-#AT_START_61
-at_fn_group_banner 61 'value.at:192' \
+#AT_STOP_61
+#AT_START_62
+at_fn_group_banner 62 'value.at:192' \
   "Alphanumeric group item" "                        "
 at_xfail=no
 (
-  $as_echo "61. $at_setup_line: testing $at_desc ..."
+  $as_echo "62. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4972,13 +5046,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_61
-#AT_START_62
-at_fn_group_banner 62 'value.at:226' \
+#AT_STOP_62
+#AT_START_63
+at_fn_group_banner 63 'value.at:226' \
   "Numeric-edited item" "                            "
 at_xfail=no
 (
-  $as_echo "62. $at_setup_line: testing $at_desc ..."
+  $as_echo "63. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5019,13 +5093,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_62
-#AT_START_63
-at_fn_group_banner 63 'value.at:249' \
+#AT_STOP_63
+#AT_START_64
+at_fn_group_banner 64 'value.at:249' \
   "Alphanumeric-edited item" "                       "
 at_xfail=no
 (
-  $as_echo "63. $at_setup_line: testing $at_desc ..."
+  $as_echo "64. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5065,13 +5139,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_63
-#AT_START_64
-at_fn_group_banner 64 'move.at:37' \
+#AT_STOP_64
+#AT_START_65
+at_fn_group_banner 65 'move.at:37' \
   "MOVE SPACE TO numeric or numeric-edited item" "   "
 at_xfail=no
 (
-  $as_echo "64. $at_setup_line: testing $at_desc ..."
+  $as_echo "65. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5111,13 +5185,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_64
-#AT_START_65
-at_fn_group_banner 65 'move.at:62' \
+#AT_STOP_65
+#AT_START_66
+at_fn_group_banner 66 'move.at:62' \
   "MOVE ZERO TO alphabetic item" "                   "
 at_xfail=no
 (
-  $as_echo "65. $at_setup_line: testing $at_desc ..."
+  $as_echo "66. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5154,13 +5228,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_65
-#AT_START_66
-at_fn_group_banner 66 'move.at:87' \
+#AT_STOP_66
+#AT_START_67
+at_fn_group_banner 67 'move.at:87' \
   "MOVE alphabetic TO x" "                           "
 at_xfail=no
 (
-  $as_echo "66. $at_setup_line: testing $at_desc ..."
+  $as_echo "67. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5207,13 +5281,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_66
-#AT_START_67
-at_fn_group_banner 67 'move.at:116' \
+#AT_STOP_67
+#AT_START_68
+at_fn_group_banner 68 'move.at:116' \
   "MOVE alphanumeric TO x" "                         "
 at_xfail=no
 (
-  $as_echo "67. $at_setup_line: testing $at_desc ..."
+  $as_echo "68. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5257,13 +5331,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_67
-#AT_START_68
-at_fn_group_banner 68 'move.at:142' \
+#AT_STOP_68
+#AT_START_69
+at_fn_group_banner 69 'move.at:142' \
   "MOVE alphanumeric-edited TO x" "                  "
 at_xfail=no
 (
-  $as_echo "68. $at_setup_line: testing $at_desc ..."
+  $as_echo "69. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5310,13 +5384,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_68
-#AT_START_69
-at_fn_group_banner 69 'move.at:171' \
+#AT_STOP_69
+#AT_START_70
+at_fn_group_banner 70 'move.at:171' \
   "MOVE numeric (integer) TO x" "                    "
 at_xfail=no
 (
-  $as_echo "69. $at_setup_line: testing $at_desc ..."
+  $as_echo "70. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5362,13 +5436,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_69
-#AT_START_70
-at_fn_group_banner 70 'move.at:199' \
+#AT_STOP_70
+#AT_START_71
+at_fn_group_banner 71 'move.at:199' \
   "MOVE numeric (non-integer) TO x" "                "
 at_xfail=no
 (
-  $as_echo "70. $at_setup_line: testing $at_desc ..."
+  $as_echo "71. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5416,13 +5490,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_70
-#AT_START_71
-at_fn_group_banner 71 'move.at:229' \
+#AT_STOP_71
+#AT_START_72
+at_fn_group_banner 72 'move.at:229' \
   "MOVE numeric-edited TO x" "                       "
 at_xfail=no
 (
-  $as_echo "71. $at_setup_line: testing $at_desc ..."
+  $as_echo "72. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5468,13 +5542,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_71
-#AT_START_72
-at_fn_group_banner 72 'move.at:263' \
+#AT_STOP_72
+#AT_START_73
+at_fn_group_banner 73 'move.at:263' \
   "Operands must be groups" "                        "
 at_xfail=no
 (
-  $as_echo "72. $at_setup_line: testing $at_desc ..."
+  $as_echo "73. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5520,13 +5594,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_72
-#AT_START_73
-at_fn_group_banner 73 'move.at:295' \
+#AT_STOP_73
+#AT_START_74
+at_fn_group_banner 74 'move.at:295' \
   "MOVE: misc" "                                     "
 at_xfail=no
 (
-  $as_echo "73. $at_setup_line: testing $at_desc ..."
+  $as_echo "74. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5565,13 +5639,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_73
-#AT_START_74
-at_fn_group_banner 74 'multiply.at:28' \
+#AT_STOP_74
+#AT_START_75
+at_fn_group_banner 75 'multiply.at:28' \
   "Category check of Format 1" "                     "
 at_xfail=no
 (
-  $as_echo "74. $at_setup_line: testing $at_desc ..."
+  $as_echo "75. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5625,13 +5699,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_74
-#AT_START_75
-at_fn_group_banner 75 'multiply.at:66' \
+#AT_STOP_75
+#AT_START_76
+at_fn_group_banner 76 'multiply.at:66' \
   "Category check of Format 2" "                     "
 at_xfail=no
 (
-  $as_echo "75. $at_setup_line: testing $at_desc ..."
+  $as_echo "76. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5687,13 +5761,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_75
-#AT_START_76
-at_fn_group_banner 76 'multiply.at:106' \
+#AT_STOP_76
+#AT_START_77
+at_fn_group_banner 77 'multiply.at:106' \
   "Category check of literals" "                     "
 at_xfail=no
 (
-  $as_echo "76. $at_setup_line: testing $at_desc ..."
+  $as_echo "77. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5739,13 +5813,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_76
-#AT_START_77
-at_fn_group_banner 77 'set.at:24' \
+#AT_STOP_77
+#AT_START_78
+at_fn_group_banner 78 'set.at:24' \
   "SET: misc" "                                      "
 at_xfail=no
 (
-  $as_echo "77. $at_setup_line: testing $at_desc ..."
+  $as_echo "78. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5782,13 +5856,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_77
-#AT_START_78
-at_fn_group_banner 78 'free-1col-aster.at:1' \
+#AT_STOP_78
+#AT_START_79
+at_fn_group_banner 79 'free-1col-aster.at:1' \
   "free_1col_aster OPTION" "                         "
 at_xfail=no
 (
-  $as_echo "78. $at_setup_line: testing $at_desc ..."
+  $as_echo "79. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5820,13 +5894,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_78
-#AT_START_79
-at_fn_group_banner 79 'free-1col-aster.at:15' \
+#AT_STOP_79
+#AT_START_80
+at_fn_group_banner 80 'free-1col-aster.at:15' \
   "newline_count with free_1col_aster" "             "
 at_xfail=no
 (
-  $as_echo "79. $at_setup_line: testing $at_desc ..."
+  $as_echo "80. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5861,4 +5935,4 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_79
+#AT_STOP_80

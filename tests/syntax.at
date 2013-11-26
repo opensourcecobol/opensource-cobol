@@ -23,6 +23,7 @@ AT_INIT([Syntax Tests])
 AT_TESTED([cobc])
 
 m4_include([copy.at])
+m4_include([unmatured-copy.at])
 
 m4_include([definition.at])
 m4_include([expression.at])

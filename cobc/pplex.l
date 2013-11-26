@@ -542,6 +542,9 @@ start:
 	for (n = 0; n < 256 && ipchar != '\n';) {
 		ipchar = getc (ppin);
 		if (ipchar == EOF) {
+			if (n > 0) {
+				break;
+			}
 			if (newline_count == 0) {
 				return 0;
 			}

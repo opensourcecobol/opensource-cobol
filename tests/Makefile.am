@@ -27,6 +27,7 @@ endif
 syntax_DEPENDENCIES = \
 	syntax.at \
 	syntax.src/copy.at \
+	syntax.src/unmatured-copy.at \
 	syntax.src/definition.at \
 	syntax.src/expression.at \
 	syntax.src/multiply.at \
