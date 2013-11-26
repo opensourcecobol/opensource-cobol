@@ -1688,3 +1688,35 @@ AT_CHECK([./prog], [1], ,
 
 AT_CLEANUP
 
+AT_SETUP([READ - KEY ignored with sequential READ])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION IS  INDEXED
+                        ACCESS MODE  IS  SEQUENTIAL
+                        RECORD KEY   IS  TEST-KEY.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-KEY      PIC X(4).
+       PROCEDURE        DIVISION.
+           OPEN  OUTPUT TEST-FILE.
+           CLOSE TEST-FILE.
+           OPEN  INPUT  TEST-FILE.
+           START TEST-FILE KEY IS EQUAL TO TEST-KEY.
+           READ TEST-FILE KEY IS TEST-KEY.
+           DISPLAY TEST-KEY NO ADVANCING.
+           CLOSE TEST-FILE.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -o prog prog.cob], [0], [],
+[prog.cob:20: Warning: KEY ignored with sequential READ
+])
+
+AT_CLEANUP

@@ -5792,7 +5792,7 @@ cb_emit_read (cb_tree ref, cb_tree next, cb_tree into, cb_tree keys, cb_tree loc
 		} else {
 			read_opts |= COB_READ_NEXT;
 		}
-		if (key) {
+		if (keys) {
 			cb_warning (_("KEY ignored with sequential READ"));
 		}
 		cb_emit (cb_build_funcall_4 ("cob_read", file, cb_int0,
