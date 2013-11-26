@@ -1694,6 +1694,9 @@ _ext_clause:
 	current_file->external_assign = 1;
   }
 | DYNAMIC
+  {
+	current_file->external_assign = 0;
+  }
 ;
 
 assignment_name:

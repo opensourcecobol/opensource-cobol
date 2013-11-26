@@ -38,7 +38,8 @@ syntax_DEPENDENCIES = \
 	syntax.src/occurs.at \
 	syntax.src/subscripts.at \
 	syntax.src/free-1col-aster.at \
-	syntax.src/indicator.at
+	syntax.src/indicator.at \
+	syntax.src/assign-external.at
 
 run_DEPENDENCIES = \
 	run.at \
