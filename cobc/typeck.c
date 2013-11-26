@@ -3443,6 +3443,28 @@ cb_emit_delete (cb_tree file)
 }
 
 /*
+ * DELETE FILE statement
+ */
+
+void
+cb_emit_delete_file (cb_tree file)
+{
+	if (file == cb_error_node) {
+		return;
+	}
+	file = cb_ref (file);
+	if (file == cb_error_node) {
+		return;
+	}
+	current_statement->file = file;
+	if (CB_FILE (file)->organization == COB_ORG_SORT) {
+		cb_error_x (CB_TREE (current_statement),
+		_("Operation not allowed on SORT files"));
+	}
+	cb_emit (cb_build_funcall_2 ("cob_delete_file", file, CB_FILE (file)->file_status));
+}
+
+/*
  * DISPLAY statement
  */
 

@@ -80,6 +80,7 @@
 #define COB_IO_COMMIT		7
 #define COB_IO_ROLLBACK		8
 #define COB_IO_UNLOCK		9
+#define COB_IO_DELETE_FILE	10
 
 /* Open mode */
 
@@ -275,6 +276,8 @@ extern void cob_rewrite		(cob_file *, cob_field *, const int, cob_field *);
 extern void cob_ex_rewrite	(cob_file *, cob_field *, const int, cob_field *);
 extern void cob_delete		(cob_file *, cob_field *);
 extern void cob_ex_delete	(cob_file *, cob_field *);
+extern void cob_delete_file	(cob_file *, cob_field *);
+extern void cob_ex_delete_file	(cob_file *, cob_field *);
 extern void cob_start		(cob_file *, const int, cob_field *, cob_field *);
 extern void cob_ex_start	(cob_file *, const int, cob_field *, cob_field *);
 

@@ -4594,6 +4594,143 @@ cob_delete (cob_file *f, cob_field *fnstatus)
 }
 
 void
+cob_ex_delete_file (cob_file *f, cob_field *fnstatus)
+{
+	char		*p;
+	char		*src;
+	char		*dst;
+	size_t		i;
+	size_t		simple;
+	int		ret;
+
+	f->flag_read_done = 0;
+
+	/* file was previously closed with lock */
+	if (f->open_mode == COB_OPEN_LOCKED) {
+		RETURN_STATUS (COB_STATUS_38_CLOSED_WITH_LOCK);
+	}
+
+	/* file is already open */
+	if (f->open_mode != COB_OPEN_CLOSED) {
+		RETURN_STATUS (COB_STATUS_41_ALREADY_OPEN);
+	}
+
+	if (f->special) {
+		RETURN_STATUS (COB_STATUS_30_PERMANENT_ERROR);
+	}
+
+	/* obtain the file name */
+	cob_field_to_string (f->assign, file_open_name);
+
+	if (cob_current_module->flag_filename_mapping) {
+		src = file_open_name;
+		dst = file_open_buff;
+		simple = 1;
+		/* expand envoronment variables */
+		/* ex. "$TMPDIR/foo" -> "/tmp/foo" */
+		while (*src) {
+			if (!isalnum (*src) && *src != '_' && *src != '-') {
+				simple = 0;
+			}
+			if (*src == '$') {
+				for (i = 1; ; i++) {
+					if (!isalnum (src[i]) && src[i] != '_' && *src != '-') {
+						break;
+					}
+				}
+				memcpy (file_open_env, src + 1, i - 1);
+				file_open_env[i - 1] = 0;
+				if ((p = getenv (file_open_env)) != NULL) {
+					strcpy (dst, p);
+					dst += strlen (p);
+				}
+				src += i;
+			} else {
+				*dst++ = *src++;
+			}
+		}
+		*dst = 0;
+		strncpy (file_open_name, file_open_buff, COB_SMALL_MAX);
+		str_physical_filename = cb_get_jisword (file_open_name);
+		memset (file_open_name, 0, sizeof (file_open_name));
+		strncpy (file_open_name, str_physical_filename, COB_SMALL_MAX);
+
+		/* resolve by environment variables */
+		/* ex. "TMPFILE" -> DD_TMPFILE, dd_TMPFILE, or TMPFILE */
+		if (simple) {
+			for (i = 0; i < NUM_PREFIX; i++) {
+				snprintf (file_open_buff, COB_SMALL_MAX, "%s%s",
+					  prefix[i], file_open_name);
+				if ((p = getenv (file_open_buff)) != NULL) {
+					strncpy (file_open_name, p, COB_SMALL_MAX);
+					break;
+				}
+			}
+			if (i == NUM_PREFIX && cob_file_path) {
+				snprintf (file_open_buff, COB_SMALL_MAX, "%s/%s",
+					  cob_file_path, file_open_name);
+				strncpy (file_open_name, file_open_buff, COB_SMALL_MAX);
+			}
+		}
+	}
+
+#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+	if (f->organization == COB_ORG_INDEXED) {
+		strncpy (file_open_buff, file_open_name, COB_SMALL_MAX);
+		strcat (file_open_buff, ".idx");
+		ret = unlink (file_open_buff);
+		if (ret == 0) {
+			strncpy (file_open_buff, file_open_name, COB_SMALL_MAX);
+			strcat (file_open_buff, ".dat");
+			ret = unlink (file_open_buff);
+		}
+	} else {
+#elif	defined(WITH_DB) /* WITH_CISAM || WITH_DISAM || WITH_VBISAM */
+	if (f->organization == COB_ORG_INDEXED) {
+		RETURN_STATUS (COB_STATUS_91_NOT_AVAILABLE);
+	} else {
+#else /* WITH_CISAM || WITH_DISAM || WITH_VBISAM */
+	{
+#endif /* WITH_CISAM || WITH_DISAM || WITH_VBISAM */
+		ret = unlink (file_open_name);
+	}
+	if (ret == 0) {
+		RETURN_STATUS (COB_STATUS_00_SUCCESS);
+	} else {
+		switch (errno) {
+		case ENOENT:
+			RETURN_STATUS (COB_STATUS_35_NOT_EXISTS);
+		case EACCES:
+		case EISDIR:
+		case EROFS:
+			RETURN_STATUS (COB_STATUS_37_PERMISSION_DENIED);
+		case EAGAIN:
+		case COB_STATUS_61_FILE_SHARING:
+			RETURN_STATUS (COB_STATUS_61_FILE_SHARING);
+		case COB_STATUS_91_NOT_AVAILABLE:
+			RETURN_STATUS (COB_STATUS_91_NOT_AVAILABLE);
+		case COB_LINAGE_INVALID:
+			RETURN_STATUS (COB_STATUS_57_I_O_LINAGE);
+		default:
+			RETURN_STATUS (COB_STATUS_30_PERMANENT_ERROR);
+		}
+	}
+}
+
+void
+cob_delete_file (cob_file *f, cob_field *fnstatus)
+{
+	char	openMode[OPENMODESIZE];
+
+	memset (openMode, 0, sizeof (openMode));
+	sprintf (openMode, "%02d", f->last_open_mode);
+	if (cob_invoke_fun (COB_IO_DELETE_FILE, (char*)f, NULL, NULL, fnstatus, openMode, NULL, NULL)) {
+		return;
+	}
+	cob_ex_delete_file (f, fnstatus);
+}
+
+void
 cob_ex_commit (void)
 {
 	struct file_list	*l;

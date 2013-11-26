@@ -1434,6 +1434,8 @@ extern void		cb_emit_continue (void);
 
 extern void		cb_emit_delete (cb_tree file);
 
+extern void		cb_emit_delete_file (cb_tree file);
+
 extern void		cb_emit_display (cb_tree values, cb_tree upon,
 					 cb_tree no_adv, cb_tree pos,
 					 cb_tree fgc, cb_tree bgc,

@@ -3868,6 +3868,7 @@ statement:
 | compute_statement
 | continue_statement
 | delete_statement
+| delete_file_statement
 | display_statement
 | divide_statement
 | entry_statement
@@ -4383,6 +4384,25 @@ delete_statement:
 end_delete:
   /* empty */			{ terminator_warning (TERM_DELETE); }
 | END_DELETE			{ terminator_clear (TERM_DELETE); }
+;
+
+
+/*
+ * DELETE FILE statement
+ */
+
+delete_file_statement:
+  DELETE                          { BEGIN_STATEMENT ("DELETE-FILE", 0); }
+  TOK_FILE file_name_list
+  {
+	cb_tree l;
+	for (l = $4; l; l = CB_CHAIN (l)) {
+		if (CB_VALUE (l) != cb_error_node) {
+			BEGIN_IMPLICIT_STATEMENT ();
+			cb_emit_delete_file (CB_VALUE (l));
+		}
+	}
+  }
 ;
 
 
