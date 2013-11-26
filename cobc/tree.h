@@ -632,6 +632,7 @@ struct cb_file {
 	cb_tree			file_status;		/* FILE STATUS */
 	cb_tree			sharing;		/* SHARING */
 	cb_tree			key;			/* RELATIVE/RECORD KEY */
+	struct cb_key_component	*component_list;	/* RECORD KEY w/split key */
 	struct cb_alt_key	*alt_key_list;		/* ALTERNATE RECORD KEY */
 	/* FD/SD */
 	struct cb_field		*record;		/* Record descriptor */

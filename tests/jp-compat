@@ -595,32 +595,33 @@ at_format='??'
 # Description of all the test groups.
 at_help_all="1;split-keys.at:1;SPLIT KEYS (ALTERNATE KEY);;
 2;split-keys.at:53;SPLIT KEYS (ALTERNATE KEY - NOT YET);;
-3;end-program-wrong.at:1;Allow wrong pgm-name in END-PROGRAM;;
-4;evaluate-also-missing.at:1;Allow missing ALSO in EVALUATE-WHEN;;
-5;evaluate-also-missing.at:25;Allow missing both ALSO and class condition IS in EVALUATE;;
-6;empty-imperative.at:1;Allow empty EVALUATE-WHEN OTHER;;
-7;empty-imperative.at:24;Allow empty ELSE;;
-8;empty-imperative.at:46;Allow empty EVALUATE- before WHEN OTHER;;
-9;empty-imperative.at:70;Allow empty EVALUATE- semantics;;
-10;empty-imperative.at:93;Allow empty EVALUATE- semantics 2;;
-11;empty-imperative.at:118;Allow empty EVALUATE- semantics 3;;
-12;spl-registers.at:1;PROGRAM-STATUS;;
-13;spl-registers.at:16;SORT-STATUS (alias SORT-RETURN);;
-14;spl-registers.at:32;SORT-STATUS (Break in input section);;
-15;spl-registers.at:96;SORT-STATUS (Break in output section);;
-16;spl-registers.at:160;SORT-STATUS (Break in section with THRU);;
-17;spl-registers.at:228;SORT-STATUS break in MERGE;;
-18;spl-registers.at:288;SORT-STATUS break with No SORT-STATUS in pgm;;
-19;special-names.at:1;ACCEPT ARGUMENT-NUMBER;;
-20;special-names.at:24;ACCEPT ARGUMENT-VALUE;;
-21;special-names.at:48;ACCEPT ENVIRONMENT-VALUE;;
-22;special-names.at:72;DISPLAY ARGUMENT-NUMBER;;
-23;special-names.at:96;DISPLAY ENVIRONMENT-NAME;;
-24;special-names.at:120;DISPLAY ENVIRONMENT-VALUE;;
-25;intr-funcs.at:1;FUNCTION LENG (fixed);;
-26;intr-funcs.at:21;FUNCTION LENG (occur. depending);;
-27;intr-funcs.at:44;FUNCTION LENGTH-AN (fixed);;
-28;intr-funcs.at:64;FUNCTION LENGTH-AN (occur. depending);;
+3;split-keys.at:107;SPLIT KEYS (RECORD KEY);;
+4;end-program-wrong.at:1;Allow wrong pgm-name in END-PROGRAM;;
+5;evaluate-also-missing.at:1;Allow missing ALSO in EVALUATE-WHEN;;
+6;evaluate-also-missing.at:25;Allow missing both ALSO and class condition IS in EVALUATE;;
+7;empty-imperative.at:1;Allow empty EVALUATE-WHEN OTHER;;
+8;empty-imperative.at:24;Allow empty ELSE;;
+9;empty-imperative.at:46;Allow empty EVALUATE- before WHEN OTHER;;
+10;empty-imperative.at:70;Allow empty EVALUATE- semantics;;
+11;empty-imperative.at:93;Allow empty EVALUATE- semantics 2;;
+12;empty-imperative.at:118;Allow empty EVALUATE- semantics 3;;
+13;spl-registers.at:1;PROGRAM-STATUS;;
+14;spl-registers.at:16;SORT-STATUS (alias SORT-RETURN);;
+15;spl-registers.at:32;SORT-STATUS (Break in input section);;
+16;spl-registers.at:96;SORT-STATUS (Break in output section);;
+17;spl-registers.at:160;SORT-STATUS (Break in section with THRU);;
+18;spl-registers.at:228;SORT-STATUS break in MERGE;;
+19;spl-registers.at:288;SORT-STATUS break with No SORT-STATUS in pgm;;
+20;special-names.at:1;ACCEPT ARGUMENT-NUMBER;;
+21;special-names.at:24;ACCEPT ARGUMENT-VALUE;;
+22;special-names.at:48;ACCEPT ENVIRONMENT-VALUE;;
+23;special-names.at:72;DISPLAY ARGUMENT-NUMBER;;
+24;special-names.at:96;DISPLAY ENVIRONMENT-NAME;;
+25;special-names.at:120;DISPLAY ENVIRONMENT-VALUE;;
+26;intr-funcs.at:1;FUNCTION LENG (fixed);;
+27;intr-funcs.at:21;FUNCTION LENG (occur. depending);;
+28;intr-funcs.at:44;FUNCTION LENGTH-AN (fixed);;
+29;intr-funcs.at:64;FUNCTION LENGTH-AN (occur. depending);;
 "
 # List of the all the test groups.
 at_groups_all=`$as_echo "$at_help_all" | sed 's/;.*//'`
@@ -634,7 +635,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 28; then
+    if test $at_value -lt 1 || test $at_value -gt 29; then
       $as_echo "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -2204,11 +2205,117 @@ $at_traceon; }
 read at_status <"$at_status_file"
 #AT_STOP_2
 #AT_START_3
-at_fn_group_banner 3 'end-program-wrong.at:1' \
-  "Allow wrong pgm-name in END-PROGRAM" "            "
+at_fn_group_banner 3 'split-keys.at:107' \
+  "SPLIT KEYS (RECORD KEY)" "                        "
 at_xfail=no
 (
   $as_echo "3. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+{ set +x
+$as_echo "$at_srcdir/split-keys.at:109: test \$COB_HAS_ISAM = \"yes\" || exit 77"
+at_fn_check_prepare_dynamic "test $COB_HAS_ISAM = \"yes\" || exit 77" "split-keys.at:109"
+( $at_check_trace; test $COB_HAS_ISAM = "yes" || exit 77
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/split-keys.at:109"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN TO "./TEST-FILE"
+                        ORGANIZATION IS  INDEXED
+                        ACCESS MODE  IS  RANDOM
+                        RECORD KEY   IS  TEST-KEY1
+                                         TEST-KEY2
+                        ALTERNATE RECORD KEY IS ALT-KEY1
+                                                ALT-KEY2.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-REC.
+          03 TEST-KEY1  PIC X(4).
+          03 TEST-KEY2  PIC X(4).
+          03 ALT-KEY1   PIC X(4).
+          03 ALT-KEY2   PIC X(4).
+       PROCEDURE        DIVISION.
+           OPEN  OUTPUT TEST-FILE.
+           MOVE "AAAA" TO TEST-KEY1.
+           MOVE "0001" TO TEST-KEY2.
+           MOVE "ALT1" TO  ALT-KEY1.
+           MOVE "-001" TO  ALT-KEY2.
+           WRITE TEST-REC.
+           MOVE "BBBB" TO TEST-KEY1.
+           MOVE "0002" TO TEST-KEY2.
+           MOVE "ALT2" TO  ALT-KEY1.
+           MOVE "-002" TO  ALT-KEY2.
+           WRITE TEST-REC.
+           MOVE "CCCC" TO TEST-KEY1.
+           MOVE "0003" TO TEST-KEY2.
+           MOVE "ALT3" TO  ALT-KEY1.
+           MOVE "-003" TO  ALT-KEY2.
+           WRITE TEST-REC.
+           CLOSE TEST-FILE.
+           OPEN  INPUT  TEST-FILE.
+           MOVE "BBBB" TO  TEST-KEY1.
+           MOVE "0002" TO  TEST-KEY2.
+           READ  TEST-FILE KEY IS TEST-KEY1 TEST-KEY2.
+           DISPLAY ALT-KEY1 NO ADVANCING.
+           CLOSE TEST-FILE.
+           STOP RUN.
+_ATEOF
+
+
+{ set +x
+$as_echo "$at_srcdir/split-keys.at:159: \${COMPILE} -o prog prog.cob"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "split-keys.at:159"
+( $at_check_trace; ${COMPILE} -o prog prog.cob
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/split-keys.at:159"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/split-keys.at:160: ./prog"
+at_fn_check_prepare_trace "split-keys.at:160"
+( $at_check_trace; ./prog
+) >>"$at_stdout" 2>>"$at_stderr"
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "ALT2" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/split-keys.at:160"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_3
+#AT_START_4
+at_fn_group_banner 4 'end-program-wrong.at:1' \
+  "Allow wrong pgm-name in END-PROGRAM" "            "
+at_xfail=no
+(
+  $as_echo "4. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2241,13 +2348,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_3
-#AT_START_4
-at_fn_group_banner 4 'evaluate-also-missing.at:1' \
+#AT_STOP_4
+#AT_START_5
+at_fn_group_banner 5 'evaluate-also-missing.at:1' \
   "Allow missing ALSO in EVALUATE-WHEN" "            "
 at_xfail=no
 (
-  $as_echo "4. $at_setup_line: testing $at_desc ..."
+  $as_echo "5. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2302,13 +2409,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_4
-#AT_START_5
-at_fn_group_banner 5 'evaluate-also-missing.at:25' \
+#AT_STOP_5
+#AT_START_6
+at_fn_group_banner 6 'evaluate-also-missing.at:25' \
   "Allow missing both ALSO and class condition IS in EVALUATE" ""
 at_xfail=no
 (
-  $as_echo "5. $at_setup_line: testing $at_desc ..."
+  $as_echo "6. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2366,13 +2473,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_5
-#AT_START_6
-at_fn_group_banner 6 'empty-imperative.at:1' \
+#AT_STOP_6
+#AT_START_7
+at_fn_group_banner 7 'empty-imperative.at:1' \
   "Allow empty EVALUATE-WHEN OTHER" "                "
 at_xfail=no
 (
-  $as_echo "6. $at_setup_line: testing $at_desc ..."
+  $as_echo "7. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2426,13 +2533,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_6
-#AT_START_7
-at_fn_group_banner 7 'empty-imperative.at:24' \
+#AT_STOP_7
+#AT_START_8
+at_fn_group_banner 8 'empty-imperative.at:24' \
   "Allow empty ELSE" "                               "
 at_xfail=no
 (
-  $as_echo "7. $at_setup_line: testing $at_desc ..."
+  $as_echo "8. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2485,13 +2592,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_7
-#AT_START_8
-at_fn_group_banner 8 'empty-imperative.at:46' \
+#AT_STOP_8
+#AT_START_9
+at_fn_group_banner 9 'empty-imperative.at:46' \
   "Allow empty EVALUATE- before WHEN OTHER" "        "
 at_xfail=no
 (
-  $as_echo "8. $at_setup_line: testing $at_desc ..."
+  $as_echo "9. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2546,13 +2653,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_8
-#AT_START_9
-at_fn_group_banner 9 'empty-imperative.at:70' \
+#AT_STOP_9
+#AT_START_10
+at_fn_group_banner 10 'empty-imperative.at:70' \
   "Allow empty EVALUATE- semantics" "                "
 at_xfail=no
 (
-  $as_echo "9. $at_setup_line: testing $at_desc ..."
+  $as_echo "10. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2606,13 +2713,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_9
-#AT_START_10
-at_fn_group_banner 10 'empty-imperative.at:93' \
+#AT_STOP_10
+#AT_START_11
+at_fn_group_banner 11 'empty-imperative.at:93' \
   "Allow empty EVALUATE- semantics 2" "              "
 at_xfail=no
 (
-  $as_echo "10. $at_setup_line: testing $at_desc ..."
+  $as_echo "11. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2668,13 +2775,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_10
-#AT_START_11
-at_fn_group_banner 11 'empty-imperative.at:118' \
+#AT_STOP_11
+#AT_START_12
+at_fn_group_banner 12 'empty-imperative.at:118' \
   "Allow empty EVALUATE- semantics 3" "              "
 at_xfail=no
 (
-  $as_echo "11. $at_setup_line: testing $at_desc ..."
+  $as_echo "12. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2728,13 +2835,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_11
-#AT_START_12
-at_fn_group_banner 12 'spl-registers.at:1' \
+#AT_STOP_12
+#AT_START_13
+at_fn_group_banner 13 'spl-registers.at:1' \
   "PROGRAM-STATUS" "                                 "
 at_xfail=no
 (
-  $as_echo "12. $at_setup_line: testing $at_desc ..."
+  $as_echo "13. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2779,13 +2886,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_12
-#AT_START_13
-at_fn_group_banner 13 'spl-registers.at:16' \
+#AT_STOP_13
+#AT_START_14
+at_fn_group_banner 14 'spl-registers.at:16' \
   "SORT-STATUS (alias SORT-RETURN)" "                "
 at_xfail=no
 (
-  $as_echo "13. $at_setup_line: testing $at_desc ..."
+  $as_echo "14. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2832,13 +2939,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_13
-#AT_START_14
-at_fn_group_banner 14 'spl-registers.at:32' \
+#AT_STOP_14
+#AT_START_15
+at_fn_group_banner 15 'spl-registers.at:32' \
   "SORT-STATUS (Break in input section)" "           "
 at_xfail=no
 (
-  $as_echo "14. $at_setup_line: testing $at_desc ..."
+  $as_echo "15. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -2957,13 +3064,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_14
-#AT_START_15
-at_fn_group_banner 15 'spl-registers.at:96' \
+#AT_STOP_15
+#AT_START_16
+at_fn_group_banner 16 'spl-registers.at:96' \
   "SORT-STATUS (Break in output section)" "          "
 at_xfail=no
 (
-  $as_echo "15. $at_setup_line: testing $at_desc ..."
+  $as_echo "16. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3082,13 +3189,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_15
-#AT_START_16
-at_fn_group_banner 16 'spl-registers.at:160' \
+#AT_STOP_16
+#AT_START_17
+at_fn_group_banner 17 'spl-registers.at:160' \
   "SORT-STATUS (Break in section with THRU)" "       "
 at_xfail=no
 (
-  $as_echo "16. $at_setup_line: testing $at_desc ..."
+  $as_echo "17. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3211,13 +3318,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_16
-#AT_START_17
-at_fn_group_banner 17 'spl-registers.at:228' \
+#AT_STOP_17
+#AT_START_18
+at_fn_group_banner 18 'spl-registers.at:228' \
   "SORT-STATUS break in MERGE" "                     "
 at_xfail=no
 (
-  $as_echo "17. $at_setup_line: testing $at_desc ..."
+  $as_echo "18. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3344,13 +3451,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_17
-#AT_START_18
-at_fn_group_banner 18 'spl-registers.at:288' \
+#AT_STOP_18
+#AT_START_19
+at_fn_group_banner 19 'spl-registers.at:288' \
   "SORT-STATUS break with No SORT-STATUS in pgm" "   "
 at_xfail=no
 (
-  $as_echo "18. $at_setup_line: testing $at_desc ..."
+  $as_echo "19. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3470,13 +3577,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_18
-#AT_START_19
-at_fn_group_banner 19 'special-names.at:1' \
+#AT_STOP_19
+#AT_START_20
+at_fn_group_banner 20 'special-names.at:1' \
   "ACCEPT ARGUMENT-NUMBER" "                         "
 at_xfail=no
 (
-  $as_echo "19. $at_setup_line: testing $at_desc ..."
+  $as_echo "20. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3530,13 +3637,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_19
-#AT_START_20
-at_fn_group_banner 20 'special-names.at:24' \
+#AT_STOP_20
+#AT_START_21
+at_fn_group_banner 21 'special-names.at:24' \
   "ACCEPT ARGUMENT-VALUE" "                          "
 at_xfail=no
 (
-  $as_echo "20. $at_setup_line: testing $at_desc ..."
+  $as_echo "21. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3591,13 +3698,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_20
-#AT_START_21
-at_fn_group_banner 21 'special-names.at:48' \
+#AT_STOP_21
+#AT_START_22
+at_fn_group_banner 22 'special-names.at:48' \
   "ACCEPT ENVIRONMENT-VALUE" "                       "
 at_xfail=no
 (
-  $as_echo "21. $at_setup_line: testing $at_desc ..."
+  $as_echo "22. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3652,13 +3759,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_21
-#AT_START_22
-at_fn_group_banner 22 'special-names.at:72' \
+#AT_STOP_22
+#AT_START_23
+at_fn_group_banner 23 'special-names.at:72' \
   "DISPLAY ARGUMENT-NUMBER" "                        "
 at_xfail=no
 (
-  $as_echo "22. $at_setup_line: testing $at_desc ..."
+  $as_echo "23. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3713,13 +3820,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_22
-#AT_START_23
-at_fn_group_banner 23 'special-names.at:96' \
+#AT_STOP_23
+#AT_START_24
+at_fn_group_banner 24 'special-names.at:96' \
   "DISPLAY ENVIRONMENT-NAME" "                       "
 at_xfail=no
 (
-  $as_echo "23. $at_setup_line: testing $at_desc ..."
+  $as_echo "24. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3774,13 +3881,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_23
-#AT_START_24
-at_fn_group_banner 24 'special-names.at:120' \
+#AT_STOP_24
+#AT_START_25
+at_fn_group_banner 25 'special-names.at:120' \
   "DISPLAY ENVIRONMENT-VALUE" "                      "
 at_xfail=no
 (
-  $as_echo "24. $at_setup_line: testing $at_desc ..."
+  $as_echo "25. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3839,13 +3946,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_24
-#AT_START_25
-at_fn_group_banner 25 'intr-funcs.at:1' \
+#AT_STOP_25
+#AT_START_26
+at_fn_group_banner 26 'intr-funcs.at:1' \
   "FUNCTION LENG (fixed)" "                          "
 at_xfail=no
 (
-  $as_echo "25. $at_setup_line: testing $at_desc ..."
+  $as_echo "26. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3896,13 +4003,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_25
-#AT_START_26
-at_fn_group_banner 26 'intr-funcs.at:21' \
+#AT_STOP_26
+#AT_START_27
+at_fn_group_banner 27 'intr-funcs.at:21' \
   "FUNCTION LENG (occur. depending)" "               "
 at_xfail=no
 (
-  $as_echo "26. $at_setup_line: testing $at_desc ..."
+  $as_echo "27. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -3956,13 +4063,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_26
-#AT_START_27
-at_fn_group_banner 27 'intr-funcs.at:44' \
+#AT_STOP_27
+#AT_START_28
+at_fn_group_banner 28 'intr-funcs.at:44' \
   "FUNCTION LENGTH-AN (fixed)" "                     "
 at_xfail=no
 (
-  $as_echo "27. $at_setup_line: testing $at_desc ..."
+  $as_echo "28. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4013,13 +4120,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_27
-#AT_START_28
-at_fn_group_banner 28 'intr-funcs.at:64' \
+#AT_STOP_28
+#AT_START_29
+at_fn_group_banner 29 'intr-funcs.at:64' \
   "FUNCTION LENGTH-AN (occur. depending)" "          "
 at_xfail=no
 (
-  $as_echo "28. $at_setup_line: testing $at_desc ..."
+  $as_echo "29. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -4073,4 +4180,4 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_28
+#AT_STOP_29

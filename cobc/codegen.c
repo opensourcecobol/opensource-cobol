@@ -3546,8 +3546,25 @@ output_file_initialization (struct cb_file *f)
 		output ("%s%s->flag = 0;\n", CB_PREFIX_KEYS, f->cname);
 		output_prefix ();
 		if (f->key) {
-			output ("%s%s->offset = %d;\n", CB_PREFIX_KEYS, f->cname,
-				cb_field (f->key)->offset);
+			if (f->component_list != NULL) {
+				output ("%s%s->offset = %d;\n", CB_PREFIX_KEYS, f->cname, -1);
+				for (key_component = f->component_list, i_keycomp = 0;
+				     key_component != NULL;
+				     key_component = key_component->next, ++i_keycomp) {
+					output_prefix ();
+					output ("%s%s->component[%d].field = ", CB_PREFIX_KEYS, f->cname, i_keycomp);
+					output_param (key_component->component, -1);
+					output (";\n");
+					output_prefix ();
+					output ("%s%s->component[%d].rb = %d;\n"
+						, CB_PREFIX_KEYS, f->cname, i_keycomp, cb_field (key_component->component)->offset);
+				}
+				output_prefix ();
+				output ("%s%s->count_components = %d;\n", CB_PREFIX_KEYS, f->cname, i_keycomp);
+			} else {
+				output ("%s%s->offset = %d;\n", CB_PREFIX_KEYS, f->cname,
+					cb_field (f->key)->offset);
+			}
 		} else {
 			output ("%s%s->offset = 0;\n", CB_PREFIX_KEYS, f->cname);
 		}

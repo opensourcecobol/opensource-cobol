@@ -1946,6 +1946,38 @@ record_key_clause:
   {
 	current_file->key = $4;
   }
+| RECORD _key _is reference key_is_eq split_key_list
+  {
+	/* SPLIT KEY use */
+#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) || defined(WITH_INDEX_EXTFH)
+
+	cb_tree composite_key;	
+	struct cb_key_component *comp;
+
+	/* generate field (in w-s) for composite-key */
+	if (!$5) {
+		/* dialect */
+		composite_key = cb_build_field (cb_build_anonymous ());
+		comp = cobc_malloc (sizeof (struct cb_key_component));
+		comp->next = key_component_list;
+		comp->component = $4;
+		key_component_list = comp;
+	} else {
+		/* standard or mf syntax */
+		composite_key = cb_build_field ($4);
+	}
+	if (composite_key == cb_error_node) {
+		YYERROR;
+	} else {
+		composite_key->category = CB_CATEGORY_ALPHANUMERIC;
+		((struct cb_field *)composite_key)->count = 1;
+		current_file->key = cb_build_field_reference ((struct cb_field *)composite_key, NULL);
+		current_file->component_list = key_component_list;
+	}
+#else
+	PENDING ("SPLIT KEYS");
+#endif
+  }
 ;
 
 

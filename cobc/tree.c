@@ -1813,6 +1813,27 @@ validate_file (struct cb_file *f, cb_tree name)
 	}
 }
 
+static void
+compute_composite_key (cb_tree key, struct cb_key_component *component_list)
+{
+	int cb;
+	char pic[32]; 
+	struct cb_key_component *key_component;
+	struct cb_field *composite_key;
+
+	cb = 0;
+	for (key_component = component_list; key_component != NULL; key_component = key_component->next) {
+		/* resolution of references in key components must be done here */
+		cb += cb_field_size (cb_ref (key_component->component));
+	}
+	composite_key = (struct cb_field *)cb_ref (key);
+	memset (pic, 0, sizeof (pic));
+	sprintf (pic, "X(%d)", cb);
+	if (composite_key->pic != NULL) free (composite_key->pic);
+	composite_key->pic = CB_PICTURE (cb_build_picture (pic));
+	cb_validate_field (composite_key);
+}
+
 void
 finalize_file (struct cb_file *f, struct cb_field *records)
 {
@@ -1831,25 +1852,15 @@ finalize_file (struct cb_file *f, struct cb_field *records)
 	}
 
 	/* compute composite key total length */
+	if (f->component_list != NULL) {
+		compute_composite_key (f->key, f->component_list);
+	}
+
 	if (f->alt_key_list != NULL) {
-		int cb;
-		char pic[32]; 
 		struct cb_alt_key *alt_key;
-		struct cb_key_component *key_component;
-		struct cb_field *composite_key;
 		for (alt_key = f->alt_key_list; alt_key != NULL; alt_key = alt_key->next) {
 			if (alt_key->component_list != NULL) {
-				cb = 0;
-				for (key_component = alt_key->component_list; key_component != NULL; key_component = key_component->next) {
-					/* resolution of references in key components must be done here */
-					cb += cb_field_size (cb_ref (key_component->component));
-				}
-				composite_key = (struct cb_field *)cb_ref (alt_key->key);
-				memset (pic, 0, sizeof (pic));
-				sprintf (pic, "X(%d)", cb);
-				if (composite_key->pic != NULL) free (composite_key->pic);
-				composite_key->pic = CB_PICTURE (cb_build_picture (pic));
-				cb_validate_field (composite_key);
+				compute_composite_key (alt_key->key, alt_key->component_list);
 			}
 		}
 	} 
