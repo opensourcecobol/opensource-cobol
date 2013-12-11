@@ -1,0 +1,425 @@
+AT_SETUP([Allow no file open (I-O, SEQUENTIAL)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION SEQUENTIAL
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN I-O TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([export OC_IO_CREATES=yes && ${COBCRUN} prog], [0], [00
+])
+
+AT_CLEANUP
+
+AT_SETUP([Allow no file open (I-O, LINE SEQ)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION LINE SEQUENTIAL
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN I-O TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([export OC_IO_CREATES=yes && ${COBCRUN} prog], [0], [00
+])
+
+AT_CLEANUP
+
+AT_SETUP([Allow no file open (I-O, RELATIVE)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION RELATIVE
+                        ACCESS MODE  DYNAMIC
+                        RELATIVE KEY TEST-KEY
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN I-O TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([export OC_IO_CREATES=yes && ${COBCRUN} prog], [0], [00
+])
+
+AT_CLEANUP
+
+AT_SETUP([Allow no file open (I-O, INDEXED)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION INDEXED
+                        ACCESS MODE  DYNAMIC
+                        RECORD KEY TEST-KEY
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN I-O TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([export OC_IO_CREATES=yes && ${COBCRUN} prog], [0], [00
+])
+
+AT_CLEANUP
+
+AT_SETUP([Allow no file open (EXTEND, SEQUENTIAL)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION SEQUENTIAL
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN EXTEND TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([export OC_EXTEND_CREATES=yes && ${COBCRUN} prog], [0], [00
+])
+
+AT_CLEANUP
+
+AT_SETUP([Allow no file open (EXTEND, LINE SEQ)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION LINE SEQUENTIAL
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN EXTEND TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([export OC_EXTEND_CREATES=yes && ${COBCRUN} prog], [0], [00
+])
+
+AT_CLEANUP
+
+AT_SETUP([Allow no file open (EXTEND, RELATIVE)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION RELATIVE
+                        ACCESS MODE  DYNAMIC
+                        RELATIVE KEY TEST-KEY
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN EXTEND TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([export OC_EXTEND_CREATES=yes && ${COBCRUN} prog], [0], [00
+])
+
+AT_CLEANUP
+
+AT_SETUP([Allow no file open (EXTEND, INDEXED)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION INDEXED
+                        ACCESS MODE  DYNAMIC
+                        RECORD KEY TEST-KEY
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN EXTEND TEST-FILE.
+           DISPLAY F-STATUS.
+           CLOSE TEST-FILE.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([export OC_EXTEND_CREATES=yes && ${COBCRUN} prog], [0], [00
+])
+
+AT_CLEANUP
+
+AT_SETUP([Allow file delete (SEQUENTIAL)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION SEQUENTIAL
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN OUTPUT TEST-FILE.
+           CLOSE TEST-FILE.
+           DELETE FILE TEST-FILE.
+           DISPLAY F-STATUS.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([${COBCRUN} prog], [0], [00
+])
+
+AT_CLEANUP
+
+AT_SETUP([Allow file delete (LINE SEQ)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION LINE SEQUENTIAL
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN OUTPUT TEST-FILE.
+           CLOSE TEST-FILE.
+           DELETE FILE TEST-FILE.
+           DISPLAY F-STATUS.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([${COBCRUN} prog], [0], [00
+])
+
+AT_CLEANUP
+
+AT_SETUP([Allow file delete (RELATIVE)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION RELATIVE
+                        ACCESS MODE  DYNAMIC
+                        RELATIVE KEY TEST-KEY
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN OUTPUT TEST-FILE.
+           CLOSE TEST-FILE.
+           DELETE FILE TEST-FILE.
+           DISPLAY F-STATUS.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([${COBCRUN} prog], [0], [00
+])
+
+AT_CLEANUP
+
+AT_SETUP([Allow file delete (INDEXED)])
+
+AT_CHECK([test $COB_HAS_ISAM = "yes" || exit 77])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION INDEXED
+                        ACCESS MODE  DYNAMIC
+                        RECORD KEY   TEST-KEY
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN OUTPUT TEST-FILE.
+           CLOSE TEST-FILE.
+           DELETE FILE TEST-FILE.
+           DISPLAY F-STATUS.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([${COBCRUN} prog], [0], [00
+])
+
+AT_CLEANUP
+
+AT_SETUP([Allow file delete (INDEXED) - not available])
+
+AT_CHECK([test $COB_HAS_ISAM = "no" || exit 77])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN       "./TEST-FILE"
+                        ORGANIZATION INDEXED
+                        ACCESS MODE  DYNAMIC
+                        RECORD KEY   TEST-KEY
+                        FILE STATUS  F-STATUS.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-RECORD.
+         03 TEST-KEY    PIC 9(10).
+       WORKING-STORAGE  SECTION.
+       77 F-STATUS      PIC X(02).
+       PROCEDURE DIVISION.
+           OPEN OUTPUT TEST-FILE.
+           CLOSE TEST-FILE.
+           DELETE FILE TEST-FILE.
+           DISPLAY F-STATUS.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([${COBCRUN} prog], [0], [91
+])
+
+AT_CLEANUP
