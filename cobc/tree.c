@@ -2763,17 +2763,22 @@ RXW */
 char *
 cb_get_hexword (char *name)
 {
-#ifdef	I18N_UTF8
-	/* I18N_UTF8: Needs longer buffer than Shift_JIS. */
 	unsigned char	*p;
-	char		buf[512]; /* > 32*6*2+length("___")*2+1 */
+	int		non_ascii = 0;
 	char		*rt = NULL, *p2;
 
-	if (!utf8_ext_pick ((unsigned char *)name)) {
+	for (p = (unsigned char *)name; *p; p++) {
+		if (0x80 & *p) {
+			non_ascii = 1;
+			break;
+		}
+	}
+	if (!non_ascii) {
 		rt = strdup (name);
 	} else {
+		rt = cobc_malloc (strlen (name) * 2 + 7);
 		p = (unsigned char *)name;
-		p2 = buf;
+		p2 = rt;
 		memcpy (p2, "___", 3);
 		p2 += 3;
 		while (*p) {
@@ -2783,38 +2788,6 @@ cb_get_hexword (char *name)
 		memcpy (p2, "___", 3);
 		p2 += 3;
 		*p2 = '\0';
-		rt = strdup (buf);
 	}
 	return rt;
-#else /*!I18N_UTF8*/
-	int		i, j;
-	char		pTmp[101], str[3];
-	unsigned char	*c;
-	int		iDouWord;
-
-	iDouWord = 0;
-	c = (unsigned char *)name;
-	memset (pTmp, 0, sizeof (pTmp));
-	i = strlen (name);
-	if (i > 100) {
-		i = 100;
-	}
-	for (j = 0; j < i; j++) {
-		if (c[j] > 127) {
-			iDouWord = 1;
-			break;
-		}
-	}
-	if (iDouWord == 0) {
-		return name;
-	}
-	strcpy (pTmp, "___");
-	for (j = 0; j < i; j++) {
-		memset (str, 0, sizeof (str));
-		sprintf (str, "%02X", c[j]);
-		strcat (pTmp, str);
-	}
-	strcat (pTmp, "___");
-	return strdup (pTmp);
-#endif /*I18N_UTF8*/
 }
