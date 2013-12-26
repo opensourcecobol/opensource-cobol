@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2013-10-25 15:26+0900\n"
+"POT-Creation-Date: 2013-12-16 12:00+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,199 +16,209 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: cobc/cobc.c:694
+#: cobc/cobc.c:414 cobc/parser.y:39
+#, c-format
+msgid "'%s' not implemented"
+msgstr ""
+
+#: cobc/cobc.c:750
 msgid "Options:"
 msgstr ""
 
-#: cobc/cobc.c:695
+#: cobc/cobc.c:751
 msgid "  --help                Display this message"
 msgstr ""
 
-#: cobc/cobc.c:696
+#: cobc/cobc.c:752
 msgid "  --version, -V         Display compiler version"
 msgstr ""
 
-#: cobc/cobc.c:697
+#: cobc/cobc.c:753
 msgid "  -v                    Display the programs invoked by the compiler"
 msgstr ""
 
-#: cobc/cobc.c:698
+#: cobc/cobc.c:754
 msgid "  -x                    Build an executable program"
 msgstr ""
 
-#: cobc/cobc.c:699
+#: cobc/cobc.c:755
 msgid "  -m                    Build a dynamically loadable module (default)"
 msgstr ""
 
-#: cobc/cobc.c:700
+#: cobc/cobc.c:756
 msgid "  -std=<dialect>        Compile for a specific dialect :"
 msgstr ""
 
-#: cobc/cobc.c:701
+#: cobc/cobc.c:757
 msgid "                          cobol2002   Cobol 2002"
 msgstr ""
 
-#: cobc/cobc.c:702
+#: cobc/cobc.c:758
 msgid "                          cobol85     Cobol 85"
 msgstr ""
 
-#: cobc/cobc.c:703
+#: cobc/cobc.c:759
 msgid "                          ibm         IBM Compatible"
 msgstr ""
 
-#: cobc/cobc.c:704
+#: cobc/cobc.c:760
 msgid "                          mvs         MVS Compatible"
 msgstr ""
 
-#: cobc/cobc.c:705
+#: cobc/cobc.c:761
 msgid "                          bs2000      BS2000 Compatible"
 msgstr ""
 
-#: cobc/cobc.c:706
+#: cobc/cobc.c:762
 msgid "                          mf          Micro Focus Compatible"
 msgstr ""
 
-#: cobc/cobc.c:707
+#: cobc/cobc.c:763
 msgid "                          default     When not specified"
 msgstr ""
 
-#: cobc/cobc.c:708
+#: cobc/cobc.c:764
 msgid "                        See config/default.conf and config/*.conf"
 msgstr ""
 
-#: cobc/cobc.c:709
+#: cobc/cobc.c:765
 msgid "  -free                 Use free source format"
 msgstr ""
 
-#: cobc/cobc.c:710
+#: cobc/cobc.c:766
 msgid "  -free_1col_aster      Use free(1col_aster) source format"
 msgstr ""
 
-#: cobc/cobc.c:711
+#: cobc/cobc.c:767
 msgid "  -fixed                Use fixed source format (default)"
 msgstr ""
 
-#: cobc/cobc.c:712
+#: cobc/cobc.c:768
 msgid "  -O, -O2, -Os          Enable optimization"
 msgstr ""
 
-#: cobc/cobc.c:713
+#: cobc/cobc.c:769
 msgid "  -g                    Produce debugging information in the output"
 msgstr ""
 
-#: cobc/cobc.c:714
+#: cobc/cobc.c:770
 msgid "  -debug                Enable all run-time error checking"
 msgstr ""
 
-#: cobc/cobc.c:715
+#: cobc/cobc.c:771
 msgid "  -o <file>             Place the output into <file>"
 msgstr ""
 
-#: cobc/cobc.c:716
+#: cobc/cobc.c:772
 msgid "  -b                    Combine all input files into a single"
 msgstr ""
 
-#: cobc/cobc.c:717
+#: cobc/cobc.c:773
 msgid "                        dynamically loadable module"
 msgstr ""
 
-#: cobc/cobc.c:718
+#: cobc/cobc.c:774
 msgid ""
 "  -E                    Preprocess only; do not compile, assemble or link"
 msgstr ""
 
-#: cobc/cobc.c:719
+#: cobc/cobc.c:775
 msgid "  -C                    Translation only; convert COBOL to C"
 msgstr ""
 
-#: cobc/cobc.c:720
+#: cobc/cobc.c:776
 msgid "  -S                    Compile only; output assembly file"
 msgstr ""
 
-#: cobc/cobc.c:721
+#: cobc/cobc.c:777
 msgid "  -c                    Compile and assemble, but do not link"
 msgstr ""
 
-#: cobc/cobc.c:722
+#: cobc/cobc.c:778
 msgid ""
 "  -t <file>             Generate and place a program listing into <file>"
 msgstr ""
 
-#: cobc/cobc.c:723
+#: cobc/cobc.c:779
 msgid "  -I <directory>        Add <directory> to copy/include search path"
 msgstr ""
 
-#: cobc/cobc.c:724
+#: cobc/cobc.c:780
 msgid "  -L <directory>        Add <directory> to library search path"
 msgstr ""
 
-#: cobc/cobc.c:725
+#: cobc/cobc.c:781
 msgid "  -l <lib>              Link the library <lib>"
 msgstr ""
 
-#: cobc/cobc.c:726
+#: cobc/cobc.c:782
 msgid "  -D <define>           Pass <define> to the C compiler"
 msgstr ""
 
-#: cobc/cobc.c:727
+#: cobc/cobc.c:783
 msgid "  -conf=<file>          User defined dialect configuration - See -std="
 msgstr ""
 
-#: cobc/cobc.c:728
+#: cobc/cobc.c:784
 msgid "  --list-reserved       Display reserved words"
 msgstr ""
 
-#: cobc/cobc.c:729
+#: cobc/cobc.c:785
 msgid "  --list-intrinsics     Display intrinsic functions"
 msgstr ""
 
-#: cobc/cobc.c:730
+#: cobc/cobc.c:786
 msgid "  --list-mnemonics      Display mnemonic names"
 msgstr ""
 
-#: cobc/cobc.c:731
+#: cobc/cobc.c:787
 msgid ""
 "  -save-temps(=<dir>)   Save intermediate files (default current directory)"
 msgstr ""
 
-#: cobc/cobc.c:732
+#: cobc/cobc.c:788
 msgid "  -MT <target>          Set target file used in dependency list"
 msgstr ""
 
-#: cobc/cobc.c:733
+#: cobc/cobc.c:789
 msgid "  -MF <file>            Place dependency list into <file>"
 msgstr ""
 
-#: cobc/cobc.c:734
+#: cobc/cobc.c:790
 msgid "  -ext <extension>      Add default file extension"
 msgstr ""
 
-#: cobc/cobc.c:736
-msgid "  -W                    Enable ALL warnings"
-msgstr ""
-
-#: cobc/cobc.c:737
-msgid "  -Wall                 Enable all warnings except as noted below"
-msgstr ""
-
-#: cobc/cobc.c:738
+#: cobc/cobc.c:791
 msgid "  -assign_external      Set the file assign to external"
 msgstr ""
 
-#: cobc/cobc.c:739
+#: cobc/cobc.c:792
 msgid "  -reference_check      Set reference check in runtime"
 msgstr ""
 
-#: cobc/cobc.c:744
+#: cobc/cobc.c:793
+msgid ""
+"  -constant(=<name\"value\">) define <name> to <value> for $IF statement"
+msgstr ""
+
+#: cobc/cobc.c:795
+msgid "  -W                    Enable ALL warnings"
+msgstr ""
+
+#: cobc/cobc.c:796
+msgid "  -Wall                 Enable all warnings except as noted below"
+msgstr ""
+
+#: cobc/cobc.c:801
 msgid " (NOT set with -Wall)"
 msgstr ""
 
-#: cobc/cobc.c:903
+#: cobc/cobc.c:960
 #, c-format
 msgid "Invalid option -std=%s\n"
 msgstr ""
 
-#: cobc/cobc.c:1428
+#: cobc/cobc.c:1491
 msgid "-MT must be given to specify target file\n"
 msgstr ""
 
@@ -226,37 +236,37 @@ msgstr ""
 msgid "Invalid picture string - '%s'"
 msgstr ""
 
-#: cobc/tree.c:1861
+#: cobc/tree.c:1872
 #, c-format
 msgid "Record size too small '%s'"
 msgstr ""
 
-#: cobc/tree.c:1866
+#: cobc/tree.c:1877
 #, c-format
 msgid "Record size too large '%s' (%d)"
 msgstr ""
 
-#: cobc/tree.c:2237 cobc/typeck.c:1957 cobc/typeck.c:1962 cobc/typeck.c:1967
-#: cobc/typeck.c:2554 cobc/typeck.c:2637 cobc/parser.y:4548 cobc/parser.y:4657
+#: cobc/tree.c:2248 cobc/typeck.c:1957 cobc/typeck.c:1962 cobc/typeck.c:1967
+#: cobc/typeck.c:2554 cobc/typeck.c:2637 cobc/parser.y:4607 cobc/parser.y:4716
 msgid "Invalid expression"
 msgstr ""
 
-#: cobc/tree.c:2581 cobc/tree.c:2739
+#: cobc/tree.c:2592 cobc/tree.c:2750
 #, c-format
 msgid "FUNCTION %s has wrong number of arguments"
 msgstr ""
 
-#: cobc/tree.c:2586
+#: cobc/tree.c:2597
 #, c-format
 msgid "FUNCTION %s can not have reference modification"
 msgstr ""
 
-#: cobc/tree.c:2591 cobc/tree.c:2596
+#: cobc/tree.c:2602 cobc/tree.c:2607
 #, c-format
 msgid "FUNCTION %s has invalid reference modification"
 msgstr ""
 
-#: cobc/tree.c:2629 cobc/tree.c:2713 cobc/tree.c:2748
+#: cobc/tree.c:2640 cobc/tree.c:2724 cobc/tree.c:2759
 #, c-format
 msgid "FUNCTION %s not implemented"
 msgstr ""
@@ -700,13 +710,13 @@ msgstr ""
 msgid "Invalid input stream '%s'"
 msgstr ""
 
-#: cobc/typeck.c:3209 cobc/typeck.c:3618
+#: cobc/typeck.c:3209 cobc/typeck.c:3640
 #, c-format
 msgid "Invalid interface name '%s'"
 msgstr ""
 
-#: cobc/typeck.c:3231 cobc/typeck.c:3240 cobc/typeck.c:3662 cobc/typeck.c:3665
-#: cobc/typeck.c:3673
+#: cobc/typeck.c:3231 cobc/typeck.c:3240 cobc/typeck.c:3684 cobc/typeck.c:3687
+#: cobc/typeck.c:3695
 #, c-format
 msgid "'%s' undefined in SPECIAL-NAMES"
 msgstr ""
@@ -750,291 +760,339 @@ msgstr ""
 msgid "Wrong number of CALL parameters for '%s'"
 msgstr ""
 
-#: cobc/typeck.c:3397 cobc/typeck.c:3440 cobc/typeck.c:5623 cobc/typeck.c:5773
-#: cobc/typeck.c:5840 cobc/typeck.c:7158
+#: cobc/typeck.c:3397 cobc/typeck.c:3440 cobc/typeck.c:3462 cobc/typeck.c:5645
+#: cobc/typeck.c:5803 cobc/typeck.c:5874 cobc/typeck.c:7206
 msgid "Operation not allowed on SORT files"
 msgstr ""
 
-#: cobc/typeck.c:3525
+#: cobc/typeck.c:3547
 #, c-format
 msgid "'%s' is an invalid type for DISPLAY operand"
 msgstr ""
 
-#: cobc/typeck.c:3530
+#: cobc/typeck.c:3552
 msgid "Invalid type for DISPLAY operand"
 msgstr ""
 
-#: cobc/typeck.c:3641
+#: cobc/typeck.c:3663
 msgid "Invalid output stream"
 msgstr ""
 
-#: cobc/typeck.c:3755
+#: cobc/typeck.c:3777
 msgid "Invalid use of 88 level in WHEN expression"
 msgstr ""
 
-#: cobc/typeck.c:3804
+#: cobc/typeck.c:3826
 msgid "Wrong number of WHEN parameters"
 msgstr ""
 
-#: cobc/typeck.c:3848 cobc/typeck.c:3860
+#: cobc/typeck.c:3870 cobc/typeck.c:3882
 #, c-format
 msgid ""
 "Target %d of FREE, a data address identifier, must address a BASED data item"
 msgstr ""
 
-#: cobc/typeck.c:3866
+#: cobc/typeck.c:3888
 #, c-format
 msgid "Target %d of FREE must be a data pointer"
 msgstr ""
 
-#: cobc/typeck.c:3889
+#: cobc/typeck.c:3911
 msgid "GO TO with multiple procedure-names"
 msgstr ""
 
-#: cobc/typeck.c:3957
+#: cobc/typeck.c:3979
 msgid "Invalid target for INSPECT"
 msgstr ""
 
-#: cobc/typeck.c:3964 cobc/typeck.c:3968
+#: cobc/typeck.c:3986 cobc/typeck.c:3990
 msgid "Invalid target for REPLACING/CONVERTING"
 msgstr ""
 
-#: cobc/typeck.c:3993
+#: cobc/typeck.c:4015
 msgid "Data name expected before CHARACTERS"
 msgstr ""
 
-#: cobc/typeck.c:4003
+#: cobc/typeck.c:4025
 msgid "Data name expected before ALL"
 msgstr ""
 
-#: cobc/typeck.c:4013
+#: cobc/typeck.c:4035
 msgid "Data name expected before LEADING"
 msgstr ""
 
-#: cobc/typeck.c:4023
+#: cobc/typeck.c:4045
 msgid "Data name expected before TRAILING"
 msgstr ""
 
-#: cobc/typeck.c:4033
+#: cobc/typeck.c:4055
 #, c-format
 msgid "ALL, LEADING or TRAILING expected before '%s'"
 msgstr ""
 
-#: cobc/typeck.c:4236
+#: cobc/typeck.c:4258
 #, c-format
 msgid "Internal register '%s' defined as BINARY-LONG"
 msgstr ""
 
-#: cobc/typeck.c:4238
+#: cobc/typeck.c:4260
 #, c-format
 msgid "'%s' defined here as PIC %s"
 msgstr ""
 
-#: cobc/typeck.c:4240
+#: cobc/typeck.c:4262
 #, c-format
 msgid "'%s' defined here as a group of length %d"
 msgstr ""
 
-#: cobc/typeck.c:4315
+#: cobc/typeck.c:4337
 msgid "Invalid destination for MOVE"
 msgstr ""
 
-#: cobc/typeck.c:4456
+#: cobc/typeck.c:4478
 msgid "Data item not signed"
 msgstr ""
 
-#: cobc/typeck.c:4460
+#: cobc/typeck.c:4482
 msgid "Ignoring negative sign"
 msgstr ""
 
-#: cobc/typeck.c:4809 cobc/typeck.c:4857
+#: cobc/typeck.c:4831 cobc/typeck.c:4879
 msgid "Move non-integer to alphanumeric"
 msgstr ""
 
-#: cobc/typeck.c:4883
+#: cobc/typeck.c:4905
 msgid "Invalid source for MOVE"
 msgstr ""
 
-#: cobc/typeck.c:4900
+#: cobc/typeck.c:4922
 msgid "Invalid VALUE clause"
 msgstr ""
 
-#: cobc/typeck.c:4902
+#: cobc/typeck.c:4924
 msgid "Invalid MOVE statement"
 msgstr ""
 
-#: cobc/typeck.c:4908
+#: cobc/typeck.c:4930
 msgid "Invalid VALUE clause - literal exceeds data size"
 msgstr ""
 
-#: cobc/typeck.c:4912
+#: cobc/typeck.c:4934
 msgid "Numeric literal exceeds data size"
 msgstr ""
 
-#: cobc/typeck.c:4918
+#: cobc/typeck.c:4940
 msgid "Numeric value is expected"
 msgstr ""
 
-#: cobc/typeck.c:4922
+#: cobc/typeck.c:4944
 msgid "Alphanumeric value is expected"
 msgstr ""
 
-#: cobc/typeck.c:4926
+#: cobc/typeck.c:4948
 msgid "National value is expected"
 msgstr ""
 
-#: cobc/typeck.c:4930
+#: cobc/typeck.c:4952
 msgid "Value does not fit the picture string"
 msgstr ""
 
-#: cobc/typeck.c:4934
+#: cobc/typeck.c:4956
 msgid "Value size exceeds data size"
 msgstr ""
 
-#: cobc/typeck.c:4938
+#: cobc/typeck.c:4960
 msgid "Sending field larger than receiving field"
 msgstr ""
 
-#: cobc/typeck.c:4942
+#: cobc/typeck.c:4964
 msgid "Some digits may be truncated"
 msgstr ""
 
-#: cobc/typeck.c:4947
+#: cobc/typeck.c:4969
 msgid "Invalid NATIONAL string."
 msgstr ""
 
-#: cobc/typeck.c:5781
+#: cobc/typeck.c:5811
 msgid "READ PREVIOUS only allowed for INDEXED SEQUENTIAL files"
 msgstr ""
 
-#: cobc/typeck.c:5788
+#: cobc/typeck.c:5818
 msgid "KEY ignored with sequential READ"
 msgstr ""
 
-#: cobc/typeck.c:5828
+#: cobc/typeck.c:5832 cobc/typeck.c:6389
+msgid "Undefined compound keys"
+msgstr ""
+
+#: cobc/typeck.c:5862
 msgid "REWRITE requires a record name as subject"
 msgstr ""
 
-#: cobc/typeck.c:5833
+#: cobc/typeck.c:5867
 msgid "REWRITE subject does not refer to a record name"
 msgstr ""
 
-#: cobc/typeck.c:5845 cobc/typeck.c:7163 cobc/parser.y:5320
+#: cobc/typeck.c:5879 cobc/typeck.c:7211 cobc/parser.y:5379
 msgid "INVALID KEY clause invalid with this file type"
 msgstr ""
 
-#: cobc/typeck.c:5848 cobc/typeck.c:7167 cobc/parser.y:5312
+#: cobc/typeck.c:5882 cobc/typeck.c:7215 cobc/parser.y:5371
 msgid "LOCK clause invalid with file LOCK AUTOMATIC"
 msgstr ""
 
-#: cobc/typeck.c:5880
+#: cobc/typeck.c:5914
 msgid "RELEASE requires a record name as subject"
 msgstr ""
 
-#: cobc/typeck.c:5885
+#: cobc/typeck.c:5919
 msgid "RELEASE subject does not refer to a record name"
 msgstr ""
 
-#: cobc/typeck.c:5892
+#: cobc/typeck.c:5926
 msgid "RELEASE not allowed on this record item"
 msgstr ""
 
-#: cobc/typeck.c:5969
+#: cobc/typeck.c:6003
 #, c-format
 msgid "Undeclared key '%s'"
 msgstr ""
 
-#: cobc/typeck.c:5973
+#: cobc/typeck.c:6007
 msgid "Invalid SEARCH ALL condition"
 msgstr ""
 
-#: cobc/typeck.c:6080
+#: cobc/typeck.c:6114
 msgid "The targets of SET must be either indexes or pointers"
 msgstr ""
 
-#: cobc/typeck.c:6092 cobc/typeck.c:6096
+#: cobc/typeck.c:6126 cobc/typeck.c:6130
 msgid "SET targets must be PROGRAM-POINTER"
 msgstr ""
 
-#: cobc/typeck.c:6110
+#: cobc/typeck.c:6144
 #, c-format
 msgid "The address of '%s' cannot be changed"
 msgstr ""
 
-#: cobc/typeck.c:6172 cobc/typeck.c:6177 cobc/typeck.c:6204 cobc/typeck.c:6209
+#: cobc/typeck.c:6206 cobc/typeck.c:6211 cobc/typeck.c:6238 cobc/typeck.c:6243
 msgid "Invalid SET statement"
 msgstr ""
 
-#: cobc/typeck.c:6213
+#: cobc/typeck.c:6247
 msgid "Field does not have FALSE clause"
 msgstr ""
 
-#: cobc/typeck.c:6247
+#: cobc/typeck.c:6281
 msgid "Invalid SORT filename"
 msgstr ""
 
-#: cobc/typeck.c:6263
+#: cobc/typeck.c:6297
 msgid "Table sort without keys not implemented yet"
 msgstr ""
 
-#: cobc/typeck.c:6287
+#: cobc/typeck.c:6321
 msgid "Invalid SORT USING parameter"
 msgstr ""
 
-#: cobc/typeck.c:6312
+#: cobc/typeck.c:6346
 msgid "Invalid SORT GIVING parameter"
 msgstr ""
 
-#: cobc/typeck.c:7146
+#: cobc/typeck.c:7194
 msgid "WRITE requires a record name as subject"
 msgstr ""
 
-#: cobc/typeck.c:7151
+#: cobc/typeck.c:7199
 msgid "WRITE subject does not refer to a record name"
 msgstr ""
 
-#: cobc/typeck.c:7170
+#: cobc/typeck.c:7218
 msgid "LOCK clause invalid here"
 msgstr ""
 
-#: cobc/typeck.c:7237
+#: cobc/typeck.c:7285
 msgid "Invalid mnemonic name"
 msgstr ""
 
-#: cobc/pplex.l:113
+#: cobc/pplex.l:130
 msgid "PROCESS statement is ignored"
 msgstr ""
 
-#: cobc/pplex.l:320 cobc/pplex.l:392
+#: cobc/pplex.l:337 cobc/pplex.l:409
 #, c-format
 msgid "%s: %s"
 msgstr ""
 
-#: cobc/pplex.l:457 cobc/pplex.l:517
+#: cobc/pplex.l:474 cobc/pplex.l:534
 msgid "Invalid directive - ignored"
 msgstr ""
 
-#: cobc/pplex.l:578
+#: cobc/pplex.l:582
+msgid "$IF is nested more than 10 times"
+msgstr ""
+
+#: cobc/pplex.l:588
+msgid "Fatal error in $IF statement"
+msgstr ""
+
+#: cobc/pplex.l:593
+msgid "Arguments not enough to $IF statemen"
+msgstr ""
+
+#: cobc/pplex.l:609
+msgid "Invalid argument $IF statemen"
+msgstr ""
+
+#: cobc/pplex.l:627
+#, c-format
+msgid "%s is not a string"
+msgstr ""
+
+#: cobc/pplex.l:651
+msgid "Fatal error in $ELSE statement"
+msgstr ""
+
+#: cobc/pplex.l:657
+msgid "$IF has no defined before the $ELSE"
+msgstr ""
+
+#: cobc/pplex.l:664
+msgid "$ELSE has continued"
+msgstr ""
+
+#: cobc/pplex.l:674
+msgid "Fatal error in $END statement"
+msgstr ""
+
+#: cobc/pplex.l:680
+msgid "$IF has no defined before the $END"
+msgstr ""
+
+#: cobc/pplex.l:698
+msgid "Invalid $SET"
+msgstr ""
+
+#: cobc/pplex.l:703
+msgid "Invalid $ statements"
+msgstr ""
+
+#: cobc/pplex.l:783
 msgid "Line not terminated by a newline"
 msgstr ""
 
-#: cobc/pplex.l:639
+#: cobc/pplex.l:857
 #, c-format
 msgid "Invalid indicator '%c' at column 7"
 msgstr ""
 
-#: cobc/pplex.l:682
+#: cobc/pplex.l:900
 #, c-format
 msgid "Source text after column %d"
 msgstr ""
 
-#: cobc/pplex.l:711 cobc/pplex.l:721
+#: cobc/pplex.l:929 cobc/pplex.l:939
 msgid "Invalid line continuation"
-msgstr ""
-
-#: cobc/parser.y:39
-#, c-format
-msgid "'%s' not implemented"
 msgstr ""
 
 #: cobc/parser.y:130
@@ -1154,345 +1212,345 @@ msgstr ""
 msgid "INPUT-OUTPUT SECTION header missing"
 msgstr ""
 
-#: cobc/parser.y:1885 cobc/parser.y:1894 cobc/parser.y:1903 cobc/parser.y:1912
+#: cobc/parser.y:1892 cobc/parser.y:1901 cobc/parser.y:1910 cobc/parser.y:1919
 msgid "Invalid or duplicate ORGANIZED clause"
 msgstr ""
 
-#: cobc/parser.y:2080
+#: cobc/parser.y:2119
 msgid "FILE SECTION header missing - assumed"
 msgstr ""
 
-#: cobc/parser.y:2082
+#: cobc/parser.y:2121
 msgid "FILE SECTION header missing"
 msgstr ""
 
-#: cobc/parser.y:2100 cobc/parser.y:2112
+#: cobc/parser.y:2139 cobc/parser.y:2151
 msgid "RECORD description missing or invalid"
 msgstr ""
 
-#: cobc/parser.y:2155 cobc/parser.y:2162
+#: cobc/parser.y:2194 cobc/parser.y:2201
 msgid "File cannot have both EXTERNAL and GLOBAL clauses"
 msgstr ""
 
-#: cobc/parser.y:2194 cobc/parser.y:2208
+#: cobc/parser.y:2233 cobc/parser.y:2247
 msgid "RECORD clause ignored for LINE SEQUENTIAL"
 msgstr ""
 
-#: cobc/parser.y:2199 cobc/parser.y:2224 cobc/parser.y:2247
+#: cobc/parser.y:2238 cobc/parser.y:2263 cobc/parser.y:2286
 msgid "RECORD clause invalid"
 msgstr ""
 
-#: cobc/parser.y:2323
+#: cobc/parser.y:2362
 msgid "LINAGE clause with wrong file type"
 msgstr ""
 
-#: cobc/parser.y:2385
+#: cobc/parser.y:2424
 #, c-format
 msgid "Alphabet-name is expected '%s'"
 msgstr ""
 
-#: cobc/parser.y:2398
+#: cobc/parser.y:2437
 msgid "file descriptor REPORT IS"
 msgstr ""
 
-#: cobc/parser.y:2402
+#: cobc/parser.y:2441
 msgid "file descriptor REPORTS ARE"
 msgstr ""
 
-#: cobc/parser.y:2469 cobc/parser.y:3299
+#: cobc/parser.y:2508 cobc/parser.y:3338
 msgid "Item requires a data name"
 msgstr ""
 
-#: cobc/parser.y:2522
+#: cobc/parser.y:2561
 msgid "CONSTANT with GLOBAL clause is not yet supported"
 msgstr ""
 
-#: cobc/parser.y:2540
+#: cobc/parser.y:2579
 msgid "CONSTANT item not at 01 level"
 msgstr ""
 
-#: cobc/parser.y:2591
+#: cobc/parser.y:2630
 msgid "REDEFINES clause should follow entry-name"
 msgstr ""
 
-#: cobc/parser.y:2593
+#: cobc/parser.y:2632
 msgid "REDEFINES clause must follow entry-name"
 msgstr ""
 
-#: cobc/parser.y:2611
+#: cobc/parser.y:2650
 msgid "EXTERNAL not allowed here"
 msgstr ""
 
-#: cobc/parser.y:2613
+#: cobc/parser.y:2652
 msgid "EXTERNAL only allowed at 01/77 level"
 msgstr ""
 
-#: cobc/parser.y:2615
+#: cobc/parser.y:2654
 msgid "EXTERNAL requires a data name"
 msgstr ""
 
-#: cobc/parser.y:2617 cobc/parser.y:2650
+#: cobc/parser.y:2656 cobc/parser.y:2689
 msgid "GLOBAL and EXTERNAL are mutually exclusive"
 msgstr ""
 
-#: cobc/parser.y:2619 cobc/parser.y:2897
+#: cobc/parser.y:2658 cobc/parser.y:2936
 msgid "BASED and EXTERNAL are mutually exclusive"
 msgstr ""
 
-#: cobc/parser.y:2621
+#: cobc/parser.y:2660
 msgid "EXTERNAL and REDEFINES are mutually exclusive"
 msgstr ""
 
-#: cobc/parser.y:2646
+#: cobc/parser.y:2685
 msgid "GLOBAL only allowed at 01/77 level"
 msgstr ""
 
-#: cobc/parser.y:2648
+#: cobc/parser.y:2687
 msgid "GLOBAL requires a data name"
 msgstr ""
 
-#: cobc/parser.y:2652
+#: cobc/parser.y:2691
 msgid "GLOBAL not allowed here"
 msgstr ""
 
-#: cobc/parser.y:2771
+#: cobc/parser.y:2810
 msgid "Maximum OCCURS depth exceeded"
 msgstr ""
 
-#: cobc/parser.y:2891
+#: cobc/parser.y:2930
 msgid "BASED not allowed here"
 msgstr ""
 
-#: cobc/parser.y:2893
+#: cobc/parser.y:2932
 msgid "BASED only allowed at 01/77 level"
 msgstr ""
 
-#: cobc/parser.y:2895
+#: cobc/parser.y:2934
 msgid "BASED requires a data name"
 msgstr ""
 
-#: cobc/parser.y:2899
+#: cobc/parser.y:2938
 msgid "BASED and REDEFINES are mutually exclusive"
 msgstr ""
 
-#: cobc/parser.y:2901 cobc/parser.y:2974
+#: cobc/parser.y:2940 cobc/parser.y:3013
 msgid "BASED and ANY LENGTH are mutually exclusive"
 msgstr ""
 
-#: cobc/parser.y:2929
+#: cobc/parser.y:2968
 msgid "FALSE clause only allowed for 88 level"
 msgstr ""
 
-#: cobc/parser.y:2944 cobc/parser.y:2956 cobc/parser.y:2959
+#: cobc/parser.y:2983 cobc/parser.y:2995 cobc/parser.y:2998
 msgid "RENAMES may not reference a level 01 or > 50"
 msgstr ""
 
-#: cobc/parser.y:2990
+#: cobc/parser.y:3029
 msgid "LOCAL-STORAGE not allowed in nested programs"
 msgstr ""
 
-#: cobc/parser.y:3023
+#: cobc/parser.y:3062
 msgid "REPORT SECTION not supported"
 msgstr ""
 
-#: cobc/parser.y:3056
+#: cobc/parser.y:3095
 msgid "Report description using defaults"
 msgstr ""
 
-#: cobc/parser.y:3064
+#: cobc/parser.y:3103
 msgid "GLOBAL is not allowed with RD"
 msgstr ""
 
-#: cobc/parser.y:3143
+#: cobc/parser.y:3182
 msgid "looking for Report line TYPE"
 msgstr ""
 
-#: cobc/parser.y:3452
+#: cobc/parser.y:3491
 msgid "Executable program requested but PROCEDURE/ENTRY has USING clause"
 msgstr ""
 
-#: cobc/parser.y:3515 cobc/parser.y:4185
+#: cobc/parser.y:3554 cobc/parser.y:4225
 msgid "BY VALUE not allowed in CHAINED program"
 msgstr ""
 
-#: cobc/parser.y:3527 cobc/parser.y:3535 cobc/parser.y:3545 cobc/parser.y:3574
+#: cobc/parser.y:3566 cobc/parser.y:3574 cobc/parser.y:3584 cobc/parser.y:3613
 msgid "SIZE only allowed for BY VALUE items"
 msgstr ""
 
-#: cobc/parser.y:3547 cobc/parser.y:3564 cobc/parser.y:3576 cobc/parser.y:3593
+#: cobc/parser.y:3586 cobc/parser.y:3603 cobc/parser.y:3615 cobc/parser.y:3632
 msgid "Invalid value for SIZE"
 msgstr ""
 
-#: cobc/parser.y:3605
+#: cobc/parser.y:3644
 msgid "OPTIONAL only allowed for BY REFERENCE items"
 msgstr ""
 
-#: cobc/parser.y:3614
+#: cobc/parser.y:3653
 msgid "RETURNING clause is required for a FUNCTION"
 msgstr ""
 
-#: cobc/parser.y:3622
+#: cobc/parser.y:3661
 msgid "RETURNING item is not defined in LINKAGE SECTION"
 msgstr ""
 
-#: cobc/parser.y:3765
+#: cobc/parser.y:3804
 #, c-format
 msgid "Unknown statement '%s'"
 msgstr ""
 
-#: cobc/parser.y:4111
+#: cobc/parser.y:4151
 msgid "ALTER statement is obsolete and unsupported"
 msgstr ""
 
-#: cobc/parser.y:4157
+#: cobc/parser.y:4197
 msgid "OMITTED only allowed with BY REFERENCE"
 msgstr ""
 
-#: cobc/parser.y:4177
+#: cobc/parser.y:4217
 msgid "BY CONTENT not allowed in CHAINED program"
 msgstr ""
 
-#: cobc/parser.y:4507
+#: cobc/parser.y:4566
 msgid "ENTRY is invalid in nested program"
 msgstr ""
 
-#: cobc/parser.y:4510
+#: cobc/parser.y:4569
 #, c-format
 msgid "ENTRY '%s' invalid"
 msgstr ""
 
-#: cobc/parser.y:4619 cobc/parser.y:4638 cobc/parser.y:4878 cobc/parser.y:4897
+#: cobc/parser.y:4678 cobc/parser.y:4697 cobc/parser.y:4937 cobc/parser.y:4956
 msgid "syntax error"
 msgstr ""
 
-#: cobc/parser.y:4722
+#: cobc/parser.y:4781
 msgid "EXIT PROGRAM is not allowed within a USE GLOBAL procedure"
 msgstr ""
 
-#: cobc/parser.y:4733 cobc/parser.y:4750
+#: cobc/parser.y:4792 cobc/parser.y:4809
 msgid "EXIT PERFORM is only valid with inline PERFORM"
 msgstr ""
 
-#: cobc/parser.y:4767
+#: cobc/parser.y:4826
 msgid "EXIT SECTION is only valid with an active SECTION"
 msgstr ""
 
-#: cobc/parser.y:4785
+#: cobc/parser.y:4844
 msgid "EXIT PARAGRAPH is only valid with an active PARAGRAPH"
 msgstr ""
 
-#: cobc/parser.y:5073
+#: cobc/parser.y:5132
 msgid "INSPECT missing a keyword"
 msgstr ""
 
-#: cobc/parser.y:5316
+#: cobc/parser.y:5375
 msgid "KEY clause invalid with this file type"
 msgstr ""
 
-#: cobc/parser.y:5619
+#: cobc/parser.y:5689
 msgid "File sort requires KEY phrase"
 msgstr ""
 
-#: cobc/parser.y:5668
+#: cobc/parser.y:5738
 msgid "File sort requires USING or INPUT PROCEDURE"
 msgstr ""
 
-#: cobc/parser.y:5674
+#: cobc/parser.y:5744
 msgid "USING invalid with table SORT"
 msgstr ""
 
-#: cobc/parser.y:5682
+#: cobc/parser.y:5752
 msgid "INPUT PROCEDURE invalid with table SORT"
 msgstr ""
 
-#: cobc/parser.y:5693
+#: cobc/parser.y:5763
 msgid "File sort requires GIVING or OUTPUT PROCEDURE"
 msgstr ""
 
-#: cobc/parser.y:5699
+#: cobc/parser.y:5769
 msgid "GIVING invalid with table SORT"
 msgstr ""
 
-#: cobc/parser.y:5707
+#: cobc/parser.y:5777
 msgid "OUTPUT PROCEDURE invalid with table SORT"
 msgstr ""
 
-#: cobc/parser.y:5728
+#: cobc/parser.y:5798
 msgid "START not allowed on SEQUENTIAL files"
 msgstr ""
 
-#: cobc/parser.y:5734 cobc/parser.y:6567 cobc/parser.y:6640
+#: cobc/parser.y:5804 cobc/parser.y:6649 cobc/parser.y:6722
 #, c-format
 msgid "'%s' is not a file name"
 msgstr ""
 
-#: cobc/parser.y:5997
+#: cobc/parser.y:6079
 msgid "USE statement must be within DECLARATIVES"
 msgstr ""
 
-#: cobc/parser.y:5999
+#: cobc/parser.y:6081
 msgid "SECTION header missing before USE statement"
 msgstr ""
 
-#: cobc/parser.y:6553
+#: cobc/parser.y:6635
 msgid "LINAGE-COUNTER must be qualified here"
 msgstr ""
 
-#: cobc/parser.y:6556
+#: cobc/parser.y:6638
 msgid "Invalid LINAGE-COUNTER usage"
 msgstr ""
 
-#: cobc/parser.y:6603
+#: cobc/parser.y:6685
 #, c-format
 msgid "'%s' not indexed"
 msgstr ""
 
-#: cobc/parser.y:6604
+#: cobc/parser.y:6686
 #, c-format
 msgid "'%s' defined here"
 msgstr ""
 
-#: cobc/parser.y:6626
+#: cobc/parser.y:6708
 #, c-format
 msgid "Multiple reference to '%s' "
 msgstr ""
 
-#: cobc/parser.y:6897 cobc/parser.y:6899
+#: cobc/parser.y:6979 cobc/parser.y:6981
 msgid "Integer value expected"
 msgstr ""
 
-#: cobc/scanner.l:512
+#: cobc/scanner.l:513
 msgid "User defined name must be less than 32 characters"
 msgstr ""
 
-#: cobc/scanner.l:575
+#: cobc/scanner.l:576
 #, c-format
 msgid "CONSTANT (78 level) may not be used here - '%s'"
 msgstr ""
 
-#: cobc/scanner.l:588
+#: cobc/scanner.l:589
 msgid "PROGRAM-ID length exceeds C89 function name limit"
 msgstr ""
 
-#: cobc/scanner.l:762
+#: cobc/scanner.l:763
 msgid "Alphanumeric literal has zero length"
 msgstr ""
 
-#: cobc/scanner.l:763
+#: cobc/scanner.l:764
 msgid "A SPACE will be assumed"
 msgstr ""
 
-#: cobc/scanner.l:852
+#: cobc/scanner.l:853
 #, c-format
 msgid "Invalid X literal: %s"
 msgstr ""
 
-#: cobc/scanner.l:888
+#: cobc/scanner.l:889
 #, c-format
 msgid "Invalid H literal: %s"
 msgstr ""
 
-#: cobc/scanner.l:913 cobc/scanner.l:916
+#: cobc/scanner.l:914 cobc/scanner.l:917
 msgid "Invalid numeric literal"
 msgstr ""
 

@@ -1,5 +1,47 @@
 NEWS - user visible changes				-*- outline -*-
 
+* Changes in opensource COBOL 1.3.1J
+
+** New features
+
+*** Enhanced SPLIT KEY support also accepts multiple key items specified for RECORD KEY.
+
+*** Added SPLIT KEY support to START statement.
+
+*** Added compilation warning that SPLIT KEY is currently only available on VB-ISAM
+    (and other ISAM compatibles).
+
+*** Conditional compiler directive $IF.
+
+*** Automatic file creation on opening non exisiting file for I-O, EXTEND.
+
+*** Added DELETE FILE statement.
+
+** Bug fixes
+
+*** Fixed the problem that COPY statement ignores the last line of each copybook when
+    it does not end with line break. Actually same as opensource COBOL 1.2J, applied
+    again to repair corruption in recent changes.
+
+*** Restored compilation warning for KEY phrase in READ statement on the SEQUENTIAL
+    mode file. It seemed to have been corrupted in recent changes.
+
+*** Fixed problem that DYNAMIC phrase has no effect when -assign_external option is
+    specified.
+
+*** Fixed problem that some options are never passed to READ routine in USERFH.
+
+*** Fixed problem of build time causes error when no curses library given.
+
+*** Fixed some segfault on compilation error.
+
+*** Fixed problem eliminates record length information on READing, SORTing variable
+    length record.
+
+*** Fixed internal error on long Japanese word in PROGRAM-ID.
+
+-----------------------------------------------------------------------
+
 * Changes in opensource COBOL 1.3J
 
 ** New features

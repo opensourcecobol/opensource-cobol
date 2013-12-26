@@ -422,7 +422,7 @@ SHELL=${CONFIG_SHELL-/bin/sh}
 
 # Identity of this package.
 PACKAGE_NAME='OpenCOBOL'
-PACKAGE_TARNAME='opensource-cobol-1.3J'
+PACKAGE_TARNAME='opensource-cobol-1.3.1J'
 PACKAGE_VERSION='1.1'
 PACKAGE_STRING='OpenCOBOL 1.1'
 PACKAGE_BUGREPORT='open-cobol-list@lists.sourceforge.net'
@@ -1858,7 +1858,7 @@ fi
 
 
 # Define the identity of the package.
- PACKAGE='opensource-cobol-1.3J'
+ PACKAGE='opensource-cobol-1.3.1J'
  VERSION='1.1'
 
 
