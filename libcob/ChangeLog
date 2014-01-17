@@ -1,3 +1,10 @@
+2012-06-20  Sergey Kashyrin <ska@kiska.net>
+
+   * strings.c : Retrofit fixes - cob_unstring_delimited, cob_inspect_converting corrected
+   * intrinsic.c : Retrofit fixes - CR/DB bug fix
+   * fileio.c : Retrofit fixes - lineseq_write correction to add '\n' in some cases
+   * numeric.c : Retrofit fixes - cob_add_packed bug corrected
+
 2012-06-19  Sergey Kashyrin <ska@kiska.net>
 
    * common.c : Retrofit fixes - cob_accept_day_of_week corrected,
