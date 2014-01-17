@@ -26,16 +26,19 @@
 #include <stdarg.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
+
 #ifdef	HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#include <time.h>
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
+
 #ifdef	_WIN32
 #define WINDOWS_LEAN_AND_MEAN
 #include <windows.h>
+#include <process.h>
 #include <io.h>
 #include <fcntl.h>
 #undef	HAVE_SIGNAL_H
@@ -2451,6 +2454,12 @@ CBL_OC_NANOSLEEP (unsigned char *data)
 		}
 	}
 	return 0;
+}
+
+int
+cob_acuw_getpid (void)
+{
+	return (int)getpid ();
 }
 
 int

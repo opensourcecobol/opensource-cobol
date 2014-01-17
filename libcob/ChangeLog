@@ -4,6 +4,10 @@
                   for identical behaviour
                   (especially fix for PDCurses + numpad support)
 
+2009-10-07  human
+
+   * common.[ch], system.def : Added new system routine C$GETPID
+
 2009-07-25  Gary Cutler
 
    * screenio.c : Fix PDCurses bug with COLOR_PAIRS

@@ -32,6 +32,7 @@
 #pragma warning(disable: 4996)
 #define strncasecmp _strnicmp
 #define strcasecmp _stricmp
+#define getpid			_getpid
 #define __attribute__(x)
 #define __i386__
 
@@ -352,6 +353,7 @@ extern int cob_return_args	(unsigned char *);
 extern int cob_parameter_size	(unsigned char *);
 extern int cob_acuw_sleep	(unsigned char *);
 extern int cob_acuw_justify	(unsigned char *, ...);
+extern int cob_acuw_getpid	(void);
 
 /* Utilities */
 
