@@ -407,6 +407,7 @@ cob_screen_init (void)
 			pair_content ((short)0, &fore_color, &back_color);
 			if (COLOR_PAIRS) {
 #ifdef	HAVE_LIBPDCURSES
+			int i;
 			/* pdcurses sets ALL pairs to default fg/bg */
 			/* IMHO a bug. */
 			for (i = 1; i < (size_t)COLOR_PAIRS; ++i) {
