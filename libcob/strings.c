@@ -39,7 +39,7 @@
 #define DLM_DEFAULT_NUM		8
 
 struct dlm_struct {
-	cob_field	*uns_dlm;
+	cob_field	uns_dlm;
 	int		uns_all;
 };
 
@@ -639,12 +639,12 @@ cob_unstring_delimited (cob_field *dlm, const int all)
 		}
 	}
 
-	dlm_list[unstring_ndlms].uns_dlm = dlm;
+	dlm_list[unstring_ndlms].uns_dlm = *dlm;
 	dlm_list[unstring_ndlms].uns_all = all;
 	unstring_ndlms++;
 
 	if (add_dlm) {
-		dlm_list[unstring_ndlms].uns_dlm = add_dlm;
+		dlm_list[unstring_ndlms].uns_dlm = *add_dlm;
 		dlm_list[unstring_ndlms].uns_all = all;
 		unstring_ndlms++;
 	}
@@ -686,8 +686,8 @@ cob_unstring_into (cob_field *dst, cob_field *dlm, cob_field *cnt)
 		s = unstring_src->data + srsize;
 		for (p = start; p < s; p++) {
 			for (i = 0; i < unstring_ndlms; i++) {
-				dlsize = (int) dlm_list[i].uns_dlm->size;
-				dp = dlm_list[i].uns_dlm->data;
+				dlsize = (int) dlm_list[i].uns_dlm.size;
+				dp = dlm_list[i].uns_dlm.data;
 				if (p + dlsize > s) {
 					continue;
 				}

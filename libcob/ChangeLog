@@ -14,6 +14,10 @@
 
    * common.[ch], system.def : Added new system routine C$GETPID
 
+2009-08-28  Roger While <simrw@sim-basis.de>
+
+   * strings.c : Fix for UNSTRING with multiple variable length fields
+
 2009-07-25  Gary Cutler
 
    * screenio.c : Fix PDCurses bug with COLOR_PAIRS
