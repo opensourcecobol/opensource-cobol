@@ -825,6 +825,7 @@ static int
 process_command_line (int argc, char *argv[])
 {
 	int			c, idx;
+	int 		argnum;
 	enum cob_exception_id	i;
 	struct stat		st;
 	char			ext[COB_MINI_BUFF];
@@ -832,6 +833,15 @@ process_command_line (int argc, char *argv[])
 	/* Enable default I/O exceptions */
 	CB_EXCEPTION_ENABLE (COB_EC_I_O) = 1;
 
+
+	/* Translate command line arguments from WIN to UNIX style */
+	argnum = 1;
+	while (++argnum <= argc) {
+		if (argv[argnum - 1][0] == '/') {
+			argv[argnum - 1][0] = '-';
+		}
+	}
+	
 	while ((c = getopt_long_only (argc, argv, short_options, long_options, &idx)) >= 0) {
 		switch (c) {
 		case 0:

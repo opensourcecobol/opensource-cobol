@@ -1,3 +1,7 @@
+2012-05-09  human
+
+	* cobc.c : Added conversion for enabling options in WIN style
+
 2009-02-06  Roger While <simrw@sim-basis.de>
 
 	* pplex.l : Check all of "Area A" after AUTHOR etc.

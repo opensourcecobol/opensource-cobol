@@ -25,8 +25,30 @@
 #include	<libcob.h>
 #include	<tarstamp.h>
 
+#ifdef	HAVE_KPATHSEA_GETOPT_H
+#include <kpathsea/getopt.h>
+#else
+#ifdef	HAVE_GETOPT_H
+#include <getopt.h>
+#else
+#include "lib/getopt.h"
+#endif
+#endif
+
+#ifdef	HAVE_LOCALE_H
+#include <locale.h>
+#endif
+
+static const char short_options[] = "hV";
+
+static const struct option long_options[] = {
+	{"help", no_argument, NULL, 'h'},
+	{"version", no_argument, NULL, 'V'},
+	{NULL, 0, NULL, 0}
+};
+
 static void
-print_version (void)
+cobcrun_print_version (void)
 {
 	int	year;
 	int	day;
@@ -50,38 +72,78 @@ print_version (void)
 }
 
 static void
-print_usage (void)
+cobcrun_print_usage (void)
 {
-	printf ("Usage: cobcrun PROGRAM [param ...]\n");
-	printf ("or   : cobcrun --help (-h)\n");
-	printf ("       Print this help\n");
-	printf ("or   : cobcrun --version (-V)\n");
-	printf ("       Print version information\n");
+	printf ("Usage: cobcrun PROGRAM [param ...]");
+	printf ("\n\n");
+	printf ("or   : cobcrun --help");
+	printf ("\n");
+	printf ("       Display this message");
+	printf ("\n\n");
+	printf ("or   : cobcrun --version, -V");
+	printf ("\n");
+	printf ("       Display runtime version");
+	printf ("\n\n");
+}
+
+static int
+process_command_line (int argc, char *argv[])
+{
+	int			c, idx;
+
+	/* At least one option or module name needed */
+	if (argc <= 1) {
+		cobcrun_print_usage ();
+		return 1;
+	}
+
+	/* Translate first command line argument from WIN to UNIX style */
+	if (argv[1][0] == '/') {
+		argv[1][0] = '-';
+	}
+
+	/* Process first command line argument only if not a module */
+	if (argv[1][0] != '-') {
+		return 99;
+	}
+
+	c = getopt_long_only (argc, argv, short_options, long_options, &idx);
+	if (c > 0) {
+		switch (c) {
+		case '?':
+			return 1;
+		case 'h':
+			cobcrun_print_usage ();
+			return 0;
+		case 'V':
+			cobcrun_print_version ();
+			return 0;
+		}
+	}
+
+	return 99;
 }
 
 int
 main (int argc, char **argv)
 {
+	int pcl_return;
+	
 	union {
 		int	(*func)();
 		void	*func_void;
 	} unifunc;
+	
+#ifdef	HAVE_SETLOCALE
+	setlocale (LC_ALL, "");
+#endif
 
-	if (argc <= 1) {
-		print_usage ();
-		return 1;
+	pcl_return = process_command_line (argc, argv);
+
+	if (pcl_return != 99) {
+		return pcl_return;
 	}
-	/* Quick check without getopt */
-	if (!strncmp (argv[1], "--version", 10) ||
-	    !strncmp (argv[1], "-V", 4)) {
-		print_version ();
-		return 0;
-	}
-	if (!strncmp (argv[1], "--help", 10) ||
-	    !strncmp (argv[1], "-h", 4)) {
-		print_usage ();
-		return 0;
-	}
+
 	if (strlen (argv[1]) > 31) {
 		fprintf (stderr, "Invalid PROGRAM name\n");
 		return 1;
