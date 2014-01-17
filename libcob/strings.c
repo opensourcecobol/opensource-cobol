@@ -393,7 +393,84 @@ cob_inspect_converting (cob_field *f1, cob_field *f2)
 	size_t	j;
 	size_t	len;
 
+#ifdef	I18N_UTF8
+	const int	mark_wait[6] = {-1, -1, -1, -1, -1, -1};
+	const int	mark_done[6] = { 1,  1,  1,  1,  1,  1};
+	size_t	nc1;
+	size_t	nc2;
+	size_t	nc3;
+	const cob_field	*fig_const  = NULL;
+	const cob_field	*fig_constw = NULL;
+	unsigned char	*pdata;
+	char	buf1[8]; /* for error message */
+	char	buf2[8]; /* for error message */
+
+#endif /*!I18N_UTF8*/
+
 	len = (size_t)(inspect_end - inspect_start);
+
+#ifdef	I18N_UTF8
+	if (f2 == &cob_quote) {
+		fig_const  = &cob_quote;
+		fig_constw = &cob_zen_quote;
+	} else if (f2 == &cob_space) {
+		fig_const  = &cob_space;
+		fig_constw = &cob_zen_space;
+	} else if (f2 == &cob_zero) {
+		fig_const  = &cob_zero;
+		fig_constw = &cob_zen_zero;
+	}
+	for (j = 0; j < f1->size; j += nc1) {
+		if (!(nc1 = COB_U8BYTE_1 (f1->data[j]))) {
+			cob_runtime_error (
+				"Unexpected char X(%02X) in INSPECT CONVERTING (value before)",
+				f1->data[j]);
+			cob_stop_run (1);
+		} else if (!(nc2 = COB_U8BYTE_1 (f2->data[j]))) {
+			cob_runtime_error (
+				"Unexpected char X(%02X) in INSPECT CONVERTING (value after)",
+				f2->data[j]);
+			cob_stop_run (1);
+		} else if (!fig_const && nc1 != nc2) {
+			memset (buf1, 0, sizeof (buf1));
+			memset (buf2, 0, sizeof (buf2));
+			memcpy (buf1, &(f1->data[j]), nc1);
+			memcpy (buf2, &(f2->data[j]), nc2);
+			cob_runtime_error (
+				"'%s' char width (%d) to '%s' char width (%d) mismatch",
+				buf1, nc1, buf2, nc2);
+			cob_stop_run (1);
+		}
+		for (i = 0; i < len; i += nc3) {
+			if (!(nc3 = COB_U8BYTE_1 (inspect_start[i]))) {
+				cob_runtime_error (
+					"Unexpected char X(%02X) in INSPECT field",
+					inspect_start[i]);
+				cob_stop_run (1);
+			}
+			if (nc1 == nc3
+			    && !memcmp (&(inspect_mark[i]), mark_wait, nc1)
+			    && !memcmp (&(inspect_start[i]), &(f1->data[j]), nc1)) {
+				if (!fig_const) {
+					pdata = &(f2->data[j]);
+				} else  if (nc1 == 1) {
+					pdata = fig_const->data;
+				} else if (nc1 == COB_U8CSIZ) {
+					pdata = fig_constw->data;
+				} else {
+					memset (buf1, 0, sizeof (buf1));
+					memcpy (buf1, &(f1->data[j]), nc1);
+					cob_runtime_error (
+						"'%s' char width (%d) mismatch",
+						buf1, nc1);
+					cob_stop_run (1);
+				}
+				memcpy (&(inspect_start[i]), pdata, nc1);
+				memcpy (&(inspect_mark[i]), mark_done, nc1);
+			}
+		}
+	}
+#else /*!I18N_UTF8*/
 	if (COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL ||
 	    COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_EDITED) {
 		if (f2 == &cob_quote) {
@@ -403,18 +480,6 @@ cob_inspect_converting (cob_field *f1, cob_field *f2)
 		} else if (f2 == &cob_zero) {
 			f2 = &cob_zen_zero;
 		}
-#ifdef	I18N_UTF8
-	}
-	/* I18N_UTF8: Can be compared in byte by byte (though SJIS does not). */
-	for (j = 0; j < f1->size; j++) {
-		for (i = 0; i < len; i++) {
-			if (inspect_mark[i] == -1 && inspect_start[i] == f1->data[j]) {
-				inspect_start[i] = f2->data[j];
-				inspect_mark[i] = 1;
-			}
-		}
-	}
-#else /*!I18N_UTF8*/
 		for (j = 0; j < f1->size; j += 2) {
 			for (i = 0; i < len; i += 2) {
 				if (inspect_mark[i] == -1 && inspect_mark[i+1] == -1 && memcmp (&inspect_start[i], &(f1->data[j]), 2) == 0) {

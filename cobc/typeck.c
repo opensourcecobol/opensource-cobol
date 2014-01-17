@@ -4057,6 +4057,155 @@ cb_build_tarrying_value (cb_tree x, cb_tree l)
 	return cb_list_add (l, cb_build_funcall_2 (inspect_func, inspect_data, x));
 }
 
+#ifdef	I18N_UTF8
+
+static int
+cb_validate_single_char_data (cb_tree x)
+{
+	char msgbuf[256];
+	int rt = 0;
+
+	if (CB_LITERAL_P (x)) {
+		struct cb_literal *lp = CB_LITERAL (x);
+		if (lp->size != COB_U8BYTE_1(lp->data[0])) {
+
+			memset (msgbuf, 0, sizeof (msgbuf));
+			strncpy (msgbuf, (char *)lp->data, 253);
+			cb_error_x (x, "Illegal replacement size: '%s'.", msgbuf);
+			rt = 1;
+		}
+	} else {
+		/* can't determine char length statically. */
+	}
+	return rt;
+}
+
+
+static int
+check_equal_data_size (cb_tree x, cb_tree y)
+{
+	char msgbuf1[256], msgbuf2[256];
+	size_t len1, len2;
+	int rt = 0;
+
+	memset (msgbuf1, 0, sizeof (msgbuf1));
+	memset (msgbuf2, 0, sizeof (msgbuf2));	
+
+	if (CB_LITERAL_P (x)) {
+		len1 = CB_LITERAL (x)->size;
+		strcat  (msgbuf1, "'");
+		strncat (msgbuf1, (char *)CB_LITERAL (x)->data, 253);
+		strcat  (msgbuf1, "'");
+	} else if (CB_REFERENCE_P (x)) {
+		len1 = CB_FIELD (cb_ref (x))->size;
+		strncat (msgbuf1,
+			 cb_get_jisword ((char *)CB_FIELD (cb_ref (x))->name),
+			 255);
+	} else {
+		cb_error_x (x, "Unexpected tag %d.", CB_TREE_TAG (x));
+		rt = 1;
+	}
+	if (CB_LITERAL_P (y)) {
+		len2 = CB_LITERAL (y)->size;
+		strcat  (msgbuf2, "'");
+		strncat (msgbuf2, (char *)CB_LITERAL (y)->data, 253);
+		strcat  (msgbuf2, "'");
+	} else if (CB_REFERENCE_P (y)) {
+		len2 = CB_FIELD (cb_ref (y))->size;
+		strncat (msgbuf2,
+			 cb_get_jisword ((char *)CB_FIELD (cb_ref (y))->name),
+			 255);
+	} else {
+		cb_error_x (y, "Unexpected tag %d.", CB_TREE_TAG (y));
+		rt = 1;
+	}
+	if (!rt && len1 != len2) {
+		cb_error_x (x, "%s and %s have not same size!",
+			    msgbuf1, msgbuf2);
+		rt = (int)(len1 - len2);
+	}
+	return rt;
+}
+
+static int
+cb_validate_inspect_replaceable (cb_tree x, cb_tree y)
+{
+	int rt = 0;
+
+	if (y == cb_zero || y == cb_space || y == cb_quote
+	    || y == cb_high || y == cb_low) {
+		/* always replaceable */
+	} else if (check_equal_data_size (x, y)) {
+		rt = 1;
+	}
+	return rt;
+}
+
+static int
+cb_validate_inspect_convertible (cb_tree x, cb_tree y)
+{
+	unsigned char *data1;
+	unsigned char *data2;
+	size_t i, n, nc;
+	int rt = 0;
+
+	/* should be convertible char by char in UTF-8 mode */
+
+	if (y == cb_zero || y == cb_space || y == cb_quote
+	    || y == cb_high || y == cb_low) {
+		if (CB_LITERAL_P (x)) {
+			data1 = CB_LITERAL(x)->data;
+			n     = CB_LITERAL(x)->size;
+		for (i = 0, nc = 0; !rt && i < n; i += nc) {
+			nc = COB_U8BYTE_1 (data1[i]);
+			if (!nc) {
+				cb_error_x (x, "Unexpected char in literal.");
+				rt = 1;
+			} else if (nc != 1 && nc != COB_U8CSIZ) {
+				cb_error_x (x, "Illegal conversion chars.");
+				rt = 1;
+			}
+		}
+			
+		} else {
+			/* can't determine char length statically. */
+		}
+	} else if (check_equal_data_size (x, y)) {
+		/* should be at least in same length */
+		rt = 1;
+	} else if (CB_LITERAL_P (x) && CB_LITERAL_P (y)) {
+		data1 = CB_LITERAL(x)->data;
+		data2 = CB_LITERAL(y)->data;
+		n     = CB_LITERAL(x)->size;
+		for (i = 0, nc = 0; !rt && i < n; i += nc) {
+			nc = COB_U8BYTE_1 (data1[i]);
+			if (!nc) {
+				cb_error_x (x, "Unexpected char in literal.");
+				rt = 1;
+			} else if (nc != COB_U8BYTE_1 (data2[i])) {
+				cb_error_x (x, "Illegal conversion chars.");
+				rt = 1;
+			}
+		}
+	} else {
+		/* can't determine char length statically. */
+	}
+	return rt;
+}
+
+int
+cb_validate_inspect (cb_tree var, cb_tree x, cb_tree y)
+{
+	/*
+	 * never return error result(<0), as original
+	 * cb_validate_inspect() also doesn't.
+	 */
+	cb_validate_inspect_convertible (x, y);
+	return 0;
+}
+
+#else /*I18N_UTF8*/
+
 int
 cb_validate_inspect (cb_tree var, cb_tree x, cb_tree y)
 {
@@ -4097,12 +4246,9 @@ cb_validate_inspect (cb_tree var, cb_tree x, cb_tree y)
 		    x != cb_low) {
 			if (CB_TREE_CATEGORY (var) == CB_CATEGORY_NATIONAL ||
 			    CB_TREE_CATEGORY (var) == CB_CATEGORY_NATIONAL_EDITED) {
-#ifndef	I18N_UTF8
-				/* I18N_UTF8: can't count chars of NATINAL according to static size. */
 				if (s1 != 2) {
 					cb_error_x (x, "Illegal replacement size: %s", name1);
 				}
-#endif /*I18N_UTF8*/
 			} else {
 				if (s1 != 1) {
 					cb_error_x (x, "Illegal replacement size: %s", name1);
@@ -4174,22 +4320,37 @@ cb_validate_inspect (cb_tree var, cb_tree x, cb_tree y)
 	}
 	return 0;
 }
+#endif /*I18N_UTF8*/
 
 cb_tree
 cb_build_replacing_characters (cb_tree x, cb_tree l, cb_tree var)
 {
+#ifdef	I18N_UTF8
+	cb_validate_single_char_data (x);
+#else /*I18N_UTF8*/
+	/*
+	 * caution: cb_validate_inspect() never returns error (<0)
+	 */
 	if (cb_validate_inspect (var, x, 0) < 0) {
 		return cb_error_node;
 	}
+#endif /*I18N_UTF8*/
 	return cb_list_add (l, cb_build_funcall_1 ("cob_inspect_characters", x));
 }
 
 cb_tree
 cb_build_replacing_all (cb_tree x, cb_tree y, cb_tree l, cb_tree var)
 {
+#ifdef	I18N_UTF8
+	cb_validate_inspect_replaceable (x, y);
+#else /*I18N_UTF8*/
+	/*
+	 * caution: cb_validate_inspect() never returns error (<0)
+	 */
 	if (cb_validate_inspect (var, x, y) < 0) {
 		return cb_error_node;
 	}
+#endif /*I18N_UTF8*/
 	return cb_list_add (l, cb_build_funcall_2 ("cob_inspect_all", y, x));
 }
 

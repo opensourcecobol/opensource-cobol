@@ -618,6 +618,49 @@ AT_CHECK([./prog], [0], [CDB])
 AT_CLEANUP
 
 
+AT_SETUP([INSPECT CONVERTING spaces])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X             PIC X(10) VALUE X'2020200d0a0d0a'.
+       PROCEDURE        DIVISION.
+           INSPECT X CONVERTING X'0D0A' TO SPACES.
+           DISPLAY X NO ADVANCING
+           END-DISPLAY.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} prog.cob])
+AT_CHECK([./prog], [0], [          ])
+
+AT_CLEANUP
+
+
+AT_SETUP([INSPECT CONVERTING different length])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X             PIC X(8) VALUE 'abcdefgh'.
+       PROCEDURE        DIVISION.
+           INSPECT X CONVERTING 'bc' TO 'Z'.
+           DISPLAY X NO ADVANCING
+           END-DISPLAY.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} prog.cob], [1], [],
+[prog.cob:8: Error: 'bc' and 'Z' have not same size!
+])
+
+AT_CLEANUP
+
+
 AT_SETUP([INSPECT: REPLACING figurative constant])
 
 AT_DATA([prog.cob], [

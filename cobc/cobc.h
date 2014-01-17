@@ -161,6 +161,8 @@ extern void	cobc_abort (const char *filename, const int linenum);
 extern size_t			cobc_check_valid_name (char *name);
 
 #ifdef	I18N_UTF8
+#  define COB_U8CSIZ	3
+
 #  define COB_U8BYTE_1(c)	((((c)>>7) == 0x00)? 1:		\
 				 (((c)>>5) == 0x06)? 2:		\
 				 (((c)>>4) == 0x0e)? 3:		\
