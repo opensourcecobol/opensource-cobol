@@ -1428,6 +1428,11 @@ lineseq_write (cob_file *f, const int opt)
 		f->flag_needs_nl = 0;
 	}
 
+	if (f->flag_needs_nl && !unlikely(f->flag_select_features & COB_SELECT_LINAGE)) {
+		putc ('\n', (FILE *)f->file);
+		f->flag_needs_nl = 0;
+	}
+
 	if (unlikely(eop_status)) {
 		eop_status = 0;
 		cob_exception_code = 0x0502;
