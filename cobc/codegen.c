@@ -1539,7 +1539,11 @@ initialize_type (struct cb_initialize *p, struct cb_field *f, int topfield)
 	}
 
 	if (p->val && f->values) {
-		return INITIALIZE_ONE;
+		if(topfield && f->flag_occurs && !p->flag_statement) {
+			return INITIALIZE_COMPOUND;
+		} else {
+			return INITIALIZE_ONE;
+		}
 	}
 
 	if (p->flag_statement && !f->children) {
@@ -1960,9 +1964,16 @@ output_initialize_compound (struct cb_initialize *p, cb_tree x)
 	int		last_char;
 	int		i;
 	size_t		size;
+	static int recurs_level = 0;
 
 	ff = cb_field (x);
-	for (f = ff->children; f; f = f->sister) {
+	if (!recurs_level  && !p->flag_statement && ff->parent == NULL && ff->flag_occurs) {
+		f = ff;
+	} else {
+		f = ff->children;
+	}
+	++recurs_level;
+	while(f) {
 		type = initialize_type (p, f, 0);
 		c = cb_build_field_reference (f, x);
 
@@ -2025,7 +2036,10 @@ output_initialize_compound (struct cb_initialize *p, cb_tree x)
 				output_indent ("  }");
 			}
 		}
+		if(f == ff) break;
+		f = f->sister;
 	}
+	--recurs_level;
 }
 
 static void
@@ -2800,18 +2814,19 @@ output_perform_exit (struct cb_label *l)
 		output_line ("  return 0;");
 		output_line ("}");
 	}
-	output_newline ();
-	output_line ("if (frame_ptr->perform_through == %d)", l->id);
+	if (!cb_perform_osvs) {
+		output_newline ();
+		output_line ("if (frame_ptr->perform_through == %d)", l->id);
 #ifndef	__GNUC__
-	output_line ("  goto P_switch;");
+		output_line ("  goto P_switch;");
 #elif	COB_USE_SETJMP
-	output_line ("  longjmp (frame_ptr->return_address, 1);");
+		output_line ("  longjmp (frame_ptr->return_address, 1);");
 #else
-	output_line ("  goto *frame_ptr->return_address;");
+		output_line ("  goto *frame_ptr->return_address;");
 #endif
-	if (cb_perform_osvs) {
+	} else {
 		output_line
-		    ("for (temp_index = frame_ptr - 1; temp_index->perform_through; temp_index--) {");
+		    ("for (temp_index = frame_ptr; temp_index->perform_through; temp_index--) {");
 		output_line ("  if (temp_index->perform_through == %d) {", l->id);
 		output_line ("    frame_ptr = temp_index;");
 #ifndef	__GNUC__
