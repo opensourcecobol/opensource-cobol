@@ -47,9 +47,19 @@
 #define DLL_EXPIMP
 
 #ifdef	__370__
+
 #define inline __inline
 #define COB_INLINE __inline
+#ifndef __timespec_struct
+#define __timespec_struct 1
+	struct timespec {
+		time_t tv_sec;
+		long   tv_nsec;
+	};
+#endif
+
 #elif defined(COB_HAS_INLINE)
+
 #define COB_INLINE inline
 #else
 #define COB_INLINE

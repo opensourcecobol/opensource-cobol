@@ -234,8 +234,8 @@ cob_sig_handler (int sig)
 			(*qutsig) (SIGQUIT);
 		}
 		break;
-	}
 #endif
+	}
 	exit (sig);
 }
 #endif
@@ -377,6 +377,45 @@ cob_get_sign_ebcdic (unsigned char *p)
 /* NOT REACHED */
 	return 1;
 }
+
+#ifdef	COB_EBCDIC_MACHINE
+static void COB_NOINLINE
+cob_put_sign_ascii (unsigned char *p)
+{
+	switch (*p) {
+	case '0':
+		*p = (unsigned char)'p';
+		return;
+	case '1':
+		*p = (unsigned char)'q';
+		return;
+	case '2':
+		*p = (unsigned char)'r';
+		return;
+	case '3':
+		*p = (unsigned char)'s';
+		return;
+	case '4':
+		*p = (unsigned char)'t';
+		return;
+	case '5':
+		*p = (unsigned char)'u';
+		return;
+	case '6':
+		*p = (unsigned char)'v';
+		return;
+	case '7':
+		*p = (unsigned char)'w';
+		return;
+	case '8':
+		*p = (unsigned char)'x';
+		return;
+	case '9':
+		*p = (unsigned char)'y';
+		return;
+	}
+}
+#endif
 
 static void COB_NOINLINE
 cob_put_sign_ebcdic (unsigned char *p, const int sign)
@@ -1690,16 +1729,18 @@ cob_accept_day_yyyyddd (cob_field *f)
 void
 cob_accept_day_of_week (cob_field *f)
 {
+	struct tm	*tm;
 	time_t	t;
-	char	s[4];
+	unsigned char	s[4];
 
 	t = time (NULL);
-#if defined(_MSC_VER)
-	sprintf(s, "%d", localtime(&t)->tm_wday + 1);
-#else
-	strftime (s, 2, "%u", localtime (&t));
-#endif
-	cob_memcpy (f, (ucharptr)s, 1);
+	tm = localtime (&t);
+	if (tm->tm_wday == 0) {
+		s[0] = (unsigned char)'7';
+	} else {
+		s[0] = (unsigned char)(tm->tm_wday + '0');
+	}
+	cob_memcpy (f, s, 1);
 }
 
 void
@@ -2449,7 +2490,11 @@ CBL_OC_NANOSLEEP (unsigned char *data)
 #else
 			tsec.tv_sec = nsecs / 1000000000;
 			tsec.tv_nsec = nsecs % 1000000000;
+#ifdef __370__
+			if(tsec.tv_sec > 0) sleep(tsec.tv_sec);
+#else
 			nanosleep (&tsec, NULL);
+#endif
 #endif
 		}
 	}

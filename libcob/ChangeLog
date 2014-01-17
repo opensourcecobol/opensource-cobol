@@ -1,3 +1,9 @@
+2012-06-19  Sergey Kashyrin <ska@kiska.net>
+
+   * common.c : Retrofit fixes - cob_accept_day_of_week corrected,
+                nanosleep for 370, cob_put_sign_ascii for EBCDIC computers
+   * common.h : Retrofit fixes - added timespec structure for 370
+
 2010-09-03  human
 
    * screenio.c : Convert keys according to used environment
