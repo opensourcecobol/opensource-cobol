@@ -109,6 +109,14 @@
 #include <vbisam.h>
 #endif
 
+#include "common.h"
+#include "coblocal.h"
+#include "move.h"
+#include "numeric.h"
+#include "fileio.h"
+#include "byteswap.h"
+#include "call.h"
+
 #if defined(__hpux__) || defined(_AIX) || defined(__sparc)
 #define fseek fseeko
 #define ftell ftello
@@ -120,14 +128,6 @@
 #define lseek _lseeki64
 #define off_t __int64
 #endif
-
-#include "common.h"
-#include "coblocal.h"
-#include "move.h"
-#include "numeric.h"
-#include "fileio.h"
-#include "byteswap.h"
-#include "call.h"
 
 #if !defined(__linux__)
 #define SEEK_INIT(f)	fseek ((FILE *)f->file, (off_t)0, SEEK_CUR)
