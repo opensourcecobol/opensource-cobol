@@ -630,6 +630,7 @@ cob_add_packed (cob_field *f, int val)
 	unsigned int	subtr = 0;
 	unsigned int	zeroes = 0;
 	unsigned int	origdigs;
+	int		emptydig;
 
 	ndigs = COB_FIELD_DIGITS(f) - COB_FIELD_SCALE(f);
 	if (ndigs <= 0) {
@@ -637,6 +638,7 @@ cob_add_packed (cob_field *f, int val)
 	}
 	sign = cob_packed_get_sign (f);
 	msn = 1 - (COB_FIELD_SCALE(f) % 2);
+	emptydig = 1 - (COB_FIELD_DIGITS(f) % 2);
 
 	/* -x +v = -(x - v), -x -v = -(x + v) */
 	if (sign < 0) {
@@ -646,7 +648,7 @@ cob_add_packed (cob_field *f, int val)
 		val = -val;
 		subtr = 1;
 	}
-	p = f->data + (ndigs / 2) - (1 - msn);
+	p = f->data + ((ndigs + emptydig) / 2) - (1 - msn);
 	origdigs = ndigs;
 	while (ndigs--) {
 		if (!msn) {
