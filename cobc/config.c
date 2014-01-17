@@ -242,6 +242,15 @@ cb_load_conf (const char *fname, const int check_nodef, const int prefix_dir)
 					invalid_value (fname, line, name);
 					ret = -1;
 				}
+			} else if (strcmp (name, "default-organization") == 0) {
+				if (strcmp (val, "record-sequential") == 0) {
+					cb_default_organization = CB_ORG_RECORD_SEQUENTIAL;
+				} else if (strcmp (val, "line-sequential") == 0) {
+					cb_default_organization = CB_ORG_LINE_SEQUENTIAL;
+				} else {
+					invalid_value (fname, line, name);
+					ret = -1;
+				}
 			}
 			break;
 		case INT:

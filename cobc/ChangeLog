@@ -2,6 +2,12 @@
 
 	* cobc.c : Added conversion for enabling options in WIN style
 
+2010-06-22  Franklin Ankum
+
+	* cobc.h, config.c, config.def, parser.y, tree.c : Implement
+	  default-organization: record-sequential (default=old behaviour),
+	  line-sequential
+
 2009-02-06  Roger While <simrw@sim-basis.de>
 
 	* pplex.l : Check all of "Area A" after AUTHOR etc.

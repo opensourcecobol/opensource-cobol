@@ -1785,7 +1785,7 @@ build_file (cb_tree name)
 	p->name = cb_define (name, CB_TREE (p));
 	p->cname = to_cname (p->name);
 
-	p->organization = COB_ORG_SEQUENTIAL;
+	p->organization = cb_default_organization;;
 	p->access_mode = COB_ACCESS_SEQUENTIAL;
 	p->handler = CB_LABEL (cb_standard_error_handler);
 	p->handler_prog = current_program;

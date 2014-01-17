@@ -1895,12 +1895,21 @@ organization:
 		organized_seen = 1;
 	}
   }
-| _record _binary SEQUENTIAL
+| RECORD _binary SEQUENTIAL
   {
 	if (organized_seen) {
 		cb_error (_("Invalid or duplicate ORGANIZED clause"));
 	} else {
 		current_file->organization = COB_ORG_SEQUENTIAL;
+		organized_seen = 1;
+	}
+  }
+| SEQUENTIAL
+  {
+	if (organized_seen) {
+		cb_error (_("Invalid or duplicate ORGANIZED clause"));
+	} else {
+		current_file->organization = cb_default_organization;
 		organized_seen = 1;
 	}
   }

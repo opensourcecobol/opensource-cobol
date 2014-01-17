@@ -200,6 +200,11 @@ struct noreserve {
 
 extern struct noreserve	*norestab;
 
+enum cb_default_organization {
+	CB_ORG_RECORD_SEQUENTIAL,       /* Organization is Record Sequential */
+	CB_ORG_LINE_SEQUENTIAL          /* Line Sequential */
+};
+
 enum cb_assign_clause {
 	CB_ASSIGN_COBOL2002,		/* COBOL 2002 standard */
 	CB_ASSIGN_MF,			/* Micro Focus COBOL compatibility */
