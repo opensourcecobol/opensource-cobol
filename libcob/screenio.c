@@ -23,8 +23,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 #ifdef	HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+
+#ifdef	_WIN32
+/* Later pdcurses versions require define before the include for DLL build */
+#define	PDC_DLL_BUILD	1
+#include <io.h>
 #endif
 
 #ifdef HAVE_NCURSES_H
@@ -79,6 +86,122 @@ static short			fore_color;
 static short			back_color;
 
 /* Local functions */
+
+static void
+cob_convert_key (int *keyp, const unsigned int field_accept)
+{
+	/* Map key to KEY_xxx value */
+	switch (*keyp) {
+	case '\n':
+	case '\r':
+	case '\004':
+	case '\032':
+		*keyp = KEY_ENTER;
+		break;
+	case '\t':
+		*keyp = KEY_STAB;
+		break;
+	case '\b':
+	case 0177:
+		*keyp = KEY_BACKSPACE;
+		break;
+
+#ifdef	KEY_A1
+	/* A1, A3, C1, C3 must be present */
+	case KEY_A1:
+		*keyp = KEY_HOME;
+		break;
+	case KEY_A3:
+		*keyp = KEY_PPAGE;
+		break;
+	case KEY_C1:
+		*keyp = KEY_END;
+		break;
+	case KEY_C3:
+		*keyp = KEY_NPAGE;
+		break;
+	/* Any or all of A2, B1-3, C2 MAY be present */
+	/* Note B2 ignored */
+#ifdef	KEY_A2
+	case KEY_A2:
+		*keyp = KEY_UP;
+		break;
+#endif
+#ifdef	KEY_B1
+	case KEY_B1:
+		*keyp = KEY_LEFT;
+		break;
+#endif
+#ifdef	KEY_B3
+	case KEY_B3:
+		*keyp = KEY_RIGHT;
+		break;
+#endif
+#ifdef	KEY_C2
+	case KEY_C2:
+		*keyp = KEY_DOWN;
+		break;
+#endif
+
+#if	defined(__PDCURSES__) && defined(PADSLASH)
+	case PADSLASH:
+		*keyp = '/';
+		break;
+	case PADSTAR:
+		*keyp = '*';
+		break;
+	case PADMINUS:
+		*keyp = '-';
+		break;
+	case PADPLUS:
+		*keyp = '+';
+		break;
+	case PADENTER:
+		*keyp = KEY_ENTER;
+		break;
+#ifdef	PAD0
+	case PAD0:
+		*keyp = KEY_IC;
+		break;
+	case PADSTOP:
+		*keyp = KEY_DC;
+		break;
+#endif	/* PAD0 */
+#endif	/* __PDCURSES__ */
+#endif	/* KEY_A1 */
+	default:
+		break;
+	}
+
+	/* Check if key should be ignored */
+	switch (*keyp) {
+	case KEY_STAB:
+		if (field_accept) {
+			*keyp = 0;
+		}
+		break;
+	case '\033':
+		if (!cob_extended_status || !cob_use_esc) {
+			*keyp = 0;
+		}
+		break;
+	case KEY_PPAGE:
+	case KEY_NPAGE:
+	case KEY_PRINT:
+		if (!cob_extended_status) {
+			*keyp = 0;
+		}
+		break;
+	case KEY_UP:
+	case KEY_DOWN:
+		if (field_accept && !cob_extended_status) {
+			*keyp = 0;
+		}
+		break;
+	default:
+		break;
+	}
+}
 
 static void
 get_line_column (cob_field *fline, cob_field *fcol, int *line, int *col)
@@ -256,10 +379,6 @@ cob_screen_init (void)
 {
 	char	*s;
 
-#ifdef	HAVE_LIBPDCURSES
-	size_t	i;
-#endif
-
 	if (!cob_screen_initialized) {
 		s = getenv ("COB_SCREEN_EXCEPTIONS");
 		if (s) {
@@ -287,12 +406,12 @@ cob_screen_init (void)
 			start_color ();
 			pair_content ((short)0, &fore_color, &back_color);
 			if (COLOR_PAIRS) {
-#ifdef HAVE_LIBPDCURSES
-				/* pdcurses sets ALL pairs to default fg/bg */
-				/* IMHO a bug. */
-				for (i = 1; i < (size_t)COLOR_PAIRS; i++) {
-					init_pair ((short)i, (short)0, (short)0);
-				}
+#ifdef	HAVE_LIBPDCURSES
+			/* pdcurses sets ALL pairs to default fg/bg */
+			/* IMHO a bug. */
+			for (i = 1; i < (size_t)COLOR_PAIRS; ++i) {
+				init_pair ((short)i, 0, 0);
+			}
 #endif
 				cob_has_color = 1;
 			}
@@ -454,37 +573,46 @@ cob_screen_get_all (void)
 	ungetched = 0;
 	rightpos = scolumn + s->field->size - 1;
 	p = s->field->data;
+
 	for (; ;) {
 		refresh ();
+		errno = 0;
 		keyp = getch ();
-		if (keyp == KEY_ENTER || keyp == '\n') {
-			break;
+
+		if (keyp == ERR) {
+			global_return = 8001;
+			goto screen_return;
 		}
 		if (keyp > KEY_F0 && keyp < KEY_F(65)) {
 			global_return = 1000 + keyp - KEY_F0;
-			break;
+			goto screen_return;
 		}
-		if (cob_extended_status) {
-			if (keyp == KEY_PPAGE) {
-				global_return = 2001;
-				break;
-			}
-			if (keyp == KEY_NPAGE) {
-				global_return = 2002;
-				break;
-			}
-			if (keyp == KEY_PRINT) {
-				global_return = 2006;
-				break;
-			}
-			if (cob_use_esc) {
-				if (keyp == 033) {
-					global_return = 2005;
-					break;
-				}
-			}
+
+		cob_convert_key (&keyp, 0);
+		if (keyp <= 0) {
+			(void)flushinp ();
+			beep ();
+			continue;
 		}
-		if (keyp == 011) {
+
+		getyx (stdscr, cline, ccolumn);
+
+		switch (keyp) {
+		case KEY_ENTER:
+			goto screen_return;
+		case KEY_PPAGE:
+			global_return = 2001;
+			goto screen_return;
+		case KEY_NPAGE:
+			global_return = 2002;
+			goto screen_return;
+		case KEY_PRINT:
+			global_return = 2006;
+			goto screen_return;
+		case '\033':
+			global_return = 2005;
+			goto screen_return;
+		case KEY_STAB:
 			if (curr_index < totl_index - 1) {
 				curr_index++;
 			} else {
@@ -501,8 +629,7 @@ cob_screen_get_all (void)
 			move (sline, scolumn);
 			cob_screen_attr (s->foreg, s->backg, s->attr);
 			continue;
-		}
-		if (keyp == KEY_BTAB) {
+		case KEY_BTAB:
 			if (curr_index > 0) {
 				curr_index--;
 			} else {
@@ -525,8 +652,7 @@ cob_screen_get_all (void)
 			}
 			cob_screen_attr (s->foreg, s->backg, s->attr);
 			continue;
-		}
-		if (keyp == KEY_UP) {
+		case KEY_UP:
 			curr_index = sptr->up_index;
 			sptr = cob_base_inp + curr_index;
 			s = sptr->scr;
@@ -539,8 +665,7 @@ cob_screen_get_all (void)
 			move (sline, scolumn);
 			cob_screen_attr (s->foreg, s->backg, s->attr);
 			continue;
-		}
-		if (keyp == KEY_DOWN) {
+		case KEY_DOWN:
 			curr_index = sptr->down_index;
 			sptr = cob_base_inp + curr_index;
 			s = sptr->scr;
@@ -553,8 +678,7 @@ cob_screen_get_all (void)
 			move (sline, scolumn);
 			cob_screen_attr (s->foreg, s->backg, s->attr);
 			continue;
-		}
-		if (keyp == KEY_HOME) {
+		case KEY_HOME:
 			curr_index = 0;
 			sptr = cob_base_inp;
 			s = sptr->scr;
@@ -567,8 +691,7 @@ cob_screen_get_all (void)
 			move (sline, scolumn);
 			cob_screen_attr (s->foreg, s->backg, s->attr);
 			continue;
-		}
-		if (keyp == KEY_END) {
+		case KEY_END:
 			curr_index = totl_index - 1;
 			sptr = cob_base_inp + curr_index;
 			s = sptr->scr;
@@ -581,10 +704,7 @@ cob_screen_get_all (void)
 			move (sline, scolumn);
 			cob_screen_attr (s->foreg, s->backg, s->attr);
 			continue;
-		}
-		getyx (stdscr, cline, ccolumn);
-		if (keyp == KEY_BACKSPACE || keyp == ('H' & 037) ||
-		    keyp == 0177) {
+		case KEY_BACKSPACE:
 			if (ccolumn > scolumn) {
 				if (gotbacksp || ccolumn != rightpos) {
 					ccolumn--;
@@ -608,8 +728,7 @@ cob_screen_get_all (void)
 				ungetch (KEY_BTAB);
 			}
 			continue;
-		}
-		if (keyp == KEY_LEFT) {
+		case KEY_LEFT:
 			gotbacksp = 0;
 			if (ccolumn > scolumn) {
 				ccolumn--;
@@ -620,18 +739,20 @@ cob_screen_get_all (void)
 				ungetch (KEY_BTAB);
 			}
 			continue;
-		}
-		if (keyp == KEY_RIGHT) {
+		case KEY_RIGHT:
 			gotbacksp = 0;
 			if (ccolumn < rightpos) {
 				ccolumn++;
 				move (cline, ccolumn);
 				p = s->field->data + ccolumn - scolumn;
 			} else {
-				ungetch (011);
+				ungetch ('\t');
 			}
 			continue;
+		default:
+			break;
 		}
+
 		if (keyp > 037 && keyp < (int)A_CHARTEXT) {
 			if (COB_FIELD_IS_NUMERIC (s->field)) {
 				if (keyp < '0' || keyp > '9') {
@@ -649,7 +770,7 @@ cob_screen_get_all (void)
 			if (ccolumn == rightpos) {
 				if (s->attr & COB_SCREEN_AUTO) {
 					if (curr_index == totl_index - 1) {
-						break;
+						goto screen_return;
 					} else {
 						ungetch (011);
 					}
@@ -666,8 +787,10 @@ cob_screen_get_all (void)
 			continue;
 		}
 		gotbacksp = 0;
+		(void)flushinp ();
 		beep ();
 	}
+screen_return:
 	refresh ();
 }
 
@@ -925,45 +1048,55 @@ cob_field_accept (cob_field *f, cob_field *line, cob_field *column,
 	p = f->data;
 	for (; ;) {
 		refresh ();
+		errno = 0;
 		keyp = getch ();
-		if (keyp == KEY_ENTER || keyp == '\n') {
-			break;
+
+		if (keyp == ERR) {
+			fret = 8001;
+			goto field_return;
 		}
 		if (keyp > KEY_F0 && keyp < KEY_F(65)) {
 			fret = 1000 + keyp - KEY_F0;
+			goto field_return;
+		}
+
+		cob_convert_key (&keyp, 1U);
+		if (keyp <= 0) {
+			(void)flushinp ();
+			beep ();
+			continue;
+		}
+
+		getyx (stdscr, cline, ccolumn);
+
+		switch (keyp) {
+		case KEY_ENTER:
+			goto field_return;
+		case KEY_PPAGE:
+			fret = 2001;
+			goto field_return;
+		case KEY_NPAGE:
+			fret = 2002;
+			goto field_return;
+		case KEY_UP:
+			fret = 2003;
+			goto field_return;
+		case KEY_DOWN:
+			fret = 2004;
+			goto field_return;
+		case KEY_PRINT:
+			/* pdcurses not returning this ? */
+			fret = 2006;
+			goto field_return;
+		case 033:
+			fret = 2005;
+			goto field_return;
+		default:
 			break;
 		}
-		if (cob_extended_status) {
-			if (keyp == KEY_PPAGE) {
-				fret = 2001;
-				break;
-			}
-			if (keyp == KEY_NPAGE) {
-				fret = 2002;
-				break;
-			}
-			if (keyp == KEY_UP) {
-				fret = 2003;
-				break;
-			}
-			if (keyp == KEY_DOWN) {
-				fret = 2004;
-				break;
-			}
-			if (keyp == KEY_PRINT) {
-				fret = 2006;
-				break;
-			}
-			if (cob_use_esc) {
-				if (keyp == 033) {
-					fret = 2005;
-					break;
-				}
-			}
-		}
-		getyx (stdscr, cline, ccolumn);
-		if (keyp == KEY_BACKSPACE || keyp == ('H' & 037) ||
-		    keyp == 0177) {
+
+		switch (keyp) {
+		case KEY_BACKSPACE:
 			if (ccolumn > scolumn) {
 				if (gotbacksp || ccolumn != rightpos) {
 					ccolumn--;
@@ -982,22 +1115,19 @@ cob_field_accept (cob_field *f, cob_field *line, cob_field *column,
 				*p = ' ';
 				continue;
 			}
-		}
-		if (keyp == KEY_HOME) {
+		case KEY_HOME:
 			move (sline, scolumn);
 			p = f->data;
 			ateof = 0;
 			gotbacksp = 0;
 			continue;
-		}
-		if (keyp == KEY_END) {
+		case KEY_END:
 			move (sline, rightpos);
 			p = f->data + f->size - 1;
 			ateof = 0;
 			gotbacksp = 0;
 			continue;
-		}
-		if (keyp == KEY_LEFT) {
+		case KEY_LEFT:
 			if (ccolumn > scolumn) {
 				ccolumn--;
 				move (cline, ccolumn);
@@ -1005,8 +1135,8 @@ cob_field_accept (cob_field *f, cob_field *line, cob_field *column,
 				continue;
 			}
 			gotbacksp = 0;
-		}
-		if (keyp == KEY_RIGHT) {
+			continue;
+		case KEY_RIGHT:
 			if (ccolumn < rightpos) {
 				ccolumn++;
 				move (cline, ccolumn);
@@ -1014,8 +1144,12 @@ cob_field_accept (cob_field *f, cob_field *line, cob_field *column,
 				continue;
 			}
 			gotbacksp = 0;
+			continue;
+		default:
+			break;
 		}
-		if (keyp > 037 && keyp < (int)A_CHARTEXT) {
+
+		if (keyp > '\037' && keyp < (int)A_CHARTEXT) {
 			if (COB_FIELD_IS_NUMERIC (f)) {
 				if (keyp < '0' || keyp > '9') {
 					beep ();
@@ -1023,7 +1157,7 @@ cob_field_accept (cob_field *f, cob_field *line, cob_field *column,
 				}
 			}
 			gotbacksp = 0;
-			*p = keyp;
+			*p = (unsigned char)keyp;
 			if (attr & COB_SCREEN_SECURE) {
 				addch ('*');
 			} else {
@@ -1047,8 +1181,9 @@ cob_field_accept (cob_field *f, cob_field *line, cob_field *column,
 		gotbacksp = 0;
 		beep ();
 	}
-	cob_check_pos_status (fret);
+field_return:
 	refresh ();
+	cob_check_pos_status (fret);
 }
 
 void
