@@ -1,3 +1,10 @@
+2012-06-20  Sergey Kashyrin <ska@kiska.net>
+
+   * typeck.c : Retrofit fixes - NULL pointer crash correction, CB_USAGE_DISPLAY generation correction
+   * codegen.c : Retrofit fixes - initialize_type corrected to handle occurs at 01 level,
+                 output_initialize_compound corrected, output_perform_exit - OSVS corrected
+   * parser.y : Retrofit fixes - exclude level 77 from "Item requires a data name" check
+
 2012-05-09  human
 
 	* cobc.c : Added conversion for enabling options in WIN style
