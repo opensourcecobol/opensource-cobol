@@ -2512,8 +2512,7 @@ data_description:
   data_description_clause_sequence
   {
 	if (!qualifier && (current_field->level == 88 ||
-	    current_field->level == 77 || current_field->level == 66 ||
-	    current_field->flag_item_78)) {
+		current_field->level == 66 || current_field->flag_item_78)) {
 		cb_error (_("Item requires a data name"));
 	}
 	if (current_field->level == 88) {
