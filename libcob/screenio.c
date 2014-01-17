@@ -256,6 +256,10 @@ cob_screen_init (void)
 {
 	char	*s;
 
+#ifdef	HAVE_LIBPDCURSES
+	size_t	i;
+#endif
+
 	if (!cob_screen_initialized) {
 		s = getenv ("COB_SCREEN_EXCEPTIONS");
 		if (s) {
@@ -283,6 +287,13 @@ cob_screen_init (void)
 			start_color ();
 			pair_content ((short)0, &fore_color, &back_color);
 			if (COLOR_PAIRS) {
+#ifdef HAVE_LIBPDCURSES
+				/* pdcurses sets ALL pairs to default fg/bg */
+				/* IMHO a bug. */
+				for (i = 1; i < (size_t)COLOR_PAIRS; i++) {
+					init_pair ((short)i, (short)0, (short)0);
+				}
+#endif
 				cob_has_color = 1;
 			}
 		}
