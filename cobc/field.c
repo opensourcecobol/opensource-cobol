@@ -556,13 +556,13 @@ validate_field_1 (struct cb_field *f)
 				if (f->flag_item_78) {
 					cb_error_x (x, _("Value required for constant item '%s'"), name);
 				} else {
-					cb_error_x (x, _("PICTURE clause required for '%s'"), name);
+					cb_error_x (x, _("PICTURE clause required for '%s'"), check_filler_name (name));
 				}
 				return -1;
 			}
 		}
 		if (f->pic != NULL && need_picture == 0) {
-			cb_error_x (x, _("'%s' cannot have PICTURE clause"), name);
+			cb_error_x (x, _("'%s' cannot have PICTURE clause"), check_filler_name (name));
 		}
 
 		/* validate USAGE */

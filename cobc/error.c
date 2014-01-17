@@ -392,7 +392,7 @@ ambiguous_error (cb_tree x)
 			case CB_TAG_FIELD:
 				for (p = CB_FIELD (y)->parent; p; p = p->parent) {
 					strcat (errnamebuff, "in '");
-					strcat (errnamebuff, p->name);
+					strcat (errnamebuff, check_filler_name((char *)p->name));
 					strcat (errnamebuff, "' ");
 				}
 				break;

@@ -4422,9 +4422,9 @@ warning_destination (cb_tree x)
 	    !strcmp (f->name, "NUMBER-OF-CALL-PARAMETERS")) {
 		cb_warning (_("Internal register '%s' defined as BINARY-LONG"), f->name);
 	} else if (f->pic) {
-		cb_warning_x (loc, _("'%s' defined here as PIC %s"), f->name, f->pic->orig);
+		cb_warning_x (loc, _("'%s' defined here as PIC %s"), check_filler_name ((char *)f->name), f->pic->orig);
 	} else {
-		cb_warning_x (loc, _("'%s' defined here as a group of length %d"), f->name, f->size);
+		cb_warning_x (loc, _("'%s' defined here as a group of length %d"), check_filler_name ((char *)f->name), f->size);
 	}
 }
 
