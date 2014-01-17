@@ -1845,7 +1845,7 @@ cob_intr_numval (cob_field *srcfield)
 	memset (final_buff, 0, sizeof (final_buff));
 
 	for (i = 0; i < srcfield->size; ++i) {
-		if (i < (srcfield->size - 2)) {
+		if (i < (srcfield->size - 1)) {
 			if (strcasecmp ((char *)&srcfield->data[i], "CR") == 0
 			     || strcasecmp ((char *)&srcfield->data[i], "DB") == 0) {
 				sign = 1;
@@ -1932,7 +1932,7 @@ cob_intr_numval_c (cob_field *srcfield, cob_field *currency)
 		}
 	}
 	for (i = 0; i < srcfield->size; ++i) {
-		if (i < (srcfield->size - 2)) {
+		if (i < (srcfield->size - 1)) {
 			if (strcasecmp ((char *)&srcfield->data[i], "CR") == 0
 			     || strcasecmp ((char *)&srcfield->data[i], "DB") == 0) {
 				sign = 1;
