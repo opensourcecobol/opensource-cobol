@@ -2998,7 +2998,9 @@ cb_emit_accept (cb_tree var, cb_tree pos, cb_tree fgc, cb_tree bgc,
 	}
 	if (current_program->flag_screen) {
 		/* Bump ref count to force CRT STATUS field generation */
-		cb_field (current_program->crt_status)->count++;
+		if(current_program->crt_status != NULL) {
+			cb_field (current_program->crt_status)->count++;
+		}
 		if ((CB_REF_OR_FIELD_P (var)) &&
 		     CB_FIELD (cb_ref (var))->storage == CB_STORAGE_SCREEN) {
 			output_screen_from (CB_FIELD (cb_ref (var)), 0);
@@ -3044,7 +3046,9 @@ cb_emit_accept (cb_tree var, cb_tree pos, cb_tree fgc, cb_tree bgc,
 		}
 	} else if (pos || fgc || bgc || scroll) {
 		/* Bump ref count to force CRT STATUS field generation */
-		cb_field (current_program->crt_status)->count++;
+		if(current_program->crt_status != NULL) {
+			cb_field (current_program->crt_status)->count++;
+		}
 		if (!pos) {
 			cb_emit (cb_build_funcall_7 ("cob_field_accept",
 				var, NULL, NULL, fgc, bgc, scroll,
