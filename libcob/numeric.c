@@ -1053,7 +1053,7 @@ cob_decimal_cmp (cob_decimal *d1, cob_decimal *d2)
  */
 
 static int
-display_add_int (unsigned char *data, const size_t size, unsigned int n)
+display_add_int (unsigned char *data, const size_t size, long long n)
 {
 	unsigned char	*sp;
 	size_t		carry = 0;
@@ -1101,7 +1101,7 @@ display_add_int (unsigned char *data, const size_t size, unsigned int n)
 }
 
 static int
-display_sub_int (unsigned char *data, const size_t size, unsigned int n)
+display_sub_int (unsigned char *data, const size_t size, long long n)
 {
 	unsigned char	*sp;
 	size_t		carry = 0;
@@ -1140,7 +1140,7 @@ display_sub_int (unsigned char *data, const size_t size, unsigned int n)
 }
 
 static int
-cob_display_add_int (cob_field *f, int n)
+cob_display_add_int (cob_field *f, int in)
 {
 	unsigned char	*data;
 	size_t		osize;
@@ -1149,7 +1149,9 @@ cob_display_add_int (cob_field *f, int n)
 	int		scale;
 	int		sign;
 	unsigned char	tfield[64];
+	long long n;
 
+	n = in;
 	data = COB_FIELD_DATA (f);
 	size = COB_FIELD_SIZE (f);
 	scale = COB_FIELD_SCALE (f);
@@ -1159,6 +1161,10 @@ cob_display_add_int (cob_field *f, int n)
 	/* -x + n = -(x - n) */
 	if (sign < 0) {
 		n = -n;
+	}
+	while(scale > 0) {
+		--scale;
+		n *= 10;
 	}
 
 	if (unlikely(scale < 0)) {

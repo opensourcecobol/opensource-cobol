@@ -1,3 +1,8 @@
+2012-06-26  Sergey Kashyrin <ska@kiska.net>
+
+   * numeric.c : cob_display_add_int bug fixed.
+                 ADD 1 TO PIC S9(5)V9(2) VALUE -0.1 was giving wrong result
+
 2010-11-29  Sergey Kashyrin <ska@kiska.net>
 
    * numeric.c : cob_add_packed bug fixed.
