@@ -1,5 +1,8 @@
 2012-06-20  Sergey Kashyrin <ska@kiska.net>
 
+   * cobc.c : Retrofit fixes - Adjustments for MSVC. I think those patches were done by Human
+              (if I'm not mistaken). Also added -A and -Q options (I had those as -Wc, and -Wl,
+              but it went as -A and -Q in later version, so let use those
    * typeck.c : Retrofit fixes - NULL pointer crash correction, CB_USAGE_DISPLAY generation correction
    * codegen.c : Retrofit fixes - initialize_type corrected to handle occurs at 01 level,
                  output_initialize_compound corrected, output_perform_exit - OSVS corrected

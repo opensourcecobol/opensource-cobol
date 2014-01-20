@@ -264,7 +264,7 @@ static const struct option long_options[] = {
 	{"verbose", no_argument, NULL, 'v'},
 */
 	{"list-reserved", no_argument, NULL, 'R'},
-	{"list-intrinsics", no_argument, NULL, 'Q'},
+	{"list-intrinsics", no_argument, NULL, '6'},
 	{"list-mnemonics", no_argument, NULL, 'q'},
 	{"save-temps", optional_argument, NULL, '_'},
 	{"std", required_argument, NULL, '$'},
@@ -278,6 +278,8 @@ static const struct option long_options[] = {
 	{"dynamic", no_argument, &cb_flag_static_call, 0},
 	{"O2", no_argument, NULL, '2'},
 	{"Os", no_argument, NULL, 's'},
+	{"Q", required_argument, NULL, 'Q'},
+	{"B", required_argument, NULL, 'B'},
 	{"MT", required_argument, NULL, '%'},
 	{"MF", required_argument, NULL, '@'},
 	{"assign_external", no_argument, NULL, 'A'},
@@ -304,7 +306,7 @@ static const char	*cob_cc;				/* gcc */
 static char		cob_cflags[COB_SMALL_BUFF];		/* -I... */
 static char		cob_libs[COB_MEDIUM_BUFF];		/* -L... -lcob */
 static char		cob_define_flags[COB_SMALL_BUFF];	/* -D... */
-static const char	*cob_ldflags;
+static char		cob_ldflags[COB_SMALL_BUFF];
 static const char	*cob_copy_dir;
 
 /* cobc functions */
@@ -779,6 +781,8 @@ cobc_print_usage (void)
 	puts (_("  -I <directory>        Add <directory> to copy/include search path"));
 	puts (_("  -L <directory>        Add <directory> to library search path"));
 	puts (_("  -l <lib>              Link the library <lib>"));
+	puts (_("  -B <options>          Add <options> to the C compile phase"));
+	puts (_("  -Q <options>          Add <options> to the C link phase"));
 	puts (_("  -D <define>           Pass <define> to the C compiler"));
 	puts (_("  -conf=<file>          User defined dialect configuration - See -std="));
 	puts (_("  --list-reserved       Display reserved words"));
@@ -857,7 +861,7 @@ process_command_line (int argc, char *argv[])
 		case 'R':
 			cb_list_reserved ();
 			exit (0);
-		case 'Q':
+		case '6':
 			cb_list_intrinsics ();
 			exit (0);
 		case 'q':
@@ -1063,6 +1067,18 @@ process_command_line (int argc, char *argv[])
 			cb_extension_list = cb_text_list_add (cb_extension_list, ext);
 			break;
 
+		case 'B':
+			/* -A <options> : Add options to C compile phase */
+			strcat (cob_cflags, " ");
+			strcat (cob_cflags, optarg);
+			break;
+
+		case 'Q':
+			/* -Q <options> : Add options to C link phase */
+			strcat (cob_ldflags, " ");
+			strcat (cob_ldflags, optarg);
+			break;
+
 		case 'w':
 #undef	CB_WARNDEF
 #define	CB_WARNDEF(var,name,wall,doc)	var = 0;
@@ -1179,6 +1195,17 @@ process_env_copy_path (void)
 	/* release memory of clone */
 	free (value);
 	return;
+}
+
+static void
+file_stripext (char *buff)
+{
+	char * endp = buff + strlen(buff) - 1;
+	while(endp > buff) {
+		if(*endp == '/' || *endp == '\\') break;
+		if(*endp == '.') *endp = 0;
+		--endp;
+	}
 }
 
 static void
@@ -1647,6 +1674,9 @@ process_compile (struct filename *fn)
 
 	if (output_name) {
 		strcpy (name, output_name);
+#ifdef _MSC_VER
+		file_stripext(name);
+#endif
 	} else {
 		file_basename (fn->source, name);
 #ifndef _MSC_VER
@@ -1655,8 +1685,8 @@ process_compile (struct filename *fn)
 	}
 #ifdef _MSC_VER
 	sprintf (buff, gflag_set ?
-		"%s /c %s %s /Od /MDd /Zi /FR /c /Fa%s /Fo%s %s" :
-		"%s /c %s %s /MD /c /Fa%s /Fo%s %s",
+		"%s /c %s %s /Od /MDd /Zi /FR /c /Fa\"%s\" /Fo\"%s\" %s" :
+		"%s /c %s %s /MD /c /Fa\"%s\" /Fo\"%s\" %s",
 			cob_cc, cob_cflags, cob_define_flags, name,
 			name, fn->translate);
 #else
@@ -1673,8 +1703,8 @@ process_assemble (struct filename *fn)
 
 #ifdef _MSC_VER
 	sprintf (buff, gflag_set ?
-		"%s /c %s %s /Od /MDd /Zi /FR /Fo%s %s" :
-		"%s /c %s %s /MD /Fo%s %s",
+		"%s /c %s %s /Od /MDd /Zi /FR /Fo\"%s\" %s" :
+		"%s /c %s %s /MD /Fo\"%s\" %s",
 			cob_cc, cob_cflags, cob_define_flags,
 			fn->object, fn->translate);
 #else
@@ -1701,7 +1731,9 @@ process_module_direct (struct filename *fn)
 
 	if (output_name) {
 		strcpy (name, output_name);
-#ifndef _MSC_VER
+#ifdef _MSC_VER
+		file_stripext(name);
+#else
 		if (strchr (output_name, '.') == NULL) {
 			strcat (name, ".");
 			strcat (name, COB_MODULE_EXT);
@@ -1716,18 +1748,28 @@ process_module_direct (struct filename *fn)
 	}
 #ifdef _MSC_VER
 	sprintf (buff, gflag_set ?
-		"%s %s %s /Od /MDd /LDd /Zi /FR /Fe%s /Fo%s %s %s %s" :
-		"%s %s %s /MD /LD /Fe%s /Fo%s %s %s %s",
+		"%s %s %s /Od /MDd /LDd /Zi /FR /Fe\"%s\" /Fo\"%s\" %s \"%s\" %s" :
+		"%s %s %s /MD /LD /Fe\"%s\" /Fo\"%s\" %s \"%s\" %s",
 			cob_cc, cob_cflags, cob_define_flags, name, name,
 			cob_ldflags, fn->translate, cob_libs);
 	ret = process (buff);
 #if _MSC_VER >= 1400
 	/* Embedding manifest */
 	if (ret == 0) {
-		sprintf (buff, "mt /manifest %s.dll.manifest /outputresource:%s.dll;#2", name, name);
+		if (verbose_output) {
+			sprintf (buff, "mt /manifest \"%s.dll.manifest\" /outputresource:\"%s.dll\";#2", name, name);
+		} else {
+			sprintf (buff, "mt /nologo /manifest \"%s.dll.manifest\" /outputresource:\"%s.dll\";#2", name, name);
+		}
 		ret = process (buff);
+		sprintf (buff, "%s.dll.manifest", name);
+		cobc_check_action (buff);
 	}
 #endif
+	sprintf (buff, "%s.exp", name);
+	cobc_check_action (buff);
+	sprintf (buff, "%s.lib", name);
+	cobc_check_action (buff);
 #else	/* _MSC_VER */
 	sprintf (buff, "%s %s %s %s %s %s %s %s -o %s %s %s",
 		 cob_cc, gccpipe, cob_cflags, cob_define_flags, COB_SHARED_OPT,
@@ -1753,7 +1795,9 @@ process_module (struct filename *fn)
 
 	if (output_name) {
 		strcpy (name, output_name);
-#ifndef _MSC_VER
+#ifdef _MSC_VER
+		file_stripext(name);
+#else
 		if (strchr (output_name, '.') == NULL) {
 			strcat (name, ".");
 			strcat (name, COB_MODULE_EXT);
@@ -1761,22 +1805,36 @@ process_module (struct filename *fn)
 #endif
 	} else {
 		file_basename (fn->source, name);
+#ifndef _MSC_VER
 		strcat (name, ".");
 		strcat (name, COB_MODULE_EXT);
+#endif
 	}
 #ifdef _MSC_VER
 	sprintf (buff, gflag_set ?
-		"%s /Od /MDd /LDd /Zi /FR /Fe%s %s %s %s" :
-		"%s /MD /LD /Fe%s %s %s %s",
+		"%s /Od /MDd /LDd /Zi /FR /Fe\"%s\" %s \"%s\" %s" :
+		"%s /MD /LD /Fe\"%s\" %s \"%s\" %s",
 			cob_cc, name, cob_ldflags, fn->object, cob_libs);
 	ret = process (buff);
 #if _MSC_VER >= 1400
 	/* Embedding manifest */
 	if (ret == 0) {
-		sprintf (buff, "mt /manifest %s.dll.manifest /outputresource:%s.dll;#2", name, name);
+
+		if (verbose_output) {
+	   		sprintf (buff, "mt /manifest \"%s.dll.manifest\" /outputresource:\"%s.dll\";#2", name, name);
+		} else {
+	   		sprintf (buff, "mt /nologo /manifest \"%s.dll.manifest\" /outputresource:\"%s.dll\";#2", name, name);
+		}
+
 		ret = process (buff);
+		sprintf (buff, "%s.dll.manifest", name);
+		cobc_check_action (buff);
 	}
 #endif
+	sprintf (buff, "%s.exp", name);
+	cobc_check_action (buff);
+	sprintf (buff, "%s.lib", name);
+	cobc_check_action (buff);
 #else	/* _MSC_VER */
 	sprintf (buff, "%s %s %s %s %s %s -o %s %s %s",
 		 cob_cc, gccpipe, COB_SHARED_OPT, cob_ldflags, COB_PIC_FLAGS,
@@ -1814,13 +1872,21 @@ process_library (struct filename *l)
 		objsptr = objs;
 	}
 	for (f = l; f; f = f->next) {
+#ifdef _MSC_VER
+		strcat (objsptr, "\"");
+#endif
 		strcat (objsptr, f->object);
+#ifdef _MSC_VER
+		strcat (objsptr, "\"");
+#endif
 		strcat (objsptr, " ");
 	}
 
 	if (output_name) {
 		strcpy (name, output_name);
-#ifndef _MSC_VER
+#ifdef _MSC_VER
+		file_stripext(name);
+#else
 		if (strchr (output_name, '.') == NULL) {
 			strcat (name, ".");
 			strcat (name, COB_MODULE_EXT);
@@ -1846,17 +1912,27 @@ process_library (struct filename *l)
 
 #ifdef _MSC_VER
 	sprintf (buff, gflag_set ?
-		"%s /Od /MDd /LDd /Zi /FR /Fe%s %s %s %s" :
-		"%s /MD /LD /Fe%s %s %s %s",
+		"%s /Od /MDd /LDd /Zi /FR /Fe\"%s\" %s %s %s" :
+		"%s /MD /LD /Fe\"%s\" %s %s %s",
 			cob_cc, name, cob_ldflags, objsptr, cob_libs);
 	ret = process (buff);
 #if _MSC_VER >= 1400
 	/* Embedding manifest */
 	if (ret == 0) {
-		sprintf (buff, "mt /manifest %s.dll.manifest /outputresource:%s.dll;#2", name, name);
+		if (verbose_output) {
+			sprintf (buff, "mt /manifest \"%s.dll.manifest\" /outputresource:\"%s.dll\";#2", name, name);
+		} else {
+			sprintf (buff, "mt /nologo /manifest \"%s.dll.manifest\" /outputresource:\"%s.dll\";#2", name, name);
+		}
 		ret = process (buff);
+		sprintf (buff, "%s.dll.manifest", name);
+		cobc_check_action (buff);
 	}
 #endif
+	sprintf (buff, "%s.exp", name);
+	cobc_check_action (buff);
+	sprintf (buff, "%s.lib", name);
+	cobc_check_action (buff);
 #else	/* _MSC_VER */
 	sprintf (buffptr, "%s %s %s %s %s %s -o %s %s %s",
 		 cob_cc, gccpipe, COB_SHARED_OPT, cob_ldflags, COB_PIC_FLAGS,
@@ -1894,12 +1970,21 @@ process_link (struct filename *l)
 		objsptr = objs;
 	}
 	for (f = l; f; f = f->next) {
+#ifdef _MSC_VER
+		strcat (objsptr, "\"");
+#endif
 		strcat (objsptr, f->object);
+#ifdef _MSC_VER
+		strcat (objsptr, "\"");
+#endif
 		strcat (objsptr, " ");
 	}
 
 	if (output_name) {
 		strcpy (name, output_name);
+#ifdef _MSC_VER
+		file_stripext(name);
+#endif
 	} else {
 		file_basename (l->source, name);
 	}
@@ -1914,15 +1999,21 @@ process_link (struct filename *l)
 	}
 #ifdef _MSC_VER
 	sprintf (buff, gflag_set ?
-		"%s /Od /MDd /Zi /FR /Fe%s %s %s %s" :
-		"%s /MD /Fe%s %s %s %s",
+		"%s /Od /MDd /Zi /FR /Fe\"%s\" %s %s %s" :
+		"%s /MD /Fe\"%s\" %s %s %s",
 			cob_cc, name, cob_ldflags, objsptr, cob_libs);
 	ret = process (buff);
 #if _MSC_VER >= 1400
 	/* Embedding manifest */
 	if (ret == 0) {
-		sprintf (buff, "mt /manifest %s.exe.manifest /outputresource:%s.exe;#2", name, name);
+		if (verbose_output) {
+			sprintf (buff, "mt /manifest \"%s.exe.manifest\" /outputresource:\"%s.exe\";#2", name, name);
+		} else {
+			sprintf (buff, "mt /nologo /manifest \"%s.exe.manifest\" /outputresource:\"%s.exe\";#2", name, name);
+		}
 		ret = process (buff);
+		sprintf (buff, "%s.exe.manifest", name);
+		cobc_check_action (buff);
 	}
 #endif
 #else	/* _MSC_VER */
@@ -2023,10 +2114,7 @@ main (int argc, char *argv[])
 	}
 	cobc_init_var (cob_cflags, "COB_CFLAGS", COB_CFLAGS);
 	cobc_init_var (cob_libs, "COB_LIBS", COB_LIBS);
-	cob_ldflags = getenv ("COB_LDFLAGS");
-	if (cob_ldflags == NULL) {
-		cob_ldflags = COB_LDFLAGS;
-	}
+	cobc_init_var (cob_ldflags, "COB_LDFLAGS", COB_LDFLAGS);
 	cob_config_dir = getenv ("COB_CONFIG_DIR");
 	if (cob_config_dir == NULL) {
 		cob_config_dir = COB_CONFIG_DIR;
@@ -2080,6 +2168,11 @@ main (int argc, char *argv[])
 
 	/* Defaults are set here */
 	if (!cb_flag_syntax_only) {
+		#ifdef _MSC_VER
+		if (!verbose_output) {
+			strcat (cob_cflags, " /nologo");
+		}			
+		#endif
 		if (!wants_nonfinal) {
 			if (cb_flag_main) {
 				cb_compile_level = CB_LEVEL_EXECUTABLE;
