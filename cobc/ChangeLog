@@ -18,6 +18,10 @@
 	  default-organization: record-sequential (default=old behaviour),
 	  line-sequential
 
+2009-10-29  human
+
+	* cobc.c : Warn if -Debug is used (because likely -debug was intended)
+
 2009-10-08  human
 
 	* error.c, field.c, typeck.c : Fix field names "WORK$"->"FILLER"

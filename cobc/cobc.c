@@ -1017,6 +1017,10 @@ process_command_line (int argc, char *argv[])
 			break;
 
 		case 'D':	/* -D */
+			if (!strcasecmp (optarg, "ebug")) {
+				fprintf (stderr, "Warning - passing '%s' to compiler - did you intend to use -debug?\n", optarg);
+				fflush (stderr);
+			}
 #ifdef _MSC_VER
 			strcat (cob_define_flags, "/D \"");
 			strcat (cob_define_flags, optarg);
