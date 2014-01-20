@@ -18,6 +18,7 @@
  * Boston, MA 02110-1301 USA
  */
 
+
 #include "config.h"
 
 #define _LFS64_LARGEFILE		1
@@ -39,19 +40,25 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
-#include <errno.h>
 #include <ctype.h>
+#include <errno.h>
 #include <time.h>
 #ifdef	HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
+#include <sys/stat.h>
+
 #ifdef	HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#include <sys/stat.h>
+
+#ifdef	HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
 
 #ifdef _WIN32
-#define WINDOWS_LEAN_AND_MEAN
+
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>		/* for GetTempPath, GetTempFileName */
 #include <direct.h>
 #define	fsync	_commit
@@ -61,9 +68,19 @@
 #define	rmdir	_rmdir
 #endif
 
-#ifdef	HAVE_FCNTL_H
-#include <fcntl.h>
+#ifndef	O_BINARY
+#define	O_BINARY	0
 #endif
+
+#ifndef	O_LARGEFILE
+#define	O_LARGEFILE	0
+#endif
+
+/* Force symbol exports */
+#define	COB_LIB_EXPIMP
+
+#include "libcob.h"
+#include "coblocal.h"
 
 #ifdef	WITH_DB
 #ifdef	USE_DB41
@@ -91,9 +108,10 @@
 #include <db.h>
 #endif
 #endif	/* USE_DB41 */
-#endif	/* WITH_DB */
 
-#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+#elif	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+
+#define	WITH_ANY_ISAM
 #include <signal.h>
 #endif
 
@@ -108,14 +126,6 @@
 #ifdef	WITH_VBISAM
 #include <vbisam.h>
 #endif
-
-#include "common.h"
-#include "coblocal.h"
-#include "move.h"
-#include "numeric.h"
-#include "fileio.h"
-#include "byteswap.h"
-#include "call.h"
 
 #if defined(__hpux__) || defined(_AIX) || defined(__sparc)
 #define fseek fseeko
@@ -135,13 +145,6 @@
 #define SEEK_INIT(f)
 #endif
 
-#ifndef	O_BINARY
-#define	O_BINARY	0
-#endif
-
-#ifndef	O_LARGEFILE
-#define	O_LARGEFILE	0
-#endif
 
 #ifdef _WIN32
 #define INITIAL_FLAGS	O_BINARY
@@ -303,7 +306,7 @@ static int keycmp (
 
 #endif
 
-#if	defined(WITH_DB) || defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) || defined(WITH_INDEX_EXTFH)
+#if	defined(WITH_DB) || defined(WITH_ANY_ISAM) || defined(WITH_INDEX_EXTFH)
 
 #ifdef	WITH_DB
 #ifdef	USE_DB41
@@ -366,7 +369,7 @@ static int indexed_write (cob_file *f, const int opt);
 static int indexed_delete (cob_file *f);
 static int indexed_rewrite (cob_file *f, const int opt);
 
-#if	!defined(WITH_INDEX_EXTFH) && !defined(WITH_CISAM) && !defined(WITH_DISAM) && !defined(WITH_VBISAM)
+#if	!defined(WITH_INDEX_EXTFH) && !defined(WITH_ANY_ISAM)
 static int indexed_write_internal (cob_file *f, const int rewrite, const int opt);
 static int indexed_delete_internal (cob_file *f, const int rewrite);
 #endif	/* WITH_INDEX_EXTFH */
@@ -382,7 +385,7 @@ static const struct cob_fileio_funcs indexed_funcs = {
 	indexed_delete
 };
 
-#else	/* WITH_DB || WITH_CISAM || WITH_DISAM || WITH_VBISAM || WITH_INDEX_EXTFH */
+#else	/* WITH_DB || WITH_ANY_ISAM || WITH_INDEX_EXTFH */
 
 static int
 dummy_open (cob_file *f, char *filename, const int mode, const int sharing)
@@ -408,7 +411,7 @@ static struct cob_fileio_funcs indexed_funcs = {
 	dummy_rnxt_del
 };
 
-#endif	/* WITH_DB || WITH_CISAM || WITH_DISAM || WITH_VBISAM || WITH_INDEX_EXTFH */
+#endif	/* WITH_DB || WITH_ANY_ISAM || WITH_INDEX_EXTFH */
 
 
 static const struct cob_fileio_funcs sequential_funcs = {
@@ -587,7 +590,7 @@ cb_get_jisword (const char *name)
 	return strdup (pTmp);
 }
 
-#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) 
+#if	defined(WITH_ANY_ISAM) 
 /* Isam File handler packet */
 
 struct indexfile {
@@ -744,7 +747,7 @@ savefileposition (cob_file *f)
 		fh->saverecnum = -1;
 	}
 }
-#endif /* WITH_CISAM || WITH_DISAM || WITH_VBISAM */
+#endif /* WITH_ANY_ISAM */
 
 static void COB_NOINLINE
 cob_sync (cob_file *f, const int mode)
@@ -755,9 +758,8 @@ cob_sync (cob_file *f, const int mode)
 #ifdef	USE_DB41
 	int			n;
 #endif
-#endif
-#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) 
-	struct indexfile	*fh = f->file;
+#elif	defined(WITH_ANY_ISAM) 
+	struct indexfile	*fh;
 #endif
 
 	if (f->organization == COB_ORG_INDEXED) {
@@ -779,8 +781,8 @@ cob_sync (cob_file *f, const int mode)
 				}
 			}
 		}
-#endif	/* WITH_DB */
-#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) 
+#elif	defined(WITH_ANY_ISAM)
+		fh = f->file;
 		if (fh) {
 			isflush (fh->isfd);
 		}
@@ -836,9 +838,7 @@ save_status (cob_file *f, const int status, cob_field *fnstatus)
 	}
 }
 
-/*
- * Regular file
- */
+/* Regular file */
 
 static size_t COB_NOINLINE
 file_linage_check (cob_file *f)
@@ -1115,9 +1115,7 @@ cob_file_write_opt (cob_file *f, const int opt)
 	return 0;
 }
 
-/*
- * SEQUENTIAL
- */
+/* SEQUENTIAL */
 
 static int
 sequential_read (cob_file *f, const int read_opts)
@@ -1470,7 +1468,7 @@ relative_start (cob_file *f, const int cond, cob_field *k)
 	}
 
 	/* seek the index */
-	while (1) {
+	for (;;) {
 		off = kindex * relsize;
 		if (fseek ((FILE *)f->file, off, SEEK_SET) != 0 ||
 		    fread (&f->record->size, sizeof (f->record->size),
@@ -1556,7 +1554,7 @@ relative_read_next (cob_file *f, const int read_opts)
 	SEEK_INIT (f);
 
 	relsize = f->record_max + sizeof (f->record->size);
-	while (1) {
+	for (;;) {
 		if (fread (&f->record->size, sizeof (f->record->size), 1, (FILE *)f->file) != 1) {
 			if (ferror ((FILE *)f->file)) {
 				return COB_STATUS_30_PERMANENT_ERROR;
@@ -1728,7 +1726,7 @@ relative_delete (cob_file *f)
  * INDEXED
  */
 
-#if	defined(WITH_DB) || defined(WITH_INDEX_EXTFH) || defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+#if	defined(WITH_DB) || defined(WITH_INDEX_EXTFH) || defined(WITH_ANY_ISAM)
 
 #ifdef	USE_DB41
 static void
@@ -1840,7 +1838,7 @@ indexed_open (cob_file *f, char *filename, const int mode, const int sharing)
 {
 #ifdef	WITH_INDEX_EXTFH
 	return extfh_indexed_open (f, filename, mode, sharing);
-#elif	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+#elif	defined(WITH_ANY_ISAM)
 	struct indexfile	*fh;
 	int			ret = COB_STATUS_00_SUCCESS;
 	int			omode = 0;
@@ -2243,7 +2241,7 @@ indexed_close (cob_file *f, const int opt)
 {
 #ifdef	WITH_INDEX_EXTFH
 	return extfh_indexed_close (f, opt);
-#elif	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+#elif	defined(WITH_ANY_ISAM)
 	struct indexfile	*fh = f->file;
 
 	if (fh == NULL) {
@@ -2302,7 +2300,7 @@ indexed_close (cob_file *f, const int opt)
 #endif	/* WITH_INDEX_EXTFH */
 }
 
-#if	!defined(WITH_INDEX_EXTFH) && !defined(WITH_CISAM) && !defined(WITH_DISAM) && !defined(WITH_VBISAM)
+#if	!defined(WITH_INDEX_EXTFH) && !defined(WITH_ANY_ISAM)
 static int
 indexed_start_internal (cob_file *f, const int cond, cob_field *key, const int read_opts,
 			const int test_lock)
@@ -2474,14 +2472,16 @@ indexed_start_internal (cob_file *f, const int cond, cob_field *key, const int r
 }
 #endif	/* WITH_INDEX_EXTFH */
 
-/* START the INDEXED file with positioning */
+/* START INDEXED file with positioning */
 
 static int
 indexed_start (cob_file *f, const int cond, cob_field *key)
 {
 #ifdef	WITH_INDEX_EXTFH
+
 	return extfh_indexed_start (f, cond, key);
-#elif	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+
+#elif	defined(WITH_ANY_ISAM)
 	struct indexfile	*fh = f->file;
 	int			k;
 	int			mode;
@@ -2572,13 +2572,17 @@ static int
 indexed_read (cob_file *f, cob_field *key, const int read_opts)
 {
 #ifdef	WITH_INDEX_EXTFH
+
 	return extfh_indexed_read (f, key, read_opts);
-#elif	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
-	struct indexfile	*fh = f->file;
+
+#elif	defined(WITH_ANY_ISAM)
+
+	struct indexfile	*fh;
 	int			k;
 	int			ret = COB_STATUS_00_SUCCESS;
-	int			lmode = 0;
+	int			lmode;
 
+	fh = f->file;
 	fh->eofpending = 0;
 	fh->startiscur = 0;
 	fh->wrkhasrec = 0;
@@ -2601,6 +2605,7 @@ indexed_read (cob_file *f, cob_field *key, const int read_opts)
 		}
 	}
 	fh->startcond = -1;
+	lmode = 0;
 	if (read_opts & COB_READ_LOCK) {
 		lmode = ISLOCK;
 	} else if (read_opts & COB_READ_WAIT_LOCK) {
@@ -2663,7 +2668,7 @@ indexed_read (cob_file *f, cob_field *key, const int read_opts)
 		f->flag_begin_of_file = 0;
 		extract_key (fh, 0, f->record->data, fh->savekey);
 		fh->recnum = isrecnum;
-#if defined(ISVARLEN)
+#ifdef	ISVARLEN
 		if (f->record_min != f->record_max) {
 			f->record->size = isreclen;
 		}
@@ -2674,7 +2679,9 @@ indexed_read (cob_file *f, cob_field *key, const int read_opts)
 		fh->readdone = 0;
 	}
 	return ret;
+
 #else	/* WITH_INDEX_EXTFH */
+
 	struct indexed_file	*p = f->file;
 	int			ret;
 	int			test_lock = 0;
@@ -2704,12 +2711,19 @@ static int
 indexed_read_next (cob_file *f, const int read_opts)
 {
 #ifdef	WITH_INDEX_EXTFH
+
 	return extfh_indexed_read_next (f, read_opts);
-#elif	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
-	struct indexfile	*fh = f->file;
-	int			ret = COB_STATUS_00_SUCCESS;
-	int			lmode = 0;
+
+#elif	defined(WITH_ANY_ISAM)
+
+	struct indexfile	*fh;
+	int			ret;
+	int			lmode;
 	int			domoveback;
+
+	fh = f->file;
+	ret = COB_STATUS_00_SUCCESS;
+	lmode = 0;
 
 	if (f->flag_nonexistent) {
 		if (f->flag_first_read == 0) {
@@ -3232,7 +3246,7 @@ indexed_read_next (cob_file *f, const int read_opts)
 #endif	/* WITH_INDEX_EXTFH */
 }
 
-#if	!defined(WITH_INDEX_EXTFH) && !defined(WITH_CISAM) && !defined(WITH_DISAM) && !defined(WITH_VBISAM)
+#if	!defined(WITH_INDEX_EXTFH) && !defined(WITH_ANY_ISAM)
 /* get the next number in a set of duplicates */
 static unsigned int
 get_dupno (cob_file *f, const int i)
@@ -3416,7 +3430,7 @@ indexed_write (cob_file *f, const int opt)
 {
 #ifdef	WITH_INDEX_EXTFH
 	return extfh_indexed_write (f, opt);
-#elif	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+#elif	defined(WITH_ANY_ISAM)
 	struct indexfile	*fh = f->file;
 	int			ret = COB_STATUS_00_SUCCESS;
 
@@ -3462,7 +3476,7 @@ indexed_write (cob_file *f, const int opt)
 #endif	/* WITH_INDEX_EXTFH */
 }
 
-#if	!defined(WITH_INDEX_EXTFH) && !defined(WITH_CISAM) && !defined(WITH_DISAM) && !defined(WITH_VBISAM)
+#if	!defined(WITH_INDEX_EXTFH) && !defined(WITH_ANY_ISAM)
 static int
 indexed_delete_internal (cob_file *f, const int rewrite)
 {
@@ -3590,7 +3604,7 @@ indexed_delete_internal (cob_file *f, const int rewrite)
 #endif
 	return COB_STATUS_00_SUCCESS;
 }
-#endif	/* !WITH_INDEX_EXTFH && !WITH_CISAM && !WITH_DISAM && !WITH_VBISAM */
+#endif	/* !WITH_INDEX_EXTFH && !WITH_ANY_ISAM */
 
 /* DELETE record from the INDEXED file  */
 
@@ -3598,11 +3612,16 @@ static int
 indexed_delete (cob_file *f)
 {
 #ifdef	WITH_INDEX_EXTFH
-	return extfh_indexed_delete (f);
-#elif	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
-	struct indexfile	*fh = f->file;
-	int			ret = COB_STATUS_00_SUCCESS;
 
+	return extfh_indexed_delete (f);
+
+#elif	defined(WITH_ANY_ISAM)
+
+	struct indexfile	*fh;
+	int			ret;
+
+	fh = f->file;
+	ret = COB_STATUS_00_SUCCESS;
 	if (f->flag_nonexistent) {
 		return COB_STATUS_30_PERMANENT_ERROR;
 	}
@@ -3634,12 +3653,19 @@ static int
 indexed_rewrite (cob_file *f, const int opt)
 {
 #ifdef	WITH_INDEX_EXTFH
-	return extfh_indexed_rewrite (f, opt);
-#elif	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
-	struct indexfile	*fh = f->file;
-	int			ret = COB_STATUS_00_SUCCESS;
-	int			k;
 
+	return extfh_indexed_rewrite (f, opt);
+
+#elif	defined(WITH_ANY_ISAM)
+
+	struct indexfile	*fh;
+	int			k;
+	int			ret;
+
+	COB_UNUSED (opt);
+
+	fh = f->file;
+	ret = COB_STATUS_00_SUCCESS;
 	if (f->flag_nonexistent) {
 		return COB_STATUS_30_PERMANENT_ERROR;
 	}
@@ -3701,11 +3727,12 @@ indexed_rewrite (cob_file *f, const int opt)
 	}
 	return ret;
 #else	/* WITH_INDEX_EXTFH */
-	struct indexed_file *p = f->file;
+	struct indexed_file *p;
 	int			ret;
 #ifdef	USE_DB41
 	int			flags;
 
+	p = f->file;
 	if (bdb_env) {
 		flags = DB_WRITECURSOR;
 	} else {
@@ -3827,8 +3854,7 @@ cob_file_unlock (cob_file *f)
 #ifdef	USE_DB41
 	struct indexed_file	*p;
 #endif
-#endif
-#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+#elif	defined(WITH_ANY_ISAM)
 	struct indexfile	*fh;
 #endif
 #ifdef HAVE_FCNTL
@@ -3841,8 +3867,7 @@ cob_file_unlock (cob_file *f)
 			return;
 		}
 		if (f->organization != COB_ORG_INDEXED) {
-#ifdef	WITH_SEQRA_EXTFH
-#else	/* WITH_SEQRA_EXTFH */
+#ifndef	WITH_SEQRA_EXTFH
 			fflush ((FILE *)f->file);
 			fsync (fileno ((FILE *)f->file));
 #ifdef HAVE_FCNTL
@@ -3870,7 +3895,7 @@ cob_file_unlock (cob_file *f)
 			}
 #endif
 #endif
-#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+#if	defined(WITH_ANY_ISAM)
 			fh = f->file;
 			isrelease (fh->isfd);
 #endif
@@ -4058,7 +4083,7 @@ cob_ex_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus
 	} else if (stat (file_open_name, &st) == -1 && errno == ENOENT) {
 #else	/* USE_DB41 */
 
-#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+#if	defined(WITH_ANY_ISAM)
 	if (f->organization == COB_ORG_INDEXED) {
 		strncpy (file_open_buff, file_open_name, COB_SMALL_MAX);
 		strcat (file_open_buff, ".idx");
@@ -4081,9 +4106,9 @@ cob_ex_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus
 			}
 		}
 	} else if (stat (file_open_name, &st) == -1 && errno == ENOENT) {
-#else	/* WITH_CISAM || WITH_DISAM || WITH_VBISAM */
+#else	/* WITH_ANY_ISAM */
 	if (stat (file_open_name, &st) == -1 && errno == ENOENT) {
-#endif	/* WITH_CISAM || WITH_DISAM || WITH_VBISAM */
+#endif	/* WITH_ANY_ISAM */
 
 #endif	/* USE_DB41 */
 
@@ -4124,7 +4149,7 @@ file_available:
 		RETURN_STATUS (ret);
 	}
 #endif
-#if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM)
+#if	defined(WITH_ANY_ISAM)
 	if (f->organization == COB_ORG_INDEXED) {
 		/* Do this here to avoid mangling of the status in the 'switch' below */
 		RETURN_STATUS (fileio_funcs[(int)f->organization]->open (f, file_open_name, mode, sharing));
@@ -4985,12 +5010,10 @@ open_cbl_file (unsigned char *file_name, unsigned char *file_access,
 	       unsigned char *file_handle, const int file_flags)
 {
 	char	*fn;
-#ifdef	O_BINARY
 	int	flag = O_BINARY;
-#else
-	int	flag = 0;
-#endif
 	int	fd;
+
+	COB_UNUSED (file_name);
 
 	if (!cob_current_module->cob_procedure_parameters[0]) {
 		memset (file_handle, -1, 4);
@@ -5028,6 +5051,9 @@ CBL_OPEN_FILE (unsigned char *file_name, unsigned char *file_access,
 	       unsigned char *file_lock, unsigned char *file_dev,
 	       unsigned char *file_handle)
 {
+	COB_UNUSED (file_lock);
+	COB_UNUSED (file_dev);
+
 	COB_CHK_PARMS (CBL_OPEN_FILE, 5);
 
 	return open_cbl_file (file_name, file_access, file_handle, 0);
@@ -5038,6 +5064,9 @@ CBL_CREATE_FILE (unsigned char *file_name, unsigned char *file_access,
 		 unsigned char *file_lock, unsigned char *file_dev,
 		 unsigned char *file_handle)
 {
+	COB_UNUSED (file_lock);
+	COB_UNUSED (file_dev);
+
 	COB_CHK_PARMS (CBL_CREATE_FILE, 5);
 
 	return open_cbl_file (file_name, file_access, file_handle, O_CREAT | O_TRUNC);
@@ -5050,11 +5079,12 @@ CBL_READ_FILE (unsigned char *file_handle, unsigned char *file_offset,
 	long long	off;
 	int		fd;
 	int		len;
-	int		rc = 0;
+	int		rc;
 	struct stat	st;
 
 	COB_CHK_PARMS (CBL_READ_FILE, 5);
 
+	rc = 0;
 	memcpy (&fd, file_handle, 4);
 	memcpy (&off, file_offset, 8);
 	memcpy (&len, file_len, 4);
@@ -5097,6 +5127,8 @@ CBL_WRITE_FILE (unsigned char *file_handle, unsigned char *file_offset,
 	int		len;
 	int		rc;
 
+	COB_UNUSED (flags);
+
 	COB_CHK_PARMS (CBL_WRITE_FILE, 5);
 
 	memcpy (&fd, file_handle, 4);
@@ -5130,6 +5162,8 @@ CBL_CLOSE_FILE (unsigned char *file_handle)
 int
 CBL_FLUSH_FILE (unsigned char *file_handle)
 {
+	COB_UNUSED (file_handle);
+
 	COB_CHK_PARMS (CBL_FLUSH_FILE, 1);
 
 	return 0;
@@ -5140,6 +5174,8 @@ CBL_DELETE_FILE (unsigned char *file_name)
 {
 	char	*fn;
 	int	ret;
+
+	COB_UNUSED (file_name);
 
 	COB_CHK_PARMS (CBL_DELETE_FILE, 1);
 
@@ -5160,14 +5196,13 @@ CBL_COPY_FILE (unsigned char *fname1, unsigned char *fname2)
 {
 	char	*fn1;
 	char	*fn2;
-#ifdef	O_BINARY
 	int	flag = O_BINARY;
-#else
-	int	flag = 0;
-#endif
 	int	ret;
 	int	i;
 	int	fd1, fd2;
+
+	COB_UNUSED (fname1);
+	COB_UNUSED (fname2);
 
 	COB_CHK_PARMS (CBL_COPY_FILE, 2);
 
@@ -5216,6 +5251,8 @@ CBL_CHECK_FILE_EXIST (unsigned char *file_name, unsigned char *file_info)
 	struct stat	st;
 	short		y;
 	char		d, m, hh, mm, ss;
+
+	COB_UNUSED (file_name);
 
 	COB_CHK_PARMS (CBL_CHECK_FILE_EXIST, 2);
 
@@ -5683,7 +5720,7 @@ cob_sort_queues (struct cobsort *hp)
 		destination = source ^ 2;
 		hp->queue[destination].count = hp->queue[destination + 1].count = 0;
 		hp->queue[destination].first = hp->queue[destination + 1].first = NULL;
-		while (1) {
+		for (;;) {
 			end_of_block[0] = hp->queue[source].count == 0;
 			end_of_block[1] = hp->queue[source + 1].count == 0;
 			if (end_of_block[0] && end_of_block[1]) {
@@ -5747,7 +5784,7 @@ cob_write_block (struct cobsort *hp, const int n)
 	struct cobitem	*q;
 	FILE		*fp = hp->file[hp->destination_file].fp;
 
-	while (1) {
+	for (;;) {
 		q = hp->queue[n].first;
 		if (q == NULL) {
 			break;
@@ -6023,7 +6060,7 @@ cob_file_sort_using (cob_file *sort_file, cob_file *data_file)
 	int		ret;
 
 	cob_open (data_file, COB_OPEN_INPUT, 0, NULL);
-	while (1) {
+	for (;;) {
 		cob_read (data_file, NULL, NULL, COB_READ_NEXT);
 		if (data_file->file_status[0] != '0') {
 			break;
@@ -6056,7 +6093,7 @@ cob_file_sort_giving (cob_file *sort_file, const size_t varcnt, ...)
 	for (i = 0; i < varcnt; i++) {
 		cob_open (fbase[i], COB_OPEN_OUTPUT, 0, NULL);
 	}
-	while (1) {
+	for (;;) {
 		ret = cob_file_sort_retrieve (sort_file, sort_file->record->data);
 		if (ret) {
 			if (ret == COBSORTEND) {
@@ -6128,9 +6165,10 @@ void
 cob_file_sort_close (cob_file *f)
 {
 	struct cobsort	*hp;
-	cob_field	*fnstatus = NULL;
+	cob_field	*fnstatus;
 	size_t		i;
 
+	fnstatus = NULL;
 	hp = f->file;
 	if (likely(hp)) {
 		fnstatus = hp->fnstatus;
@@ -6151,9 +6189,10 @@ void
 cob_file_release (cob_file *f)
 {
 	struct cobsort	*hp;
-	cob_field	*fnstatus = NULL;
+	cob_field	*fnstatus;
 	int		ret;
 
+	fnstatus = NULL;
 	hp = f->file;
 	if (likely(hp)) {
 		fnstatus = hp->fnstatus;
@@ -6176,9 +6215,10 @@ void
 cob_file_return (cob_file *f)
 {
 	struct cobsort	*hp;
-	cob_field	*fnstatus = NULL;
+	cob_field	*fnstatus;
 	int		ret;
 
+	fnstatus = NULL;
 	hp = f->file;
 	if (likely(hp)) {
 		fnstatus = hp->fnstatus;

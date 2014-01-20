@@ -29,7 +29,7 @@
 #include <sys/time.h>
 #endif
 #ifdef	_WIN32
-#define WINDOWS_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif 
 
@@ -2634,11 +2634,10 @@ cb_build_cond (cb_tree x)
 		}
 		return cb_build_binary_op (x, p->op, p->y);
 	default:
+		break;
+	}
 		cb_error_x (x, _("Invalid expression"));
 		return cb_error_node;
-	}
-/* NOT REACHED */
-	return x;
 }
 
 /*

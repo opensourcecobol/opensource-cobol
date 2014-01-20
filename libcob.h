@@ -28,8 +28,8 @@ extern "C" {
 #endif
 
 #include <libcob/byteswap.h>
-#include <libcob/call.h>
 #include <libcob/common.h>
+#include <libcob/call.h>
 #include <libcob/fileio.h>
 #include <libcob/move.h>
 #include <libcob/numeric.h>
@@ -37,7 +37,6 @@ extern "C" {
 #include <libcob/strings.h>
 #include <libcob/termio.h>
 #include <libcob/intrinsic.h>
-#include <libcob/codegen.h>
 
 #ifdef __cplusplus
 }

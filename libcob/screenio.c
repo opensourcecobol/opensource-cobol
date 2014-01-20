@@ -18,6 +18,7 @@
  * Boston, MA 02110-1301 USA
  */
 
+
 #include "config.h"
 
 #include <stdio.h>
@@ -48,9 +49,11 @@
 #define COB_GEN_SCREENIO
 #endif
 
-#include "move.h"
+/* Force symbol exports */
+#define	COB_LIB_EXPIMP
+
+#include "libcob.h"
 #include "coblocal.h"
-#include "screenio.h"
 
 /* Global variables */
 

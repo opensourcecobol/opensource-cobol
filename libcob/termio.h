@@ -23,7 +23,8 @@
 
 #include <libcob/common.h>
 
-extern void cob_display	(const int, const int, const int, ...);
-extern void cob_accept	(cob_field *);
+COB_EXPIMP void cob_display	(const int, const int, const int, ...);
+COB_EXPIMP void cob_accept	(cob_field *);
+
 
 #endif /* COB_TERMIO_H */

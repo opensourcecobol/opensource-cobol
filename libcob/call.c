@@ -18,6 +18,7 @@
  * Boston, MA 02110-1301 USA
  */
 
+
 #include "config.h"
 #include "defaults.h"
 
@@ -25,11 +26,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #ifdef	HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#include <sys/types.h>
-#include <sys/stat.h>
 
 /*	NOTE - The following variable should be uncommented when
 	it is known that dlopen(NULL) is borked.
@@ -51,7 +52,7 @@
 
 #elif	defined(_WIN32)
 
-#define WINDOWS_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 /* Prototype */
 static char *	lt_dlerror (void);
@@ -83,10 +84,11 @@ lt_dlerror ()
 
 #endif
 
-#include "call.h"
-#include "common.h"
+/* Force symbol exports */
+#define	COB_LIB_EXPIMP
+
+#include "libcob.h"
 #include "coblocal.h"
-#include "fileio.h"
 
 #ifdef	_MSC_VER
 #define PATHSEPC ';'

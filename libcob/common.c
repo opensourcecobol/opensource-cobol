@@ -36,7 +36,7 @@
 #endif
 
 #ifdef	_WIN32
-#define WINDOWS_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <process.h>
 #include <io.h>
@@ -52,15 +52,11 @@
 #include <locale.h>
 #endif
 
-#include "common.h"
+/* Force symbol exports */
+#define	COB_LIB_EXPIMP
+
+#include "libcob.h"
 #include "coblocal.h"
-#include "move.h"
-#include "numeric.h"
-#include "termio.h"
-#include "fileio.h"
-#include "call.h"
-#include "screenio.h"
-#include "intrinsic.h"
 #include "lib/gettext.h"
 
 #define NAMERMCHECK	"OC_Reference_Check"
@@ -1116,7 +1112,7 @@ cob_check_version (const char *prog, const char *packver, const int patchlev)
  */
 
 int
-cob_real_get_sign (cob_field *f)
+cob_real_get_sign (const cob_field *f)
 {
 	unsigned char	*p;
 
@@ -1160,7 +1156,7 @@ cob_real_get_sign (cob_field *f)
 }
 
 void
-cob_real_put_sign (cob_field *f, const int sign)
+cob_real_put_sign (const cob_field *f, const int sign)
 {
 	unsigned char	*p;
 	int		c;
@@ -1398,7 +1394,7 @@ cob_is_omitted (const cob_field *f)
 }
 
 int
-cob_is_numeric (cob_field *f)
+cob_is_numeric (const cob_field *f)
 {
 	unsigned char	*data;
 	size_t		size;
@@ -1538,7 +1534,7 @@ cob_check_based (const unsigned char *x, const char *name)
 }
 
 void
-cob_check_numeric (cob_field *f, const char *name)
+cob_check_numeric (const cob_field *f, const char *name)
 {
 	unsigned char	*data;
 	char		*p;
@@ -1869,7 +1865,7 @@ cob_accept_arg_value (cob_field *f)
  */
 
 void
-cob_display_environment (cob_field *f)
+cob_display_environment (const cob_field *f)
 {
 	if (!cob_local_env) {
 		cob_local_env = cob_malloc (COB_SMALL_BUFF);
@@ -1882,7 +1878,7 @@ cob_display_environment (cob_field *f)
 }
 
 void
-cob_display_env_value (cob_field *f)
+cob_display_env_value (const cob_field *f)
 {
 	char	*p;
 	char	*env2;
@@ -1908,14 +1904,14 @@ cob_display_env_value (cob_field *f)
 }
 
 void
-cob_set_environment (cob_field *f1, cob_field *f2)
+cob_set_environment (const cob_field *f1, const cob_field *f2)
 {
 	cob_display_environment (f1);
 	cob_display_env_value (f2);
 }
 
 void
-cob_get_environment (cob_field *envname, cob_field *envval)
+cob_get_environment (const cob_field *envname, cob_field *envval)
 {
 	const char	*p;
 	char		*buff;

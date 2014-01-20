@@ -24,51 +24,51 @@
 #include <gmp.h>
 #include <libcob/common.h>
 
+/* Number store defines */
 #define COB_STORE_ROUND			0x01
 #define COB_STORE_KEEP_ON_OVERFLOW	0x02
 #define COB_STORE_TRUNC_ON_OVERFLOW	0x04
 
-/*
- * Internal representation of decimal numbers.
- *
- *   n = value / 10^scale
- */
+/* Internal representation of decimal numbers */
+/* n = value / 10 ^ scale */
+/* Decimal structure */
+
 typedef struct {
-	mpz_t	value;
-	int	scale;
+	mpz_t		value;			/* GMP value definition */
+	int		scale;			/* Decimal scale */
 } cob_decimal;
 
-extern void	cob_decimal_init	(cob_decimal *);
-extern void	cob_decimal_set_field	(cob_decimal *, cob_field *);
-extern int	cob_decimal_get_field	(cob_decimal *, cob_field *, const int);
-extern void	cob_decimal_add		(cob_decimal *, cob_decimal *);
-extern void	cob_decimal_sub		(cob_decimal *, cob_decimal *);
-extern void	cob_decimal_mul		(cob_decimal *, cob_decimal *);
-extern void	cob_decimal_div		(cob_decimal *, cob_decimal *);
-extern void	cob_decimal_pow		(cob_decimal *, cob_decimal *);
-extern int	cob_decimal_cmp		(cob_decimal *, cob_decimal *);
+COB_EXPIMP void	cob_decimal_init	(cob_decimal *);
+COB_EXPIMP void	cob_decimal_set_field	(cob_decimal *, cob_field *);
+COB_EXPIMP int	cob_decimal_get_field	(cob_decimal *, cob_field *, const int);
+COB_EXPIMP void	cob_decimal_add		(cob_decimal *, cob_decimal *);
+COB_EXPIMP void	cob_decimal_sub		(cob_decimal *, cob_decimal *);
+COB_EXPIMP void	cob_decimal_mul		(cob_decimal *, cob_decimal *);
+COB_EXPIMP void	cob_decimal_div		(cob_decimal *, cob_decimal *);
+COB_EXPIMP void	cob_decimal_pow		(cob_decimal *, cob_decimal *);
+COB_EXPIMP int	cob_decimal_cmp		(cob_decimal *, cob_decimal *);
 
-extern int	cob_add			(cob_field *, cob_field *, const int);
-extern int	cob_sub			(cob_field *, cob_field *, const int);
-extern int	cob_add_int		(cob_field *, const int);
-extern int	cob_sub_int		(cob_field *, const int);
-extern int	cob_div_quotient	(cob_field *, cob_field *,
+COB_EXPIMP int	cob_add			(cob_field *, cob_field *, const int);
+COB_EXPIMP int	cob_sub			(cob_field *, cob_field *, const int);
+COB_EXPIMP int	cob_add_int		(cob_field *, const int);
+COB_EXPIMP int	cob_sub_int		(cob_field *, const int);
+COB_EXPIMP int	cob_div_quotient	(cob_field *, cob_field *,
 					 cob_field *, const int);
-extern int	cob_div_remainder	(cob_field *, const int);
+COB_EXPIMP int	cob_div_remainder	(cob_field *, const int);
 
-extern int	cob_cmp_int		(cob_field *, const int);
-extern int	cob_cmp_uint		(cob_field *, const unsigned int);
-extern int	cob_cmp_packed		(cob_field *, int);
-extern int	cob_cmp_numdisp		(const unsigned char *,
+COB_EXPIMP int	cob_cmp_int		(cob_field *, const int);
+COB_EXPIMP int	cob_cmp_uint		(cob_field *, const unsigned int);
+COB_EXPIMP int	cob_cmp_packed		(cob_field *, int);
+COB_EXPIMP int	cob_cmp_numdisp		(const unsigned char *,
 					 const size_t, const int);
-extern int	cob_cmp_sign_numdisp	(const unsigned char *,
+COB_EXPIMP int	cob_cmp_sign_numdisp	(const unsigned char *,
 					 const size_t, const int);
-extern int	cob_cmp_long_numdisp	(const unsigned char *,
+COB_EXPIMP int	cob_cmp_long_numdisp	(const unsigned char *,
 					 const size_t, const int);
-extern void	cob_set_packed_zero	(cob_field *);
-extern void	cob_set_packed_int	(cob_field *, const int);
+COB_EXPIMP void	cob_set_packed_zero	(cob_field *);
+COB_EXPIMP void	cob_set_packed_int	(cob_field *, const int);
 
-extern int	cob_cmp_long_sign_numdisp	(const unsigned char *,
+COB_EXPIMP int	cob_cmp_long_sign_numdisp	(const unsigned char *,
 						 const size_t, const int);
 
 #endif /* COB_NUMERIC_H */

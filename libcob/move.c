@@ -18,6 +18,7 @@
  * Boston, MA 02110-1301 USA
  */
 
+
 #include "config.h"
 
 #include <stdio.h>
@@ -26,9 +27,11 @@
 #include <ctype.h>
 #include <math.h>
 
-#include "move.h"
+/* Force symbol exports */
+#define	COB_LIB_EXPIMP
+
+#include "libcob.h"
 #include "coblocal.h"
-#include "byteswap.h"
 
 static size_t		lastsize = 0;
 static unsigned char	*lastdata = NULL;

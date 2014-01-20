@@ -20,14 +20,18 @@
 #ifndef COB_LOCAL_H
 #define COB_LOCAL_H
 
-/* We use this file to prototype things that should not be
+/* We use this file to define/prototype things that should not be
    exported to user space
 */
 
-#if defined(__GNUC__) && defined(linux) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3))
-#define COB_HIDDEN	__attribute__ ((visibility("hidden")))
+/* Also OK for icc which defines __GNUC__ */
+
+#if	defined(_WIN32) || defined(__CYGWIN__)
+#define COB_HIDDEN	extern
+#elif	defined(__GNUC__) && defined(linux) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3))
+#define COB_HIDDEN	extern __attribute__ ((visibility("hidden")))
 #else
-#define COB_HIDDEN
+#define COB_HIDDEN	extern
 #endif
 
 #define COB_ATTR_INIT(v,w,x,y,z)	do { \
@@ -92,35 +96,37 @@
 #define COB_U8BYTE_N(c)	((c)>>6 == 2)
 #endif /*I18N_UTF8*/
 
-COB_HIDDEN extern int			cob_screen_initialized;
-COB_HIDDEN extern int			cob_got_exception;
-COB_HIDDEN extern unsigned int		cob_orig_line;
-COB_HIDDEN extern const char		*cob_orig_statement;
-COB_HIDDEN extern const char		*cob_orig_program_id;
-COB_HIDDEN extern const char		*cob_orig_section;
-COB_HIDDEN extern const char		*cob_orig_paragraph;
+COB_HIDDEN int			cob_screen_initialized;
+COB_HIDDEN int			cob_got_exception;
+COB_HIDDEN unsigned int		cob_orig_line;
+COB_HIDDEN const char		*cob_orig_statement;
+COB_HIDDEN const char		*cob_orig_program_id;
+COB_HIDDEN const char		*cob_orig_section;
+COB_HIDDEN const char		*cob_orig_paragraph;
 
-COB_HIDDEN extern void		cob_memcpy		(cob_field *,
+COB_HIDDEN void		cob_memcpy		(cob_field *,
 							 unsigned char *,
 							 const int);
-COB_HIDDEN extern void		cob_exit_fileio		(void);
-COB_HIDDEN extern void		cob_field_to_string	(const cob_field *, char *);
-COB_HIDDEN extern void		cob_init_numeric	(void);
-COB_HIDDEN extern void		cob_init_termio		(void);
-COB_HIDDEN extern void		cob_init_fileio		(void);
-COB_HIDDEN extern void		cob_init_call		(void);
-COB_HIDDEN extern void		cob_init_intrinsic	(void);
-COB_HIDDEN extern void		cob_init_strings	(void);
-COB_HIDDEN extern void		cob_init_move		(void);
-COB_HIDDEN extern void		cob_screen_terminate	(void);
-COB_HIDDEN extern void		cob_screen_set_mode	(size_t);
-COB_HIDDEN extern int		cob_real_get_sign	(cob_field *);
-COB_HIDDEN extern void		cob_real_put_sign	(cob_field *, const int);
-COB_HIDDEN extern long long	cob_get_long_long	(cob_field *);
+COB_HIDDEN void		cob_exit_fileio		(void);
+COB_HIDDEN void		cob_field_to_string	(const cob_field *, char *);
+COB_HIDDEN void		cob_init_numeric	(void);
+COB_HIDDEN void		cob_init_termio		(void);
+COB_HIDDEN void		cob_init_fileio		(void);
+COB_HIDDEN void		cob_init_call		(void);
+COB_HIDDEN void		cob_init_intrinsic	(void);
+COB_HIDDEN void		cob_init_strings	(void);
+COB_HIDDEN void		cob_init_move		(void);
+COB_HIDDEN void		cob_screen_terminate	(void);
+COB_HIDDEN void		cob_screen_set_mode	(size_t);
+COB_HIDDEN int		cob_real_get_sign	(const cob_field *);
+COB_HIDDEN void		cob_real_put_sign	(const cob_field *, const int);
+COB_HIDDEN long long	cob_get_long_long	(cob_field *);
 
 #ifdef	I18N_UTF8
-COB_HIDDEN extern int		ascii_to_utf8		(int, unsigned char *);
-COB_HIDDEN extern unsigned char	*cob_national		(const unsigned char *, int);
+COB_HIDDEN int		ascii_to_utf8		(int, unsigned char *);
+COB_HIDDEN unsigned char	*cob_national		(const unsigned char *, int);
 #endif /*I18N_UTF8*/
+
+#undef	COB_HIDDEN
 
 #endif /* COB_LOCAL_H */

@@ -18,21 +18,23 @@
  * Boston, MA 02110-1301 USA
  */
 
+
 #include "config.h"
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdarg.h>
 #ifdef	HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 #include <time.h>
 
-#include "move.h"
+/* Force symbol exports */
+#define	COB_LIB_EXPIMP
+
+#include "libcob.h"
 #include "coblocal.h"
-#include "termio.h"
-#include "screenio.h"
 
 static unsigned char	*term_buff;
 static const int	bin_digits[] = { 1, 3, 5, 8, 10, 13, 15, 17, 20 };

@@ -18,16 +18,15 @@
  */
 
 /*
- * Extracted from glib/gtypes.h in GLIB-2.2.2.
- * Modified by Roger While
- * Copyright (C) 2005-2009 Roger While
- */
+   The original idea for the byteswap routines was taken from GLib.
+   (Specifically glib/gtypes.h)
+   GLib is licensed under the GNU Lesser General Public License.
+*/
 
 #ifndef COB_BYTESWAP_H
 #define COB_BYTESWAP_H
 
-/* Basic bit swapping functions
- */
+/* Generic swapping functions */
 
 #define COB_BSWAP_16_CONSTANT(val)	((unsigned short) (	\
     (unsigned short) ((unsigned short) (val) >> 8) |		\
@@ -57,11 +56,18 @@
     (((unsigned long long) (val) &				\
       (unsigned long long) 0xff00000000000000ULL) >> 56)))
 
-/* Arch specific stuff for speed */
+/* Machine/OS specific overrides */
 
 #if defined (__GNUC__) && (__GNUC__ >= 2)
-#  if defined (__i386__)
-#    define COB_BSWAP_16_IA32(val)				\
+#if	__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 3)
+
+#define COB_BSWAP_16(val) (COB_BSWAP_16_CONSTANT (val))
+#define COB_BSWAP_32(val) (__builtin_bswap32 (val))
+#define COB_BSWAP_64(val) (__builtin_bswap64 (val))
+
+#elif	defined(__i386__)
+
+#define COB_BSWAP_16(val)				\
      (__extension__						\
       ({ register unsigned short int __v, __x = ((unsigned short) (val));	\
 	 if (__builtin_constant_p (__x))			\
@@ -72,7 +78,7 @@
  		    : "0" (__x)					\
  		    : "cc");					\
 	 __v; }))
-#    define COB_BSWAP_32_IA32(val)				\
+#define COB_BSWAP_32(val)				\
        (__extension__						\
 	({ register unsigned int __v, __x = ((unsigned int) (val));	\
 	   if (__builtin_constant_p (__x))			\
@@ -82,7 +88,7 @@
 		      : "=r" (__v)				\
 		      : "0" (__x));				\
 	    __v; }))
-#    define COB_BSWAP_64_IA32(val)				\
+#define COB_BSWAP_64(val)				\
        (__extension__						\
 	({ union { unsigned long long __ll;			\
 		   unsigned int __l[2]; } __w, __r;		\
@@ -95,11 +101,10 @@
 	       __r.__l[1] = COB_BSWAP_32 (__w.__l[0]);		\
 	     }							\
 	   __r.__ll; }))
-#    define COB_BSWAP_16(val) (COB_BSWAP_16_IA32 (val))
-#    define COB_BSWAP_32(val) (COB_BSWAP_32_IA32 (val))
-#    define COB_BSWAP_64(val) (COB_BSWAP_64_IA32 (val))
-#  elif defined (__ia64__)
-#    define COB_BSWAP_16_IA64(val)				\
+
+#elif defined (__ia64__)
+
+#define COB_BSWAP_16(val)				\
        (__extension__						\
 	({ register unsigned short __v, __x = ((unsigned short) (val));	\
 	   if (__builtin_constant_p (__x))			\
@@ -110,7 +115,7 @@
 				    : "=r" (__v)		\
 				    : "r" (__x));		\
 	    __v; }))
-#    define COB_BSWAP_32_IA64(val)				\
+#define COB_BSWAP_32(val)				\
        (__extension__						\
 	 ({ register unsigned int __v, __x = ((unsigned int) (val));	\
 	    if (__builtin_constant_p (__x))			\
@@ -121,7 +126,7 @@
 				    : "=r" (__v)		\
 				    : "r" (__x));		\
 	    __v; }))
-#    define COB_BSWAP_64_IA64(val)				\
+#define COB_BSWAP_64(val)				\
        (__extension__						\
 	({ register unsigned long long __v,			\
 	     __x = ((unsigned long long) (val));		\
@@ -132,11 +137,10 @@
 				   : "=r" (__v)			\
 				   : "r" (__x));		\
 	   __v; }))
-#    define COB_BSWAP_16(val) (COB_BSWAP_16_IA64 (val))
-#    define COB_BSWAP_32(val) (COB_BSWAP_32_IA64 (val))
-#    define COB_BSWAP_64(val) (COB_BSWAP_64_IA64 (val))
-#  elif defined (__x86_64__)
-#    define COB_BSWAP_16_X86_64(val)				\
+
+#elif defined (__x86_64__)
+
+#define COB_BSWAP_16(val)				\
      (__extension__						\
       ({ register unsigned short int __v, __x = ((unsigned short) (val));	\
 	 if (__builtin_constant_p (__x))			\
@@ -147,7 +151,7 @@
  		    : "0" (__x)					\
  		    : "cc");					\
 	 __v; }))
-#    define COB_BSWAP_32_X86_64(val)				\
+#define COB_BSWAP_32(val)				\
        (__extension__						\
 	 ({ register unsigned int __v, __x = ((unsigned int) (val));	\
 	    if (__builtin_constant_p (__x))			\
@@ -157,7 +161,7 @@
 		      : "=r" (__v)				\
 		      : "0" (__x));				\
 	    __v; }))
-#    define COB_BSWAP_64_X86_64(val)				\
+#define COB_BSWAP_64(val)				\
        (__extension__						\
 	({ register unsigned long long __v, __x = ((unsigned long long) (val));	\
 	   if (__builtin_constant_p (__x))			\
@@ -167,22 +171,27 @@
 		      : "=r" (__v)				\
 		      : "0" (__x));				\
 	   __v; }))
-#    define COB_BSWAP_16(val) (COB_BSWAP_16_X86_64 (val))
-#    define COB_BSWAP_32(val) (COB_BSWAP_32_X86_64 (val))
-#    define COB_BSWAP_64(val) (COB_BSWAP_64_X86_64 (val))
-#  else /* generic gcc */
-#    define COB_BSWAP_16(val) (COB_BSWAP_16_CONSTANT (val))
-#    define COB_BSWAP_32(val) (COB_BSWAP_32_CONSTANT (val))
-#    define COB_BSWAP_64(val) (COB_BSWAP_64_CONSTANT (val))
-#  endif
-#  elif defined (_MSC_VER)
-#    define COB_BSWAP_16(val) (_byteswap_ushort (val))
-#    define COB_BSWAP_32(val) (_byteswap_ulong (val))
-#    define COB_BSWAP_64(val) (_byteswap_uint64 (val))
+
+#else /* Generic gcc */
+
+#define COB_BSWAP_16(val) (COB_BSWAP_16_CONSTANT (val))
+#define COB_BSWAP_32(val) (COB_BSWAP_32_CONSTANT (val))
+#define COB_BSWAP_64(val) (COB_BSWAP_64_CONSTANT (val))
+
+#endif
+
+#elif defined (_MSC_VER)
+
+#define COB_BSWAP_16(val) (_byteswap_ushort (val))
+#define COB_BSWAP_32(val) (_byteswap_ulong (val))
+#define COB_BSWAP_64(val) (_byteswap_uint64 (val))
+
 #else /* generic */
-#  define COB_BSWAP_16(val) (COB_BSWAP_16_CONSTANT (val))
-#  define COB_BSWAP_32(val) (COB_BSWAP_32_CONSTANT (val))
-#  define COB_BSWAP_64(val) (COB_BSWAP_64_CONSTANT (val))
-#endif /* generic */
+
+#define COB_BSWAP_16(val) (COB_BSWAP_16_CONSTANT (val))
+#define COB_BSWAP_32(val) (COB_BSWAP_32_CONSTANT (val))
+#define COB_BSWAP_64(val) (COB_BSWAP_64_CONSTANT (val))
+
+#endif
 
 #endif /* COB_BYTESWAP_H */

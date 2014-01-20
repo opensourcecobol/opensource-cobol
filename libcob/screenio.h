@@ -78,15 +78,17 @@ struct __cob_screen {
 	int			attr;		/* for COB_SCREEN_TYPE_ATTRIBUTE */
 };
 
-DLL_EXPIMP extern int	cob_screen_mode;
+COB_EXPIMP int	cob_screen_mode;
 
-extern void cob_screen_line_col	(cob_field *, const int);
-extern void cob_screen_display	(cob_screen *, cob_field *, cob_field *);
-extern void cob_screen_accept	(cob_screen *, cob_field *, cob_field *);
-extern void cob_field_display	(cob_field *, cob_field *, cob_field *,
+COB_EXPIMP void cob_screen_line_col	(cob_field *, const int);
+COB_EXPIMP void cob_screen_display	(cob_screen *, cob_field *,
+					 cob_field *);
+COB_EXPIMP void cob_screen_accept	(cob_screen *, cob_field *,
+					 cob_field *);
+COB_EXPIMP void cob_field_display	(cob_field *, cob_field *, cob_field *,
 				 cob_field *, cob_field *, cob_field *,
 				 const int);
-extern void cob_field_accept	(cob_field *, cob_field *, cob_field *,
+COB_EXPIMP void cob_field_accept	(cob_field *, cob_field *, cob_field *,
 				 cob_field *, cob_field *, cob_field *,
 				 const int);
 

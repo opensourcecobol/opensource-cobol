@@ -4,13 +4,15 @@
 
 2012-06-20  Sergey Kashyrin <ska@kiska.net>
 
-   * cobc.c : Retrofit fixes - Adjustments for MSVC. I think those patches were done by Human
-              (if I'm not mistaken). Also added -A and -Q options (I had those as -Wc, and -Wl,
-              but it went as -A and -Q in later version, so let use those
-   * typeck.c : Retrofit fixes - NULL pointer crash correction, CB_USAGE_DISPLAY generation correction
-   * codegen.c : Retrofit fixes - initialize_type corrected to handle occurs at 01 level,
-                 output_initialize_compound corrected, output_perform_exit - OSVS corrected
-   * parser.y : Retrofit fixes - exclude level 77 from "Item requires a data name" check
+   * cobc.c : Retrofit fixes - Added -A and -Q options (I had those as -Wc,
+       and -Wl, but it went as -A and -Q in later version, so let use those)
+   * typeck.c : Retrofit fixes - NULL pointer crash correction,
+       CB_USAGE_DISPLAY generation correction
+   * codegen.c : Retrofit fixes - initialize_type corrected to handle
+       occurs at 01 level, output_initialize_compound corrected,
+       output_perform_exit - OSVS corrected
+   * parser.y : Retrofit fixes - exclude level 77 from "Item requires a
+       data name" check
 
 2012-05-09  Simon 'human' Sobisch
 
@@ -19,8 +21,27 @@
 2010-06-22  Franklin Ankum
 
    * cobc.h, config.c, config.def, parser.y, tree.c : Implement
-     default-organization: record-sequential (default=old behaviour),
-     line-sequential
+       default-organization: record-sequential (default=old behaviour),
+       line-sequential
+
+200?-??-??  Simon 'human' Sobisch
+
+   * codegen.c : Simplify by handling stuff for different compilers
+       by general define (COB_ALIGN)
+
+200?-??-??  Roger While <simrw@sim-basis.de>
+
+   * cobc.c, cobc.h, tree.h : Simplify by handling stuff for 
+       different compilers by general defines (CB_COPT_x, COB_A_...),
+       added parsing step and source name to verbose messages,
+       added some comments
+
+200?-??-??  Simon 'human' Sobisch
+
+   * cobc.c, cobc.h, tree.c, typeck.c : adjustments for MSC,
+       fix some compiler warnings, support possible spaces in different
+       path names, enable linking of already assembled modules for
+       different UNIXes
 
 2009-10-29  Simon 'human' Sobisch
 
@@ -30,6 +51,9 @@
 
    * error.c, field.c, typeck.c : Fix field names "WORK$"->"FILLER"
      in warning/error messages
+2009-04-11  Roger While <simrw@sim-basis.de>
+
+	* General : Support icc
 
 2009-02-06  Roger While <simrw@sim-basis.de>
 

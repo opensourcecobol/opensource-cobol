@@ -23,14 +23,14 @@
 
 #include <libcob/common.h>
 
-extern char		*han2zen	(char *, int, int *);
-extern void		cob_move	(cob_field *, cob_field *);
-extern void		cob_hankaku_move	(cob_field *, cob_field *);
-extern void		cob_set_int	(cob_field *, int);
-extern int		cob_get_int	(cob_field *);
+COB_EXPIMP char		*han2zen	(char *, int, int *);
+COB_EXPIMP void		cob_move	(cob_field *, cob_field *);
+COB_EXPIMP void		cob_hankaku_move	(cob_field *, cob_field *);
+COB_EXPIMP void		cob_set_int	(cob_field *, const int);
+COB_EXPIMP int		cob_get_int	(cob_field *);
 
 #ifndef	I18N_UTF8
-extern int		cob_la_anstojis (int);
+COB_EXPIMP int		cob_la_anstojis (int);
 #endif /*I18N_UTF8*/
-extern int		cob_la_memset	(cob_field *, int);
+COB_EXPIMP int		cob_la_memset	(cob_field *, int);
 #endif /* COB_MOVE_H */

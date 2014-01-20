@@ -10553,7 +10553,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 4873 "parser.y"
     {
-	cb_emit_free ((yyvsp[(3) - (3)]))
+	cb_emit_free ((yyvsp[(3) - (3)]));
   ;}
     break;
 

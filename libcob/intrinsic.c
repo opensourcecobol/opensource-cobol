@@ -24,34 +24,36 @@
 #include <stdarg.h>
 #include <string.h>
 #include <ctype.h>
+#include <errno.h>
 #include <time.h>
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
-#include <errno.h>
 #include <math.h>
+
+/* Note we include the Cygwin version of windows.h here */
 #if defined(_WIN32) || defined(__CYGWIN__)
 #undef	HAVE_LANGINFO_CODESET
-#define WINDOWS_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#endif
-#ifdef	HAVE_LANGINFO_CODESET
-#include <langinfo.h>
-#endif
-#ifdef	HAVE_LOCALE_H
-#include <locale.h>
-#endif
 #ifdef	_WIN32
 #include <sys/timeb.h>
 #endif
+#endif
 
-#include "byteswap.h"
-#include "common.h"
+#ifdef	HAVE_LANGINFO_CODESET
+#include <langinfo.h>
+#endif
+
+#ifdef	HAVE_LOCALE_H
+#include <locale.h>
+#endif
+
+/* Force symbol exports */
+#define	COB_LIB_EXPIMP
+
+#include "libcob.h"
 #include "coblocal.h"
-#include "move.h"
-#include "numeric.h"
-#include "fileio.h"
-#include "intrinsic.h"
 
 /* Stacked field level */
 #define DEPTH_LEVEL	8
@@ -356,6 +358,7 @@ make_field_entry (cob_field *f)
 		s = curr_field->data;
 		memset (s, 0, f->size);
 	}
+
 	*curr_field = *f;
 	*curr_attr = *(f->attr);
 	curr_field->data = s;

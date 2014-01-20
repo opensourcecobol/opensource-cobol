@@ -80,6 +80,9 @@
 
 #ifndef _
 /* This is for other GNU distributions with internationalized messages.  */
+# ifndef HAVE_LIBINTL_H
+#  define HAVE_LIBINTL_H 0
+# endif
 # if (HAVE_LIBINTL_H && ENABLE_NLS) || defined _LIBC
 #  include <libintl.h>
 #  ifndef _
@@ -1219,7 +1222,7 @@ main (argc, argv)
   int c;
   int digit_optind = 0;
 
-  while (1)
+  for (;;)
     {
       int this_option_optind = optind ? optind : 1;
 

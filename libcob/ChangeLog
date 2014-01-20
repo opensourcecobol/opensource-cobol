@@ -36,11 +36,20 @@
 
    * strings.c : cob_unstring_delimited bug fix, cob_inspect_converting bug fix
 
+200?-??-??  Roger While <simrw@sim-basis.de>
+
+   * common.h : Simplify by handling stuff for different compilers by
+       general defines (COB_A_...), added some comments
+
+200?-??-??  Simon 'human' Sobisch
+
+   * common.h : adjustments for MSC, fix some compiler warnings
+
 2009-10-27  Sergey Kashyrin <ska@kiska.net>
 
    * common.c : cob_accept_day_of_week corrected,
-                nanosleep does not exist on IBM390 - workaround,
-                cob_put_sign_ascii for EBCDIC computers was missing
+       nanosleep does not exist on IBM390 - workaround,
+       cob_put_sign_ascii for EBCDIC computers was missing
    * common.h : added timespec structure for IBM390
 
 2009-10-07  human
@@ -49,11 +58,8 @@
 
 2009-09-16  Sergey Kashyrin <ska@kiska.net>
 
-   * fileio.c : lineseq_write correction to add '\n' in some cases
-                It is breaking "LINE SEQUENTIAL write" test
-                so check what you like better - missing '\n' or
-                non-allowed "WRITE TEST-REC BEFORE 2 LINES".
-                Need more correct fix for that.
+   * fileio.c : lineseq_write change to add '\n' in some cases. Be aware
+       that this changes current behaviour (when WRITE AFTER/BEFORE are mixed)
 
 2009-08-28  Roger While <simrw@sim-basis.de>
 
@@ -66,6 +72,17 @@
 2009-07-25  Gary Cutler
 
    * screenio.c : Fix PDCurses bug with COLOR_PAIRS
+
+2009-04-10  Roger While <simrw@sim-basis.de>
+
+	* General : Support for icc
+
+2009-05-25  Roger While <simrw@sim-basis.de>
+
+	* General : Remove the following extraneous include files:
+       byteswap.h, call.h, fileio.h, intrinsic.h, move.h, numeric.h,
+       screenio.h, strings.h, termio.h by integration into common.h
+       as first step
 
 2009-02-03  Roger While <simrw@sim-basis.de>
 
@@ -112,7 +129,7 @@
 2008-12-03  Roger While <simrw@sim-basis.de>
 
    * General : More stack reducing
-      Clean up dangling varargs
+       Clean up dangling varargs
 
 2008-11-20  Roger While <simrw@sim-basis.de>
 

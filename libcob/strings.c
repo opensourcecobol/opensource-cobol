@@ -18,6 +18,7 @@
  * Boston, MA 02110-1301 USA
  */
 
+
 #include "config.h"
 
 #include <stdio.h>
@@ -26,10 +27,11 @@
 #include <string.h>
 #include <sys/types.h>
 
-#include "move.h"
+/* Force symbol exports */
+#define	COB_LIB_EXPIMP
+
+#include "libcob.h"
 #include "coblocal.h"
-#include "numeric.h"
-#include "strings.h"
 
 #define INSPECT_ALL		0
 #define INSPECT_LEADING		1
@@ -387,7 +389,7 @@ cob_inspect_trailing (cob_field *f1, cob_field *f2)
 }
 
 void
-cob_inspect_converting (cob_field *f1, cob_field *f2)
+cob_inspect_converting (const cob_field *f1, const cob_field *f2)
 {
 	size_t	i;
 	size_t	j;

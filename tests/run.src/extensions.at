@@ -922,7 +922,8 @@ AT_CHECK([./prog])
 AT_CHECK([cat TEST-FILE], [0], 
 [a
 
-ababc
+ab
+abc
 
 abcd
 ])

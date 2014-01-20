@@ -124,7 +124,7 @@ to_cname (const char *s)
 
 	copy = strdup (s);
 	for (p = (unsigned char *)copy; *p; p++) {
-		*p = (*p == '-') ? '_' : toupper (*p);
+		*p = (*p == '-') ? '_' : (unsigned char)toupper (*p);
 	}
 	return copy;
 }
@@ -617,8 +617,10 @@ cb_tree_type (cb_tree x)
 		fprintf (stderr, "Unexpected category -> %d\n", CB_TREE_CATEGORY (x));
 		ABORT ();
 	}
-/* NOT REACHED */
+	/* NOT REACHED */
+#ifndef _MSC_VER
 	return 0;
+#endif
 }
 
 int
@@ -897,7 +899,7 @@ cb_list_map (cb_tree (*func) (cb_tree x), cb_tree l)
  */
 
 struct cb_program *
-cb_build_program (struct cb_program *last_program, int nest_level)
+cb_build_program (struct cb_program *last_program, const int nest_level)
 {
 	struct cb_program *p;
 
@@ -1716,8 +1718,10 @@ cb_field_size (cb_tree x)
 		fprintf (stderr, "Unexpected tree tag %d\n", CB_TREE_TAG (x));
 		ABORT ();
 	}
-/* NOT REACHED */
+	/* NOT REACHED */
+#ifndef _MSC_VER
 	return 0;
+#endif
 }
 
 struct cb_field *

@@ -113,7 +113,7 @@ main (argc, argv)
   int c;
   int digit_optind = 0;
 
-  while (1)
+  for (;;)
     {
       int this_option_optind = optind ? optind : 1;
       int option_index = 0;

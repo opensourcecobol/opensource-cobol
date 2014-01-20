@@ -18,6 +18,7 @@
  * Boston, MA 02110-1301 USA
  */
 
+
 #include "config.h"
 
 #include <stdio.h>
@@ -26,11 +27,11 @@
 #include <ctype.h>
 #include <math.h>
 
-#include "common.h"
+/* Force symbol exports */
+#define	COB_LIB_EXPIMP
+
+#include "libcob.h"
 #include "coblocal.h"
-#include "move.h"
-#include "numeric.h"
-#include "byteswap.h"
 
 #define	COB_LIB_INCLUDE
 #include "codegen.h"
@@ -43,6 +44,9 @@
     }
 
 #define	COB_MAX_BINARY	36
+
+/* Local variables */
+
 
 static const unsigned char packed_bytes[] = {
 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,

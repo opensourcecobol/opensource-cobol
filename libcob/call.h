@@ -24,6 +24,7 @@
 #include <setjmp.h>
 #include <libcob/common.h>
 
+/* Low level jump structure */
 struct cobjmp_buf {
 	int	cbj_int[4];
 	void	*cbj_ptr[4];
@@ -31,27 +32,24 @@ struct cobjmp_buf {
 	void	*cbj_ptr_rest[2];
 };
 
-extern void		cob_set_cancel		(const char *, void *, void *);
-extern void		*cob_resolve		(const char *);
-extern void		*cob_resolve_1		(const char *);
-extern const char	*cob_resolve_error	(void);
+DECLNORET COB_EXPIMP void	cob_call_error		(void) COB_A_NORETURN;
 
-extern void		*cob_call_resolve	(const cob_field *);
-extern void		*cob_call_resolve_1	(const cob_field *);
-extern void		cob_field_cancel	(const cob_field *);
-extern void		cobcancel		(const char *);
-extern int		cobcall			(const char *, const int, void **);
-extern int		cobfunc			(const char *, const int, void **);
-extern void		*cobsavenv		(struct cobjmp_buf *);
-extern void		*cobsavenv2		(struct cobjmp_buf *, const int);
-extern void		coblongjmp		(struct cobjmp_buf *);
+
+COB_EXPIMP void		cob_set_cancel		(const char *, void *, void *);
+COB_EXPIMP void		*cob_resolve		(const char *);
+COB_EXPIMP void		*cob_resolve_1		(const char *);
+COB_EXPIMP const char	*cob_resolve_error	(void);
+
+COB_EXPIMP void		*cob_call_resolve	(const cob_field *);
+COB_EXPIMP void		*cob_call_resolve_1	(const cob_field *);
+COB_EXPIMP void		cob_field_cancel	(const cob_field *);
+COB_EXPIMP void		cobcancel		(const char *);
+COB_EXPIMP int		cobcall			(const char *, const int, void **);
+COB_EXPIMP int		cobfunc			(const char *, const int, void **);
+COB_EXPIMP void		*cobsavenv		(struct cobjmp_buf *);
+COB_EXPIMP void		*cobsavenv2		(struct cobjmp_buf *, const int);
+COB_EXPIMP void		coblongjmp		(struct cobjmp_buf *);
 
 #define	cobsetjmp(x)	setjmp (cobsavenv (x))
-
-#ifdef __GNUC__
-extern void		cob_call_error (void) __attribute__ ((noreturn));
-#else
-extern void		cob_call_error (void);
-#endif
 
 #endif /* COB_CALL_H */

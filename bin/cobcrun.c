@@ -22,8 +22,8 @@
 
 #include	<stdio.h>
 #include	<string.h>
-#include	<libcob.h>
-#include	<tarstamp.h>
+#include	"libcob.h"
+#include	"tarstamp.h"
 
 #ifdef	HAVE_KPATHSEA_GETOPT_H
 #include <kpathsea/getopt.h>

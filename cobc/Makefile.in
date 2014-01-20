@@ -680,7 +680,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
 
 %.c: %.l
-	flex -s -o$@ $<
+	flex --nounistd -s -o$@ $<
 
 %.c: %.y
 	bison -o $@ $<
