@@ -1,23 +1,25 @@
-#                                                       -*- Autoconf -*-
+#              
+# Configure template for OpenCOBOL                                         -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
 # Copyright (C) 2001-2009 Keisuke Nishida
 # Copyright (C) 2007-2009 Roger While
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2, or (at your option)
-# any later version.
+# This file is part of OpenCOBOL.
 #
-# This program is distributed in the hope that it will be useful,
+#
+# The OpenCOBOL compiler is free software: you can redistribute it
+# and/or modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation, either version 2 of the
+# License, or (at your option) any later version.
+#
+# OpenCOBOL is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to
-# the Free Software Foundation, 51 Franklin Street, Fifth Floor
-# Boston, MA 02110-1301 USA
+# along with OpenCOBOL.  If not, see <http://www.gnu.org/licenses/>.
 
 AC_PREREQ(2.59)
 
@@ -149,6 +151,13 @@ fi
 
 AM_CONDITIONAL(WITH_ISAM, test x$WITH_ISAM_DEFINED = xyes)
 
+if test "$with_cisam" != "yes" -a "$with_disam" != "yes" -a "$with_vbisam" != "yes"
+then
+	COB_SPLITKEY_FLAGS="no"
+else
+	COB_SPLITKEY_FLAGS="yes"
+fi
+
 LIBDB=""
 
 if test "$with_cisam" != "yes" -a "$with_disam" != "yes" -a "$with_vbisam" != "yes"
@@ -158,20 +167,24 @@ then
   [ if test "$with_index_extfh" = "yes"
     then
 	AC_DEFINE(WITH_INDEX_EXTFH)
-    fi ],
-  [ AC_ARG_WITH(db1,
+    fi ], [])
+fi
+
+if test "$with_cisam" != "yes" -a "$with_disam" != "yes" -a "$with_vbisam" != "yes" -a "$with_index_extfh" != "yes"
+then
+  AC_ARG_WITH(db1,
    [  --with-db1              (OpenCOBOL) use Berkeley DB 1.85 (libdb-1.85)],
    [ LIBDB="1"
-     AC_DEFINE(WITH_DB, 1) ],
+     AC_DEFINE(WITH_DB, 1)
+     with_db=yes ],
 	[ AC_ARG_WITH(db,
 		[  --with-db               (OpenCOBOL) use Berkeley DB 3.0 or later (libdb)(default)],
-		[ if test "$with_db" = "yes"
-		  then
-		  LIBDB="3"
-		  AC_DEFINE(WITH_DB, 3)
-		  fi ],
 		[ LIBDB="3"
-		  AC_DEFINE(WITH_DB, 3) ]) ]) ])
+		  AC_DEFINE(WITH_DB, 3) 
+        ],
+		[ LIBDB="3"
+		  AC_DEFINE(WITH_DB, 3)
+        with_db=yes ]) ])
 fi
 
 if test "$with_cisam" != "yes" -a "$with_disam" != "yes" -a "$with_vbisam" != "yes" -a "$with_index_extfh" != "yes" -a "$with_db" != "yes"
@@ -388,6 +401,7 @@ then
   [],
   [])
 fi
+
 # Checks for db.
 USE_DB="no"
 HAS_DB41="no"
@@ -402,18 +416,22 @@ then
 elif test "$LIBDB" = "3"
 then
 	AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>
-		#include <stdlib.h>
 		#include <db.h>]], [[
-		printf("checking for BDB db.h version >= 4.1 ... ");
+		printf("checking for Berkeley DB db.h version >= 4.1 ... ");
+		#if (defined(DB_VERSION_MAJOR) && defined(DB_VERSION_MINOR))
 		#if (DB_VERSION_MAJOR > 4) || ((DB_VERSION_MAJOR == 4) && (DB_VERSION_MINOR > 0))
 		printf("yes (%d.%d)\n", DB_VERSION_MAJOR, DB_VERSION_MINOR);
 		return 0;
 		#else
 		printf("no (%d.%d)\n", DB_VERSION_MAJOR, DB_VERSION_MINOR);
 		return 1;
+		#endif
+		#else
+		printf("no (version numbers not found)\n");
+		return 1;
 		#endif]])],
 		[HAS_DB41="yes"],
-		[],
+		[AC_MSG_ERROR([Berkeley DB db.h is missing or has incompatible version])],
 		[])
 	if test "$HAS_DB41" = "yes"
 	then
@@ -765,12 +783,18 @@ AC_SUBST(COB_BIGENDIAN)
 AC_SUBST(COB_FIX_LIB)
 AC_SUBST(COB_HAS_INLINE)
 AC_SUBST(COB_HAS_ISAM)
+AC_SUBST(COB_SPLITKEY_FLAGS)
 AC_SUBST(COB_M4_FLAGS)
 
-AC_CONFIG_FILES([cob-config
+AC_CONFIG_FILES([bin/cob-config
 		Makefile lib/Makefile libcob/Makefile
 		cobc/Makefile bin/Makefile po/Makefile.in texi/Makefile config/Makefile
 		copy/Makefile tests/atlocal tests/Makefile tests/cobol85/Makefile])
+
+AC_CONFIG_COMMANDS([chmod1], [chmod +x bin/cob-config])
+AC_CONFIG_COMMANDS([chmod2], [chmod +x tests/atconfig])
+AC_CONFIG_COMMANDS([chmod3], [chmod +x tests/atlocal])
+
 AC_OUTPUT
 
 echo ""
@@ -816,16 +840,19 @@ then
   echo "  Use external ISAM file handler               yes"
 elif test "$with_cisam" = "yes"
 then
-  echo "  Use CISAM for file I/O                       yes"
+  echo "  Use CISAM for ISAM I/O                       yes"
 elif test "$with_disam" = "yes"
 then
-  echo "  Use DISAM for file I/O                       yes"
+  echo "  Use DISAM for ISAM I/O                       yes"
 elif test "$with_vbisam" = "yes"
 then
-  echo "  Use VBISAM for file I/O                      yes"
-else
-  echo "  Use Berkeley DB for file I/O:                ${USE_DB}"
+  echo "  Use VBISAM for ISAM I/O                      yes"
+elif test "$with_db" = "yes"
+then
+  echo "  Use Berkeley DB for ISAM I/O:                yes"
   echo "  Use enhanced Berkeley DB (>= 4.1)            ${HAS_DB41}"
+else
+  echo "  ISAM I/O (no handler configured):            NO"
 fi
 echo "  Use fcntl for file locking:                  ${ac_cv_func_fcntl}"
 echo "  Use ncurses/pdcurses/curses for screen I/O:  ${USE_NCURSES}"

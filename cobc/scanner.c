@@ -1281,14 +1281,6 @@ static void count_lines (char *text);
 #define PICTURE_STATE 3
 #define FUNCTION_STATE 4
 
-#ifndef YY_NO_UNISTD_H
-/* Special case for "unistd.h", since it is non-ANSI. We include it way
- * down here because we want the user's section 1 to have been scanned first.
- * The user has a chance to override it with an option.
- */
-#include <unistd.h>
-#endif
-
 #ifndef YY_EXTRA_TYPE
 #define YY_EXTRA_TYPE void *
 #endif
@@ -1483,7 +1475,7 @@ YY_DECL
 
 
 
-#line 1487 "scanner.c"
+#line 1479 "scanner.c"
 
 	if ( !(yy_init) )
 		{
@@ -2528,7 +2520,7 @@ YY_RULE_SETUP
 #line 737 "scanner.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 2532 "scanner.c"
+#line 2524 "scanner.c"
 
 	case YY_END_OF_BUFFER:
 		{

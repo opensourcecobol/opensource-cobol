@@ -465,7 +465,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP EGREP WITH_ISAM_TRUE WITH_ISAM_FALSE I18N_UTF8_TRUE I18N_UTF8_FALSE LN_S build build_cpu build_vendor build_os host host_cpu host_vendor host_os SED ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB DLLTOOL ac_ct_DLLTOOL AS ac_ct_AS OBJDUMP ac_ct_OBJDUMP CXXCPP LIBTOOL ALLOCA LIBICONV LTLIBICONV LIBOBJS MKINSTALLDIRS USE_NLS MSGFMT GMSGFMT XGETTEXT MSGMERGE INTLLIBS LIBINTL LTLIBINTL POSUB COB_CC COB_CFLAGS COB_LDFLAGS COB_LIBS COB_CONFIG_DIR COB_COPY_DIR COB_LIBRARY_PATH COB_MODULE_EXT COBC_LIBS LIBCOB_CFLAGS LIBCOB_LIBS COB_EXPORT_DYN COB_PIC_FLAGS COB_SHARED_OPT COB_BIGENDIAN COB_FIX_LIB COB_HAS_INLINE COB_HAS_ISAM COB_M4_FLAGS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP EGREP WITH_ISAM_TRUE WITH_ISAM_FALSE I18N_UTF8_TRUE I18N_UTF8_FALSE LN_S build build_cpu build_vendor build_os host host_cpu host_vendor host_os SED ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB DLLTOOL ac_ct_DLLTOOL AS ac_ct_AS OBJDUMP ac_ct_OBJDUMP CXXCPP LIBTOOL ALLOCA LIBICONV LTLIBICONV LIBOBJS MKINSTALLDIRS USE_NLS MSGFMT GMSGFMT XGETTEXT MSGMERGE INTLLIBS LIBINTL LTLIBINTL POSUB COB_CC COB_CFLAGS COB_LDFLAGS COB_LIBS COB_CONFIG_DIR COB_COPY_DIR COB_LIBRARY_PATH COB_MODULE_EXT COBC_LIBS LIBCOB_CFLAGS LIBCOB_LIBS COB_EXPORT_DYN COB_PIC_FLAGS COB_SHARED_OPT COB_BIGENDIAN COB_FIX_LIB COB_HAS_INLINE COB_HAS_ISAM COB_SPLITKEY_FLAGS COB_M4_FLAGS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -4244,6 +4244,13 @@ else
 fi
 
 
+if test "$with_cisam" != "yes" -a "$with_disam" != "yes" -a "$with_vbisam" != "yes"
+then
+	COB_SPLITKEY_FLAGS="no"
+else
+	COB_SPLITKEY_FLAGS="yes"
+fi
+
 LIBDB=""
 
 if test "$with_cisam" != "yes" -a "$with_disam" != "yes" -a "$with_vbisam" != "yes"
@@ -4259,7 +4266,11 @@ if test "${with_index_extfh+set}" = set; then
 _ACEOF
 
     fi
-else
+fi;
+fi
+
+if test "$with_cisam" != "yes" -a "$with_disam" != "yes" -a "$with_vbisam" != "yes" -a "$with_index_extfh" != "yes"
+then
 
 # Check whether --with-db1 or --without-db1 was given.
 if test "${with_db1+set}" = set; then
@@ -4269,26 +4280,25 @@ if test "${with_db1+set}" = set; then
 #define WITH_DB 1
 _ACEOF
 
+     with_db=yes
 else
 
 # Check whether --with-db or --without-db was given.
 if test "${with_db+set}" = set; then
   withval="$with_db"
-   if test "$with_db" = "yes"
-		  then
-		  LIBDB="3"
+   LIBDB="3"
 		  cat >>confdefs.h <<\_ACEOF
 #define WITH_DB 3
 _ACEOF
 
-		  fi
+
 else
    LIBDB="3"
 		  cat >>confdefs.h <<\_ACEOF
 #define WITH_DB 3
 _ACEOF
 
-fi;
+        with_db=yes
 fi;
 fi;
 fi
@@ -5142,7 +5152,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 5145 "configure"' > conftest.$ac_ext
+  echo '#line 5155 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -6884,11 +6894,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6887: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6897: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:6891: \$? = $ac_status" >&5
+   echo "$as_me:6901: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -7174,11 +7184,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7177: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7187: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:7181: \$? = $ac_status" >&5
+   echo "$as_me:7191: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -7278,11 +7288,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7281: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7291: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:7285: \$? = $ac_status" >&5
+   echo "$as_me:7295: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -9664,7 +9674,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 9667 "configure"
+#line 9677 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -9764,7 +9774,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 9767 "configure"
+#line 9777 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12188,11 +12198,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:12191: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:12201: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:12195: \$? = $ac_status" >&5
+   echo "$as_me:12205: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -12292,11 +12302,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:12295: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:12305: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:12299: \$? = $ac_status" >&5
+   echo "$as_me:12309: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -13854,11 +13864,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13857: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13867: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13861: \$? = $ac_status" >&5
+   echo "$as_me:13871: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -13958,11 +13968,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13961: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13971: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:13965: \$? = $ac_status" >&5
+   echo "$as_me:13975: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -16150,11 +16160,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16153: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16163: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:16157: \$? = $ac_status" >&5
+   echo "$as_me:16167: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -16440,11 +16450,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16443: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16453: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:16447: \$? = $ac_status" >&5
+   echo "$as_me:16457: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -16544,11 +16554,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16547: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16557: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:16551: \$? = $ac_status" >&5
+   echo "$as_me:16561: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -24482,6 +24492,7 @@ fi
 rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
 fi
+
 # Checks for db.
 USE_DB="no"
 HAS_DB41="no"
@@ -24732,18 +24743,22 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 #include <stdio.h>
-		#include <stdlib.h>
 		#include <db.h>
 int
 main ()
 {
 
-		printf("checking for BDB db.h version >= 4.1 ... ");
+		printf("checking for Berkeley DB db.h version >= 4.1 ... ");
+		#if (defined(DB_VERSION_MAJOR) && defined(DB_VERSION_MINOR))
 		#if (DB_VERSION_MAJOR > 4) || ((DB_VERSION_MAJOR == 4) && (DB_VERSION_MINOR > 0))
 		printf("yes (%d.%d)\n", DB_VERSION_MAJOR, DB_VERSION_MINOR);
 		return 0;
 		#else
 		printf("no (%d.%d)\n", DB_VERSION_MAJOR, DB_VERSION_MINOR);
+		return 1;
+		#endif
+		#else
+		printf("no (version numbers not found)\n");
 		return 1;
 		#endif
   ;
@@ -24767,6 +24782,10 @@ else
 echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
+( exit $ac_status )
+{ { echo "$as_me:$LINENO: error: Berkeley DB db.h is missing or has incompatible version" >&5
+echo "$as_me: error: Berkeley DB db.h is missing or has incompatible version" >&2;}
+   { (exit 1); exit 1; }; }
 fi
 rm -f core *.core gmon.out bb.out conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
 fi
@@ -26853,7 +26872,16 @@ COB_BIGENDIAN="$ac_cv_c_bigendian"
 
 
 
-                                                                                                                                  ac_config_files="$ac_config_files cob-config Makefile lib/Makefile libcob/Makefile cobc/Makefile bin/Makefile po/Makefile.in texi/Makefile config/Makefile copy/Makefile tests/atlocal tests/Makefile tests/cobol85/Makefile"
+
+                                                                                                                                  ac_config_files="$ac_config_files bin/cob-config Makefile lib/Makefile libcob/Makefile cobc/Makefile bin/Makefile po/Makefile.in texi/Makefile config/Makefile copy/Makefile tests/atlocal tests/Makefile tests/cobol85/Makefile"
+
+
+          ac_config_commands="$ac_config_commands chmod1"
+
+          ac_config_commands="$ac_config_commands chmod2"
+
+          ac_config_commands="$ac_config_commands chmod3"
+
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -27432,7 +27460,7 @@ for ac_config_target in $ac_config_targets
 do
   case "$ac_config_target" in
   # Handling of arguments.
-  "cob-config" ) CONFIG_FILES="$CONFIG_FILES cob-config" ;;
+  "bin/cob-config" ) CONFIG_FILES="$CONFIG_FILES bin/cob-config" ;;
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
   "lib/Makefile" ) CONFIG_FILES="$CONFIG_FILES lib/Makefile" ;;
   "libcob/Makefile" ) CONFIG_FILES="$CONFIG_FILES libcob/Makefile" ;;
@@ -27448,6 +27476,9 @@ do
   "tests/atconfig" ) CONFIG_COMMANDS="$CONFIG_COMMANDS tests/atconfig" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
+  "chmod1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS chmod1" ;;
+  "chmod2" ) CONFIG_COMMANDS="$CONFIG_COMMANDS chmod2" ;;
+  "chmod3" ) CONFIG_COMMANDS="$CONFIG_COMMANDS chmod3" ;;
   "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
@@ -27636,6 +27667,7 @@ s,@COB_BIGENDIAN@,$COB_BIGENDIAN,;t t
 s,@COB_FIX_LIB@,$COB_FIX_LIB,;t t
 s,@COB_HAS_INLINE@,$COB_HAS_INLINE,;t t
 s,@COB_HAS_ISAM@,$COB_HAS_ISAM,;t t
+s,@COB_SPLITKEY_FLAGS@,$COB_SPLITKEY_FLAGS,;t t
 s,@COB_M4_FLAGS@,$COB_M4_FLAGS,;t t
 s,@LTLIBOBJS@,$LTLIBOBJS,;t t
 CEOF
@@ -28449,6 +28481,9 @@ done
         ;;
       esac
     done ;;
+    chmod1 ) chmod +x bin/cob-config ;;
+    chmod2 ) chmod +x tests/atconfig ;;
+    chmod3 ) chmod +x tests/atlocal ;;
   esac
 done
 _ACEOF
@@ -28526,16 +28561,19 @@ then
   echo "  Use external ISAM file handler               yes"
 elif test "$with_cisam" = "yes"
 then
-  echo "  Use CISAM for file I/O                       yes"
+  echo "  Use CISAM for ISAM I/O                       yes"
 elif test "$with_disam" = "yes"
 then
-  echo "  Use DISAM for file I/O                       yes"
+  echo "  Use DISAM for ISAM I/O                       yes"
 elif test "$with_vbisam" = "yes"
 then
-  echo "  Use VBISAM for file I/O                      yes"
-else
-  echo "  Use Berkeley DB for file I/O:                ${USE_DB}"
+  echo "  Use VBISAM for ISAM I/O                      yes"
+elif test "$with_db" = "yes"
+then
+  echo "  Use Berkeley DB for ISAM I/O:                yes"
   echo "  Use enhanced Berkeley DB (>= 4.1)            ${HAS_DB41}"
+else
+  echo "  ISAM I/O (no handler configured):            NO"
 fi
 echo "  Use fcntl for file locking:                  ${ac_cv_func_fcntl}"
 echo "  Use ncurses/pdcurses/curses for screen I/O:  ${USE_NCURSES}"

@@ -354,7 +354,7 @@ AT_CLEANUP
 
 AT_SETUP([Allow file delete (INDEXED)])
 
-AT_CHECK([test $COB_HAS_ISAM = "yes" || exit 77])
+AT_CHECK([test $COB_SPLITKEY_FLAGS = "yes" || exit 77])
 
 AT_DATA([prog.cob], [
        IDENTIFICATION   DIVISION.
@@ -390,7 +390,7 @@ AT_CLEANUP
 
 AT_SETUP([Allow file delete (INDEXED) - not available])
 
-AT_CHECK([test $COB_HAS_ISAM = "no" || exit 77])
+AT_CHECK([test $COB_SPLITKEY_FLAGS = "no" || exit 77])
 
 AT_DATA([prog.cob], [
        IDENTIFICATION   DIVISION.

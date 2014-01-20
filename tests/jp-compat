@@ -832,9 +832,9 @@ echo "$as_me: error: cannot create $at_group_dir" >&2;}
 
 
 $at_traceoff
-echo "split-keys.at:3: test \$COB_HAS_ISAM = \"yes\" || exit 77"
+echo "split-keys.at:3: test \$COB_SPLITKEY_FLAGS = \"yes\" || exit 77"
 echo split-keys.at:3 >$at_check_line_file
-( $at_traceon; test $COB_HAS_ISAM = "yes" || exit 77 ) >$at_stdout 2>$at_stder1
+( $at_traceon; test $COB_SPLITKEY_FLAGS = "yes" || exit 77 ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
@@ -970,9 +970,9 @@ $at_traceon
 
 
 $at_traceoff
-echo "split-keys.at:55: test \$COB_HAS_ISAM = \"no\" || exit 77"
+echo "split-keys.at:55: test \$COB_SPLITKEY_FLAGS = \"no\" || exit 77"
 echo split-keys.at:55 >$at_check_line_file
-( $at_traceon; test $COB_HAS_ISAM = "no" || exit 77 ) >$at_stdout 2>$at_stder1
+( $at_traceon; test $COB_SPLITKEY_FLAGS = "no" || exit 77 ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
@@ -1085,9 +1085,9 @@ $at_traceon
 
 
 $at_traceoff
-echo "split-keys.at:109: test \$COB_HAS_ISAM = \"yes\" || exit 77"
+echo "split-keys.at:109: test \$COB_SPLITKEY_FLAGS = \"yes\" || exit 77"
 echo split-keys.at:109 >$at_check_line_file
-( $at_traceon; test $COB_HAS_ISAM = "yes" || exit 77 ) >$at_stdout 2>$at_stder1
+( $at_traceon; test $COB_SPLITKEY_FLAGS = "yes" || exit 77 ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
@@ -1235,9 +1235,9 @@ $at_traceon
 
 
 $at_traceoff
-echo "split-keys.at:173: test \$COB_HAS_ISAM = \"no\" || exit 77"
+echo "split-keys.at:173: test \$COB_SPLITKEY_FLAGS = \"no\" || exit 77"
 echo split-keys.at:173 >$at_check_line_file
-( $at_traceon; test $COB_HAS_ISAM = "no" || exit 77 ) >$at_stdout 2>$at_stder1
+( $at_traceon; test $COB_SPLITKEY_FLAGS = "no" || exit 77 ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
@@ -1363,9 +1363,9 @@ $at_traceon
 
 
 $at_traceoff
-echo "split-keys.at:240: test \$COB_HAS_ISAM = \"yes\" || exit 77"
+echo "split-keys.at:240: test \$COB_SPLITKEY_FLAGS = \"yes\" || exit 77"
 echo split-keys.at:240 >$at_check_line_file
-( $at_traceon; test $COB_HAS_ISAM = "yes" || exit 77 ) >$at_stdout 2>$at_stder1
+( $at_traceon; test $COB_SPLITKEY_FLAGS = "yes" || exit 77 ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
@@ -1513,9 +1513,9 @@ $at_traceon
 
 
 $at_traceoff
-echo "split-keys.at:304: test \$COB_HAS_ISAM = \"no\" || exit 77"
+echo "split-keys.at:304: test \$COB_SPLITKEY_FLAGS = \"no\" || exit 77"
 echo split-keys.at:304 >$at_check_line_file
-( $at_traceon; test $COB_HAS_ISAM = "no" || exit 77 ) >$at_stdout 2>$at_stder1
+( $at_traceon; test $COB_SPLITKEY_FLAGS = "no" || exit 77 ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
@@ -1641,9 +1641,9 @@ $at_traceon
 
 
 $at_traceoff
-echo "split-keys.at:371: test \$COB_HAS_ISAM = \"yes\" || exit 77"
+echo "split-keys.at:371: test \$COB_SPLITKEY_FLAGS = \"yes\" || exit 77"
 echo split-keys.at:371 >$at_check_line_file
-( $at_traceon; test $COB_HAS_ISAM = "yes" || exit 77 ) >$at_stdout 2>$at_stder1
+( $at_traceon; test $COB_SPLITKEY_FLAGS = "yes" || exit 77 ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
@@ -1791,9 +1791,9 @@ $at_traceon
 
 
 $at_traceoff
-echo "split-keys.at:435: test \$COB_HAS_ISAM = \"no\" || exit 77"
+echo "split-keys.at:435: test \$COB_SPLITKEY_FLAGS = \"no\" || exit 77"
 echo split-keys.at:435 >$at_check_line_file
-( $at_traceon; test $COB_HAS_ISAM = "no" || exit 77 ) >$at_stdout 2>$at_stder1
+( $at_traceon; test $COB_SPLITKEY_FLAGS = "no" || exit 77 ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
@@ -1919,9 +1919,9 @@ $at_traceon
 
 
 $at_traceoff
-echo "split-keys.at:502: test \$COB_HAS_ISAM = \"yes\" || exit 77"
+echo "split-keys.at:502: test \$COB_SPLITKEY_FLAGS = \"yes\" || exit 77"
 echo split-keys.at:502 >$at_check_line_file
-( $at_traceon; test $COB_HAS_ISAM = "yes" || exit 77 ) >$at_stdout 2>$at_stder1
+( $at_traceon; test $COB_SPLITKEY_FLAGS = "yes" || exit 77 ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
@@ -5721,9 +5721,9 @@ $at_traceon
 
 
 $at_traceoff
-echo "file-control.at:357: test \$COB_HAS_ISAM = \"yes\" || exit 77"
+echo "file-control.at:357: test \$COB_SPLITKEY_FLAGS = \"yes\" || exit 77"
 echo file-control.at:357 >$at_check_line_file
-( $at_traceon; test $COB_HAS_ISAM = "yes" || exit 77 ) >$at_stdout 2>$at_stder1
+( $at_traceon; test $COB_SPLITKEY_FLAGS = "yes" || exit 77 ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
@@ -5843,9 +5843,9 @@ $at_traceon
 
 
 $at_traceoff
-echo "file-control.at:393: test \$COB_HAS_ISAM = \"no\" || exit 77"
+echo "file-control.at:393: test \$COB_SPLITKEY_FLAGS = \"no\" || exit 77"
 echo file-control.at:393 >$at_check_line_file
-( $at_traceon; test $COB_HAS_ISAM = "no" || exit 77 ) >$at_stdout 2>$at_stder1
+( $at_traceon; test $COB_SPLITKEY_FLAGS = "no" || exit 77 ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
