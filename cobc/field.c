@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <limits.h>
 
 #include "cobc.h"
 #include "tree.h"
@@ -774,7 +775,7 @@ static int
 compute_size (struct cb_field *f)
 {
 	struct cb_field	*c;
-	int		size;
+	unsigned int		size;
 	int		align_size;
 	int		pad;
 
@@ -854,7 +855,13 @@ compute_size (struct cb_field *f)
 				}
 			}
 		}
-		f->size = size;
+		/* extra check for group size */
+		if (size > INT_MAX) {
+			cb_error_x (CB_TREE (f),
+					_("Size of '%s' exceed maximum '%d'"),
+					f->name, INT_MAX);
+		}
+		f->size = (int) size;
 	} else {
 		/* elementary item */
 		switch (f->usage) {
