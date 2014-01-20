@@ -117,7 +117,7 @@ COB_HIDDEN void		cob_init_intrinsic	(void);
 COB_HIDDEN void		cob_init_strings	(void);
 COB_HIDDEN void		cob_init_move		(void);
 COB_HIDDEN void		cob_screen_terminate	(void);
-COB_HIDDEN void		cob_screen_set_mode	(size_t);
+COB_HIDDEN void		cob_screen_set_mode	(const size_t);
 COB_HIDDEN int		cob_real_get_sign	(const cob_field *);
 COB_HIDDEN void		cob_real_put_sign	(const cob_field *, const int);
 COB_HIDDEN long long	cob_get_long_long	(cob_field *);

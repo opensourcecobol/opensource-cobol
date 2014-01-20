@@ -371,7 +371,7 @@ COB_EXPIMP void cob_init		(const int, char **);
 COB_EXPIMP void cob_module_enter	(struct cob_module *);
 COB_EXPIMP void cob_module_leave	(struct cob_module *);
 
-COB_EXPIMP void cobexit		(int) COB_A_NORETURN;
+COB_EXPIMP void cobexit		(const int) COB_A_NORETURN;
 DECLNORET COB_EXPIMP void cob_stop_run	(const int) COB_A_NORETURN;
 DECLNORET COB_EXPIMP void cob_fatal_error	(const unsigned int) COB_A_NORETURN;
 COB_EXPIMP void cob_runtime_error	(const char *, ...)  COB_A_FORMAT10;

@@ -1985,7 +1985,7 @@ cob_display_get_long_long (cob_field *f)
 }
 
 void
-cob_set_int (cob_field *f, int n)
+cob_set_int (cob_field *f, const int n)
 {
 	cob_field	temp;
 	cob_field_attr	attr;

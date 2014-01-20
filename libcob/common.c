@@ -926,7 +926,7 @@ cob_set_exception (const int id)
 }
 
 void
-cob_init (int argc, char **argv)
+cob_init (const int argc, char **argv)
 {
 	char	*s;
 	size_t	i;
@@ -1505,7 +1505,7 @@ cob_table_sort_init (const int nkeys, const unsigned char *collating_sequence)
 }
 
 void
-cob_table_sort_init_key (const int flag, cob_field *field, size_t offset)
+cob_table_sort_init_key (const int flag, cob_field *field, const size_t offset)
 {
 	sort_keys[sort_nkeys].flag = flag;
 	sort_keys[sort_nkeys].field = field;

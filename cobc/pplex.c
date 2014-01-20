@@ -976,14 +976,6 @@ static void switch_to_buffer (const int lineno, const char *filename,
 #define COPY_STATE 2
 #define PSEUDO_STATE 3
 
-#ifndef YY_NO_UNISTD_H
-/* Special case for "unistd.h", since it is non-ANSI. We include it way
- * down here because we want the user's section 1 to have been scanned first.
- * The user has a chance to override it with an option.
- */
-#include <unistd.h>
-#endif
-
 #ifndef YY_EXTRA_TYPE
 #define YY_EXTRA_TYPE void *
 #endif
@@ -1163,7 +1155,7 @@ YY_DECL
 
 
 
-#line 1167 "pplex.c"
+#line 1159 "pplex.c"
 
 	if ( !(yy_init) )
 		{
@@ -1580,7 +1572,7 @@ YY_RULE_SETUP
 #line 280 "pplex.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 1584 "pplex.c"
+#line 1576 "pplex.c"
 
 	case YY_END_OF_BUFFER:
 		{
