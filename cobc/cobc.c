@@ -841,7 +841,7 @@ process_command_line (int argc, char *argv[])
 	/* Translate command line arguments from WIN to UNIX style */
 	argnum = 1;
 	while (++argnum <= argc) {
-		if (argv[argnum - 1][0] == '/') {
+		if (strrchr(argv[argnum - 1], '/') == argv[argnum - 1]) {
 			argv[argnum - 1][0] = '-';
 		}
 	}
