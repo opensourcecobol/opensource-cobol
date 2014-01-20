@@ -1,3 +1,14 @@
+2012-08-30  Luke Bryan <lukebryan@bdumail.com>
+
+   * screenio.c : Added for extended Accept: 
+                      Tab = 2007 return code. 
+                      Back tab = 2008 return code. 
+                      Insert key (the default is on). 
+                      Delete key. 
+                  Enhanced for extended Accept: 
+                      End key to end of data (was end of field). 
+                      Backspace key moves remainder left (inserts space at end or 0 for numerics). 
+
 2012-07-12  Sergey Kashyrin <ska@kiska.net>
 
    * numeric.c : cob_add_packed bug fix.

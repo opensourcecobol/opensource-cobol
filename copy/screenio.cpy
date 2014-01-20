@@ -83,6 +83,8 @@
        78  COB-SCR-KEY-DOWN    VALUE 2004.
        78  COB-SCR-ESC         VALUE 2005.
        78  COB-SCR-PRINT       VALUE 2006.
+       78  COB-SCR-TAB         VALUE 2007. 
+       78  COB-SCR-BACK-TAB    VALUE 2008. 
       *>  Input validation - Values 8xxx
        78  COB-SCR-NO-FIELD    VALUE 8000.
       *>  Other errors - Values 9xxx
