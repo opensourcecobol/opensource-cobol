@@ -619,7 +619,46 @@ cob_packed_get_sign (const cob_field *f)
 }
 
 static void
-cob_add_packed (cob_field *f, int val)
+cob_complement_packed (cob_field *f)
+{
+	unsigned char	*p;
+	int		ndigs;
+	int		tval;
+	int		carry = 0;
+	unsigned int	msn;
+	int		emptydig;
+
+	ndigs = COB_FIELD_DIGITS(f);
+	msn = 1;
+	emptydig = 1 - (COB_FIELD_DIGITS(f) % 2);
+
+	p = f->data + ((ndigs + emptydig) / 2) - (1 - msn);
+	while (ndigs--) {
+		if (!msn) {
+			tval = *p & 0x0f;
+		} else {
+			tval = (*p & 0xf0) >> 4;
+		}
+		tval += carry;
+		if (tval > 0) {
+			carry = 1;
+			tval= 10 - tval;
+		} else {
+			carry = 0;
+		}
+		if (!msn) {
+			*p = (*p & 0xf0) | tval;
+			msn = 1;
+		} else {
+			*p = (*p & 0x0f) | (tval << 4);
+			msn = 0;
+			p--;
+		}
+	}
+}
+
+static void
+cob_add_packed (cob_field *f, int ival)
 {
 	unsigned char	*p;
 	int		sign;
@@ -631,13 +670,22 @@ cob_add_packed (cob_field *f, int val)
 	unsigned int	zeroes = 0;
 	unsigned int	origdigs;
 	int		emptydig;
+	long long val;
 
-	ndigs = COB_FIELD_DIGITS(f) - COB_FIELD_SCALE(f);
+	val = ival;
+
+	ndigs = COB_FIELD_SCALE(f);
+	while(ndigs > 0) {
+		--ndigs;
+		val *= 10;
+	}
+
+	ndigs = COB_FIELD_DIGITS(f);
 	if (ndigs <= 0) {
 		return;
 	}
 	sign = cob_packed_get_sign (f);
-	msn = 1 - (COB_FIELD_SCALE(f) % 2);
+	msn = 1;
 	emptydig = 1 - (COB_FIELD_DIGITS(f) % 2);
 
 	/* -x +v = -(x - v), -x -v = -(x + v) */
@@ -694,6 +742,7 @@ cob_add_packed (cob_field *f, int val)
 		if (origdigs == zeroes) {
 			*p = (*p & 0xf0) | 0x0c;
 		} else if (subtr && carry) {
+			cob_complement_packed (f);
 			sign = -sign;
 			if (sign < 0) {
 				*p = (*p & 0xf0) | 0x0d;
@@ -701,6 +750,8 @@ cob_add_packed (cob_field *f, int val)
 				*p = (*p & 0xf0) | 0x0c;
 			}
 		}
+	} else if (subtr && carry) {
+		cob_complement_packed (f);
 	}
 }
 

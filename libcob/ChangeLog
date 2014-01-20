@@ -1,7 +1,13 @@
+2012-07-12  Sergey Kashyrin <ska@kiska.net>
+
+   * numeric.c : cob_add_packed bug fix.
+                 http://www.opencobol.org/modules/newbb/viewtopic.php?topic_id=1487&forum=1
+                 SUBTRACT int FROM PIC S9(n)V9(m) COMP-3 was giving wrong negative result
+
 2012-06-26  Sergey Kashyrin <ska@kiska.net>
 
    * numeric.c : cob_display_add_int bug fixed.
-                 ADD 1 TO PIC S9(5)V9(2) VALUE -0.1 was giving wrong result
+                 ADD 1 TO PIC S9(n)V9(m) VALUE -0.1 was giving wrong result
 
 2010-11-29  Sergey Kashyrin <ska@kiska.net>
 
