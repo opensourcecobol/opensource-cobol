@@ -1,3 +1,8 @@
+2012-10-24  Sergey Kashyrin <ska@kiska.net>
+
+   * pplex.l : Lexer was missing comment lines in FREE format, i.e.
+       trying to process "* COPY 12345." and look for "12345" file as a copybook :-)
+
 2012-07-24  Simon 'human' Sobisch
 
    * field.c : Added check for maximum size of group items
