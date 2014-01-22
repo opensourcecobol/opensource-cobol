@@ -87,7 +87,7 @@ static int			cob_max_y = 0;
 static int			cob_max_x = 0;
 static short			fore_color;
 static short			back_color;
-static int 			insert_mode = 1;  /* insert toggle, default on */ 
+static int 			insert_mode = 0;  /* insert toggle, default off */ 
 
 /* Local functions */
 
