@@ -1,3 +1,7 @@
+2013-01-16  Sergey Kashyrin <ska@kiska.net>
+
+   * fileio.c : Fix problem to rewrite INDEXED (VBISAM) record with alternate key.
+
 2012-10-26  Sergey Kashyrin <ska@kiska.net>
 
    * intrinsic.c : cob_intr_integer was crashing on large-scale numbers.

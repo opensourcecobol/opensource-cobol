@@ -3661,6 +3661,7 @@ indexed_rewrite (cob_file *f, const int opt)
 	struct indexfile	*fh;
 	int			k;
 	int			ret;
+	int			curisnum;
 
 	COB_UNUSED (opt);
 
@@ -3687,6 +3688,7 @@ indexed_rewrite (cob_file *f, const int opt)
 			restorefileposition (f);				
 			return COB_STATUS_21_KEY_INVALID;
 		}
+		curisnum = isrecnum;
 		for (k = 1; k < f->nkeys && ret == COB_STATUS_00_SUCCESS; k++) {
 			if (fh->key[k].k_flags & ISDUPS) {
 				continue;
@@ -3694,7 +3696,7 @@ indexed_rewrite (cob_file *f, const int opt)
 			memcpy (fh->recwrk, f->record->data, f->record_max);
 			isstart (fh->isfd, &fh->key[k], fh->key[k].k_leng, (void *)fh->recwrk, ISEQUAL);
 			if (isread (fh->isfd, (void *)fh->recwrk, ISEQUAL) != -1
-			&& isrecnum != fh->recnum) {
+			&& isrecnum != curisnum) {
 				ret = COB_STATUS_22_KEY_EXISTS;
 				break;
 			}
