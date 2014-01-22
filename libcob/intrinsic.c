@@ -510,7 +510,7 @@ cob_intr_length (cob_field *srcfield)
 cob_field *
 cob_intr_integer (cob_field *srcfield)
 {
-	int		i, scale;
+	int		scale;
 	cob_field_attr	attr;
 	cob_field	field;
 
@@ -523,10 +523,11 @@ cob_intr_integer (cob_field *srcfield)
 		cob_decimal_get_field (&d1, curr_field, 0);
 		return curr_field;
 	}
-	scale = 1;
-	for (i = 0; i < d1.scale; ++i) {
-		scale *= 10;
+	while(d1.scale > 1) {
+		mpz_tdiv_q_ui (d1.value, d1.value, 10);
+		d1.scale--;
 	}
+	scale = d1.scale > 0 ? 10 : 1;
 	if (mpz_fdiv_ui (d1.value, (unsigned int)scale)) {
 		mpz_sub_ui (d1.value, d1.value, (unsigned int)scale);
 	}
@@ -2027,16 +2028,14 @@ cob_field *
 cob_intr_sum (const int params, ...)
 {
 	cob_field	*f;
+	size_t		size;
 	va_list		args;
 	int		i;
-	int		digits = 0;
 	int		scale = 0;
 	cob_field_attr	attr;
 	cob_field	field;
 
 
-	COB_ATTR_INIT (COB_TYPE_NUMERIC_BINARY, 18, 0, COB_FLAG_HAVE_SIGN, NULL);
-	COB_FIELD_INIT (8, NULL, &attr);
 	mpz_set_ui (d1.value, 0);
 	d1.scale = 0;
 
@@ -2044,9 +2043,6 @@ cob_intr_sum (const int params, ...)
 
 	for (i = 0; i < params; ++i) {
 		f = va_arg (args, cob_field *);
-		if ((COB_FIELD_DIGITS(f) - COB_FIELD_SCALE(f)) > digits) {
-			digits = COB_FIELD_DIGITS(f) - COB_FIELD_SCALE(f);
-		}
 		if (COB_FIELD_SCALE(f) > scale) {
 			scale = COB_FIELD_SCALE(f);
 		}
@@ -2055,7 +2051,24 @@ cob_intr_sum (const int params, ...)
 	}
 	va_end (args);
 
-	attr.scale = scale;
+	size = mpz_sizeinbase (d1.value, 10);
+	if (size < 19) {
+		/* Store as binary */
+		COB_ATTR_INIT (COB_TYPE_NUMERIC_BINARY, 18, scale,
+			       COB_FLAG_HAVE_SIGN, NULL);
+		COB_FIELD_INIT (8, NULL, &attr);
+	} else {
+		/* Too big - Store as decimal display */
+		if (d1.scale > size) {
+			size = d1.scale;
+		}
+		if (scale > size) {
+			size = scale;
+		}
+		COB_ATTR_INIT (COB_TYPE_NUMERIC_DISPLAY, size, scale,
+			       COB_FLAG_HAVE_SIGN, NULL);
+		COB_FIELD_INIT (size, NULL, &attr);
+	}
 	make_field_entry (&field);
 	cob_decimal_get_field (&d1, curr_field, 0);
 	return curr_field;

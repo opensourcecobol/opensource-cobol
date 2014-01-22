@@ -1,3 +1,7 @@
+2012-10-26  Sergey Kashyrin <ska@kiska.net>
+
+   * intrinsic.c : cob_intr_integer was crashing on large-scale numbers.
+
 2012-10-24  Sergey Kashyrin <ska@kiska.net>
 
    * intrinsic.c : Prevent cob_intr_binop to use double (float) and loose precision (bug #37).
