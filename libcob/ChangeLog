@@ -1,3 +1,9 @@
+2013-10-16  Luke Bryan <luke.bryan92@yahoo.com> 
+
+   * screenio.c : Extended Accept insert key:
+                     Changed insert key default to off. 
+                     Added environment variable COB_INSERT_MODE, Y or y insert default becomes on. 
+
 2013-01-16  Sergey Kashyrin <ska@kiska.net>
 
    * fileio.c : Fix problem to rewrite INDEXED (VBISAM) record with alternate key.

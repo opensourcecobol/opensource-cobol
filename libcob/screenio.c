@@ -87,7 +87,7 @@ static int			cob_max_y = 0;
 static int			cob_max_x = 0;
 static short			fore_color;
 static short			back_color;
-static int 			insert_mode = 0;  /* insert toggle, default off */ 
+static int 			insert_mode = 0;  /* insert toggle, 0=off, 1=on */ 
 
 /* Local functions */
 
@@ -397,6 +397,13 @@ cob_screen_init (void)
 				}
 			}
 		}
+		/* Get default insert mode, if 'Y' set to on */ 
+		s = getenv ("COB_INSERT_MODE");
+                if (s) {
+                       if (*s == 'Y' || *s == 'y') {
+                               insert_mode = 1; 
+                       }
+                } 
 		fflush (stdout);
 		fflush (stderr);
 		if (!initscr ()) {
