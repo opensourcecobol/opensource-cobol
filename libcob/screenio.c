@@ -348,7 +348,7 @@ cob_screen_attr (cob_field *fgc, cob_field *bgc, const int attr)
 		}
 		if (i != (size_t)COLOR_PAIRS) {
 #ifdef	HAVE_COLOR_SET
-			color_set (COLOR_PAIR(i), (void *)0);
+			color_set (COLOR_PAIR((short)i), (void *)0);
 #else
 			attrset (COLOR_PAIR(i));
 #endif
@@ -419,7 +419,7 @@ cob_screen_init (void)
 			pair_content ((short)0, &fore_color, &back_color);
 			if (COLOR_PAIRS) {
 #ifdef	HAVE_LIBPDCURSES
-			int i;
+			size_t i;
 			/* pdcurses sets ALL pairs to default fg/bg */
 			/* IMHO a bug. */
 			for (i = 1; i < (size_t)COLOR_PAIRS; ++i) {

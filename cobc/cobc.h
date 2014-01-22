@@ -23,7 +23,7 @@
 
 #include <stdio.h>
 
-#include <libcob.h>
+#include "libcob.h"
 #include "lib/gettext.h"
 
 #if !defined(__i386__) && !defined(__x86_64__) && !defined(__powerpc__) && !defined(__powerpc64__) && !defined(__ppc__) && !defined(__amd64__)

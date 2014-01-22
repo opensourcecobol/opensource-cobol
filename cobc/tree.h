@@ -1416,7 +1416,7 @@ extern void		cb_emit_allocate (cb_tree target1, cb_tree target2,
 				cb_tree size, cb_tree initialize);
 extern void		cb_emit_free (cb_tree vars);
 
-extern void		cb_emit_call (cb_tree prog, cb_tree using, cb_tree returning,
+extern void		cb_emit_call (cb_tree prog, cb_tree cb_using, cb_tree returning,
 				cb_tree on_exception, cb_tree not_on_exception);
 
 extern void		cb_emit_cancel (cb_tree prog);

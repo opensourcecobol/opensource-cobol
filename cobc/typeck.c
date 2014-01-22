@@ -3303,7 +3303,7 @@ cb_emit_allocate (cb_tree target1, cb_tree target2, cb_tree size, cb_tree initia
  */
 
 void
-cb_emit_call (cb_tree prog, cb_tree using, cb_tree returning,
+cb_emit_call (cb_tree prog, cb_tree cb_using, cb_tree returning,
 	      cb_tree on_exception, cb_tree not_on_exception)
 {
 	cb_tree				l;
@@ -3324,7 +3324,7 @@ cb_emit_call (cb_tree prog, cb_tree using, cb_tree returning,
 			return;
 		}
 	}
-	for (l = using; l; l = CB_CHAIN (l)) {
+	for (l = cb_using; l; l = CB_CHAIN (l)) {
 		x = CB_VALUE (l);
 		if (x == cb_error_node) {
 			continue;
@@ -3352,7 +3352,7 @@ cb_emit_call (cb_tree prog, cb_tree using, cb_tree returning,
 		for (psyst = (const struct system_table *)&system_tab[0]; psyst->syst_name; psyst++) {
 			if (!strcmp((const char *)CB_LITERAL(prog)->data,
 			     (const char *)psyst->syst_name)) {
-				if (psyst->syst_params > cb_list_length (using)) {
+				if (psyst->syst_params > cb_list_length (cb_using)) {
 					cb_error (_("Wrong number of CALL parameters for '%s'"),
 						    (char *)psyst->syst_name);
 					return;
@@ -3363,7 +3363,7 @@ cb_emit_call (cb_tree prog, cb_tree using, cb_tree returning,
 		}
 	}
 
-	cb_emit (cb_build_call (prog, using, on_exception, not_on_exception,
+	cb_emit (cb_build_call (prog, cb_using, on_exception, not_on_exception,
 		 returning, is_sys_call));
 }
 

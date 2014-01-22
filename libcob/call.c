@@ -303,10 +303,11 @@ cob_set_cancel (const char *name, void *entry, void *cancel)
 	struct call_hash	*p;
 
 #ifdef	COB_ALT_HASH
-	for (p = call_table; p; p = p->next) {
+	p = call_table;
 #else
-	for (p = call_table[hash ((const unsigned char *)name)]; p; p = p->next) {
+	p = call_table[hash ((const unsigned char *)name)];
 #endif
+	for (; p; p = p->next) {
 		if (strcmp (name, p->name) == 0) {
 			p->cancel = cancel;
 			return;
@@ -334,9 +335,9 @@ cob_resolve (const char *name)
 		cob_stop_run (1);
 	}
 */
+	cob_exception_code = 0;
 
 	/* search the cache */
-	cob_exception_code = 0;
 	func = lookup (name);
 	if (func) {
 		return func;
@@ -361,10 +362,12 @@ cob_resolve (const char *name)
 	*p = 0;
 
 	/* search the main program */
-	if (mainhandle != NULL && (func = lt_dlsym (mainhandle, call_entry_buff)) != NULL) {
-		insert (name, func, NULL);
-		resolve_error = NULL;
-		return func;
+	if (mainhandle != NULL) {
+		if ((func = lt_dlsym (mainhandle, call_entry_buff)) != NULL) {
+			insert (name, func, NULL);
+			resolve_error = NULL;
+			return func;
+		}
 	}
 
 	/* Search preloaded modules */
