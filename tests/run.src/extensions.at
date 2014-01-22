@@ -1312,7 +1312,7 @@ AT_DATA([prog.cob], [
 
 AT_CHECK([${COMPILE} -Wunreachable prog.cob], [0], ,
 [prog.cob: In paragraph 'P01':
-prog.cob:9: Warning: Unreachable statement
+prog.cob:9: Warning: Unreachable statement 'DISPLAY'
 ])
 
 AT_CLEANUP

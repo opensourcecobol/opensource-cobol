@@ -173,7 +173,7 @@ static void
 BEGIN_STATEMENT (const char *name, const size_t term)
 {
 	if (cb_warn_unreachable && check_unreached) {
-		cb_warning (_("Unreachable statement"));
+		cb_warning (_("Unreachable statement '%s'"), (char *)name);
 	}
 	current_statement = cb_build_statement ((char *)name);
 	CB_TREE (current_statement)->source_file = (unsigned char *)cb_source_file;

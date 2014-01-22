@@ -13501,7 +13501,7 @@ grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
 echo >>$at_stderr; echo "prog.cob: In paragraph 'P01':
-prog.cob:9: Warning: Unreachable statement
+prog.cob:9: Warning: Unreachable statement 'DISPLAY'
 " | $at_diff - $at_stderr || at_failed=:
 $at_diff $at_devnull $at_stdout || at_failed=:
 case $at_status in
