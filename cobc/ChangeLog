@@ -1,5 +1,10 @@
 2012-10-24  Sergey Kashyrin <ska@kiska.net>
 
+   * tree.c : Fix incorrect counting of number of digits for "$", "+", and "-"
+       almost as per Ron Norman (bug #39).
+
+2012-10-24  Sergey Kashyrin <ska@kiska.net>
+
    * pplex.l : Lexer was missing comment lines in FREE format, i.e.
        trying to process "* COPY 12345." and look for "12345" file as a copybook :-)
 

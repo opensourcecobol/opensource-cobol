@@ -1250,8 +1250,9 @@ cb_build_picture (const char *str)
 	size_t			buffcnt = 0;
 	size_t			at_beginning;
 	size_t			at_end;
-	size_t			p_char_seen;
-	size_t			s_char_seen;
+	int			p_char_seen = 0;
+	int			s_char_seen = 0;
+	int			cur_char_seen = 0;
 	int			category = 0;
 	int			size = 0;
 	int			digits = 0;
@@ -1274,8 +1275,6 @@ cb_build_picture (const char *str)
 		goto error;
 	}
 	memset (buff, 0, sizeof (buff));
-	p_char_seen = 0;
-	s_char_seen = 0;
 
 	/* guess category first */
 	category = guess_pic_category (str);
@@ -1476,6 +1475,10 @@ repeat:
 			}
 			digits += n - 1;
 			INCREASE_CHARACTER_LENGTH (n - 1);
+			if(s_count > 0) {
+				++digits;
+				INCREASE_CHARACTER_LENGTH (1);
+			}
 			s_count++;
 			/* FIXME: need more check */
 			break;
@@ -1505,8 +1508,14 @@ repeat:
 
 		default:
 			if (c == current_program->currency_symbol) {
-				digits += n - 1;
-				INCREASE_CHARACTER_LENGTH (n - 1);
+				if(cur_char_seen == 0) {
+					digits += n - 1;
+					INCREASE_CHARACTER_LENGTH (n - 1);
+					cur_char_seen = 1;
+				} else {
+					digits += n;
+					INCREASE_CHARACTER_LENGTH (n);
+				}
 				/* FIXME: need more check */
 				break;
 			}
