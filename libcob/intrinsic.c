@@ -434,13 +434,12 @@ calc_ref_mod (cob_field *f, const int offset, const int length)
 cob_field *
 cob_intr_binop (cob_field *f1, int op, cob_field *f2)
 {
-/* RXW
 	size_t		bitnum;
 	size_t		sign;
 	size_t		attrsign;
 	cob_field_attr	attr;
 	cob_field	field;
-*/
+	int		size;
 
 	cob_decimal_set_field (&d1, f1);
 	cob_decimal_set_field (&d2, f2);
@@ -464,7 +463,6 @@ cob_intr_binop (cob_field *f1, int op, cob_field *f2)
 		break;
 	}
 
-/* RXW
 	if (mpz_sgn (d1.value) < 0) {
 		attrsign = COB_FLAG_HAVE_SIGN;
 		sign = 1;
@@ -473,22 +471,21 @@ cob_intr_binop (cob_field *f1, int op, cob_field *f2)
 		sign = 0;
 	}
 	bitnum = mpz_sizeinbase (d1.value, 2);
-	if (bitnum < 33 - sign) {
-		COB_ATTR_INIT (COB_TYPE_NUMERIC_BINARY, 8, 0, attrsign, NULL);
+	if (bitnum < (33 - sign) && d1.scale < 10) {
+		COB_ATTR_INIT (COB_TYPE_NUMERIC_BINARY, 9, d1.scale, attrsign, NULL);
 		COB_FIELD_INIT (4, NULL, &attr);
-		attr.scale = d1.scale;
-		make_field_entry (&field);
-	} else if (bitnum < 65 - sign) {
-		COB_ATTR_INIT (COB_TYPE_NUMERIC_BINARY, 18, 0, attrsign, NULL);
+	} else if (bitnum < (65 - sign) && d1.scale < 19) {
+		COB_ATTR_INIT (COB_TYPE_NUMERIC_BINARY, 20, d1.scale, attrsign, NULL);
 		COB_FIELD_INIT (8, NULL, &attr);
-		attr.scale = d1.scale;
-		make_field_entry (&field);
 	} else {
-*/
-		make_double_entry ();
-/* RXW
+		size = (int)mpz_sizeinbase (d1.value, 10);
+		if (d1.scale > size) {
+			size = d1.scale;
+		}
+		COB_ATTR_INIT (COB_TYPE_NUMERIC_DISPLAY, size, d1.scale, attrsign, NULL);
+		COB_FIELD_INIT (size, NULL, &attr);
 	}
-*/
+	make_field_entry (&field);
 	cob_decimal_get_field (&d1, curr_field, 0);
 	
 	return curr_field;
