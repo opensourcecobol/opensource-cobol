@@ -55,3 +55,24 @@ AT_CHECK([${COMPILE} -x prog.cob], [1], [],
 
 AT_CLEANUP
 
+AT_SETUP([Decoding national section name])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       PROCEDURE        DIVISION.
+       テスト SECTION.
+           MOVE 1 TO 項目1.
+       テスト段落.
+           MOVE 1 TO 項目2.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [1], [],
+[prog.cob: In section 'テスト':
+prog.cob:7: Error: '項目1' undefined
+prog.cob: In paragraph 'テスト段落':
+prog.cob:9: Error: '項目2' undefined
+])
+
+AT_CLEANUP

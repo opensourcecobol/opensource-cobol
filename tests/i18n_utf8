@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -381,41 +381,42 @@ at_help_all='1;user-defined-word.at:1;Program name;;
 70;error-print.at:1;undefined not message;;
 71;error-print.at:24;Encoding alphanumeric name item;;
 72;error-print.at:41;Encoding national name item;;
-73;stored-char-length.at:1;FUNCTION STORED-CHAR-LENGTH(PIC X);;
-74;stored-char-length.at:22;FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPC;;
-75;stored-char-length.at:43;FUNCTION STORED-CHAR-LENGTH(PIC X) /w wSPC;;
-76;stored-char-length.at:64;FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPCs;;
-77;stored-char-length.at:85;FUNCTION STORED-CHAR-LENGTH(PIC N);;
-78;stored-char-length.at:106;FUNCTION STORED-CHAR-LENGTH(SINGLE-BYTE SPACE);;
-79;stored-char-length.at:127;FUNCTION STORED-CHAR-LENGTH(DOUBLE-BYTE SPACE);;
-80;warn-mixture-byte.at:1;STRING Alphanumeric to National;;
-81;warn-mixture-byte.at:21;STRING National to Alphanumeric;;
-82;limits.at:1;Field length limit PIC A/VALID;;
-83;limits.at:17;Field length limit PIC A/TOO LONG;;
-84;limits.at:35;Field length limit PIC X/VALID;;
-85;limits.at:51;Field length limit PIC X/TOO LONG;;
-86;limits.at:69;Field length limit PIC B9/VALID;;
-87;limits.at:85;Field length limit PIC B9/TOO LONG;;
-88;limits.at:103;Field length limit PIC B/VALID;;
-89;limits.at:119;Field length limit PIC B/TOO LONG;;
-90;limits.at:137;Field length limit PIC BA/VALID;;
-91;limits.at:153;Field length limit PIC BA/TOO LONG;;
-92;limits.at:171;Field length limit PIC BX/VALID;;
-93;limits.at:187;Field length limit PIC BX/TOO LONG;;
-94;limits.at:205;Field length limit PIC N/VALID (UTF-8);;
-95;limits.at:221;Field length limit PIC N/TOO LONG (UTF-8);;
-96;limits.at:239;Field length limit PIC BN/VALID (UTF-8);;
-97;limits.at:255;Field length limit PIC BN/TOO LONG (UTF-8);;
-98;national.at:1;FUNCTION NATIONAL single-byte;;
-99;national.at:22;FUNCTION NATIONAL multi-byte;;
-100;national.at:43;FUNCTION NATIONAL KIGOU-exclamation;;
-101;national.at:64;FUNCTION NATIONAL KIGOU-yen;;
-102;national.at:85;FUNCTION NATIONAL KIGOU-plus;;
-103;national.at:106;FUNCTION NATIONAL (HanKana w/ Daku-on);;
-104;national.at:127;FUNCTION NATIONAL (HanKana w/ Han-daku-on);;
-105;mb-space.at:1;Zenkaku SPC delims in headings;;
-106;mb-space.at:19;Zenkaku SPC delims in record def;;
-107;mb-space.at:43;Zenkaku SPC delims in COPY stmt;;
+73;error-print.at:58;Decoding national section name;;
+74;stored-char-length.at:1;FUNCTION STORED-CHAR-LENGTH(PIC X);;
+75;stored-char-length.at:22;FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPC;;
+76;stored-char-length.at:43;FUNCTION STORED-CHAR-LENGTH(PIC X) /w wSPC;;
+77;stored-char-length.at:64;FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPCs;;
+78;stored-char-length.at:85;FUNCTION STORED-CHAR-LENGTH(PIC N);;
+79;stored-char-length.at:106;FUNCTION STORED-CHAR-LENGTH(SINGLE-BYTE SPACE);;
+80;stored-char-length.at:127;FUNCTION STORED-CHAR-LENGTH(DOUBLE-BYTE SPACE);;
+81;warn-mixture-byte.at:1;STRING Alphanumeric to National;;
+82;warn-mixture-byte.at:21;STRING National to Alphanumeric;;
+83;limits.at:1;Field length limit PIC A/VALID;;
+84;limits.at:17;Field length limit PIC A/TOO LONG;;
+85;limits.at:35;Field length limit PIC X/VALID;;
+86;limits.at:51;Field length limit PIC X/TOO LONG;;
+87;limits.at:69;Field length limit PIC B9/VALID;;
+88;limits.at:85;Field length limit PIC B9/TOO LONG;;
+89;limits.at:103;Field length limit PIC B/VALID;;
+90;limits.at:119;Field length limit PIC B/TOO LONG;;
+91;limits.at:137;Field length limit PIC BA/VALID;;
+92;limits.at:153;Field length limit PIC BA/TOO LONG;;
+93;limits.at:171;Field length limit PIC BX/VALID;;
+94;limits.at:187;Field length limit PIC BX/TOO LONG;;
+95;limits.at:205;Field length limit PIC N/VALID (UTF-8);;
+96;limits.at:221;Field length limit PIC N/TOO LONG (UTF-8);;
+97;limits.at:239;Field length limit PIC BN/VALID (UTF-8);;
+98;limits.at:255;Field length limit PIC BN/TOO LONG (UTF-8);;
+99;national.at:1;FUNCTION NATIONAL single-byte;;
+100;national.at:22;FUNCTION NATIONAL multi-byte;;
+101;national.at:43;FUNCTION NATIONAL KIGOU-exclamation;;
+102;national.at:64;FUNCTION NATIONAL KIGOU-yen;;
+103;national.at:85;FUNCTION NATIONAL KIGOU-plus;;
+104;national.at:106;FUNCTION NATIONAL (HanKana w/ Daku-on);;
+105;national.at:127;FUNCTION NATIONAL (HanKana w/ Han-daku-on);;
+106;mb-space.at:1;Zenkaku SPC delims in headings;;
+107;mb-space.at:19;Zenkaku SPC delims in record def;;
+108;mb-space.at:43;Zenkaku SPC delims in COPY stmt;;
 '
 
 at_keywords=
@@ -6505,13 +6506,72 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  73 ) # 73. stored-char-length.at:1: FUNCTION STORED-CHAR-LENGTH(PIC X)
-    at_setup_line='stored-char-length.at:1'
-    at_desc='FUNCTION STORED-CHAR-LENGTH(PIC X)'
-    $at_quiet $ECHO_N " 73: FUNCTION STORED-CHAR-LENGTH(PIC X)           $ECHO_C"
+  73 ) # 73. error-print.at:58: Decoding national section name
+    at_setup_line='error-print.at:58'
+    at_desc='Decoding national section name'
+    $at_quiet $ECHO_N " 73: Decoding national section name               $ECHO_C"
     at_xfail=no
     (
-      echo "73. stored-char-length.at:1: testing ..."
+      echo "73. error-print.at:58: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       PROCEDURE        DIVISION.
+       テスト SECTION.
+           MOVE 1 TO 項目1.
+       テスト段落.
+           MOVE 1 TO 項目2.
+_ATEOF
+
+
+$at_traceoff
+echo "error-print.at:71: \${COMPILE} -x prog.cob"
+echo error-print.at:71 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob: In section 'テスト':
+prog.cob:7: Error: '項目1' undefined
+prog.cob: In paragraph 'テスト段落':
+prog.cob:9: Error: '項目2' undefined
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "error-print.at:71: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  74 ) # 74. stored-char-length.at:1: FUNCTION STORED-CHAR-LENGTH(PIC X)
+    at_setup_line='stored-char-length.at:1'
+    at_desc='FUNCTION STORED-CHAR-LENGTH(PIC X)'
+    $at_quiet $ECHO_N " 74: FUNCTION STORED-CHAR-LENGTH(PIC X)           $ECHO_C"
+    at_xfail=no
+    (
+      echo "74. stored-char-length.at:1: testing ..."
       $at_traceon
 
 
@@ -6588,13 +6648,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  74 ) # 74. stored-char-length.at:22: FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPC
+  75 ) # 75. stored-char-length.at:22: FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPC
     at_setup_line='stored-char-length.at:22'
     at_desc='FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPC'
-    $at_quiet $ECHO_N " 74: FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPC    $ECHO_C"
+    $at_quiet $ECHO_N " 75: FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPC    $ECHO_C"
     at_xfail=no
     (
-      echo "74. stored-char-length.at:22: testing ..."
+      echo "75. stored-char-length.at:22: testing ..."
       $at_traceon
 
 
@@ -6671,13 +6731,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  75 ) # 75. stored-char-length.at:43: FUNCTION STORED-CHAR-LENGTH(PIC X) /w wSPC
+  76 ) # 76. stored-char-length.at:43: FUNCTION STORED-CHAR-LENGTH(PIC X) /w wSPC
     at_setup_line='stored-char-length.at:43'
     at_desc='FUNCTION STORED-CHAR-LENGTH(PIC X) /w wSPC'
-    $at_quiet $ECHO_N " 75: FUNCTION STORED-CHAR-LENGTH(PIC X) /w wSPC   $ECHO_C"
+    $at_quiet $ECHO_N " 76: FUNCTION STORED-CHAR-LENGTH(PIC X) /w wSPC   $ECHO_C"
     at_xfail=no
     (
-      echo "75. stored-char-length.at:43: testing ..."
+      echo "76. stored-char-length.at:43: testing ..."
       $at_traceon
 
 
@@ -6754,13 +6814,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  76 ) # 76. stored-char-length.at:64: FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPCs
+  77 ) # 77. stored-char-length.at:64: FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPCs
     at_setup_line='stored-char-length.at:64'
     at_desc='FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPCs'
-    $at_quiet $ECHO_N " 76: FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPCs   $ECHO_C"
+    $at_quiet $ECHO_N " 77: FUNCTION STORED-CHAR-LENGTH(PIC X) /w SPCs   $ECHO_C"
     at_xfail=no
     (
-      echo "76. stored-char-length.at:64: testing ..."
+      echo "77. stored-char-length.at:64: testing ..."
       $at_traceon
 
 
@@ -6837,13 +6897,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  77 ) # 77. stored-char-length.at:85: FUNCTION STORED-CHAR-LENGTH(PIC N)
+  78 ) # 78. stored-char-length.at:85: FUNCTION STORED-CHAR-LENGTH(PIC N)
     at_setup_line='stored-char-length.at:85'
     at_desc='FUNCTION STORED-CHAR-LENGTH(PIC N)'
-    $at_quiet $ECHO_N " 77: FUNCTION STORED-CHAR-LENGTH(PIC N)           $ECHO_C"
+    $at_quiet $ECHO_N " 78: FUNCTION STORED-CHAR-LENGTH(PIC N)           $ECHO_C"
     at_xfail=no
     (
-      echo "77. stored-char-length.at:85: testing ..."
+      echo "78. stored-char-length.at:85: testing ..."
       $at_traceon
 
 
@@ -6920,13 +6980,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  78 ) # 78. stored-char-length.at:106: FUNCTION STORED-CHAR-LENGTH(SINGLE-BYTE SPACE)
+  79 ) # 79. stored-char-length.at:106: FUNCTION STORED-CHAR-LENGTH(SINGLE-BYTE SPACE)
     at_setup_line='stored-char-length.at:106'
     at_desc='FUNCTION STORED-CHAR-LENGTH(SINGLE-BYTE SPACE)'
-    $at_quiet $ECHO_N " 78: FUNCTION STORED-CHAR-LENGTH(SINGLE-BYTE SPACE)$ECHO_C"
+    $at_quiet $ECHO_N " 79: FUNCTION STORED-CHAR-LENGTH(SINGLE-BYTE SPACE)$ECHO_C"
     at_xfail=no
     (
-      echo "78. stored-char-length.at:106: testing ..."
+      echo "79. stored-char-length.at:106: testing ..."
       $at_traceon
 
 
@@ -7003,13 +7063,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  79 ) # 79. stored-char-length.at:127: FUNCTION STORED-CHAR-LENGTH(DOUBLE-BYTE SPACE)
+  80 ) # 80. stored-char-length.at:127: FUNCTION STORED-CHAR-LENGTH(DOUBLE-BYTE SPACE)
     at_setup_line='stored-char-length.at:127'
     at_desc='FUNCTION STORED-CHAR-LENGTH(DOUBLE-BYTE SPACE)'
-    $at_quiet $ECHO_N " 79: FUNCTION STORED-CHAR-LENGTH(DOUBLE-BYTE SPACE)$ECHO_C"
+    $at_quiet $ECHO_N " 80: FUNCTION STORED-CHAR-LENGTH(DOUBLE-BYTE SPACE)$ECHO_C"
     at_xfail=no
     (
-      echo "79. stored-char-length.at:127: testing ..."
+      echo "80. stored-char-length.at:127: testing ..."
       $at_traceon
 
 
@@ -7086,13 +7146,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  80 ) # 80. warn-mixture-byte.at:1: STRING Alphanumeric to National
+  81 ) # 81. warn-mixture-byte.at:1: STRING Alphanumeric to National
     at_setup_line='warn-mixture-byte.at:1'
     at_desc='STRING Alphanumeric to National'
-    $at_quiet $ECHO_N " 80: STRING Alphanumeric to National              $ECHO_C"
+    $at_quiet $ECHO_N " 81: STRING Alphanumeric to National              $ECHO_C"
     at_xfail=no
     (
-      echo "80. warn-mixture-byte.at:1: testing ..."
+      echo "81. warn-mixture-byte.at:1: testing ..."
       $at_traceon
 
 
@@ -7168,13 +7228,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  81 ) # 81. warn-mixture-byte.at:21: STRING National to Alphanumeric
+  82 ) # 82. warn-mixture-byte.at:21: STRING National to Alphanumeric
     at_setup_line='warn-mixture-byte.at:21'
     at_desc='STRING National to Alphanumeric'
-    $at_quiet $ECHO_N " 81: STRING National to Alphanumeric              $ECHO_C"
+    $at_quiet $ECHO_N " 82: STRING National to Alphanumeric              $ECHO_C"
     at_xfail=no
     (
-      echo "81. warn-mixture-byte.at:21: testing ..."
+      echo "82. warn-mixture-byte.at:21: testing ..."
       $at_traceon
 
 
@@ -7250,13 +7310,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  82 ) # 82. limits.at:1: Field length limit PIC A/VALID
+  83 ) # 83. limits.at:1: Field length limit PIC A/VALID
     at_setup_line='limits.at:1'
     at_desc='Field length limit PIC A/VALID'
-    $at_quiet $ECHO_N " 82: Field length limit PIC A/VALID               $ECHO_C"
+    $at_quiet $ECHO_N " 83: Field length limit PIC A/VALID               $ECHO_C"
     at_xfail=no
     (
-      echo "82. limits.at:1: testing ..."
+      echo "83. limits.at:1: testing ..."
       $at_traceon
 
 
@@ -7304,13 +7364,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  83 ) # 83. limits.at:17: Field length limit PIC A/TOO LONG
+  84 ) # 84. limits.at:17: Field length limit PIC A/TOO LONG
     at_setup_line='limits.at:17'
     at_desc='Field length limit PIC A/TOO LONG'
-    $at_quiet $ECHO_N " 83: Field length limit PIC A/TOO LONG            $ECHO_C"
+    $at_quiet $ECHO_N " 84: Field length limit PIC A/TOO LONG            $ECHO_C"
     at_xfail=no
     (
-      echo "83. limits.at:17: testing ..."
+      echo "84. limits.at:17: testing ..."
       $at_traceon
 
 
@@ -7359,13 +7419,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  84 ) # 84. limits.at:35: Field length limit PIC X/VALID
+  85 ) # 85. limits.at:35: Field length limit PIC X/VALID
     at_setup_line='limits.at:35'
     at_desc='Field length limit PIC X/VALID'
-    $at_quiet $ECHO_N " 84: Field length limit PIC X/VALID               $ECHO_C"
+    $at_quiet $ECHO_N " 85: Field length limit PIC X/VALID               $ECHO_C"
     at_xfail=no
     (
-      echo "84. limits.at:35: testing ..."
+      echo "85. limits.at:35: testing ..."
       $at_traceon
 
 
@@ -7413,13 +7473,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  85 ) # 85. limits.at:51: Field length limit PIC X/TOO LONG
+  86 ) # 86. limits.at:51: Field length limit PIC X/TOO LONG
     at_setup_line='limits.at:51'
     at_desc='Field length limit PIC X/TOO LONG'
-    $at_quiet $ECHO_N " 85: Field length limit PIC X/TOO LONG            $ECHO_C"
+    $at_quiet $ECHO_N " 86: Field length limit PIC X/TOO LONG            $ECHO_C"
     at_xfail=no
     (
-      echo "85. limits.at:51: testing ..."
+      echo "86. limits.at:51: testing ..."
       $at_traceon
 
 
@@ -7468,13 +7528,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  86 ) # 86. limits.at:69: Field length limit PIC B9/VALID
+  87 ) # 87. limits.at:69: Field length limit PIC B9/VALID
     at_setup_line='limits.at:69'
     at_desc='Field length limit PIC B9/VALID'
-    $at_quiet $ECHO_N " 86: Field length limit PIC B9/VALID              $ECHO_C"
+    $at_quiet $ECHO_N " 87: Field length limit PIC B9/VALID              $ECHO_C"
     at_xfail=no
     (
-      echo "86. limits.at:69: testing ..."
+      echo "87. limits.at:69: testing ..."
       $at_traceon
 
 
@@ -7522,13 +7582,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  87 ) # 87. limits.at:85: Field length limit PIC B9/TOO LONG
+  88 ) # 88. limits.at:85: Field length limit PIC B9/TOO LONG
     at_setup_line='limits.at:85'
     at_desc='Field length limit PIC B9/TOO LONG'
-    $at_quiet $ECHO_N " 87: Field length limit PIC B9/TOO LONG           $ECHO_C"
+    $at_quiet $ECHO_N " 88: Field length limit PIC B9/TOO LONG           $ECHO_C"
     at_xfail=no
     (
-      echo "87. limits.at:85: testing ..."
+      echo "88. limits.at:85: testing ..."
       $at_traceon
 
 
@@ -7577,13 +7637,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  88 ) # 88. limits.at:103: Field length limit PIC B/VALID
+  89 ) # 89. limits.at:103: Field length limit PIC B/VALID
     at_setup_line='limits.at:103'
     at_desc='Field length limit PIC B/VALID'
-    $at_quiet $ECHO_N " 88: Field length limit PIC B/VALID               $ECHO_C"
+    $at_quiet $ECHO_N " 89: Field length limit PIC B/VALID               $ECHO_C"
     at_xfail=no
     (
-      echo "88. limits.at:103: testing ..."
+      echo "89. limits.at:103: testing ..."
       $at_traceon
 
 
@@ -7631,13 +7691,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  89 ) # 89. limits.at:119: Field length limit PIC B/TOO LONG
+  90 ) # 90. limits.at:119: Field length limit PIC B/TOO LONG
     at_setup_line='limits.at:119'
     at_desc='Field length limit PIC B/TOO LONG'
-    $at_quiet $ECHO_N " 89: Field length limit PIC B/TOO LONG            $ECHO_C"
+    $at_quiet $ECHO_N " 90: Field length limit PIC B/TOO LONG            $ECHO_C"
     at_xfail=no
     (
-      echo "89. limits.at:119: testing ..."
+      echo "90. limits.at:119: testing ..."
       $at_traceon
 
 
@@ -7686,13 +7746,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  90 ) # 90. limits.at:137: Field length limit PIC BA/VALID
+  91 ) # 91. limits.at:137: Field length limit PIC BA/VALID
     at_setup_line='limits.at:137'
     at_desc='Field length limit PIC BA/VALID'
-    $at_quiet $ECHO_N " 90: Field length limit PIC BA/VALID              $ECHO_C"
+    $at_quiet $ECHO_N " 91: Field length limit PIC BA/VALID              $ECHO_C"
     at_xfail=no
     (
-      echo "90. limits.at:137: testing ..."
+      echo "91. limits.at:137: testing ..."
       $at_traceon
 
 
@@ -7740,13 +7800,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  91 ) # 91. limits.at:153: Field length limit PIC BA/TOO LONG
+  92 ) # 92. limits.at:153: Field length limit PIC BA/TOO LONG
     at_setup_line='limits.at:153'
     at_desc='Field length limit PIC BA/TOO LONG'
-    $at_quiet $ECHO_N " 91: Field length limit PIC BA/TOO LONG           $ECHO_C"
+    $at_quiet $ECHO_N " 92: Field length limit PIC BA/TOO LONG           $ECHO_C"
     at_xfail=no
     (
-      echo "91. limits.at:153: testing ..."
+      echo "92. limits.at:153: testing ..."
       $at_traceon
 
 
@@ -7795,13 +7855,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  92 ) # 92. limits.at:171: Field length limit PIC BX/VALID
+  93 ) # 93. limits.at:171: Field length limit PIC BX/VALID
     at_setup_line='limits.at:171'
     at_desc='Field length limit PIC BX/VALID'
-    $at_quiet $ECHO_N " 92: Field length limit PIC BX/VALID              $ECHO_C"
+    $at_quiet $ECHO_N " 93: Field length limit PIC BX/VALID              $ECHO_C"
     at_xfail=no
     (
-      echo "92. limits.at:171: testing ..."
+      echo "93. limits.at:171: testing ..."
       $at_traceon
 
 
@@ -7849,13 +7909,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  93 ) # 93. limits.at:187: Field length limit PIC BX/TOO LONG
+  94 ) # 94. limits.at:187: Field length limit PIC BX/TOO LONG
     at_setup_line='limits.at:187'
     at_desc='Field length limit PIC BX/TOO LONG'
-    $at_quiet $ECHO_N " 93: Field length limit PIC BX/TOO LONG           $ECHO_C"
+    $at_quiet $ECHO_N " 94: Field length limit PIC BX/TOO LONG           $ECHO_C"
     at_xfail=no
     (
-      echo "93. limits.at:187: testing ..."
+      echo "94. limits.at:187: testing ..."
       $at_traceon
 
 
@@ -7904,13 +7964,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  94 ) # 94. limits.at:205: Field length limit PIC N/VALID (UTF-8)
+  95 ) # 95. limits.at:205: Field length limit PIC N/VALID (UTF-8)
     at_setup_line='limits.at:205'
     at_desc='Field length limit PIC N/VALID (UTF-8)'
-    $at_quiet $ECHO_N " 94: Field length limit PIC N/VALID (UTF-8)       $ECHO_C"
+    $at_quiet $ECHO_N " 95: Field length limit PIC N/VALID (UTF-8)       $ECHO_C"
     at_xfail=no
     (
-      echo "94. limits.at:205: testing ..."
+      echo "95. limits.at:205: testing ..."
       $at_traceon
 
 
@@ -7958,13 +8018,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  95 ) # 95. limits.at:221: Field length limit PIC N/TOO LONG (UTF-8)
+  96 ) # 96. limits.at:221: Field length limit PIC N/TOO LONG (UTF-8)
     at_setup_line='limits.at:221'
     at_desc='Field length limit PIC N/TOO LONG (UTF-8)'
-    $at_quiet $ECHO_N " 95: Field length limit PIC N/TOO LONG (UTF-8)    $ECHO_C"
+    $at_quiet $ECHO_N " 96: Field length limit PIC N/TOO LONG (UTF-8)    $ECHO_C"
     at_xfail=no
     (
-      echo "95. limits.at:221: testing ..."
+      echo "96. limits.at:221: testing ..."
       $at_traceon
 
 
@@ -8013,13 +8073,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  96 ) # 96. limits.at:239: Field length limit PIC BN/VALID (UTF-8)
+  97 ) # 97. limits.at:239: Field length limit PIC BN/VALID (UTF-8)
     at_setup_line='limits.at:239'
     at_desc='Field length limit PIC BN/VALID (UTF-8)'
-    $at_quiet $ECHO_N " 96: Field length limit PIC BN/VALID (UTF-8)      $ECHO_C"
+    $at_quiet $ECHO_N " 97: Field length limit PIC BN/VALID (UTF-8)      $ECHO_C"
     at_xfail=no
     (
-      echo "96. limits.at:239: testing ..."
+      echo "97. limits.at:239: testing ..."
       $at_traceon
 
 
@@ -8067,13 +8127,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  97 ) # 97. limits.at:255: Field length limit PIC BN/TOO LONG (UTF-8)
+  98 ) # 98. limits.at:255: Field length limit PIC BN/TOO LONG (UTF-8)
     at_setup_line='limits.at:255'
     at_desc='Field length limit PIC BN/TOO LONG (UTF-8)'
-    $at_quiet $ECHO_N " 97: Field length limit PIC BN/TOO LONG (UTF-8)   $ECHO_C"
+    $at_quiet $ECHO_N " 98: Field length limit PIC BN/TOO LONG (UTF-8)   $ECHO_C"
     at_xfail=no
     (
-      echo "97. limits.at:255: testing ..."
+      echo "98. limits.at:255: testing ..."
       $at_traceon
 
 
@@ -8122,13 +8182,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  98 ) # 98. national.at:1: FUNCTION NATIONAL single-byte
+  99 ) # 99. national.at:1: FUNCTION NATIONAL single-byte
     at_setup_line='national.at:1'
     at_desc='FUNCTION NATIONAL single-byte'
-    $at_quiet $ECHO_N " 98: FUNCTION NATIONAL single-byte                $ECHO_C"
+    $at_quiet $ECHO_N " 99: FUNCTION NATIONAL single-byte                $ECHO_C"
     at_xfail=no
     (
-      echo "98. national.at:1: testing ..."
+      echo "99. national.at:1: testing ..."
       $at_traceon
 
 
@@ -8205,13 +8265,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  99 ) # 99. national.at:22: FUNCTION NATIONAL multi-byte
+  100 ) # 100. national.at:22: FUNCTION NATIONAL multi-byte
     at_setup_line='national.at:22'
     at_desc='FUNCTION NATIONAL multi-byte'
-    $at_quiet $ECHO_N " 99: FUNCTION NATIONAL multi-byte                 $ECHO_C"
+    $at_quiet $ECHO_N "100: FUNCTION NATIONAL multi-byte                 $ECHO_C"
     at_xfail=no
     (
-      echo "99. national.at:22: testing ..."
+      echo "100. national.at:22: testing ..."
       $at_traceon
 
 
@@ -8288,13 +8348,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  100 ) # 100. national.at:43: FUNCTION NATIONAL KIGOU-exclamation
+  101 ) # 101. national.at:43: FUNCTION NATIONAL KIGOU-exclamation
     at_setup_line='national.at:43'
     at_desc='FUNCTION NATIONAL KIGOU-exclamation'
-    $at_quiet $ECHO_N "100: FUNCTION NATIONAL KIGOU-exclamation          $ECHO_C"
+    $at_quiet $ECHO_N "101: FUNCTION NATIONAL KIGOU-exclamation          $ECHO_C"
     at_xfail=no
     (
-      echo "100. national.at:43: testing ..."
+      echo "101. national.at:43: testing ..."
       $at_traceon
 
 
@@ -8371,13 +8431,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  101 ) # 101. national.at:64: FUNCTION NATIONAL KIGOU-yen
+  102 ) # 102. national.at:64: FUNCTION NATIONAL KIGOU-yen
     at_setup_line='national.at:64'
     at_desc='FUNCTION NATIONAL KIGOU-yen'
-    $at_quiet $ECHO_N "101: FUNCTION NATIONAL KIGOU-yen                  $ECHO_C"
+    $at_quiet $ECHO_N "102: FUNCTION NATIONAL KIGOU-yen                  $ECHO_C"
     at_xfail=no
     (
-      echo "101. national.at:64: testing ..."
+      echo "102. national.at:64: testing ..."
       $at_traceon
 
 
@@ -8454,13 +8514,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  102 ) # 102. national.at:85: FUNCTION NATIONAL KIGOU-plus
+  103 ) # 103. national.at:85: FUNCTION NATIONAL KIGOU-plus
     at_setup_line='national.at:85'
     at_desc='FUNCTION NATIONAL KIGOU-plus'
-    $at_quiet $ECHO_N "102: FUNCTION NATIONAL KIGOU-plus                 $ECHO_C"
+    $at_quiet $ECHO_N "103: FUNCTION NATIONAL KIGOU-plus                 $ECHO_C"
     at_xfail=no
     (
-      echo "102. national.at:85: testing ..."
+      echo "103. national.at:85: testing ..."
       $at_traceon
 
 
@@ -8537,13 +8597,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  103 ) # 103. national.at:106: FUNCTION NATIONAL (HanKana w/ Daku-on)
+  104 ) # 104. national.at:106: FUNCTION NATIONAL (HanKana w/ Daku-on)
     at_setup_line='national.at:106'
     at_desc='FUNCTION NATIONAL (HanKana w/ Daku-on)'
-    $at_quiet $ECHO_N "103: FUNCTION NATIONAL (HanKana w/ Daku-on)       $ECHO_C"
+    $at_quiet $ECHO_N "104: FUNCTION NATIONAL (HanKana w/ Daku-on)       $ECHO_C"
     at_xfail=no
     (
-      echo "103. national.at:106: testing ..."
+      echo "104. national.at:106: testing ..."
       $at_traceon
 
 
@@ -8620,13 +8680,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  104 ) # 104. national.at:127: FUNCTION NATIONAL (HanKana w/ Han-daku-on)
+  105 ) # 105. national.at:127: FUNCTION NATIONAL (HanKana w/ Han-daku-on)
     at_setup_line='national.at:127'
     at_desc='FUNCTION NATIONAL (HanKana w/ Han-daku-on)'
-    $at_quiet $ECHO_N "104: FUNCTION NATIONAL (HanKana w/ Han-daku-on)   $ECHO_C"
+    $at_quiet $ECHO_N "105: FUNCTION NATIONAL (HanKana w/ Han-daku-on)   $ECHO_C"
     at_xfail=no
     (
-      echo "104. national.at:127: testing ..."
+      echo "105. national.at:127: testing ..."
       $at_traceon
 
 
@@ -8703,13 +8763,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  105 ) # 105. mb-space.at:1: Zenkaku SPC delims in headings
+  106 ) # 106. mb-space.at:1: Zenkaku SPC delims in headings
     at_setup_line='mb-space.at:1'
     at_desc='Zenkaku SPC delims in headings'
-    $at_quiet $ECHO_N "105: Zenkaku SPC delims in headings               $ECHO_C"
+    $at_quiet $ECHO_N "106: Zenkaku SPC delims in headings               $ECHO_C"
     at_xfail=no
     (
-      echo "105. mb-space.at:1: testing ..."
+      echo "106. mb-space.at:1: testing ..."
       $at_traceon
 
 
@@ -8783,13 +8843,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  106 ) # 106. mb-space.at:19: Zenkaku SPC delims in record def
+  107 ) # 107. mb-space.at:19: Zenkaku SPC delims in record def
     at_setup_line='mb-space.at:19'
     at_desc='Zenkaku SPC delims in record def'
-    $at_quiet $ECHO_N "106: Zenkaku SPC delims in record def             $ECHO_C"
+    $at_quiet $ECHO_N "107: Zenkaku SPC delims in record def             $ECHO_C"
     at_xfail=no
     (
-      echo "106. mb-space.at:19: testing ..."
+      echo "107. mb-space.at:19: testing ..."
       $at_traceon
 
 
@@ -8869,13 +8929,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  107 ) # 107. mb-space.at:43: Zenkaku SPC delims in COPY stmt
+  108 ) # 108. mb-space.at:43: Zenkaku SPC delims in COPY stmt
     at_setup_line='mb-space.at:43'
     at_desc='Zenkaku SPC delims in COPY stmt'
-    $at_quiet $ECHO_N "107: Zenkaku SPC delims in COPY stmt              $ECHO_C"
+    $at_quiet $ECHO_N "108: Zenkaku SPC delims in COPY stmt              $ECHO_C"
     at_xfail=no
     (
-      echo "107. mb-space.at:43: testing ..."
+      echo "108. mb-space.at:43: testing ..."
       $at_traceon
 
 

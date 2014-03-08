@@ -147,11 +147,11 @@ print_error (char *file, int line, const char *prefix, const char *fmt, va_list 
 		if (current_paragraph &&
 		    strcmp ((const char *)(current_paragraph->name), "MAIN PARAGRAPH")) {
 			fprintf (stderr, _("%s: In paragraph '%s':\n"),
-				 file, current_paragraph->name);
+				 file, cb_get_jisword ((const char *)current_paragraph->name));
 		} else if (current_section &&
 			   strcmp ((const char *)(current_section->name), "MAIN SECTION")) {
 				fprintf (stderr, _("%s: In section '%s':\n"),
-					file, current_section->name);
+					 file, cb_get_jisword ((const char *)current_section->name));
 		}
 		last_section = current_section;
 		last_paragraph = current_paragraph;
