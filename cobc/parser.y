@@ -3731,7 +3731,7 @@ procedure:
 
 		sprintf (name, "L$%d", next_label_id);
 		label = cb_build_reference (name);
-		emit_statement (cb_build_label (label, NULL));
+		emit_statement (cb_build_label (label, current_section));
 		current_program->label_list =
 			cb_list_append (current_program->label_list, next_label_list);
 		next_label_list = NULL;
@@ -4818,7 +4818,7 @@ exit_body:
 		if (!p->exit_label) {
 			sprintf (name, "EXIT PERFORM %d", cb_id);
 			p->exit_label = cb_build_reference (name);
-			CB_LABEL (cb_build_label (p->exit_label, NULL))->need_begin = 1;
+			CB_LABEL (cb_build_label (p->exit_label, current_section))->need_begin = 1;
 		}
 		cb_emit_goto (cb_list_init (p->exit_label), NULL);
 	}
@@ -4835,7 +4835,7 @@ exit_body:
 		if (!p->cycle_label) {
 			sprintf (name, "EXIT PERFORM CYCLE %d", cb_id);
 			p->cycle_label = cb_build_reference (name);
-			CB_LABEL (cb_build_label (p->cycle_label, NULL))->need_begin = 1;
+			CB_LABEL (cb_build_label (p->cycle_label, current_section))->need_begin = 1;
 		}
 		cb_emit_goto (cb_list_init (p->cycle_label), NULL);
 	}
@@ -4851,7 +4851,7 @@ exit_body:
 		if (!current_section->exit_label) {
 			sprintf (name, "EXIT SECTION %d", cb_id);
 			plabel = cb_build_reference (name);
-			current_section->exit_label = cb_build_label (plabel, NULL);
+			current_section->exit_label = cb_build_label (plabel, current_section);
 			current_section->exit_label_ref = plabel;
 			CB_LABEL (current_section->exit_label)->need_begin = 1;
 		}
@@ -4869,7 +4869,7 @@ exit_body:
 		if (!current_paragraph->exit_label) {
 			sprintf (name, "EXIT PARAGRAPH %d", cb_id);
 			plabel = cb_build_reference (name);
-			current_paragraph->exit_label = cb_build_label (plabel, NULL);
+			current_paragraph->exit_label = cb_build_label (plabel, current_section);
 			current_paragraph->exit_label_ref = plabel;
 			CB_LABEL (current_paragraph->exit_label)->need_begin = 1;
 		}

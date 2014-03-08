@@ -1603,6 +1603,95 @@ cb_validate_program_data (struct cb_program *prog)
 	}
 }
 
+static int
+check_section_escape (cb_tree x)
+{
+	cb_tree		l;
+	struct cb_goto	*gp;
+	struct cb_label	*lp;
+	int		rt = 0;
+
+	if (!x) {
+		/* return 0 */
+	} else if (CB_TREE_TAG (x) == CB_TAG_STATEMENT) {
+		current_statement = CB_STATEMENT (x);
+		rt += check_section_escape (current_statement->null_check);
+		rt += check_section_escape (current_statement->body);
+		rt += check_section_escape (current_statement->handler1);
+		rt += check_section_escape (current_statement->handler2);
+	} else if (CB_TREE_TAG (x) == CB_TAG_LABEL) {
+		lp = CB_LABEL (x);
+		if (lp->is_section) {
+			current_section = lp;
+			current_paragraph = NULL;
+		} else {
+			current_paragraph = lp;
+		}
+	} else if (CB_TREE_TAG (x) == CB_TAG_SEARCH) {
+		struct cb_search *p = CB_SEARCH (x);
+		rt += check_section_escape (p->end_stmt);
+		rt += check_section_escape (p->whens);
+	} else if (CB_TREE_TAG (x) == CB_TAG_CALL) {
+		struct cb_call *p = CB_CALL (x);
+		rt += check_section_escape (p->stmt1);
+		rt += check_section_escape (p->stmt2);
+	} else if (CB_TREE_TAG (x) == CB_TAG_PERFORM) {
+		struct cb_perform *p = CB_PERFORM (x);
+		if (p->body && !CB_PAIR_P (p->body)) {
+			rt += check_section_escape (p->body);
+		}
+	} else if (CB_TREE_TAG (x) == CB_TAG_GOTO) {
+		gp = CB_GOTO (x);
+		if (gp->depending) {
+			for (l = gp->target; l; l = CB_CHAIN (l)) {
+				lp = CB_LABEL (cb_ref (CB_VALUE (l)));
+				if (current_section && lp->section != current_section) {
+					if (!lp->section) {
+						cb_warning_x (CB_TREE (current_statement),
+							      _("GO TO escape from SECTION %s"),
+							      current_section->name);
+					} else {
+						cb_warning_x (CB_TREE (current_statement),
+							      _("GO TO escape from SECTION %s to %s"),
+							      current_section->name,
+							      lp->section->name);
+					}
+					rt++;
+				}
+			}
+		} else if (gp->target == NULL || gp->target == cb_int1) {
+			/* goto exit_program */
+		} else {
+			lp = CB_LABEL (cb_ref (gp->target));
+			if (current_section && lp->section != current_section) {
+				if (!lp->section) {
+					cb_warning_x (CB_TREE (current_statement),
+						      _("GO TO escape from SECTION %s"),
+						      current_section->name);
+				} else {
+					cb_warning_x (CB_TREE (current_statement),
+						      _("GO TO escape from SECTION %s to %s"),
+						      current_section->name,
+						      lp->section->name);
+				}
+				rt++;
+			}
+		}
+	} else if (CB_TREE_TAG (x) == CB_TAG_IF) {
+		if (CB_IF (x)->stmt1) {
+			rt += check_section_escape (CB_IF (x)->stmt1);
+		}
+		if (CB_IF (x)->stmt2) {
+			rt += check_section_escape (CB_IF (x)->stmt2);
+		}
+	} else if (CB_TREE_TAG (x) == CB_TAG_LIST) {
+		for (; x; x = CB_CHAIN (x)) {
+			rt += check_section_escape (CB_VALUE (x));
+		}
+	}
+	return rt;
+}
+
 void
 cb_validate_program_body (struct cb_program *prog)
 {
@@ -1626,6 +1715,12 @@ cb_validate_program_body (struct cb_program *prog)
 
 	prog->file_list = cb_list_reverse (prog->file_list);
 	prog->exec_list = cb_list_reverse (prog->exec_list);
+
+	if (cb_warn_compat) {
+		for (l = prog->exec_list; l; l = CB_CHAIN (l)) {
+			check_section_escape (CB_VALUE (l));
+		}
+	}
 }
 
 /*
