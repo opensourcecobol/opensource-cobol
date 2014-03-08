@@ -81,3 +81,43 @@ prog.cob:26: Warning: GO TO escape from SECTION S-SRC to S-DST
 ])
 
 AT_CLEANUP
+
+AT_SETUP([jp-comat - X Literal])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       77 X             PIC X(2) VALUE X'CEB1'.
+       PROCEDURE        DIVISION.
+           MOVE  X'CEB2' TO X.
+           GOBACK.
+])
+
+AT_CHECK([${COMPILE_JP_COMPAT} -Wcompat prog.cob], [0], [],
+[prog.cob:6: Warning: X Binary literal found.
+prog.cob:8: Warning: X Binary literal found.
+])
+
+AT_CLEANUP
+
+AT_SETUP([jp-compat NX Literal])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       77 X             PIC N(1) VALUE NX'CEB1'.
+       PROCEDURE        DIVISION.
+           MOVE  NX'CEB2' TO X.
+           GOBACK.
+])
+
+AT_CHECK([${COMPILE_JP_COMPAT} -Wcompat prog.cob], [0], [],
+[prog.cob:6: Warning: NX Binary literal found.
+prog.cob:8: Warning: NX Binary literal found.
+])
+
+AT_CLEANUP

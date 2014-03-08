@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenCOBOL 0.13\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2014-02-17 17:36+0900\n"
+"POT-Creation-Date: 2014-02-17 17:41+0900\n"
 "PO-Revision-Date: 2004-08-01 23:55+0900\n"
 "Last-Translator: Keisuke Nishida <knishida@coboler.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -1643,44 +1643,52 @@ msgstr ""
 msgid "Integer value expected"
 msgstr "数値が必要です"
 
-#: cobc/scanner.l:554
+#: cobc/scanner.l:184
+msgid "X Binary literal found."
+msgstr ""
+
+#: cobc/scanner.l:194
+msgid "NX Binary literal found."
+msgstr ""
+
+#: cobc/scanner.l:567
 msgid "User defined name must be less than 32 characters"
 msgstr ""
 
-#: cobc/scanner.l:617
+#: cobc/scanner.l:630
 #, c-format
 msgid "CONSTANT (78 level) may not be used here - '%s'"
 msgstr ""
 
-#: cobc/scanner.l:630
+#: cobc/scanner.l:643
 msgid "PROGRAM-ID length exceeds C89 function name limit"
 msgstr ""
 
-#: cobc/scanner.l:804
+#: cobc/scanner.l:817
 #, fuzzy
 msgid "Alphanumeric literal has zero length"
 msgstr "文字列が必要です"
 
-#: cobc/scanner.l:805
+#: cobc/scanner.l:818
 msgid "A SPACE will be assumed"
 msgstr ""
 
-#: cobc/scanner.l:894
+#: cobc/scanner.l:907
 #, fuzzy, c-format
 msgid "Invalid X literal: %s"
 msgstr "不当な X 定数です: %s"
 
-#: cobc/scanner.l:930
+#: cobc/scanner.l:943
 #, fuzzy, c-format
 msgid "Invalid H literal: %s"
 msgstr "不当な H 定数です: %s"
 
-#: cobc/scanner.l:955 cobc/scanner.l:958
+#: cobc/scanner.l:968 cobc/scanner.l:971
 #, fuzzy
 msgid "Invalid numeric literal"
 msgstr "不当な数字定数です"
 
-#: cobc/scanner.l:1108
+#: cobc/scanner.l:1121
 msgid "Scanner unget buffer overflow"
 msgstr ""
 

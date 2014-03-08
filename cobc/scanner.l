@@ -180,8 +180,21 @@ ND[\'\"] {
 X\'[^\'\n]*\' |
 X\"[^\"\n]*\" {
 	/* X string literal */
+	if (cb_warn_compat) {
+		cb_warning (_("X Binary literal found."));
+	}
 	cb_force_pid_literal = 0;
 	return scan_x (yytext + 2);
+}
+
+NX\'[^\'\n]*\' |
+NX\"[^\"\n]*\" {
+	/* NX string literal */
+	if (cb_warn_compat) {
+		cb_warning (_("NX Binary literal found."));
+	}
+	cb_force_pid_literal = 0;
+	return scan_x (yytext + 3);
 }
 
 "(" {
