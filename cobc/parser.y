@@ -18,7 +18,7 @@
  * Boston, MA 02110-1301 USA
  */
 
-%expect 138
+%expect 146
 
 %defines
 %verbose
@@ -6655,27 +6655,35 @@ partial_expr:
 ;
 
 expr_tokens:
-  expr_tokens IS
-| expr_token x		{ push_expr ('x', $2); }
+  expr_token x		{ push_expr ('x', $2); }
 | expr_tokens ')'	{ push_expr (')', NULL); }
 /* class condition */
-| expr_tokens OMITTED		{ push_expr ('O', NULL); }
-| expr_tokens NUMERIC		{ push_expr ('9', NULL); }
-| expr_tokens ALPHABETIC	{ push_expr ('A', NULL); }
-| expr_tokens ALPHABETIC_LOWER	{ push_expr ('L', NULL); }
-| expr_tokens ALPHABETIC_UPPER	{ push_expr ('U', NULL); }
-| expr_tokens CLASS_NAME	{ push_expr ('x', $2); }
+| expr_token OMITTED		{ push_expr ('O', NULL); }
+| expr_token NUMERIC		{ push_expr ('9', NULL); }
+| expr_token ALPHABETIC		{ push_expr ('A', NULL); }
+| expr_token ALPHABETIC_LOWER	{ push_expr ('L', NULL); }
+| expr_token ALPHABETIC_UPPER	{ push_expr ('U', NULL); }
+| expr_token CLASS_NAME		{ push_expr ('x', $2); }
+/* class condition (IS is omitted) */
+| expr_tokens OMITTED			{ push_expr ('O', NULL); }
+| expr_tokens NUMERIC			{ push_expr ('9', NULL); }
+| expr_tokens ALPHABETIC		{ push_expr ('A', NULL); }
+| expr_tokens ALPHABETIC_LOWER		{ push_expr ('L', NULL); }
+| expr_tokens ALPHABETIC_UPPER		{ push_expr ('U', NULL); }
+| expr_tokens CLASS_NAME		{ push_expr ('x', $2); }
 /* sign condition */
+| expr_token POSITIVE	{ push_expr ('P', NULL); }
+| expr_token NEGATIVE	{ push_expr ('N', NULL); }
+/* sign condition (IS is omitted) */
 | expr_tokens POSITIVE	{ push_expr ('P', NULL); }
 | expr_tokens NEGATIVE	{ push_expr ('N', NULL); }
 | expr_tokens ZERO	{ push_expr ('x', cb_zero); }
-/* logical operators (unary/complex) */
-| expr_tokens NOT	{ push_expr ('!', NULL); }
 ;
 
 expr_token:
   /* empty */
-| expr_token IS
+| expr_tokens IS
+| expr_token IS	/*abbrev.*/
 | expr_token '('	{ push_expr ('(', NULL); }
 /* arithmetic operators (unary) */
 | expr_token '+'	{ push_expr ('+', NULL); }
@@ -6683,6 +6691,7 @@ expr_token:
 | expr_token '^'	{ push_expr ('^', NULL); }
 /* logical operators (unary/complex) */
 | expr_token NOT	{ push_expr ('!', NULL); }
+| expr_tokens NOT	{ push_expr ('!', NULL); }
 /* arithmetic operators (binary) */
 | expr_tokens '+'	{ push_expr ('+', NULL); }
 | expr_tokens '-'	{ push_expr ('-', NULL); }

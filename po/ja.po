@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenCOBOL 0.13\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2014-02-17 17:20+0900\n"
+"POT-Creation-Date: 2014-02-17 17:26+0900\n"
 "PO-Revision-Date: 2004-08-01 23:55+0900\n"
 "Last-Translator: Keisuke Nishida <knishida@coboler.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -1590,7 +1590,7 @@ msgstr ""
 msgid "START not allowed on SEQUENTIAL files"
 msgstr ""
 
-#: cobc/parser.y:5915 cobc/parser.y:6766 cobc/parser.y:6855
+#: cobc/parser.y:5915 cobc/parser.y:6775 cobc/parser.y:6864
 #, fuzzy, c-format
 msgid "'%s' is not a file name"
 msgstr "`%s' はファイル名ではありません"
@@ -1603,42 +1603,42 @@ msgstr ""
 msgid "SECTION header missing before USE statement"
 msgstr ""
 
-#: cobc/parser.y:6752
+#: cobc/parser.y:6761
 #, fuzzy
 msgid "LINAGE-COUNTER must be qualified here"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:6755
+#: cobc/parser.y:6764
 #, fuzzy
 msgid "Invalid LINAGE-COUNTER usage"
 msgstr "不当な VALUE 句です"
 
-#: cobc/parser.y:6796
+#: cobc/parser.y:6805
 #, fuzzy
 msgid "Field name expected."
 msgstr "数値が必要です"
 
-#: cobc/parser.y:6799
+#: cobc/parser.y:6808
 #, fuzzy
 msgid "Record name expected."
 msgstr "数値が必要です"
 
-#: cobc/parser.y:6818
+#: cobc/parser.y:6827
 #, fuzzy, c-format
 msgid "'%s' not indexed"
 msgstr "`%s' には INDEXED BY が必要です"
 
-#: cobc/parser.y:6819
+#: cobc/parser.y:6828
 #, fuzzy, c-format
 msgid "'%s' defined here"
 msgstr "`%s' はここで定義されました"
 
-#: cobc/parser.y:6841
+#: cobc/parser.y:6850
 #, c-format
 msgid "Multiple reference to '%s' "
 msgstr ""
 
-#: cobc/parser.y:7112 cobc/parser.y:7114
+#: cobc/parser.y:7121 cobc/parser.y:7123
 #, fuzzy
 msgid "Integer value expected"
 msgstr "数値が必要です"
