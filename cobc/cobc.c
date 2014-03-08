@@ -1534,7 +1534,7 @@ preprocess (struct filename *fn)
 		ppout = stdout;
 	}
 
-	if (ppopen (fn->source, NULL) != 0) {
+	if (ppopen (fn->source, NULL, NULL) != 0) {
 		if (ppout != stdout) {
 			fclose (ppout);
 			if (fn->preprocess) {

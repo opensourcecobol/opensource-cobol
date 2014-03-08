@@ -73,6 +73,8 @@ static int	compile_directive_depth = -1;
 
 static struct cb_replace_list	*current_replace_list = NULL;
 
+static struct cb_joining_ext	*current_joining_ext = NULL;
+
 static struct cb_text_list	*text_queue = NULL;
 
 static struct copy_info {
@@ -80,6 +82,7 @@ static struct copy_info {
 	char			*file;
 	int			line;
 	int			replacing;
+	int			joining;
 	int			quotation_mark;
 	YY_BUFFER_STATE		buffer;
 } *copy_stack = NULL;
@@ -93,6 +96,8 @@ static void ppecho (const char *text);
 static void convert_ucs_hyphen_minus (char *namebuf);
 #endif /*I18N_UTF8*/
 
+static void ppecho_dataname (char *datanamebuf);
+
 static void switch_to_buffer (const int lineno, const char *filename,
 			      YY_BUFFER_STATE buffer);
 
@@ -104,7 +109,7 @@ WORD		([_0-9A-Z-]|{JPNWORD})+
 NUMRIC_LITERAL	[+-]?[0-9,.]*[0-9]
 ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 
-%x PROCESS_STATE COPY_STATE PSEUDO_STATE
+%x PROCESS_STATE COPY_STATE PSEUDO_STATE DATANAME_JOIN_STATE
 
 %%
 
@@ -142,6 +147,12 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
   "REPLACING"		{ return REPLACING; }
   "LEADING"		{ return LEADING; }
   "TRAILING"		{ return TRAILING; }
+  "JOINING"		{ return JOINING; }
+  "AS"			{ return AS; }
+  "PREFIX"		{ return PREFIX; }
+  "SUFFIX"		{ return SUFFIX; }
+  "PREFIXING"		{ return PREFIXING; }
+  "SUFFIXING"		{ return SUFFIXING; }
   {WORD}		{
 #ifdef	I18N_UTF8
 			  convert_ucs_hyphen_minus (yytext);
@@ -165,6 +176,20 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
   {ALNUM_LITERAL} |
   .			{ pplval.s = strdup (yytext); return TOKEN; }
 }
+
+<DATANAME_JOIN_STATE>{
+  "COPY"		{ BEGIN COPY_STATE; return COPY; }
+  "INCLUDE"		{ BEGIN COPY_STATE; return COPY; }
+  "REPLACE"		{ BEGIN COPY_STATE; return REPLACE; }
+  [,;]?\n		{ ECHO; cb_source_line++; }
+  [,;]?[ ]+		{ ppecho (" "); }
+  {WORD}		{ BEGIN INITIAL; ppecho_dataname (yytext); }
+  {NUMRIC_LITERAL} |
+  {ALNUM_LITERAL} |
+  .			{ BEGIN INITIAL; ppecho (yytext); }
+}
+
+"REDEFINES"	{ BEGIN DATANAME_JOIN_STATE; ppecho (yytext); }
 
 "AUTHOR" |
 "DATE-WRITTEN" |
@@ -224,6 +249,15 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 	ppecho (")");
 }
 
+^[ ]*[0-9]+ {
+	char *p = yytext;
+	while (*p == ' ') {
+		p++;
+	}
+	ppecho (p);
+	BEGIN DATANAME_JOIN_STATE;
+}
+
 {WORD}			{
 #ifdef	I18N_UTF8
 			  convert_ucs_hyphen_minus (yytext);
@@ -246,6 +280,7 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 		newline_count = 0;
 		inside_bracket = 0;
 		current_replace_list = NULL;
+		current_joining_ext = NULL;
 		text_queue = NULL;
 		copy_stack = NULL;
 		quotation_mark = 0;
@@ -262,6 +297,9 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 	if (p->replacing) {
 		pp_set_replace_list (NULL);
 	}
+	if (p->joining) {
+		pp_set_joining_ext (NULL);
+	}
 	switch_to_buffer (p->line, p->file, p->buffer);
 	quotation_mark = p->quotation_mark;
 
@@ -275,6 +313,12 @@ void
 pp_set_replace_list (struct cb_replace_list *list)
 {
 	current_replace_list = list;
+}
+
+void
+pp_set_joining_ext (struct cb_joining_ext *ext)
+{
+	current_joining_ext = ext;
 }
 
 #ifdef	I18N_UTF8
@@ -298,6 +342,61 @@ convert_ucs_hyphen_minus (char *namebuf)
 #endif /*I18N_UTF8*/
 
 static void
+ppecho_dataname (char *namebuf)
+{
+	int extlen, namelen, seplen;
+	const char *ext;
+	const char *sep;
+
+#ifdef	I18N_UTF8
+	convert_ucs_hyphen_minus (namebuf);
+#endif /*I18N_UTF8*/
+	if (!current_joining_ext) {
+		ppecho (namebuf);
+	} else {
+		ext = current_joining_ext->ext;
+		if (!plexbuff1) {
+			plexbuff1 = cobc_malloc (COB_SMALL_BUFF);
+		}
+		extlen = strlen (ext);
+		namelen = strlen (namebuf);
+#ifdef	I18N_UTF8
+		if (!utf8_ext_pick ((unsigned char*) ext)) {
+			sep = "-";
+			seplen = 1;
+		} else {
+			sep = UTF8_FULLWIDTH_HYPHEN_MINUS;
+			seplen = 3;
+		}
+#else /*!I18N_UTF8*/
+		if (!sjis_pick ((unsigned char*) ext)) {
+			sep = "-";
+			seplen = 1;
+		} else {
+			sep = SJIS_MINUS_SIGN;
+			seplen = 2;
+		}
+#endif /*I18N_UTF8*/
+		if (current_joining_ext->type == joining_as_prefix) {
+			memcpy (plexbuff1, ext, extlen);
+			memcpy (&(plexbuff1[extlen]), sep, seplen);
+			memcpy (&(plexbuff1[extlen+seplen]), &(namebuf[0]), namelen+1);
+		} else if (current_joining_ext->type == joining_as_suffix) {
+			memcpy (plexbuff1, &(namebuf[0]), namelen);
+			memcpy (&(plexbuff1[namelen]), sep, seplen);
+			memcpy (&(plexbuff1[namelen+seplen]), ext, extlen+1);
+		} else if (current_joining_ext->type == prefixing) {
+			memcpy (plexbuff1, ext, extlen);
+			memcpy (&(plexbuff1[extlen]), &(namebuf[0]), namelen+1);
+		} else if (current_joining_ext->type == suffixing) {
+			memcpy (plexbuff1, &(namebuf[0]), namelen);
+			memcpy (&(plexbuff1[namelen]), ext, extlen+1);
+		}
+		ppecho (plexbuff1);
+	}
+}
+
+static void
 switch_to_buffer (const int line, const char *file, YY_BUFFER_STATE buffer)
 {
 	char	*p;
@@ -314,7 +413,7 @@ switch_to_buffer (const int line, const char *file, YY_BUFFER_STATE buffer)
 }
 
 int
-ppopen (const char *name, struct cb_replace_list *replace_list)
+ppopen (const char *name, struct cb_joining_ext *joining_ext, struct cb_replace_list *replace_list)
 {
 	struct copy_info *p;
 
@@ -343,6 +442,7 @@ ppopen (const char *name, struct cb_replace_list *replace_list)
 	p->line = cb_source_line;
 	p->file = cb_source_file;
 	p->replacing = replace_list ? 1 : 0;
+	p->joining = joining_ext ? 1 : 0;
 	p->buffer = YY_CURRENT_BUFFER;
 	p->quotation_mark = quotation_mark;
 	p->next = copy_stack;
@@ -352,12 +452,15 @@ ppopen (const char *name, struct cb_replace_list *replace_list)
 	if (replace_list) {
 		pp_set_replace_list (replace_list);
 	}
+	if (joining_ext) {
+		pp_set_joining_ext (joining_ext);
+	}
 	switch_to_buffer (1, name, yy_create_buffer (ppin, YY_BUF_SIZE));
 	return 0;
 }
 
 int
-ppcopy (const char *name, const char *lib, struct cb_replace_list *replace_list)
+ppcopy (const char *name, const char *lib, struct cb_joining_ext *joining_ext, struct cb_replace_list *replace_list)
 {
 	struct cb_text_list	*il;
 	struct cb_text_list	*el;
@@ -376,7 +479,7 @@ ppcopy (const char *name, const char *lib, struct cb_replace_list *replace_list)
 
 	/* Find the file */
 	if (stat (s, &st) == 0) {
-		return ppopen (s, replace_list);
+		return ppopen (s, joining_ext, replace_list);
 	}
 	if (!plexbuff2) {
 		plexbuff2 = cobc_malloc (COB_SMALL_BUFF);
@@ -384,7 +487,7 @@ ppcopy (const char *name, const char *lib, struct cb_replace_list *replace_list)
 	for (el = cb_extension_list; el; el = el->next) {
 		snprintf (plexbuff2, COB_SMALL_MAX, "%s%s", s, el->text);
 		if (stat (plexbuff2, &st) == 0) {
-			return ppopen (plexbuff2, replace_list);
+			return ppopen (plexbuff2, joining_ext, replace_list);
 		}
 	}
 	if (*s != '/') {
@@ -393,7 +496,7 @@ ppcopy (const char *name, const char *lib, struct cb_replace_list *replace_list)
 				snprintf (plexbuff2, COB_SMALL_MAX, "%s/%s%s",
 					  il->text, name, el->text);
 				if (stat (plexbuff2, &st) == 0) {
-					return ppopen (plexbuff2, replace_list);
+					return ppopen (plexbuff2, joining_ext, replace_list);
 				}
 			}
 		}

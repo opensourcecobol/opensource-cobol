@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenCOBOL 0.13\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2014-02-05 20:31+0900\n"
+"POT-Creation-Date: 2014-02-13 14:13+0900\n"
 "PO-Revision-Date: 2004-08-01 23:55+0900\n"
 "Last-Translator: Keisuke Nishida <knishida@coboler.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -1076,90 +1076,90 @@ msgstr "`%s' は修飾出来ません"
 msgid "Invalid mnemonic name"
 msgstr "不当なニーモニックです"
 
-#: cobc/pplex.l:122
+#: cobc/pplex.l:127
 msgid "PROCESS statement is ignored"
 msgstr "PROCESS 文は無視されます"
 
-#: cobc/pplex.l:329 cobc/pplex.l:401
+#: cobc/pplex.l:428 cobc/pplex.l:504
 #, c-format
 msgid "%s: %s"
 msgstr ""
 
-#: cobc/pplex.l:466 cobc/pplex.l:526
+#: cobc/pplex.l:569 cobc/pplex.l:629
 #, fuzzy
 msgid "Invalid directive - ignored"
 msgstr "不当な PICTURE 定義です"
 
-#: cobc/pplex.l:574
+#: cobc/pplex.l:677
 msgid "$IF is nested more than 10 times"
 msgstr ""
 
-#: cobc/pplex.l:580
+#: cobc/pplex.l:683
 msgid "Fatal error in $IF statement"
 msgstr ""
 
-#: cobc/pplex.l:585
+#: cobc/pplex.l:688
 msgid "Arguments not enough to $IF statemen"
 msgstr ""
 
-#: cobc/pplex.l:601
+#: cobc/pplex.l:704
 #, fuzzy
 msgid "Invalid argument $IF statemen"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:619
+#: cobc/pplex.l:722
 #, fuzzy, c-format
 msgid "%s is not a string"
 msgstr "`%s' はファイル名ではありません"
 
-#: cobc/pplex.l:643
+#: cobc/pplex.l:746
 #, fuzzy
 msgid "Fatal error in $ELSE statement"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:649
+#: cobc/pplex.l:752
 msgid "$IF has no defined before the $ELSE"
 msgstr ""
 
-#: cobc/pplex.l:656
+#: cobc/pplex.l:759
 msgid "$ELSE has continued"
 msgstr ""
 
-#: cobc/pplex.l:666
+#: cobc/pplex.l:769
 #, fuzzy
 msgid "Fatal error in $END statement"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:672
+#: cobc/pplex.l:775
 msgid "$IF has no defined before the $END"
 msgstr ""
 
-#: cobc/pplex.l:690
+#: cobc/pplex.l:793
 #, fuzzy
 msgid "Invalid $SET"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:695
+#: cobc/pplex.l:798
 #, fuzzy
 msgid "Invalid $ statements"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:777
+#: cobc/pplex.l:880
 #, fuzzy
 msgid "Line not terminated by a newline"
 msgstr "ファイルが改行で終わっていません"
 
-#: cobc/pplex.l:855
+#: cobc/pplex.l:958
 #, fuzzy, c-format
 msgid "Invalid indicator '%c' at column 7"
 msgstr "7 桁目が不当な指示子です `%c'"
 
-#: cobc/pplex.l:898
+#: cobc/pplex.l:1001
 #, fuzzy, c-format
 msgid "Source text after column %d"
 msgstr "ソース行が %d 桁を越えています"
 
-#: cobc/pplex.l:927 cobc/pplex.l:937
+#: cobc/pplex.l:1030 cobc/pplex.l:1040
 #, fuzzy
 msgid "Invalid line continuation"
 msgstr "不当な行連結です"

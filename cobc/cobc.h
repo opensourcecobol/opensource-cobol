@@ -85,6 +85,18 @@ struct cb_replace_list {
 	int			replace_type;
 };
 
+typedef enum {
+	joining_as_prefix,
+	joining_as_suffix,
+	prefixing,
+	suffixing
+} cb_joining_ext_type_t;
+
+struct cb_joining_ext {
+	char		    	*ext;
+	cb_joining_ext_type_t	type;
+};
+
 struct local_filename {
 	struct local_filename	*next;
 	char			*local_name;
@@ -276,10 +288,11 @@ extern FILE	*ppin;
 extern FILE	*ppout;
 extern int	pplex (void);
 extern int	ppparse (void);
-extern int	ppopen (const char *name, struct cb_replace_list *replace_list);
-extern int	ppcopy (const char *name, const char *lib,
-			struct cb_replace_list *replace_list);
+
+extern int	ppopen (const char *name, struct cb_joining_ext *joining_ext, struct cb_replace_list *replace_list);
+extern int	ppcopy (const char *name, const char *lib, struct cb_joining_ext *joining_ext, struct cb_replace_list *replace_list);
 extern void	pp_set_replace_list (struct cb_replace_list *replace_list);
+extern void	pp_set_joining_ext (struct cb_joining_ext *joining_ext);
 
 /* parser (in scanner.l, parser.y) */
 extern FILE	*yyin;

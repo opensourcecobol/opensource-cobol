@@ -51,14 +51,20 @@ static struct cb_replace_list *cb_replace_list_add_list (struct cb_replace_list 
 	char			*s;
 	struct cb_text_list	*l;
 	struct cb_replace_list	*r;
+	struct cb_joining_ext	*jx;
+	cb_joining_ext_type_t	jt;
 }
 
 %token TOKEN_EOF 0 "end of file"
 %token COPY REPLACE SUPPRESS PRINTING REPLACING OFF IN OF BY EQEQ LEADING TRAILING
+%token JOINING AS PREFIX SUFFIX
+%token PREFIXING SUFFIXING
 %token <s> TOKEN
 %type <s> copy_in
 %type <l> text pseudo_text token_list identifier subscripts
 %type <r> copy_replacing replacing_list replacing_tokens
+%type <jx> copy_joining
+%type <jt> joining_ext_type
 
 %%
 
@@ -66,7 +72,7 @@ statement_list: | statement_list statement ;
 statement: copy_statement | replace_statement ;
 
 copy_statement:
-  COPY TOKEN copy_in copy_suppress copy_replacing '.'
+  COPY TOKEN copy_in copy_suppress copy_joining copy_replacing '.'
   {
 	fputc ('\n', ppout);
 	$2 = fix_filename ($2);
@@ -83,7 +89,7 @@ copy_statement:
 			$3 = fold_upper ($3);
 		}
 	}
-	ppcopy ($2, $3, $5);
+	ppcopy ($2, $3, $5, $6);
   }
 ;
 
@@ -124,6 +130,38 @@ replacing_tokens:
 	$$ = cb_replace_list_add (NULL, $2, $4);
 	cb_replace_list_set_type ($$, CB_REPLACE_TRAILING);
   }
+;
+
+copy_joining:
+/* nothing */			{ $$ = NULL; }
+| JOINING TOKEN _as joining_ext_type
+  {
+	struct cb_joining_ext *p = cobc_malloc (sizeof (struct cb_joining_ext));
+	p->ext = $2;
+	p->type = $4;
+	$$ = p;
+  }
+| PREFIXING TOKEN
+  {
+	struct cb_joining_ext *p = cobc_malloc (sizeof (struct cb_joining_ext));
+	p->ext  = $2;
+	p->type = prefixing;
+	$$ = p;
+  }
+| SUFFIXING TOKEN
+  {
+	struct cb_joining_ext *p = cobc_malloc (sizeof (struct cb_joining_ext));
+	p->ext  = $2;
+	p->type = suffixing;
+	$$ = p;
+  }
+;
+
+_as: | AS ;
+
+joining_ext_type:
+  PREFIX 			{ $$ = joining_as_prefix; }
+| SUFFIX			{ $$ = joining_as_suffix; }
 ;
 
 text:

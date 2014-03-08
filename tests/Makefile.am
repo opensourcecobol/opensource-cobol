@@ -111,7 +111,8 @@ jp_compat_DEPENDENCIES = \
 	jp-compat.src/special-names.at \
 	jp-compat.src/intr-funcs.at \
 	jp-compat.src/file-control.at \
-	jp-compat.src/file-userfh.at
+	jp-compat.src/file-userfh.at \
+	jp-compat.src/copy-joining.at
 
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(syntax_DEPENDENCIES) \

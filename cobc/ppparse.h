@@ -52,7 +52,13 @@
      EQEQ = 267,
      LEADING = 268,
      TRAILING = 269,
-     TOKEN = 270
+     JOINING = 270,
+     AS = 271,
+     PREFIX = 272,
+     SUFFIX = 273,
+     PREFIXING = 274,
+     SUFFIXING = 275,
+     TOKEN = 276
    };
 #endif
 
@@ -68,11 +74,13 @@ typedef union YYSTYPE
 	char			*s;
 	struct cb_text_list	*l;
 	struct cb_replace_list	*r;
+	struct cb_joining_ext	*jx;
+	cb_joining_ext_type_t	jt;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 76 "ppparse.h"
+#line 84 "ppparse.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

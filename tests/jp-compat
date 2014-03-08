@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -358,6 +358,13 @@ at_help_all='1;split-keys.at:1;SPLIT KEYS (ALTERNATE KEY);;
 47;file-control.at:355;Allow file delete (INDEXED);;
 48;file-control.at:391;Allow file delete (INDEXED) - not available;;
 49;file-userfh.at:1;USERFH - READ LOCK;;
+50;copy-joining.at:1;COPY JOINING AS PREFIX;copy;
+51;copy-joining.at:25;COPY JOINING AS SUFFIX;copy;
+52;copy-joining.at:49;JOINING in RECURSIVE COPY;copy;
+53;copy-joining.at:77;JOINed in REDEFINES clause;copy;
+54;copy-joining.at:102;COPY JOINING EXISTING NAME;;
+55;copy-joining.at:127;COPY JOINING Group fields;;
+56;copy-joining.at:154;*NO* JOINING following JOINING ;;
 '
 
 at_keywords=
@@ -6094,6 +6101,641 @@ case $at_status in
             exit 77;;
    0) ;;
    *) echo "file-userfh.at:42: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  50 ) # 50. copy-joining.at:1: COPY JOINING AS PREFIX
+    at_setup_line='copy-joining.at:1'
+    at_desc='COPY JOINING AS PREFIX'
+    $at_quiet $ECHO_N " 50: COPY JOINING AS PREFIX                       $ECHO_C"
+    at_xfail=no
+    (
+      echo "50. copy-joining.at:1: testing ..."
+      $at_traceon
+
+
+
+cat >copy.inc <<'_ATEOF'
+
+       01 TEST-VAR PIC X(2) VALUE "OK".
+_ATEOF
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       COPY "copy.inc" JOINING O AS PREFIX.
+       PROCEDURE        DIVISION.
+           DISPLAY O-TEST-VAR NO ADVANCING
+           END-DISPLAY.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "copy-joining.at:20: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo copy-joining.at:20 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:20: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "copy-joining.at:21: ./prog"
+echo copy-joining.at:21 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:21: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  51 ) # 51. copy-joining.at:25: COPY JOINING AS SUFFIX
+    at_setup_line='copy-joining.at:25'
+    at_desc='COPY JOINING AS SUFFIX'
+    $at_quiet $ECHO_N " 51: COPY JOINING AS SUFFIX                       $ECHO_C"
+    at_xfail=no
+    (
+      echo "51. copy-joining.at:25: testing ..."
+      $at_traceon
+
+
+
+cat >copy.inc <<'_ATEOF'
+
+       01 TEST-VAR PIC X(2) VALUE "OK".
+_ATEOF
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       COPY "copy.inc" JOINING X AS SUFFIX.
+       PROCEDURE        DIVISION.
+           DISPLAY TEST-VAR-X NO ADVANCING
+           END-DISPLAY.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "copy-joining.at:44: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo copy-joining.at:44 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:44: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "copy-joining.at:45: ./prog"
+echo copy-joining.at:45 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:45: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  52 ) # 52. copy-joining.at:49: JOINING in RECURSIVE COPY
+    at_setup_line='copy-joining.at:49'
+    at_desc='JOINING in RECURSIVE COPY'
+    $at_quiet $ECHO_N " 52: JOINING in RECURSIVE COPY                    $ECHO_C"
+    at_xfail=no
+    (
+      echo "52. copy-joining.at:49: testing ..."
+      $at_traceon
+
+
+
+cat >copy-2.inc <<'_ATEOF'
+
+       01 TEST-VAR PIC X(2) VALUE "OK".
+_ATEOF
+
+
+cat >copy-1.inc <<'_ATEOF'
+
+       COPY "copy-2.inc".
+_ATEOF
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       COPY "copy-1.inc" JOINING O AS PREFIX.
+       PROCEDURE        DIVISION.
+           DISPLAY O-TEST-VAR NO ADVANCING
+           END-DISPLAY.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "copy-joining.at:72: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo copy-joining.at:72 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:72: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "copy-joining.at:73: ./prog"
+echo copy-joining.at:73 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:73: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  53 ) # 53. copy-joining.at:77: JOINed in REDEFINES clause
+    at_setup_line='copy-joining.at:77'
+    at_desc='JOINed in REDEFINES clause'
+    $at_quiet $ECHO_N " 53: JOINed in REDEFINES clause                   $ECHO_C"
+    at_xfail=no
+    (
+      echo "53. copy-joining.at:77: testing ..."
+      $at_traceon
+
+
+
+cat >copy.inc <<'_ATEOF'
+
+       01 TEST-VAR PIC X(2) VALUE "OK".
+       01 TEST-VAR2 REDEFINES TEST-VAR PIC X(2).
+_ATEOF
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       COPY "copy.inc" JOINING O AS PREFIX.
+       PROCEDURE        DIVISION.
+           DISPLAY O-TEST-VAR2 NO ADVANCING
+           END-DISPLAY.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "copy-joining.at:97: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo copy-joining.at:97 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:97: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "copy-joining.at:98: ./prog"
+echo copy-joining.at:98 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:98: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  54 ) # 54. copy-joining.at:102: COPY JOINING EXISTING NAME
+    at_setup_line='copy-joining.at:102'
+    at_desc='COPY JOINING EXISTING NAME'
+    $at_quiet $ECHO_N " 54: COPY JOINING EXISTING NAME                   $ECHO_C"
+    at_xfail=no
+    (
+      echo "54. copy-joining.at:102: testing ..."
+      $at_traceon
+
+
+cat >copy.inc <<'_ATEOF'
+
+       01 TEST-VAR PIC X(2) VALUE "OK".
+_ATEOF
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 TEST1.
+         03 DATA1   PIC X(01).
+       COPY "copy.inc" JOINING TEST1 AS PREFIX.
+       PROCEDURE        DIVISION.
+           DISPLAY TEST1-TEST-VAR NO ADVANCING
+           END-DISPLAY.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "copy-joining.at:122: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo copy-joining.at:122 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:122: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "copy-joining.at:123: ./prog"
+echo copy-joining.at:123 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:123: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  55 ) # 55. copy-joining.at:127: COPY JOINING Group fields
+    at_setup_line='copy-joining.at:127'
+    at_desc='COPY JOINING Group fields'
+    $at_quiet $ECHO_N " 55: COPY JOINING Group fields                    $ECHO_C"
+    at_xfail=no
+    (
+      echo "55. copy-joining.at:127: testing ..."
+      $at_traceon
+
+
+cat >copy.inc <<'_ATEOF'
+
+       01 TEST-VAR.
+         03 TEST-VAR2 PIC X(2) VALUE "NG".
+         03 TEST-VAR3 PIC X(2) VALUE "OK".
+_ATEOF
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 TEST1.
+         03 DATA1   PIC X(01).
+       COPY "copy.inc" JOINING TEST1 AS PREFIX.
+       PROCEDURE        DIVISION.
+           DISPLAY TEST1-TEST-VAR3 NO ADVANCING
+           END-DISPLAY.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "copy-joining.at:149: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo copy-joining.at:149 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:149: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "copy-joining.at:150: ./prog"
+echo copy-joining.at:150 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:150: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  56 ) # 56. copy-joining.at:154: *NO* JOINING following JOINING
+    at_setup_line='copy-joining.at:154'
+    at_desc='*NO* JOINING following JOINING '
+    $at_quiet $ECHO_N " 56: *NO* JOINING following JOINING               $ECHO_C"
+    at_xfail=no
+    (
+      echo "56. copy-joining.at:154: testing ..."
+      $at_traceon
+
+
+cat >copy1.inc <<'_ATEOF'
+
+       01 TEST1-VAR PIC X(2) VALUE "NG".
+_ATEOF
+
+
+cat >copy2.inc <<'_ATEOF'
+
+       01 TEST2-VAR PIC X(2) VALUE "OK".
+_ATEOF
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 TEST1.
+         03 DATA1   PIC X(01).
+       COPY "copy1.inc" JOINING TEST1 AS PREFIX.
+       COPY "copy2.inc".
+       PROCEDURE        DIVISION.
+           DISPLAY TEST2-VAR NO ADVANCING
+           END-DISPLAY.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "copy-joining.at:179: \${COMPILE_JP_COMPAT} -o prog prog.cob"
+echo copy-joining.at:179 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:179: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "copy-joining.at:180: ./prog"
+echo copy-joining.at:180 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy-joining.at:180: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
