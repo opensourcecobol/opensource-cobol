@@ -5465,6 +5465,12 @@ read_statement:
   end_read
   {
 	if ($3 != cb_error_node) {
+		if (cb_use_invalidkey_handler_on_status34 &&
+		    current_statement->handler_id == COB_EC_I_O_INVALID_KEY &&
+		    (CB_FILE(cb_ref ($3))->organization != COB_ORG_RELATIVE &&
+		     CB_FILE(cb_ref ($3))->organization != COB_ORG_INDEXED)) {
+			current_statement->handler_id = COB_EC_I_O_PERMANENT_ERROR;
+		}
 		if ($7 && (CB_FILE(cb_ref ($3))->lock_mode & COB_LOCK_AUTOMATIC)) {
 			cb_error (_("LOCK clause invalid with file LOCK AUTOMATIC"));
 		} else if ($8 &&
@@ -5584,6 +5590,12 @@ rewrite_statement:
   end_rewrite
   {
 	if ($3 != cb_error_node) {
+		if (cb_use_invalidkey_handler_on_status34 &&
+		    current_statement->handler_id == COB_EC_I_O_INVALID_KEY &&
+		    (CB_FIELD(cb_ref ($3))->file->organization != COB_ORG_RELATIVE &&
+		     CB_FIELD(cb_ref ($3))->file->organization != COB_ORG_INDEXED)) {
+			current_statement->handler_id = COB_EC_I_O_PERMANENT_ERROR;
+		}
 		cb_emit_rewrite ($3, $4, $5);
 	}
   }
@@ -6290,6 +6302,12 @@ write_statement:
   end_write
   {
 	if ($3 != cb_error_node) {
+		if (cb_use_invalidkey_handler_on_status34 &&
+		    current_statement->handler_id == COB_EC_I_O_INVALID_KEY &&
+		    (CB_FIELD(cb_ref ($3))->file->organization != COB_ORG_RELATIVE &&
+		     CB_FIELD(cb_ref ($3))->file->organization != COB_ORG_INDEXED)) {
+			current_statement->handler_id = COB_EC_I_O_PERMANENT_ERROR;
+		}
 		cb_emit_write ($3, $4, $6, $5);
 	}
   }
@@ -6766,7 +6784,23 @@ arithmetic_x:
 /* Record name */
 
 record_name:
-  qualified_word		{ cb_build_identifier ($1); }
+  qualified_word
+  {
+	cb_tree x;
+	cb_tree r;
+
+	if ((x = cb_build_identifier ($1)) != cb_error_node &&
+	    (r = cb_ref (x)) != cb_error_node) {
+		if (!CB_FIELD_P(r)) {
+			cb_error_x (x, _("Field name expected."));
+			x = cb_error_node;
+		} else if (!CB_FIELD(r)->file) {
+			cb_error_x (x, _("Record name expected."));
+			x = cb_error_node;
+		}
+	}
+	$$ = x;
+  }
 ;
 
 /* Table name */

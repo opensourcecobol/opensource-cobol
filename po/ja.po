@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenCOBOL 0.13\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2014-02-17 16:49+0900\n"
+"POT-Creation-Date: 2014-02-17 16:55+0900\n"
 "PO-Revision-Date: 2004-08-01 23:55+0900\n"
 "Last-Translator: Keisuke Nishida <knishida@coboler.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -1004,11 +1004,11 @@ msgstr ""
 msgid "REWRITE subject does not refer to a record name"
 msgstr ""
 
-#: cobc/typeck.c:6266 cobc/typeck.c:7598 cobc/parser.y:5477
+#: cobc/typeck.c:6266 cobc/typeck.c:7598 cobc/parser.y:5483
 msgid "INVALID KEY clause invalid with this file type"
 msgstr ""
 
-#: cobc/typeck.c:6269 cobc/typeck.c:7602 cobc/parser.y:5469
+#: cobc/typeck.c:6269 cobc/typeck.c:7602 cobc/parser.y:5475
 msgid "LOCK clause invalid with file LOCK AUTOMATIC"
 msgstr ""
 
@@ -1553,82 +1553,92 @@ msgstr ""
 msgid "INSPECT missing a keyword"
 msgstr ""
 
-#: cobc/parser.y:5473
+#: cobc/parser.y:5479
 #, fuzzy
 msgid "KEY clause invalid with this file type"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:5787
+#: cobc/parser.y:5799
 msgid "File sort requires KEY phrase"
 msgstr ""
 
-#: cobc/parser.y:5836
+#: cobc/parser.y:5848
 msgid "File sort requires USING or INPUT PROCEDURE"
 msgstr ""
 
-#: cobc/parser.y:5842
+#: cobc/parser.y:5854
 msgid "USING invalid with table SORT"
 msgstr ""
 
-#: cobc/parser.y:5850
+#: cobc/parser.y:5862
 msgid "INPUT PROCEDURE invalid with table SORT"
 msgstr ""
 
-#: cobc/parser.y:5861
+#: cobc/parser.y:5873
 msgid "File sort requires GIVING or OUTPUT PROCEDURE"
 msgstr ""
 
-#: cobc/parser.y:5867
+#: cobc/parser.y:5879
 msgid "GIVING invalid with table SORT"
 msgstr ""
 
-#: cobc/parser.y:5875
+#: cobc/parser.y:5887
 msgid "OUTPUT PROCEDURE invalid with table SORT"
 msgstr ""
 
-#: cobc/parser.y:5896
+#: cobc/parser.y:5908
 msgid "START not allowed on SEQUENTIAL files"
 msgstr ""
 
-#: cobc/parser.y:5902 cobc/parser.y:6747 cobc/parser.y:6820
+#: cobc/parser.y:5914 cobc/parser.y:6765 cobc/parser.y:6854
 #, fuzzy, c-format
 msgid "'%s' is not a file name"
 msgstr "`%s' はファイル名ではありません"
 
-#: cobc/parser.y:6177
+#: cobc/parser.y:6189
 msgid "USE statement must be within DECLARATIVES"
 msgstr ""
 
-#: cobc/parser.y:6179
+#: cobc/parser.y:6191
 msgid "SECTION header missing before USE statement"
 msgstr ""
 
-#: cobc/parser.y:6733
+#: cobc/parser.y:6751
 #, fuzzy
 msgid "LINAGE-COUNTER must be qualified here"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:6736
+#: cobc/parser.y:6754
 #, fuzzy
 msgid "Invalid LINAGE-COUNTER usage"
 msgstr "不当な VALUE 句です"
 
-#: cobc/parser.y:6783
+#: cobc/parser.y:6795
+#, fuzzy
+msgid "Field name expected."
+msgstr "数値が必要です"
+
+#: cobc/parser.y:6798
+#, fuzzy
+msgid "Record name expected."
+msgstr "数値が必要です"
+
+#: cobc/parser.y:6817
 #, fuzzy, c-format
 msgid "'%s' not indexed"
 msgstr "`%s' には INDEXED BY が必要です"
 
-#: cobc/parser.y:6784
+#: cobc/parser.y:6818
 #, fuzzy, c-format
 msgid "'%s' defined here"
 msgstr "`%s' はここで定義されました"
 
-#: cobc/parser.y:6806
+#: cobc/parser.y:6840
 #, c-format
 msgid "Multiple reference to '%s' "
 msgstr ""
 
-#: cobc/parser.y:7077 cobc/parser.y:7079
+#: cobc/parser.y:7111 cobc/parser.y:7113
 #, fuzzy
 msgid "Integer value expected"
 msgstr "数値が必要です"
