@@ -103,7 +103,10 @@ static void switch_to_buffer (const int lineno, const char *filename,
 
 %}
 
-JPNWORD [\xA0-\xDF]|([\x81-\x9F\xE0-\xFC][\x40-\x7E\x80-\xFC])
+ZENSPC		[\x81][\x40]
+SJIS		[\x81-\x9F\xE0-\xFC][\x40-\x7E\x80-\xFC]
+SJIS_EX_ZENSPC	[\x82-\x9F\xE0-\xFC][\x40-\x7E\x80-\xFC]|[\x81][\x40-\x7E\x80-\xFC]{-}[\x40]
+JPNWORD		[\xA0-\xDF]|{SJIS_EX_ZENSPC}
 WORD		([_0-9A-Z-]|{JPNWORD})+
 
 NUMRIC_LITERAL	[+-]?[0-9,.]*[0-9]
@@ -133,7 +136,7 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 
 <COPY_STATE>{
   [,;]?\n		{ ECHO; cb_source_line++; }
-  [,;]?[ ]+		{ /* ignore */ }
+  [,;]?({ZENSPC}|[ ])+	{ /* ignore */ }
   "."			{ BEGIN INITIAL; return '.'; }
   "=="			{ BEGIN PSEUDO_STATE; return EQEQ; }
   "("			{ return '('; }
@@ -165,7 +168,7 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 
 <PSEUDO_STATE>{
   [,;]?\n		{ ECHO; cb_source_line++; }
-  [,;]?[ ]+		{ pplval.s = strdup (" "); return TOKEN; }
+  [,;]?({ZENSPC}|[ ])+	{ pplval.s = strdup (" "); return TOKEN; }
   "=="			{ BEGIN COPY_STATE; return EQEQ; }
   {WORD}		{
 #ifdef	I18N_UTF8
@@ -182,7 +185,7 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
   "INCLUDE"		{ BEGIN COPY_STATE; return COPY; }
   "REPLACE"		{ BEGIN COPY_STATE; return REPLACE; }
   [,;]?\n		{ ECHO; cb_source_line++; }
-  [,;]?[ ]+		{ ppecho (" "); }
+  [,;]?({ZENSPC}|[ ])+	{ ppecho (" "); }
   {WORD}		{ BEGIN INITIAL; ppecho_dataname (yytext); }
   {NUMRIC_LITERAL} |
   {ALNUM_LITERAL} |
@@ -227,9 +230,9 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 
 [,;]?\n			{ ppecho ("\n"); cb_source_line++; }
 
-[;]?[ ]+		{ ppecho (" "); }
+[;]?({ZENSPC}|[ ])+	{ ppecho (" "); }
 
-[,]?[ ]+ {
+[,]?({ZENSPC}|[ ])+ {
 	if (inside_bracket) {
 		ppecho (", ");
 	} else {
@@ -249,7 +252,7 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 	ppecho (")");
 }
 
-^[ ]*[0-9]+ {
+^({ZENSPC}|[ ])*[0-9]+ {
 	char *p = yytext;
 	while (*p == ' ') {
 		p++;

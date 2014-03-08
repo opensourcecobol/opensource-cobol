@@ -89,7 +89,8 @@ i18n_utf8_DEPENDENCIES = \
 	i18n_utf8.src/stored-char-length.at \
 	i18n_utf8.src/warn-mixture-byte.at \
 	i18n_utf8.src/limits.at \
-	i18n_utf8.src/national.at
+	i18n_utf8.src/national.at \
+	i18n_utf8.src/mb-space.at
 
 i18n_sjis_DEPENDENCIES = \
 	i18n_sjis.at \
@@ -99,7 +100,8 @@ i18n_sjis_DEPENDENCIES = \
 	i18n_sjis.src/program-id.at \
 	i18n_sjis.src/error-print.at \
 	i18n_sjis.src/limits.at \
-	i18n_sjis.src/national.at
+	i18n_sjis.src/national.at \
+	i18n_sjis.src/mb-space.at
 
 jp_compat_DEPENDENCIES = \
 	jp-compat.at \

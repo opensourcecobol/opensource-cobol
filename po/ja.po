@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenCOBOL 0.13\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2014-02-17 16:16+0900\n"
+"POT-Creation-Date: 2014-02-17 16:22+0900\n"
 "PO-Revision-Date: 2004-08-01 23:55+0900\n"
 "Last-Translator: Keisuke Nishida <knishida@coboler.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -1091,90 +1091,90 @@ msgstr "`%s' は修飾出来ません"
 msgid "Invalid mnemonic name"
 msgstr "不当なニーモニックです"
 
-#: cobc/pplex.l:127
+#: cobc/pplex.l:139
 msgid "PROCESS statement is ignored"
 msgstr "PROCESS 文は無視されます"
 
-#: cobc/pplex.l:428 cobc/pplex.l:504
+#: cobc/pplex.l:440 cobc/pplex.l:516
 #, c-format
 msgid "%s: %s"
 msgstr ""
 
-#: cobc/pplex.l:569 cobc/pplex.l:629
+#: cobc/pplex.l:581 cobc/pplex.l:641
 #, fuzzy
 msgid "Invalid directive - ignored"
 msgstr "不当な PICTURE 定義です"
 
-#: cobc/pplex.l:677
+#: cobc/pplex.l:689
 msgid "$IF is nested more than 10 times"
 msgstr ""
 
-#: cobc/pplex.l:683
+#: cobc/pplex.l:695
 msgid "Fatal error in $IF statement"
 msgstr ""
 
-#: cobc/pplex.l:688
+#: cobc/pplex.l:700
 msgid "Arguments not enough to $IF statemen"
 msgstr ""
 
-#: cobc/pplex.l:704
+#: cobc/pplex.l:716
 #, fuzzy
 msgid "Invalid argument $IF statemen"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:722
+#: cobc/pplex.l:734
 #, fuzzy, c-format
 msgid "%s is not a string"
 msgstr "`%s' はファイル名ではありません"
 
-#: cobc/pplex.l:746
+#: cobc/pplex.l:758
 #, fuzzy
 msgid "Fatal error in $ELSE statement"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:752
+#: cobc/pplex.l:764
 msgid "$IF has no defined before the $ELSE"
 msgstr ""
 
-#: cobc/pplex.l:759
+#: cobc/pplex.l:771
 msgid "$ELSE has continued"
 msgstr ""
 
-#: cobc/pplex.l:769
+#: cobc/pplex.l:781
 #, fuzzy
 msgid "Fatal error in $END statement"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:775
+#: cobc/pplex.l:787
 msgid "$IF has no defined before the $END"
 msgstr ""
 
-#: cobc/pplex.l:793
+#: cobc/pplex.l:805
 #, fuzzy
 msgid "Invalid $SET"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:798
+#: cobc/pplex.l:810
 #, fuzzy
 msgid "Invalid $ statements"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:880
+#: cobc/pplex.l:892
 #, fuzzy
 msgid "Line not terminated by a newline"
 msgstr "ファイルが改行で終わっていません"
 
-#: cobc/pplex.l:958
+#: cobc/pplex.l:970
 #, fuzzy, c-format
 msgid "Invalid indicator '%c' at column 7"
 msgstr "7 桁目が不当な指示子です `%c'"
 
-#: cobc/pplex.l:1001
+#: cobc/pplex.l:1013
 #, fuzzy, c-format
 msgid "Source text after column %d"
 msgstr "ソース行が %d 桁を越えています"
 
-#: cobc/pplex.l:1030 cobc/pplex.l:1040
+#: cobc/pplex.l:1042 cobc/pplex.l:1052
 #, fuzzy
 msgid "Invalid line continuation"
 msgstr "不当な行連結です"
@@ -1623,39 +1623,39 @@ msgstr ""
 msgid "Integer value expected"
 msgstr "数値が必要です"
 
-#: cobc/scanner.l:526
+#: cobc/scanner.l:536
 msgid "User defined name must be less than 32 characters"
 msgstr ""
 
-#: cobc/scanner.l:589
+#: cobc/scanner.l:599
 #, c-format
 msgid "CONSTANT (78 level) may not be used here - '%s'"
 msgstr ""
 
-#: cobc/scanner.l:602
+#: cobc/scanner.l:612
 msgid "PROGRAM-ID length exceeds C89 function name limit"
 msgstr ""
 
-#: cobc/scanner.l:776
+#: cobc/scanner.l:786
 #, fuzzy
 msgid "Alphanumeric literal has zero length"
 msgstr "文字列が必要です"
 
-#: cobc/scanner.l:777
+#: cobc/scanner.l:787
 msgid "A SPACE will be assumed"
 msgstr ""
 
-#: cobc/scanner.l:866
+#: cobc/scanner.l:876
 #, fuzzy, c-format
 msgid "Invalid X literal: %s"
 msgstr "不当な X 定数です: %s"
 
-#: cobc/scanner.l:902
+#: cobc/scanner.l:912
 #, fuzzy, c-format
 msgid "Invalid H literal: %s"
 msgstr "不当な H 定数です: %s"
 
-#: cobc/scanner.l:927 cobc/scanner.l:930
+#: cobc/scanner.l:937 cobc/scanner.l:940
 #, fuzzy
 msgid "Invalid numeric literal"
 msgstr "不当な数字定数です"

@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -391,6 +391,9 @@ at_help_all='1;user-defined-word.at:1;Program name;;
 80;national.at:85;FUNCTION NATIONAL KIGOU-plus;;
 81;national.at:106;FUNCTION NATIONAL (HanKana w/ Daku-on);;
 82;national.at:127;FUNCTION NATIONAL (HanKana w/ Han-daku-on);;
+83;mb-space.at:1;Zenkaku SPC delims in headings;;
+84;mb-space.at:19;Zenkaku SPC delims in record def;;
+85;mb-space.at:43;Zenkaku SPC delims in COPY stmt;;
 '
 
 at_keywords=
@@ -6902,6 +6905,263 @@ case $at_status in
             exit 77;;
    0) ;;
    *) echo "national.at:144: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  83 ) # 83. mb-space.at:1: Zenkaku SPC delims in headings
+    at_setup_line='mb-space.at:1'
+    at_desc='Zenkaku SPC delims in headings'
+    $at_quiet $ECHO_N " 83: Zenkaku SPC delims in headings               $ECHO_C"
+    at_xfail=no
+    (
+      echo "83. mb-space.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION　DIVISION.
+       PROGRAM-ID.      prog.
+       DATA 　　　　　 DIVISION.
+       WORKING-STORAGE　 SECTION.
+       01 項目 PIC X.
+       PROCEDURE 　　DIVISION.
+           DISPLAY "OK" WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "mb-space.at:14: \${COMPILE} -x prog.cob"
+echo mb-space.at:14 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "mb-space.at:14: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "mb-space.at:15: ./prog"
+echo mb-space.at:15 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "mb-space.at:15: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  84 ) # 84. mb-space.at:19: Zenkaku SPC delims in record def
+    at_setup_line='mb-space.at:19'
+    at_desc='Zenkaku SPC delims in record def'
+    $at_quiet $ECHO_N " 84: Zenkaku SPC delims in record def             $ECHO_C"
+    at_xfail=no
+    (
+      echo "84. mb-space.at:19: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 項目　PIC X(40) VALUE
+          "Zen SPC between item name and PIC clause".
+　     01  F00 PIC X.
+  　   01  F01 PIC X.
+       01　F02 PIC X.
+       01　F03 PIC　X.
+       01　F04 PIC X　.
+       PROCEDURE        DIVISION.
+           DISPLAY 項目 WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "mb-space.at:38: \${COMPILE} -x prog.cob"
+echo mb-space.at:38 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "mb-space.at:38: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "mb-space.at:39: ./prog"
+echo mb-space.at:39 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "Zen SPC between item name and PIC clause" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "mb-space.at:39: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  85 ) # 85. mb-space.at:43: Zenkaku SPC delims in COPY stmt
+    at_setup_line='mb-space.at:43'
+    at_desc='Zenkaku SPC delims in COPY stmt'
+    $at_quiet $ECHO_N " 85: Zenkaku SPC delims in COPY stmt              $ECHO_C"
+    at_xfail=no
+    (
+      echo "85. mb-space.at:43: testing ..."
+      $at_traceon
+
+
+cat >inc.cpy <<'_ATEOF'
+
+       01 項目　PIC X(2) VALUE "OK".
+　     01  F00 PIC X.
+  　   01  F01 PIC X.
+       01　F02 PIC X.
+       01　F03 PIC　X.
+       01　F04 PIC X　.
+_ATEOF
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       COPY 　inc.
+       PROCEDURE        DIVISION.
+           DISPLAY 項目 WITH NO ADVANCING.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "mb-space.at:65: \${COMPILE} -x prog.cob"
+echo mb-space.at:65 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "mb-space.at:65: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "mb-space.at:66: ./prog"
+echo mb-space.at:66 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "OK" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "mb-space.at:66: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
