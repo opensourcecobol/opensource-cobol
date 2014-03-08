@@ -144,6 +144,8 @@ static int		cob_verbose = 0;
 
 static int		cob_io_assume_rewrite = 0;
 
+static int		cob_nibble_c_for_unsigned = 0;
+
 /* Runtime exit handling */
 static struct exit_handlerlist {
 	struct exit_handlerlist	*next;
@@ -1061,6 +1063,11 @@ cob_init (const int argc, char **argv)
 			cob_io_assume_rewrite = 1;
 		}
 
+		s = getenv ("COB_NIBBLE_C_UNSIGNED");
+		if (s && (*s == 'Y' || *s == 'y')) {
+			cob_nibble_c_for_unsigned = 1;
+		}
+
 		cob_initialized = 1;
 	}
 }
@@ -1499,6 +1506,10 @@ cob_is_numeric (const cob_field *f)
 		}
 		if (COB_FIELD_HAVE_SIGN (f)) {
 			if (sign == 0x0c || sign == 0x0d) {
+				return 1;
+			}
+		} else if (cob_nibble_c_for_unsigned) {
+			if (sign == 0x0c) {
 				return 1;
 			}
 		}
