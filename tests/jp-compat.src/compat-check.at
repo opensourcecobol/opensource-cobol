@@ -1,0 +1,31 @@
+AT_SETUP([DIV/MUL ORDER])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       77 X             PIC 99v999.
+       PROCEDURE        DIVISION.
+           COMPUTE X = 1 / 3 * 5.      *>WARN
+           COMPUTE X = 1 * 3 / 5.      *>NO WARN
+           COMPUTE X = 9 / 1 / 3 * 5.  *>WARN
+           COMPUTE X = 1 / 3 * 5 * 9.  *>WARN
+           COMPUTE X = 1 / 3 + 9 * 5.  *>NO WARN
+           COMPUTE X = 9 + 1 / 3 * 5.  *>WARN
+           COMPUTE X = 1 / 3 * 5 + 9.  *>WARN
+           COMPUTE X = 1 / 3 * 5 + 2 / 6 * 10.  *>WARN TWICE
+           GOBACK.
+])
+
+AT_CHECK([${COMPILE_JP_COMPAT} -Wcompat prog.cob], [0], [],
+[prog.cob:8: Warning: MUL operation after DIV can cause the precision issue.
+prog.cob:10: Warning: MUL operation after DIV can cause the precision issue.
+prog.cob:11: Warning: MUL operation after DIV can cause the precision issue.
+prog.cob:13: Warning: MUL operation after DIV can cause the precision issue.
+prog.cob:14: Warning: MUL operation after DIV can cause the precision issue.
+prog.cob:15: Warning: MUL operation after DIV can cause the precision issue.
+prog.cob:15: Warning: MUL operation after DIV can cause the precision issue.
+])
+
+AT_CLEANUP

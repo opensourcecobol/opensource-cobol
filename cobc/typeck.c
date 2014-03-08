@@ -1970,6 +1970,41 @@ cb_expr_finish (void)
 	return expr_stack[3].value;
 }
 
+static int
+check_div_mul_order (cb_tree n)
+{
+	int flg = 0;
+
+	if (CB_BINARY_OP (n)->x && CB_BINARY_OP_P (CB_BINARY_OP (n)->x)) {
+		flg = check_div_mul_order (CB_BINARY_OP (n)->x);
+	}
+	if (CB_BINARY_OP (n)->y && CB_BINARY_OP_P (CB_BINARY_OP (n)->y)) {
+		flg = check_div_mul_order (CB_BINARY_OP (n)->y);
+	}
+	if (CB_BINARY_OP (n)->op == '/') {
+		flg = 1;
+	} else if (CB_BINARY_OP (n)->op == '*') {
+		if (flg) {
+			cb_warning (_("MUL operation after DIV can cause the precision issue."));
+			flg = 0;
+		}
+	} else {
+		flg = 0;
+	}
+	return flg;
+}
+
+static cb_tree
+cb_validate_expr (cb_tree x)
+{
+	if (cb_warn_compat) {
+		if (CB_BINARY_OP_P(x)) {
+			check_div_mul_order (x);
+		}
+	}
+	return x;
+}
+
 cb_tree
 cb_build_expr (cb_tree list)
 {
@@ -2032,7 +2067,7 @@ cb_build_expr (cb_tree list)
 		}
 	}
 
-	return cb_expr_finish ();
+	return cb_validate_expr (cb_expr_finish ());
 }
 
 /*

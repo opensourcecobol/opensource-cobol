@@ -104,6 +104,7 @@ i18n_sjis_DEPENDENCIES = \
 jp_compat_DEPENDENCIES = \
 	jp-compat.at \
 	jp-compat.src/split-keys.at \
+	jp-compat.src/compat-check.at \
 	jp-compat.src/copy-leading-trailing.at \
 	jp-compat.src/end-program-wrong.at \
 	jp-compat.src/evaluate-also-missing.at \

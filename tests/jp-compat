@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -318,56 +318,57 @@ at_help_all='1;split-keys.at:1;SPLIT KEYS (ALTERNATE KEY);;
 7;split-keys.at:369;SPLIT KEYS (START Syntax - GREATER THAN);;
 8;split-keys.at:433;SPLIT KEYS (START Syntax - GREATER THAN - NOT YET);;
 9;split-keys.at:500;SPLIT KEYS (key unmatch);;
-10;copy-leading-trailing.at:1;COPY REPLACING LEADING;copy;
-11;copy-leading-trailing.at:26;COPY REPLACING TRAILING;copy;
-12;copy-leading-trailing.at:51;COPY REPLACING LEADING TRAILING;copy;
-13;end-program-wrong.at:1;Allow wrong pgm-name in END-PROGRAM;;
-14;evaluate-also-missing.at:1;Allow missing ALSO in EVALUATE-WHEN;;
-15;evaluate-also-missing.at:25;Allow missing both ALSO and class condition IS in EVALUATE;;
-16;empty-imperative.at:1;Allow empty EVALUATE-WHEN OTHER;;
-17;empty-imperative.at:24;Allow empty ELSE;;
-18;empty-imperative.at:46;Allow empty EVALUATE- before WHEN OTHER;;
-19;empty-imperative.at:70;Allow empty EVALUATE- semantics;;
-20;empty-imperative.at:93;Allow empty EVALUATE- semantics 2;;
-21;empty-imperative.at:118;Allow empty EVALUATE- semantics 3;;
-22;spl-registers.at:1;PROGRAM-STATUS;;
-23;spl-registers.at:16;SORT-STATUS (alias SORT-RETURN);;
-24;spl-registers.at:32;SORT-STATUS (Break in input section);;
-25;spl-registers.at:96;SORT-STATUS (Break in output section);;
-26;spl-registers.at:160;SORT-STATUS (Break in section with THRU);;
-27;spl-registers.at:228;SORT-STATUS break in MERGE;;
-28;spl-registers.at:288;SORT-STATUS break with No SORT-STATUS in pgm;;
-29;special-names.at:1;ACCEPT ARGUMENT-NUMBER;;
-30;special-names.at:24;ACCEPT ARGUMENT-VALUE;;
-31;special-names.at:48;ACCEPT ENVIRONMENT-VALUE;;
-32;special-names.at:72;DISPLAY ARGUMENT-NUMBER;;
-33;special-names.at:96;DISPLAY ENVIRONMENT-NAME;;
-34;special-names.at:120;DISPLAY ENVIRONMENT-VALUE;;
-35;intr-funcs.at:1;FUNCTION LENG (fixed);;
-36;intr-funcs.at:21;FUNCTION LENG (occur. depending);;
-37;intr-funcs.at:44;FUNCTION LENGTH-AN (fixed);;
-38;intr-funcs.at:64;FUNCTION LENGTH-AN (occur. depending);;
-39;file-control.at:1;Allow no file open (I-O, SEQUENTIAL);;
-40;file-control.at:32;Allow no file open (I-O, LINE SEQ);;
-41;file-control.at:63;Allow no file open (I-O, RELATIVE);;
-42;file-control.at:96;Allow no file open (I-O, INDEXED);;
-43;file-control.at:129;Allow no file open (EXTEND, SEQUENTIAL);;
-44;file-control.at:160;Allow no file open (EXTEND, LINE SEQ);;
-45;file-control.at:191;Allow no file open (EXTEND, RELATIVE);;
-46;file-control.at:224;Allow no file open (EXTEND, INDEXED);;
-47;file-control.at:257;Allow file delete (SEQUENTIAL);;
-48;file-control.at:289;Allow file delete (LINE SEQ);;
-49;file-control.at:321;Allow file delete (RELATIVE);;
-50;file-control.at:355;Allow file delete (INDEXED);;
-51;file-control.at:391;Allow file delete (INDEXED) - not available;;
-52;file-userfh.at:1;USERFH - READ LOCK;;
-53;copy-joining.at:1;COPY JOINING AS PREFIX;copy;
-54;copy-joining.at:25;COPY JOINING AS SUFFIX;copy;
-55;copy-joining.at:49;JOINING in RECURSIVE COPY;copy;
-56;copy-joining.at:77;JOINed in REDEFINES clause;copy;
-57;copy-joining.at:102;COPY JOINING EXISTING NAME;;
-58;copy-joining.at:127;COPY JOINING Group fields;;
-59;copy-joining.at:154;*NO* JOINING following JOINING ;;
+10;compat-check.at:1;DIV/MUL ORDER;;
+11;copy-leading-trailing.at:1;COPY REPLACING LEADING;copy;
+12;copy-leading-trailing.at:26;COPY REPLACING TRAILING;copy;
+13;copy-leading-trailing.at:51;COPY REPLACING LEADING TRAILING;copy;
+14;end-program-wrong.at:1;Allow wrong pgm-name in END-PROGRAM;;
+15;evaluate-also-missing.at:1;Allow missing ALSO in EVALUATE-WHEN;;
+16;evaluate-also-missing.at:25;Allow missing both ALSO and class condition IS in EVALUATE;;
+17;empty-imperative.at:1;Allow empty EVALUATE-WHEN OTHER;;
+18;empty-imperative.at:24;Allow empty ELSE;;
+19;empty-imperative.at:46;Allow empty EVALUATE- before WHEN OTHER;;
+20;empty-imperative.at:70;Allow empty EVALUATE- semantics;;
+21;empty-imperative.at:93;Allow empty EVALUATE- semantics 2;;
+22;empty-imperative.at:118;Allow empty EVALUATE- semantics 3;;
+23;spl-registers.at:1;PROGRAM-STATUS;;
+24;spl-registers.at:16;SORT-STATUS (alias SORT-RETURN);;
+25;spl-registers.at:32;SORT-STATUS (Break in input section);;
+26;spl-registers.at:96;SORT-STATUS (Break in output section);;
+27;spl-registers.at:160;SORT-STATUS (Break in section with THRU);;
+28;spl-registers.at:228;SORT-STATUS break in MERGE;;
+29;spl-registers.at:288;SORT-STATUS break with No SORT-STATUS in pgm;;
+30;special-names.at:1;ACCEPT ARGUMENT-NUMBER;;
+31;special-names.at:24;ACCEPT ARGUMENT-VALUE;;
+32;special-names.at:48;ACCEPT ENVIRONMENT-VALUE;;
+33;special-names.at:72;DISPLAY ARGUMENT-NUMBER;;
+34;special-names.at:96;DISPLAY ENVIRONMENT-NAME;;
+35;special-names.at:120;DISPLAY ENVIRONMENT-VALUE;;
+36;intr-funcs.at:1;FUNCTION LENG (fixed);;
+37;intr-funcs.at:21;FUNCTION LENG (occur. depending);;
+38;intr-funcs.at:44;FUNCTION LENGTH-AN (fixed);;
+39;intr-funcs.at:64;FUNCTION LENGTH-AN (occur. depending);;
+40;file-control.at:1;Allow no file open (I-O, SEQUENTIAL);;
+41;file-control.at:32;Allow no file open (I-O, LINE SEQ);;
+42;file-control.at:63;Allow no file open (I-O, RELATIVE);;
+43;file-control.at:96;Allow no file open (I-O, INDEXED);;
+44;file-control.at:129;Allow no file open (EXTEND, SEQUENTIAL);;
+45;file-control.at:160;Allow no file open (EXTEND, LINE SEQ);;
+46;file-control.at:191;Allow no file open (EXTEND, RELATIVE);;
+47;file-control.at:224;Allow no file open (EXTEND, INDEXED);;
+48;file-control.at:257;Allow file delete (SEQUENTIAL);;
+49;file-control.at:289;Allow file delete (LINE SEQ);;
+50;file-control.at:321;Allow file delete (RELATIVE);;
+51;file-control.at:355;Allow file delete (INDEXED);;
+52;file-control.at:391;Allow file delete (INDEXED) - not available;;
+53;file-userfh.at:1;USERFH - READ LOCK;;
+54;copy-joining.at:1;COPY JOINING AS PREFIX;copy;
+55;copy-joining.at:25;COPY JOINING AS SUFFIX;copy;
+56;copy-joining.at:49;JOINING in RECURSIVE COPY;copy;
+57;copy-joining.at:77;JOINed in REDEFINES clause;copy;
+58;copy-joining.at:102;COPY JOINING EXISTING NAME;;
+59;copy-joining.at:127;COPY JOINING Group fields;;
+60;copy-joining.at:154;*NO* JOINING following JOINING ;;
 '
 
 at_keywords=
@@ -2046,13 +2047,82 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  10 ) # 10. copy-leading-trailing.at:1: COPY REPLACING LEADING
-    at_setup_line='copy-leading-trailing.at:1'
-    at_desc='COPY REPLACING LEADING'
-    $at_quiet $ECHO_N " 10: COPY REPLACING LEADING                       $ECHO_C"
+  10 ) # 10. compat-check.at:1: DIV/MUL ORDER
+    at_setup_line='compat-check.at:1'
+    at_desc='DIV/MUL ORDER'
+    $at_quiet $ECHO_N " 10: DIV/MUL ORDER                                $ECHO_C"
     at_xfail=no
     (
-      echo "10. copy-leading-trailing.at:1: testing ..."
+      echo "10. compat-check.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       77 X             PIC 99v999.
+       PROCEDURE        DIVISION.
+           COMPUTE X = 1 / 3 * 5.      *>WARN
+           COMPUTE X = 1 * 3 / 5.      *>NO WARN
+           COMPUTE X = 9 / 1 / 3 * 5.  *>WARN
+           COMPUTE X = 1 / 3 * 5 * 9.  *>WARN
+           COMPUTE X = 1 / 3 + 9 * 5.  *>NO WARN
+           COMPUTE X = 9 + 1 / 3 * 5.  *>WARN
+           COMPUTE X = 1 / 3 * 5 + 9.  *>WARN
+           COMPUTE X = 1 / 3 * 5 + 2 / 6 * 10.  *>WARN TWICE
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "compat-check.at:21: \${COMPILE_JP_COMPAT} -Wcompat prog.cob"
+echo compat-check.at:21 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} -Wcompat prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:8: Warning: MUL operation after DIV can cause the precision issue.
+prog.cob:10: Warning: MUL operation after DIV can cause the precision issue.
+prog.cob:11: Warning: MUL operation after DIV can cause the precision issue.
+prog.cob:13: Warning: MUL operation after DIV can cause the precision issue.
+prog.cob:14: Warning: MUL operation after DIV can cause the precision issue.
+prog.cob:15: Warning: MUL operation after DIV can cause the precision issue.
+prog.cob:15: Warning: MUL operation after DIV can cause the precision issue.
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "compat-check.at:21: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  11 ) # 11. copy-leading-trailing.at:1: COPY REPLACING LEADING
+    at_setup_line='copy-leading-trailing.at:1'
+    at_desc='COPY REPLACING LEADING'
+    $at_quiet $ECHO_N " 11: COPY REPLACING LEADING                       $ECHO_C"
+    at_xfail=no
+    (
+      echo "11. copy-leading-trailing.at:1: testing ..."
       $at_traceon
 
 
@@ -2135,13 +2205,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  11 ) # 11. copy-leading-trailing.at:26: COPY REPLACING TRAILING
+  12 ) # 12. copy-leading-trailing.at:26: COPY REPLACING TRAILING
     at_setup_line='copy-leading-trailing.at:26'
     at_desc='COPY REPLACING TRAILING'
-    $at_quiet $ECHO_N " 11: COPY REPLACING TRAILING                      $ECHO_C"
+    $at_quiet $ECHO_N " 12: COPY REPLACING TRAILING                      $ECHO_C"
     at_xfail=no
     (
-      echo "11. copy-leading-trailing.at:26: testing ..."
+      echo "12. copy-leading-trailing.at:26: testing ..."
       $at_traceon
 
 
@@ -2224,13 +2294,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  12 ) # 12. copy-leading-trailing.at:51: COPY REPLACING LEADING TRAILING
+  13 ) # 13. copy-leading-trailing.at:51: COPY REPLACING LEADING TRAILING
     at_setup_line='copy-leading-trailing.at:51'
     at_desc='COPY REPLACING LEADING TRAILING'
-    $at_quiet $ECHO_N " 12: COPY REPLACING LEADING TRAILING              $ECHO_C"
+    $at_quiet $ECHO_N " 13: COPY REPLACING LEADING TRAILING              $ECHO_C"
     at_xfail=no
     (
-      echo "12. copy-leading-trailing.at:51: testing ..."
+      echo "13. copy-leading-trailing.at:51: testing ..."
       $at_traceon
 
 
@@ -2263,13 +2333,13 @@ _ATEOF
     at_status=`cat $at_status_file`
     ;;
 
-  13 ) # 13. end-program-wrong.at:1: Allow wrong pgm-name in END-PROGRAM
+  14 ) # 14. end-program-wrong.at:1: Allow wrong pgm-name in END-PROGRAM
     at_setup_line='end-program-wrong.at:1'
     at_desc='Allow wrong pgm-name in END-PROGRAM'
-    $at_quiet $ECHO_N " 13: Allow wrong pgm-name in END-PROGRAM          $ECHO_C"
+    $at_quiet $ECHO_N " 14: Allow wrong pgm-name in END-PROGRAM          $ECHO_C"
     at_xfail=no
     (
-      echo "13. end-program-wrong.at:1: testing ..."
+      echo "14. end-program-wrong.at:1: testing ..."
       $at_traceon
 
 
@@ -2316,13 +2386,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  14 ) # 14. evaluate-also-missing.at:1: Allow missing ALSO in EVALUATE-WHEN
+  15 ) # 15. evaluate-also-missing.at:1: Allow missing ALSO in EVALUATE-WHEN
     at_setup_line='evaluate-also-missing.at:1'
     at_desc='Allow missing ALSO in EVALUATE-WHEN'
-    $at_quiet $ECHO_N " 14: Allow missing ALSO in EVALUATE-WHEN          $ECHO_C"
+    $at_quiet $ECHO_N " 15: Allow missing ALSO in EVALUATE-WHEN          $ECHO_C"
     at_xfail=no
     (
-      echo "14. evaluate-also-missing.at:1: testing ..."
+      echo "15. evaluate-also-missing.at:1: testing ..."
       $at_traceon
 
 
@@ -2402,13 +2472,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  15 ) # 15. evaluate-also-missing.at:25: Allow missing both ALSO and class condition IS in EVALUATE
+  16 ) # 16. evaluate-also-missing.at:25: Allow missing both ALSO and class condition IS in EVALUATE
     at_setup_line='evaluate-also-missing.at:25'
     at_desc='Allow missing both ALSO and class condition IS in EVALUATE'
-    $at_quiet $ECHO_N " 15: Allow missing both ALSO and class condition IS in EVALUATE$ECHO_C"
+    $at_quiet $ECHO_N " 16: Allow missing both ALSO and class condition IS in EVALUATE$ECHO_C"
     at_xfail=no
     (
-      echo "15. evaluate-also-missing.at:25: testing ..."
+      echo "16. evaluate-also-missing.at:25: testing ..."
       $at_traceon
 
 
@@ -2491,13 +2561,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  16 ) # 16. empty-imperative.at:1: Allow empty EVALUATE-WHEN OTHER
+  17 ) # 17. empty-imperative.at:1: Allow empty EVALUATE-WHEN OTHER
     at_setup_line='empty-imperative.at:1'
     at_desc='Allow empty EVALUATE-WHEN OTHER'
-    $at_quiet $ECHO_N " 16: Allow empty EVALUATE-WHEN OTHER              $ECHO_C"
+    $at_quiet $ECHO_N " 17: Allow empty EVALUATE-WHEN OTHER              $ECHO_C"
     at_xfail=no
     (
-      echo "16. empty-imperative.at:1: testing ..."
+      echo "17. empty-imperative.at:1: testing ..."
       $at_traceon
 
 
@@ -2576,13 +2646,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  17 ) # 17. empty-imperative.at:24: Allow empty ELSE
+  18 ) # 18. empty-imperative.at:24: Allow empty ELSE
     at_setup_line='empty-imperative.at:24'
     at_desc='Allow empty ELSE'
-    $at_quiet $ECHO_N " 17: Allow empty ELSE                             $ECHO_C"
+    $at_quiet $ECHO_N " 18: Allow empty ELSE                             $ECHO_C"
     at_xfail=no
     (
-      echo "17. empty-imperative.at:24: testing ..."
+      echo "18. empty-imperative.at:24: testing ..."
       $at_traceon
 
 
@@ -2660,13 +2730,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  18 ) # 18. empty-imperative.at:46: Allow empty EVALUATE- before WHEN OTHER
+  19 ) # 19. empty-imperative.at:46: Allow empty EVALUATE- before WHEN OTHER
     at_setup_line='empty-imperative.at:46'
     at_desc='Allow empty EVALUATE- before WHEN OTHER'
-    $at_quiet $ECHO_N " 18: Allow empty EVALUATE- before WHEN OTHER      $ECHO_C"
+    $at_quiet $ECHO_N " 19: Allow empty EVALUATE- before WHEN OTHER      $ECHO_C"
     at_xfail=no
     (
-      echo "18. empty-imperative.at:46: testing ..."
+      echo "19. empty-imperative.at:46: testing ..."
       $at_traceon
 
 
@@ -2746,13 +2816,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  19 ) # 19. empty-imperative.at:70: Allow empty EVALUATE- semantics
+  20 ) # 20. empty-imperative.at:70: Allow empty EVALUATE- semantics
     at_setup_line='empty-imperative.at:70'
     at_desc='Allow empty EVALUATE- semantics'
-    $at_quiet $ECHO_N " 19: Allow empty EVALUATE- semantics              $ECHO_C"
+    $at_quiet $ECHO_N " 20: Allow empty EVALUATE- semantics              $ECHO_C"
     at_xfail=no
     (
-      echo "19. empty-imperative.at:70: testing ..."
+      echo "20. empty-imperative.at:70: testing ..."
       $at_traceon
 
 
@@ -2831,13 +2901,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  20 ) # 20. empty-imperative.at:93: Allow empty EVALUATE- semantics 2
+  21 ) # 21. empty-imperative.at:93: Allow empty EVALUATE- semantics 2
     at_setup_line='empty-imperative.at:93'
     at_desc='Allow empty EVALUATE- semantics 2'
-    $at_quiet $ECHO_N " 20: Allow empty EVALUATE- semantics 2            $ECHO_C"
+    $at_quiet $ECHO_N " 21: Allow empty EVALUATE- semantics 2            $ECHO_C"
     at_xfail=no
     (
-      echo "20. empty-imperative.at:93: testing ..."
+      echo "21. empty-imperative.at:93: testing ..."
       $at_traceon
 
 
@@ -2918,13 +2988,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  21 ) # 21. empty-imperative.at:118: Allow empty EVALUATE- semantics 3
+  22 ) # 22. empty-imperative.at:118: Allow empty EVALUATE- semantics 3
     at_setup_line='empty-imperative.at:118'
     at_desc='Allow empty EVALUATE- semantics 3'
-    $at_quiet $ECHO_N " 21: Allow empty EVALUATE- semantics 3            $ECHO_C"
+    $at_quiet $ECHO_N " 22: Allow empty EVALUATE- semantics 3            $ECHO_C"
     at_xfail=no
     (
-      echo "21. empty-imperative.at:118: testing ..."
+      echo "22. empty-imperative.at:118: testing ..."
       $at_traceon
 
 
@@ -3003,13 +3073,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  22 ) # 22. spl-registers.at:1: PROGRAM-STATUS
+  23 ) # 23. spl-registers.at:1: PROGRAM-STATUS
     at_setup_line='spl-registers.at:1'
     at_desc='PROGRAM-STATUS'
-    $at_quiet $ECHO_N " 22: PROGRAM-STATUS                               $ECHO_C"
+    $at_quiet $ECHO_N " 23: PROGRAM-STATUS                               $ECHO_C"
     at_xfail=no
     (
-      echo "22. spl-registers.at:1: testing ..."
+      echo "23. spl-registers.at:1: testing ..."
       $at_traceon
 
 
@@ -3080,13 +3150,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  23 ) # 23. spl-registers.at:16: SORT-STATUS (alias SORT-RETURN)
+  24 ) # 24. spl-registers.at:16: SORT-STATUS (alias SORT-RETURN)
     at_setup_line='spl-registers.at:16'
     at_desc='SORT-STATUS (alias SORT-RETURN)'
-    $at_quiet $ECHO_N " 23: SORT-STATUS (alias SORT-RETURN)              $ECHO_C"
+    $at_quiet $ECHO_N " 24: SORT-STATUS (alias SORT-RETURN)              $ECHO_C"
     at_xfail=no
     (
-      echo "23. spl-registers.at:16: testing ..."
+      echo "24. spl-registers.at:16: testing ..."
       $at_traceon
 
 
@@ -3158,13 +3228,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  24 ) # 24. spl-registers.at:32: SORT-STATUS (Break in input section)
+  25 ) # 25. spl-registers.at:32: SORT-STATUS (Break in input section)
     at_setup_line='spl-registers.at:32'
     at_desc='SORT-STATUS (Break in input section)'
-    $at_quiet $ECHO_N " 24: SORT-STATUS (Break in input section)         $ECHO_C"
+    $at_quiet $ECHO_N " 25: SORT-STATUS (Break in input section)         $ECHO_C"
     at_xfail=no
     (
-      echo "24. spl-registers.at:32: testing ..."
+      echo "25. spl-registers.at:32: testing ..."
       $at_traceon
 
 
@@ -3331,13 +3401,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  25 ) # 25. spl-registers.at:96: SORT-STATUS (Break in output section)
+  26 ) # 26. spl-registers.at:96: SORT-STATUS (Break in output section)
     at_setup_line='spl-registers.at:96'
     at_desc='SORT-STATUS (Break in output section)'
-    $at_quiet $ECHO_N " 25: SORT-STATUS (Break in output section)        $ECHO_C"
+    $at_quiet $ECHO_N " 26: SORT-STATUS (Break in output section)        $ECHO_C"
     at_xfail=no
     (
-      echo "25. spl-registers.at:96: testing ..."
+      echo "26. spl-registers.at:96: testing ..."
       $at_traceon
 
 
@@ -3504,13 +3574,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  26 ) # 26. spl-registers.at:160: SORT-STATUS (Break in section with THRU)
+  27 ) # 27. spl-registers.at:160: SORT-STATUS (Break in section with THRU)
     at_setup_line='spl-registers.at:160'
     at_desc='SORT-STATUS (Break in section with THRU)'
-    $at_quiet $ECHO_N " 26: SORT-STATUS (Break in section with THRU)     $ECHO_C"
+    $at_quiet $ECHO_N " 27: SORT-STATUS (Break in section with THRU)     $ECHO_C"
     at_xfail=no
     (
-      echo "26. spl-registers.at:160: testing ..."
+      echo "27. spl-registers.at:160: testing ..."
       $at_traceon
 
 
@@ -3681,13 +3751,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  27 ) # 27. spl-registers.at:228: SORT-STATUS break in MERGE
+  28 ) # 28. spl-registers.at:228: SORT-STATUS break in MERGE
     at_setup_line='spl-registers.at:228'
     at_desc='SORT-STATUS break in MERGE'
-    $at_quiet $ECHO_N " 27: SORT-STATUS break in MERGE                   $ECHO_C"
+    $at_quiet $ECHO_N " 28: SORT-STATUS break in MERGE                   $ECHO_C"
     at_xfail=no
     (
-      echo "27. spl-registers.at:228: testing ..."
+      echo "28. spl-registers.at:228: testing ..."
       $at_traceon
 
 
@@ -3874,13 +3944,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  28 ) # 28. spl-registers.at:288: SORT-STATUS break with No SORT-STATUS in pgm
+  29 ) # 29. spl-registers.at:288: SORT-STATUS break with No SORT-STATUS in pgm
     at_setup_line='spl-registers.at:288'
     at_desc='SORT-STATUS break with No SORT-STATUS in pgm'
-    $at_quiet $ECHO_N " 28: SORT-STATUS break with No SORT-STATUS in pgm $ECHO_C"
+    $at_quiet $ECHO_N " 29: SORT-STATUS break with No SORT-STATUS in pgm $ECHO_C"
     at_xfail=no
     (
-      echo "28. spl-registers.at:288: testing ..."
+      echo "29. spl-registers.at:288: testing ..."
       $at_traceon
 
 
@@ -4048,13 +4118,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  29 ) # 29. special-names.at:1: ACCEPT ARGUMENT-NUMBER
+  30 ) # 30. special-names.at:1: ACCEPT ARGUMENT-NUMBER
     at_setup_line='special-names.at:1'
     at_desc='ACCEPT ARGUMENT-NUMBER'
-    $at_quiet $ECHO_N " 29: ACCEPT ARGUMENT-NUMBER                       $ECHO_C"
+    $at_quiet $ECHO_N " 30: ACCEPT ARGUMENT-NUMBER                       $ECHO_C"
     at_xfail=no
     (
-      echo "29. special-names.at:1: testing ..."
+      echo "30. special-names.at:1: testing ..."
       $at_traceon
 
 
@@ -4133,13 +4203,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  30 ) # 30. special-names.at:24: ACCEPT ARGUMENT-VALUE
+  31 ) # 31. special-names.at:24: ACCEPT ARGUMENT-VALUE
     at_setup_line='special-names.at:24'
     at_desc='ACCEPT ARGUMENT-VALUE'
-    $at_quiet $ECHO_N " 30: ACCEPT ARGUMENT-VALUE                        $ECHO_C"
+    $at_quiet $ECHO_N " 31: ACCEPT ARGUMENT-VALUE                        $ECHO_C"
     at_xfail=no
     (
-      echo "30. special-names.at:24: testing ..."
+      echo "31. special-names.at:24: testing ..."
       $at_traceon
 
 
@@ -4219,13 +4289,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  31 ) # 31. special-names.at:48: ACCEPT ENVIRONMENT-VALUE
+  32 ) # 32. special-names.at:48: ACCEPT ENVIRONMENT-VALUE
     at_setup_line='special-names.at:48'
     at_desc='ACCEPT ENVIRONMENT-VALUE'
-    $at_quiet $ECHO_N " 31: ACCEPT ENVIRONMENT-VALUE                     $ECHO_C"
+    $at_quiet $ECHO_N " 32: ACCEPT ENVIRONMENT-VALUE                     $ECHO_C"
     at_xfail=no
     (
-      echo "31. special-names.at:48: testing ..."
+      echo "32. special-names.at:48: testing ..."
       $at_traceon
 
 
@@ -4305,13 +4375,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  32 ) # 32. special-names.at:72: DISPLAY ARGUMENT-NUMBER
+  33 ) # 33. special-names.at:72: DISPLAY ARGUMENT-NUMBER
     at_setup_line='special-names.at:72'
     at_desc='DISPLAY ARGUMENT-NUMBER'
-    $at_quiet $ECHO_N " 32: DISPLAY ARGUMENT-NUMBER                      $ECHO_C"
+    $at_quiet $ECHO_N " 33: DISPLAY ARGUMENT-NUMBER                      $ECHO_C"
     at_xfail=no
     (
-      echo "32. special-names.at:72: testing ..."
+      echo "33. special-names.at:72: testing ..."
       $at_traceon
 
 
@@ -4391,13 +4461,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  33 ) # 33. special-names.at:96: DISPLAY ENVIRONMENT-NAME
+  34 ) # 34. special-names.at:96: DISPLAY ENVIRONMENT-NAME
     at_setup_line='special-names.at:96'
     at_desc='DISPLAY ENVIRONMENT-NAME'
-    $at_quiet $ECHO_N " 33: DISPLAY ENVIRONMENT-NAME                     $ECHO_C"
+    $at_quiet $ECHO_N " 34: DISPLAY ENVIRONMENT-NAME                     $ECHO_C"
     at_xfail=no
     (
-      echo "33. special-names.at:96: testing ..."
+      echo "34. special-names.at:96: testing ..."
       $at_traceon
 
 
@@ -4477,13 +4547,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  34 ) # 34. special-names.at:120: DISPLAY ENVIRONMENT-VALUE
+  35 ) # 35. special-names.at:120: DISPLAY ENVIRONMENT-VALUE
     at_setup_line='special-names.at:120'
     at_desc='DISPLAY ENVIRONMENT-VALUE'
-    $at_quiet $ECHO_N " 34: DISPLAY ENVIRONMENT-VALUE                    $ECHO_C"
+    $at_quiet $ECHO_N " 35: DISPLAY ENVIRONMENT-VALUE                    $ECHO_C"
     at_xfail=no
     (
-      echo "34. special-names.at:120: testing ..."
+      echo "35. special-names.at:120: testing ..."
       $at_traceon
 
 
@@ -4567,13 +4637,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  35 ) # 35. intr-funcs.at:1: FUNCTION LENG (fixed)
+  36 ) # 36. intr-funcs.at:1: FUNCTION LENG (fixed)
     at_setup_line='intr-funcs.at:1'
     at_desc='FUNCTION LENG (fixed)'
-    $at_quiet $ECHO_N " 35: FUNCTION LENG (fixed)                        $ECHO_C"
+    $at_quiet $ECHO_N " 36: FUNCTION LENG (fixed)                        $ECHO_C"
     at_xfail=no
     (
-      echo "35. intr-funcs.at:1: testing ..."
+      echo "36. intr-funcs.at:1: testing ..."
       $at_traceon
 
 
@@ -4649,13 +4719,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  36 ) # 36. intr-funcs.at:21: FUNCTION LENG (occur. depending)
+  37 ) # 37. intr-funcs.at:21: FUNCTION LENG (occur. depending)
     at_setup_line='intr-funcs.at:21'
     at_desc='FUNCTION LENG (occur. depending)'
-    $at_quiet $ECHO_N " 36: FUNCTION LENG (occur. depending)             $ECHO_C"
+    $at_quiet $ECHO_N " 37: FUNCTION LENG (occur. depending)             $ECHO_C"
     at_xfail=no
     (
-      echo "36. intr-funcs.at:21: testing ..."
+      echo "37. intr-funcs.at:21: testing ..."
       $at_traceon
 
 
@@ -4734,13 +4804,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  37 ) # 37. intr-funcs.at:44: FUNCTION LENGTH-AN (fixed)
+  38 ) # 38. intr-funcs.at:44: FUNCTION LENGTH-AN (fixed)
     at_setup_line='intr-funcs.at:44'
     at_desc='FUNCTION LENGTH-AN (fixed)'
-    $at_quiet $ECHO_N " 37: FUNCTION LENGTH-AN (fixed)                   $ECHO_C"
+    $at_quiet $ECHO_N " 38: FUNCTION LENGTH-AN (fixed)                   $ECHO_C"
     at_xfail=no
     (
-      echo "37. intr-funcs.at:44: testing ..."
+      echo "38. intr-funcs.at:44: testing ..."
       $at_traceon
 
 
@@ -4816,13 +4886,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  38 ) # 38. intr-funcs.at:64: FUNCTION LENGTH-AN (occur. depending)
+  39 ) # 39. intr-funcs.at:64: FUNCTION LENGTH-AN (occur. depending)
     at_setup_line='intr-funcs.at:64'
     at_desc='FUNCTION LENGTH-AN (occur. depending)'
-    $at_quiet $ECHO_N " 38: FUNCTION LENGTH-AN (occur. depending)        $ECHO_C"
+    $at_quiet $ECHO_N " 39: FUNCTION LENGTH-AN (occur. depending)        $ECHO_C"
     at_xfail=no
     (
-      echo "38. intr-funcs.at:64: testing ..."
+      echo "39. intr-funcs.at:64: testing ..."
       $at_traceon
 
 
@@ -4901,13 +4971,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  39 ) # 39. file-control.at:1: Allow no file open (I-O, SEQUENTIAL)
+  40 ) # 40. file-control.at:1: Allow no file open (I-O, SEQUENTIAL)
     at_setup_line='file-control.at:1'
     at_desc='Allow no file open (I-O, SEQUENTIAL)'
-    $at_quiet $ECHO_N " 39: Allow no file open (I-O, SEQUENTIAL)         $ECHO_C"
+    $at_quiet $ECHO_N " 40: Allow no file open (I-O, SEQUENTIAL)         $ECHO_C"
     at_xfail=no
     (
-      echo "39. file-control.at:1: testing ..."
+      echo "40. file-control.at:1: testing ..."
       $at_traceon
 
 
@@ -4994,13 +5064,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  40 ) # 40. file-control.at:32: Allow no file open (I-O, LINE SEQ)
+  41 ) # 41. file-control.at:32: Allow no file open (I-O, LINE SEQ)
     at_setup_line='file-control.at:32'
     at_desc='Allow no file open (I-O, LINE SEQ)'
-    $at_quiet $ECHO_N " 40: Allow no file open (I-O, LINE SEQ)           $ECHO_C"
+    $at_quiet $ECHO_N " 41: Allow no file open (I-O, LINE SEQ)           $ECHO_C"
     at_xfail=no
     (
-      echo "40. file-control.at:32: testing ..."
+      echo "41. file-control.at:32: testing ..."
       $at_traceon
 
 
@@ -5087,13 +5157,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  41 ) # 41. file-control.at:63: Allow no file open (I-O, RELATIVE)
+  42 ) # 42. file-control.at:63: Allow no file open (I-O, RELATIVE)
     at_setup_line='file-control.at:63'
     at_desc='Allow no file open (I-O, RELATIVE)'
-    $at_quiet $ECHO_N " 41: Allow no file open (I-O, RELATIVE)           $ECHO_C"
+    $at_quiet $ECHO_N " 42: Allow no file open (I-O, RELATIVE)           $ECHO_C"
     at_xfail=no
     (
-      echo "41. file-control.at:63: testing ..."
+      echo "42. file-control.at:63: testing ..."
       $at_traceon
 
 
@@ -5182,13 +5252,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  42 ) # 42. file-control.at:96: Allow no file open (I-O, INDEXED)
+  43 ) # 43. file-control.at:96: Allow no file open (I-O, INDEXED)
     at_setup_line='file-control.at:96'
     at_desc='Allow no file open (I-O, INDEXED)'
-    $at_quiet $ECHO_N " 42: Allow no file open (I-O, INDEXED)            $ECHO_C"
+    $at_quiet $ECHO_N " 43: Allow no file open (I-O, INDEXED)            $ECHO_C"
     at_xfail=no
     (
-      echo "42. file-control.at:96: testing ..."
+      echo "43. file-control.at:96: testing ..."
       $at_traceon
 
 
@@ -5277,13 +5347,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  43 ) # 43. file-control.at:129: Allow no file open (EXTEND, SEQUENTIAL)
+  44 ) # 44. file-control.at:129: Allow no file open (EXTEND, SEQUENTIAL)
     at_setup_line='file-control.at:129'
     at_desc='Allow no file open (EXTEND, SEQUENTIAL)'
-    $at_quiet $ECHO_N " 43: Allow no file open (EXTEND, SEQUENTIAL)      $ECHO_C"
+    $at_quiet $ECHO_N " 44: Allow no file open (EXTEND, SEQUENTIAL)      $ECHO_C"
     at_xfail=no
     (
-      echo "43. file-control.at:129: testing ..."
+      echo "44. file-control.at:129: testing ..."
       $at_traceon
 
 
@@ -5370,13 +5440,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  44 ) # 44. file-control.at:160: Allow no file open (EXTEND, LINE SEQ)
+  45 ) # 45. file-control.at:160: Allow no file open (EXTEND, LINE SEQ)
     at_setup_line='file-control.at:160'
     at_desc='Allow no file open (EXTEND, LINE SEQ)'
-    $at_quiet $ECHO_N " 44: Allow no file open (EXTEND, LINE SEQ)        $ECHO_C"
+    $at_quiet $ECHO_N " 45: Allow no file open (EXTEND, LINE SEQ)        $ECHO_C"
     at_xfail=no
     (
-      echo "44. file-control.at:160: testing ..."
+      echo "45. file-control.at:160: testing ..."
       $at_traceon
 
 
@@ -5463,13 +5533,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  45 ) # 45. file-control.at:191: Allow no file open (EXTEND, RELATIVE)
+  46 ) # 46. file-control.at:191: Allow no file open (EXTEND, RELATIVE)
     at_setup_line='file-control.at:191'
     at_desc='Allow no file open (EXTEND, RELATIVE)'
-    $at_quiet $ECHO_N " 45: Allow no file open (EXTEND, RELATIVE)        $ECHO_C"
+    $at_quiet $ECHO_N " 46: Allow no file open (EXTEND, RELATIVE)        $ECHO_C"
     at_xfail=no
     (
-      echo "45. file-control.at:191: testing ..."
+      echo "46. file-control.at:191: testing ..."
       $at_traceon
 
 
@@ -5558,13 +5628,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  46 ) # 46. file-control.at:224: Allow no file open (EXTEND, INDEXED)
+  47 ) # 47. file-control.at:224: Allow no file open (EXTEND, INDEXED)
     at_setup_line='file-control.at:224'
     at_desc='Allow no file open (EXTEND, INDEXED)'
-    $at_quiet $ECHO_N " 46: Allow no file open (EXTEND, INDEXED)         $ECHO_C"
+    $at_quiet $ECHO_N " 47: Allow no file open (EXTEND, INDEXED)         $ECHO_C"
     at_xfail=no
     (
-      echo "46. file-control.at:224: testing ..."
+      echo "47. file-control.at:224: testing ..."
       $at_traceon
 
 
@@ -5653,13 +5723,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  47 ) # 47. file-control.at:257: Allow file delete (SEQUENTIAL)
+  48 ) # 48. file-control.at:257: Allow file delete (SEQUENTIAL)
     at_setup_line='file-control.at:257'
     at_desc='Allow file delete (SEQUENTIAL)'
-    $at_quiet $ECHO_N " 47: Allow file delete (SEQUENTIAL)               $ECHO_C"
+    $at_quiet $ECHO_N " 48: Allow file delete (SEQUENTIAL)               $ECHO_C"
     at_xfail=no
     (
-      echo "47. file-control.at:257: testing ..."
+      echo "48. file-control.at:257: testing ..."
       $at_traceon
 
 
@@ -5747,13 +5817,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  48 ) # 48. file-control.at:289: Allow file delete (LINE SEQ)
+  49 ) # 49. file-control.at:289: Allow file delete (LINE SEQ)
     at_setup_line='file-control.at:289'
     at_desc='Allow file delete (LINE SEQ)'
-    $at_quiet $ECHO_N " 48: Allow file delete (LINE SEQ)                 $ECHO_C"
+    $at_quiet $ECHO_N " 49: Allow file delete (LINE SEQ)                 $ECHO_C"
     at_xfail=no
     (
-      echo "48. file-control.at:289: testing ..."
+      echo "49. file-control.at:289: testing ..."
       $at_traceon
 
 
@@ -5841,13 +5911,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  49 ) # 49. file-control.at:321: Allow file delete (RELATIVE)
+  50 ) # 50. file-control.at:321: Allow file delete (RELATIVE)
     at_setup_line='file-control.at:321'
     at_desc='Allow file delete (RELATIVE)'
-    $at_quiet $ECHO_N " 49: Allow file delete (RELATIVE)                 $ECHO_C"
+    $at_quiet $ECHO_N " 50: Allow file delete (RELATIVE)                 $ECHO_C"
     at_xfail=no
     (
-      echo "49. file-control.at:321: testing ..."
+      echo "50. file-control.at:321: testing ..."
       $at_traceon
 
 
@@ -5937,13 +6007,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  50 ) # 50. file-control.at:355: Allow file delete (INDEXED)
+  51 ) # 51. file-control.at:355: Allow file delete (INDEXED)
     at_setup_line='file-control.at:355'
     at_desc='Allow file delete (INDEXED)'
-    $at_quiet $ECHO_N " 50: Allow file delete (INDEXED)                  $ECHO_C"
+    $at_quiet $ECHO_N " 51: Allow file delete (INDEXED)                  $ECHO_C"
     at_xfail=no
     (
-      echo "50. file-control.at:355: testing ..."
+      echo "51. file-control.at:355: testing ..."
       $at_traceon
 
 
@@ -6059,13 +6129,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  51 ) # 51. file-control.at:391: Allow file delete (INDEXED) - not available
+  52 ) # 52. file-control.at:391: Allow file delete (INDEXED) - not available
     at_setup_line='file-control.at:391'
     at_desc='Allow file delete (INDEXED) - not available'
-    $at_quiet $ECHO_N " 51: Allow file delete (INDEXED) - not available  $ECHO_C"
+    $at_quiet $ECHO_N " 52: Allow file delete (INDEXED) - not available  $ECHO_C"
     at_xfail=no
     (
-      echo "51. file-control.at:391: testing ..."
+      echo "52. file-control.at:391: testing ..."
       $at_traceon
 
 
@@ -6181,13 +6251,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  52 ) # 52. file-userfh.at:1: USERFH - READ LOCK
+  53 ) # 53. file-userfh.at:1: USERFH - READ LOCK
     at_setup_line='file-userfh.at:1'
     at_desc='USERFH - READ LOCK'
-    $at_quiet $ECHO_N " 52: USERFH - READ LOCK                           $ECHO_C"
+    $at_quiet $ECHO_N " 53: USERFH - READ LOCK                           $ECHO_C"
     at_xfail=no
     (
-      echo "52. file-userfh.at:1: testing ..."
+      echo "53. file-userfh.at:1: testing ..."
       $at_traceon
 
 
@@ -6338,13 +6408,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  53 ) # 53. copy-joining.at:1: COPY JOINING AS PREFIX
+  54 ) # 54. copy-joining.at:1: COPY JOINING AS PREFIX
     at_setup_line='copy-joining.at:1'
     at_desc='COPY JOINING AS PREFIX'
-    $at_quiet $ECHO_N " 53: COPY JOINING AS PREFIX                       $ECHO_C"
+    $at_quiet $ECHO_N " 54: COPY JOINING AS PREFIX                       $ECHO_C"
     at_xfail=no
     (
-      echo "53. copy-joining.at:1: testing ..."
+      echo "54. copy-joining.at:1: testing ..."
       $at_traceon
 
 
@@ -6426,13 +6496,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  54 ) # 54. copy-joining.at:25: COPY JOINING AS SUFFIX
+  55 ) # 55. copy-joining.at:25: COPY JOINING AS SUFFIX
     at_setup_line='copy-joining.at:25'
     at_desc='COPY JOINING AS SUFFIX'
-    $at_quiet $ECHO_N " 54: COPY JOINING AS SUFFIX                       $ECHO_C"
+    $at_quiet $ECHO_N " 55: COPY JOINING AS SUFFIX                       $ECHO_C"
     at_xfail=no
     (
-      echo "54. copy-joining.at:25: testing ..."
+      echo "55. copy-joining.at:25: testing ..."
       $at_traceon
 
 
@@ -6514,13 +6584,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  55 ) # 55. copy-joining.at:49: JOINING in RECURSIVE COPY
+  56 ) # 56. copy-joining.at:49: JOINING in RECURSIVE COPY
     at_setup_line='copy-joining.at:49'
     at_desc='JOINING in RECURSIVE COPY'
-    $at_quiet $ECHO_N " 55: JOINING in RECURSIVE COPY                    $ECHO_C"
+    $at_quiet $ECHO_N " 56: JOINING in RECURSIVE COPY                    $ECHO_C"
     at_xfail=no
     (
-      echo "55. copy-joining.at:49: testing ..."
+      echo "56. copy-joining.at:49: testing ..."
       $at_traceon
 
 
@@ -6608,13 +6678,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  56 ) # 56. copy-joining.at:77: JOINed in REDEFINES clause
+  57 ) # 57. copy-joining.at:77: JOINed in REDEFINES clause
     at_setup_line='copy-joining.at:77'
     at_desc='JOINed in REDEFINES clause'
-    $at_quiet $ECHO_N " 56: JOINed in REDEFINES clause                   $ECHO_C"
+    $at_quiet $ECHO_N " 57: JOINed in REDEFINES clause                   $ECHO_C"
     at_xfail=no
     (
-      echo "56. copy-joining.at:77: testing ..."
+      echo "57. copy-joining.at:77: testing ..."
       $at_traceon
 
 
@@ -6697,13 +6767,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  57 ) # 57. copy-joining.at:102: COPY JOINING EXISTING NAME
+  58 ) # 58. copy-joining.at:102: COPY JOINING EXISTING NAME
     at_setup_line='copy-joining.at:102'
     at_desc='COPY JOINING EXISTING NAME'
-    $at_quiet $ECHO_N " 57: COPY JOINING EXISTING NAME                   $ECHO_C"
+    $at_quiet $ECHO_N " 58: COPY JOINING EXISTING NAME                   $ECHO_C"
     at_xfail=no
     (
-      echo "57. copy-joining.at:102: testing ..."
+      echo "58. copy-joining.at:102: testing ..."
       $at_traceon
 
 
@@ -6786,13 +6856,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  58 ) # 58. copy-joining.at:127: COPY JOINING Group fields
+  59 ) # 59. copy-joining.at:127: COPY JOINING Group fields
     at_setup_line='copy-joining.at:127'
     at_desc='COPY JOINING Group fields'
-    $at_quiet $ECHO_N " 58: COPY JOINING Group fields                    $ECHO_C"
+    $at_quiet $ECHO_N " 59: COPY JOINING Group fields                    $ECHO_C"
     at_xfail=no
     (
-      echo "58. copy-joining.at:127: testing ..."
+      echo "59. copy-joining.at:127: testing ..."
       $at_traceon
 
 
@@ -6877,13 +6947,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  59 ) # 59. copy-joining.at:154: *NO* JOINING following JOINING
+  60 ) # 60. copy-joining.at:154: *NO* JOINING following JOINING
     at_setup_line='copy-joining.at:154'
     at_desc='*NO* JOINING following JOINING '
-    $at_quiet $ECHO_N " 59: *NO* JOINING following JOINING               $ECHO_C"
+    $at_quiet $ECHO_N " 60: *NO* JOINING following JOINING               $ECHO_C"
     at_xfail=no
     (
-      echo "59. copy-joining.at:154: testing ..."
+      echo "60. copy-joining.at:154: testing ..."
       $at_traceon
 
 
