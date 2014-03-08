@@ -144,3 +144,20 @@ AT_CHECK([${COMPILE_JP_COMPAT} -x prog.cob], [0])
 AT_CHECK([export TESTENV=envvalue && ./prog], [0], [envvalue:newvalue])
 
 AT_CLEANUP
+
+AT_SETUP([SPECIAL NAMES unterminated])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       CONFIGURATION    SECTION.
+       SPECIAL-NAMES.
+           SWITCH-1 IS SW01 ON SW01ON OFF SW01OFF
+           C01      IS LF
+       DATA             DIVISION.
+])
+
+AT_CHECK([${COMPILE} prog.cob], [0])
+
+AT_CLEANUP

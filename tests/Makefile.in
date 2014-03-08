@@ -250,7 +250,9 @@ syntax_DEPENDENCIES = \
 	syntax.src/subscripts.at \
 	syntax.src/free-1col-aster.at \
 	syntax.src/indicator.at \
-	syntax.src/assign-external.at
+	syntax.src/assign-external.at \
+	syntax.src/error-recovery.at \
+	syntax.src/data-records.at
 
 run_DEPENDENCIES = \
 	run.at \
@@ -320,7 +322,12 @@ jp_compat_DEPENDENCIES = \
 	jp-compat.src/switch-no-mnemonic.at \
 	jp-compat.src/data-desc-no-dot.at \
 	jp-compat.src/sort-key-is.at \
-	jp-compat.src/search-key-in-rhs.at
+	jp-compat.src/search-key-in-rhs.at \
+	jp-compat.src/verbose-runtime.at \
+	jp-compat.src/occurs-param-order.at \
+	jp-compat.src/io-control.at \
+	jp-compat.src/greater-less-than-equal.at \
+	jp-compat.src/file-desc.at
 
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(syntax_DEPENDENCIES) \

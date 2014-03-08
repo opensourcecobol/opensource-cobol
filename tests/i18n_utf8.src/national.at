@@ -144,3 +144,95 @@ AT_CHECK([${COMPILE_JP_COMPAT} -x prog.cob])
 AT_CHECK([./prog], [0], [ポピン      ])
 
 AT_CLEANUP
+
+AT_SETUP([N Literal (NO zenakaku conversion)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE        DIVISION.
+           DISPLAY N"いろは".
+           DISPLAY N"ｲﾛﾊ".
+           DISPLAY N"ﾎﾟﾋﾟﾝ".
+           DISPLAY N"ABC".
+           DISPLAY N"#$%".
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0],
+[いろは
+ｲﾛﾊ
+ﾎﾟﾋﾟﾝ
+ABC
+#$%
+])
+
+AT_CLEANUP
+
+AT_SETUP([NC Literal (NO zenakaku conversion)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE        DIVISION.
+           DISPLAY NC"いろは".
+           DISPLAY NC"ｲﾛﾊ".
+           DISPLAY NC"ﾎﾟﾋﾟﾝ".
+           DISPLAY NC"ABC".
+           DISPLAY NC"#$%".
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0],
+[いろは
+ｲﾛﾊ
+ﾎﾟﾋﾟﾝ
+ABC
+#$%
+])
+
+AT_CLEANUP
+
+AT_SETUP([ND Literal (NO zenakaku conversion)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE        DIVISION.
+           DISPLAY ND"いろは".
+           DISPLAY ND"ｲﾛﾊ".
+           DISPLAY ND"ﾎﾟﾋﾟﾝ".
+           DISPLAY ND"ABC".
+           DISPLAY ND"#$%".
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0],
+[いろは
+ｲﾛﾊ
+ﾎﾟﾋﾟﾝ
+ABC
+#$%
+])
+
+AT_CLEANUP
+
+AT_SETUP([NX Literal])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE        DIVISION.
+           DISPLAY NX"E38184E3828DE381AF".
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob])
+AT_CHECK([./prog], [0],
+[いろは
+])
+
+AT_CLEANUP
