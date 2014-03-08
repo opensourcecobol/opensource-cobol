@@ -217,7 +217,8 @@ enum cb_default_organization {
 enum cb_assign_clause {
 	CB_ASSIGN_COBOL2002,		/* COBOL 2002 standard */
 	CB_ASSIGN_MF,			/* Micro Focus COBOL compatibility */
-	CB_ASSIGN_IBM			/* IBM COBOL compatibility */
+	CB_ASSIGN_IBM,			/* IBM COBOL compatibility */
+	CB_ASSIGN_JPH1			/* JP compatibility */
 };
 
 enum cb_binary_byteorder {

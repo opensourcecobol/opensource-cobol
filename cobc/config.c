@@ -218,6 +218,8 @@ cb_load_conf (const char *fname, const int check_nodef, const int prefix_dir)
 					cb_assign_clause = CB_ASSIGN_MF;
 				} else if (strcmp (val, "ibm") == 0) {
 					cb_assign_clause = CB_ASSIGN_IBM;
+				} else if (strcmp (val, "jph1") == 0) {
+					cb_assign_clause = CB_ASSIGN_JPH1;
 				} else {
 					invalid_value (fname, line, name);
 					ret = -1;

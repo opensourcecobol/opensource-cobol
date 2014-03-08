@@ -689,11 +689,37 @@ cb_build_section_name (cb_tree name, int sect_or_para)
 	return name;
 }
 
+static char *
+get_coded_filename (const char *cname, int idx)
+{
+	const char	*p = cname;
+	int		cnt = 0;
+	char		*rt = NULL;
+
+	while (*p && cnt < idx) {
+		if (*p == '-') {
+			cnt++;
+		}
+		p++;
+	}
+	if (*p) {
+		rt = strdup (p);
+		p  = rt;
+		while (*p && *p != '-') {
+			p++;
+		}
+		rt[p - rt] = '\0';
+	}
+	return rt;
+}
+
 cb_tree
 cb_build_assignment_name (struct cb_file *cfile, cb_tree name)
 {
 	const char	*s;
 	const char	*p;
+	cb_tree		x;
+	char		*pp;
 
 	if (name == cb_error_node) {
 		return cb_error_node;
@@ -753,8 +779,19 @@ org:
 			}
 			/* convert the name into literal */
 			return cb_build_alphanumeric_literal ((ucharptr)s, strlen (s));
-		}
 
+		case CB_ASSIGN_JPH1:
+			if (!(pp = get_coded_filename (s, 4))) {
+				pp = get_coded_filename (s, 0);
+			}
+			if (pp) {
+				x = cb_build_alphanumeric_literal ((ucharptr)pp, strlen (pp));
+				free (pp);
+			} else {
+				x =  cb_build_alphanumeric_literal ((ucharptr)s, strlen (s));
+			}
+			return x;
+		}
 	default:
 		return cb_error_node;
 	}
