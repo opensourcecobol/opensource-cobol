@@ -428,12 +428,14 @@ cob_inspect_converting (const cob_field *f1, const cob_field *f2)
 				"Unexpected char X(%02X) in INSPECT CONVERTING (value before)",
 				f1->data[j]);
 			cob_stop_run (1);
+		} else if (fig_const) {
+			/* iteratively map to figurative */
 		} else if (!(nc2 = COB_U8BYTE_1 (f2->data[j]))) {
 			cob_runtime_error (
 				"Unexpected char X(%02X) in INSPECT CONVERTING (value after)",
 				f2->data[j]);
 			cob_stop_run (1);
-		} else if (!fig_const && nc1 != nc2) {
+		} else if (nc1 != nc2) {
 			memset (buf1, 0, sizeof (buf1));
 			memset (buf2, 0, sizeof (buf2));
 			memcpy (buf1, &(f1->data[j]), nc1);

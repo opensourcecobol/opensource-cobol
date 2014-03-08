@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opensource COBOL v1.3.2J\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2014-02-26 16:05+0900\n"
+"POT-Creation-Date: 2014-03-05 18:03+0900\n"
 "PO-Revision-Date: 2014-02-07 11:40+0900\n"
 "Last-Translator: Kazuyoshi Tanaka <kazuyoshi.tanaka.zs@hitachi-solutions."
 "com>\n"
@@ -1099,83 +1099,83 @@ msgstr "LOCK句は指定できません"
 msgid "Invalid mnemonic name"
 msgstr "不当な作成者語です"
 
-#: cobc/pplex.l:155
+#: cobc/pplex.l:146
 msgid "PROCESS statement is ignored"
 msgstr "PROCESS 文は無視されます"
 
-#: cobc/pplex.l:519 cobc/pplex.l:595
+#: cobc/pplex.l:510 cobc/pplex.l:586
 #, c-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: cobc/pplex.l:660 cobc/pplex.l:720
+#: cobc/pplex.l:651 cobc/pplex.l:711
 msgid "Invalid directive - ignored"
 msgstr "不当なコンパイル指令 - 無視します"
 
-#: cobc/pplex.l:768
+#: cobc/pplex.l:759
 msgid "$IF is nested more than 10 times"
 msgstr "$IF文が10回以上ネストしています"
 
-#: cobc/pplex.l:774
+#: cobc/pplex.l:765
 msgid "Fatal error in $IF statement"
 msgstr "$IF文で致命的なエラー"
 
-#: cobc/pplex.l:779
+#: cobc/pplex.l:770
 msgid "Arguments not enough to $IF statemen"
 msgstr "$IF文の引数が足りません"
 
-#: cobc/pplex.l:795
+#: cobc/pplex.l:786
 msgid "Invalid argument $IF statemen"
 msgstr "$IF文に不正な引数があります"
 
-#: cobc/pplex.l:813
+#: cobc/pplex.l:804
 #, c-format
 msgid "%s is not a string"
 msgstr "`%s' 文字列ではありません"
 
-#: cobc/pplex.l:837
+#: cobc/pplex.l:828
 msgid "Fatal error in $ELSE statement"
 msgstr "$ELSE文で致命的なエラー"
 
-#: cobc/pplex.l:843
+#: cobc/pplex.l:834
 msgid "$IF has no defined before the $ELSE"
 msgstr "$ELSEに対応する$IFがありません"
 
-#: cobc/pplex.l:850
+#: cobc/pplex.l:841
 msgid "$ELSE has continued"
 msgstr "$ELSEが連続しています"
 
-#: cobc/pplex.l:860
+#: cobc/pplex.l:851
 msgid "Fatal error in $END statement"
 msgstr "$END文で致命的なエラー"
 
-#: cobc/pplex.l:866
+#: cobc/pplex.l:857
 msgid "$IF has no defined before the $END"
 msgstr "$ENDに対応する$IFがありません"
 
-#: cobc/pplex.l:884
+#: cobc/pplex.l:875
 msgid "Invalid $SET"
 msgstr "不当な$SET文です"
 
-#: cobc/pplex.l:889
+#: cobc/pplex.l:880
 msgid "Invalid $ statements"
 msgstr "不当な$文です"
 
-#: cobc/pplex.l:971
+#: cobc/pplex.l:962
 msgid "Line not terminated by a newline"
 msgstr "ファイルが改行で終わっていません"
 
-#: cobc/pplex.l:1049
+#: cobc/pplex.l:1040
 #, c-format
 msgid "Invalid indicator '%c' at column 7"
 msgstr "7 桁目が不当な指示子です `%c'"
 
-#: cobc/pplex.l:1092
+#: cobc/pplex.l:1083
 #, c-format
 msgid "Source text after column %d"
 msgstr "ソース行が %d 桁を越えています"
 
-#: cobc/pplex.l:1121 cobc/pplex.l:1131
+#: cobc/pplex.l:1112 cobc/pplex.l:1122
 msgid "Invalid line continuation"
 msgstr "不当な行連結です"
 
@@ -1623,50 +1623,50 @@ msgstr "`%s' への参照が重複しています"
 msgid "Integer value expected"
 msgstr "数値が必要です"
 
-#: cobc/scanner.l:194
+#: cobc/scanner.l:184
 msgid "X Binary literal found."
 msgstr "16進数X文字定数が使用されています"
 
-#: cobc/scanner.l:204
+#: cobc/scanner.l:194
 msgid "NX Binary literal found."
 msgstr "16進数NX文字定数が使用されています"
 
-#: cobc/scanner.l:577
+#: cobc/scanner.l:567
 msgid "User defined name must be less than 32 characters"
 msgstr "利用者定義名の長さは32文字以下でなくてはなりません"
 
-#: cobc/scanner.l:640
+#: cobc/scanner.l:630
 #, c-format
 msgid "CONSTANT (78 level) may not be used here - '%s'"
 msgstr "定数(78レベル)は指定できません - `%s'"
 
-#: cobc/scanner.l:653
+#: cobc/scanner.l:643
 msgid "PROGRAM-ID length exceeds C89 function name limit"
 msgstr "PROGRAM-ID の長さがC89標準における関数名の上限を超過します"
 
-#: cobc/scanner.l:827
+#: cobc/scanner.l:817
 msgid "Alphanumeric literal has zero length"
 msgstr "文字列が必要です"
 
-#: cobc/scanner.l:828
+#: cobc/scanner.l:818
 msgid "A SPACE will be assumed"
 msgstr "ひとつのSPACEを仮定します"
 
-#: cobc/scanner.l:917
+#: cobc/scanner.l:907
 #, c-format
 msgid "Invalid X literal: %s"
 msgstr "不当な X 定数です: %s"
 
-#: cobc/scanner.l:953
+#: cobc/scanner.l:943
 #, c-format
 msgid "Invalid H literal: %s"
 msgstr "不当な H 定数です: %s"
 
-#: cobc/scanner.l:978 cobc/scanner.l:981
+#: cobc/scanner.l:968 cobc/scanner.l:971
 msgid "Invalid numeric literal"
 msgstr "不当な数字定数です"
 
-#: cobc/scanner.l:1131
+#: cobc/scanner.l:1121
 msgid "Scanner unget buffer overflow"
 msgstr "字句解析でungetバッファがオーバーフローしました"
 
