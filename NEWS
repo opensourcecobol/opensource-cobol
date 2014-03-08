@@ -1,5 +1,75 @@
 NEWS - user visible changes				-*- outline -*-
 
+* Changes in opensource COBOL 1.3.2J
+
+** New features
+
+*** Merged OpenCOBOL 1.1CE updates.
+    *** Thanks to The OpenCOBOL Project! ***
+
+*** New compiler warning option: -Wcompat
+    (1) multiply after division in a numeric expression
+    (2) GO TO over the SECTION boundary
+    (3) X, NX Literal usage
+
+*** Supports for compatibility issues found in existing COBOL programs:
+
+*** "COPY JOINING AS PREFIX/SUFFIX", "COPY PREFIXING/SUFFIXING"
+
+*** 'OR' in "GREATER/LESS THAN OR EQUAL" to optional
+
+*** Treat full-width spaces as blank(token delimiter) in source text
+
+*** accept data description without period
+
+*** accept SPECIAL-NAMES without period
+
+*** accept IO-CONTROL without period
+
+*** accept syntax of INDEXED before KEY in OCCURS clause
+
+*** ND, NX Literal, and N, NC Literal in SJIS mode
+
+*** RESERVE "NO" in SELECT statement - syntactically accepted, no functionality
+
+*** cheating DATE value by environment variable (set COB_DATE=yyyy/mm/dd)
+
+*** put sort/merge result record count on console (when set COB_VERBOSE=Y)
+
+*** implicitly substitute WRITE with REWRITE on the file opened in I-O mode (when set COB_IO_ASSUME_REWRITE=Y)
+
+*** treat sign-nibble 'C' as 'F' in unsigned packed numeric value, when also type checking.
+
+*** added another device naming format in assign clause (conf.parameter assign-clause: jph1)
+
+*** UPSI 0-7 aliased to SWITCH1-8
+
+*** INVALID KEY for sequential READ/WRITE (conf.parameter use-invalidkey-handler-on-status34)
+
+*** COBOL68 style COPY semantics in data description clause (conf.parameter cobol68-copy-in-data-description)
+
+*** accept key field name on right hand side of WHEN expression in SEARCH statement (conf.parameter allow-search-key-in-rhs)
+
+*** added optional "IS" for SORT KEY spec. syntax
+
+*** ignore "RECORD CONTAINS" (conf.parameter ignore-invalid-record-contains)
+
+** Changes
+
+*** omit checking field reference in DATA RECORDS
+
+*** improve parser error recovery and source line-number in messages
+
+** Other Updates
+
+*** added some tests
+
+*** updated message catalog for 'ja'
+
+*** fixed bug in decording multibytes chars in section/paragraph name in compile messages
+
+-----------------------------------------------------------------------
+
 * Changes in opensource COBOL 1.3.1J
 
 ** New features

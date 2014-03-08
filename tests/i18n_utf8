@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -414,9 +414,13 @@ at_help_all='1;user-defined-word.at:1;Program name;;
 103;national.at:85;FUNCTION NATIONAL KIGOU-plus;;
 104;national.at:106;FUNCTION NATIONAL (HanKana w/ Daku-on);;
 105;national.at:127;FUNCTION NATIONAL (HanKana w/ Han-daku-on);;
-106;mb-space.at:1;Zenkaku SPC delims in headings;;
-107;mb-space.at:19;Zenkaku SPC delims in record def;;
-108;mb-space.at:43;Zenkaku SPC delims in COPY stmt;;
+106;national.at:148;N Literal (NO zenakaku conversion);;
+107;national.at:173;NC Literal (NO zenakaku conversion);;
+108;national.at:198;ND Literal (NO zenakaku conversion);;
+109;national.at:223;NX Literal;;
+110;mb-space.at:1;Zenkaku SPC delims in headings;;
+111;mb-space.at:19;Zenkaku SPC delims in record def;;
+112;mb-space.at:43;Zenkaku SPC delims in COPY stmt;;
 '
 
 at_keywords=
@@ -8763,13 +8767,349 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  106 ) # 106. mb-space.at:1: Zenkaku SPC delims in headings
-    at_setup_line='mb-space.at:1'
-    at_desc='Zenkaku SPC delims in headings'
-    $at_quiet $ECHO_N "106: Zenkaku SPC delims in headings               $ECHO_C"
+  106 ) # 106. national.at:148: N Literal (NO zenakaku conversion)
+    at_setup_line='national.at:148'
+    at_desc='N Literal (NO zenakaku conversion)'
+    $at_quiet $ECHO_N "106: N Literal (NO zenakaku conversion)           $ECHO_C"
     at_xfail=no
     (
-      echo "106. mb-space.at:1: testing ..."
+      echo "106. national.at:148: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE        DIVISION.
+           DISPLAY N"いろは".
+           DISPLAY N"ｲﾛﾊ".
+           DISPLAY N"ﾎﾟﾋﾟﾝ".
+           DISPLAY N"ABC".
+           DISPLAY N"#$%".
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "national.at:162: \${COMPILE} -x prog.cob"
+echo national.at:162 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:162: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "national.at:163: ./prog"
+echo national.at:163 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "いろは
+ｲﾛﾊ
+ﾎﾟﾋﾟﾝ
+ABC
+#\$%
+" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:163: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  107 ) # 107. national.at:173: NC Literal (NO zenakaku conversion)
+    at_setup_line='national.at:173'
+    at_desc='NC Literal (NO zenakaku conversion)'
+    $at_quiet $ECHO_N "107: NC Literal (NO zenakaku conversion)          $ECHO_C"
+    at_xfail=no
+    (
+      echo "107. national.at:173: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE        DIVISION.
+           DISPLAY NC"いろは".
+           DISPLAY NC"ｲﾛﾊ".
+           DISPLAY NC"ﾎﾟﾋﾟﾝ".
+           DISPLAY NC"ABC".
+           DISPLAY NC"#$%".
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "national.at:187: \${COMPILE} -x prog.cob"
+echo national.at:187 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:187: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "national.at:188: ./prog"
+echo national.at:188 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "いろは
+ｲﾛﾊ
+ﾎﾟﾋﾟﾝ
+ABC
+#\$%
+" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:188: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  108 ) # 108. national.at:198: ND Literal (NO zenakaku conversion)
+    at_setup_line='national.at:198'
+    at_desc='ND Literal (NO zenakaku conversion)'
+    $at_quiet $ECHO_N "108: ND Literal (NO zenakaku conversion)          $ECHO_C"
+    at_xfail=no
+    (
+      echo "108. national.at:198: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE        DIVISION.
+           DISPLAY ND"いろは".
+           DISPLAY ND"ｲﾛﾊ".
+           DISPLAY ND"ﾎﾟﾋﾟﾝ".
+           DISPLAY ND"ABC".
+           DISPLAY ND"#$%".
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "national.at:212: \${COMPILE} -x prog.cob"
+echo national.at:212 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:212: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "national.at:213: ./prog"
+echo national.at:213 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "いろは
+ｲﾛﾊ
+ﾎﾟﾋﾟﾝ
+ABC
+#\$%
+" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:213: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  109 ) # 109. national.at:223: NX Literal
+    at_setup_line='national.at:223'
+    at_desc='NX Literal'
+    $at_quiet $ECHO_N "109: NX Literal                                   $ECHO_C"
+    at_xfail=no
+    (
+      echo "109. national.at:223: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE        DIVISION.
+           DISPLAY NX"E38184E3828DE381AF".
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "national.at:233: \${COMPILE} -x prog.cob"
+echo national.at:233 >$at_check_line_file
+( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:233: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "national.at:234: ./prog"
+echo national.at:234 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "いろは
+" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "national.at:234: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  110 ) # 110. mb-space.at:1: Zenkaku SPC delims in headings
+    at_setup_line='mb-space.at:1'
+    at_desc='Zenkaku SPC delims in headings'
+    $at_quiet $ECHO_N "110: Zenkaku SPC delims in headings               $ECHO_C"
+    at_xfail=no
+    (
+      echo "110. mb-space.at:1: testing ..."
       $at_traceon
 
 
@@ -8843,13 +9183,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  107 ) # 107. mb-space.at:19: Zenkaku SPC delims in record def
+  111 ) # 111. mb-space.at:19: Zenkaku SPC delims in record def
     at_setup_line='mb-space.at:19'
     at_desc='Zenkaku SPC delims in record def'
-    $at_quiet $ECHO_N "107: Zenkaku SPC delims in record def             $ECHO_C"
+    $at_quiet $ECHO_N "111: Zenkaku SPC delims in record def             $ECHO_C"
     at_xfail=no
     (
-      echo "107. mb-space.at:19: testing ..."
+      echo "111. mb-space.at:19: testing ..."
       $at_traceon
 
 
@@ -8929,13 +9269,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  108 ) # 108. mb-space.at:43: Zenkaku SPC delims in COPY stmt
+  112 ) # 112. mb-space.at:43: Zenkaku SPC delims in COPY stmt
     at_setup_line='mb-space.at:43'
     at_desc='Zenkaku SPC delims in COPY stmt'
-    $at_quiet $ECHO_N "108: Zenkaku SPC delims in COPY stmt              $ECHO_C"
+    $at_quiet $ECHO_N "112: Zenkaku SPC delims in COPY stmt              $ECHO_C"
     at_xfail=no
     (
-      echo "108. mb-space.at:43: testing ..."
+      echo "112. mb-space.at:43: testing ..."
       $at_traceon
 
 
