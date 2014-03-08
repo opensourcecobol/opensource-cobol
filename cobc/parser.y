@@ -2392,7 +2392,7 @@ valueof_name:
 /* DATA RECORDS clause */
 
 data_records_clause:
-  DATA records reference_list
+  DATA records no_reference_list
   {
 	cb_verify (cb_data_records_clause, "DATA RECORDS");
   }
@@ -6937,6 +6937,13 @@ reference:
 	$$ = $1;
 	current_program->reference_list = cb_cons ($$, current_program->reference_list);
   }
+;
+
+/* No-Reference */
+
+no_reference_list:
+  qualified_word			{ $$ = cb_list_init ($1); }
+| no_reference_list qualified_word	{ $$ = cb_list_add ($1, $2); }
 ;
 
 opt_reference:

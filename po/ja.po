@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenCOBOL 0.13\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2014-02-17 17:41+0900\n"
+"POT-Creation-Date: 2014-02-17 17:46+0900\n"
 "PO-Revision-Date: 2004-08-01 23:55+0900\n"
 "Last-Translator: Keisuke Nishida <knishida@coboler.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -1638,7 +1638,7 @@ msgstr "`%s' はここで定義されました"
 msgid "Multiple reference to '%s' "
 msgstr ""
 
-#: cobc/parser.y:7134 cobc/parser.y:7136
+#: cobc/parser.y:7141 cobc/parser.y:7143
 #, fuzzy
 msgid "Integer value expected"
 msgstr "数値が必要です"
