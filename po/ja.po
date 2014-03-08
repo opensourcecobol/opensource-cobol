@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenCOBOL 0.13\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2014-02-17 17:14+0900\n"
+"POT-Creation-Date: 2014-02-17 17:20+0900\n"
 "PO-Revision-Date: 2004-08-01 23:55+0900\n"
 "Last-Translator: Keisuke Nishida <knishida@coboler.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -810,7 +810,7 @@ msgid "Wrong number of CALL parameters for '%s'"
 msgstr "WHEN 句の引数の数が不当です"
 
 #: cobc/typeck.c:3594 cobc/typeck.c:3637 cobc/typeck.c:3659 cobc/typeck.c:6032
-#: cobc/typeck.c:6190 cobc/typeck.c:6261 cobc/typeck.c:7593
+#: cobc/typeck.c:6190 cobc/typeck.c:6261 cobc/typeck.c:7607
 msgid "Operation not allowed on SORT files"
 msgstr ""
 
@@ -992,7 +992,7 @@ msgstr ""
 msgid "KEY ignored with sequential READ"
 msgstr "順読み込みの READ であるため KEY は無視されます"
 
-#: cobc/typeck.c:6219 cobc/typeck.c:6776
+#: cobc/typeck.c:6219 cobc/typeck.c:6790
 msgid "Undefined compound keys"
 msgstr ""
 
@@ -1004,11 +1004,11 @@ msgstr ""
 msgid "REWRITE subject does not refer to a record name"
 msgstr ""
 
-#: cobc/typeck.c:6266 cobc/typeck.c:7598 cobc/parser.y:5484
+#: cobc/typeck.c:6266 cobc/typeck.c:7612 cobc/parser.y:5484
 msgid "INVALID KEY clause invalid with this file type"
 msgstr ""
 
-#: cobc/typeck.c:6269 cobc/typeck.c:7602 cobc/parser.y:5476
+#: cobc/typeck.c:6269 cobc/typeck.c:7616 cobc/parser.y:5476
 msgid "LOCK clause invalid with file LOCK AUTOMATIC"
 msgstr ""
 
@@ -1025,73 +1025,73 @@ msgstr ""
 msgid "RELEASE not allowed on this record item"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/typeck.c:6390
+#: cobc/typeck.c:6404
 #, fuzzy, c-format
 msgid "Undeclared key '%s'"
 msgstr "`%s' はキー宣言されていません"
 
-#: cobc/typeck.c:6394
+#: cobc/typeck.c:6408
 #, fuzzy
 msgid "Invalid SEARCH ALL condition"
 msgstr "SEARCH ALL の条件式が不当です"
 
-#: cobc/typeck.c:6501
+#: cobc/typeck.c:6515
 #, fuzzy
 msgid "The targets of SET must be either indexes or pointers"
 msgstr "SET 出来るのは INDEXED か POINTER だけです"
 
-#: cobc/typeck.c:6513 cobc/typeck.c:6517
+#: cobc/typeck.c:6527 cobc/typeck.c:6531
 msgid "SET targets must be PROGRAM-POINTER"
 msgstr ""
 
-#: cobc/typeck.c:6531
+#: cobc/typeck.c:6545
 #, fuzzy, c-format
 msgid "The address of '%s' cannot be changed"
 msgstr "`%s' のアドレスは変更できません"
 
-#: cobc/typeck.c:6593 cobc/typeck.c:6598 cobc/typeck.c:6625 cobc/typeck.c:6630
+#: cobc/typeck.c:6607 cobc/typeck.c:6612 cobc/typeck.c:6639 cobc/typeck.c:6644
 #, fuzzy
 msgid "Invalid SET statement"
 msgstr "不当な MOVE 文です"
 
-#: cobc/typeck.c:6634
+#: cobc/typeck.c:6648
 #, fuzzy
 msgid "Field does not have FALSE clause"
 msgstr "REDEFINES に含まれる項目は VALUE 句を持つことが出来ません"
 
-#: cobc/typeck.c:6668
+#: cobc/typeck.c:6682
 #, fuzzy
 msgid "Invalid SORT filename"
 msgstr "不当な VALUE 句です"
 
-#: cobc/typeck.c:6684
+#: cobc/typeck.c:6698
 msgid "Table sort without keys not implemented yet"
 msgstr ""
 
-#: cobc/typeck.c:6708
+#: cobc/typeck.c:6722
 #, fuzzy
 msgid "Invalid SORT USING parameter"
 msgstr "不当な MOVE 文です"
 
-#: cobc/typeck.c:6733
+#: cobc/typeck.c:6747
 #, fuzzy
 msgid "Invalid SORT GIVING parameter"
 msgstr "不当な MOVE 文です"
 
-#: cobc/typeck.c:7581
+#: cobc/typeck.c:7595
 msgid "WRITE requires a record name as subject"
 msgstr ""
 
-#: cobc/typeck.c:7586
+#: cobc/typeck.c:7600
 msgid "WRITE subject does not refer to a record name"
 msgstr ""
 
-#: cobc/typeck.c:7605
+#: cobc/typeck.c:7619
 #, fuzzy
 msgid "LOCK clause invalid here"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/typeck.c:7672
+#: cobc/typeck.c:7686
 #, fuzzy
 msgid "Invalid mnemonic name"
 msgstr "不当なニーモニックです"

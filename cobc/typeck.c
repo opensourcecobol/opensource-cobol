@@ -6386,6 +6386,20 @@ search_set_keys (struct cb_field *f, cb_tree x)
 				break;
 			}
 		}
+		if (cb_allow_search_key_in_rhs) {
+			/* relaxed syntax: try to find key in RHS to accept
+			 * also L<->R reversed conditional expresssion.
+			 */
+			if (i == f->nkeys && CB_REFERENCE_P (p->y) && CB_FIELD_P (cb_ref (p->y))) {
+				for (i = 0; i < f->nkeys; i++) {
+					if (cb_field (p->y) == cb_field (f->keys[i].key)) {
+						f->keys[i].ref = p->y;
+						f->keys[i].val = p->x;
+						break;
+					}
+				}
+			}
+		}
 		if (i == f->nkeys) {
 			cb_error_x (x, _("Undeclared key '%s'"), cb_field (p->x)->name);
 		}

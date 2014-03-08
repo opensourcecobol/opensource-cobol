@@ -55,6 +55,7 @@ CB_CONFIG_BOOLEAN (cb_enable_national_intrinsic_function, "enable-national-intri
 CB_CONFIG_BOOLEAN (cb_use_invalidkey_handler_on_status34, "use-invalidkey-handler-on-status34")
 CB_CONFIG_BOOLEAN (cb_cobol68_copy_in_data_description, "cobol68-copy-in-data-description")
 CB_CONFIG_BOOLEAN (cb_switch_no_mnemonic, "switch-no-mnemonic")
+CB_CONFIG_BOOLEAN (cb_allow_search_key_in_rhs, "allow-search-key-in-rhs")
 CB_CONFIG_SUPPORT (cb_author_paragraph, "author-paragraph")
 CB_CONFIG_SUPPORT (cb_memory_size_clause, "memory-size-clause")
 CB_CONFIG_SUPPORT (cb_multiple_file_tape_clause, "multiple-file-tape-clause")
