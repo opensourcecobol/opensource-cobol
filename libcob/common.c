@@ -142,6 +142,8 @@ static struct tm	*cob_localtm = NULL;
 
 static int		cob_verbose = 0;
 
+static int		cob_io_assume_rewrite = 0;
+
 /* Runtime exit handling */
 static struct exit_handlerlist {
 	struct exit_handlerlist	*next;
@@ -849,6 +851,12 @@ cob_verbose_output (const char *fmt, ...)
 	return;
 }
 
+int
+cob_io_rewrite_assumed (void)
+{
+	return cob_io_assume_rewrite;
+}
+
 void *
 cob_malloc (const size_t size)
 {
@@ -1046,6 +1054,11 @@ cob_init (const int argc, char **argv)
 		s = getenv ("COB_VERBOSE");
 		if (s && (*s == 'Y' || *s == 'y')) {
 			cob_verbose = 1;
+		}
+
+		s = getenv ("COB_IO_ASSUME_REWRITE");
+		if (s && (*s == 'Y' || *s == 'y')) {
+			cob_io_assume_rewrite = 1;
 		}
 
 		cob_initialized = 1;

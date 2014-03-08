@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -361,23 +361,24 @@ at_help_all='1;split-keys.at:1;SPLIT KEYS (ALTERNATE KEY);;
 50;file-control.at:321;Allow file delete (RELATIVE);;
 51;file-control.at:355;Allow file delete (INDEXED);;
 52;file-control.at:391;Allow file delete (INDEXED) - not available;;
-53;file-userfh.at:1;USERFH - READ LOCK;;
-54;copy-joining.at:1;COPY JOINING AS PREFIX;copy;
-55;copy-joining.at:25;COPY JOINING AS SUFFIX;copy;
-56;copy-joining.at:49;JOINING in RECURSIVE COPY;copy;
-57;copy-joining.at:77;JOINed in REDEFINES clause;copy;
-58;copy-joining.at:102;COPY JOINING EXISTING NAME;;
-59;copy-joining.at:127;COPY JOINING Group fields;;
-60;copy-joining.at:154;*NO* JOINING following JOINING ;;
-61;assign-devicename.at:1;ASSIGN coded device name;;
-62;assign-devicename.at:30;ASSIGN coded device w/o def.name;;
-63;assign-devicename.at:59;ASSIGN coded device name by env.var;;
-64;assign-devicename.at:88;ASSIGN coded device w/o def.name by env.var;;
-65;job-date.at:1;COB_DATE;;
-66;job-date.at:25;COB_DATE YYYYMMDD;;
-67;job-date.at:48;COB_DATE DAY;;
-68;job-date.at:70;COB_DATE DAY YYYYDDD;;
-69;job-date.at:92;COB_DATE FUNC. CURRENT-DATE;;
+53;file-control.at:427;Assume REWRITE for WRITE on OPEN I-O;;
+54;file-userfh.at:1;USERFH - READ LOCK;;
+55;copy-joining.at:1;COPY JOINING AS PREFIX;copy;
+56;copy-joining.at:25;COPY JOINING AS SUFFIX;copy;
+57;copy-joining.at:49;JOINING in RECURSIVE COPY;copy;
+58;copy-joining.at:77;JOINed in REDEFINES clause;copy;
+59;copy-joining.at:102;COPY JOINING EXISTING NAME;;
+60;copy-joining.at:127;COPY JOINING Group fields;;
+61;copy-joining.at:154;*NO* JOINING following JOINING ;;
+62;assign-devicename.at:1;ASSIGN coded device name;;
+63;assign-devicename.at:30;ASSIGN coded device w/o def.name;;
+64;assign-devicename.at:59;ASSIGN coded device name by env.var;;
+65;assign-devicename.at:88;ASSIGN coded device w/o def.name by env.var;;
+66;job-date.at:1;COB_DATE;;
+67;job-date.at:25;COB_DATE YYYYMMDD;;
+68;job-date.at:48;COB_DATE DAY;;
+69;job-date.at:70;COB_DATE DAY YYYYDDD;;
+70;job-date.at:92;COB_DATE FUNC. CURRENT-DATE;;
 '
 
 at_keywords=
@@ -6260,13 +6261,153 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  53 ) # 53. file-userfh.at:1: USERFH - READ LOCK
-    at_setup_line='file-userfh.at:1'
-    at_desc='USERFH - READ LOCK'
-    $at_quiet $ECHO_N " 53: USERFH - READ LOCK                           $ECHO_C"
+  53 ) # 53. file-control.at:427: Assume REWRITE for WRITE on OPEN I-O
+    at_setup_line='file-control.at:427'
+    at_desc='Assume REWRITE for WRITE on OPEN I-O'
+    $at_quiet $ECHO_N " 53: Assume REWRITE for WRITE on OPEN I-O         $ECHO_C"
     at_xfail=no
     (
-      echo "53. file-userfh.at:1: testing ..."
+      echo "53. file-control.at:427: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN "TEST-FILE".
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-REC      PIC X(4).
+       PROCEDURE        DIVISION.
+           OPEN I-O TEST-FILE.
+           READ  TEST-FILE.
+           READ  TEST-FILE.
+           MOVE  "AAAA" TO TEST-REC.
+           WRITE TEST-REC.
+           CLOSE TEST-FILE.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "file-control.at:450: echo 000011112222 >TEST-FILE"
+echo file-control.at:450 >$at_check_line_file
+( $at_traceon; echo 000011112222 >TEST-FILE ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "file-control.at:450: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "file-control.at:451: \${COMPILE_MODULE} -o prog prog.cob"
+echo file-control.at:451 >$at_check_line_file
+( $at_traceon; ${COMPILE_MODULE} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "file-control.at:451: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "file-control.at:452: COB_IO_ASSUME_REWRITE=Y \${COBCRUN} prog"
+echo file-control.at:452 >$at_check_line_file
+( $at_traceon; COB_IO_ASSUME_REWRITE=Y ${COBCRUN} prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "file-control.at:452: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "file-control.at:453: test \`cat TEST-FILE\` == '0000AAAA2222'"
+echo file-control.at:453 >$at_check_line_file
+( $at_traceon; test `cat TEST-FILE` == '0000AAAA2222' ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "file-control.at:453: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  54 ) # 54. file-userfh.at:1: USERFH - READ LOCK
+    at_setup_line='file-userfh.at:1'
+    at_desc='USERFH - READ LOCK'
+    $at_quiet $ECHO_N " 54: USERFH - READ LOCK                           $ECHO_C"
+    at_xfail=no
+    (
+      echo "54. file-userfh.at:1: testing ..."
       $at_traceon
 
 
@@ -6417,13 +6558,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  54 ) # 54. copy-joining.at:1: COPY JOINING AS PREFIX
+  55 ) # 55. copy-joining.at:1: COPY JOINING AS PREFIX
     at_setup_line='copy-joining.at:1'
     at_desc='COPY JOINING AS PREFIX'
-    $at_quiet $ECHO_N " 54: COPY JOINING AS PREFIX                       $ECHO_C"
+    $at_quiet $ECHO_N " 55: COPY JOINING AS PREFIX                       $ECHO_C"
     at_xfail=no
     (
-      echo "54. copy-joining.at:1: testing ..."
+      echo "55. copy-joining.at:1: testing ..."
       $at_traceon
 
 
@@ -6505,13 +6646,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  55 ) # 55. copy-joining.at:25: COPY JOINING AS SUFFIX
+  56 ) # 56. copy-joining.at:25: COPY JOINING AS SUFFIX
     at_setup_line='copy-joining.at:25'
     at_desc='COPY JOINING AS SUFFIX'
-    $at_quiet $ECHO_N " 55: COPY JOINING AS SUFFIX                       $ECHO_C"
+    $at_quiet $ECHO_N " 56: COPY JOINING AS SUFFIX                       $ECHO_C"
     at_xfail=no
     (
-      echo "55. copy-joining.at:25: testing ..."
+      echo "56. copy-joining.at:25: testing ..."
       $at_traceon
 
 
@@ -6593,13 +6734,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  56 ) # 56. copy-joining.at:49: JOINING in RECURSIVE COPY
+  57 ) # 57. copy-joining.at:49: JOINING in RECURSIVE COPY
     at_setup_line='copy-joining.at:49'
     at_desc='JOINING in RECURSIVE COPY'
-    $at_quiet $ECHO_N " 56: JOINING in RECURSIVE COPY                    $ECHO_C"
+    $at_quiet $ECHO_N " 57: JOINING in RECURSIVE COPY                    $ECHO_C"
     at_xfail=no
     (
-      echo "56. copy-joining.at:49: testing ..."
+      echo "57. copy-joining.at:49: testing ..."
       $at_traceon
 
 
@@ -6687,13 +6828,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  57 ) # 57. copy-joining.at:77: JOINed in REDEFINES clause
+  58 ) # 58. copy-joining.at:77: JOINed in REDEFINES clause
     at_setup_line='copy-joining.at:77'
     at_desc='JOINed in REDEFINES clause'
-    $at_quiet $ECHO_N " 57: JOINed in REDEFINES clause                   $ECHO_C"
+    $at_quiet $ECHO_N " 58: JOINed in REDEFINES clause                   $ECHO_C"
     at_xfail=no
     (
-      echo "57. copy-joining.at:77: testing ..."
+      echo "58. copy-joining.at:77: testing ..."
       $at_traceon
 
 
@@ -6776,13 +6917,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  58 ) # 58. copy-joining.at:102: COPY JOINING EXISTING NAME
+  59 ) # 59. copy-joining.at:102: COPY JOINING EXISTING NAME
     at_setup_line='copy-joining.at:102'
     at_desc='COPY JOINING EXISTING NAME'
-    $at_quiet $ECHO_N " 58: COPY JOINING EXISTING NAME                   $ECHO_C"
+    $at_quiet $ECHO_N " 59: COPY JOINING EXISTING NAME                   $ECHO_C"
     at_xfail=no
     (
-      echo "58. copy-joining.at:102: testing ..."
+      echo "59. copy-joining.at:102: testing ..."
       $at_traceon
 
 
@@ -6865,13 +7006,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  59 ) # 59. copy-joining.at:127: COPY JOINING Group fields
+  60 ) # 60. copy-joining.at:127: COPY JOINING Group fields
     at_setup_line='copy-joining.at:127'
     at_desc='COPY JOINING Group fields'
-    $at_quiet $ECHO_N " 59: COPY JOINING Group fields                    $ECHO_C"
+    $at_quiet $ECHO_N " 60: COPY JOINING Group fields                    $ECHO_C"
     at_xfail=no
     (
-      echo "59. copy-joining.at:127: testing ..."
+      echo "60. copy-joining.at:127: testing ..."
       $at_traceon
 
 
@@ -6956,13 +7097,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  60 ) # 60. copy-joining.at:154: *NO* JOINING following JOINING
+  61 ) # 61. copy-joining.at:154: *NO* JOINING following JOINING
     at_setup_line='copy-joining.at:154'
     at_desc='*NO* JOINING following JOINING '
-    $at_quiet $ECHO_N " 60: *NO* JOINING following JOINING               $ECHO_C"
+    $at_quiet $ECHO_N " 61: *NO* JOINING following JOINING               $ECHO_C"
     at_xfail=no
     (
-      echo "60. copy-joining.at:154: testing ..."
+      echo "61. copy-joining.at:154: testing ..."
       $at_traceon
 
 
@@ -7052,13 +7193,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  61 ) # 61. assign-devicename.at:1: ASSIGN coded device name
+  62 ) # 62. assign-devicename.at:1: ASSIGN coded device name
     at_setup_line='assign-devicename.at:1'
     at_desc='ASSIGN coded device name'
-    $at_quiet $ECHO_N " 61: ASSIGN coded device name                     $ECHO_C"
+    $at_quiet $ECHO_N " 62: ASSIGN coded device name                     $ECHO_C"
     at_xfail=no
     (
-      echo "61. assign-devicename.at:1: testing ..."
+      echo "62. assign-devicename.at:1: testing ..."
       $at_traceon
 
 
@@ -7145,13 +7286,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  62 ) # 62. assign-devicename.at:30: ASSIGN coded device w/o def.name
+  63 ) # 63. assign-devicename.at:30: ASSIGN coded device w/o def.name
     at_setup_line='assign-devicename.at:30'
     at_desc='ASSIGN coded device w/o def.name'
-    $at_quiet $ECHO_N " 62: ASSIGN coded device w/o def.name             $ECHO_C"
+    $at_quiet $ECHO_N " 63: ASSIGN coded device w/o def.name             $ECHO_C"
     at_xfail=no
     (
-      echo "62. assign-devicename.at:30: testing ..."
+      echo "63. assign-devicename.at:30: testing ..."
       $at_traceon
 
 
@@ -7238,13 +7379,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  63 ) # 63. assign-devicename.at:59: ASSIGN coded device name by env.var
+  64 ) # 64. assign-devicename.at:59: ASSIGN coded device name by env.var
     at_setup_line='assign-devicename.at:59'
     at_desc='ASSIGN coded device name by env.var'
-    $at_quiet $ECHO_N " 63: ASSIGN coded device name by env.var          $ECHO_C"
+    $at_quiet $ECHO_N " 64: ASSIGN coded device name by env.var          $ECHO_C"
     at_xfail=no
     (
-      echo "63. assign-devicename.at:59: testing ..."
+      echo "64. assign-devicename.at:59: testing ..."
       $at_traceon
 
 
@@ -7331,13 +7472,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  64 ) # 64. assign-devicename.at:88: ASSIGN coded device w/o def.name by env.var
+  65 ) # 65. assign-devicename.at:88: ASSIGN coded device w/o def.name by env.var
     at_setup_line='assign-devicename.at:88'
     at_desc='ASSIGN coded device w/o def.name by env.var'
-    $at_quiet $ECHO_N " 64: ASSIGN coded device w/o def.name by env.var  $ECHO_C"
+    $at_quiet $ECHO_N " 65: ASSIGN coded device w/o def.name by env.var  $ECHO_C"
     at_xfail=no
     (
-      echo "64. assign-devicename.at:88: testing ..."
+      echo "65. assign-devicename.at:88: testing ..."
       $at_traceon
 
 
@@ -7424,13 +7565,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  65 ) # 65. job-date.at:1: COB_DATE
+  66 ) # 66. job-date.at:1: COB_DATE
     at_setup_line='job-date.at:1'
     at_desc='COB_DATE'
-    $at_quiet $ECHO_N " 65: COB_DATE                                     $ECHO_C"
+    $at_quiet $ECHO_N " 66: COB_DATE                                     $ECHO_C"
     at_xfail=no
     (
-      echo "65. job-date.at:1: testing ..."
+      echo "66. job-date.at:1: testing ..."
       $at_traceon
 
 
@@ -7509,13 +7650,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  66 ) # 66. job-date.at:25: COB_DATE YYYYMMDD
+  67 ) # 67. job-date.at:25: COB_DATE YYYYMMDD
     at_setup_line='job-date.at:25'
     at_desc='COB_DATE YYYYMMDD'
-    $at_quiet $ECHO_N " 66: COB_DATE YYYYMMDD                            $ECHO_C"
+    $at_quiet $ECHO_N " 67: COB_DATE YYYYMMDD                            $ECHO_C"
     at_xfail=no
     (
-      echo "66. job-date.at:25: testing ..."
+      echo "67. job-date.at:25: testing ..."
       $at_traceon
 
 
@@ -7594,13 +7735,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  67 ) # 67. job-date.at:48: COB_DATE DAY
+  68 ) # 68. job-date.at:48: COB_DATE DAY
     at_setup_line='job-date.at:48'
     at_desc='COB_DATE DAY'
-    $at_quiet $ECHO_N " 67: COB_DATE DAY                                 $ECHO_C"
+    $at_quiet $ECHO_N " 68: COB_DATE DAY                                 $ECHO_C"
     at_xfail=no
     (
-      echo "67. job-date.at:48: testing ..."
+      echo "68. job-date.at:48: testing ..."
       $at_traceon
 
 
@@ -7678,13 +7819,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  68 ) # 68. job-date.at:70: COB_DATE DAY YYYYDDD
+  69 ) # 69. job-date.at:70: COB_DATE DAY YYYYDDD
     at_setup_line='job-date.at:70'
     at_desc='COB_DATE DAY YYYYDDD'
-    $at_quiet $ECHO_N " 68: COB_DATE DAY YYYYDDD                         $ECHO_C"
+    $at_quiet $ECHO_N " 69: COB_DATE DAY YYYYDDD                         $ECHO_C"
     at_xfail=no
     (
-      echo "68. job-date.at:70: testing ..."
+      echo "69. job-date.at:70: testing ..."
       $at_traceon
 
 
@@ -7762,13 +7903,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  69 ) # 69. job-date.at:92: COB_DATE FUNC. CURRENT-DATE
+  70 ) # 70. job-date.at:92: COB_DATE FUNC. CURRENT-DATE
     at_setup_line='job-date.at:92'
     at_desc='COB_DATE FUNC. CURRENT-DATE'
-    $at_quiet $ECHO_N " 69: COB_DATE FUNC. CURRENT-DATE                  $ECHO_C"
+    $at_quiet $ECHO_N " 70: COB_DATE FUNC. CURRENT-DATE                  $ECHO_C"
     at_xfail=no
     (
-      echo "69. job-date.at:92: testing ..."
+      echo "70. job-date.at:92: testing ..."
       $at_traceon
 
 

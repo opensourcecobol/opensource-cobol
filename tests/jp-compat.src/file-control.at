@@ -423,3 +423,33 @@ AT_CHECK([${COBCRUN} prog], [0], [91
 ])
 
 AT_CLEANUP
+
+AT_SETUP([Assume REWRITE for WRITE on OPEN I-O])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN "TEST-FILE".
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-REC      PIC X(4).
+       PROCEDURE        DIVISION.
+           OPEN I-O TEST-FILE.
+           READ  TEST-FILE.
+           READ  TEST-FILE.
+           MOVE  "AAAA" TO TEST-REC.
+           WRITE TEST-REC.
+           CLOSE TEST-FILE.
+           STOP RUN.
+])
+
+AT_CHECK([echo 000011112222 >TEST-FILE])
+AT_CHECK([${COMPILE_MODULE} -o prog prog.cob])
+AT_CHECK([COB_IO_ASSUME_REWRITE=Y ${COBCRUN} prog])
+AT_CHECK([test `cat TEST-FILE` == '0000AAAA2222'])
+
+AT_CLEANUP

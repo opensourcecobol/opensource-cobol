@@ -384,6 +384,8 @@ COB_EXPIMP struct tm *cob_localtime	(const time_t *);
 
 COB_EXPIMP void cob_verbose_output	(const char *, ...);
 
+COB_EXPIMP int  cob_io_rewrite_assumed	(void);
+
 COB_EXPIMP void cob_check_version		(const char *, const char *,
 						 const int);
 

@@ -4526,6 +4526,13 @@ cob_write (cob_file *f, cob_field *rec, const int opt, cob_field *fnstatus)
 {
 	char	openMode[OPENMODESIZE];
 
+	if (f->access_mode == COB_ACCESS_SEQUENTIAL &&
+	    f->open_mode == COB_OPEN_I_O &&
+	    cob_io_rewrite_assumed()) {
+		cob_rewrite (f, rec, opt, fnstatus);
+		return;
+	}
+
 	memset (openMode, 0, sizeof (openMode));
 	sprintf (openMode, "%02d", f->last_open_mode);
 	if (cob_invoke_fun (COB_IO_WRITE, (char*)f, NULL, (char*)rec->data, fnstatus, openMode, NULL, NULL)) {
