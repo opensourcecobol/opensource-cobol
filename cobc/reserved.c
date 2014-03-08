@@ -159,6 +159,7 @@ static const struct reserved reserved_words[] = {
   {"CLASS-ID",			-1},			/* 2002 */
   {"CLASSIFICATION",		-1},			/* 2002 (C/S) */
   {"CLOSE",			CLOSE},			/* 2002 */
+  {"CLOSE-NOFEED",		CLOSE_NOFEED},		/* JP */
   {"CODE",			CODE},			/* 2002 */
   {"CODE-SET",			CODE_SET},		/* 2002 */
   {"COL",			COLUMN},		/* 2002 */
@@ -207,6 +208,7 @@ static const struct reserved reserved_words[] = {
   {"CONTROLS",			CONTROL},		/* 2002 */
   {"CONVERTING",		CONVERTING},		/* 2002 */
   {"COPY",			0},			/* 2002 */
+  {"CORE-INDEX",		CORE_INDEX},		/* JP */
   {"CORR",			CORRESPONDING},		/* 2002 */
   {"CORRESPONDING",		CORRESPONDING},		/* 2002 */
   {"COUNT",			COUNT},			/* 2002 */
@@ -214,6 +216,7 @@ static const struct reserved reserved_words[] = {
   {"CURRENCY",			CURRENCY},		/* 2002 */
   {"CURSOR",			CURSOR},		/* 2002 */
   {"CYCLE",			CYCLE},			/* 2002 (C/S) */
+  {"CYL-OVERFLOW",		CYL_OVERFLOW},		/* JP */
   {"DATA",			DATA},			/* 2002 */
   {"DATA-POINTER",		-1},			/* 2002 */
   {"DATE",			DATE},			/* 2002 */
@@ -313,6 +316,7 @@ static const struct reserved reserved_words[] = {
   {"FOREGROUND-COLOR",		FOREGROUND_COLOR},	/* 2002 (C/S) */
   {"FOREVER",			FOREVER},		/* 2002 (C/S) */
   {"FORMAT",			-1},			/* 2002 */
+  {"FORMS-OVERLAY",		FORMS_OVERLAY},		/* JP */
   {"FREE",			FREE},			/* 2002 */
   {"FROM",			FROM},			/* 2002 */
   {"FULL",			FULL},			/* 2002 (C/S) */
@@ -408,6 +412,7 @@ static const struct reserved reserved_words[] = {
   {"NESTED",			-1},			/* 2002 */
   {"NEXT",			NEXT},			/* 2002 */
   {"NO",			NO},			/* 2002 */
+  {"NOMINAL",			NOMINAL},		/* JP */
   {"NONE",			-1},			/* 2002 (C/S) */
   {"NORMAL",			-1},			/* 2002 (C/S) */
   {"NOT",			NOT},			/* 2002 */
@@ -581,6 +586,7 @@ static const struct reserved reserved_words[] = {
   {"TIMES",			TIMES},			/* 2002 */
   {"TO",			TO},			/* 2002 */
   {"TOP",			TOP},			/* 2002 */
+  {"TRACKS",			TRACKS},		/* JP */
   {"TRAILING",			TRAILING},		/* 2002 */
   {"TRANSFORM",			TRANSFORM},		/* OSVS */
   {"TRUE",			TOK_TRUE},		/* 2002 */

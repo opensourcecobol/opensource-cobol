@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -395,7 +395,8 @@ at_help_all='1;split-keys.at:1;SPLIT KEYS (ALTERNATE KEY);;
 84;data-desc-no-dot.at:39;Data desc. ambiguous level-num 2;;
 85;data-desc-no-dot.at:59;Data desc. level-num error after 88;;
 86;data-desc-no-dot.at:83;Data desc. ambiguous level-num (degrade check);;
-87;search-key-in-rhs.at:1;SEARCH KEY IN RHS;;
+87;sort-key-is.at:1;SORT KEY IS;;
+88;search-key-in-rhs.at:1;SEARCH KEY IN RHS;;
 '
 
 at_keywords=
@@ -9365,13 +9366,108 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  87 ) # 87. search-key-in-rhs.at:1: SEARCH KEY IN RHS
-    at_setup_line='search-key-in-rhs.at:1'
-    at_desc='SEARCH KEY IN RHS'
-    $at_quiet $ECHO_N " 87: SEARCH KEY IN RHS                            $ECHO_C"
+  87 ) # 87. sort-key-is.at:1: SORT KEY IS
+    at_setup_line='sort-key-is.at:1'
+    at_desc='SORT KEY IS'
+    $at_quiet $ECHO_N " 87: SORT KEY IS                                  $ECHO_C"
     at_xfail=no
     (
-      echo "87. search-key-in-rhs.at:1: testing ..."
+      echo "87. sort-key-is.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+           SELECT SF01 ASSIGN TO "SFILE".
+           SELECT IF01 ASSIGN TO "IFILE".
+           SELECT OF01 ASSIGN TO "OFILE".
+       DATA             DIVISION.
+       FILE             SECTION.
+       SD  SF01.
+       01  A00.
+         02 A001        PIC X(6).
+       FD  IF01.
+       01  I-A00.
+         02 I-A001        PIC X(6).
+       FD  OF01.
+       01  O-A00.
+         02 O-A001        PIC X(6).
+       PROCEDURE        DIVISION.
+           SORT SF01 ASCENDING KEY IS A001
+                USING IF01 GIVING OF01.
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "sort-key-is.at:29: \${COMPILE} prog.cob"
+echo sort-key-is.at:29 >$at_check_line_file
+( $at_traceon; ${COMPILE} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:23: Error: syntax error
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "sort-key-is.at:29: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "sort-key-is.at:32: \${COMPILE_JP_COMPAT} prog.cob"
+echo sort-key-is.at:32 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "sort-key-is.at:32: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  88 ) # 88. search-key-in-rhs.at:1: SEARCH KEY IN RHS
+    at_setup_line='search-key-in-rhs.at:1'
+    at_desc='SEARCH KEY IN RHS'
+    $at_quiet $ECHO_N " 88: SEARCH KEY IN RHS                            $ECHO_C"
+    at_xfail=no
+    (
+      echo "88. search-key-in-rhs.at:1: testing ..."
       $at_traceon
 
 

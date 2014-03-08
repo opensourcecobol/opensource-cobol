@@ -366,6 +366,7 @@ setup_use_file (struct cb_file *fileptr)
 %token CLASS
 %token CLASS_NAME		/* user defined classname */
 %token CLOSE
+%token CLOSE_NOFEED		"CLOSE-NOFEED"
 %token CODE
 %token CODE_SET			"CODE-SET"
 %token COLLATING
@@ -398,6 +399,7 @@ setup_use_file (struct cb_file *fileptr)
 %token CONTROL_FOOTING		"CONTROL FOOTING"
 %token CONTROL_HEADING		"CONTROL HEADING"
 %token CONVERTING
+%token CORE_INDEX		"CORE-INDEX"
 %token CORRESPONDING
 %token COUNT
 %token CRT
@@ -405,6 +407,7 @@ setup_use_file (struct cb_file *fileptr)
 %token CURRENT_DATE_FUNC	"FUNCTION CURRENT-DATE"
 %token CURSOR
 %token CYCLE
+%token CYL_OVERFLOW		"CYL-OVERFLOW"
 %token DATA
 %token DATE
 %token DAY
@@ -481,6 +484,7 @@ setup_use_file (struct cb_file *fileptr)
 %token FOR
 %token FOREGROUND_COLOR		"FOREGROUND-COLOR"
 %token FOREVER
+%token FORMS_OVERLAY		"FORMS-OVERLAY"
 %token FREE
 %token FROM
 %token FULL
@@ -563,6 +567,7 @@ setup_use_file (struct cb_file *fileptr)
 %token NEXT
 %token NEXT_SENTENCE		"NEXT SENTENCE"
 %token NO
+%token NOMINAL
 %token NOT
 %token NOT_END			"NOT END"
 %token NOT_EOP			"NOT EOP"
@@ -711,6 +716,7 @@ setup_use_file (struct cb_file *fileptr)
 %token TOK_NULL			"NULL"
 %token TOK_TRUE			"TRUE"
 %token TOP
+%token TRACKS
 %token TRAILING
 %token TRANSFORM
 %token TRIM_FUNCTION		"FUNCTION TRIM"
@@ -1689,6 +1695,7 @@ select_clause:
 | reserve_clause
 | sharing_clause
 | error
+| nominal_key_clause
 ;
 
 
@@ -1736,9 +1743,29 @@ assignment_name:
 	s = "$#@DUMMY@#$";
 	$$ = cb_build_alphanumeric_literal ((unsigned char *)s, strlen (s));
   }
-| qualified_word
+| _literal assignment_device_name_list
+  {
+
+	if (!$1 || ($1 && CB_TREE_CLASS ($1) == CB_CLASS_NUMERIC)) {
+		if ($2) {
+			if (CB_CHAIN ($2)) {
+				PENDING (_("ASSIGN TO multiple external device names"));
+			}
+			$$ = CB_VALUE ($2);
+		}
+	} else {
+		if($2) {
+			PENDING (_("ASSIGN TO multiple external device names"));
+		}
+		$$ = $1;
+	}
+  }
 ;
 
+assignment_device_name_list:
+  qualified_word				{ $$ = cb_list_init ($1); }
+| assignment_device_name_list qualified_word 	{ $$ = cb_list_add ($1, $2); }
+;
 
 /* ACCESS MODE clause */
 
@@ -2032,6 +2059,7 @@ relative_key_clause:
 
 reserve_clause:
   RESERVE integer _area		{ /* ignored */ }
+| RESERVE NO			{ /* ignored */ }
 ;
 
 
@@ -2047,6 +2075,11 @@ sharing_option:
 | READ ONLY			{ $$ = cb_int0; }
 ;
 
+/* NOMINAL KEY clause */
+
+nominal_key_clause:
+  NOMINAL _key _is reference	{ PENDING ("NOMINAL KEY"); }
+;
 
 /*
  * I-O-CONTROL paragraph
@@ -2059,6 +2092,7 @@ i_o_control_paragraph:
 opt_i_o_control:
 | i_o_control_list '.'
 | i_o_control_list
+| apply_clause_list
 ;
 
 i_o_control_list:
@@ -2069,7 +2103,6 @@ i_o_control_list:
 i_o_control_clause:
   same_clause
 | multiple_file_tape_clause
-| commitment_control_clause
 ;
 
 /* SAME clause */
@@ -2128,12 +2161,34 @@ multiple_file_position:
 | POSITION integer
 ;
 
-/* APPLY COMMITMENT CONTROL clause */
+/* APPLY clause */
 
-commitment_control_clause:
+apply_clause_list:
+  apply_clause_list '.'
+| apply_clause
+| apply_clause_list apply_clause
+;
+
+apply_clause:
   APPLY COMMITMENT_CONTROL _on reference_list
   {
 	PENDING ("APPLY COMMITMENT-CONTROL");
+  }
+| APPLY CYL_OVERFLOW _of LITERAL TRACKS ON reference_list
+  {
+	PENDING ("APPLY CYL-OVERFLOW");
+  }
+| APPLY CORE_INDEX TO reference ON reference_list
+  {
+	PENDING ("APPLY CORE-INDEX");
+  }
+| APPLY FORMS_OVERLAY TO reference ON reference_list
+  {
+	PENDING ("APPLY FORMS-OVERLAY");
+  }
+| APPLY CLOSE_NOFEED ON reference_list
+  {
+	PENDING ("APPLY CLOSE-NOFEED");
   }
 ;
 
@@ -5827,17 +5882,22 @@ sort_key_list:
 	$$ = NULL;
   }
 | sort_key_list
-  _on ascending_or_descending _key opt_key_list
+  _on ascending_or_descending _key _is opt_key_list
   {
 	cb_tree l;
 
-	if ($5 == NULL) {
-		$5 = cb_list_init (NULL);
+	if (!cb_allow_is_in_sort_key_spec && $5 != NULL) {
+		cb_error (_("syntax error"));
+		$$ = cb_error_node;
+	} else {
+		if ($6 == NULL) {
+			$6 = cb_list_init (NULL);
+		}
+		for (l = $6; l; l = CB_CHAIN (l)) {
+			CB_PURPOSE (l) = $3;
+		}
+		$$ = cb_list_append ($1, $6);
 	}
-	for (l = $5; l; l = CB_CHAIN (l)) {
-		CB_PURPOSE (l) = $3;
-	}
-	$$ = cb_list_append ($1, $5);
   }
 ;
 
@@ -7382,11 +7442,12 @@ _file:		| TOK_FILE ;
 _for:		| FOR ;
 _from:		| FROM ;
 _in:		| IN ;
-_is:		| IS ;
+_is:		{ $$ = NULL; } | IS { $$ = cb_int1; } ;
 _is_are:	| IS | ARE ;
 _key:		| KEY ;
 _line_or_lines:	| LINE | LINES ;
 _lines:		| LINES ;
+_literal:	{ $$ = NULL; } | LITERAL { $$ = $1; } ;
 _mode:		| MODE ;
 _number:	| NUMBER ;
 _of:		| OF ;

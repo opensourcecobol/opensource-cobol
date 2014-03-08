@@ -371,6 +371,9 @@ cb_validate_numeric (cb_tree x)
 static size_t
 cb_validate_list (cb_tree l)
 {
+	if (l == cb_error_node) {
+		return 1;
+	}
 	for (; l; l = CB_CHAIN (l)) {
 		if (cb_validate_one (CB_VALUE (l))) {
 			return 1;

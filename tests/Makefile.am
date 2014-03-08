@@ -124,6 +124,7 @@ jp_compat_DEPENDENCIES = \
 	jp-compat.src/cob68-copy.at \
 	jp-compat.src/switch-no-mnemonic.at \
 	jp-compat.src/data-desc-no-dot.at \
+	jp-compat.src/sort-key-is.at \
 	jp-compat.src/search-key-in-rhs.at
 
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \

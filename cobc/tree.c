@@ -1885,16 +1885,18 @@ finalize_file (struct cb_file *f, struct cb_field *records)
 	} 
 
 	/* check the record size if it is limited */
-	for (p = records; p; p = p->sister) {
-		if (f->record_min > 0) {
-			if (p->size < f->record_min) {
-				cb_error (_("Record size too small '%s'"), p->name);
+	if (!cb_ignore_invalid_record_contains) {
+		for (p = records; p; p = p->sister) {
+			if (f->record_min > 0) {
+				if (p->size < f->record_min) {
+					cb_error (_("Record size too small '%s'"), p->name);
+				}
 			}
-		}
-		if (f->record_max > 0) {
-			if (p->size > f->record_max) {
-				cb_error (_("Record size too large '%s' (%d)"),
-					     p->name, p->size);
+			if (f->record_max > 0) {
+				if (p->size > f->record_max) {
+					cb_error (_("Record size too large '%s' (%d)"),
+						  p->name, p->size);
+				}
 			}
 		}
 	}
