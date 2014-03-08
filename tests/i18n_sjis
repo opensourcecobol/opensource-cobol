@@ -353,13 +353,13 @@ at_help_all='1;user-defined-word.at:1;Program name;;
 42;pic-n.at:194;PIC N STRING by size;;
 43;pic-n.at:217;PIC N STRING with delimiter (causes warn);;
 44;pic-n.at:240;PIC N STRING with NATIONAL delimiter;;
-45;pic-n.at:267;PIC N STRING with pointer;;
-46;pic-n.at:291;PIC N INSPECT REPLACING;;
-47;pic-n.at:310;PIC N INSPECT REPLACING by ZERO;;
-48;pic-n.at:329;PIC N INSPECT REPLACING by NATIONAL ZERO;;
-49;pic-n.at:350;PIC N INSPECT TALLYING;;
-50;pic-n.at:370;PIC N Move with half-width dakuten kana.;;
-51;pic-n.at:389;PIC N Move with half-width han-dakuten kana.;;
+45;pic-n.at:263;PIC N STRING with pointer;;
+46;pic-n.at:287;PIC N INSPECT REPLACING;;
+47;pic-n.at:306;PIC N INSPECT REPLACING by ZERO;;
+48;pic-n.at:325;PIC N INSPECT REPLACING by NATIONAL ZERO;;
+49;pic-n.at:344;PIC N INSPECT TALLYING;;
+50;pic-n.at:364;PIC N Move with half-width dakuten kana.;;
+51;pic-n.at:383;PIC N Move with half-width han-dakuten kana.;;
 52;program-id.at:1;PROGRAM-ID NATIONAL C89 no warning;;
 53;program-id.at:20;PROGRAM-ID NATIONAL C89 warning;;
 54;program-id.at:42;PROGRAM-ID NATIONAL C89 ignore;;
@@ -4397,17 +4397,38 @@ at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
-echo >>$at_stderr; echo "prog.cob:11: Error: 'N' undefined
-prog.cob:12: Warning: F0 and  and FF have not same national type!
-prog.cob:12: Warning: F1 and  and FF have not same national type!
-prog.cob:12: Warning: F2 and  and FF have not same national type!
-" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stderr || at_failed=:
 $at_diff $at_devnull $at_stdout || at_failed=:
 case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
-   1) ;;
-   *) echo "pic-n.at:258: exit code was $at_status, expected 1"
+   0) ;;
+   *) echo "pic-n.at:258: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "pic-n.at:259: ./prog"
+echo pic-n.at:259 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "Ž„‚Ì–¼‘O" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "pic-n.at:259: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4425,13 +4446,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  45 ) # 45. pic-n.at:267: PIC N STRING with pointer
-    at_setup_line='pic-n.at:267'
+  45 ) # 45. pic-n.at:263: PIC N STRING with pointer
+    at_setup_line='pic-n.at:263'
     at_desc='PIC N STRING with pointer'
     $at_quiet $ECHO_N " 45: PIC N STRING with pointer                    $ECHO_C"
     at_xfail=no
     (
-      echo "45. pic-n.at:267: testing ..."
+      echo "45. pic-n.at:263: testing ..."
       $at_traceon
 
 
@@ -4455,8 +4476,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "pic-n.at:286: \${COMPILE} -x prog.cob"
-echo pic-n.at:286 >$at_check_line_file
+echo "pic-n.at:282: \${COMPILE} -x prog.cob"
+echo pic-n.at:282 >$at_check_line_file
 ( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4468,7 +4489,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "pic-n.at:286: exit code was $at_status, expected 0"
+   *) echo "pic-n.at:282: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4480,8 +4501,8 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-n.at:287: ./prog"
-echo pic-n.at:287 >$at_check_line_file
+echo "pic-n.at:283: ./prog"
+echo pic-n.at:283 >$at_check_line_file
 ( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4493,7 +4514,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "pic-n.at:287: exit code was $at_status, expected 0"
+   *) echo "pic-n.at:283: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4511,13 +4532,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  46 ) # 46. pic-n.at:291: PIC N INSPECT REPLACING
-    at_setup_line='pic-n.at:291'
+  46 ) # 46. pic-n.at:287: PIC N INSPECT REPLACING
+    at_setup_line='pic-n.at:287'
     at_desc='PIC N INSPECT REPLACING'
     $at_quiet $ECHO_N " 46: PIC N INSPECT REPLACING                      $ECHO_C"
     at_xfail=no
     (
-      echo "46. pic-n.at:291: testing ..."
+      echo "46. pic-n.at:287: testing ..."
       $at_traceon
 
 
@@ -4536,8 +4557,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "pic-n.at:305: \${COMPILE} -x prog.cob"
-echo pic-n.at:305 >$at_check_line_file
+echo "pic-n.at:301: \${COMPILE} -x prog.cob"
+echo pic-n.at:301 >$at_check_line_file
 ( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4549,7 +4570,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "pic-n.at:305: exit code was $at_status, expected 0"
+   *) echo "pic-n.at:301: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4561,8 +4582,8 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-n.at:306: ./prog"
-echo pic-n.at:306 >$at_check_line_file
+echo "pic-n.at:302: ./prog"
+echo pic-n.at:302 >$at_check_line_file
 ( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4574,7 +4595,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "pic-n.at:306: exit code was $at_status, expected 0"
+   *) echo "pic-n.at:302: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4592,13 +4613,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  47 ) # 47. pic-n.at:310: PIC N INSPECT REPLACING by ZERO
-    at_setup_line='pic-n.at:310'
+  47 ) # 47. pic-n.at:306: PIC N INSPECT REPLACING by ZERO
+    at_setup_line='pic-n.at:306'
     at_desc='PIC N INSPECT REPLACING by ZERO'
     $at_quiet $ECHO_N " 47: PIC N INSPECT REPLACING by ZERO              $ECHO_C"
     at_xfail=no
     (
-      echo "47. pic-n.at:310: testing ..."
+      echo "47. pic-n.at:306: testing ..."
       $at_traceon
 
 
@@ -4617,8 +4638,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "pic-n.at:324: \${COMPILE} -x prog.cob"
-echo pic-n.at:324 >$at_check_line_file
+echo "pic-n.at:320: \${COMPILE} -x prog.cob"
+echo pic-n.at:320 >$at_check_line_file
 ( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4630,7 +4651,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "pic-n.at:324: exit code was $at_status, expected 0"
+   *) echo "pic-n.at:320: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4642,8 +4663,8 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-n.at:325: ./prog"
-echo pic-n.at:325 >$at_check_line_file
+echo "pic-n.at:321: ./prog"
+echo pic-n.at:321 >$at_check_line_file
 ( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4655,7 +4676,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "pic-n.at:325: exit code was $at_status, expected 0"
+   *) echo "pic-n.at:321: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4673,13 +4694,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  48 ) # 48. pic-n.at:329: PIC N INSPECT REPLACING by NATIONAL ZERO
-    at_setup_line='pic-n.at:329'
+  48 ) # 48. pic-n.at:325: PIC N INSPECT REPLACING by NATIONAL ZERO
+    at_setup_line='pic-n.at:325'
     at_desc='PIC N INSPECT REPLACING by NATIONAL ZERO'
     $at_quiet $ECHO_N " 48: PIC N INSPECT REPLACING by NATIONAL ZERO     $ECHO_C"
     at_xfail=no
     (
-      echo "48. pic-n.at:329: testing ..."
+      echo "48. pic-n.at:325: testing ..."
       $at_traceon
 
 
@@ -4698,22 +4719,45 @@ _ATEOF
 
 
 $at_traceoff
-echo "pic-n.at:343: \${COMPILE} -x prog.cob"
-echo pic-n.at:343 >$at_check_line_file
+echo "pic-n.at:339: \${COMPILE} -x prog.cob"
+echo pic-n.at:339 >$at_check_line_file
 ( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
-echo >>$at_stderr; echo "prog.cob:8: Error: 'N' undefined
-prog.cob:8: Error: syntax error, unexpected Literal, expecting BY
-" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stderr || at_failed=:
 $at_diff $at_devnull $at_stdout || at_failed=:
 case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
-   1) ;;
-   *) echo "pic-n.at:343: exit code was $at_status, expected 1"
+   0) ;;
+   *) echo "pic-n.at:339: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "pic-n.at:340: ./prog"
+echo pic-n.at:340 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "‚P‚Q‚R‚S‚O‚P‚Q‚R‚S‚O" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "pic-n.at:340: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4731,13 +4775,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  49 ) # 49. pic-n.at:350: PIC N INSPECT TALLYING
-    at_setup_line='pic-n.at:350'
+  49 ) # 49. pic-n.at:344: PIC N INSPECT TALLYING
+    at_setup_line='pic-n.at:344'
     at_desc='PIC N INSPECT TALLYING'
     $at_quiet $ECHO_N " 49: PIC N INSPECT TALLYING                       $ECHO_C"
     at_xfail=no
     (
-      echo "49. pic-n.at:350: testing ..."
+      echo "49. pic-n.at:344: testing ..."
       $at_traceon
 
 
@@ -4757,8 +4801,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "pic-n.at:365: \${COMPILE} -x prog.cob"
-echo pic-n.at:365 >$at_check_line_file
+echo "pic-n.at:359: \${COMPILE} -x prog.cob"
+echo pic-n.at:359 >$at_check_line_file
 ( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4770,7 +4814,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "pic-n.at:365: exit code was $at_status, expected 0"
+   *) echo "pic-n.at:359: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4782,8 +4826,8 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-n.at:366: ./prog"
-echo pic-n.at:366 >$at_check_line_file
+echo "pic-n.at:360: ./prog"
+echo pic-n.at:360 >$at_check_line_file
 ( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4795,7 +4839,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "pic-n.at:366: exit code was $at_status, expected 0"
+   *) echo "pic-n.at:360: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4813,13 +4857,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  50 ) # 50. pic-n.at:370: PIC N Move with half-width dakuten kana.
-    at_setup_line='pic-n.at:370'
+  50 ) # 50. pic-n.at:364: PIC N Move with half-width dakuten kana.
+    at_setup_line='pic-n.at:364'
     at_desc='PIC N Move with half-width dakuten kana.'
     $at_quiet $ECHO_N " 50: PIC N Move with half-width dakuten kana.     $ECHO_C"
     at_xfail=no
     (
-      echo "50. pic-n.at:370: testing ..."
+      echo "50. pic-n.at:364: testing ..."
       $at_traceon
 
 
@@ -4838,8 +4882,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "pic-n.at:384: \${COMPILE} -x prog.cob"
-echo pic-n.at:384 >$at_check_line_file
+echo "pic-n.at:378: \${COMPILE} -x prog.cob"
+echo pic-n.at:378 >$at_check_line_file
 ( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4851,7 +4895,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "pic-n.at:384: exit code was $at_status, expected 0"
+   *) echo "pic-n.at:378: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4863,8 +4907,8 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-n.at:385: ./prog"
-echo pic-n.at:385 >$at_check_line_file
+echo "pic-n.at:379: ./prog"
+echo pic-n.at:379 >$at_check_line_file
 ( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4876,7 +4920,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "pic-n.at:385: exit code was $at_status, expected 0"
+   *) echo "pic-n.at:379: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4894,13 +4938,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  51 ) # 51. pic-n.at:389: PIC N Move with half-width han-dakuten kana.
-    at_setup_line='pic-n.at:389'
+  51 ) # 51. pic-n.at:383: PIC N Move with half-width han-dakuten kana.
+    at_setup_line='pic-n.at:383'
     at_desc='PIC N Move with half-width han-dakuten kana.'
     $at_quiet $ECHO_N " 51: PIC N Move with half-width han-dakuten kana. $ECHO_C"
     at_xfail=no
     (
-      echo "51. pic-n.at:389: testing ..."
+      echo "51. pic-n.at:383: testing ..."
       $at_traceon
 
 
@@ -4919,8 +4963,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "pic-n.at:403: \${COMPILE} -x prog.cob"
-echo pic-n.at:403 >$at_check_line_file
+echo "pic-n.at:397: \${COMPILE} -x prog.cob"
+echo pic-n.at:397 >$at_check_line_file
 ( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4932,7 +4976,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "pic-n.at:403: exit code was $at_status, expected 0"
+   *) echo "pic-n.at:397: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4944,8 +4988,8 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-n.at:404: ./prog"
-echo pic-n.at:404 >$at_check_line_file
+echo "pic-n.at:398: ./prog"
+echo pic-n.at:398 >$at_check_line_file
 ( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4957,7 +5001,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "pic-n.at:404: exit code was $at_status, expected 0"
+   *) echo "pic-n.at:398: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then

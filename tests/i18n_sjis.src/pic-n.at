@@ -255,12 +255,8 @@ AT_DATA([prog.cob], [
            STOP RUN.
 ])
 
-AT_CHECK([${COMPILE} -x prog.cob], [1], [],
-[prog.cob:11: Error: 'N' undefined
-prog.cob:12: Warning: F0 and  and FF have not same national type!
-prog.cob:12: Warning: F1 and  and FF have not same national type!
-prog.cob:12: Warning: F2 and  and FF have not same national type!
-])
+AT_CHECK([${COMPILE} -x prog.cob], [0])
+AT_CHECK([./prog], [0], [Ž„‚Ì–¼‘O])
 
 AT_CLEANUP
 
@@ -340,10 +336,8 @@ AT_DATA([prog.cob], [
            STOP RUN.
 ])
 
-AT_CHECK([${COMPILE} -x prog.cob], [1], [],
-[prog.cob:8: Error: 'N' undefined
-prog.cob:8: Error: syntax error, unexpected Literal, expecting BY
-])
+AT_CHECK([${COMPILE} -x prog.cob], [0])
+AT_CHECK([./prog], [0], [‚P‚Q‚R‚S‚O‚P‚Q‚R‚S‚O])
 
 AT_CLEANUP
 

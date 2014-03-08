@@ -160,19 +160,20 @@ JPNWORD [\xA0-\xDF]|([\x81-\x9F\xE0-\xFC][\x40-\x7E\x80-\xFC])
 	return read_literal (yytext[0], CB_CATEGORY_ALPHANUMERIC);
 }
 
-ifdef(M4.I18N_UTF8,>>>>>
 N[\'\"] {
-	/* I18N_UTF8: Explicit NATIONAL string literal. */
 	cb_force_pid_literal = 0;
 	return read_literal (yytext[1], CB_CATEGORY_NATIONAL);
 }
 
 NC[\'\"] {
-	/* I18N_UTF8: Explicit NATIONAL string literal. */
 	cb_force_pid_literal = 0;
 	return read_literal (yytext[2], CB_CATEGORY_NATIONAL);
 }
-<<<<<)
+
+ND[\'\"] {
+	cb_force_pid_literal = 0;
+	return read_literal (yytext[2], CB_CATEGORY_NATIONAL);
+}
 
 X\'[^\'\n]*\' |
 X\"[^\"\n]*\" {

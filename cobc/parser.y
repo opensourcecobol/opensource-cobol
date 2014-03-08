@@ -18,7 +18,7 @@
  * Boston, MA 02110-1301 USA
  */
 
-%expect 137
+%expect 139
 
 %defines
 %verbose
@@ -85,8 +85,7 @@ static cb_tree			current_expr;
 static struct cb_field		*current_field;
 static struct cb_field		*description_field;
 static struct cb_file		*current_file;
-static struct cb_key_component 	*key_component_list;
-
+static struct cb_key_component	*key_component_list;
 static enum cb_storage		current_storage;
 
 static size_t			check_unreached = 0;
@@ -327,6 +326,7 @@ setup_use_file (struct cb_file *fileptr)
 %token ALTERNATE
 %token AND
 %token ANY
+%token APPLY
 %token ARE
 %token AREA
 %token ARGUMENT_NUMBER		"ARGUMENT-NUMBER"
@@ -375,6 +375,7 @@ setup_use_file (struct cb_file *fileptr)
 %token COMMAND_LINE		"COMMAND-LINE"
 %token COMMA_DELIM		"comma delimiter"
 %token COMMIT
+%token COMMITMENT_CONTROL	"COMMITMENT-CONTROL"
 %token COMMON
 %token COMP
 %token COMPUTE
@@ -2040,6 +2041,7 @@ i_o_control_list:
 i_o_control_clause:
   same_clause
 | multiple_file_tape_clause
+| commitment_control_clause
 ;
 
 /* SAME clause */
@@ -2098,6 +2100,14 @@ multiple_file_position:
 | POSITION integer
 ;
 
+/* APPLY COMMITMENT CONTROL clause */
+
+commitment_control_clause:
+  APPLY COMMITMENT_CONTROL _on reference_list
+  {
+	PENDING ("APPLY COMMITMENT-CONTROL");
+  }
+;
 
 /*****************************************************************************
  * DATA DIVISION.
@@ -6602,8 +6612,8 @@ expr_token:
 eq:	'=' | EQUAL _to | EQUALS;
 gt:	'>' | GREATER _than ;
 lt:	'<' | LESS _than ;
-ge:	GE | GREATER _than OR EQUAL _to ;
-le:	LE | LESS _than OR EQUAL _to ;
+ge:	GE | GREATER _than OR EQUAL _to | GREATER _than EQUAL _to ;
+le:	LE | LESS _than OR EQUAL _to | LESS _than EQUAL _to ;
 
 /* Arithmetic expression */
 

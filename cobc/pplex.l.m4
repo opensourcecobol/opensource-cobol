@@ -234,7 +234,7 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 	if (cb_verify (cb_eject_statement, yytext)) {
 		/* do nothing for now */
 	} else {
-		ECHO;
+		/* ECHO; */ /* comment should be suppressed, shouldn't it? */
 	}
 }
 

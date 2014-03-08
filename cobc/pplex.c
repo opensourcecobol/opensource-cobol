@@ -1659,7 +1659,7 @@ YY_RULE_SETUP
 	if (cb_verify (cb_eject_statement, pptext)) {
 		/* do nothing for now */
 	} else {
-		ECHO;
+		/* ECHO; */ /* comment should be suppressed, shouldn't it? */
 	}
 }
 	YY_BREAK
