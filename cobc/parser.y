@@ -2891,9 +2891,14 @@ sign_clause:
 
 /* OCCURS clause */
 
+occurs_key_spec:
+| occurs_keys _occurs_indexed
+| occurs_indexed _occurs_keys
+;
+
 occurs_clause:
   OCCURS integer occurs_to_integer _times
-  occurs_depending occurs_keys occurs_indexed
+  occurs_depending occurs_key_spec
   {
 	if (current_field->occurs_depending && !($3)) {
 		cb_verify (cb_odo_without_to, "ODO without TO clause");
@@ -2920,6 +2925,8 @@ occurs_depending:
   }
 ;
 
+_occurs_keys: | occurs_keys;
+
 occurs_keys:
   occurs_key_list
   {
@@ -2944,22 +2951,25 @@ occurs_keys:
   }
 ;
 
-occurs_key_list:
-  /* empty */			{ $$ = NULL; }
-| occurs_key_list
+occurs_key:
   ascending_or_descending _key _is reference_list
   {
 	cb_tree l;
 
-	for (l = $5; l; l = CB_CHAIN (l)) {
-		CB_PURPOSE (l) = $2;
+	for (l = $4; l; l = CB_CHAIN (l)) {
+		CB_PURPOSE (l) = $1;
 		if (qualifier && !CB_REFERENCE(CB_VALUE(l))->chain &&
 		    strcasecmp (CB_NAME(CB_VALUE(l)), CB_NAME(qualifier))) {
 			CB_REFERENCE(CB_VALUE(l))->chain = qualifier;
 		}
 	}
-	$$ = cb_list_append ($1, $5);
+	$$ = $4;
   }
+;
+
+occurs_key_list:
+  occurs_key			{ $$ = $1; }
+| occurs_key_list occurs_key	{ $$ = cb_list_append ($1, $2); }
 ;
 
 ascending_or_descending:
@@ -2967,8 +2977,10 @@ ascending_or_descending:
 | DESCENDING			{ $$ = cb_int (COB_DESCENDING); }
 ;
 
+_occurs_indexed: | occurs_indexed;
+
 occurs_indexed:
-| INDEXED _by occurs_index_list
+  INDEXED _by occurs_index_list
   {
 	current_field->index_list = $3;
   }
