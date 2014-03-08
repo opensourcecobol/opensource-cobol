@@ -58,7 +58,16 @@
      SUFFIX = 273,
      PREFIXING = 274,
      SUFFIXING = 275,
-     TOKEN = 276
+     LEVEL_NUMBER = 276,
+     REDEFINES = 277,
+     TOKEN = 278,
+     PROGRAM_ID = 279,
+     FUNCTION_ID = 280,
+     ENVIRONMENT_DIVISION = 281,
+     DATA_DIVISION = 282,
+     PROCEDURE_DIVISION = 283,
+     END_PROGRAM = 284,
+     END_FUNCTION = 285
    };
 #endif
 
@@ -80,7 +89,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 84 "ppparse.h"
+#line 93 "ppparse.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

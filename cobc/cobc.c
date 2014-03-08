@@ -628,6 +628,39 @@ utf8_national_length (const unsigned char *str, int len)
 }
 #endif /*I18N_UTF8*/
 
+#ifdef	I18N_UTF8
+void
+utf8_spc_to_ascii (char *str)
+{
+	unsigned char *p = (unsigned char *)str;
+
+	while (*p) {
+		if (*p == 0xE3 && *(p+1) == 0x80 && *(p+2) == 0x80) {
+			*p++ = ' ';
+			*p++ = ' ';
+			*p++ = ' ';
+		} else {
+			p++;
+		}
+	}
+}
+#else /*!I18N_UTF8*/
+void
+sjis_spc_to_ascii (char *str)
+{
+	unsigned char *p = (unsigned char *)str;
+
+	while (*p) {
+		if (*p == 0x81 && *(p+1) == 0x40) {
+			*p++ = ' ';
+			*p++ = ' ';
+		} else {
+			p++;
+		}
+	}
+}
+#endif /*I18N_UTF8*/
+
 /*
  * Local functions
  */

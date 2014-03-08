@@ -18,7 +18,7 @@
  * Boston, MA 02110-1301 USA
 */ 
 
-%expect 0
+%expect 4 /* 3 for nested program */
 
 %defines
 %name-prefix="pp"
@@ -59,8 +59,11 @@ static struct cb_replace_list *cb_replace_list_add_list (struct cb_replace_list 
 %token COPY REPLACE SUPPRESS PRINTING REPLACING OFF IN OF BY EQEQ LEADING TRAILING
 %token JOINING AS PREFIX SUFFIX
 %token PREFIXING SUFFIXING
+%token LEVEL_NUMBER REDEFINES /* for COBOL68 style COPY in data description entry */
 %token <s> TOKEN
-%type <s> copy_in
+%token PROGRAM_ID FUNCTION_ID ENVIRONMENT_DIVISION DATA_DIVISION PROCEDURE_DIVISION
+%token END_PROGRAM END_FUNCTION
+%type <s> copy_in _redefines_clause
 %type <l> text pseudo_text token_list identifier subscripts
 %type <r> copy_replacing replacing_list replacing_tokens
 %type <jx> copy_joining
@@ -68,11 +71,123 @@ static struct cb_replace_list *cb_replace_list_add_list (struct cb_replace_list 
 
 %%
 
+/* program structure */
+
+nested_list:
+  source_element
+| nested_list source_element
+;
+
+source_element:
+  program_definition
+| function_definition
+;
+
+program_definition:
+  identification_division
+  environment_division
+  data_division
+  procedure_division
+  nested_prog
+  end_program
+;
+
+program_mandatory:
+  identification_division
+  environment_division
+  data_division
+  procedure_division
+  nested_prog
+  end_mandatory
+;
+
+function_definition:
+  function_division
+  environment_division
+  data_division
+  procedure_division
+  end_function
+;
+
+nested_prog:
+| program_mandatory
+| nested_prog program_mandatory
+;
+
+identification_division:
+  PROGRAM_ID { pp_set_current_division (PP_IDENTIFICATION_DIVISION); }
+  statement_list
+;
+
+function_division:
+  FUNCTION_ID { pp_set_current_division (PP_FUNCTION_DIVISION); }
+  statement_list
+;
+environment_division:
+| ENVIRONMENT_DIVISION { pp_set_current_division (PP_ENVIRONMENT_DIVISION); }
+  statement_list
+;
+data_division:
+| DATA_DIVISION { pp_set_current_division (PP_DATA_DIVISION); }
+  data_statement_list
+;
+procedure_division:
+| PROCEDURE_DIVISION { pp_set_current_division (PP_PROCEDURE_DIVISION); }
+  statement_list
+;
+end_program:
+| END_PROGRAM  { pp_set_current_division (PP_OUT_OF_DIVISION); }
+  statement_list
+;
+end_mandatory:
+  END_PROGRAM  { pp_set_current_division (PP_OUT_OF_DIVISION); }
+  statement_list
+;
+end_function:
+| END_FUNCTION { pp_set_current_division (PP_OUT_OF_DIVISION); }
+  statement_list
+;
+
+/* end of program structure */
+
 statement_list: | statement_list statement ;
-statement: copy_statement | replace_statement ;
+statement: copy_statement | replace_statement | '.';
+
+data_statement_list: | data_statement_list data_statement ;
+data_statement: '.' copy_statement | replace_statement | '.'
+| data_description
+;
+
+data_description:
+  data_description_entry recursive_copy_statement data_description
+| data_description_entry recursive_copy_statement
+| data_description_entry
+ {
+	pp_omit_data_entry_name (0);
+	pp_omit_data_redef_name (0);
+  }
+;
+
+data_description_entry:
+  LEVEL_NUMBER TOKEN _redefines_clause
+  {
+	pp_omit_data_entry_name (1);
+	pp_omit_data_redef_name (($3) ? 1 : 0);
+  }
+;
+
+_redefines_clause:
+  /* nothing */			{ $$ = NULL; }
+| REDEFINES TOKEN		{ $$ = $2; }
+;
+
+recursive_copy_statement:
+  recursive_copy_statement copy_statement '.'
+| copy_statement '.'
+;
 
 copy_statement:
-  COPY TOKEN copy_in copy_suppress copy_joining copy_replacing '.'
+  COPY TOKEN copy_in copy_suppress copy_joining copy_replacing
   {
 	fputc ('\n', ppout);
 	$2 = fix_filename ($2);

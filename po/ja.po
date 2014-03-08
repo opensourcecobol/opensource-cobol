@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenCOBOL 0.13\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2014-02-17 17:05+0900\n"
+"POT-Creation-Date: 2014-02-17 17:14+0900\n"
 "PO-Revision-Date: 2004-08-01 23:55+0900\n"
 "Last-Translator: Keisuke Nishida <knishida@coboler.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -21,215 +21,215 @@ msgstr ""
 msgid "'%s' not implemented"
 msgstr "`%s' は実装されていません"
 
-#: cobc/cobc.c:775
+#: cobc/cobc.c:808
 msgid "Usage: cobc [options] file..."
 msgstr ""
 
-#: cobc/cobc.c:776
+#: cobc/cobc.c:809
 msgid "Options:"
 msgstr ""
 
-#: cobc/cobc.c:777
+#: cobc/cobc.c:810
 msgid "  --help                Display this message"
 msgstr ""
 
-#: cobc/cobc.c:778
+#: cobc/cobc.c:811
 msgid "  --version, -V         Display compiler version"
 msgstr ""
 
-#: cobc/cobc.c:779
+#: cobc/cobc.c:812
 msgid "  -v                    Display the commands invoked by the compiler"
 msgstr ""
 
-#: cobc/cobc.c:780
+#: cobc/cobc.c:813
 msgid "  -x                    Build an executable program"
 msgstr ""
 
-#: cobc/cobc.c:781
+#: cobc/cobc.c:814
 msgid "  -m                    Build a dynamically loadable module (default)"
 msgstr ""
 
-#: cobc/cobc.c:782
+#: cobc/cobc.c:815
 msgid "  -std=<dialect>        Warnings/features for a specific dialect :"
 msgstr ""
 
-#: cobc/cobc.c:783
+#: cobc/cobc.c:816
 msgid "                          cobol2002   Cobol 2002"
 msgstr ""
 
-#: cobc/cobc.c:784
+#: cobc/cobc.c:817
 msgid "                          cobol85     Cobol 85"
 msgstr ""
 
-#: cobc/cobc.c:785
+#: cobc/cobc.c:818
 msgid "                          ibm         IBM Compatible"
 msgstr ""
 
-#: cobc/cobc.c:786
+#: cobc/cobc.c:819
 msgid "                          mvs         MVS Compatible"
 msgstr ""
 
-#: cobc/cobc.c:787
+#: cobc/cobc.c:820
 msgid "                          bs2000      BS2000 Compatible"
 msgstr ""
 
-#: cobc/cobc.c:788
+#: cobc/cobc.c:821
 msgid "                          mf          Micro Focus Compatible"
 msgstr ""
 
-#: cobc/cobc.c:789
+#: cobc/cobc.c:822
 msgid "                          default     When not specified"
 msgstr ""
 
-#: cobc/cobc.c:790
+#: cobc/cobc.c:823
 msgid "                        See config/default.conf and config/*.conf"
 msgstr ""
 
-#: cobc/cobc.c:791
+#: cobc/cobc.c:824
 msgid "  -free                 Use free source format"
 msgstr ""
 
-#: cobc/cobc.c:792
+#: cobc/cobc.c:825
 msgid "  -free_1col_aster      Use free(1col_aster) source format"
 msgstr ""
 
-#: cobc/cobc.c:793
+#: cobc/cobc.c:826
 msgid "  -fixed                Use fixed source format (default)"
 msgstr ""
 
-#: cobc/cobc.c:794
+#: cobc/cobc.c:827
 msgid "  -O, -O2, -Os          Enable optimization"
 msgstr ""
 
-#: cobc/cobc.c:795
+#: cobc/cobc.c:828
 msgid "  -g                    Enable C compiler debug / stack check / trace"
 msgstr ""
 
-#: cobc/cobc.c:796
+#: cobc/cobc.c:829
 msgid "  -debug                Enable all run-time error checking"
 msgstr ""
 
-#: cobc/cobc.c:797
+#: cobc/cobc.c:830
 msgid "  -o <file>             Place the output into <file>"
 msgstr ""
 
-#: cobc/cobc.c:798
+#: cobc/cobc.c:831
 msgid "  -b                    Combine all input files into a single"
 msgstr ""
 
-#: cobc/cobc.c:799
+#: cobc/cobc.c:832
 msgid "                        dynamically loadable module"
 msgstr ""
 
-#: cobc/cobc.c:800
+#: cobc/cobc.c:833
 msgid "  -E                    Preprocess only; do not compile or link"
 msgstr ""
 
-#: cobc/cobc.c:801
+#: cobc/cobc.c:834
 msgid "  -C                    Translation only; convert COBOL to C"
 msgstr ""
 
-#: cobc/cobc.c:802
+#: cobc/cobc.c:835
 msgid "  -S                    Compile only; output assembly file"
 msgstr ""
 
-#: cobc/cobc.c:803
+#: cobc/cobc.c:836
 msgid "  -c                    Compile and assemble, but do not link"
 msgstr ""
 
-#: cobc/cobc.c:804
+#: cobc/cobc.c:837
 msgid ""
 "  -t <file>             Generate and place a program listing into <file>"
 msgstr ""
 
-#: cobc/cobc.c:805
+#: cobc/cobc.c:838
 msgid "  -I <directory>        Add <directory> to copy/include search path"
 msgstr ""
 
-#: cobc/cobc.c:806
+#: cobc/cobc.c:839
 msgid "  -L <directory>        Add <directory> to library search path"
 msgstr ""
 
-#: cobc/cobc.c:807
+#: cobc/cobc.c:840
 msgid "  -l <lib>              Link the library <lib>"
 msgstr ""
 
-#: cobc/cobc.c:808
+#: cobc/cobc.c:841
 msgid "  -B <options>          Add <options> to the C compile phase"
 msgstr ""
 
-#: cobc/cobc.c:809
+#: cobc/cobc.c:842
 msgid "  -Q <options>          Add <options> to the C link phase"
 msgstr ""
 
-#: cobc/cobc.c:810
+#: cobc/cobc.c:843
 msgid "  -D <define>           Pass <define> to the C compiler"
 msgstr ""
 
-#: cobc/cobc.c:811
+#: cobc/cobc.c:844
 msgid "  -conf=<file>          User defined dialect configuration - See -std="
 msgstr ""
 
-#: cobc/cobc.c:812
+#: cobc/cobc.c:845
 msgid "  --list-reserved       Display reserved words"
 msgstr ""
 
-#: cobc/cobc.c:813
+#: cobc/cobc.c:846
 msgid "  --list-intrinsics     Display intrinsic functions"
 msgstr ""
 
-#: cobc/cobc.c:814
+#: cobc/cobc.c:847
 msgid "  --list-mnemonics      Display mnemonic names"
 msgstr ""
 
-#: cobc/cobc.c:815
+#: cobc/cobc.c:848
 msgid ""
 "  -save-temps(=<dir>)   Save intermediate files (default current directory)"
 msgstr ""
 
-#: cobc/cobc.c:816
+#: cobc/cobc.c:849
 msgid "  -MT <target>          Set target file used in dependency list"
 msgstr ""
 
-#: cobc/cobc.c:817
+#: cobc/cobc.c:850
 msgid "  -MF <file>            Place dependency list into <file>"
 msgstr ""
 
-#: cobc/cobc.c:818
+#: cobc/cobc.c:851
 msgid "  -ext <extension>      Add default file extension"
 msgstr ""
 
-#: cobc/cobc.c:819
+#: cobc/cobc.c:852
 msgid "  -assign_external      Set the file assign to external"
 msgstr ""
 
-#: cobc/cobc.c:820
+#: cobc/cobc.c:853
 msgid "  -reference_check      Set reference check in runtime"
 msgstr ""
 
-#: cobc/cobc.c:821
+#: cobc/cobc.c:854
 msgid ""
 "  -constant(=<name\"value\">) define <name> to <value> for $IF statement"
 msgstr ""
 
-#: cobc/cobc.c:825
+#: cobc/cobc.c:858
 msgid "  -W                    Enable ALL warnings"
 msgstr ""
 
-#: cobc/cobc.c:826
+#: cobc/cobc.c:859
 msgid "  -Wall                 Enable all warnings except as noted below"
 msgstr ""
 
-#: cobc/cobc.c:831
+#: cobc/cobc.c:864
 msgid " (NOT set with -Wall)"
 msgstr ""
 
-#: cobc/cobc.c:1027
+#: cobc/cobc.c:1060
 #, c-format
 msgid "Invalid option -std=%s\n"
 msgstr "不当なオプションです -std=%s\n"
 
-#: cobc/cobc.c:1620
+#: cobc/cobc.c:1653
 msgid "-MT must be given to specify target file\n"
 msgstr "ターゲットファイルを -MT で指定して下さい\n"
 
@@ -1096,90 +1096,90 @@ msgstr "`%s' は修飾出来ません"
 msgid "Invalid mnemonic name"
 msgstr "不当なニーモニックです"
 
-#: cobc/pplex.l:130
+#: cobc/pplex.l:146
 msgid "PROCESS statement is ignored"
 msgstr "PROCESS 文は無視されます"
 
-#: cobc/pplex.l:431 cobc/pplex.l:507
+#: cobc/pplex.l:510 cobc/pplex.l:586
 #, c-format
 msgid "%s: %s"
 msgstr ""
 
-#: cobc/pplex.l:572 cobc/pplex.l:632
+#: cobc/pplex.l:651 cobc/pplex.l:711
 #, fuzzy
 msgid "Invalid directive - ignored"
 msgstr "不当な PICTURE 定義です"
 
-#: cobc/pplex.l:680
+#: cobc/pplex.l:759
 msgid "$IF is nested more than 10 times"
 msgstr ""
 
-#: cobc/pplex.l:686
+#: cobc/pplex.l:765
 msgid "Fatal error in $IF statement"
 msgstr ""
 
-#: cobc/pplex.l:691
+#: cobc/pplex.l:770
 msgid "Arguments not enough to $IF statemen"
 msgstr ""
 
-#: cobc/pplex.l:707
+#: cobc/pplex.l:786
 #, fuzzy
 msgid "Invalid argument $IF statemen"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:725
+#: cobc/pplex.l:804
 #, fuzzy, c-format
 msgid "%s is not a string"
 msgstr "`%s' はファイル名ではありません"
 
-#: cobc/pplex.l:749
+#: cobc/pplex.l:828
 #, fuzzy
 msgid "Fatal error in $ELSE statement"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:755
+#: cobc/pplex.l:834
 msgid "$IF has no defined before the $ELSE"
 msgstr ""
 
-#: cobc/pplex.l:762
+#: cobc/pplex.l:841
 msgid "$ELSE has continued"
 msgstr ""
 
-#: cobc/pplex.l:772
+#: cobc/pplex.l:851
 #, fuzzy
 msgid "Fatal error in $END statement"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:778
+#: cobc/pplex.l:857
 msgid "$IF has no defined before the $END"
 msgstr ""
 
-#: cobc/pplex.l:796
+#: cobc/pplex.l:875
 #, fuzzy
 msgid "Invalid $SET"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:801
+#: cobc/pplex.l:880
 #, fuzzy
 msgid "Invalid $ statements"
 msgstr "不当な MOVE 文です"
 
-#: cobc/pplex.l:883
+#: cobc/pplex.l:962
 #, fuzzy
 msgid "Line not terminated by a newline"
 msgstr "ファイルが改行で終わっていません"
 
-#: cobc/pplex.l:961
+#: cobc/pplex.l:1040
 #, fuzzy, c-format
 msgid "Invalid indicator '%c' at column 7"
 msgstr "7 桁目が不当な指示子です `%c'"
 
-#: cobc/pplex.l:1004
+#: cobc/pplex.l:1083
 #, fuzzy, c-format
 msgid "Source text after column %d"
 msgstr "ソース行が %d 桁を越えています"
 
-#: cobc/pplex.l:1033 cobc/pplex.l:1043
+#: cobc/pplex.l:1112 cobc/pplex.l:1122
 #, fuzzy
 msgid "Invalid line continuation"
 msgstr "不当な行連結です"

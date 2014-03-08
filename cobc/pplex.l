@@ -64,6 +64,11 @@ static int	quotation_mark = 0;
 static int	last_line_1 = -1;
 static int	last_line_2 = -1;
 
+/* for COBOL68 style COPY in data description entry */
+static int	suppress_echo = 0;
+static int	current_division = PP_OUT_OF_DIVISION;
+static int	omit_data_entry_name = 0;
+static int	omit_data_redef_name = 0;
 
 #define MAX_DEPTH 10
 static int	cb_compile_status = CB_COMPILE_STATUS_NONE;
@@ -123,6 +128,17 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 	ppecho (" ");
 }
 
+"IDENTIFICATION"({ZENSPC}|[ ])+"DIVISION"({ZENSPC}|[ ])*"."	{ ppecho ("IDENTIFICATION DIVISION."); }
+"ID"({ZENSPC}|[ ])+"DIVISION"({ZENSPC}|[ ])*"."			{ ppecho ("ID DIVISION."); }
+"FUNCTION"({ZENSPC}|[ ])+"DIVISION"({ZENSPC}|[ ])*"."		{ ppecho ("FUNCTION DIVISION."); }
+"PROGRAM-ID"					{ ppecho (yytext); return PROGRAM_ID; }
+"FUNCTION-ID"					{ ppecho (yytext); return FUNCTION_ID; }
+"ENVIRONMENT"({ZENSPC}|[ ])+"DIVISION"	{ ppecho ("ENVIRONMENT DIVISION"); return ENVIRONMENT_DIVISION; }
+"DATA"({ZENSPC}|[ ])+"DIVISION"		{ ppecho ("DATA DIVISION"); return DATA_DIVISION; }
+"PROCEDURE"({ZENSPC}|[ ])+"DIVISION"	{ ppecho ("PROCEDURE DIVISION"); return PROCEDURE_DIVISION; }
+"END"({ZENSPC}|[ ])+"PROGRAM"		{ ppecho ("END PROGRAM"); return END_PROGRAM; }
+"END"({ZENSPC}|[ ])+"FUNCTION"		{ ppecho ("END FUNCTION"); return END_FUNCTION; }
+
 "PROCESS"		{ BEGIN PROCESS_STATE; }
 
 <PROCESS_STATE>{
@@ -181,18 +197,33 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 }
 
 <DATANAME_JOIN_STATE>{
-  "COPY"		{ BEGIN COPY_STATE; return COPY; }
-  "INCLUDE"		{ BEGIN COPY_STATE; return COPY; }
-  "REPLACE"		{ BEGIN COPY_STATE; return REPLACE; }
+  "COPY"		{ suppress_echo = 0; BEGIN COPY_STATE; return COPY; }
+  "INCLUDE"		{ suppress_echo = 0; BEGIN COPY_STATE; return COPY; }
+  "REPLACE"		{ suppress_echo = 0; BEGIN COPY_STATE; return REPLACE; }
   [,;]?\n		{ ECHO; cb_source_line++; }
   [,;]?({ZENSPC}|[ ])+	{ ppecho (" "); }
-  {WORD}		{ BEGIN INITIAL; ppecho_dataname (yytext); }
+  {WORD}		{
+	BEGIN INITIAL;
+	ppecho_dataname (yytext);
+	suppress_echo = 0;
+	if (cb_cobol68_copy_in_data_description) {
+		pplval.s = strdup (yytext);
+		return TOKEN;
+	}
+  }
   {NUMRIC_LITERAL} |
   {ALNUM_LITERAL} |
-  .			{ BEGIN INITIAL; ppecho (yytext); }
+  .			{ suppress_echo = 0; BEGIN INITIAL; ppecho (yytext); }
 }
 
-"REDEFINES"	{ BEGIN DATANAME_JOIN_STATE; ppecho (yytext); }
+"REDEFINES" {
+	suppress_echo = (omit_data_redef_name) ? 1 : 0;
+	ppecho (yytext);
+	BEGIN DATANAME_JOIN_STATE;
+	if (cb_cobol68_copy_in_data_description) {
+		return REDEFINES;
+	}
+}
 
 "AUTHOR" |
 "DATE-WRITTEN" |
@@ -252,13 +283,61 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 	ppecho (")");
 }
 
+"VALUE"({ZENSPC}|[ \n])+[0-9]+		|
+"VALUES"(({ZENSPC}|[ \n])+[0-9]+)+	|
+"IS"({ZENSPC}|[ \n])+[0-9]+		|
+"ARE"({ZENSPC}|[ \n])+[0-9]+		|
+"ALL"({ZENSPC}|[ \n])+[0-9]+		|
+"THROUGH"({ZENSPC}|[ \n])+[0-9]+	|
+"THRU"({ZENSPC}|[ \n])+[0-9]+		|
+"FALSE"({ZENSPC}|[ \n])+[0-9]+		|
+"CONSTANT"({ZENSPC}|[ \n])+[0-9]+	|
+"CONSTANT"({ZENSPC}|[ \n])+"GLOBAL"({ZENSPC}|[ \n])+[0-9]+			|
+"CONSTANT"({ZENSPC}|[ \n])+"IS"({ZENSPC}|[ \n])+"GLOBAL"({ZENSPC}|[ \n])+[0-9]+	|
+"AS"({ZENSPC}|[ \n])+[0-9]+		|
+"PLUS"({ZENSPC}|[ \n])+[0-9]+		|
+"FROM"({ZENSPC}|[ \n])+[0-9]+		|
+"TO"({ZENSPC}|[ \n])+[0-9]+ {
+	/* each numeric is not a level-number */
+	char *p, *pcrnt;
+	cobc_mbspc2ascii (yytext);
+	pcrnt = yytext;
+	while (*pcrnt) {
+		for (p = pcrnt; *p && *p != ' ' && *p != '\n' ; p++)
+			;
+		for ( ; *p == ' ' || *p == '\n'; p++) {
+			if (*p == '\n') {
+				cb_source_line++;
+			}
+			*p = '\0';
+		}
+		ppecho (pcrnt);
+		if (*p) {
+			ppecho (" ");
+		}
+		pcrnt = p;
+	}
+}
+
 ^({ZENSPC}|[ ])*[0-9]+ {
 	char *p = yytext;
+	cobc_mbspc2ascii (yytext);
 	while (*p == ' ') {
 		p++;
 	}
+	suppress_echo = (omit_data_entry_name) ? 1 : 0;
 	ppecho (p);
-	BEGIN DATANAME_JOIN_STATE;
+	if (current_division == PP_DATA_DIVISION) {
+		BEGIN DATANAME_JOIN_STATE;
+		if (cb_cobol68_copy_in_data_description) {
+			return LEVEL_NUMBER;
+		}
+	}
+}
+
+"." {
+	ppecho (yytext);
+	return yytext[0];
 }
 
 {WORD}			{
@@ -1102,7 +1181,9 @@ ppecho (const char *text)
 	struct cb_text_list	*l;
 	struct cb_text_list	*queue;
 
-	if (text_queue == NULL && (text[0] == ' ' || text[0] == '\n')) {
+	if (suppress_echo) {
+		/* generate no output */
+	} else if (text_queue == NULL && (text[0] == ' ' || text[0] == '\n')) {
 		fputs (text, ppout);
 	} else if (!current_replace_list) {
 		for (; text_queue; text_queue = text_queue->next) {
@@ -1216,4 +1297,19 @@ ppecho (const char *text)
 			}
 		}
 	}
+}
+
+void pp_set_current_division (int divno)
+{
+	current_division = divno;
+}
+
+void pp_omit_data_entry_name (int on_off)
+{
+	omit_data_entry_name = on_off;
+}
+
+void pp_omit_data_redef_name (int on_off)
+{
+	omit_data_redef_name = on_off;
 }

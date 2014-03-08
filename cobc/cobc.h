@@ -185,19 +185,23 @@ extern size_t			cobc_check_valid_name (char *name);
 extern const unsigned char	*utf8_ext_pick (const unsigned char *);
 extern size_t			utf8_strlen (const unsigned char* p);
 extern int			utf8_casecmp (const char* s1, const char* s2);
+extern void			utf8_spc_to_ascii (char *);
 extern int	utf8_national_length(const unsigned char* str, int len);
 #else /*!I18N_UTF8*/
 extern const unsigned char	*sjis_pick (const unsigned char *);
 extern size_t			sjis_strlen (const unsigned char *);
 extern int			sjis_casecmp (const char *, const char *);
+extern void			sjis_spc_to_ascii (char *);
 #endif /*I18N_UTF8*/
 
 #ifdef	I18N_UTF8
 #  define cobc_strlen  utf8_strlen
 #  define cobc_casecmp utf8_casecmp
+#  define cobc_mbspc2ascii utf8_spc_to_ascii
 #else /*!I18N_UTF8*/
 #  define cobc_strlen  sjis_strlen
 #  define cobc_casecmp sjis_casecmp
+#  define cobc_mbspc2ascii sjis_spc_to_ascii
 #endif /*I18N_UTF8*/
 
 /* config.c */
@@ -294,6 +298,16 @@ extern int	ppopen (const char *name, struct cb_joining_ext *joining_ext, struct 
 extern int	ppcopy (const char *name, const char *lib, struct cb_joining_ext *joining_ext, struct cb_replace_list *replace_list);
 extern void	pp_set_replace_list (struct cb_replace_list *replace_list);
 extern void	pp_set_joining_ext (struct cb_joining_ext *joining_ext);
+
+#define PP_OUT_OF_DIVISION		0
+#define PP_IDENTIFICATION_DIVISION	1
+#define PP_FUNCTION_DIVISION		2
+#define PP_ENVIRONMENT_DIVISION		3
+#define PP_DATA_DIVISION		4
+#define PP_PROCEDURE_DIVISION		5
+extern void	pp_set_current_division (int divno);
+extern void	pp_omit_data_entry_name (int on_off);
+extern void	pp_omit_data_redef_name (int on_off);
 
 /* parser (in scanner.l, parser.y) */
 extern FILE	*yyin;
