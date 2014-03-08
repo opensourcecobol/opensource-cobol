@@ -1885,7 +1885,10 @@ finalize_file (struct cb_file *f, struct cb_field *records)
 	} 
 
 	/* check the record size if it is limited */
-	if (!cb_ignore_invalid_record_contains) {
+	if (cb_ignore_invalid_record_contains) {
+		f->record_max = 0;
+		f->record_min = 0;
+	} else {
 		for (p = records; p; p = p->sister) {
 			if (f->record_min > 0) {
 				if (p->size < f->record_min) {
