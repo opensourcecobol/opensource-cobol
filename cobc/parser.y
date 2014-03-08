@@ -1212,6 +1212,7 @@ special_names_paragraph:
 ;
 
 opt_special_names:
+| special_name_list /* allow missing terminator dot */
 | special_name_list '.'
 ;
 

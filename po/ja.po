@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenCOBOL 0.13\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2014-02-17 16:55+0900\n"
+"POT-Creation-Date: 2014-02-17 17:05+0900\n"
 "PO-Revision-Date: 2004-08-01 23:55+0900\n"
 "Last-Translator: Keisuke Nishida <knishida@coboler.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -259,8 +259,8 @@ msgid "Record size too large '%s' (%d)"
 msgstr "レコード長が長過ぎます `%s'"
 
 #: cobc/tree.c:2267 cobc/typeck.c:2093 cobc/typeck.c:2098 cobc/typeck.c:2103
-#: cobc/typeck.c:2738 cobc/typeck.c:2767 cobc/typeck.c:2833 cobc/parser.y:4705
-#: cobc/parser.y:4814
+#: cobc/typeck.c:2738 cobc/typeck.c:2767 cobc/typeck.c:2833 cobc/parser.y:4706
+#: cobc/parser.y:4815
 #, fuzzy
 msgid "Invalid expression"
 msgstr "不当な式です"
@@ -1004,11 +1004,11 @@ msgstr ""
 msgid "REWRITE subject does not refer to a record name"
 msgstr ""
 
-#: cobc/typeck.c:6266 cobc/typeck.c:7598 cobc/parser.y:5483
+#: cobc/typeck.c:6266 cobc/typeck.c:7598 cobc/parser.y:5484
 msgid "INVALID KEY clause invalid with this file type"
 msgstr ""
 
-#: cobc/typeck.c:6269 cobc/typeck.c:7602 cobc/parser.y:5475
+#: cobc/typeck.c:6269 cobc/typeck.c:7602 cobc/parser.y:5476
 msgid "LOCK clause invalid with file LOCK AUTOMATIC"
 msgstr ""
 
@@ -1260,385 +1260,385 @@ msgstr ""
 msgid "CONFIGURATION SECTION not allowed in nested programs"
 msgstr ""
 
-#: cobc/parser.y:1245 cobc/parser.y:1255 cobc/parser.y:1266 cobc/parser.y:1276
-#: cobc/parser.y:1290 cobc/parser.y:1304 cobc/parser.y:1318
+#: cobc/parser.y:1246 cobc/parser.y:1256 cobc/parser.y:1267 cobc/parser.y:1277
+#: cobc/parser.y:1291 cobc/parser.y:1305 cobc/parser.y:1319
 #, fuzzy, c-format
 msgid "Unknown system-name '%s'"
 msgstr "不当なシステム名です `%s'"
 
-#: cobc/parser.y:1247
+#: cobc/parser.y:1248
 #, fuzzy
 msgid "Invalid CRT clause"
 msgstr "不当な VALUE 句です"
 
-#: cobc/parser.y:1282
+#: cobc/parser.y:1283
 msgid "SPECIAL-NAMES with ARGUMENT-NUMBER clause is not yet supported"
 msgstr ""
 
-#: cobc/parser.y:1296
+#: cobc/parser.y:1297
 msgid "SPECIAL-NAMES with ARGUMENT-VALUE clause is not yet supported"
 msgstr ""
 
-#: cobc/parser.y:1310
+#: cobc/parser.y:1311
 msgid "SPECIAL-NAMES with ENVIRONMENT-NAME clause is not yet supported"
 msgstr ""
 
-#: cobc/parser.y:1324
+#: cobc/parser.y:1325
 msgid "SPECIAL-NAMES with ENVIRONMENT-VALUE clause is not yet supported"
 msgstr ""
 
-#: cobc/parser.y:1342
+#: cobc/parser.y:1343
 #, fuzzy, c-format
 msgid "'%s' with no mnemonic name"
 msgstr "`%s' は数字項目ではありません"
 
-#: cobc/parser.y:1442
+#: cobc/parser.y:1443
 #, fuzzy
 msgid "Invalid SYMBOLIC clause"
 msgstr "不当な VALUE 句です"
 
-#: cobc/parser.y:1513 cobc/parser.y:1562
+#: cobc/parser.y:1514 cobc/parser.y:1563
 #, fuzzy, c-format
 msgid "Invalid currency sign '%s'"
 msgstr "不当な通貨記号です `%s'"
 
-#: cobc/parser.y:1621 cobc/parser.y:1630
+#: cobc/parser.y:1622 cobc/parser.y:1631
 msgid "INPUT-OUTPUT SECTION header missing - assumed"
 msgstr ""
 
-#: cobc/parser.y:1623 cobc/parser.y:1632
+#: cobc/parser.y:1624 cobc/parser.y:1633
 msgid "INPUT-OUTPUT SECTION header missing"
 msgstr ""
 
-#: cobc/parser.y:1919 cobc/parser.y:1928 cobc/parser.y:1937 cobc/parser.y:1946
-#: cobc/parser.y:1955
+#: cobc/parser.y:1920 cobc/parser.y:1929 cobc/parser.y:1938 cobc/parser.y:1947
+#: cobc/parser.y:1956
 msgid "Invalid or duplicate ORGANIZED clause"
 msgstr ""
 
-#: cobc/parser.y:2164
+#: cobc/parser.y:2165
 msgid "FILE SECTION header missing - assumed"
 msgstr ""
 
-#: cobc/parser.y:2166
+#: cobc/parser.y:2167
 msgid "FILE SECTION header missing"
 msgstr ""
 
-#: cobc/parser.y:2184 cobc/parser.y:2196
+#: cobc/parser.y:2185 cobc/parser.y:2197
 msgid "RECORD description missing or invalid"
 msgstr ""
 
-#: cobc/parser.y:2239 cobc/parser.y:2246
+#: cobc/parser.y:2240 cobc/parser.y:2247
 msgid "File cannot have both EXTERNAL and GLOBAL clauses"
 msgstr ""
 
-#: cobc/parser.y:2279 cobc/parser.y:2293
+#: cobc/parser.y:2280 cobc/parser.y:2294
 msgid "RECORD clause ignored for LINE SEQUENTIAL"
 msgstr ""
 
-#: cobc/parser.y:2284 cobc/parser.y:2309 cobc/parser.y:2332
+#: cobc/parser.y:2285 cobc/parser.y:2310 cobc/parser.y:2333
 #, fuzzy
 msgid "RECORD clause invalid"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:2408
+#: cobc/parser.y:2409
 msgid "LINAGE clause with wrong file type"
 msgstr ""
 
-#: cobc/parser.y:2470
+#: cobc/parser.y:2471
 #, fuzzy, c-format
 msgid "Alphabet-name is expected '%s'"
 msgstr "アルファベット名が必要です `%s'"
 
-#: cobc/parser.y:2483
+#: cobc/parser.y:2484
 msgid "file descriptor REPORT IS"
 msgstr ""
 
-#: cobc/parser.y:2487
+#: cobc/parser.y:2488
 msgid "file descriptor REPORTS ARE"
 msgstr ""
 
-#: cobc/parser.y:2552 cobc/parser.y:2576 cobc/parser.y:3436
+#: cobc/parser.y:2553 cobc/parser.y:2577 cobc/parser.y:3437
 msgid "Item requires a data name"
 msgstr ""
 
-#: cobc/parser.y:2654
+#: cobc/parser.y:2655
 msgid "CONSTANT with GLOBAL clause is not yet supported"
 msgstr ""
 
-#: cobc/parser.y:2672
+#: cobc/parser.y:2673
 msgid "CONSTANT item not at 01 level"
 msgstr ""
 
-#: cobc/parser.y:2724
+#: cobc/parser.y:2725
 #, fuzzy
 msgid "REDEFINES clause should follow entry-name"
 msgstr "REDEFINES 句は項目名の直後になければなりません"
 
-#: cobc/parser.y:2726
+#: cobc/parser.y:2727
 msgid "REDEFINES clause must follow entry-name"
 msgstr "REDEFINES 句は項目名の直後になければなりません"
 
-#: cobc/parser.y:2744
+#: cobc/parser.y:2745
 #, fuzzy
 msgid "EXTERNAL not allowed here"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:2746
+#: cobc/parser.y:2747
 #, fuzzy
 msgid "EXTERNAL only allowed at 01/77 level"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:2748
+#: cobc/parser.y:2749
 msgid "EXTERNAL requires a data name"
 msgstr ""
 
-#: cobc/parser.y:2750 cobc/parser.y:2783
+#: cobc/parser.y:2751 cobc/parser.y:2784
 msgid "GLOBAL and EXTERNAL are mutually exclusive"
 msgstr ""
 
-#: cobc/parser.y:2752 cobc/parser.y:3030
+#: cobc/parser.y:2753 cobc/parser.y:3031
 msgid "BASED and EXTERNAL are mutually exclusive"
 msgstr ""
 
-#: cobc/parser.y:2754
+#: cobc/parser.y:2755
 msgid "EXTERNAL and REDEFINES are mutually exclusive"
 msgstr ""
 
-#: cobc/parser.y:2779
+#: cobc/parser.y:2780
 #, fuzzy
 msgid "GLOBAL only allowed at 01/77 level"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:2781
+#: cobc/parser.y:2782
 msgid "GLOBAL requires a data name"
 msgstr ""
 
-#: cobc/parser.y:2785
+#: cobc/parser.y:2786
 #, fuzzy
 msgid "GLOBAL not allowed here"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:2904
+#: cobc/parser.y:2905
 msgid "Maximum OCCURS depth exceeded"
 msgstr ""
 
-#: cobc/parser.y:3024
+#: cobc/parser.y:3025
 #, fuzzy
 msgid "BASED not allowed here"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:3026
+#: cobc/parser.y:3027
 #, fuzzy
 msgid "BASED only allowed at 01/77 level"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:3028
+#: cobc/parser.y:3029
 msgid "BASED requires a data name"
 msgstr ""
 
-#: cobc/parser.y:3032
+#: cobc/parser.y:3033
 msgid "BASED and REDEFINES are mutually exclusive"
 msgstr ""
 
-#: cobc/parser.y:3034 cobc/parser.y:3111
+#: cobc/parser.y:3035 cobc/parser.y:3112
 msgid "BASED and ANY LENGTH are mutually exclusive"
 msgstr ""
 
-#: cobc/parser.y:3066
+#: cobc/parser.y:3067
 msgid "FALSE clause only allowed for 88 level"
 msgstr ""
 
-#: cobc/parser.y:3081 cobc/parser.y:3093 cobc/parser.y:3096
+#: cobc/parser.y:3082 cobc/parser.y:3094 cobc/parser.y:3097
 msgid "RENAMES may not reference a level 01 or > 50"
 msgstr ""
 
-#: cobc/parser.y:3127
+#: cobc/parser.y:3128
 msgid "LOCAL-STORAGE not allowed in nested programs"
 msgstr ""
 
-#: cobc/parser.y:3160
+#: cobc/parser.y:3161
 msgid "REPORT SECTION not supported"
 msgstr ""
 
-#: cobc/parser.y:3193
+#: cobc/parser.y:3194
 msgid "Report description using defaults"
 msgstr ""
 
-#: cobc/parser.y:3201
+#: cobc/parser.y:3202
 #, fuzzy
 msgid "GLOBAL is not allowed with RD"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:3280
+#: cobc/parser.y:3281
 msgid "looking for Report line TYPE"
 msgstr ""
 
-#: cobc/parser.y:3589
+#: cobc/parser.y:3590
 msgid "Executable program requested but PROCEDURE/ENTRY has USING clause"
 msgstr ""
 
-#: cobc/parser.y:3652 cobc/parser.y:4323
+#: cobc/parser.y:3653 cobc/parser.y:4324
 msgid "BY VALUE not allowed in CHAINED program"
 msgstr ""
 
-#: cobc/parser.y:3664 cobc/parser.y:3672 cobc/parser.y:3682 cobc/parser.y:3711
+#: cobc/parser.y:3665 cobc/parser.y:3673 cobc/parser.y:3683 cobc/parser.y:3712
 msgid "SIZE only allowed for BY VALUE items"
 msgstr ""
 
-#: cobc/parser.y:3684 cobc/parser.y:3701 cobc/parser.y:3713 cobc/parser.y:3730
+#: cobc/parser.y:3685 cobc/parser.y:3702 cobc/parser.y:3714 cobc/parser.y:3731
 #, fuzzy
 msgid "Invalid value for SIZE"
 msgstr "不当な行連結です"
 
-#: cobc/parser.y:3742
+#: cobc/parser.y:3743
 msgid "OPTIONAL only allowed for BY REFERENCE items"
 msgstr ""
 
-#: cobc/parser.y:3751
+#: cobc/parser.y:3752
 #, fuzzy
 msgid "RETURNING clause is required for a FUNCTION"
 msgstr "%s 句がファイル `%s' に必要です"
 
-#: cobc/parser.y:3759
+#: cobc/parser.y:3760
 msgid "RETURNING item is not defined in LINKAGE SECTION"
 msgstr ""
 
-#: cobc/parser.y:3902
+#: cobc/parser.y:3903
 #, fuzzy, c-format
 msgid "Unknown statement '%s'"
 msgstr "そのような文はありません `%s'"
 
-#: cobc/parser.y:4249
+#: cobc/parser.y:4250
 msgid "ALTER statement is obsolete and unsupported"
 msgstr ""
 
-#: cobc/parser.y:4295
+#: cobc/parser.y:4296
 msgid "OMITTED only allowed with BY REFERENCE"
 msgstr ""
 
-#: cobc/parser.y:4315
+#: cobc/parser.y:4316
 msgid "BY CONTENT not allowed in CHAINED program"
 msgstr ""
 
-#: cobc/parser.y:4664
+#: cobc/parser.y:4665
 msgid "ENTRY is invalid in nested program"
 msgstr ""
 
-#: cobc/parser.y:4667
+#: cobc/parser.y:4668
 #, fuzzy, c-format
 msgid "ENTRY '%s' invalid"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:4776 cobc/parser.y:4795 cobc/parser.y:5035 cobc/parser.y:5054
+#: cobc/parser.y:4777 cobc/parser.y:4796 cobc/parser.y:5036 cobc/parser.y:5055
 msgid "syntax error"
 msgstr ""
 
-#: cobc/parser.y:4879
+#: cobc/parser.y:4880
 msgid "EXIT PROGRAM is not allowed within a USE GLOBAL procedure"
 msgstr ""
 
-#: cobc/parser.y:4890 cobc/parser.y:4907
+#: cobc/parser.y:4891 cobc/parser.y:4908
 msgid "EXIT PERFORM is only valid with inline PERFORM"
 msgstr ""
 
-#: cobc/parser.y:4924
+#: cobc/parser.y:4925
 msgid "EXIT SECTION is only valid with an active SECTION"
 msgstr ""
 
-#: cobc/parser.y:4942
+#: cobc/parser.y:4943
 msgid "EXIT PARAGRAPH is only valid with an active PARAGRAPH"
 msgstr ""
 
-#: cobc/parser.y:5230
+#: cobc/parser.y:5231
 msgid "INSPECT missing a keyword"
 msgstr ""
 
-#: cobc/parser.y:5479
+#: cobc/parser.y:5480
 #, fuzzy
 msgid "KEY clause invalid with this file type"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:5799
+#: cobc/parser.y:5800
 msgid "File sort requires KEY phrase"
 msgstr ""
 
-#: cobc/parser.y:5848
+#: cobc/parser.y:5849
 msgid "File sort requires USING or INPUT PROCEDURE"
 msgstr ""
 
-#: cobc/parser.y:5854
+#: cobc/parser.y:5855
 msgid "USING invalid with table SORT"
 msgstr ""
 
-#: cobc/parser.y:5862
+#: cobc/parser.y:5863
 msgid "INPUT PROCEDURE invalid with table SORT"
 msgstr ""
 
-#: cobc/parser.y:5873
+#: cobc/parser.y:5874
 msgid "File sort requires GIVING or OUTPUT PROCEDURE"
 msgstr ""
 
-#: cobc/parser.y:5879
+#: cobc/parser.y:5880
 msgid "GIVING invalid with table SORT"
 msgstr ""
 
-#: cobc/parser.y:5887
+#: cobc/parser.y:5888
 msgid "OUTPUT PROCEDURE invalid with table SORT"
 msgstr ""
 
-#: cobc/parser.y:5908
+#: cobc/parser.y:5909
 msgid "START not allowed on SEQUENTIAL files"
 msgstr ""
 
-#: cobc/parser.y:5914 cobc/parser.y:6765 cobc/parser.y:6854
+#: cobc/parser.y:5915 cobc/parser.y:6766 cobc/parser.y:6855
 #, fuzzy, c-format
 msgid "'%s' is not a file name"
 msgstr "`%s' はファイル名ではありません"
 
-#: cobc/parser.y:6189
+#: cobc/parser.y:6190
 msgid "USE statement must be within DECLARATIVES"
 msgstr ""
 
-#: cobc/parser.y:6191
+#: cobc/parser.y:6192
 msgid "SECTION header missing before USE statement"
 msgstr ""
 
-#: cobc/parser.y:6751
+#: cobc/parser.y:6752
 #, fuzzy
 msgid "LINAGE-COUNTER must be qualified here"
 msgstr "`%s' は修飾出来ません"
 
-#: cobc/parser.y:6754
+#: cobc/parser.y:6755
 #, fuzzy
 msgid "Invalid LINAGE-COUNTER usage"
 msgstr "不当な VALUE 句です"
 
-#: cobc/parser.y:6795
+#: cobc/parser.y:6796
 #, fuzzy
 msgid "Field name expected."
 msgstr "数値が必要です"
 
-#: cobc/parser.y:6798
+#: cobc/parser.y:6799
 #, fuzzy
 msgid "Record name expected."
 msgstr "数値が必要です"
 
-#: cobc/parser.y:6817
+#: cobc/parser.y:6818
 #, fuzzy, c-format
 msgid "'%s' not indexed"
 msgstr "`%s' には INDEXED BY が必要です"
 
-#: cobc/parser.y:6818
+#: cobc/parser.y:6819
 #, fuzzy, c-format
 msgid "'%s' defined here"
 msgstr "`%s' はここで定義されました"
 
-#: cobc/parser.y:6840
+#: cobc/parser.y:6841
 #, c-format
 msgid "Multiple reference to '%s' "
 msgstr ""
 
-#: cobc/parser.y:7111 cobc/parser.y:7113
+#: cobc/parser.y:7112 cobc/parser.y:7114
 #, fuzzy
 msgid "Integer value expected"
 msgstr "数値が必要です"
