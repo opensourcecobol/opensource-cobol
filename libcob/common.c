@@ -140,6 +140,8 @@ static int		cob_switch[8];
 
 static struct tm	*cob_localtm = NULL;
 
+static int		cob_verbose = 0;
+
 /* Runtime exit handling */
 static struct exit_handlerlist {
 	struct exit_handlerlist	*next;
@@ -833,6 +835,20 @@ cob_localtime (const time_t *t)
 	return (cob_localtm) ? cob_localtm : localtime (t);
 }
 
+void
+cob_verbose_output (const char *fmt, ...)
+{
+	va_list	ap;
+	if (cob_verbose) {
+		fputs ("libcob: ", stdout);
+		va_start (ap, fmt);
+		vfprintf (stdout, fmt, ap);
+		va_end (ap);
+		fputs ("\n", stdout);
+	}
+	return;
+}
+
 void *
 cob_malloc (const size_t size)
 {
@@ -1025,6 +1041,11 @@ cob_init (const int argc, char **argv)
 					memcpy (cob_localtm, &tm, sizeof (struct tm));
 				}
 			}
+		}
+
+		s = getenv ("COB_VERBOSE");
+		if (s && (*s == 'Y' || *s == 'y')) {
+			cob_verbose = 1;
 		}
 
 		cob_initialized = 1;

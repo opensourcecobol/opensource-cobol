@@ -382,6 +382,8 @@ COB_EXPIMP void *cob_malloc		(const size_t)  COB_A_MALLOC;
 
 COB_EXPIMP struct tm *cob_localtime	(const time_t *);
 
+COB_EXPIMP void cob_verbose_output	(const char *, ...);
+
 COB_EXPIMP void cob_check_version		(const char *, const char *,
 						 const int);
 

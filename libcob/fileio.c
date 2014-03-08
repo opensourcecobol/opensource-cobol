@@ -6093,6 +6093,7 @@ cob_file_sort_giving (cob_file *sort_file, const size_t varcnt, ...)
 	int		ret;
 	int		opt;
 	va_list		args;
+	size_t		cnt_rec = 0;
 
 	fbase = cob_malloc (varcnt * sizeof(cob_file *));
 	va_start (args, varcnt);
@@ -6127,11 +6128,13 @@ cob_file_sort_giving (cob_file *sort_file, const size_t varcnt, ...)
 			cob_copy_check (fbase[i], sort_file);
 			cob_write (fbase[i], fbase[i]->record, opt, NULL);
 		}
+		cnt_rec++;
 	}
 	for (i = 0; i < varcnt; i++) {
 		cob_close (fbase[i], COB_CLOSE_NORMAL, NULL);
 	}
 	free (fbase);
+	cob_verbose_output ("END OF SORT/MERGE, RECORD= %d.", cnt_rec);
 }
 
 void
