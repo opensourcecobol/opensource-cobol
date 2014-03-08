@@ -4532,7 +4532,7 @@ cb_validate_inspect (cb_tree var, cb_tree x, cb_tree y)
 			    y != cb_quote &&
 			    y != cb_high &&
 			    y != cb_low) {
-				cb_warning_x (y, "%s and %s have not same type!", name1, name2);
+				cb_warning_x (y, _("%s and %s have not same type!"), name1, name2);
 			}
 		}
 		break;
@@ -4543,7 +4543,7 @@ cb_validate_inspect (cb_tree var, cb_tree x, cb_tree y)
 		    y != cb_quote &&
 		    y != cb_high &&
 		    y != cb_low) {
-			cb_warning_x (y, "%s and %s have not same type!", name1, name2);
+			cb_warning_x (y, _("%s and %s have not same type!"), name1, name2);
 		}
 		break;
 	}
@@ -6922,7 +6922,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 					case CB_USAGE_DOUBLE:
 					case CB_USAGE_PACKED:
 					case CB_USAGE_COMP_5:
-						cb_warning_x (CB_PAIR_Y (item_value), "%s  must be a non-comp type!", name1);
+						cb_warning_x (CB_PAIR_Y (item_value), _("%s  must be a non-comp type!"), name1);
 						break;
 					default:
 						break;
@@ -6940,7 +6940,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 					case CB_USAGE_DOUBLE:
 					case CB_USAGE_PACKED:
 					case CB_USAGE_COMP_5:
-						cb_warning_x (CB_PAIR_X (CB_VALUE (item_purpose)), "%s  must be a non-comp type!", name2);
+						cb_warning_x (CB_PAIR_X (CB_VALUE (item_purpose)), _("%s  must be a non-comp type!"), name2);
 						break;
 					default:
 						break;
@@ -6961,7 +6961,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 					case CB_USAGE_DOUBLE:
 					case CB_USAGE_PACKED:
 					case CB_USAGE_COMP_5:
-						cb_warning_x (CB_PAIR_Y (item_value), "%s  must be a non-comp type!", name1);
+						cb_warning_x (CB_PAIR_Y (item_value), _("%s  must be a non-comp type!"), name1);
 						break;
 					default:
 						break;
@@ -6970,7 +6970,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 #ifndef	I18N_UTF8
 				case CB_CATEGORY_NATIONAL:
 				case CB_CATEGORY_NATIONAL_EDITED:
-					cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
+					cb_warning_x (into, _("%s and %s and %s have not same national type!"), name1, name2, name3);
 					break;
 #endif /*I18N_UTF8*/
 				default:
@@ -6985,7 +6985,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 					case CB_USAGE_DOUBLE:
 					case CB_USAGE_PACKED:
 					case CB_USAGE_COMP_5:
-						cb_warning_x (CB_PAIR_X (CB_VALUE (item_purpose)), "%s  must be a non-comp type!", name2);
+						cb_warning_x (CB_PAIR_X (CB_VALUE (item_purpose)), _("%s  must be a non-comp type!"), name2);
 						break;
 					default:
 						break;
@@ -6994,7 +6994,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 #ifndef	I18N_UTF8
 				case CB_CATEGORY_NATIONAL:
 				case CB_CATEGORY_NATIONAL_EDITED:
-					cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
+					cb_warning_x (into, _("%s and %s and %s have not same national type!"), name1, name2, name3);
 					break;
 #endif /*I18N_UTF8*/
 				default:
@@ -7006,7 +7006,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 				case CB_USAGE_DOUBLE:
 				case CB_USAGE_PACKED:
 				case CB_USAGE_COMP_5:
-					cb_warning_x (into, "%s  must be a non-comp type!", name3);
+					cb_warning_x (into, _("%s  must be a non-comp type!"), name3);
 					break;
 				default:
 					break;
@@ -7034,14 +7034,14 @@ cb_validate_string (cb_tree items, cb_tree into)
 							case CB_USAGE_DOUBLE:
 							case CB_USAGE_PACKED:
 							case CB_USAGE_COMP_5:
-								cb_warning_x (CB_PAIR_X (CB_VALUE (item_purpose)), "%s  must be a non-comp type!", name2);
+								cb_warning_x (CB_PAIR_X (CB_VALUE (item_purpose)), _("%s  must be a non-comp type!"), name2);
 								break;
 							default:
 								break;
 							}
 						default:
 #ifndef	I18N_UTF8
-							cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
+							cb_warning_x (into, _("%s and %s and %s have not same national type!"), name1, name2, name3);
 #endif /*I18N_UTF8*/
 							break;
 						}
@@ -7055,7 +7055,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 					case CB_USAGE_DOUBLE:
 					case CB_USAGE_PACKED:
 					case CB_USAGE_COMP_5:
-						cb_warning_x (CB_PAIR_Y (item_value), "%s  must be a non-comp type!", name1);
+						cb_warning_x (CB_PAIR_Y (item_value), _("%s  must be a non-comp type!"), name1);
 						break;
 					default:
 						break;
@@ -7067,9 +7067,9 @@ cb_validate_string (cb_tree items, cb_tree into)
 					    CB_PAIR_X (CB_VALUE (item_purpose)) == cb_quote ||
 					    CB_PAIR_X (CB_VALUE (item_purpose)) == cb_high ||
 					    CB_PAIR_X (CB_VALUE (item_purpose)) == cb_low) {
-						cb_warning_x (into, "%s and %s have not same national type!", name1, name3);
+						cb_warning_x (into, _("%s and %s have not same national type!"), name1, name3);
 					} else {
-						cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
+						cb_warning_x (into, _("%s and %s and %s have not same national type!"), name1, name2, name3);
 					}
 #endif /*I18N_UTF8*/
 					break;
@@ -7100,7 +7100,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 							case CB_USAGE_DOUBLE:
 							case CB_USAGE_PACKED:
 							case CB_USAGE_COMP_5:
-								cb_warning_x (CB_PAIR_X (CB_VALUE (item_purpose)), "%s  must be a non-comp type!", name2);
+								cb_warning_x (CB_PAIR_X (CB_VALUE (item_purpose)), _("%s  must be a non-comp type!"), name2);
 								break;
 							default:
 								break;
@@ -7108,7 +7108,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 							break;
 						default:
 #ifndef	I18N_UTF8
-							cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
+							cb_warning_x (into, _("%s and %s and %s have not same national type!"), name1, name2, name3);
 #endif /*I18N_UTF8*/
 							break;
 						}
@@ -7128,7 +7128,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 						case CB_USAGE_DOUBLE:
 						case CB_USAGE_PACKED:
 						case CB_USAGE_COMP_5:
-							cb_warning_x (CB_PAIR_Y (item_value), "%s  must be a non-comp type!", name1);
+							cb_warning_x (CB_PAIR_Y (item_value), _("%s  must be a non-comp type!"), name1);
 							break;
 						default:
 							break;
@@ -7137,7 +7137,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 #ifndef	I18N_UTF8
 						case CB_CATEGORY_NATIONAL:
 						case CB_CATEGORY_NATIONAL_EDITED:
-							cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
+							cb_warning_x (into, _("%s and %s and %s have not same national type!"), name1, name2, name3);
 							break;
 #endif /*I18N_UTF8*/
 						case CB_CATEGORY_NUMERIC:
@@ -7148,7 +7148,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 							case CB_USAGE_DOUBLE:
 							case CB_USAGE_PACKED:
 							case CB_USAGE_COMP_5:
-								cb_warning_x (CB_PAIR_X (CB_VALUE (item_purpose)), "%s  must be a non-comp type!", name2);
+								cb_warning_x (CB_PAIR_X (CB_VALUE (item_purpose)), _("%s  must be a non-comp type!"), name2);
 								break;
 							default:
 								break;
@@ -7161,7 +7161,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 					break;
 				default:
 #ifndef	I18N_UTF8
-					cb_warning_x (into, "%s and %s and %s have not same national type!", name1, name2, name3);
+					cb_warning_x (into, _("%s and %s and %s have not same national type!"), name1, name2, name3);
 #endif /*I18N_UTF8*/
 					break;
 				}
@@ -7283,7 +7283,7 @@ cb_validate_unstring (cb_tree name, cb_tree delimited, cb_tree into)
 		case CB_USAGE_DOUBLE:
 		case CB_USAGE_PACKED:
 		case CB_USAGE_COMP_5:
-			cb_warning_x (name, "%s  must be a non-comp type!", name1);
+			cb_warning_x (name, _("%s  must be a non-comp type!"), name1);
 			break;
 		default:
 			break;
@@ -7344,7 +7344,7 @@ cb_validate_unstring (cb_tree name, cb_tree delimited, cb_tree into)
 						case CB_USAGE_DOUBLE:
 						case CB_USAGE_PACKED:
 						case CB_USAGE_COMP_5:
-							cb_warning_x (CB_FUNCALL (CB_PAIR_Y (item_value1))->argv[0], "%s  must be a non-comp type!", name2);
+							cb_warning_x (CB_FUNCALL (CB_PAIR_Y (item_value1))->argv[0], _("%s  must be a non-comp type!"), name2);
 							break;
 						default:
 							break;
@@ -7414,7 +7414,7 @@ cb_validate_unstring (cb_tree name, cb_tree delimited, cb_tree into)
 						case CB_USAGE_DOUBLE:
 						case CB_USAGE_PACKED:
 						case CB_USAGE_COMP_5:
-							cb_warning_x (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[0], "%s  must be a non-comp type!", name3);
+							cb_warning_x (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[0], _("%s  must be a non-comp type!"), name3);
 							break;
 						default:
 							break;
@@ -7478,7 +7478,7 @@ cb_validate_unstring (cb_tree name, cb_tree delimited, cb_tree into)
 						case CB_USAGE_DOUBLE:
 						case CB_USAGE_PACKED:
 						case CB_USAGE_COMP_5:
-							cb_warning_x (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[1], "%s  must be a non-comp type!", name4);
+							cb_warning_x (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[1], _("%s  must be a non-comp type!"), name4);
 							break;
 						default:
 							break;
@@ -7525,7 +7525,7 @@ cb_validate_unstring (cb_tree name, cb_tree delimited, cb_tree into)
 		buff[strlen (buff) - 1] = '\0';
 	}
 	if (nationalflg != 1 && nationalflg2 == 1) {
-		cb_warning_x (name, "%s must be national type!", buff);
+		cb_warning_x (name, _("%s must be national type!"), buff);
 	}
 }
 
