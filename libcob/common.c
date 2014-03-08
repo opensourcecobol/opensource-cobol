@@ -138,6 +138,8 @@ static const int		cob_exception_tab_code[] = {
 
 static int		cob_switch[8];
 
+static struct tm	*cob_localtm = NULL;
+
 /* Runtime exit handling */
 static struct exit_handlerlist {
 	struct exit_handlerlist	*next;
@@ -806,9 +808,30 @@ sort_compare (const void *data1, const void *data2)
 	return 0;
 }
 
+static struct tm *
+job_or_current_localtime (void)
+{
+	time_t t;
+	struct tm *rt = NULL;
+
+	if (cob_localtm) {
+		rt = cob_localtm;
+	} else {
+		t = time (NULL);
+		rt = localtime (&t);
+	}
+	return rt;
+}
+
 /*
  * Global functions
  */
+
+struct tm *
+cob_localtime (const time_t *t)
+{
+	return (cob_localtm) ? cob_localtm : localtime (t);
+}
 
 void *
 cob_malloc (const size_t size)
@@ -983,6 +1006,25 @@ cob_init (const int argc, char **argv)
 		s = getenv ("COB_LINE_TRACE");
 		if (s && (*s == 'Y' || *s == 'y')) {
 			cob_line_trace = 1;
+		}
+
+		s = getenv ("COB_DATE");
+		if (s) {
+			struct tm tm;
+			memset (&tm, 0, sizeof (struct tm));
+			tm.tm_isdst = -1;
+			if (3 != sscanf (s, "%d/%d/%d", &tm.tm_year, &tm.tm_mon, &tm.tm_mday)) {
+				fputs ("Warning: COB_DATE format invalid, ignored.\n", stderr);
+			} else {
+				tm.tm_year -= 1900;
+				tm.tm_mon  -= 1;
+				if (0 > mktime (&tm)) {
+					fputs ("Warning: COB_DATE value invalid, ignored.\n", stderr);
+				} else {
+					cob_localtm = cob_malloc (sizeof (struct tm));
+					memcpy (cob_localtm, &tm, sizeof (struct tm));
+				}
+			}
 		}
 
 		cob_initialized = 1;
@@ -1681,44 +1723,36 @@ cob_external_addr (const char *exname, const int exlength)
 void
 cob_accept_date (cob_field *f)
 {
-	time_t	t;
 	char	s[8];
 
-	t = time (NULL);
-	strftime (s, 7, "%y%m%d", localtime (&t));
+	strftime (s, 7, "%y%m%d", job_or_current_localtime ());
 	cob_memcpy (f, (ucharptr)s, 6);
 }
 
 void
 cob_accept_date_yyyymmdd (cob_field *f)
 {
-	time_t	t;
 	char	s[12];
 
-	t = time (NULL);
-	strftime (s, 9, "%Y%m%d", localtime (&t));
+	strftime (s, 9, "%Y%m%d", job_or_current_localtime ());
 	cob_memcpy (f, (ucharptr)s, 8);
 }
 
 void
 cob_accept_day (cob_field *f)
 {
-	time_t	t;
 	char	s[8];
 
-	t = time (NULL);
-	strftime (s, 6, "%y%j", localtime (&t));
+	strftime (s, 6, "%y%j", job_or_current_localtime ());
 	cob_memcpy (f, (ucharptr)s, 5);
 }
 
 void
 cob_accept_day_yyyyddd (cob_field *f)
 {
-	time_t	t;
 	char	s[12];
 
-	t = time (NULL);
-	strftime (s, 8, "%Y%j", localtime (&t));
+	strftime (s, 8, "%Y%j", job_or_current_localtime ());
 	cob_memcpy (f, (ucharptr)s, 7);
 }
 
@@ -1726,11 +1760,9 @@ void
 cob_accept_day_of_week (cob_field *f)
 {
 	struct tm	*tm;
-	time_t	t;
 	unsigned char	s[4];
 
-	t = time (NULL);
-	tm = localtime (&t);
+	tm = job_or_current_localtime ();
 	if (tm->tm_wday == 0) {
 		s[0] = (unsigned char)'7';
 	} else {

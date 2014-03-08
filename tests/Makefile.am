@@ -115,7 +115,8 @@ jp_compat_DEPENDENCIES = \
 	jp-compat.src/file-control.at \
 	jp-compat.src/file-userfh.at \
 	jp-compat.src/copy-joining.at \
-	jp-compat.src/assign-devicename.at
+	jp-compat.src/assign-devicename.at \
+	jp-compat.src/job-date.at
 
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(syntax_DEPENDENCIES) \

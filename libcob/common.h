@@ -21,6 +21,8 @@
 #ifndef COB_COMMON_H
 #define COB_COMMON_H
 
+#include <time.h>
+
 #ifdef _MSC_VER
 
 #ifndef	_CRT_SECURE_NO_DEPRECATE
@@ -377,6 +379,8 @@ DECLNORET COB_EXPIMP void cob_fatal_error	(const unsigned int) COB_A_NORETURN;
 COB_EXPIMP void cob_runtime_error	(const char *, ...)  COB_A_FORMAT10;
 
 COB_EXPIMP void *cob_malloc		(const size_t)  COB_A_MALLOC;
+
+COB_EXPIMP struct tm *cob_localtime	(const time_t *);
 
 COB_EXPIMP void cob_check_version		(const char *, const char *,
 						 const int);

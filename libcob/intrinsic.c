@@ -1060,7 +1060,7 @@ cob_intr_current_date (const int offset, const int length)
 
 #if	defined(_WIN32) && !defined(__CYGWIN__)
 	_ftime (&tmb);
-	tmptr = localtime (&(tmb.time));
+	tmptr = cob_localtime (&(tmb.time));
 	if (tmb.timezone <= 0) {
 		contz = -tmb.timezone;
 		snprintf (buff, 23,
@@ -1085,9 +1085,9 @@ cob_intr_current_date (const int offset, const int length)
 #endif
 
 #if defined(__linux__) || defined(__CYGWIN__) || defined(COB_STRFTIME)
-	strftime (buff, 22, "%Y%m%d%H%M%S00%z", localtime (&curtime));
+	strftime (buff, 22, "%Y%m%d%H%M%S00%z", cob_localtime (&curtime));
 #elif defined(HAVE_TIMEZONE)
-	tmptr = localtime (&curtime);
+	tmptr = cob_localtime (&curtime);
 	strftime (buff, 17, "%Y%m%d%H%M%S00", tmptr);
 	/* RXW - Hack for DST - Need something better */
 	if (tmptr->tm_isdst > 0) {
@@ -1102,7 +1102,7 @@ cob_intr_current_date (const int offset, const int length)
 	}
 	sprintf(&buff[17], "%2.2ld%2.2ld", contz / 3600, (contz % 3600) / 60);
 #else
-	strftime (buff, 22, "%Y%m%d%H%M%S0000000", localtime (&curtime));
+	strftime (buff, 22, "%Y%m%d%H%M%S0000000", cob_localtime (&curtime));
 #endif
 
 #if defined(HAVE_SYS_TIME_H) && defined(HAVE_GETTIMEOFDAY)
@@ -2656,7 +2656,7 @@ cob_intr_year_to_yyyy (const int params, ...)
 		xqtyear = cob_get_int (f);
 	} else {
 		t = time (NULL);
-		timeptr = localtime (&t);
+		timeptr = cob_localtime (&t);
 		xqtyear = 1900 + timeptr->tm_year;
 	}
 	va_end (args);
@@ -2722,7 +2722,7 @@ cob_intr_date_to_yyyymmdd (const int params, ...)
 		xqtyear = cob_get_int (f);
 	} else {
 		t = time (NULL);
-		timeptr = localtime (&t);
+		timeptr = cob_localtime (&t);
 		xqtyear = 1900 + timeptr->tm_year;
 	}
 	va_end (args);
@@ -2790,7 +2790,7 @@ cob_intr_day_to_yyyyddd (const int params, ...)
 		xqtyear = cob_get_int (f);
 	} else {
 		t = time (NULL);
-		timeptr = localtime (&t);
+		timeptr = cob_localtime (&t);
 		xqtyear = 1900 + timeptr->tm_year;
 	}
 	va_end (args);
@@ -2836,7 +2836,7 @@ cob_intr_seconds_past_midnight (void)
 	make_field_entry (&field);
 
 	t = time (NULL);
-	timeptr = localtime (&t);
+	timeptr = cob_localtime (&t);
 	seconds = (timeptr->tm_hour * 3600) + (timeptr->tm_min * 60) +
 			timeptr->tm_sec;
 	cob_set_int (curr_field, seconds);
