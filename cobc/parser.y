@@ -2058,6 +2058,7 @@ i_o_control_paragraph:
 
 opt_i_o_control:
 | i_o_control_list '.'
+| i_o_control_list
 ;
 
 i_o_control_list:
