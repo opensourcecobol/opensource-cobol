@@ -207,6 +207,8 @@ make_tree (int tag, enum cb_category category, size_t size)
 	x = cobc_malloc (size);
 	x->tag = tag;
 	x->category = category;
+	x->source_file = (unsigned char *)cb_source_file;
+	x->source_line = cb_source_line;
 	return x;
 }
 
@@ -835,6 +837,10 @@ cb_build_list (cb_tree purpose, cb_tree value, cb_tree rest)
 	p->purpose = purpose;
 	p->value = value;
 	p->chain = rest;
+	if (value && value->source_file) {
+		CB_TREE (p)->source_file = value->source_file;
+		CB_TREE (p)->source_line = value->source_line;
+	}
 	return CB_TREE (p);
 }
 
@@ -2275,6 +2281,10 @@ cb_build_binary_op (cb_tree x, int op, cb_tree y)
 	}
 
 	p = make_tree (CB_TAG_BINARY_OP, category, sizeof (struct cb_binary_op));
+	if (x && CB_TREE (x)->source_file) {
+	    CB_TREE (p)->source_file = CB_TREE (x)->source_file;
+	    CB_TREE (p)->source_line = CB_TREE (x)->source_line;
+	}
 	p->op = op;
 	p->x = x;
 	p->y = y;

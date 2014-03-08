@@ -139,9 +139,11 @@ BEGIN_STATEMENT (const char *name, const size_t term)
 }
 
 static void
-BEGIN_IMPLICIT_STATEMENT (void)
+BEGIN_IMPLICIT_STATEMENT (cb_tree node)
 {
 	current_statement = cb_build_statement (NULL);
+	CB_TREE (current_statement)->source_file = CB_TREE (node)->source_file;
+	CB_TREE (current_statement)->source_line = CB_TREE (node)->source_line;
 	main_statement->body = cb_list_add (main_statement->body,
 					    CB_TREE (current_statement));
 }
@@ -1662,6 +1664,7 @@ select_clause:
 | relative_key_clause
 | reserve_clause
 | sharing_clause
+| error
 ;
 
 
@@ -2230,6 +2233,7 @@ file_description_clause:
 | recording_mode_clause
 | code_set_clause
 | report_clause
+| error
 ;
 
 
@@ -2634,6 +2638,7 @@ data_description_clause:
 | value_clause
 | renames_clause
 | any_length_clause
+| error
 ;
 
 
@@ -3734,7 +3739,7 @@ procedure:
 	}
 	/* check_unreached = 0; */
   }
-| error '.'
+| error
   {
 	check_unreached = 0;
   }
@@ -4319,7 +4324,7 @@ close_list:
 | close_list
   file_name close_option
   {
-	BEGIN_IMPLICIT_STATEMENT ();
+	BEGIN_IMPLICIT_STATEMENT ($2);
 	if ($2 != cb_error_node) {
 		cb_emit_close ($2, $3);
 	}
@@ -4419,7 +4424,7 @@ delete_file_statement:
 	cb_tree l;
 	for (l = $4; l; l = CB_CHAIN (l)) {
 		if (CB_VALUE (l) != cb_error_node) {
-			BEGIN_IMPLICIT_STATEMENT ();
+			BEGIN_IMPLICIT_STATEMENT (l);
 			cb_emit_delete_file (CB_VALUE (l));
 		}
 	}
@@ -5252,7 +5257,7 @@ open_list:
 	cb_tree l;
 	for (l = $4; l; l = CB_CHAIN (l)) {
 		if (CB_VALUE (l) != cb_error_node) {
-			BEGIN_IMPLICIT_STATEMENT ();
+			BEGIN_IMPLICIT_STATEMENT (l);
 			cb_emit_open (CB_VALUE (l), $2, $3);
 		}
 	}

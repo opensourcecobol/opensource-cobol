@@ -107,6 +107,7 @@ AT_DATA([prog.cob], [
 
 AT_CHECK([${COMPILE_ONLY} prog.cob], [1], ,
 [prog.cob:9: Error: Level number of REDEFINES entry cannot be 66 or 88
+prog.cob:9: Error: Level 66 item 'B' requires RENAMES clause
 ])
 
 AT_CLEANUP
@@ -263,6 +264,7 @@ AT_DATA([prog.cob], [
 
 AT_CHECK([${COMPILE_ONLY} prog.cob], [1], ,
 [prog.cob:10: Error: 'X' cannot be qualified here
+prog.cob:10: Error: PICTURE clause required for 'A'
 ])
 
 AT_CLEANUP

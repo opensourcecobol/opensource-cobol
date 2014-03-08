@@ -353,17 +353,17 @@ at_help_all='1;copy.at:22;COPY: file not found;copy;
 42;redefines.at:49;REDEFINES: level 02 by 01;redefines;
 43;redefines.at:70;REDEFINES: level 03 by 02;redefines;
 44;redefines.at:92;REDEFINES: level 66;redefines;
-45;redefines.at:114;REDEFINES: level 88;redefines;
-46;redefines.at:143;REDEFINES: lower level number;redefines;
-47;redefines.at:169;REDEFINES: with OCCURS;redefines;
-48;redefines.at:190;REDEFINES: with subscript;redefines;
-49;redefines.at:212;REDEFINES: with variable occurrence;redefines;
-50;redefines.at:247;REDEFINES: with qualification;redefines;
-51;redefines.at:273;REDEFINES: multiple redefinition;redefines;
-52;redefines.at:301;REDEFINES: size exceeds;redefines;
-53;redefines.at:334;REDEFINES: with VALUE;redefines;
-54;redefines.at:362;REDEFINES: with intervention;redefines;
-55;redefines.at:391;REDEFINES: within REDEFINES;redefines;
+45;redefines.at:115;REDEFINES: level 88;redefines;
+46;redefines.at:144;REDEFINES: lower level number;redefines;
+47;redefines.at:170;REDEFINES: with OCCURS;redefines;
+48;redefines.at:191;REDEFINES: with subscript;redefines;
+49;redefines.at:213;REDEFINES: with variable occurrence;redefines;
+50;redefines.at:248;REDEFINES: with qualification;redefines;
+51;redefines.at:275;REDEFINES: multiple redefinition;redefines;
+52;redefines.at:303;REDEFINES: size exceeds;redefines;
+53;redefines.at:336;REDEFINES: with VALUE;redefines;
+54;redefines.at:364;REDEFINES: with intervention;redefines;
+55;redefines.at:393;REDEFINES: within REDEFINES;redefines;
 56;value.at:43;Numeric item (integer);;
 57;value.at:68;Numeric item (non-integer);;
 58;value.at:90;Numeric item with picture P;;
@@ -3587,6 +3587,7 @@ grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
 echo >>$at_stderr; echo "prog.cob:9: Error: Level number of REDEFINES entry cannot be 66 or 88
+prog.cob:9: Error: Level 66 item 'B' requires RENAMES clause
 " | $at_diff - $at_stderr || at_failed=:
 $at_diff $at_devnull $at_stdout || at_failed=:
 case $at_status in
@@ -3611,13 +3612,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  45 ) # 45. redefines.at:114: REDEFINES: level 88
-    at_setup_line='redefines.at:114'
+  45 ) # 45. redefines.at:115: REDEFINES: level 88
+    at_setup_line='redefines.at:115'
     at_desc='REDEFINES: level 88'
     $at_quiet $ECHO_N " 45: REDEFINES: level 88                          $ECHO_C"
     at_xfail=no
     (
-      echo "45. redefines.at:114: testing ..."
+      echo "45. redefines.at:115: testing ..."
       $at_traceon
 
 
@@ -3637,8 +3638,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:129: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:129 >$at_check_line_file
+echo "redefines.at:130: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:130 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3651,7 +3652,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:129: exit code was $at_status, expected 1"
+   *) echo "redefines.at:130: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3669,13 +3670,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  46 ) # 46. redefines.at:143: REDEFINES: lower level number
-    at_setup_line='redefines.at:143'
+  46 ) # 46. redefines.at:144: REDEFINES: lower level number
+    at_setup_line='redefines.at:144'
     at_desc='REDEFINES: lower level number'
     $at_quiet $ECHO_N " 46: REDEFINES: lower level number                $ECHO_C"
     at_xfail=no
     (
-      echo "46. redefines.at:143: testing ..."
+      echo "46. redefines.at:144: testing ..."
       $at_traceon
 
 
@@ -3697,8 +3698,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:160: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:160 >$at_check_line_file
+echo "redefines.at:161: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:161 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3711,7 +3712,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:160: exit code was $at_status, expected 1"
+   *) echo "redefines.at:161: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3729,13 +3730,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  47 ) # 47. redefines.at:169: REDEFINES: with OCCURS
-    at_setup_line='redefines.at:169'
+  47 ) # 47. redefines.at:170: REDEFINES: with OCCURS
+    at_setup_line='redefines.at:170'
     at_desc='REDEFINES: with OCCURS'
     $at_quiet $ECHO_N " 47: REDEFINES: with OCCURS                       $ECHO_C"
     at_xfail=no
     (
-      echo "47. redefines.at:169: testing ..."
+      echo "47. redefines.at:170: testing ..."
       $at_traceon
 
 
@@ -3755,8 +3756,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:184: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:184 >$at_check_line_file
+echo "redefines.at:185: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:185 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3769,7 +3770,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "redefines.at:184: exit code was $at_status, expected 0"
+   *) echo "redefines.at:185: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3787,13 +3788,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  48 ) # 48. redefines.at:190: REDEFINES: with subscript
-    at_setup_line='redefines.at:190'
+  48 ) # 48. redefines.at:191: REDEFINES: with subscript
+    at_setup_line='redefines.at:191'
     at_desc='REDEFINES: with subscript'
     $at_quiet $ECHO_N " 48: REDEFINES: with subscript                    $ECHO_C"
     at_xfail=no
     (
-      echo "48. redefines.at:190: testing ..."
+      echo "48. redefines.at:191: testing ..."
       $at_traceon
 
 
@@ -3814,8 +3815,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:206: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:206 >$at_check_line_file
+echo "redefines.at:207: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:207 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3828,7 +3829,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:206: exit code was $at_status, expected 1"
+   *) echo "redefines.at:207: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3846,13 +3847,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  49 ) # 49. redefines.at:212: REDEFINES: with variable occurrence
-    at_setup_line='redefines.at:212'
+  49 ) # 49. redefines.at:213: REDEFINES: with variable occurrence
+    at_setup_line='redefines.at:213'
     at_desc='REDEFINES: with variable occurrence'
     $at_quiet $ECHO_N " 49: REDEFINES: with variable occurrence          $ECHO_C"
     at_xfail=no
     (
-      echo "49. redefines.at:212: testing ..."
+      echo "49. redefines.at:213: testing ..."
       $at_traceon
 
 
@@ -3881,8 +3882,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:236: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:236 >$at_check_line_file
+echo "redefines.at:237: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:237 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -3897,7 +3898,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:236: exit code was $at_status, expected 1"
+   *) echo "redefines.at:237: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3915,13 +3916,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  50 ) # 50. redefines.at:247: REDEFINES: with qualification
-    at_setup_line='redefines.at:247'
+  50 ) # 50. redefines.at:248: REDEFINES: with qualification
+    at_setup_line='redefines.at:248'
     at_desc='REDEFINES: with qualification'
     $at_quiet $ECHO_N " 50: REDEFINES: with qualification                $ECHO_C"
     at_xfail=no
     (
-      echo "50. redefines.at:247: testing ..."
+      echo "50. redefines.at:248: testing ..."
       $at_traceon
 
 
@@ -3943,21 +3944,22 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:264: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:264 >$at_check_line_file
+echo "redefines.at:265: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:265 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
 echo >>$at_stderr; echo "prog.cob:10: Error: 'X' cannot be qualified here
+prog.cob:10: Error: PICTURE clause required for 'A'
 " | $at_diff - $at_stderr || at_failed=:
 $at_diff $at_devnull $at_stdout || at_failed=:
 case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:264: exit code was $at_status, expected 1"
+   *) echo "redefines.at:265: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -3975,13 +3977,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  51 ) # 51. redefines.at:273: REDEFINES: multiple redefinition
-    at_setup_line='redefines.at:273'
+  51 ) # 51. redefines.at:275: REDEFINES: multiple redefinition
+    at_setup_line='redefines.at:275'
     at_desc='REDEFINES: multiple redefinition'
     $at_quiet $ECHO_N " 51: REDEFINES: multiple redefinition             $ECHO_C"
     at_xfail=no
     (
-      echo "51. redefines.at:273: testing ..."
+      echo "51. redefines.at:275: testing ..."
       $at_traceon
 
 
@@ -4003,8 +4005,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:290: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:290 >$at_check_line_file
+echo "redefines.at:292: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:292 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4017,7 +4019,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:290: exit code was $at_status, expected 1"
+   *) echo "redefines.at:292: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4030,8 +4032,8 @@ $at_traceon
 
 
 $at_traceoff
-echo "redefines.at:294: \${COMPILE_ONLY} -std=mvs prog.cob"
-echo redefines.at:294 >$at_check_line_file
+echo "redefines.at:296: \${COMPILE_ONLY} -std=mvs prog.cob"
+echo redefines.at:296 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} -std=mvs prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4043,7 +4045,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "redefines.at:294: exit code was $at_status, expected 0"
+   *) echo "redefines.at:296: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4061,13 +4063,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  52 ) # 52. redefines.at:301: REDEFINES: size exceeds
-    at_setup_line='redefines.at:301'
+  52 ) # 52. redefines.at:303: REDEFINES: size exceeds
+    at_setup_line='redefines.at:303'
     at_desc='REDEFINES: size exceeds'
     $at_quiet $ECHO_N " 52: REDEFINES: size exceeds                      $ECHO_C"
     at_xfail=no
     (
-      echo "52. redefines.at:301: testing ..."
+      echo "52. redefines.at:303: testing ..."
       $at_traceon
 
 
@@ -4094,8 +4096,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:323: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:323 >$at_check_line_file
+echo "redefines.at:325: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:325 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4110,7 +4112,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:323: exit code was $at_status, expected 1"
+   *) echo "redefines.at:325: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4128,13 +4130,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  53 ) # 53. redefines.at:334: REDEFINES: with VALUE
-    at_setup_line='redefines.at:334'
+  53 ) # 53. redefines.at:336: REDEFINES: with VALUE
+    at_setup_line='redefines.at:336'
     at_desc='REDEFINES: with VALUE'
     $at_quiet $ECHO_N " 53: REDEFINES: with VALUE                        $ECHO_C"
     at_xfail=no
     (
-      echo "53. redefines.at:334: testing ..."
+      echo "53. redefines.at:336: testing ..."
       $at_traceon
 
 
@@ -4157,8 +4159,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:352: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:352 >$at_check_line_file
+echo "redefines.at:354: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:354 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4172,7 +4174,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:352: exit code was $at_status, expected 1"
+   *) echo "redefines.at:354: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4190,13 +4192,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  54 ) # 54. redefines.at:362: REDEFINES: with intervention
-    at_setup_line='redefines.at:362'
+  54 ) # 54. redefines.at:364: REDEFINES: with intervention
+    at_setup_line='redefines.at:364'
     at_desc='REDEFINES: with intervention'
     $at_quiet $ECHO_N " 54: REDEFINES: with intervention                 $ECHO_C"
     at_xfail=no
     (
-      echo "54. redefines.at:362: testing ..."
+      echo "54. redefines.at:364: testing ..."
       $at_traceon
 
 
@@ -4220,8 +4222,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:381: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:381 >$at_check_line_file
+echo "redefines.at:383: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:383 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4235,7 +4237,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "redefines.at:381: exit code was $at_status, expected 1"
+   *) echo "redefines.at:383: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -4253,13 +4255,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  55 ) # 55. redefines.at:391: REDEFINES: within REDEFINES
-    at_setup_line='redefines.at:391'
+  55 ) # 55. redefines.at:393: REDEFINES: within REDEFINES
+    at_setup_line='redefines.at:393'
     at_desc='REDEFINES: within REDEFINES'
     $at_quiet $ECHO_N " 55: REDEFINES: within REDEFINES                  $ECHO_C"
     at_xfail=no
     (
-      echo "55. redefines.at:391: testing ..."
+      echo "55. redefines.at:393: testing ..."
       $at_traceon
 
 
@@ -4280,8 +4282,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "redefines.at:407: \${COMPILE_ONLY} prog.cob"
-echo redefines.at:407 >$at_check_line_file
+echo "redefines.at:409: \${COMPILE_ONLY} prog.cob"
+echo redefines.at:409 >$at_check_line_file
 ( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -4293,7 +4295,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "redefines.at:407: exit code was $at_status, expected 0"
+   *) echo "redefines.at:409: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then

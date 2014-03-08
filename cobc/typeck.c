@@ -2171,7 +2171,7 @@ decimal_free (void)
 	current_program->decimal_index--;
 }
 
-static void
+static int
 decimal_compute (const int op, cb_tree x, cb_tree y)
 {
 	const char *func;
@@ -2194,18 +2194,20 @@ decimal_compute (const int op, cb_tree x, cb_tree y)
 		break;
 	default:
 		fprintf (stderr, "Unexpected operation %d\n", op);
-		ABORT ();
+		return 1; /* don't ABORT (), continue parsing */
 	}
 	dpush (cb_build_funcall_2 (func, x, y));
+	return 0;
 }
 
-static void
+static int
 decimal_expand (cb_tree d, cb_tree x)
 {
 	struct cb_literal	*l;
 	struct cb_field		*f;
 	struct cb_binary_op	*p;
 	cb_tree			t;
+	int rt = 0;
 
 	switch (CB_TREE_TAG (x)) {
 	case CB_TAG_CONST:
@@ -2214,7 +2216,7 @@ decimal_expand (cb_tree d, cb_tree x)
 			current_program->gen_decset = 1;
 		} else {
 			fprintf (stderr, "Unexpected constant expansion\n");
-			ABORT ();
+			rt = 1; /* don't ABORT (), continue parsing */
 		}
 		break;
 	case CB_TAG_LITERAL:
@@ -2256,9 +2258,11 @@ decimal_expand (cb_tree d, cb_tree x)
 		 * OP d, t */
 		p = CB_BINARY_OP (x);
 		t = decimal_alloc ();
-		decimal_expand (d, p->x);
-		decimal_expand (t, p->y);
-		decimal_compute (p->op, d, t);
+		if (decimal_expand (d, p->x) ||
+		    decimal_expand (t, p->y) ||
+		    decimal_compute (p->op, d, t)) {
+			rt = 1;
+		}
 		decimal_free ();
 		break;
 	case CB_TAG_INTRINSIC:
@@ -2266,8 +2270,9 @@ decimal_expand (cb_tree d, cb_tree x)
 		break;
 	default:
 		fprintf (stderr, "Unexpected tree tag %d\n", CB_TREE_TAG (x));
-		ABORT ();
+		rt = 1; /* don't ABORT (), continue parsing */
 	}
+	return rt;
 }
 
 static void
@@ -2287,9 +2292,9 @@ build_decimal_assign (cb_tree vars, int op, cb_tree val)
 	d = decimal_alloc ();
 
 	/* set d, VAL */
-	decimal_expand (d, val);
-
-	if (op == 0) {
+	if (decimal_expand (d, val)) {
+		s1 = NULL;
+	} else if (op == 0) {
 		for (l = vars; l; l = CB_CHAIN (l)) {
 			/* set VAR, d */
 			decimal_assign (CB_VALUE (l), d, CB_PURPOSE (l));
@@ -2303,10 +2308,13 @@ build_decimal_assign (cb_tree vars, int op, cb_tree val)
 			 * OP t, d
 			 * set VAR, t
 			 */
-			decimal_expand (t, CB_VALUE (l));
-			decimal_compute (op, t, d);
-			decimal_assign (CB_VALUE (l), t, CB_PURPOSE (l));
-			s1 = cb_list_add (s1, cb_list_reverse (decimal_stack));
+			if (decimal_expand (t, CB_VALUE (l)) ||
+			    decimal_compute (op, t, d)) {
+				s1 = NULL;
+			} else {
+				decimal_assign (CB_VALUE (l), t, CB_PURPOSE (l));
+				s1 = cb_list_add (s1, cb_list_reverse (decimal_stack));
+			}
 			decimal_stack = NULL;
 		}
 		decimal_free ();
@@ -2320,6 +2328,7 @@ void
 cb_emit_arithmetic (cb_tree vars, int op, cb_tree val)
 {
 	cb_tree		l;
+	cb_tree		t;
 	struct cb_field	*f;
 
 	val = cb_check_numeric_value (val);
@@ -2370,7 +2379,10 @@ cb_emit_arithmetic (cb_tree vars, int op, cb_tree val)
 		}
 	}
 
-	cb_emit (build_decimal_assign (vars, op, val));
+	t = build_decimal_assign (vars, op, val);
+	if (t) {
+		cb_emit (t);
+	}
 }
 
 /*
@@ -2603,6 +2615,7 @@ cb_build_cond (cb_tree x)
 	struct cb_binary_op	*p;
 	cb_tree			d1;
 	cb_tree			d2;
+	cb_tree			err = NULL;
 
 	switch (CB_TREE_TAG (x)) {
 	case CB_TAG_CONST:
@@ -2643,8 +2656,18 @@ cb_build_cond (cb_tree x)
 				d1 = decimal_alloc ();
 				d2 = decimal_alloc ();
 
-				decimal_expand (d1, p->x);
-				decimal_expand (d2, p->y);
+				if (decimal_expand (d1, p->x)) {
+					err = p->x;
+				} else if (decimal_expand (d2, p->y)) {
+					err = p->y;
+				}
+				if (err) {
+					decimal_free ();
+					decimal_free ();
+					decimal_stack = NULL;
+					cb_error_x (err, _("Invalid expression"));
+					return cb_error_node;
+				}
 				dpush (cb_build_funcall_2 ("cob_decimal_cmp", d1, d2));
 				decimal_free ();
 				decimal_free ();
@@ -3861,6 +3884,26 @@ evaluate_test (cb_tree s, cb_tree o)
 	}
 }
 
+static int
+check_error_node (cb_tree x)
+{
+	int rt = 0;
+
+	if (x == cb_error_node) {
+		rt = 1;
+	} else if (CB_LIST_P (x)) {
+		if (CB_PURPOSE (x) == cb_error_node) {
+			rt = 1;
+		} else if (CB_VALUE (x)) {
+			rt = check_error_node (CB_VALUE (x));
+		}
+		if (!rt && CB_CHAIN (x)) {
+			rt = check_error_node (CB_CHAIN (x));
+		}
+	}
+	return rt;
+}
+
 static cb_tree
 build_evaluate (cb_tree subject_list, cb_tree case_list)
 {
@@ -3871,6 +3914,7 @@ build_evaluate (cb_tree subject_list, cb_tree case_list)
 	cb_tree whens;
 	cb_tree objs;
 	cb_tree stmt;
+	cb_tree dummy_cond = NULL;
 
 	if (case_list == NULL) {
 		return NULL;
@@ -3883,9 +3927,15 @@ build_evaluate (cb_tree subject_list, cb_tree case_list)
 	/* for each WHEN sequence */
 	for (; whens; whens = CB_CHAIN (whens)) {
 		c2 = NULL;
+		dummy_cond = NULL;
 		/* single WHEN test */
 		for (subjs = subject_list, objs = CB_VALUE (whens);
 		     subjs && objs; subjs = CB_CHAIN (subjs), objs = CB_CHAIN (objs)) {
+			if (check_error_node (CB_VALUE (subjs)) ||
+			    check_error_node (CB_VALUE (objs))) {
+				dummy_cond = cb_false;
+				break;
+			}
 			c3 = evaluate_test (CB_VALUE (subjs), CB_VALUE (objs));
 			if (c3 == NULL) {
 				return NULL;
@@ -3897,8 +3947,10 @@ build_evaluate (cb_tree subject_list, cb_tree case_list)
 				c2 = cb_build_binary_op (c2, '&', c3);
 			}
 		}
-		if (subjs || objs) {
-			cb_error (_("Wrong number of WHEN parameters"));
+		if (!dummy_cond && (subjs || objs)) {
+			cb_error_x (CB_VALUE (whens) ? CB_VALUE (whens) : whens,
+				    _("Wrong number of WHEN parameters"));
+			dummy_cond = cb_false; /* suppress redundant error */
 		}
 		/* connect multiple WHEN's */
 		if (c1 == NULL) {
@@ -3911,7 +3963,7 @@ build_evaluate (cb_tree subject_list, cb_tree case_list)
 	if (c1 == NULL) {
 		return stmt;
 	} else {
-		return cb_build_if (cb_build_cond (c1), stmt,
+		return cb_build_if ((dummy_cond ? dummy_cond : cb_build_cond (c1)), stmt,
 				    build_evaluate (subject_list, CB_CHAIN (case_list)));
 	}
 }
@@ -5149,7 +5201,7 @@ validate_move (cb_tree src, cb_tree dst, size_t is_value)
 		break;
 	default:
 		fprintf (stderr, "Invalid tree tag %d\n", CB_TREE_TAG (src));
-		ABORT ();
+		goto invalid;  /* don't ABORT (), continue parsing */
 	}
 	return 0;
 
