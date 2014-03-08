@@ -121,7 +121,8 @@ jp_compat_DEPENDENCIES = \
 	jp-compat.src/job-date.at \
 	jp-compat.src/nibble-c-for-unsigned.at \
 	jp-compat.src/upsi-x.at \
-	jp-compat.src/switch-no-mnemonic.at
+	jp-compat.src/switch-no-mnemonic.at \
+	jp-compat.src/data-desc-no-dot.at
 
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(syntax_DEPENDENCIES) \

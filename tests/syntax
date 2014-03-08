@@ -3114,11 +3114,11 @@ at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
-echo >>$at_stderr; echo "prog.cob:11: Error: Level 88 item 'X-88' cannot have other than VALUE clause
-prog.cob:6: Error: Level 01 item 'X-01' cannot have OCCURS clause
+echo >>$at_stderr; echo "prog.cob:6: Error: Level 01 item 'X-01' cannot have OCCURS clause
 prog.cob:7: Error: Level 01 item 'G' cannot have OCCURS clause
 prog.cob:9: Error: Level 66 item 'X-66' cannot have other than RENAMES clause
 prog.cob:10: Error: Level 77 item 'X-77' cannot have OCCURS clause
+prog.cob:11: Error: syntax error, unexpected OCCURS, expecting end of file or FUNCTION-ID or PROGRAM-ID
 " | $at_diff - $at_stderr || at_failed=:
 $at_diff $at_devnull $at_stdout || at_failed=:
 case $at_status in
@@ -3645,7 +3645,7 @@ at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
-echo >>$at_stderr; echo "prog.cob:8: Error: Level number of REDEFINES entry cannot be 66 or 88
+echo >>$at_stderr; echo "prog.cob:8: Error: syntax error, unexpected REDEFINES, expecting VALUE
 " | $at_diff - $at_stderr || at_failed=:
 $at_diff $at_devnull $at_stdout || at_failed=:
 case $at_status in

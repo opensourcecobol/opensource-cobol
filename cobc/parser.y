@@ -18,7 +18,7 @@
  * Boston, MA 02110-1301 USA
  */
 
-%expect 139
+%expect 138
 
 %defines
 %verbose
@@ -529,6 +529,8 @@ setup_use_file (struct cb_file *fileptr)
 %token LEFT
 %token LENGTH
 %token LESS
+%token LEVEL_NUMBER_WORD
+%token LEVEL88_NUMBER_WORD
 %token LIMIT
 %token LIMITS
 %token LINAGE
@@ -783,7 +785,7 @@ start:
 	current_program->flag_main = cb_flag_main;
   }
   /* program_definition */
-  nested_list
+  nested_list TOKEN_EOF
   {
 	if (!current_program->flag_validated) {
 		current_program->flag_validated = 1;
@@ -2525,9 +2527,9 @@ record_description_list_1:
 ;
 
 record_description_list_2:
-  not_const_word data_description '.'
+  not_const_word data_description
 | record_description_list_2
-  not_const_word data_description '.'
+  not_const_word data_description
 | record_description_list_2 '.'
 ;
 
@@ -2544,14 +2546,10 @@ data_description:
 		current_field = CB_FIELD (x);
 	}
   }
-  data_description_clause_sequence
+  data_description_clause_sequence _maybe_next_level_number
   {
-	if (!qualifier && (current_field->level == 88 ||
-		current_field->level == 66 || current_field->flag_item_78)) {
+	if (!qualifier && (current_field->level == 66 || current_field->flag_item_78)) {
 		cb_error (_("Item requires a data name"));
-	}
-	if (current_field->level == 88) {
-		cb_validate_88_item (current_field);
 	}
 	if (current_field->flag_item_78) {
 		/* Reset to last non-78 item */
@@ -2561,10 +2559,62 @@ data_description:
 		description_field = current_field;
 	}
   }
+| level_number_88 entry_name
+  {
+	cb_tree x;
+
+	x = cb_build_field_tree ($1, $2, current_field, current_storage, current_file);
+	if (x == cb_error_node) {
+		YYERROR;
+	} else {
+		current_field = CB_FIELD (x);
+	}
+  }
+  value_cond_clause
+  {
+	if (!qualifier) {
+		cb_error (_("Item requires a data name"));
+	}
+	cb_validate_88_item (current_field);
+	if (!description_field) {
+		description_field = current_field;
+	}
+	
+  }
 ;
 
 level_number:
-  WORD
+  LEVEL_NUMBER_WORD
+;
+
+level_number_88:
+  LEVEL88_NUMBER_WORD
+;
+
+/* 
+ * Salvage level number of next item may be fell into this ambiguous
+ * LITERAL due to missing dot terminator for current item.
+ */
+_maybe_next_level_number:
+  /* empty */
+| LITERAL
+  {
+	if (CB_TREE_CLASS ($1) == CB_CLASS_NUMERIC) {
+		cb_tree x = cb_build_reference ((char *)CB_LITERAL($1)->data);
+		int lev = cb_get_level (x);
+		if (!lev) {
+			/* do nothing expecting cb_get_level() had
+			 * already given some error message. */
+		} else if (lev == 88) {
+			cb_unget_token (LEVEL88_NUMBER_WORD, x);
+		} else {
+			cb_unget_token (LEVEL_NUMBER_WORD, x);		  
+		}
+	} else {
+		/* cause syntax error */
+		cb_unget_token (LITERAL, $1);
+	}
+  }
 ;
 
 entry_name:
@@ -2991,6 +3041,10 @@ based_clause:
 /* VALUE clause */
 
 value_clause:
+VALUE _is literal		{ current_field->values = cb_list_init ($3); }
+;
+
+value_cond_clause:
   VALUE _is_are value_item_list	{ current_field->values = $3; }
   _when _set _to false_is
 ;

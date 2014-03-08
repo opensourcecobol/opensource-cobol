@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -383,6 +383,11 @@ at_help_all='1;split-keys.at:1;SPLIT KEYS (ALTERNATE KEY);;
 72;nibble-c-for-unsigned.at:1;Decimal nibble C as unsigned;;
 73;upsi-x.at:1;UPSI-x;;
 74;switch-no-mnemonic.at:1;SWITCH-x with no mnemonic name;;
+75;data-desc-no-dot.at:1;Data description unterminated;;
+76;data-desc-no-dot.at:20;Data desc. ambiguous level-num 1;;
+77;data-desc-no-dot.at:39;Data desc. ambiguous level-num 2;;
+78;data-desc-no-dot.at:59;Data desc. level-num error after 88;;
+79;data-desc-no-dot.at:83;Data desc. ambiguous level-num (degrade check);;
 '
 
 at_keywords=
@@ -8408,6 +8413,365 @@ fi
 
 $at_traceon
 
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  75 ) # 75. data-desc-no-dot.at:1: Data description unterminated
+    at_setup_line='data-desc-no-dot.at:1'
+    at_desc='Data description unterminated'
+    $at_quiet $ECHO_N " 75: Data description unterminated                $ECHO_C"
+    at_xfail=no
+    (
+      echo "75. data-desc-no-dot.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X-01 PIC X VALUE "A"
+       01 X-02 PIC X
+       PROCEDURE        DIVISION.
+           MOVE "B" TO X-02.
+           DISPLAY X-01 X-02 WITH NO ADVANCING.
+          GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "data-desc-no-dot.at:16: \${COMPILE_JP_COMPAT} prog.cob"
+echo data-desc-no-dot.at:16 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "data-desc-no-dot.at:16: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "data-desc-no-dot.at:17: ./prog"
+echo data-desc-no-dot.at:17 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "AB" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "data-desc-no-dot.at:17: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  76 ) # 76. data-desc-no-dot.at:20: Data desc. ambiguous level-num 1
+    at_setup_line='data-desc-no-dot.at:20'
+    at_desc='Data desc. ambiguous level-num 1'
+    $at_quiet $ECHO_N " 76: Data desc. ambiguous level-num 1             $ECHO_C"
+    at_xfail=no
+    (
+      echo "76. data-desc-no-dot.at:20: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X-01 PIC 9 VALUE 03
+       01 X-02 PIC 9
+       PROCEDURE        DIVISION.
+           MOVE 4 TO X-02.
+           DISPLAY X-01 X-02 WITH NO ADVANCING.
+          GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "data-desc-no-dot.at:35: \${COMPILE_JP_COMPAT} prog.cob"
+echo data-desc-no-dot.at:35 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "data-desc-no-dot.at:35: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "data-desc-no-dot.at:36: ./prog"
+echo data-desc-no-dot.at:36 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "34" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "data-desc-no-dot.at:36: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  77 ) # 77. data-desc-no-dot.at:39: Data desc. ambiguous level-num 2
+    at_setup_line='data-desc-no-dot.at:39'
+    at_desc='Data desc. ambiguous level-num 2'
+    $at_quiet $ECHO_N " 77: Data desc. ambiguous level-num 2             $ECHO_C"
+    at_xfail=no
+    (
+      echo "77. data-desc-no-dot.at:39: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X-01 PIC 9 VALUE
+       03
+       01 X-02 PIC 9
+       PROCEDURE        DIVISION.
+           MOVE 4 TO X-02.
+           DISPLAY X-01 X-02 WITH NO ADVANCING.
+          GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "data-desc-no-dot.at:55: \${COMPILE_JP_COMPAT} prog.cob"
+echo data-desc-no-dot.at:55 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "data-desc-no-dot.at:55: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "data-desc-no-dot.at:56: ./prog"
+echo data-desc-no-dot.at:56 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "34" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "data-desc-no-dot.at:56: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  78 ) # 78. data-desc-no-dot.at:59: Data desc. level-num error after 88
+    at_setup_line='data-desc-no-dot.at:59'
+    at_desc='Data desc. level-num error after 88'
+    $at_quiet $ECHO_N " 78: Data desc. level-num error after 88          $ECHO_C"
+    at_xfail=no
+    (
+      echo "78. data-desc-no-dot.at:59: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X-01 PIC 9
+          88 V-01 VALUES 01
+       02
+       03.
+       01 X-02 PIC 9
+       01 X-03 PIC 9
+          88 V-03 VALUES 01 02 03
+       01 X-04 PIC 9
+       PROCEDURE        DIVISION.
+          GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "data-desc-no-dot.at:78: \${COMPILE_JP_COMPAT} prog.cob"
+echo data-desc-no-dot.at:78 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:13: Error: syntax error, unexpected Identifier, expecting end of file or FUNCTION-ID or PROGRAM-ID
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "data-desc-no-dot.at:78: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  79 ) # 79. data-desc-no-dot.at:83: Data desc. ambiguous level-num (degrade check)
+    at_setup_line='data-desc-no-dot.at:83'
+    at_desc='Data desc. ambiguous level-num (degrade check)'
+    $at_quiet $ECHO_N " 79: Data desc. ambiguous level-num (degrade check)$ECHO_C"
+    at_xfail=no
+    (
+      echo "79. data-desc-no-dot.at:83: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X-01 PIC 9. 01
+       X-02 PIC 9.
+       PROCEDURE        DIVISION.
+          GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "data-desc-no-dot.at:96: \${COMPILE_JP_COMPAT} prog.cob"
+echo data-desc-no-dot.at:96 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "data-desc-no-dot.at:96: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
 
       $at_traceoff
       $at_times_p && times >$at_times_file

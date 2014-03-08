@@ -128,7 +128,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE_ONLY} prog.cob], [1], ,
-[prog.cob:8: Error: Level number of REDEFINES entry cannot be 66 or 88
+[prog.cob:8: Error: syntax error, unexpected REDEFINES, expecting VALUE
 ])
 
 AT_CLEANUP

@@ -46,6 +46,13 @@ struct cb_level_78 {
 	struct cb_field		*fld78;
 };
 
+#define UNGET_BUFFER_SIZE 1
+struct cb_unget_buffer {
+	int	count;
+	int	token[UNGET_BUFFER_SIZE];
+	YYSTYPE	lvalue[UNGET_BUFFER_SIZE];
+};
+
 /* Local variables */
 static struct cb_level_78	*lev78ptr = NULL;
 static unsigned char		*plexbuff = NULL;
@@ -56,6 +63,7 @@ static int			last_token_is_dot = 0;
 static int			integer_is_label = 0;
 static int			inside_bracket = 0;
 static int			inside_repository = 0;
+struct cb_unget_buffer		*unget_buffer = NULL;
 
 static int read_literal (int mark, enum cb_category);
 static int scan_x (char *text);
@@ -87,6 +95,12 @@ JPNWORD [\xA0-\xDF]|([\x81-\x9F\xE0-\xFC][\x40-\x7E\x80-\xFC])
 
 %%
 %{
+	if (unget_buffer && unget_buffer->count) {
+		--unget_buffer->count;
+		yylval = unget_buffer->lvalue[unget_buffer->count];
+		return unget_buffer->token[unget_buffer->count];
+	}
+
 	if (current_program) {
 		if (current_program->decimal_point == '.') {
 			BEGIN DECIMAL_IS_PERIOD;
@@ -200,7 +214,21 @@ X\"[^\"\n]*\" {
 		/* integer label */
 		yylval = cb_build_reference (yytext);
 		SET_LOCATION (yylval);
-		return WORD;
+		if (in_procedure) {
+			/* integer section/paragraph name */
+			return WORD;
+		} else {
+			/* level number in data division */
+			int lev = cb_get_level (yylval);
+			if (!lev) {
+				/* do nothing expecting cb_get_level() had
+				 * already given some error message. */
+			} else if (lev == 88) {
+				return LEVEL88_NUMBER_WORD;
+			} else {
+				return LEVEL_NUMBER_WORD;
+			}
+		}
 	} else {
 		/* numeric literal */
 		return scan_numeric (yytext);
@@ -1083,4 +1111,18 @@ check_level_78 (const char *name)
 		}
 	}
 	return NULL;
+}
+
+void cb_unget_token (int tok, YYSTYPE lval)
+{
+	if (!unget_buffer) {
+		unget_buffer = cobc_malloc (sizeof (struct cb_unget_buffer));
+	}
+	if (unget_buffer->count >= UNGET_BUFFER_SIZE) {
+		cb_error (_("Scanner unget buffer overflow"));
+	} else {
+		unget_buffer->token[unget_buffer->count] = tok;
+		unget_buffer->lvalue[unget_buffer->count] = lval;
+		unget_buffer->count++;
+	}
 }
