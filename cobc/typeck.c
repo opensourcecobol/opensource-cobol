@@ -654,7 +654,11 @@ cb_define_switch_name (cb_tree name, cb_tree sname, cb_tree flag, cb_tree ref)
 		return;
 	}
 	if (CB_SYSTEM_NAME (sname)->category != CB_SWITCH_NAME) {
-		cb_error_x (ref, _("Switch-name is expected '%s'"), CB_NAME (ref));
+		if (!ref) {
+			cb_error_x (ref, _("Switch-name is expected '%s'"), CB_NAME (ref));
+		} else {
+			cb_error_x (name, _("'%s' with no Switch-name"), CB_NAME (name));
+		}
 	} else {
 		switch_id = cb_int (CB_SYSTEM_NAME (sname)->token);
 		value = cb_build_funcall_1 ("cob_get_switch", switch_id);

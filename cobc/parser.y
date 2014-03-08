@@ -1256,7 +1256,16 @@ mnemonic_name_clause:
 	}
 	save_tree_2 = $3;
   }
-  special_name_mnemonic_on_off
+  special_name_mnemonic_on_off_list
+| WORD _is /* omit mnemonic_name */
+  {
+	save_tree_1 = lookup_system_name (CB_NAME ($1));
+	if (save_tree_1 == cb_error_node) {
+		cb_error_x ($1, _("Unknown system-name '%s'"), CB_NAME ($1));
+	}
+	save_tree_2 = NULL;
+  }
+  special_name_mnemonic_on_off_list_mandatory
 | ARGUMENT_NUMBER _is undefined_word
   {
 	if (cb_enable_special_names_argument_clause) {
@@ -1315,11 +1324,23 @@ mnemonic_name_clause:
   }
 ;
 
+special_name_mnemonic_on_off_list:
+| special_name_mnemonic_on_off_list special_name_mnemonic_on_off 
+;
+
+special_name_mnemonic_on_off_list_mandatory:
+  special_name_mnemonic_on_off 
+| special_name_mnemonic_on_off_list_mandatory special_name_mnemonic_on_off 
+;
+
 special_name_mnemonic_on_off:
-| special_name_mnemonic_on_off
   on_or_off _status _is undefined_word
   {
-	cb_define_switch_name ($5, save_tree_1, $2, save_tree_2);
+	if (!save_tree_2 && !cb_switch_no_mnemonic) {
+		cb_error_x ($4, _("'%s' with no mnemonic name"), CB_NAME ($4));
+	} else {
+		cb_define_switch_name ($4, save_tree_1, $1, save_tree_2);
+	}
   }
 ;
 

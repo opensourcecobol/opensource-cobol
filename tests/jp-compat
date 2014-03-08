@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -381,6 +381,8 @@ at_help_all='1;split-keys.at:1;SPLIT KEYS (ALTERNATE KEY);;
 70;job-date.at:70;COB_DATE DAY YYYYDDD;;
 71;job-date.at:92;COB_DATE FUNC. CURRENT-DATE;;
 72;nibble-c-for-unsigned.at:1;Decimal nibble C as unsigned;;
+73;upsi-x.at:1;UPSI-x;;
+74;switch-no-mnemonic.at:1;SWITCH-x with no mnemonic name;;
 '
 
 at_keywords=
@@ -8178,6 +8180,224 @@ case $at_status in
             exit 77;;
    0) ;;
    *) echo "nibble-c-for-unsigned.at:26: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  73 ) # 73. upsi-x.at:1: UPSI-x
+    at_setup_line='upsi-x.at:1'
+    at_desc='UPSI-x'
+    $at_quiet $ECHO_N " 73: UPSI-x                                       $ECHO_C"
+    at_xfail=no
+    (
+      echo "73. upsi-x.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+       SPECIAL-NAMES.
+           UPSI-0 IS SWIT1
+             ON IS SWIT1-ON
+             OFF IS SWIT1-OFF
+           UPSI-1 IS SWIT2
+             ON IS SWIT2-ON
+             OFF IS SWIT2-OFF.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       PROCEDURE        DIVISION.
+           IF SWIT1-ON
+              DISPLAY "ON" NO ADVANCING
+              END-DISPLAY
+           ELSE
+              DISPLAY "OFF" NO ADVANCING
+              END-DISPLAY
+           END-IF.
+           IF SWIT2-ON
+              DISPLAY "ON" NO ADVANCING
+              END-DISPLAY
+           ELSE
+              DISPLAY "OFF" NO ADVANCING
+              END-DISPLAY
+           END-IF.
+           SET SWIT1 TO OFF.
+           SET SWIT2 TO ON.
+           IF SWIT1-ON
+              DISPLAY "ON" NO ADVANCING
+              END-DISPLAY
+           ELSE
+              DISPLAY "OFF" NO ADVANCING
+              END-DISPLAY
+           END-IF.
+           IF SWIT2-ON
+              DISPLAY "ON" NO ADVANCING
+              END-DISPLAY
+           ELSE
+              DISPLAY "OFF" NO ADVANCING
+              END-DISPLAY
+           END-IF.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "upsi-x.at:51: \${COMPILE_JP_COMPAT} prog.cob"
+echo upsi-x.at:51 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "upsi-x.at:51: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "upsi-x.at:52: COB_SWITCH_1=ON COB_SWITCH_2=OFF ./prog"
+echo upsi-x.at:52 >$at_check_line_file
+( $at_traceon; COB_SWITCH_1=ON COB_SWITCH_2=OFF ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "ONOFFOFFON" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "upsi-x.at:52: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  74 ) # 74. switch-no-mnemonic.at:1: SWITCH-x with no mnemonic name
+    at_setup_line='switch-no-mnemonic.at:1'
+    at_desc='SWITCH-x with no mnemonic name'
+    $at_quiet $ECHO_N " 74: SWITCH-x with no mnemonic name               $ECHO_C"
+    at_xfail=no
+    (
+      echo "74. switch-no-mnemonic.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+       SPECIAL-NAMES.
+           SWITCH-1
+             ON IS SWIT1-ON
+             OFF IS SWIT1-OFF
+           SWITCH-2
+             ON IS SWIT2-ON
+             OFF IS SWIT2-OFF.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       PROCEDURE        DIVISION.
+           IF SWIT1-ON
+              DISPLAY "ON" NO ADVANCING
+              END-DISPLAY
+           ELSE
+              DISPLAY "OFF" NO ADVANCING
+              END-DISPLAY
+           END-IF.
+           IF SWIT2-ON
+              DISPLAY "ON" NO ADVANCING
+              END-DISPLAY
+           ELSE
+              DISPLAY "OFF" NO ADVANCING
+              END-DISPLAY
+           END-IF.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "switch-no-mnemonic.at:35: \${COMPILE_JP_COMPAT} prog.cob"
+echo switch-no-mnemonic.at:35 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "switch-no-mnemonic.at:35: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "switch-no-mnemonic.at:36: COB_SWITCH_1=ON COB_SWITCH_2=OFF ./prog"
+echo switch-no-mnemonic.at:36 >$at_check_line_file
+( $at_traceon; COB_SWITCH_1=ON COB_SWITCH_2=OFF ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "ONOFF" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "switch-no-mnemonic.at:36: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
