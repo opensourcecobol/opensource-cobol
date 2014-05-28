@@ -6032,7 +6032,7 @@ stop_statement:
   {
 	cb_emit_stop_run ($4);
   }
-| STOP LITERAL
+| STOP LITERAL			{ BEGIN_STATEMENT ("STOP", 0); }
   {
 	cb_verify (cb_stop_literal_statement, "STOP literal");
   }
