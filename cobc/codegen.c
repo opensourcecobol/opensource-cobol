@@ -1810,17 +1810,6 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 	/* Initialize by value */
 	if (p->val && f->values) {
 		value = CB_VALUE (f->values);
-		if (CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL ||
-		    CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL_EDITED) {
-			output_prefix ();
-			output ("cob_move(");
-			output_param (value, 1);
-			output (", ");
-			output_param (x, 2);
-			output (");\n");
-			return;
-		}
-
 		if (value == cb_space) {
 			/* Fixme: This is to avoid an error when a
 			   numeric-edited item has VALUE SPACE because
@@ -1845,7 +1834,7 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 			/* Figurative literal, numeric literal */
 			output_move (value, x);
 		} else {
-			/* Alphanumeric literal */
+			/* Alphanumeric or National literal */
 			/* We do not use output_move here because
 			   we do not want to have the value be edited. */
 			l = CB_LITERAL (value);
