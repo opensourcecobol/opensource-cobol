@@ -5978,6 +5978,13 @@ cb_build_move (cb_tree src, cb_tree dst)
 		}
 	}
 
+	if (CB_EXCEPTION_ENABLE (COB_EC_BOUND_REF_MOD)) {
+		if ((CB_REFERENCE_P (src) && CB_REFERENCE (src)->offset != NULL) ||
+		    (CB_REFERENCE_P (dst) && CB_REFERENCE (dst)->offset != NULL)) {
+			return cb_build_move_call (src, dst);
+		}	
+	}
+
 	/* output optimal code */
 	if (src == cb_zero) {
 		return cb_build_move_zero (dst);

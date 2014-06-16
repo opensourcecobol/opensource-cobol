@@ -237,3 +237,50 @@ AT_CLEANUP
 
 
 # 6) TODO
+
+AT_SETUP([Offset out of bounds in MOVE (1)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X             PIC X(4) VALUE "abcd".
+       01 I             PIC 9 VALUE 0.
+       01 Z             PIC X(4).
+       PROCEDURE        DIVISION.
+           MOVE X(I:4) TO Z.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -o prog prog.cob])
+AT_CHECK([./prog], [1], ,
+[prog.cob:10: libcob: Offset of 'X' out of bounds: 0
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([Offset out of bounds in MOVE (2)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X             PIC X(4).
+       01 I             PIC 9 VALUE 0.
+       01 Z             PIC X(4) VALUE "abcd".
+       PROCEDURE        DIVISION.
+           MOVE Z TO X(I:4).
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -o prog prog.cob])
+AT_CHECK([./prog], [1], ,
+[prog.cob:10: libcob: Offset of 'X' out of bounds: 0
+])
+
+AT_CLEANUP
+
+# 7) TODO
