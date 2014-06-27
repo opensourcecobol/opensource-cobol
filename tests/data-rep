@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -319,13 +319,16 @@ at_help_all='1;binary.at:23;BINARY: 2-4-8 big-endian;;
 8;display.at:22;DISPLAY: Sign ASCII;;
 9;display.at:80;DISPLAY: Sign ASCII (2);;
 10;display.at:125;DISPLAY: Sign EBCDIC;;
-11;packed.at:25;PACKED-DECIMAL dump;;
-12;packed.at:160;PACKED-DECIMAL display;;
-13;packed.at:207;PACKED-DECIMAL move;;
-14;packed.at:256;PACKED-DECIMAL arithmetic (1);;
-15;packed.at:291;PACKED-DECIMAL arithmetic (2);;
-16;packed.at:324;PACKED-DECIMAL numeric test;;
-17;pointer.at:22;POINTER: display;;
+11;display.at:170;DISPLAY: Sign Separate;;
+12;display.at:209;DISPLAY: Initialize Sign ASCII;;
+13;display.at:241;DISPLAY: Initialize Sign EBCDIC;;
+14;packed.at:25;PACKED-DECIMAL dump;;
+15;packed.at:160;PACKED-DECIMAL display;;
+16;packed.at:207;PACKED-DECIMAL move;;
+17;packed.at:256;PACKED-DECIMAL arithmetic (1);;
+18;packed.at:291;PACKED-DECIMAL arithmetic (2);;
+19;packed.at:324;PACKED-DECIMAL numeric test;;
+20;pointer.at:22;POINTER: display;;
 '
 
 at_keywords=
@@ -3212,13 +3215,296 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  11 ) # 11. packed.at:25: PACKED-DECIMAL dump
-    at_setup_line='packed.at:25'
-    at_desc='PACKED-DECIMAL dump'
-    $at_quiet $ECHO_N " 11: PACKED-DECIMAL dump                          $ECHO_C"
+  11 ) # 11. display.at:170: DISPLAY: Sign Separate
+    at_setup_line='display.at:170'
+    at_desc='DISPLAY: Sign Separate'
+    $at_quiet $ECHO_N " 11: DISPLAY: Sign Separate                       $ECHO_C"
     at_xfail=no
     (
-      echo "11. packed.at:25: testing ..."
+      echo "11. display.at:170: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 G1.
+         02 X1-S9-LS     PIC S9(4) LEADING SEPARATE.
+         02 FILLER       PIC  X(1) VALUE SPACE.
+         02 X1-S9-TS     PIC S9(4) TRAILING SEPARATE.
+       01 G2.
+         02 X2-S9-LS     PIC S9(4) LEADING SEPARATE.
+         02 FILLER       PIC  X(1) VALUE SPACE.
+         02 X2-S9-TS     PIC S9(4) TRAILING SEPARATE.
+       01 G3.
+         02 X3-S9-LS     PIC S9(4) LEADING SEPARATE   VALUE ZERO.
+         02 FILLER       PIC  X(1) VALUE SPACE.
+         02 X3-S9-TS     PIC S9(4) TRAILING SEPARATE  VALUE ZERO.
+       PROCEDURE        DIVISION.
+           MOVE ZERO TO X1-S9-LS.
+           MOVE ZERO TO X1-S9-TS.
+           DISPLAY G1.
+           INITIALIZE G2.
+           DISPLAY G2.
+           DISPLAY G3.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "display.at:199: \${COMPILE} -fsign-ascii -o prog prog.cob"
+echo display.at:199 >$at_check_line_file
+( $at_traceon; ${COMPILE} -fsign-ascii -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "display.at:199: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "display.at:200: ./prog"
+echo display.at:200 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "+0000 0000+
++0000 0000+
++0000 0000+
+" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "display.at:200: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  12 ) # 12. display.at:209: DISPLAY: Initialize Sign ASCII
+    at_setup_line='display.at:209'
+    at_desc='DISPLAY: Initialize Sign ASCII'
+    $at_quiet $ECHO_N " 12: DISPLAY: Initialize Sign ASCII               $ECHO_C"
+    at_xfail=no
+    (
+      echo "12. display.at:209: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 G1.
+         02 X1-S9        PIC S9(4).
+       01 G2.
+         02 X2-S9        PIC S9(4).
+       01 G3.
+         02 X3-S9        PIC S9(4) VALUE ZERO.
+       PROCEDURE        DIVISION.
+           MOVE ZERO TO X1-S9.
+           DISPLAY G1.
+           INITIALIZE G2.
+           DISPLAY G2.
+           DISPLAY G3.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "display.at:231: \${COMPILE} -fsign-ascii -o prog prog.cob"
+echo display.at:231 >$at_check_line_file
+( $at_traceon; ${COMPILE} -fsign-ascii -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "display.at:231: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "display.at:232: ./prog"
+echo display.at:232 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "0000
+0000
+0000
+" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "display.at:232: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  13 ) # 13. display.at:241: DISPLAY: Initialize Sign EBCDIC
+    at_setup_line='display.at:241'
+    at_desc='DISPLAY: Initialize Sign EBCDIC'
+    $at_quiet $ECHO_N " 13: DISPLAY: Initialize Sign EBCDIC              $ECHO_C"
+    at_xfail=no
+    (
+      echo "13. display.at:241: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 G1.
+         02 X1-S9        PIC S9(4).
+       01 G2.
+         02 X2-S9        PIC S9(4).
+       01 G3.
+         02 X3-S9        PIC S9(4) VALUE ZERO.
+       PROCEDURE        DIVISION.
+           MOVE ZERO TO X1-S9.
+           DISPLAY G1.
+           INITIALIZE G2.
+           DISPLAY G2.
+           DISPLAY G3.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "display.at:263: \${COMPILE} -fsign-ebcdic -o prog prog.cob"
+echo display.at:263 >$at_check_line_file
+( $at_traceon; ${COMPILE} -fsign-ebcdic -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "display.at:263: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "display.at:264: ./prog"
+echo display.at:264 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "000{
+000{
+000{
+" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "display.at:264: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  14 ) # 14. packed.at:25: PACKED-DECIMAL dump
+    at_setup_line='packed.at:25'
+    at_desc='PACKED-DECIMAL dump'
+    $at_quiet $ECHO_N " 14: PACKED-DECIMAL dump                          $ECHO_C"
+    at_xfail=no
+    (
+      echo "14. packed.at:25: testing ..."
       $at_traceon
 
 
@@ -3430,13 +3716,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  12 ) # 12. packed.at:160: PACKED-DECIMAL display
+  15 ) # 15. packed.at:160: PACKED-DECIMAL display
     at_setup_line='packed.at:160'
     at_desc='PACKED-DECIMAL display'
-    $at_quiet $ECHO_N " 12: PACKED-DECIMAL display                       $ECHO_C"
+    $at_quiet $ECHO_N " 15: PACKED-DECIMAL display                       $ECHO_C"
     at_xfail=no
     (
-      echo "12. packed.at:160: testing ..."
+      echo "15. packed.at:160: testing ..."
       $at_traceon
 
 
@@ -3536,13 +3822,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  13 ) # 13. packed.at:207: PACKED-DECIMAL move
+  16 ) # 16. packed.at:207: PACKED-DECIMAL move
     at_setup_line='packed.at:207'
     at_desc='PACKED-DECIMAL move'
-    $at_quiet $ECHO_N " 13: PACKED-DECIMAL move                          $ECHO_C"
+    $at_quiet $ECHO_N " 16: PACKED-DECIMAL move                          $ECHO_C"
     at_xfail=no
     (
-      echo "13. packed.at:207: testing ..."
+      echo "16. packed.at:207: testing ..."
       $at_traceon
 
 
@@ -3644,13 +3930,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  14 ) # 14. packed.at:256: PACKED-DECIMAL arithmetic (1)
+  17 ) # 17. packed.at:256: PACKED-DECIMAL arithmetic (1)
     at_setup_line='packed.at:256'
     at_desc='PACKED-DECIMAL arithmetic (1)'
-    $at_quiet $ECHO_N " 14: PACKED-DECIMAL arithmetic (1)                $ECHO_C"
+    $at_quiet $ECHO_N " 17: PACKED-DECIMAL arithmetic (1)                $ECHO_C"
     at_xfail=no
     (
-      echo "14. packed.at:256: testing ..."
+      echo "17. packed.at:256: testing ..."
       $at_traceon
 
 
@@ -3738,13 +4024,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  15 ) # 15. packed.at:291: PACKED-DECIMAL arithmetic (2)
+  18 ) # 18. packed.at:291: PACKED-DECIMAL arithmetic (2)
     at_setup_line='packed.at:291'
     at_desc='PACKED-DECIMAL arithmetic (2)'
-    $at_quiet $ECHO_N " 15: PACKED-DECIMAL arithmetic (2)                $ECHO_C"
+    $at_quiet $ECHO_N " 18: PACKED-DECIMAL arithmetic (2)                $ECHO_C"
     at_xfail=no
     (
-      echo "15. packed.at:291: testing ..."
+      echo "18. packed.at:291: testing ..."
       $at_traceon
 
 
@@ -3830,13 +4116,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  16 ) # 16. packed.at:324: PACKED-DECIMAL numeric test
+  19 ) # 19. packed.at:324: PACKED-DECIMAL numeric test
     at_setup_line='packed.at:324'
     at_desc='PACKED-DECIMAL numeric test'
-    $at_quiet $ECHO_N " 16: PACKED-DECIMAL numeric test                  $ECHO_C"
+    $at_quiet $ECHO_N " 19: PACKED-DECIMAL numeric test                  $ECHO_C"
     at_xfail=no
     (
-      echo "16. packed.at:324: testing ..."
+      echo "19. packed.at:324: testing ..."
       $at_traceon
 
 
@@ -4031,13 +4317,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  17 ) # 17. pointer.at:22: POINTER: display
+  20 ) # 20. pointer.at:22: POINTER: display
     at_setup_line='pointer.at:22'
     at_desc='POINTER: display'
-    $at_quiet $ECHO_N " 17: POINTER: display                             $ECHO_C"
+    $at_quiet $ECHO_N " 20: POINTER: display                             $ECHO_C"
     at_xfail=no
     (
-      echo "17. pointer.at:22: testing ..."
+      echo "20. pointer.at:22: testing ..."
       $at_traceon
 
 

@@ -1593,6 +1593,9 @@ initialize_type (struct cb_initialize *p, struct cb_field *f, int topfield)
 			} else if (cb_tree_type (CB_TREE (f)) == COB_TYPE_NUMERIC_DISPLAY) {
 				if (f->flag_sign_separate) {
 					return INITIALIZE_ONE;
+				} else if (cb_display_sign == COB_DISPLAY_SIGN_EBCDIC 
+				             && f->pic->have_sign) {
+					return INITIALIZE_ONE;
 				} else {
 					return INITIALIZE_DEFAULT;
 				}
@@ -1834,7 +1837,14 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 		} else if (value == cb_quote) {
 			output_figurative (x, f, '"');
 		} else if (value == cb_zero && f->usage == CB_USAGE_DISPLAY) {
-			output_figurative (x, f, '0');
+			if (f->flag_sign_separate) {
+				output_move (cb_zero, x);
+			} else if (cb_display_sign == COB_DISPLAY_SIGN_EBCDIC
+			             && f->pic->have_sign) {
+				output_move (cb_zero, x);
+			} else {
+				output_figurative (x, f, '0');
+			}
 		} else if (value == cb_null && f->usage == CB_USAGE_DISPLAY) {
 			output_figurative (x, f, 0);
 		} else if (CB_LITERAL_P (value) && CB_LITERAL (value)->all) {

@@ -5443,6 +5443,9 @@ cb_build_move_num_zero (cb_tree x)
 	case CB_USAGE_DISPLAY:
 		if (f->flag_sign_separate) {
 			return cb_build_move_call (cb_zero, x);
+		} else if (cb_display_sign == COB_DISPLAY_SIGN_EBCDIC 
+		             &&  f->pic->have_sign) {
+			return cb_build_move_call (cb_zero, x);
 		} else {
 			return cb_build_memset (x, '0');
 		}
