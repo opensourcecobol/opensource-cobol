@@ -140,6 +140,97 @@ AT_CHECK([./prog], [1], ,
 
 AT_CLEANUP
 
+AT_SETUP([Subscript out of bounds (3-1)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 G.
+         02 X           PIC X OCCURS 10.
+       01 I             PIC 99 VALUE 11.
+       PROCEDURE        DIVISION.
+           IF "A" NOT = X(I)
+               DISPLAY "DIFFER".
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -o prog prog.cob])
+AT_CHECK([./prog], [1], ,
+[prog.cob:10: libcob: Subscript of 'X' out of bounds: 11
+])
+
+AT_CLEANUP
+
+AT_SETUP([Subscript out of bounds (3-2)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 G.
+         02 X           PIC X OCCURS 10.
+       01 I             PIC 99 VALUE 11.
+       PROCEDURE        DIVISION.
+           IF X(I) NOT = "A"
+               DISPLAY "DIFFER".
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -o prog prog.cob])
+AT_CHECK([./prog], [1], ,
+[prog.cob:10: libcob: Subscript of 'X' out of bounds: 11
+])
+
+AT_CLEANUP
+
+AT_SETUP([Subscript out of bounds (3-3)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 G.
+         02 X           PIC XX OCCURS 10.
+       01 I             PIC 99 VALUE 11.
+       PROCEDURE        DIVISION.
+           IF X(I) NOT = "AA"
+               DISPLAY "DIFFER".
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -o prog prog.cob])
+AT_CHECK([./prog], [1], ,
+[prog.cob:10: libcob: Subscript of 'X' out of bounds: 11
+])
+
+AT_CLEANUP
+
+AT_SETUP([Subscript out of bounds (3-4)])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 G.
+         02 X           PIC 9  BINARY OCCURS 10.
+       01 I             PIC 99 VALUE 11.
+       PROCEDURE        DIVISION.
+           IF 5 NOT = X(I)
+               DISPLAY "DIFFER".
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -o prog prog.cob])
+AT_CHECK([./prog], [1], ,
+[prog.cob:10: libcob: Subscript of 'X' out of bounds: 11
+])
+
+AT_CLEANUP
 
 AT_SETUP([Value of DEPENDING ON N out of bounds (lower)])
 
