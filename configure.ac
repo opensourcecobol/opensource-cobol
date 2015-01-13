@@ -438,7 +438,7 @@ then
 		AC_DEFINE(USE_DB41)
 		MYOLDLIBS="$LIBS"
 		export MYOCLIBS
-		for MYOCLIBS in db db-4.5 db-4.4 db-4.3 db-4.2 db-4.1
+		for MYOCLIBS in db db4 db-4.5 db-4.4 db-4.3 db-4.2 db-4.1
 		do
 			LIBS="$MYOLDLIBS -l$MYOCLIBS"
 			AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>
@@ -511,6 +511,14 @@ then
 		[USE_DB="yes" LIBCOB_LIBS="$LIBCOB_LIBS -ldb-4"],
 		  [AC_CHECK_LIB([db-4], [dbopen],
 		    [USE_DB="yes" LIBCOB_LIBS="$LIBCOB_LIBS -ldb-4"], [])])
+		fi
+		
+		if test "$USE_DB" != "yes"
+		then
+		AC_CHECK_LIB([db4], [__db_open],
+		[USE_DB="yes" LIBCOB_LIBS="$LIBCOB_LIBS -ldb4"],
+		  [AC_CHECK_LIB([db4], [dbopen],
+		    [USE_DB="yes" LIBCOB_LIBS="$LIBCOB_LIBS -ldb4"], [])])
 		fi
 		
 		if test "$USE_DB" != "yes"

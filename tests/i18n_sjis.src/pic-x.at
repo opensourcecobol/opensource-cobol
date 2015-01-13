@@ -72,7 +72,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog | od -x -An], [0], [ ec8a ec8a ec8a 0020
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ 8a ec 8a ec 8a ec 20
 ])
 
 AT_CLEANUP
@@ -95,7 +95,7 @@ AT_CHECK([${COMPILE} -x prog.cob], [0], [],
 [prog.cob:8: Warning: Value size exceeds data size
 prog.cob:6: Warning: 'F0' defined here as PIC X(7)
 ])
-AT_CHECK([./prog | od -x -An], [0], [ fa93 7b96 ea8c 0082
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ 93 fa 96 7b 8c ea 82
 ])
 
 AT_CLEANUP
@@ -116,7 +116,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog | od -x -An], [0], [ fa93 7b96 ea8c 0082
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ 93 fa 96 7b 8c ea 82
 ])
 
 AT_CLEANUP
@@ -253,7 +253,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog | od -x -An], [0], [ 2093 96fa 007b
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ 93 20 fa 96 7b
 ])
 
 AT_CLEANUP
@@ -278,7 +278,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog | od -x -An], [0], [ fa93 0096
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ 93 fa 96
 ])
 
 AT_CLEANUP
@@ -302,7 +302,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog | od -x -An], [0], [ fa93 0096
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ 93 fa 96
 ])
 
 AT_CLEANUP

@@ -148,7 +148,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog | od -x -An], [0], [ 5283 8183 5f83 5283 5b81 7183 5b81
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ 83 52 83 81 83 5f 83 52 81 5b 83 71 81 5b
 ])
 
 AT_CLEANUP
