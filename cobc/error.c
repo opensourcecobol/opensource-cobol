@@ -29,6 +29,8 @@
 #include "cobc.h"
 #include "tree.h"
 
+#define  max_names  5
+
 static char	*errnamebuff = NULL;
 static char	*errmsgbuff = NULL;
 
@@ -129,7 +131,6 @@ cb_get_jisword (const char *name)
 static void
 print_error (char *file, int line, const char *prefix, const char *fmt, va_list ap)
 {
-	static const int max_names = 5;
 	int flag_too_many_names = 0;
 	static struct cb_label *last_section = NULL;
 	static struct cb_label *last_paragraph = NULL;
