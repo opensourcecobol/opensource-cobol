@@ -186,7 +186,7 @@ isdelcurr (const int ihandle)
 }
 
 int
-isdelrec (const int ihandle, off_t trownumber)
+isdelrec (const int ihandle, vbisam_off_t trownumber)
 {
 	struct DICTINFO	*psvbptr;
 	int		iresult = 0;
