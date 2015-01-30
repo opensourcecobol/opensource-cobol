@@ -85,6 +85,10 @@
 int	cob_screen_initialized = 0;
 int	cob_screen_mode = 0;
 
+#define COB_CHECK_BEFORE 1
+#define COB_CHECK_CURRENT 0
+
+
 #ifdef COB_GEN_SCREENIO
 
 struct cob_inp_struct {
@@ -580,6 +584,38 @@ cob_screen_puts (cob_screen *s, cob_field *f)
 	refresh ();
 }
 
+int
+cob_is_sjis_multibyte(unsigned char c){
+#ifdef PDC_SJIS_SUPPORT
+	if ((c >= 0x81 && c <= 0x9f) || (c >= 0xe0 && c <= 0xfc)){
+		return 1;
+	}
+#endif
+	return 0;
+}
+
+int
+cob_is_sjis_multibyte_at_cursor(unsigned char *data, int current, int checktype){
+	int i;
+	int flag_multibyte = FALSE;
+#ifdef PDC_SJIS_SUPPORT
+	if (checktype == COB_CHECK_BEFORE){
+		current--;
+	}
+
+	for (i = 0; i <= current; i++){
+		if (cob_is_sjis_multibyte(data[i])){
+			i++;
+			flag_multibyte = TRUE;
+		}
+		else{
+			flag_multibyte = FALSE;
+		}
+	}
+#endif
+	return flag_multibyte;
+}
+
 static void
 cob_screen_get_all (void)
 {
@@ -623,7 +659,13 @@ cob_screen_get_all (void)
 	p = s->field->data;
 
 	for (; ;) {
-		refresh ();
+#ifdef PDC_SJIS_SUPPORT
+		if (PDC_get_current_byte_type() != PDC_CHAR_SJIS_HIGH){
+			refresh();
+		}
+#else
+		refresh();
+#endif
 		errno = 0;
 		keyp = getch ();
 
@@ -692,8 +734,13 @@ cob_screen_get_all (void)
 			rightpos = scolumn + s->field->size - 1;
 			if (ungetched) {
 				ungetched = 0;
-				p = s->field->data + rightpos;
-				move (sline, rightpos);
+				if (cob_is_sjis_multibyte_at_cursor(s->field->data, rightpos - scolumn, COB_CHECK_CURRENT)) {
+					p = s->field->data + rightpos - 1;
+					move(sline, rightpos - 1);
+				} else {
+					p = s->field->data + rightpos;
+					move(sline, rightpos);
+				}
 			} else {
 				p = s->field->data;
 				move (sline, scolumn);
@@ -754,31 +801,62 @@ cob_screen_get_all (void)
 			continue;
 		case KEY_BACKSPACE:
 			if (ccolumn > scolumn) {
+				p = s->field->data + ccolumn - scolumn;
 				if (gotbacksp || ccolumn != rightpos) {
-					ccolumn--;
-				} else {
+					if (!gotbacksp && ccolumn == rightpos - 1 && cob_is_sjis_multibyte(*p)){
+						ateof = 0;
+					}
+					else {
+						if (cob_is_sjis_multibyte_at_cursor(s->field->data, ccolumn - scolumn, COB_CHECK_BEFORE)){
+							ccolumn -= 2;
+							p -= 2;
+						}
+						else {
+							ccolumn--;
+							p--;
+						}
+					}
+				}
+				else {
 					ateof = 0;
 				}
 				gotbacksp = 1;
-				move (cline, ccolumn);
-				if (s->attr & COB_SCREEN_SECURE) {
-					addch ('*');
+				if (cob_is_sjis_multibyte(*p) && ccolumn < rightpos) {
+					move(cline, ccolumn);
+					if (s->attr & COB_SCREEN_SECURE) {
+						addch('*');
+						addch('*');
+					} else {
+						addch(0x81);
+						addch(0x40);
+					}
+					move(cline, ccolumn);
+					*p = 0x81;
+					*(p + 1) = 0x40;
+					continue;
 				} else {
-					addch ('_');
+					move(cline, ccolumn);
+					if (s->attr & COB_SCREEN_SECURE) {
+						addch('*');
+					} else {
+						addch(' ');
+					}
+					move(cline, ccolumn);
+					*p = ' ';
+					continue;
 				}
-				move (cline, ccolumn);
-				p = s->field->data + ccolumn - scolumn;
-				*p = ' ';
-			} else {
-				ungetched = 1;
-				gotbacksp = 0;
-				ungetch (KEY_BACKSPACE);
-				ungetch (KEY_BTAB);
 			}
 			continue;
 		case KEY_LEFT:
 			gotbacksp = 0;
 			if (ccolumn > scolumn) {
+				if (cob_is_sjis_multibyte_at_cursor(s->field->data, ccolumn - scolumn, COB_CHECK_BEFORE)) {
+					ccolumn--;
+					if (ccolumn == scolumn){
+						ungetched = 1;
+						ungetch(KEY_BTAB);
+					}
+				}
 				ccolumn--;
 				move (cline, ccolumn);
 				p = s->field->data + ccolumn - scolumn;
@@ -790,6 +868,13 @@ cob_screen_get_all (void)
 		case KEY_RIGHT:
 			gotbacksp = 0;
 			if (ccolumn < rightpos) {
+				if (cob_is_sjis_multibyte(*p)) {
+					if ((ccolumn + 1) == rightpos) {
+						ungetch('\t'); //goto scolumn
+					} else {
+						ccolumn++;
+					}
+				}
 				ccolumn++;
 				move (cline, ccolumn);
 				p = s->field->data + ccolumn - scolumn;
@@ -809,6 +894,37 @@ cob_screen_get_all (void)
 				}
 			}
 			gotbacksp = 0;
+#ifdef PDC_SJIS_SUPPORT
+			if (PDC_get_current_byte_type() == PDC_CHAR_ANSII){
+				if (cob_is_sjis_multibyte_at_cursor(s->field->data, ccolumn - scolumn, COB_CHECK_CURRENT)) {
+					if (ccolumn < rightpos) {
+						move(cline, ccolumn + 1);
+						if (s->attr & COB_SCREEN_SECURE) {
+							addch('*');
+						} else {
+							addch(' ');
+						}
+						move(cline, ccolumn);
+						*(p + 1) = ' ';
+					}
+				}
+			} else if (PDC_get_current_byte_type() == PDC_CHAR_SJIS_HIGH) {
+				if (!cob_is_sjis_multibyte_at_cursor(s->field->data, ccolumn - scolumn, COB_CHECK_CURRENT)) {
+					if (ccolumn < rightpos - 1) {
+						if (cob_is_sjis_multibyte(*(p + 1))) {
+							move(cline, ccolumn + 2);
+							if (s->attr & COB_SCREEN_SECURE) {
+								addch('*');
+							} else {
+								addch(' ');
+							}
+							move(cline, ccolumn);
+							*(p + 2) = ' ';
+						}
+					}
+				}
+			}
+#endif
 			*p = keyp;
 			if (s->attr & COB_SCREEN_SECURE) {
 				addch ('*');
@@ -816,6 +932,13 @@ cob_screen_get_all (void)
 				addch ((unsigned int)keyp);
 			}
 			if (ccolumn == rightpos) {
+#ifdef PDC_SJIS_SUPPORT
+				if (PDC_get_current_byte_type() == PDC_CHAR_SJIS_LOW) {
+					ccolumn--;
+					p--;
+				}
+				PDC_clear_current_buffer();
+#endif
 				if (s->attr & COB_SCREEN_AUTO) {
 					if (curr_index == totl_index - 1) {
 						goto screen_return;
