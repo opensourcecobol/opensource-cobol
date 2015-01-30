@@ -166,6 +166,7 @@ const char		*cob_config_dir;
 #ifdef	_MSC_VER 
 #if	_MSC_VER >= 1400
 static const char	*manicmd;
+static const char	*manilink;
 #endif
 #endif
 
@@ -401,6 +402,32 @@ cb_text_list_add (struct cb_text_list *list, const char *text)
 		return list;
 	}
 }
+
+#ifdef _WIN32
+#define strndup(x,y) _strndup(x,y)
+char *
+_strndup(char *src, int size)
+{
+	char *dup;
+	int srclen;
+
+	if (src == NULL) {
+		return NULL;
+	}
+	srclen = strlen(src);
+	if (size > srclen) {
+		size = srclen;
+	}
+	dup = malloc(size + 1);
+	if (dup == NULL) {
+		return NULL;
+	}
+
+	memset(dup, 0, size + 1);
+	memcpy(dup, src, size);
+	return dup;
+}
+#endif
 
 void
 cb_constant_list_add (char *buff)
@@ -1887,10 +1914,10 @@ process_module_direct (struct filename *fn)
 
 #ifdef _MSC_VER
 	sprintf (buff, gflag_set ?
-		"%s %s %s /Od /MDd /LDd /Zi /FR /Fe\"%s\" /Fo\"%s\" %s \"%s\" %s" :
-		"%s %s %s /MD /LD /Fe\"%s\" /Fo\"%s\" %s \"%s\" %s",
-			cob_cc, cob_cflags, cob_define_flags, name, name,
-			cob_ldflags, fn->translate, cob_libs);
+		"%s %s %s /Od /MDd /LDd /Zi /FR /Fe\"%s\" /Fo\"%s\" %s \"%s\" %s %s" :
+		"%s %s %s /MD /LD /Fe\"%s\" /Fo\"%s\" %s \"%s\" %s %s",
+		cob_cc, cob_cflags, cob_define_flags, name, name,
+		cob_ldflags, fn->translate, cob_libs, manilink);
 	ret = process (buff);
 #if _MSC_VER >= 1400
 	/* Embedding manifest */
@@ -2132,9 +2159,9 @@ process_link (struct filename *l)
 	}
 #ifdef _MSC_VER
 	sprintf (buff, gflag_set ?
-		"%s /Od /MDd /Zi /FR /Fe\"%s\" %s %s %s" :
-		"%s /MD /Fe\"%s\" %s %s %s",
-			cob_cc, name, cob_ldflags, objsptr, cob_libs);
+		"%s /Od /MDd /Zi /FR /Fe\"%s\" %s %s %s %s" :
+		"%s /MD /Fe\"%s\" %s %s %s %s",
+			cob_cc, name, cob_ldflags, objsptr, cob_libs, manilink);
 	ret = process (buff);
 #if _MSC_VER >= 1400
 	/* Embedding manifest */
@@ -2239,8 +2266,18 @@ main (int argc, char *argv[])
 		p = strdup (buff);
 		putenv (p);
 	} else {
+#ifdef _WIN32
+		char *tmpdir = cobc_malloc(COB_SMALL_BUFF * sizeof(char));
+		if ((GetTempPathA(COB_SMALL_BUFF, tmpdir)) == 0) {
+			strcpy(tmpdir, "c:\\oscobol\\tmp");
+		}
+		cob_tmpdir = tmpdir;
+		sprintf(buff, "TMPDIR=%s", cob_tmpdir);
+		putenv(buff);
+#else
 		cob_tmpdir = "/tmp";
 		putenv ((char *)"TMPDIR=/tmp");
+#endif
 	}
 
 	cob_cc = getenv ("COB_CC");
@@ -2304,9 +2341,13 @@ main (int argc, char *argv[])
 #if	_MSC_VER >= 1400
 	if (!verbose_output) {
 		manicmd = "mt /nologo";
+		manilink = "/link /nologo /manifest";
 	} else {
 		manicmd = "mt";
+		manilink = "/link /manifest";
 	}
+#else
+	manilink = " ";
 #endif
 #endif
 
