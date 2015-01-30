@@ -6275,10 +6275,11 @@ static int extract_key (
 {
 	int ix;
 	struct keydesc *kd_cob = fh->key + ix_cob_key;
+	char *p_rec = pb_rec;
 	char *p_val = ret_key_value;
 	for (ix = 0; ix < kd_cob->k_nparts; ++ix) {
 		memcpy (p_val
-			, pb_rec + kd_cob->k_part[ix].kp_start
+			, p_rec + kd_cob->k_part[ix].kp_start
 			, kd_cob->k_part[ix].kp_leng);
 		p_val += kd_cob->k_part[ix].kp_leng;
 	}
