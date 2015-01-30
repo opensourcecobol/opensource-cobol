@@ -49,6 +49,31 @@
 #define COB_GEN_SCREENIO
 #endif
 
+/* if LINES unsuported */
+#ifndef A_OVERLINE
+#ifdef A_TOP
+#define A_OVERLINE A_TOP
+#else 
+#define A_OVERLINE 0x00000000
+#endif /* A_TOP */
+#endif /* A_OVERLINE */
+
+#ifndef A_LEFTLINE
+#ifdef A_LEFT
+#define A_LEFTLINE A_LEFT
+#else 
+#define A_LEFTLINE 0x00000000
+#endif /* A_LEFT */
+#endif /* A_LEFTLINE */
+
+#ifndef A_RIGHTLINE
+#ifdef A_RIGHT
+#define A_RIGHTLINE A_RIGHT
+#else 
+#define A_RIGHTLINE 0x00000000
+#endif /* A_RIGHT */
+#endif /* A_RIGHTLINE */
+
 /* Force symbol exports */
 #define	COB_LIB_EXPIMP
 
@@ -270,6 +295,16 @@ cob_screen_attr (cob_field *fgc, cob_field *bgc, const int attr)
 	if (attr & COB_SCREEN_UNDERLINE) {
 		styles |= A_UNDERLINE;
 	}
+	if (attr & COB_SCREEN_OVERLINE) {
+		styles |= A_OVERLINE;
+	}
+	if (attr & COB_SCREEN_RIGHTLINE) {
+		styles |= A_RIGHTLINE;
+	}
+	if (attr & COB_SCREEN_LEFTLINE) {
+		styles |= A_LEFTLINE;
+	}
+
 	if (styles) {
 		attron (styles);
 	}
@@ -1394,6 +1429,195 @@ cob_screen_set_mode (const size_t smode)
 	}
 }
 
+
+static void
+cob_screen_setline_allclear(){
+	int line, column;
+	chtype current_ch;
+	for (line = 0; line < cob_max_y; line++){
+		for (column = 0; column < cob_max_x; column++){
+			current_ch = mvinch(line, column);
+			if (current_ch & (A_UNDERLINE | A_OVERLINE | A_LEFTLINE | A_RIGHTLINE)){
+				attrset(current_ch);
+				attroff(A_UNDERLINE | A_OVERLINE | A_LEFTLINE | A_RIGHTLINE);
+				addch(current_ch & A_CHARTEXT);
+			}
+		}
+	}
+}
+
+
+static void
+cob_screen_setline_cell(int line, int column, chtype LINE){
+	chtype current_ch;
+	current_ch = mvinch(line, column);
+	attrset(current_ch | LINE);
+	addch(current_ch & A_CHARTEXT);
+}
+
+static void
+cob_screen_setline_vertical(int start_line, int length, int column, chtype LINE){
+	int i;
+	for (i = 0; i < length; i++) {
+		cob_screen_setline_cell(start_line + i, column, LINE);
+	}
+}
+
+static void
+cob_screen_setline_horizontal(int start_column, int length, int line, chtype LINE){
+	int i;
+	for (i = 0; i < length; i++) {
+		cob_screen_setline_cell(line, start_column + i, LINE);
+	}
+}
+
+int
+CBL_OC_KEISEN(unsigned char * cmd, unsigned char * line, unsigned char * col, unsigned char * lng1, unsigned char * lng2, unsigned char * color, unsigned char * prn)
+{
+	int k_cmd;
+	int k_line;
+	int k_col;
+	int k_lng1;
+	int k_lng2;
+	int k_color;
+	int k_prn;
+
+	COB_CHK_PARMS(CBL_OC_ATTRIBUTE, 5);
+
+	if (!cob_current_module->cob_procedure_parameters[0]) {
+		return -1;
+	}
+	if (!cob_current_module->cob_procedure_parameters[1]) {
+		return -1;
+	}
+	if (!cob_current_module->cob_procedure_parameters[2]) {
+		return -1;
+	}
+	if (!cob_current_module->cob_procedure_parameters[3]) {
+		return -1;
+	}
+	if (!cob_current_module->cob_procedure_parameters[4]) {
+		return -1;
+	}
+	if (!cob_current_module->cob_procedure_parameters[5]) {
+		return -1;
+	}
+	if (!cob_current_module->cob_procedure_parameters[6]) {
+		return -1;
+	}
+
+	k_cmd = cob_get_int(cob_current_module->cob_procedure_parameters[0]);
+	k_line = cob_get_int(cob_current_module->cob_procedure_parameters[1]) - 1;
+	k_col = cob_get_int(cob_current_module->cob_procedure_parameters[2]) - 1;
+	k_lng1 = cob_get_int(cob_current_module->cob_procedure_parameters[3]);
+	k_lng2 = cob_get_int(cob_current_module->cob_procedure_parameters[4]);
+	k_color = cob_get_int(cob_current_module->cob_procedure_parameters[5]);
+	k_prn = cob_get_int(cob_current_module->cob_procedure_parameters[6]);
+
+	if (!cob_screen_initialized) {
+		cob_screen_init();
+	}
+
+
+	switch (k_cmd) {
+	case 0:					/* clear */
+		cob_screen_setline_allclear();
+		break;
+	case 1:					/* under line */
+		cob_screen_setline_horizontal(k_col, k_lng1, k_line, A_UNDERLINE);
+		break;
+	case 2:					/* over line  */
+		cob_screen_setline_horizontal(k_col, k_lng1, k_line, A_OVERLINE);
+		break;
+	case 3:					/* vertical line left */
+		cob_screen_setline_vertical(k_line, k_lng1, k_col, A_LEFTLINE);
+		break;
+	case 4:					/* vertical line right */
+		cob_screen_setline_vertical(k_line, k_lng1, k_col, A_RIGHTLINE);
+		break;
+	case 5:					/* box */
+		//horizon line
+		cob_screen_setline_horizontal(k_col, k_lng1, k_line, A_OVERLINE);
+		cob_screen_setline_horizontal(k_col, k_lng1, k_line + k_lng2 - 1, A_UNDERLINE);
+
+		//vertical line
+		cob_screen_setline_vertical(k_line, k_lng2, k_col, A_LEFTLINE);
+		cob_screen_setline_vertical(k_line, k_lng2, k_col + k_lng1 - 1, A_RIGHTLINE);
+		break;
+	default:
+		break;
+	}
+
+	refresh();
+	return 0;
+}
+
+int
+CBL_OC_ATTRIBUTE(unsigned char *line, unsigned char *col, unsigned char *lng, unsigned char *fcolor, unsigned char *bcolor, unsigned char *attr, unsigned char *flg)
+{
+	int k_line;
+	int k_col;
+	int k_lng;
+	cob_field *k_fcolor;
+	cob_field *k_bcolor;
+	int k_attr;
+	int k_flg;
+
+	int i;
+	chtype current_ch;
+
+	COB_CHK_PARMS(CBL_OC_ATTRIBUTE, 5);
+
+	if (!cob_current_module->cob_procedure_parameters[0]) {
+		return -1;
+	}
+	if (!cob_current_module->cob_procedure_parameters[1]) {
+		return -1;
+	}
+	if (!cob_current_module->cob_procedure_parameters[2]) {
+		return -1;
+	}
+	if (!cob_current_module->cob_procedure_parameters[3]) {
+		return -1;
+	}
+	if (!cob_current_module->cob_procedure_parameters[4]) {
+		return -1;
+	}
+	if (!cob_current_module->cob_procedure_parameters[5]) {
+		return -1;
+	}
+	if (!cob_current_module->cob_procedure_parameters[6]) {
+		return -1;
+	}
+
+	k_line = cob_get_int(cob_current_module->cob_procedure_parameters[0]) - 1;
+	k_col = cob_get_int(cob_current_module->cob_procedure_parameters[1]) - 1;
+	k_lng = cob_get_int(cob_current_module->cob_procedure_parameters[2]);
+	k_fcolor = cob_current_module->cob_procedure_parameters[3];
+	k_bcolor = cob_current_module->cob_procedure_parameters[4];
+	k_attr = cob_get_int(cob_current_module->cob_procedure_parameters[5]);
+	k_flg = cob_get_int(cob_current_module->cob_procedure_parameters[6]);
+
+	if (!cob_screen_initialized) {
+		cob_screen_init();
+	}
+
+	cob_screen_attr(k_fcolor, k_bcolor, k_attr);
+
+	for (i = 0; i < k_lng; i++) {
+		current_ch = mvinch(k_line, k_col + i);
+
+		if (k_flg == 0){
+			attron(current_ch);
+		}
+		addch(current_ch & A_CHARTEXT);
+	}
+
+	refresh();
+
+	return 0;
+}
+
 #else
 
 void
@@ -1432,6 +1656,16 @@ cob_screen_line_col (cob_field *f, const int l_or_c)
 
 void
 cob_screen_set_mode (const size_t smode)
+{
+}
+
+int
+CBL_OC_KEISEN(unsigned char * cmd, unsigned char * line, unsigned char * col, unsigned char * lng1, unsigned char * lng2, unsigned char * color, unsigned char * prn)
+{
+}
+
+int
+CBL_OC_ATTRIBUTE(unsigned char *line, unsigned char *col, unsigned char *lng, unsigned char *fcolor, unsigned char *bcolor, unsigned char *attr, unsigned char *flg)
 {
 }
 
