@@ -4690,7 +4690,7 @@ output_entry_function (struct cb_program *prog, cb_tree entry,
 	entry_name = CB_LABEL (CB_PURPOSE (entry))->name;
 	using_list = CB_VALUE (entry);
 #if	defined(_WIN32) || defined(__CYGWIN__)
-	if (!gencode && !prog->nested_level) {
+	if (!gencode) {
 		output ("__declspec(dllexport) ");
 	}
 #endif
