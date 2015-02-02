@@ -1957,9 +1957,7 @@ cob_display_environment (const cob_field *f)
 void
 cob_display_env_value (const cob_field *f)
 {
-	char	*p;
 	char	*env2;
-	size_t	len;
 
 	if (!cob_local_env) {
 		cob_set_exception (COB_EC_IMP_DISPLAY);
@@ -1971,10 +1969,7 @@ cob_display_env_value (const cob_field *f)
 	}
 	env2 = cob_malloc (f->size + 1);
 	cob_field_to_string (f, env2);
-	len = strlen (cob_local_env) + strlen (env2) + 3;
-	p = cob_malloc (len);
-	sprintf (p, "%s=%s", cob_local_env, env2);
-	if (putenv (p) != 0) {
+	if (setenv (cob_local_env, env2, 1)) {
 		cob_set_exception (COB_EC_IMP_DISPLAY);
 	}
 	free (env2);
