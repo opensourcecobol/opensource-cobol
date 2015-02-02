@@ -123,7 +123,8 @@ AT_SETUP([Too long section name])
 AT_DATA([prog.cob], [
        IDENTIFICATION   DIVISION.
        PROGRAM-ID.      prog.
-       DATA             DIVISION.       WORKING-STORAGE  SECTION.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
        PROCEDURE        DIVISION.
        PERFORM s‚P‚Q‚R‚S‚T‚U‚V‚W‚X‚O123456789012345678901.
        PERFORM    ‚r|I—¹.
@@ -135,8 +136,8 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [1], [],
-[prog.cob:6: Error: User defined name must be less than 32 characters
-prog.cob:8: Error: User defined name must be less than 32 characters
+[prog.cob:7: Error: User defined name must be less than 32 characters
+prog.cob:9: Error: User defined name must be less than 32 characters
 ])
 
 AT_CLEANUP
@@ -175,3 +176,208 @@ AT_CHECK([${COMPILE} -x prog.cob])
 AT_CHECK([./prog], [0], [OK])
 
 AT_CLEANUP
+
+AT_SETUP([Nihongo field name in numeric test msg.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       numcheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  TEST-REC.
+         03  U€–Ú  PIC  9(4) VALUE  1000.
+       01  X€–Ú    PIC  X(4) VALUE 'ABCD'.
+       PROCEDURE         DIVISION.
+           MOVE X€–Ú TO TEST-REC.
+           ADD 1 TO U€–Ú.
+           GOBACK.
+])
+
+AT_CHECK([${COMPILE} -debug -x prog.cob])
+AT_CHECK([./prog], [1], [],
+[prog.cob:11: libcob: 'U€–Ú' not numeric: 'ABCD'
+])
+
+AT_CLEANUP
+
+AT_SETUP([Nihongo field name in BASED test msg.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       basedcheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  X€–Ú    PIC  X(4) VALUE 'ABCD'.
+       01  Y€–Ú    PIC  X(4) BASED.
+       PROCEDURE         DIVISION.
+           MOVE X€–Ú TO Y€–Ú.
+           GOBACK.
+])
+
+AT_CHECK([${COMPILE} -debug -x prog.cob])
+AT_CHECK([./prog], [1], [],
+[prog.cob:9: libcob: BASED/LINKAGE item 'Y€–Ú' has NULL address
+])
+
+AT_CLEANUP
+
+AT_SETUP([Nihongo field name in ODO test msg.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       odocheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  I€–Ú         PIC 9 VALUE 4.
+       01  X.
+         03  Y€–Ú       PIC 9 OCCURS 1 TO 3 DEPENDING ON I€–Ú.
+       PROCEDURE         DIVISION.
+           MOVE 1 TO Y€–Ú(3).
+           GOBACK.
+])
+
+AT_CHECK([${COMPILE} -debug -x prog.cob])
+AT_CHECK([./prog], [1], [],
+[prog.cob:10: libcob: OCCURS DEPENDING ON 'I€–Ú' out of bounds: 4
+])
+
+AT_CLEANUP
+
+AT_SETUP([Nihongo field name in Subscript test msg.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       odocheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  I€–Ú         PIC 9 VALUE 2.
+       01  X.
+         03  Y€–Ú       PIC 9 OCCURS 1 TO 3 DEPENDING ON I€–Ú.
+       PROCEDURE         DIVISION.
+           MOVE 1 TO Y€–Ú(3).
+           GOBACK.
+])
+
+AT_CHECK([${COMPILE} -debug -x prog.cob])
+AT_CHECK([./prog], [1], [],
+[prog.cob:10: libcob: Subscript of 'Y€–Ú' out of bounds: 3
+])
+
+AT_CLEANUP
+
+AT_SETUP([Nihongo field name in length of ref_mod test msg.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       refcheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  I             PIC 9    VALUE 2.
+       01  J             PIC 9    VALUE 6.
+       01  X€–Ú         PIC X(5) VALUE "ABCDE".
+       PROCEDURE         DIVISION.
+           DISPLAY X€–Ú(I:J).
+           GOBACK.
+])
+
+AT_CHECK([${COMPILE} -debug -x prog.cob])
+AT_CHECK([./prog], [1], [],
+[prog.cob:10: libcob: Length of 'X€–Ú' out of bounds: 6
+])
+
+AT_CLEANUP
+
+AT_SETUP([Nihongo field name in offset of ref_mod test msg.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       refcheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  I             PIC 9    VALUE 6.
+       01  J             PIC 9    VALUE 2.
+       01  X€–Ú         PIC X(5) VALUE "ABCDE".
+       PROCEDURE         DIVISION.
+           DISPLAY X€–Ú(I:J).
+           GOBACK.
+])
+
+AT_CHECK([${COMPILE} -debug -x prog.cob])
+AT_CHECK([./prog], [1], [],
+[prog.cob:10: libcob: Offset of 'X€–Ú' out of bounds: 6
+])
+
+AT_CLEANUP
+
+AT_SETUP([Nihongo field name in length of N_refmod test msg.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       refcheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  I             PIC 9    VALUE 2.
+       01  J             PIC 99   VALUE 18.
+       01  X€–Ú         PIC N(5) VALUE "‚`‚a‚b‚c‚d".
+       PROCEDURE         DIVISION.
+           DISPLAY X€–Ú(I:J).
+           GOBACK.
+])
+
+AT_CHECK([${COMPILE} -debug -x prog.cob])
+AT_CHECK([./prog], [1], [],
+[prog.cob:10: libcob: Length of 'X€–Ú' out of bounds: 18
+])
+
+AT_CLEANUP
+
+AT_SETUP([Nihongo field name in offset of N_refmod test msg.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       refcheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  I             PIC 99   VALUE 18.
+       01  J             PIC 9    VALUE 2.
+       01  X€–Ú         PIC N(5) VALUE "‚`‚a‚b‚c‚d".
+       PROCEDURE         DIVISION.
+           DISPLAY X€–Ú(I:J).
+           GOBACK.
+])
+
+AT_CHECK([${COMPILE} -debug -x prog.cob])
+AT_CHECK([./prog], [1], [],
+[prog.cob:10: libcob: Offset of 'X€–Ú' out of bounds: 18
+])
+
+AT_CLEANUP
+
+AT_SETUP([Nihongo field name in extaddr test msg.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       check1.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  X€–Ú         PIC X(5) EXTERNAL.
+       PROCEDURE         DIVISION.
+           CALL 'check2'.
+
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       check2.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  X€–Ú         PIC X(6) EXTERNAL.
+       PROCEDURE         DIVISION.
+           END PROGRAM check2.
+           END PROGRAM check1.
+])
+
+AT_CHECK([${COMPILE} -debug -x prog.cob])
+AT_CHECK([./prog], [1], [],
+[prog.cob:8: libcob: EXTERNAL item 'X€–Ú' has size > 6
+])
+
+AT_CLEANUP
+
