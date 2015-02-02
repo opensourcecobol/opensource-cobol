@@ -139,6 +139,14 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 "END"({ZENSPC}|[ ])+"PROGRAM"		{ ppecho ("END PROGRAM"); return END_PROGRAM; }
 "END"({ZENSPC}|[ ])+"FUNCTION"		{ ppecho ("END FUNCTION"); return END_FUNCTION; }
 
+<*>^"*".* |
+<*>^"/".* {
+	ppecho (" ");
+	if (cb_source_format != CB_FORMAT_FIXED) {
+		ppecho (yytext);
+	}
+}
+
 "PROCESS"		{ BEGIN PROCESS_STATE; }
 
 <PROCESS_STATE>{
@@ -933,13 +941,11 @@ start:
 			newline_count = 0;
 			return strlen (buff);
 		}
-		/*
 		if (n == 0 && cb_source_format != CB_FORMAT_FIXED && cb_source_format1 != 1) {
 			if (ipchar != ' ' && ipchar != '\n') {
 				buff[n++] = ' ';
 			}
 		}
-		*/
 		if (gotcr) {
 			if (ipchar != '\n') {
 				buff[n++] = '\r';
@@ -995,10 +1001,6 @@ start:
 
 	/* nothing more to do with free format */
 	if (cb_source_format != CB_FORMAT_FIXED) {
-		if (buff[0] == '*' || buff[0] == '/') {
-			newline_count++;
-			goto start;
-		}
 		return n;
 	}
 
