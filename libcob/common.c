@@ -526,48 +526,28 @@ common_cmpc (const unsigned char *s1, const unsigned int c, const size_t size)
 }
 
 static int
-common_hankaku_cmpc (const unsigned char *s1, const unsigned char *s2, const size_t size)
+is_national_padding (const unsigned char *s, const size_t size)
 {
-#ifdef	I18N_UTF8
-	size_t	i, n = COB_U8BYTE_1(*s2);
-	int	ret = 0;
+	size_t	i;
+	int	ret = 1;
 
-	if (n < 2) {
-		/* I18N_UTF8: collating sequence has no effects to MB chars. */
-		ret = common_cmpc (s1, *s2, size);
-	} else {
-		/* I18N_UTF8: TODO: Normalization? */
-		for (i = 0; i < size && !ret; i += n) {
-			ret = (size-i < n) ? -1 : memcmp (s1, s2, n);
+	i = 0;
+	while (i < size && ret) {
+		if (s[i] == ' ') {
+			i++;
+		} else if (size - i >= COB_ZENCSIZ
+			   && !memcmp (&(s[i]), COB_ZENSPC, COB_ZENCSIZ)) {
+			i += COB_ZENCSIZ;
+		} else {
+			ret = 0;
 		}
 	}
 	return ret;
-#else /*!I18N_UTF8*/
-	const unsigned char	*s;
-	size_t			i;
-	int			ret;
-
-	s = cob_current_module->collating_sequence;
-	if (unlikely(s)) {
-		for (i = 0; i < size; i += 2) {
-			if ((ret = s[s1[i]] - s[s2[0]]) != 0 && (ret = s[s1[i]] - s[s2[1]]) != 0) {
-				return ret;
-			}
-		}
-	} else {
-		for (i = 0; i < size; i += 2) {
-			if ((ret = s1[i] - s2[0]) != 0 && (ret = s1[i + 1] - s2[1]) != 0) {
-				return ret;
-			}
-		}
-	}
-	return 0;
-#endif /*I18N_UTF8*/
 }
 
 static int
-common_cmps (const unsigned char *s1, const unsigned char *s2, const size_t size,
-	     const unsigned char *col)
+alnum_cmps (const unsigned char *s1, const unsigned char *s2, const size_t size,
+	    const unsigned char *col)
 {
 	size_t			i;
 	int			ret;
@@ -586,6 +566,33 @@ common_cmps (const unsigned char *s1, const unsigned char *s2, const size_t size
 		}
 	}
 	return 0;
+}
+
+static int
+national_cmps (const unsigned char *s1, const unsigned char *s2, const size_t size,
+	       const unsigned char *col)
+{
+	size_t			i;
+	int			ret = 0;
+#ifdef	I18N_UTF8
+	size_t			n;
+
+	for (i = 0; i < size && !ret; i += n) {
+		n = COB_U8BYTE_1(s1[i]);
+		if (n != COB_U8BYTE_1(s2[i])) {
+			ret = n - COB_U8BYTE_1(s2[i]);
+		} else if (size - i < n) {
+			ret =  -1;
+		} else {
+			ret = memcmp (&(s1[i]), &(s2[i]), n);
+		}
+	}
+#else /*!I18N_UTF8*/
+	for (i = 0; i < size && !ret; i += 2) {
+		ret = ((s1[i] <<8 | s1[i + 1]) > (s2[i] <<8 | s2[i + 1]));
+	}
+#endif /*I18N_UTF8*/
+	return ret;
 }
 
 static int
@@ -610,6 +617,8 @@ cob_cmp_all (cob_field *f1, cob_field *f2)
 	size_t			size;
 	int			ret;
 	int			sign;
+	int (*common_cmps)() = (COB_FIELD_IS_NATIONAL (f1))?
+		national_cmps : alnum_cmps;
 
 	if ((COB_FIELD_TYPE (f1) == COB_TYPE_ALPHANUMERIC_ALL ||
 	     COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_ALL) &&
@@ -657,116 +666,35 @@ end:
 static int
 cob_cmp_simple_str (cob_field *f1, cob_field *f2)
 {
-#ifdef	I18N_UTF8
 	const unsigned char	*s;
-	size_t			min;
-	int			ret;
+	const cob_field		*lf, *sf;
+	int			ret = 0;
+	int (*common_cmps)() = (COB_FIELD_IS_NATIONAL (f1))?
+		national_cmps : alnum_cmps;
 
-	min = (f1->size < f2->size) ? f1->size : f2->size;
+	if (f1->size < f2->size) {
+		lf = f2;
+		sf = f1;
+	} else {
+		lf = f1;
+		sf = f2;
+	}
 	s = cob_current_module->collating_sequence;
-
 	/* compare common substring */
-	if ((ret = common_cmps (f1->data, f2->data, min, s)) == 0) {
+	if ((ret = common_cmps (f1->data, f2->data, sf->size, s)) == 0) {
 		/* compare the rest (if any) with spaces */
-		if ((COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL || 
-		     COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_EDITED ||
-		     COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_ALL) &&
-		    (COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL ||
-		     COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_EDITED ||
-		     COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_ALL)) {
-			if (f1->size > f2->size) {
-				ret = common_hankaku_cmpc (f1->data + min,
-							   (unsigned char *)COB_U8SPC,
-							   f1->size - min);
-				if (ret != 0) {
-					ret = common_cmpc (f1->data + min,
-							   ' ',  f1->size - min);
-				}
-			} else if (f1->size < f2->size) {
-				ret = -common_hankaku_cmpc (f2->data + min,
-							    (unsigned char *)COB_U8SPC,
-							    f2->size - min);
-				if (ret != 0) {
-					ret = -common_cmpc (f2->data + min,
-							    ' ', f2->size - min);
-				}
-			}
-		} else {
-			if (f1->size > f2->size) {
-				ret = common_cmpc (f1->data + min,
-						   ' ', f1->size - min);
-				if (ret != 0) {
-					ret = common_hankaku_cmpc (f1->data + min,
-								   (unsigned char *)COB_U8SPC,
-								   f1->size - min);
-				}
-			} else if (f1->size < f2->size) {
-				ret = -common_cmpc (f2->data + min,
-						    ' ', f2->size - min);
-				if (ret != 0) {
-					ret = -common_hankaku_cmpc (f2->data + min,
-								    (unsigned char *)COB_U8SPC,
-								    f2->size - min);
-				}
+		if (lf->size > sf->size) {
+			ret = (COB_FIELD_IS_NATIONAL (lf))?
+				!is_national_padding (&(lf->data[sf->size]),
+						      lf->size - sf->size)
+				: common_cmpc (&(lf->data[sf->size]), ' ',
+					       lf->size - sf->size);
+			if (lf == f2) {
+				ret = -ret;
 			}
 		}
 	}
 	return ret;
-#else /*!I18N_UTF8*/
-	const unsigned char	*s;
-	size_t			min;
-	int			ret;
-	int			ret1 = 0;
-	int			ret2 = 0;
-
-	min = (f1->size < f2->size) ? f1->size : f2->size;
-	s = cob_current_module->collating_sequence;
-
-	/* compare common substring */
-	if ((ret = common_cmps (f1->data, f2->data, min, s)) == 0) {
-		/* compare the rest (if any) with spaces */
-		if ((COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL ||
-		     COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_EDITED ||
-		     COB_FIELD_TYPE (f1) == COB_TYPE_NATIONAL_ALL) &&
-		    (COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL ||
-		     COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_EDITED ||
-		     COB_FIELD_TYPE (f2) == COB_TYPE_NATIONAL_ALL)) {
-			if (f1->size > f2->size) {
-				ret1 = common_hankaku_cmpc (f1->data + min, (unsigned char *)COB_SJSPC, f1->size - min);
-				if (ret1 != 0) {
-					ret2 = common_cmpc (f1->data + min,' ',  f1->size - min);
-				}
-			} else if (f1->size < f2->size) {
-				ret1 = -common_hankaku_cmpc (f2->data + min, (unsigned char *)COB_SJSPC, f2->size - min);
-				if (ret1 != 0) {
-					ret2 = common_cmpc (f2->data + min,' ', f2->size - min);
-				}
-			}
-		} else {
-			if (f1->size > f2->size) {
-				ret1 = common_cmpc (f1->data + min, ' ', f1->size - min);
-				if (ret1 != 0) {
-					ret2 = common_hankaku_cmpc (f1->data + min, (unsigned char *)COB_SJSPC, f1->size - min);
-				}
-			} else if (f1->size < f2->size) {
-				ret1 = -common_cmpc (f2->data + min, ' ', f2->size - min);
-				if (ret1 != 0) {
-					ret2 = common_hankaku_cmpc (f2->data + min, (unsigned char *)COB_SJSPC, f2->size - min);
-				}
-			}
-		}
-	}
-
-	if (ret == 0) {
-		if (ret2 != 0) {
-			return ret1;
-		} else {
-			return 0;
-		}
-	} else {
-		return ret;
-	}
-#endif /*I18N_UTF8*/
 }
 
 static int
@@ -804,8 +732,10 @@ sort_compare (const void *data1, const void *data2)
 		f2.data = (unsigned char *)data2 + sort_keys[i].offset;
 		if (COB_FIELD_IS_NUMERIC(&f1)) {
 			cmp = cob_numeric_cmp (&f1, &f2);
+		}else if (COB_FIELD_IS_NATIONAL(&f1)) {
+			cmp = national_cmps (f1.data, f2.data, f1.size, sort_collate);
 		} else {
-			cmp = common_cmps (f1.data, f2.data, f1.size, sort_collate);
+			cmp = alnum_cmps (f1.data, f2.data, f1.size, sort_collate);
 		}
 		if (cmp != 0) {
 			return (sort_keys[i].flag == COB_ASCENDING) ? cmp : -cmp;
