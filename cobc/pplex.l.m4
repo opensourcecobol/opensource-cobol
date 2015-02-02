@@ -78,9 +78,12 @@ static int	compile_directive_depth = -1;
 
 static struct cb_replace_list	*current_replace_list = NULL;
 
+static struct cb_replace_list	*current_copy_replace_list = NULL;
+
 static struct cb_joining_ext	*current_joining_ext = NULL;
 
-static struct cb_text_list	*text_queue = NULL;
+static struct cb_text_list	*text_queue1 = NULL; /* for COPY REPLACING */
+static struct cb_text_list	*text_queue2 = NULL; /* for REPLACE */
 
 static struct copy_info {
 	struct copy_info	*next;
@@ -377,8 +380,9 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 		newline_count = 0;
 		inside_bracket = 0;
 		current_replace_list = NULL;
+		current_copy_replace_list = NULL;
 		current_joining_ext = NULL;
-		text_queue = NULL;
+		text_queue1 = text_queue2 = NULL;
 		copy_stack = NULL;
 		quotation_mark = 0;
 		consecutive_quotation = 0;
@@ -392,7 +396,7 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
 
 	/* Switch to the last buffer */
 	if (p->replacing) {
-		pp_set_replace_list (NULL);
+		pp_set_copy_replace_list (NULL);
 	}
 	if (p->joining) {
 		pp_set_joining_ext (NULL);
@@ -410,6 +414,12 @@ void
 pp_set_replace_list (struct cb_replace_list *list)
 {
 	current_replace_list = list;
+}
+
+void
+pp_set_copy_replace_list (struct cb_replace_list *list)
+{
+	current_copy_replace_list = list;
 }
 
 void
@@ -547,7 +557,7 @@ ppopen (const char *name, struct cb_joining_ext *joining_ext, struct cb_replace_
 
 	/* Switch to new buffer */
 	if (replace_list) {
-		pp_set_replace_list (replace_list);
+		pp_set_copy_replace_list (replace_list);
 	}
 	if (joining_ext) {
 		pp_set_joining_ext (joining_ext);
@@ -1190,29 +1200,32 @@ start:
 }
 
 static void
-ppecho (const char *text)
-{
+ppecho_0 (const char			*text,
+	  struct cb_text_list		**pqueue,
+	  struct cb_replace_list	**preplace,
+	  void (ppecho_proc)(const char *)) {
+
 	struct cb_replace_list	*r;
 	struct cb_text_list	*l;
 	struct cb_text_list	*queue;
 
 	if (suppress_echo) {
 		/* generate no output */
-	} else if (text_queue == NULL && (text[0] == ' ' || text[0] == '\n')) {
-		fputs (text, ppout);
-	} else if (!current_replace_list) {
-		for (; text_queue; text_queue = text_queue->next) {
-			fputs (text_queue->text, ppout);
+	} else if (*pqueue == NULL && (text[0] == ' ' || text[0] == '\n')) {
+		ppecho_proc (text);
+	} else if (!*preplace) {
+		for (; *pqueue; *pqueue = (*pqueue)->next) {
+			ppecho_proc ((*pqueue)->text);
 		}
-		fputs (text, ppout);
+		ppecho_proc (text);
 	} else {
 		/* Do replacement */
 
-		text_queue = cb_text_list_add (text_queue, text);
+		*pqueue = cb_text_list_add (*pqueue, text);
 
-		while (text_queue) {
-			for (r = current_replace_list; r; r = r->next) {
-				queue = text_queue;
+		while (*pqueue) {
+			for (r = *preplace; r; r = r->next) {
+				queue = *pqueue;
 				for (l = r->old_text; l; l = l->next) {
 					while (l && (l->text[0] == ' ' || l->text[0] == '\n')) {
 						l = l->next;
@@ -1261,23 +1274,23 @@ ppecho (const char *text)
 			/* match */
 			if (r && r->replace_type == CB_REPLACE_LEADING) {
 				int oldlen = strlen (l->text);
-				for (l = text_queue; l != queue; l = l->next) {
-					fputs (l->text, ppout);
+				for (l = *pqueue; l != queue; l = l->next) {
+					ppecho_proc (l->text);
 				}
 				l = r->new_text;
 				while (l && (l->text[0] == ' ' || l->text[0] == '\n')) {
 					l = l->next;
 				}
 				if (l) {
-					fputs (l->text, ppout);
+					ppecho_proc (l->text);
 				}
-				fputs (queue->text + oldlen, ppout);
+				ppecho_proc (queue->text + oldlen);
 				queue = queue->next;
 			} else if (r && r->replace_type == CB_REPLACE_TRAILING) {
 				int i;
 				int oldlen = strlen (l->text);
-				for (l = text_queue; l != queue; l = l->next) {
-					fputs (l->text, ppout);
+				for (l = *pqueue; l != queue; l = l->next) {
+					ppecho_proc (l->text);
 				}
 				for (i = 0; i < strlen (queue->text) - oldlen; i++) {
 					fputc (queue->text[i], ppout);
@@ -1287,31 +1300,57 @@ ppecho (const char *text)
 					l = l->next;
 				}
 				if (l) {
-					fputs (l->text, ppout);
+					ppecho_proc (l->text);
 				}
 				queue = queue->next;
 			} else if (r && l == NULL) {
 				for (l = r->new_text; l; l = l->next) {
-					fputs (l->text, ppout);
+					ppecho_proc (l->text);
 				}
 			} else {
 				/* no match */
-				if (!text_queue) {
+				if (!*pqueue) {
 					break;
 				}
-				fputs (text_queue->text, ppout);
-				queue = text_queue->next;
+				ppecho_proc ((*pqueue)->text);
+				queue = (*pqueue)->next;
 			}
 
-			while (text_queue != queue) {
-				if (!text_queue) break;
+			while (*pqueue != queue) {
+				if (!*pqueue) break;
 
-				l = text_queue->next;
-				free (text_queue);
-				text_queue = l;
+				l = (*pqueue)->next;
+				free (*pqueue);
+				*pqueue = l;
 			}
 		}
 	}
+}
+
+static void
+ppecho_final (const char *text)
+{
+	fputs (text, ppout);
+}
+
+static void
+ppecho_2 (const char *text)
+{
+	/* process REPLACE */
+	ppecho_0 (text, &text_queue2, &current_replace_list, ppecho_final);
+}
+
+static void
+ppecho_1 (const char *text)
+{
+	/* process COPY REPLACING */
+	ppecho_0 (text, &text_queue1, &current_copy_replace_list, ppecho_2);
+}
+
+static void
+ppecho (const char *text)
+{
+	ppecho_1 (text);
 }
 
 void pp_set_current_division (int divno)
