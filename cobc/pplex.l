@@ -204,11 +204,7 @@ ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
   [,;]?({ZENSPC}|[ ])+	{ ppecho (" "); }
   {WORD}		{
 	BEGIN INITIAL;
-	if (!strcasecmp (yytext, "FILLER")) {
-		ppecho (yytext);
-	} else {
-		ppecho_dataname (yytext);
-	}
+	ppecho_dataname (yytext);
 	suppress_echo = 0;
 	if (cb_cobol68_copy_in_data_description) {
 		pplval.s = strdup (yytext);

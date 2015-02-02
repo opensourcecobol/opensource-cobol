@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opensource COBOL v1.3.2J\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2014-12-17 16:57+0900\n"
+"POT-Creation-Date: 2014-03-05 18:03+0900\n"
 "PO-Revision-Date: 2014-02-07 11:40+0900\n"
 "Last-Translator: Kazuyoshi Tanaka <kazuyoshi.tanaka.zs@hitachi-solutions."
 "com>\n"
@@ -814,8 +814,8 @@ msgstr "`%s' はレベル 01 か 77 でなければなりません"
 msgid "Wrong number of CALL parameters for '%s'"
 msgstr "CALL 文の引数の数が不当です `%s'"
 
-#: cobc/typeck.c:3597 cobc/typeck.c:3640 cobc/typeck.c:3662 cobc/typeck.c:6042
-#: cobc/typeck.c:6200 cobc/typeck.c:6271 cobc/typeck.c:7617
+#: cobc/typeck.c:3597 cobc/typeck.c:3640 cobc/typeck.c:3662 cobc/typeck.c:6035
+#: cobc/typeck.c:6193 cobc/typeck.c:6264 cobc/typeck.c:7610
 msgid "Operation not allowed on SORT files"
 msgstr "SORT ファイルには適用できない操作です"
 
@@ -973,129 +973,129 @@ msgstr "いくつかの桁は切り詰められます"
 msgid "Invalid NATIONAL string."
 msgstr "不当な各国語文字列"
 
-#: cobc/typeck.c:6208
+#: cobc/typeck.c:6201
 msgid "READ PREVIOUS only allowed for INDEXED SEQUENTIAL files"
 msgstr "READ PREVIOUS 指定は、INDEXED SEQUENTIAL ファイルでのみ有効です"
 
-#: cobc/typeck.c:6215
+#: cobc/typeck.c:6208
 msgid "KEY ignored with sequential READ"
 msgstr "順読み込みの READ であるため KEY は無視されます"
 
-#: cobc/typeck.c:6229 cobc/typeck.c:6800
+#: cobc/typeck.c:6222 cobc/typeck.c:6793
 msgid "Undefined compound keys"
 msgstr "未定義の複合キー"
 
-#: cobc/typeck.c:6259
+#: cobc/typeck.c:6252
 msgid "REWRITE requires a record name as subject"
 msgstr "REWRITE の作用対象にはレコード名を指定してください"
 
-#: cobc/typeck.c:6264
+#: cobc/typeck.c:6257
 msgid "REWRITE subject does not refer to a record name"
 msgstr "REWRITE の作用対象がレコード名を参照していません"
 
-#: cobc/typeck.c:6276 cobc/typeck.c:7622 cobc/parser.y:5552
+#: cobc/typeck.c:6269 cobc/typeck.c:7615 cobc/parser.y:5552
 msgid "INVALID KEY clause invalid with this file type"
 msgstr "このファイルタイプには INVALID KEY 句は指定できません"
 
-#: cobc/typeck.c:6279 cobc/typeck.c:7626 cobc/parser.y:5544
+#: cobc/typeck.c:6272 cobc/typeck.c:7619 cobc/parser.y:5544
 msgid "LOCK clause invalid with file LOCK AUTOMATIC"
 msgstr "LOCK AUTOMATIC のファイルにLOCK 句は指定できません"
 
-#: cobc/typeck.c:6311
+#: cobc/typeck.c:6304
 msgid "RELEASE requires a record name as subject"
 msgstr "RELEASE の作用対象にはレコード名を指定してください"
 
-#: cobc/typeck.c:6316
+#: cobc/typeck.c:6309
 msgid "RELEASE subject does not refer to a record name"
 msgstr "RELASE の作用対象がレコード名を参照していません"
 
-#: cobc/typeck.c:6323
+#: cobc/typeck.c:6316
 msgid "RELEASE not allowed on this record item"
 msgstr "この項目は RELEASE できません"
 
-#: cobc/typeck.c:6414
+#: cobc/typeck.c:6407
 #, c-format
 msgid "Undeclared key '%s'"
 msgstr "`%s' はキー宣言されていません"
 
-#: cobc/typeck.c:6418
+#: cobc/typeck.c:6411
 msgid "Invalid SEARCH ALL condition"
 msgstr "SEARCH ALL の条件式が不当です"
 
-#: cobc/typeck.c:6525
+#: cobc/typeck.c:6518
 msgid "The targets of SET must be either indexes or pointers"
 msgstr "SET 出来るのは 指標 か ポインタ だけです"
 
-#: cobc/typeck.c:6537 cobc/typeck.c:6541
+#: cobc/typeck.c:6530 cobc/typeck.c:6534
 msgid "SET targets must be PROGRAM-POINTER"
 msgstr "SET の作用対象にはPROGRAM-POINTERを指定してください"
 
-#: cobc/typeck.c:6555
+#: cobc/typeck.c:6548
 #, c-format
 msgid "The address of '%s' cannot be changed"
 msgstr "`%s' のアドレスは変更できません"
 
-#: cobc/typeck.c:6617 cobc/typeck.c:6622 cobc/typeck.c:6649 cobc/typeck.c:6654
+#: cobc/typeck.c:6610 cobc/typeck.c:6615 cobc/typeck.c:6642 cobc/typeck.c:6647
 msgid "Invalid SET statement"
 msgstr "不当な SET 文です"
 
-#: cobc/typeck.c:6658
+#: cobc/typeck.c:6651
 msgid "Field does not have FALSE clause"
 msgstr "項目は FALSE 節を持つことが出来ません"
 
-#: cobc/typeck.c:6692
+#: cobc/typeck.c:6685
 msgid "Invalid SORT filename"
 msgstr "不当な SORT ファイル名です"
 
-#: cobc/typeck.c:6708
+#: cobc/typeck.c:6701
 msgid "Table sort without keys not implemented yet"
 msgstr "キーなしの表ソートは未実装です"
 
-#: cobc/typeck.c:6732
+#: cobc/typeck.c:6725
 msgid "Invalid SORT USING parameter"
 msgstr "不当な SORT USING パラメタです"
 
-#: cobc/typeck.c:6757
+#: cobc/typeck.c:6750
 msgid "Invalid SORT GIVING parameter"
 msgstr "不当な SORT GIVING パラメタです"
 
-#: cobc/typeck.c:6932 cobc/typeck.c:6950 cobc/typeck.c:6971 cobc/typeck.c:6995
-#: cobc/typeck.c:7016 cobc/typeck.c:7044 cobc/typeck.c:7065 cobc/typeck.c:7110
-#: cobc/typeck.c:7138 cobc/typeck.c:7158 cobc/typeck.c:7293 cobc/typeck.c:7354
-#: cobc/typeck.c:7424 cobc/typeck.c:7488
+#: cobc/typeck.c:6925 cobc/typeck.c:6943 cobc/typeck.c:6964 cobc/typeck.c:6988
+#: cobc/typeck.c:7009 cobc/typeck.c:7037 cobc/typeck.c:7058 cobc/typeck.c:7103
+#: cobc/typeck.c:7131 cobc/typeck.c:7151 cobc/typeck.c:7286 cobc/typeck.c:7347
+#: cobc/typeck.c:7417 cobc/typeck.c:7481
 #, c-format
 msgid "%s  must be a non-comp type!"
 msgstr "`%s' 用途DISPLAY項目が必要です"
 
-#: cobc/typeck.c:6980 cobc/typeck.c:7004 cobc/typeck.c:7051 cobc/typeck.c:7079
-#: cobc/typeck.c:7118 cobc/typeck.c:7147 cobc/typeck.c:7171
+#: cobc/typeck.c:6973 cobc/typeck.c:6997 cobc/typeck.c:7044 cobc/typeck.c:7072
+#: cobc/typeck.c:7111 cobc/typeck.c:7140 cobc/typeck.c:7164
 #, c-format
 msgid "%s and %s and %s have not same national type!"
 msgstr "%s と %s と %s はすべて各国語項目が必要です"
 
-#: cobc/typeck.c:7077
+#: cobc/typeck.c:7070
 #, c-format
 msgid "%s and %s have not same national type!"
 msgstr "%s と %s は共に各国語項目が必要です"
 
-#: cobc/typeck.c:7535
+#: cobc/typeck.c:7528
 #, c-format
 msgid "%s must be national type!"
 msgstr "`%s' は各国語項目が必要です"
 
-#: cobc/typeck.c:7605
+#: cobc/typeck.c:7598
 msgid "WRITE requires a record name as subject"
 msgstr "WRITE の作用対象にはレコード名を指定してください"
 
-#: cobc/typeck.c:7610
+#: cobc/typeck.c:7603
 msgid "WRITE subject does not refer to a record name"
 msgstr "WRITE の作用対象がレコード名を参照していません"
 
-#: cobc/typeck.c:7629
+#: cobc/typeck.c:7622
 msgid "LOCK clause invalid here"
 msgstr "LOCK句は指定できません"
 
-#: cobc/typeck.c:7696
+#: cobc/typeck.c:7689
 msgid "Invalid mnemonic name"
 msgstr "不当な作成者語です"
 
@@ -1103,79 +1103,79 @@ msgstr "不当な作成者語です"
 msgid "PROCESS statement is ignored"
 msgstr "PROCESS 文は無視されます"
 
-#: cobc/pplex.l:514 cobc/pplex.l:590
+#: cobc/pplex.l:510 cobc/pplex.l:586
 #, c-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: cobc/pplex.l:655 cobc/pplex.l:715
+#: cobc/pplex.l:651 cobc/pplex.l:711
 msgid "Invalid directive - ignored"
 msgstr "不当なコンパイル指令 - 無視します"
 
-#: cobc/pplex.l:763
+#: cobc/pplex.l:759
 msgid "$IF is nested more than 10 times"
 msgstr "$IF文が10回以上ネストしています"
 
-#: cobc/pplex.l:769
+#: cobc/pplex.l:765
 msgid "Fatal error in $IF statement"
 msgstr "$IF文で致命的なエラー"
 
-#: cobc/pplex.l:774
+#: cobc/pplex.l:770
 msgid "Arguments not enough to $IF statemen"
 msgstr "$IF文の引数が足りません"
 
-#: cobc/pplex.l:790
+#: cobc/pplex.l:786
 msgid "Invalid argument $IF statemen"
 msgstr "$IF文に不正な引数があります"
 
-#: cobc/pplex.l:808
+#: cobc/pplex.l:804
 #, c-format
 msgid "%s is not a string"
 msgstr "`%s' 文字列ではありません"
 
-#: cobc/pplex.l:832
+#: cobc/pplex.l:828
 msgid "Fatal error in $ELSE statement"
 msgstr "$ELSE文で致命的なエラー"
 
-#: cobc/pplex.l:838
+#: cobc/pplex.l:834
 msgid "$IF has no defined before the $ELSE"
 msgstr "$ELSEに対応する$IFがありません"
 
-#: cobc/pplex.l:845
+#: cobc/pplex.l:841
 msgid "$ELSE has continued"
 msgstr "$ELSEが連続しています"
 
-#: cobc/pplex.l:855
+#: cobc/pplex.l:851
 msgid "Fatal error in $END statement"
 msgstr "$END文で致命的なエラー"
 
-#: cobc/pplex.l:861
+#: cobc/pplex.l:857
 msgid "$IF has no defined before the $END"
 msgstr "$ENDに対応する$IFがありません"
 
-#: cobc/pplex.l:879
+#: cobc/pplex.l:875
 msgid "Invalid $SET"
 msgstr "不当な$SET文です"
 
-#: cobc/pplex.l:884
+#: cobc/pplex.l:880
 msgid "Invalid $ statements"
 msgstr "不当な$文です"
 
-#: cobc/pplex.l:966
+#: cobc/pplex.l:962
 msgid "Line not terminated by a newline"
 msgstr "ファイルが改行で終わっていません"
 
-#: cobc/pplex.l:1044
+#: cobc/pplex.l:1040
 #, c-format
 msgid "Invalid indicator '%c' at column 7"
 msgstr "7 桁目が不当な指示子です `%c'"
 
-#: cobc/pplex.l:1087
+#: cobc/pplex.l:1083
 #, c-format
 msgid "Source text after column %d"
 msgstr "ソース行が %d 桁を越えています"
 
-#: cobc/pplex.l:1116 cobc/pplex.l:1126
+#: cobc/pplex.l:1112 cobc/pplex.l:1122
 msgid "Invalid line continuation"
 msgstr "不当な行連結です"
 
