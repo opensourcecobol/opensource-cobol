@@ -250,7 +250,7 @@ ivblock (const int ihandle, const off_t toffset, const off_t tlength, const int 
 			return 0;
 		}
 		winerrno = GetLastError();
-		if (winerrno = ERROR_NOT_LOCKED){
+		if (winerrno == ERROR_NOT_LOCKED){
 			//ALREADY UNLOCKED **SAME FCNTL**
 			return 0;
 		}
