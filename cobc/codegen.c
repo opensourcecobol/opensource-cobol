@@ -3006,6 +3006,12 @@ output_sort_proc (struct cb_sort_proc *p)
 	}
 	label_cache = l;
 	output_line ("frame_ptr->return_address = %d;", l->call_num);
+	output_prefix();
+	output("if (unlikely(*(int*)(");
+	output_param (p->sort_return, 0);
+	output (") != 0))\n");
+	output_prefix ();
+	output_line ("goto %s%d;", CB_PREFIX_LABEL, cb_id);
 	output_line ("goto %s%d;", CB_PREFIX_LABEL, lb->id);
 	output_line ("%s%d:", CB_PREFIX_LABEL, cb_id);
 #elif	COB_USE_SETJMP
