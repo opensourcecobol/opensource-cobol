@@ -144,7 +144,7 @@ isrelease (const int ihandle)
 }
 
 int
-isrelrec (const int ihandle, const off_t trownumber)
+isrelrec (const int ihandle, const vbisam_off_t trownumber)
 {
 	struct DICTINFO	*psvbptr;
 
@@ -192,7 +192,7 @@ renameexit:
 }
 
 int
-issetunique (const int ihandle, const off_t tuniqueid)
+issetunique (const int ihandle, const vbisam_off_t tuniqueid)
 {
 	struct DICTINFO *psvbptr;
 	off_t		tvalue;
@@ -223,7 +223,7 @@ issetunique (const int ihandle, const off_t tuniqueid)
 }
 
 int
-isuniqueid (const int ihandle, off_t *ptuniqueid)
+isuniqueid (const int ihandle, vbisam_off_t *ptuniqueid)
 {
 	struct DICTINFO *psvbptr;
 	off_t		tvalue;

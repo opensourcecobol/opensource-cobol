@@ -295,7 +295,7 @@ isrewcurr_exit:
 }
 
 int
-isrewrec (const int ihandle, const off_t trownumber, char *pcrow)
+isrewrec (const int ihandle, const vbisam_off_t trownumber, char *pcrow)
 {
 	struct DICTINFO	*psvbptr;
 	int		ideleted, inewreclen, ioldreclen = 0, iresult = 0;

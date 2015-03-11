@@ -201,6 +201,7 @@ ivblock (const int ihandle, const off_t toffset, const off_t tlength, const int 
 
 	OVERLAPPED	toverlapped;
 	DWORD		tflags = 0;
+	DWORD       winerrno = 0;
 	int		bunlock = 0;
 
 	if (!svbfile[ihandle].irefcount) {
@@ -246,6 +247,11 @@ ivblock (const int ihandle, const off_t toffset, const off_t tlength, const int 
 	} else {
 		if (UnlockFileEx (svbfile[ihandle].whandle, 0, (int)(tlength & 0xffffffff),
 			(int)(tlength >> 32), &toverlapped)) {
+			return 0;
+		}
+		winerrno = GetLastError();
+		if (winerrno == ERROR_NOT_LOCKED){
+			//ALREADY UNLOCKED **SAME FCNTL**
 			return 0;
 		}
 	}

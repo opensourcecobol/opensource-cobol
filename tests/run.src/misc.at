@@ -498,7 +498,7 @@ AT_DATA([caller.cob], [
 
 AT_CHECK([${COMPILE_MODULE} -c callee.cob])
 AT_CHECK([${COMPILE} -c caller.cob])
-AT_CHECK([${COMPILE} -o prog caller.o callee.o])
+AT_CHECK([${COMPILE} -o prog caller.${OBJEXT} callee.${OBJEXT}])
 AT_CHECK([./prog], [0], [OK])
 
 AT_CLEANUP
@@ -556,7 +556,9 @@ AT_CHECK([./caller], [0],
 
 AT_CLEANUP
 
-AT_SETUP([CALL binary literal parameter/LENGTH OF])
+AT_SETUP([CALL binary literal parameter/LENGTH OF - so])
+
+AT_CHECK([test $SHREXT != "dll" || exit 77])
 
 AT_DATA([test.conf], [
 include "default.conf"
@@ -565,6 +567,62 @@ binary-byteorder: native
 
 AT_DATA([dump.c], [
 #include <stdio.h>
+int dump (int *p)
+{
+  printf ("%8.8d\n", *p);
+  return 0;
+}
+])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01  MYOCC        PIC 9(8) COMP.
+       01  MYTAB.
+           03  MYBYTE   PIC X OCCURS 1 TO 20
+                        DEPENDING ON MYOCC.
+       PROCEDURE        DIVISION.
+           MOVE 9 TO MYOCC.
+           CALL "dump" USING BY CONTENT 1
+           END-CALL.
+           CALL "dump" USING BY CONTENT LENGTH OF MYTAB
+           END-CALL.
+           CALL "dump" USING BY CONTENT LENGTH OF MYOCC
+           END-CALL.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} dump.c])
+AT_CHECK([${COMPILE} -o prog prog.cob])
+AT_CHECK([./prog], [0],
+[00000001
+00000009
+00000004
+])
+AT_CHECK([${COMPILE} -conf=test.conf -o prog prog.cob])
+AT_CHECK([./prog], [0],
+[00000001
+00000009
+00000004
+])
+
+AT_CLEANUP
+
+AT_SETUP([CALL binary literal parameter/LENGTH OF - DLL])
+
+AT_CHECK([test $SHREXT = "dll" || exit 77])
+
+AT_DATA([test.conf], [
+include "default.conf"
+binary-byteorder: native
+])
+
+AT_DATA([dump.c], [
+#include <stdio.h>
+#define DllExport __declspec (dllexport)
+DllExport int dump ();
 int dump (int *p)
 {
   printf ("%8.8d\n", *p);

@@ -356,12 +356,60 @@ AT_CLEANUP
 
 ## CALL
 
-AT_SETUP([CALL USING file-name])
+AT_SETUP([CALL USING file-name - so])
+
+AT_CHECK([test $SHREXT != "dll" || exit 77])
 
 AT_DATA([setfilename.c], [
 #include <stdio.h>
 #include <string.h>
 #include <libcob.h>
+int setfilename (cob_file *f, unsigned char *name)
+{
+  memcpy (f->assign->data, name, strlen ((char *)name));
+  return 0;
+}
+])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN FILENAME.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-REC      PIC X(4).
+       WORKING-STORAGE  SECTION.
+       01 FILENAME      PIC X(8).
+       PROCEDURE        DIVISION.
+           INITIALIZE FILENAME.
+           CALL "setfilename" USING TEST-FILE "TESTFILE"
+           END-CALL.
+           OPEN OUTPUT TEST-FILE.
+           CLOSE TEST-FILE.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_MODULE} setfilename.c])
+AT_CHECK([${COMPILE} -o prog prog.cob])
+AT_CHECK([./prog], [0])
+AT_CHECK([test -e TESTFILE], [0])
+
+AT_CLEANUP
+
+AT_SETUP([CALL USING file-name - dll])
+
+AT_CHECK([test $SHREXT = "dll" || exit 77])
+
+AT_DATA([setfilename.c], [
+#include <stdio.h>
+#include <string.h>
+#include <libcob.h>
+#define DllExport __declspec (dllexport)
+DllExport int setfilename ();
 int setfilename (cob_file *f, unsigned char *name)
 {
   memcpy (f->assign->data, name, strlen ((char *)name));
