@@ -56,6 +56,8 @@
 #define COB_SCREEN_UPDATE	0x00100000
 #define COB_SCREEN_INPUT	0x00200000
 #define COB_SCREEN_SCROLL_DOWN	0x00400000
+#define COB_SCREEN_RIGHTLINE	0x00800000
+#define COB_SCREEN_LEFTLINE	0x01000000
 
 #define COB_SCREEN_TYPE_GROUP		0
 #define COB_SCREEN_TYPE_FIELD		1
@@ -91,5 +93,11 @@ COB_EXPIMP void cob_field_display	(cob_field *, cob_field *, cob_field *,
 COB_EXPIMP void cob_field_accept	(cob_field *, cob_field *, cob_field *,
 				 cob_field *, cob_field *, cob_field *,
 				 const int);
+COB_EXPIMP int CBL_OC_KEISEN		(unsigned char *, unsigned char *,
+				 unsigned char *, unsigned char *, unsigned char *,
+				 unsigned char *, unsigned char *);
+COB_EXPIMP int CBL_OC_ATTRIBUTE		(unsigned char *, unsigned char *,
+				 unsigned char *, unsigned char *, unsigned char *,
+				 unsigned char *, unsigned char *);
 
 #endif /* COB_SCREENIO_H */
