@@ -1553,9 +1553,12 @@ static int	compile_directive_depth = -1;
 
 static struct cb_replace_list	*current_replace_list = NULL;
 
+static struct cb_replace_list	*current_copy_replace_list = NULL;
+
 static struct cb_joining_ext	*current_joining_ext = NULL;
 
-static struct cb_text_list	*text_queue = NULL;
+static struct cb_text_list	*text_queue1 = NULL; /* for COPY REPLACING */
+static struct cb_text_list	*text_queue2 = NULL; /* for REPLACE */
 
 static struct copy_info {
 	struct copy_info	*next;
@@ -1582,7 +1585,7 @@ static void switch_to_buffer (const int lineno, const char *filename,
 			      YY_BUFFER_STATE buffer);
 
 
-#line 1586 "pplex.c"
+#line 1589 "pplex.c"
 
 #define INITIAL 0
 #define PROCESS_STATE 1
@@ -1763,13 +1766,13 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 122 "pplex.l"
+#line 125 "pplex.l"
 
 
 
 
 
-#line 1773 "pplex.c"
+#line 1776 "pplex.c"
 
 	if ( !(yy_init) )
 		{
@@ -1851,204 +1854,204 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 127 "pplex.l"
+#line 130 "pplex.l"
 {
 	ppecho (" ");
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 131 "pplex.l"
+#line 134 "pplex.l"
 { ppecho ("IDENTIFICATION DIVISION."); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 132 "pplex.l"
+#line 135 "pplex.l"
 { ppecho ("ID DIVISION."); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 133 "pplex.l"
+#line 136 "pplex.l"
 { ppecho ("FUNCTION DIVISION."); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 134 "pplex.l"
+#line 137 "pplex.l"
 { ppecho (pptext); return PROGRAM_ID; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 135 "pplex.l"
+#line 138 "pplex.l"
 { ppecho (pptext); return FUNCTION_ID; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 136 "pplex.l"
+#line 139 "pplex.l"
 { ppecho ("ENVIRONMENT DIVISION"); return ENVIRONMENT_DIVISION; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 137 "pplex.l"
+#line 140 "pplex.l"
 { ppecho ("DATA DIVISION"); return DATA_DIVISION; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 138 "pplex.l"
+#line 141 "pplex.l"
 { ppecho ("PROCEDURE DIVISION"); return PROCEDURE_DIVISION; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 139 "pplex.l"
+#line 142 "pplex.l"
 { ppecho ("END PROGRAM"); return END_PROGRAM; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 140 "pplex.l"
+#line 143 "pplex.l"
 { ppecho ("END FUNCTION"); return END_FUNCTION; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 142 "pplex.l"
+#line 145 "pplex.l"
 { BEGIN PROCESS_STATE; }
 	YY_BREAK
 
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 145 "pplex.l"
+#line 148 "pplex.l"
 { BEGIN INITIAL; unput ('\n'); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 146 "pplex.l"
+#line 149 "pplex.l"
 { cb_warning (_("PROCESS statement is ignored")); }
 	YY_BREAK
 
 case 15:
 YY_RULE_SETUP
-#line 149 "pplex.l"
+#line 152 "pplex.l"
 { BEGIN COPY_STATE; return COPY; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 150 "pplex.l"
+#line 153 "pplex.l"
 { BEGIN COPY_STATE; return COPY; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 151 "pplex.l"
+#line 154 "pplex.l"
 { BEGIN COPY_STATE; return REPLACE; }
 	YY_BREAK
 
 case 18:
 /* rule 18 can match eol */
 YY_RULE_SETUP
-#line 154 "pplex.l"
+#line 157 "pplex.l"
 { ECHO; cb_source_line++; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 155 "pplex.l"
+#line 158 "pplex.l"
 { /* ignore */ }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 156 "pplex.l"
+#line 159 "pplex.l"
 { BEGIN INITIAL; return '.'; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 157 "pplex.l"
+#line 160 "pplex.l"
 { BEGIN PSEUDO_STATE; return EQEQ; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 158 "pplex.l"
+#line 161 "pplex.l"
 { return '('; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 159 "pplex.l"
+#line 162 "pplex.l"
 { return ')'; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 160 "pplex.l"
+#line 163 "pplex.l"
 { return BY; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 161 "pplex.l"
+#line 164 "pplex.l"
 { return IN; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 162 "pplex.l"
+#line 165 "pplex.l"
 { return OF; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 163 "pplex.l"
+#line 166 "pplex.l"
 { return OFF; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 164 "pplex.l"
+#line 167 "pplex.l"
 { return SUPPRESS; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 165 "pplex.l"
+#line 168 "pplex.l"
 { return PRINTING; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 166 "pplex.l"
+#line 169 "pplex.l"
 { return REPLACING; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 167 "pplex.l"
+#line 170 "pplex.l"
 { return LEADING; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 168 "pplex.l"
+#line 171 "pplex.l"
 { return TRAILING; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 169 "pplex.l"
+#line 172 "pplex.l"
 { return JOINING; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 170 "pplex.l"
+#line 173 "pplex.l"
 { return AS; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 171 "pplex.l"
+#line 174 "pplex.l"
 { return PREFIX; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 172 "pplex.l"
+#line 175 "pplex.l"
 { return SUFFIX; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 173 "pplex.l"
+#line 176 "pplex.l"
 { return PREFIXING; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 174 "pplex.l"
+#line 177 "pplex.l"
 { return SUFFIXING; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 175 "pplex.l"
+#line 178 "pplex.l"
 {
 #ifdef	I18N_UTF8
 			  convert_ucs_hyphen_minus (pptext);
@@ -2056,12 +2059,12 @@ YY_RULE_SETUP
 			  pplval.s = strdup (pptext); return TOKEN; }
 	YY_BREAK
 case 40:
-#line 181 "pplex.l"
+#line 184 "pplex.l"
 case 41:
-#line 182 "pplex.l"
+#line 185 "pplex.l"
 case 42:
 YY_RULE_SETUP
-#line 182 "pplex.l"
+#line 185 "pplex.l"
 { pplval.s = strdup (pptext); return TOKEN; }
 	YY_BREAK
 
@@ -2069,22 +2072,22 @@ YY_RULE_SETUP
 case 43:
 /* rule 43 can match eol */
 YY_RULE_SETUP
-#line 186 "pplex.l"
+#line 189 "pplex.l"
 { ECHO; cb_source_line++; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 187 "pplex.l"
+#line 190 "pplex.l"
 { pplval.s = strdup (" "); return TOKEN; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 188 "pplex.l"
+#line 191 "pplex.l"
 { BEGIN COPY_STATE; return EQEQ; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 189 "pplex.l"
+#line 192 "pplex.l"
 {
 #ifdef	I18N_UTF8
 			  convert_ucs_hyphen_minus (pptext);
@@ -2092,45 +2095,45 @@ YY_RULE_SETUP
 			  pplval.s = strdup (pptext); return TOKEN; }
 	YY_BREAK
 case 47:
-#line 195 "pplex.l"
+#line 198 "pplex.l"
 case 48:
-#line 196 "pplex.l"
+#line 199 "pplex.l"
 case 49:
 YY_RULE_SETUP
-#line 196 "pplex.l"
+#line 199 "pplex.l"
 { pplval.s = strdup (pptext); return TOKEN; }
 	YY_BREAK
 
 
 case 50:
 YY_RULE_SETUP
-#line 200 "pplex.l"
+#line 203 "pplex.l"
 { suppress_echo = 0; BEGIN COPY_STATE; return COPY; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 201 "pplex.l"
+#line 204 "pplex.l"
 { suppress_echo = 0; BEGIN COPY_STATE; return COPY; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 202 "pplex.l"
+#line 205 "pplex.l"
 { suppress_echo = 0; BEGIN COPY_STATE; return REPLACE; }
 	YY_BREAK
 case 53:
 /* rule 53 can match eol */
 YY_RULE_SETUP
-#line 203 "pplex.l"
+#line 206 "pplex.l"
 { ECHO; cb_source_line++; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 204 "pplex.l"
+#line 207 "pplex.l"
 { ppecho (" "); }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 205 "pplex.l"
+#line 208 "pplex.l"
 {
 	BEGIN INITIAL;
 	ppecho_dataname (pptext);
@@ -2142,18 +2145,18 @@ YY_RULE_SETUP
   }
 	YY_BREAK
 case 56:
-#line 215 "pplex.l"
+#line 218 "pplex.l"
 case 57:
-#line 216 "pplex.l"
+#line 219 "pplex.l"
 case 58:
 YY_RULE_SETUP
-#line 216 "pplex.l"
+#line 219 "pplex.l"
 { suppress_echo = 0; BEGIN INITIAL; ppecho (pptext); }
 	YY_BREAK
 
 case 59:
 YY_RULE_SETUP
-#line 219 "pplex.l"
+#line 222 "pplex.l"
 {
 	suppress_echo = (omit_data_redef_name) ? 1 : 0;
 	ppecho (pptext);
@@ -2164,20 +2167,20 @@ YY_RULE_SETUP
 }
 	YY_BREAK
 case 60:
-#line 229 "pplex.l"
-case 61:
-#line 230 "pplex.l"
-case 62:
-#line 231 "pplex.l"
-case 63:
 #line 232 "pplex.l"
-case 64:
+case 61:
 #line 233 "pplex.l"
-case 65:
+case 62:
 #line 234 "pplex.l"
+case 63:
+#line 235 "pplex.l"
+case 64:
+#line 236 "pplex.l"
+case 65:
+#line 237 "pplex.l"
 case 66:
 YY_RULE_SETUP
-#line 234 "pplex.l"
+#line 237 "pplex.l"
 {
 	/* these words are treated as comments */
 	if (cb_verify (cb_author_paragraph, pptext)) {
@@ -2195,14 +2198,14 @@ YY_RULE_SETUP
 }
 	YY_BREAK
 case 67:
-#line 251 "pplex.l"
+#line 254 "pplex.l"
 case 68:
-#line 252 "pplex.l"
+#line 255 "pplex.l"
 case 69:
-#line 253 "pplex.l"
+#line 256 "pplex.l"
 case 70:
 YY_RULE_SETUP
-#line 253 "pplex.l"
+#line 256 "pplex.l"
 {
 	/* these words are comments in IBM COBOL */
 	if (cb_verify (cb_eject_statement, pptext)) {
@@ -2215,17 +2218,17 @@ YY_RULE_SETUP
 case 71:
 /* rule 71 can match eol */
 YY_RULE_SETUP
-#line 262 "pplex.l"
+#line 265 "pplex.l"
 { ppecho ("\n"); cb_source_line++; }
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 264 "pplex.l"
+#line 267 "pplex.l"
 { ppecho (" "); }
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 266 "pplex.l"
+#line 269 "pplex.l"
 {
 	if (inside_bracket) {
 		ppecho (", ");
@@ -2236,7 +2239,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 274 "pplex.l"
+#line 277 "pplex.l"
 {
 	inside_bracket++;
 	ppecho ("(");
@@ -2244,7 +2247,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 279 "pplex.l"
+#line 282 "pplex.l"
 {
 	if (inside_bracket) {
 		inside_bracket--;
@@ -2254,50 +2257,50 @@ YY_RULE_SETUP
 	YY_BREAK
 case 76:
 /* rule 76 can match eol */
-#line 287 "pplex.l"
+#line 290 "pplex.l"
 case 77:
 /* rule 77 can match eol */
-#line 288 "pplex.l"
+#line 291 "pplex.l"
 case 78:
 /* rule 78 can match eol */
-#line 289 "pplex.l"
+#line 292 "pplex.l"
 case 79:
 /* rule 79 can match eol */
-#line 290 "pplex.l"
+#line 293 "pplex.l"
 case 80:
 /* rule 80 can match eol */
-#line 291 "pplex.l"
+#line 294 "pplex.l"
 case 81:
 /* rule 81 can match eol */
-#line 292 "pplex.l"
+#line 295 "pplex.l"
 case 82:
 /* rule 82 can match eol */
-#line 293 "pplex.l"
+#line 296 "pplex.l"
 case 83:
 /* rule 83 can match eol */
-#line 294 "pplex.l"
+#line 297 "pplex.l"
 case 84:
 /* rule 84 can match eol */
-#line 295 "pplex.l"
+#line 298 "pplex.l"
 case 85:
 /* rule 85 can match eol */
-#line 296 "pplex.l"
+#line 299 "pplex.l"
 case 86:
 /* rule 86 can match eol */
-#line 297 "pplex.l"
+#line 300 "pplex.l"
 case 87:
 /* rule 87 can match eol */
-#line 298 "pplex.l"
+#line 301 "pplex.l"
 case 88:
 /* rule 88 can match eol */
-#line 299 "pplex.l"
+#line 302 "pplex.l"
 case 89:
 /* rule 89 can match eol */
-#line 300 "pplex.l"
+#line 303 "pplex.l"
 case 90:
 /* rule 90 can match eol */
 YY_RULE_SETUP
-#line 300 "pplex.l"
+#line 303 "pplex.l"
 {
 	/* each numeric is not a level-number */
 	char *p, *pcrnt;
@@ -2322,7 +2325,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 322 "pplex.l"
+#line 325 "pplex.l"
 {
 	char *p = pptext;
 	cobc_mbspc2ascii (pptext);
@@ -2341,7 +2344,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 338 "pplex.l"
+#line 341 "pplex.l"
 {
 	ppecho (pptext);
 	return pptext[0];
@@ -2349,7 +2352,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 343 "pplex.l"
+#line 346 "pplex.l"
 {
 #ifdef	I18N_UTF8
 			  convert_ucs_hyphen_minus (pptext);
@@ -2357,12 +2360,12 @@ YY_RULE_SETUP
 			  ppecho (pptext); }
 	YY_BREAK
 case 94:
-#line 349 "pplex.l"
+#line 352 "pplex.l"
 case 95:
-#line 350 "pplex.l"
+#line 353 "pplex.l"
 case 96:
 YY_RULE_SETUP
-#line 350 "pplex.l"
+#line 353 "pplex.l"
 { ppecho (pptext); }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
@@ -2370,7 +2373,7 @@ case YY_STATE_EOF(PROCESS_STATE):
 case YY_STATE_EOF(COPY_STATE):
 case YY_STATE_EOF(PSEUDO_STATE):
 case YY_STATE_EOF(DATANAME_JOIN_STATE):
-#line 352 "pplex.l"
+#line 355 "pplex.l"
 {
 	struct copy_info *p;
 
@@ -2384,8 +2387,9 @@ case YY_STATE_EOF(DATANAME_JOIN_STATE):
 		newline_count = 0;
 		inside_bracket = 0;
 		current_replace_list = NULL;
+		current_copy_replace_list = NULL;
 		current_joining_ext = NULL;
-		text_queue = NULL;
+		text_queue1 = text_queue2 = NULL;
 		copy_stack = NULL;
 		quotation_mark = 0;
 		consecutive_quotation = 0;
@@ -2399,7 +2403,7 @@ case YY_STATE_EOF(DATANAME_JOIN_STATE):
 
 	/* Switch to the last buffer */
 	if (p->replacing) {
-		pp_set_replace_list (NULL);
+		pp_set_copy_replace_list (NULL);
 	}
 	if (p->joining) {
 		pp_set_joining_ext (NULL);
@@ -2413,10 +2417,10 @@ case YY_STATE_EOF(DATANAME_JOIN_STATE):
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
-#line 392 "pplex.l"
+#line 396 "pplex.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 2420 "pplex.c"
+#line 2424 "pplex.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -3412,7 +3416,7 @@ void ppfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 392 "pplex.l"
+#line 396 "pplex.l"
 
 
 
@@ -3420,6 +3424,12 @@ void
 pp_set_replace_list (struct cb_replace_list *list)
 {
 	current_replace_list = list;
+}
+
+void
+pp_set_copy_replace_list (struct cb_replace_list *list)
+{
+	current_copy_replace_list = list;
 }
 
 void
@@ -3557,7 +3567,7 @@ ppopen (const char *name, struct cb_joining_ext *joining_ext, struct cb_replace_
 
 	/* Switch to new buffer */
 	if (replace_list) {
-		pp_set_replace_list (replace_list);
+		pp_set_copy_replace_list (replace_list);
 	}
 	if (joining_ext) {
 		pp_set_joining_ext (joining_ext);
@@ -4200,29 +4210,32 @@ start:
 }
 
 static void
-ppecho (const char *text)
-{
+ppecho_0 (const char			*text,
+	  struct cb_text_list		**pqueue,
+	  struct cb_replace_list	**preplace,
+	  void (ppecho_proc)(const char *)) {
+
 	struct cb_replace_list	*r;
 	struct cb_text_list	*l;
 	struct cb_text_list	*queue;
 
 	if (suppress_echo) {
 		/* generate no output */
-	} else if (text_queue == NULL && (text[0] == ' ' || text[0] == '\n')) {
-		fputs (text, ppout);
-	} else if (!current_replace_list) {
-		for (; text_queue; text_queue = text_queue->next) {
-			fputs (text_queue->text, ppout);
+	} else if (*pqueue == NULL && (text[0] == ' ' || text[0] == '\n')) {
+		ppecho_proc (text);
+	} else if (!*preplace) {
+		for (; *pqueue; *pqueue = (*pqueue)->next) {
+			ppecho_proc ((*pqueue)->text);
 		}
-		fputs (text, ppout);
+		ppecho_proc (text);
 	} else {
 		/* Do replacement */
 
-		text_queue = cb_text_list_add (text_queue, text);
+		*pqueue = cb_text_list_add (*pqueue, text);
 
-		while (text_queue) {
-			for (r = current_replace_list; r; r = r->next) {
-				queue = text_queue;
+		while (*pqueue) {
+			for (r = *preplace; r; r = r->next) {
+				queue = *pqueue;
 				for (l = r->old_text; l; l = l->next) {
 					while (l && (l->text[0] == ' ' || l->text[0] == '\n')) {
 						l = l->next;
@@ -4271,23 +4284,23 @@ ppecho (const char *text)
 			/* match */
 			if (r && r->replace_type == CB_REPLACE_LEADING) {
 				int oldlen = strlen (l->text);
-				for (l = text_queue; l != queue; l = l->next) {
-					fputs (l->text, ppout);
+				for (l = *pqueue; l != queue; l = l->next) {
+					ppecho_proc (l->text);
 				}
 				l = r->new_text;
 				while (l && (l->text[0] == ' ' || l->text[0] == '\n')) {
 					l = l->next;
 				}
 				if (l) {
-					fputs (l->text, ppout);
+					ppecho_proc (l->text);
 				}
-				fputs (queue->text + oldlen, ppout);
+				ppecho_proc (queue->text + oldlen);
 				queue = queue->next;
 			} else if (r && r->replace_type == CB_REPLACE_TRAILING) {
 				int i;
 				int oldlen = strlen (l->text);
-				for (l = text_queue; l != queue; l = l->next) {
-					fputs (l->text, ppout);
+				for (l = *pqueue; l != queue; l = l->next) {
+					ppecho_proc (l->text);
 				}
 				for (i = 0; i < strlen (queue->text) - oldlen; i++) {
 					fputc (queue->text[i], ppout);
@@ -4297,31 +4310,57 @@ ppecho (const char *text)
 					l = l->next;
 				}
 				if (l) {
-					fputs (l->text, ppout);
+					ppecho_proc (l->text);
 				}
 				queue = queue->next;
 			} else if (r && l == NULL) {
 				for (l = r->new_text; l; l = l->next) {
-					fputs (l->text, ppout);
+					ppecho_proc (l->text);
 				}
 			} else {
 				/* no match */
-				if (!text_queue) {
+				if (!*pqueue) {
 					break;
 				}
-				fputs (text_queue->text, ppout);
-				queue = text_queue->next;
+				ppecho_proc ((*pqueue)->text);
+				queue = (*pqueue)->next;
 			}
 
-			while (text_queue != queue) {
-				if (!text_queue) break;
+			while (*pqueue != queue) {
+				if (!*pqueue) break;
 
-				l = text_queue->next;
-				free (text_queue);
-				text_queue = l;
+				l = (*pqueue)->next;
+				free (*pqueue);
+				*pqueue = l;
 			}
 		}
 	}
+}
+
+static void
+ppecho_final (const char *text)
+{
+	fputs (text, ppout);
+}
+
+static void
+ppecho_2 (const char *text)
+{
+	/* process REPLACE */
+	ppecho_0 (text, &text_queue2, &current_replace_list, ppecho_final);
+}
+
+static void
+ppecho_1 (const char *text)
+{
+	/* process COPY REPLACING */
+	ppecho_0 (text, &text_queue1, &current_copy_replace_list, ppecho_2);
+}
+
+static void
+ppecho (const char *text)
+{
+	ppecho_1 (text);
 }
 
 void pp_set_current_division (int divno)
