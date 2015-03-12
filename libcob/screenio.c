@@ -584,31 +584,33 @@ cob_screen_puts (cob_screen *s, cob_field *f)
 	refresh ();
 }
 
-int
-cob_is_sjis_multibyte(unsigned char c){
+static int
+cob_is_sjis_multibyte (unsigned char c)
+{
 #ifdef PDC_SJIS_SUPPORT
-	if ((c >= 0x81 && c <= 0x9f) || (c >= 0xe0 && c <= 0xfc)){
+	if ((c >= 0x81 && c <= 0x9f) || (c >= 0xe0 && c <= 0xfc)) {
 		return 1;
 	}
 #endif
 	return 0;
 }
 
-int
-cob_is_sjis_multibyte_at_cursor(unsigned char *data, int current, int checktype){
-	int i;
+static int
+cob_is_sjis_multibyte_at_cursor (unsigned char *data, int current, int checktype)
+{
 	int flag_multibyte = FALSE;
 #ifdef PDC_SJIS_SUPPORT
-	if (checktype == COB_CHECK_BEFORE){
+	int i;
+
+	if (checktype == COB_CHECK_BEFORE) {
 		current--;
 	}
 
-	for (i = 0; i <= current; i++){
-		if (cob_is_sjis_multibyte(data[i])){
+	for (i = 0; i <= current; i++) {
+		if (cob_is_sjis_multibyte(data[i])) {
 			i++;
 			flag_multibyte = TRUE;
-		}
-		else{
+		} else {
 			flag_multibyte = FALSE;
 		}
 	}
