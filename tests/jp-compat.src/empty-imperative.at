@@ -43,7 +43,7 @@ AT_CHECK([./prog], [0], [OK])
 
 AT_CLEANUP
 
-AT_SETUP([[Empty IF by unsupported stmt (issue #75)]])
+AT_SETUP([Empty IF by unsupported stmt])
 
 AT_DATA([prog.cob], [
        IDENTIFICATION        DIVISION.
