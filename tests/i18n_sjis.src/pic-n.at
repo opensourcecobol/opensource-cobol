@@ -95,6 +95,64 @@ AT_CHECK([./prog], [0], [Å@Å@ì˙ñ{åÍÇÃï∂éöóÒ])
 
 AT_CLEANUP
 
+AT_SETUP([PIC N EDITED w/ VALUE])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC NN/NNBNN0 VALUE 'ì˙ñ{Å^íÜçëÅ@ï∂éöÇO'.
+       PROCEDURE        DIVISION.
+           DISPLAY F0 WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [0])
+AT_CHECK([./prog], [0], [ì˙ñ{Å^íÜçëÅ@ï∂éöÇO])
+
+AT_CLEANUP
+
+AT_SETUP([INITIALIZE PIC N EDITED])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC NN/NNBNN0 VALUE 'ì˙ñ{Å^íÜçëÅ@ï∂éöÇO'.
+       PROCEDURE        DIVISION.
+           MOVE "ètâƒèHì~ä¶íg" TO F0.
+           INITIALIZE F0.
+           DISPLAY F0 WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [0])
+AT_CHECK([./prog], [0], [Å@Å@Å^Å@Å@Å@Å@Å@ÇO])
+
+AT_CLEANUP
+
+AT_SETUP([INITIALIZE PIC N EDITED TO VALUE])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC NN/NNBNN0 VALUE 'ì˙ñ{Å^íÜçëÅ@ï∂éöÇO'.
+       PROCEDURE        DIVISION.
+           MOVE "ètâƒèHì~ä¶íg" TO F0.
+           INITIALIZE F0 NATIONAL TO VALUE.
+           DISPLAY F0 WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [0])
+AT_CHECK([./prog], [0], [ì˙ñ{Å^íÜçëÅ@ï∂éöÇO])
+
+AT_CLEANUP
+
 AT_SETUP([PIC N Move to NATIONAL EDITED])
 
 AT_DATA([prog.cob], [

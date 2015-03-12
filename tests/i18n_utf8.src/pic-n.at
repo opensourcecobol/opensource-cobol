@@ -172,6 +172,64 @@ AT_CHECK([./prog], [0], [    α])
 
 AT_CLEANUP
 
+AT_SETUP([PIC N EDITED w/ VALUE])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC NN/NNBNN0 VALUE '日本／中国　文字０'.
+       PROCEDURE        DIVISION.
+           DISPLAY F0 WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [0])
+AT_CHECK([./prog], [0], [日本／中国　文字０])
+
+AT_CLEANUP
+
+AT_SETUP([INITIALIZE PIC N EDITED])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC NN/NNBNN0 VALUE '日本／中国　文字０'.
+       PROCEDURE        DIVISION.
+           MOVE "春夏秋冬寒暖" TO F0.
+           INITIALIZE F0.
+           DISPLAY F0 WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [0])
+AT_CHECK([./prog], [0], [      ／      　      ０])
+
+AT_CLEANUP
+
+AT_SETUP([INITIALIZE PIC N EDITED TO VALUE])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC NN/NNBNN0 VALUE '日本／中国　文字０'.
+       PROCEDURE        DIVISION.
+           MOVE "春夏秋冬寒暖" TO F0.
+           INITIALIZE F0 NATIONAL TO VALUE.
+           DISPLAY F0 WITH NO ADVANCING.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [0])
+AT_CHECK([./prog], [0], [日本／中国　文字０])
+
+AT_CLEANUP
+
 AT_SETUP([PIC N Move to NATIONAL EDITED])
 
 AT_DATA([prog.cob], [
