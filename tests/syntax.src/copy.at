@@ -153,3 +153,30 @@ AT_CHECK([${COMPILE} -o prog prog.cob])
 AT_CHECK([./prog], [0], [OK])
 
 AT_CLEANUP
+
+
+AT_SETUP([COPY: after REPLACE])
+
+AT_DATA([copy_rep01.inc], [
+       01 WK-02          PIC X(2) value SP.
+])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       REPLACE 'AA' BY 'ZZ'.
+       01 WK-01          PIC X(2) VALUE 'AA'.
+       COPY "copy_rep01.inc" REPLACING SP by space.
+       01 WK-03          PIC X(2) VALUE 'AA'.
+       PROCEDURE        DIVISION.
+           DISPLAY WK-01 WK-02 WK-03 NO ADVANCING
+           END-DISPLAY.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -o prog prog.cob])
+AT_CHECK([./prog], [0], [ZZ  ZZ])
+
+AT_CLEANUP
