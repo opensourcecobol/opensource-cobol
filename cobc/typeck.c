@@ -4314,7 +4314,7 @@ static int
 check_equal_data_size (cb_tree x, cb_tree y)
 {
 	char msgbuf1[256], msgbuf2[256];
-	size_t len1, len2;
+	size_t len1 = 0, len2 = 0;
 	int rt = 0;
 
 	memset (msgbuf1, 0, sizeof (msgbuf1));
