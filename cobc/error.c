@@ -34,100 +34,6 @@
 static char	*errnamebuff = NULL;
 static char	*errmsgbuff = NULL;
 
-static char
-cb_get_char (char c[2])
-{
-	int		i;
-	unsigned char	ch, index[2];
-
-	for (i = 0; i < 2; i++) {
-		switch (c[i]) {
-		case 'A':
-			index[i] = 10;
-			break;
-		case 'B':
-			index[i] = 11;
-			break;
-		case 'C':
-			index[i] = 12;
-			break;
-		case 'D':
-			index[i] = 13;
-			break;
-		case 'E':
-			index[i] = 14;
-			break;
-		case 'F':
-			index[i] = 15;
-			break;
-		default:
-			index[i] = c[i] - '0';
-			break;
-		}
-	}
-	ch = (unsigned char)(index[0] * 16 + index[1]);
-	return ch;
-}
-
-static char *
-cb_get_jisstring (char *name)
-{
-	int		i, j;
-	char		pTmp[COB_NORMAL_BUFF], str[2];
-
-	memset (pTmp, 0, sizeof (pTmp));
-	i = strlen (name);
-	for (j = 0; j < i/2; j++) {
-		strncpy (str, &name[2*j], 2);
-		pTmp[j] = cb_get_char (str);
-	}
-	return strdup (pTmp);
-}
-
-char *
-cb_get_jisword (const char *name)
-{
-	int		i;
-	int		flag_quoted = 0;
-	char		pTmp[COB_NORMAL_BUFF];
-	char		pTmp1[COB_NORMAL_BUFF];
-	const char	*c, *cs, *ce;
-	char		*ctmp;
-
-	c = name;
-	memset (pTmp, 0, sizeof (pTmp));
-	i = strlen (name);
-
-	/* cursor */
-	cs = c;
-	ce = c + i - 1;
-
-	/* strip quotes */
-	if ((strncmp (cs, "\'", 1) == 0) && (strncmp (ce, "\'", 1) == 0)) {
-		cs++;
-		--ce;
-		flag_quoted = 1;
-	}
-
-	/* decode if encoded */
-	if ((strncmp (cs, "___", 3) == 0) && (strncmp (ce-2, "___", 3) == 0)) {
-		cs += 3;
-		ce -= 2;
-		memset (pTmp1, 0, sizeof (pTmp1));
-		strncpy (pTmp1, cs, ce - cs);
-		ctmp = cb_get_jisstring (pTmp1);
-		if (flag_quoted) {
-			snprintf (pTmp, COB_NORMAL_BUFF, "\'%s\'", ctmp);
-		} else {
-			snprintf (pTmp, COB_NORMAL_BUFF, "%s", ctmp);
-		}
-		free (ctmp);
-	} else {
-		strcat (pTmp, c);
-	}
-	return strdup (pTmp);
-}
-
 static void
 print_error (char *file, int line, const char *prefix, const char *fmt, va_list ap)
 {
@@ -139,6 +45,7 @@ print_error (char *file, int line, const char *prefix, const char *fmt, va_list 
 	void		*param;
 	void		*allname[max_names];
 	void		*p_bfree[max_names];
+	char		msgword[COB_MINI_BUFF];
 
 	file = file ? file : cb_source_file;
 	line = line ? line : cb_source_line;
@@ -147,12 +54,12 @@ print_error (char *file, int line, const char *prefix, const char *fmt, va_list 
 	if (current_section != last_section || current_paragraph != last_paragraph) {
 		if (current_paragraph &&
 		    strcmp ((const char *)(current_paragraph->name), "MAIN PARAGRAPH")) {
-			fprintf (stderr, _("%s: In paragraph '%s':\n"),
-				 file, cb_get_jisword ((const char *)current_paragraph->name));
+			cb_get_jisword_buff ((const char *)current_paragraph->name, msgword, sizeof (msgword));
+			fprintf (stderr, _("%s: In paragraph '%s':\n"), file, msgword);
 		} else if (current_section &&
 			   strcmp ((const char *)(current_section->name), "MAIN SECTION")) {
-				fprintf (stderr, _("%s: In section '%s':\n"),
-					 file, cb_get_jisword ((const char *)current_section->name));
+			cb_get_jisword_buff ((const char *)current_section->name, msgword, sizeof (msgword));
+			fprintf (stderr, _("%s: In section '%s':\n"), file, msgword);
 		}
 		last_section = current_section;
 		last_paragraph = current_paragraph;

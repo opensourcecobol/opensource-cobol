@@ -700,6 +700,8 @@ struct cb_reference {
 #define CB_NAME(x)		(CB_REFERENCE (x)->word->name)
 
 extern char		*cb_get_hexword (char *name);
+extern char		*cb_get_jisword_buff (const char *name, char *jbuf, size_t n);
+extern char		*cb_get_jisword (const char *name);
 extern cb_tree		cb_build_filler (void);
 extern cb_tree		cb_build_anonymous (void);
 extern cb_tree		cb_build_reference (const char *name);
@@ -1342,8 +1344,6 @@ extern void		level_except_error (cb_tree x, const char *clause);
 
 struct cb_literal	*build_literal (enum cb_category category,
 					const unsigned char *data, size_t size);
-
-extern char		*cb_get_jisword (const char *name);
 
 /* field.c */
 extern size_t		cb_needs_01;

@@ -4327,9 +4327,7 @@ check_equal_data_size (cb_tree x, cb_tree y)
 		strcat  (msgbuf1, "'");
 	} else if (CB_REFERENCE_P (x)) {
 		len1 = CB_FIELD (cb_ref (x))->size;
-		strncat (msgbuf1,
-			 cb_get_jisword ((char *)CB_FIELD (cb_ref (x))->name),
-			 255);
+		cb_get_jisword_buff ((char *)CB_FIELD (cb_ref (x))->name, msgbuf1, sizeof (msgbuf1));
 	} else {
 		cb_error_x (x, "Unexpected tag %d.", CB_TREE_TAG (x));
 		rt = 1;
@@ -4341,9 +4339,7 @@ check_equal_data_size (cb_tree x, cb_tree y)
 		strcat  (msgbuf2, "'");
 	} else if (CB_REFERENCE_P (y)) {
 		len2 = CB_FIELD (cb_ref (y))->size;
-		strncat (msgbuf2,
-			 cb_get_jisword ((char *)CB_FIELD (cb_ref (y))->name),
-			 255);
+		cb_get_jisword_buff ((char *)CB_FIELD (cb_ref (y))->name, msgbuf2, sizeof (msgbuf2));
 	} else {
 		cb_error_x (y, "Unexpected tag %d.", CB_TREE_TAG (y));
 		rt = 1;
@@ -4450,7 +4446,7 @@ cb_validate_inspect (cb_tree var, cb_tree x, cb_tree y)
 	case CB_TAG_REFERENCE:
 		pfield = CB_FIELD (cb_ref (x));
 		s1 = pfield->size;
-		strcpy (name1, cb_get_jisword ((char*)pfield->name));
+		cb_get_jisword_buff ((char*)pfield->name, name1, sizeof (name1));
 		break;
 	case CB_TAG_LITERAL:
 		pliteral = CB_LITERAL (x);
@@ -4490,7 +4486,7 @@ cb_validate_inspect (cb_tree var, cb_tree x, cb_tree y)
 	case CB_TAG_REFERENCE:
 		pfield = CB_FIELD (cb_ref (y));
 		s2 = pfield->size;
-		strcpy (name2, cb_get_jisword ((char*)pfield->name));
+		cb_get_jisword_buff ((char*)pfield->name, name2, sizeof (name2));
 		break;
 	case CB_TAG_LITERAL:
 		pliteral = CB_LITERAL (y);
@@ -6855,7 +6851,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 			switch (CB_TREE_TAG (CB_PAIR_Y (item_value))) {
 			case CB_TAG_REFERENCE:
 				pfield = CB_FIELD (cb_ref (CB_PAIR_Y (item_value)));
-				strcpy (name1, cb_get_jisword ((char*)pfield->name));
+				cb_get_jisword_buff ((char*)pfield->name, name1, sizeof (name1));
 				break;
 			case CB_TAG_LITERAL:
 				pliteral = CB_LITERAL (CB_PAIR_Y (item_value));
@@ -6880,7 +6876,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 				switch (CB_TREE_TAG (CB_PAIR_X (CB_VALUE (item_purpose)))) {
 				case CB_TAG_REFERENCE:
 					pfield = CB_FIELD (cb_ref (CB_PAIR_X (CB_VALUE (item_purpose))));
-					strcpy (name2, cb_get_jisword ((char*)pfield->name));
+					cb_get_jisword_buff ((char*)pfield->name, name2, sizeof (name2));
 					break;
 				case CB_TAG_LITERAL:
 					pliteral = CB_LITERAL (CB_PAIR_X (CB_VALUE (item_purpose)));
@@ -6900,7 +6896,7 @@ cb_validate_string (cb_tree items, cb_tree into)
 			switch (CB_TREE_TAG (into)) {
 			case CB_TAG_REFERENCE:
 				pfield = CB_FIELD (cb_ref (into));
-				strcpy (name3, cb_get_jisword ((char*)pfield->name));
+				cb_get_jisword_buff ((char*)pfield->name, name3, sizeof (name3));
 				break;
 			case CB_TAG_LITERAL:
 				pliteral = CB_LITERAL (into);
@@ -7263,7 +7259,7 @@ cb_validate_unstring (cb_tree name, cb_tree delimited, cb_tree into)
 	switch (CB_TREE_TAG (name)) {
 	case CB_TAG_REFERENCE:
 		pfield = CB_FIELD (cb_ref (name));
-		strcpy (name1, cb_get_jisword ((char*)pfield->name));
+		cb_get_jisword_buff ((char*)pfield->name, name1, sizeof (name1));
 		break;
 	case CB_TAG_LITERAL:
 		pliteral = CB_LITERAL (name);
@@ -7314,7 +7310,7 @@ cb_validate_unstring (cb_tree name, cb_tree delimited, cb_tree into)
 				switch (CB_TREE_TAG (CB_FUNCALL (CB_PAIR_Y (item_value1))->argv[0])) {
 				case CB_TAG_REFERENCE:
 					pfield = CB_FIELD (cb_ref (CB_FUNCALL (CB_PAIR_Y (item_value1))->argv[0]));
-					strcpy (name2, cb_get_jisword ((char*)pfield->name));
+					cb_get_jisword_buff ((char*)pfield->name, name2, sizeof (name2));
 					break;
 				case CB_TAG_LITERAL:
 					pliteral = CB_LITERAL (CB_FUNCALL (CB_PAIR_Y (item_value1))->argv[0]);
@@ -7385,7 +7381,7 @@ cb_validate_unstring (cb_tree name, cb_tree delimited, cb_tree into)
 				switch (CB_TREE_TAG (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[0])) {
 				case CB_TAG_REFERENCE:
 					pfield = CB_FIELD (cb_ref (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[0]));
-					strcpy (name3, cb_get_jisword ((char*)pfield->name));
+					cb_get_jisword_buff ((char*)pfield->name, name3, sizeof (name3));
 					break;
 				case CB_TAG_LITERAL:
 					pliteral = CB_LITERAL (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[0]);
@@ -7459,7 +7455,7 @@ cb_validate_unstring (cb_tree name, cb_tree delimited, cb_tree into)
 				switch (CB_TREE_TAG (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[1])) {
 				case CB_TAG_REFERENCE:
 					pfield = CB_FIELD (cb_ref (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[1]));
-					strcpy (name4, cb_get_jisword ((char*)pfield->name));
+					cb_get_jisword_buff ((char*)pfield->name, name4, sizeof (name4));
 					break;
 				case CB_TAG_LITERAL:
 					pliteral = CB_LITERAL (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[1]);
@@ -7499,7 +7495,7 @@ cb_validate_unstring (cb_tree name, cb_tree delimited, cb_tree into)
 				switch (CB_TREE_TAG (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[2])) {
 				case CB_TAG_REFERENCE:
 					pfield = CB_FIELD (cb_ref (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[2]));
-					strcpy (name5, cb_get_jisword ((char*)pfield->name));
+					cb_get_jisword_buff ((char*)pfield->name, name5, sizeof (name5));
 					break;
 				case CB_TAG_LITERAL:
 					pliteral = CB_LITERAL (CB_FUNCALL (CB_PAIR_Y (item_value2))->argv[2]);

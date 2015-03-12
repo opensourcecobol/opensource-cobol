@@ -127,6 +127,9 @@ COB_HIDDEN int		ascii_to_utf8		(int, unsigned char *);
 COB_HIDDEN unsigned char	*cob_national		(const unsigned char *, int);
 #endif /*I18N_UTF8*/
 
+COB_HIDDEN char		*cb_get_jisword_buff	(const char *, char *, size_t);
+COB_HIDDEN char		*cb_get_jisword		(const char *);
+
 #undef	COB_HIDDEN
 
 #endif /* COB_LOCAL_H */

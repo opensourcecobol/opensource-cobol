@@ -1370,7 +1370,7 @@ cob_move_all (cob_field *src, cob_field *dst)
 	size_t			digcount;
 	cob_field		temp;
 	cob_field_attr		attr;
-	char			*pTmp;
+	char			*pTmp = NULL;
 	cob_field		tmpSrc;
 	int			size;
 	int			x_to_n = 0;
@@ -1454,6 +1454,9 @@ cob_move_all (cob_field *src, cob_field *dst)
 		}
 	}
 	cob_move (&temp, dst);
+	if (pTmp != NULL) {
+		free (pTmp);
+	}
 }
 
 void

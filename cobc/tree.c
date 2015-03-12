@@ -2819,3 +2819,77 @@ cb_get_hexword (char *name)
 	}
 	return rt;
 }
+
+char *
+cb_get_jisword_buff (const char *name, char *jbuf, size_t n)
+{
+	size_t		siz;
+	unsigned int	c;
+	const char	*cp, *cs, *ce;
+	int		flag_quoted = 0;
+	char		*p, *rt = NULL;
+
+	cs = &(name[0]);
+	ce = &(name[strlen (name) - 1]);
+
+	/* strip quotes */
+	if (*cs == '\'' && *ce == '\'') {
+		cs++;
+		--ce;
+		flag_quoted = 1;
+	}
+
+	/* decode if encoded */
+	if (ce - cs >= 5 && !memcmp (cs, "___", 3) && !memcmp (ce-2, "___", 3)) {
+		cs += 3;
+		ce -= 3;
+		if (!flag_quoted) {
+			siz = (ce - cs + 1) / 2 + 1;
+		} else {
+			siz = (ce - cs + 1) / 2 + 3;
+		}
+		if (!jbuf) {
+			rt = cobc_malloc (siz);
+		} else {
+			if (siz > n) {
+				c = siz - n;
+				siz -= c;
+				ce -= c * 2;
+			}
+			memset (jbuf, 0, n);
+			rt = jbuf;
+		}
+		if (flag_quoted && siz > 2) {
+			rt [0] = rt [siz - 2] = '\'';
+			p = &(rt[1]);
+		} else {
+			p = &(rt[0]);
+		}
+		for (c = 1, cp = cs; cp <= ce; cp++, p += (c = !c)) {
+			if (*cp >= '0' && *cp <= '9') {
+				*p |= (*cp - '0') << (c << 2);
+			} else if (*cp >= 'A' && *cp <= 'F') {
+				*p |= (*cp - 'A' + 10) << (c << 2);
+			} else {
+				*p = '?';
+				cp += c;
+				c = 0;
+			}
+		}
+	} else {
+		if (!jbuf) {
+			rt = strdup (name);
+		} else {
+			memset (jbuf, 0, n);
+			strncpy (jbuf, name, n - 1);
+			rt = jbuf;
+		}
+	}
+	return rt;
+}
+
+char *
+cb_get_jisword (const char *name)
+{
+	return cb_get_jisword_buff (name, NULL, 0);
+}

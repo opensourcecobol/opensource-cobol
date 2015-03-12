@@ -492,104 +492,6 @@ extern int extfh_relative_rewrite	(cob_file *, int);
 extern int extfh_relative_delete	(cob_file *);
 #endif
 
-/* translate hexadecimal to jpn word */
-char *	str_physical_filename;
-char *	str_logic_filename;
-
-static char
-cb_get_char (char c[2])
-{
-	int		i;
-	unsigned char	ch, index[2];
-
-	for (i = 0; i < 2; i++) {
-		switch (c[i]) {
-		case 'A':
-			index[i] = 10;
-			break;
-		case 'B':
-			index[i] = 11;
-			break;
-		case 'C':
-			index[i] = 12;
-			break;
-		case 'D':
-			index[i] = 13;
-			break;
-		case 'E':
-			index[i] = 14;
-			break;
-		case 'F':
-			index[i] = 15;
-			break;
-		default:
-			index[i] = c[i] - '0';
-			break;
-		}
-	}
-	ch = (unsigned char)(index[0] * 16 + index[1]);
-	return ch;
-}
-
-static char *
-cb_get_jisstring (char *name)
-{
-	int		i, j;
-	char		pTmp[COB_NORMAL_BUFF], str[2];
-
-	memset (pTmp, 0, sizeof (pTmp));
-	i = strlen (name);
-	for (j = 0; j < i/2; j++) {
-		strncpy (str, &name[2*j], 2);
-		pTmp[j] = cb_get_char (str);
-	}
-	return strdup (pTmp);
-}
-
-static char *
-cb_get_jisword (const char *name)
-{
-	int		i;
-	int		flag_quoted = 0;
-	char		pTmp[COB_NORMAL_BUFF];
-	char		pTmp1[COB_NORMAL_BUFF];
-	const char	*c, *cs, *ce;
-	char		*ctmp;
-
-	c = name;
-	memset (pTmp, 0, sizeof (pTmp));
-	i = strlen (name);
-
-	/* cursor */
-	cs = c;
-	ce = c + i - 1;
-
-	/* strip quotes */
-	if ((strncmp (cs, "\'", 1) == 0) && (strncmp (ce, "\'", 1) == 0)) {
-		cs++;
-		--ce;
-		flag_quoted = 1;
-	}
-
-	/* decode if encoded */
-	if ((strncmp (cs, "___", 3) == 0) && (strncmp (ce-2, "___", 3) == 0)) {
-		cs += 3;
-		ce -= 2;
-		memset (pTmp1, 0, sizeof (pTmp1));
-		strncpy (pTmp1, cs, ce - cs);
-		ctmp = cb_get_jisstring (pTmp1);
-		if (flag_quoted) {
-			snprintf (pTmp, COB_NORMAL_BUFF, "\'%s\'", ctmp);
-		} else {
-			snprintf (pTmp, COB_NORMAL_BUFF, "%s", ctmp);
-		}
-		free (ctmp);
-	} else {
-		strcat (pTmp, c);
-	}
-	return strdup (pTmp);
-}
-
 #if	defined(WITH_ANY_ISAM) 
 /* Isam File handler packet */
 
@@ -4050,10 +3952,7 @@ cob_ex_open (cob_file *f, const int mode, const int sharing, cob_field *fnstatus
 			}
 		}
 		*dst = 0;
-		strncpy (file_open_name, file_open_buff, COB_SMALL_MAX);
-		str_physical_filename = cb_get_jisword (file_open_name);
-		memset (file_open_name, 0, sizeof (file_open_name));
-		strncpy (file_open_name, str_physical_filename, COB_SMALL_MAX);
+		cb_get_jisword_buff (file_open_buff, file_open_name, COB_SMALL_BUFF);
 
 		/* resolve by environment variables */
 		/* ex. "TMPFILE" -> DD_TMPFILE, dd_TMPFILE, or TMPFILE */
@@ -4696,10 +4595,7 @@ cob_ex_delete_file (cob_file *f, cob_field *fnstatus)
 			}
 		}
 		*dst = 0;
-		strncpy (file_open_name, file_open_buff, COB_SMALL_MAX);
-		str_physical_filename = cb_get_jisword (file_open_name);
-		memset (file_open_name, 0, sizeof (file_open_name));
-		strncpy (file_open_name, str_physical_filename, COB_SMALL_MAX);
+		cb_get_jisword_buff (file_open_buff, file_open_name, COB_SMALL_BUFF);
 
 		/* resolve by environment variables */
 		/* ex. "TMPFILE" -> DD_TMPFILE, dd_TMPFILE, or TMPFILE */
@@ -4951,6 +4847,8 @@ void
 cob_exit_fileio (void)
 {
 	struct file_list	*l;
+	char			*str_logic_filename = NULL;
+	char			*str_physical_filename = NULL;
 
 	for (l = file_cache; l; l = l->next) {
 		if (l->file->open_mode != COB_OPEN_CLOSED &&
@@ -4965,6 +4863,14 @@ cob_exit_fileio (void)
 			str_physical_filename = cb_get_jisword (runtime_buffer);
 			fprintf (stderr, "WARNING - Implicit CLOSE of %s (\"%s\")\n",
 				 str_logic_filename, str_physical_filename);
+			if (str_logic_filename) {
+				free (str_logic_filename);
+				str_logic_filename = NULL;
+			}
+			if (str_physical_filename) {
+				free (str_physical_filename);
+				str_physical_filename = NULL;
+			}
 			fflush (stderr);
 		}
 	}
