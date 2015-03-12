@@ -1899,7 +1899,11 @@ cob_display_env_value (const cob_field *f)
 	}
 	env2 = cob_malloc (f->size + 1);
 	cob_field_to_string (f, env2);
+#ifdef _WIN32
+	if (_putenv_s (cob_local_env, env2)) {
+#else
 	if (setenv (cob_local_env, env2, 1)) {
+#endif
 		cob_set_exception (COB_EC_IMP_DISPLAY);
 	}
 	free (env2);
