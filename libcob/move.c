@@ -1386,7 +1386,7 @@ cob_move_all (cob_field *src, cob_field *dst)
 		if (src == &cob_blank) {
 			pTmp = cob_malloc (dst->size);
 			for (j = 0; j < dst->size; j+=COB_ZENCSIZ) {
-				strncat (pTmp, COB_ZENBLK, COB_ZENCSIZ);
+				memcpy (&(pTmp[j]), COB_ZENBLK, COB_ZENCSIZ);
 			}
 			size = dst->size;
 		} else {
@@ -1510,7 +1510,7 @@ cob_move (cob_field *src, cob_field *dst)
 			if (src1 == &cob_blank) {
 				pTmp = cob_malloc (dst->size);
 				for (j = 0; j < dst->size; j+=COB_ZENCSIZ) {
-					strncat (pTmp, COB_ZENBLK, COB_ZENCSIZ);
+					memcpy (&(pTmp[j]), COB_ZENBLK, COB_ZENCSIZ);
 				}
 				size = dst->size;
 			} else {
