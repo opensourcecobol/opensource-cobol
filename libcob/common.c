@@ -766,7 +766,14 @@ job_or_current_localtime (void)
 struct tm *
 cob_localtime (const time_t *t)
 {
-	return (cob_localtm) ? cob_localtm : localtime (t);
+	struct tm *rt = localtime (t);
+	if (cob_localtm) {
+		cob_localtm->tm_hour = rt->tm_hour;
+		cob_localtm->tm_min  = rt->tm_min;
+		cob_localtm->tm_sec  = rt->tm_sec;
+		rt = cob_localtm;
+	}
+	return rt;
 }
 
 void
