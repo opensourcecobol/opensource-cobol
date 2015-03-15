@@ -1544,8 +1544,11 @@ cob_table_sort (cob_field *f, const int n)
 void
 cob_check_based (const unsigned char *x, const char *name)
 {
+	char	msgword[COB_MINI_BUFF];
+
 	if (!x) {
-		cob_runtime_error ("BASED/LINKAGE item '%s' has NULL address", name);
+		cb_get_jisword_buff (name, msgword, sizeof (msgword));
+		cob_runtime_error ("BASED/LINKAGE item '%s' has NULL address", msgword);
 		cob_stop_run (1);
 	}
 }
@@ -1557,6 +1560,7 @@ cob_check_numeric (const cob_field *f, const char *name)
 	char		*p;
 	char		*buff;
 	size_t		i;
+	char		msgword[COB_MINI_BUFF];
 
 	if (!cob_is_numeric (f)) {
 		buff = cob_malloc (COB_SMALL_BUFF);
@@ -1570,7 +1574,8 @@ cob_check_numeric (const cob_field *f, const char *name)
 			}
 		}
 		*p = '\0';
-		cob_runtime_error ("'%s' not numeric: '%s'", name, buff);
+		cb_get_jisword_buff (name, msgword, sizeof (msgword));
+		cob_runtime_error ("'%s' not numeric: '%s'", msgword, buff);
 		cob_stop_run (1);
 	}
 }
@@ -1578,10 +1583,13 @@ cob_check_numeric (const cob_field *f, const char *name)
 void
 cob_check_odo (const int i, const int min, const int max, const char *name)
 {
+	char	msgword[COB_MINI_BUFF];
+
 	/* check the OCCURS DEPENDING ON item */
 	if (i < min || max < i) {
 		cob_set_exception (COB_EC_BOUND_ODO);
-		cob_runtime_error ("OCCURS DEPENDING ON '%s' out of bounds: %d", name, i);
+		cb_get_jisword_buff (name, msgword, sizeof (msgword));
+		cob_runtime_error ("OCCURS DEPENDING ON '%s' out of bounds: %d", msgword, i);
 		cob_stop_run (1);
 	}
 }
@@ -1589,10 +1597,13 @@ cob_check_odo (const int i, const int min, const int max, const char *name)
 void
 cob_check_subscript (const int i, const int min, const int max, const char *name)
 {
+	char	msgword[COB_MINI_BUFF];
+
 	/* check the subscript */
 	if (i < min || max < i) {
 		cob_set_exception (COB_EC_BOUND_SUBSCRIPT);
-		cob_runtime_error ("Subscript of '%s' out of bounds: %d", name, i);
+		cb_get_jisword_buff (name, msgword, sizeof (msgword));
+		cob_runtime_error ("Subscript of '%s' out of bounds: %d", msgword, i);
 		cob_stop_run (1);
 	}
 }
@@ -1616,6 +1627,8 @@ cob_check_env (const char *name, const char *value)
 void
 cob_check_ref_mod_national (int offset, int length, int size, const char *name)
 {
+	char	msgword[COB_MINI_BUFF];
+
 	if (cob_check_env (NAMERMCHECK, VALUERMCHECK)) {
 		return;
 	}
@@ -1632,14 +1645,16 @@ cob_check_ref_mod_national (int offset, int length, int size, const char *name)
 
 	if (offset < 1 || offset > size) {
 		cob_set_exception (COB_EC_BOUND_REF_MOD);
-		cob_runtime_error ("Offset of '%s' out of bounds: %d", name, offset);
+		cb_get_jisword_buff (name, msgword, sizeof (msgword));
+		cob_runtime_error ("Offset of '%s' out of bounds: %d", msgword, offset);
 		cob_stop_run (1);
 	}
 
 	/* check the length */
 	if (length < 1 || offset + length - 1 > size) {
 		cob_set_exception (COB_EC_BOUND_REF_MOD);
-		cob_runtime_error ("Length of '%s' out of bounds: %d", name, length);
+		cb_get_jisword_buff (name, msgword, sizeof (msgword));
+		cob_runtime_error ("Length of '%s' out of bounds: %d", msgword, length);
 		cob_stop_run (1);
 	}
 }
@@ -1647,20 +1662,24 @@ cob_check_ref_mod_national (int offset, int length, int size, const char *name)
 void
 cob_check_ref_mod (const int offset, const int length, const int size, const char *name)
 {
+	char	msgword[COB_MINI_BUFF];
+
 	if (cob_check_env (NAMERMCHECK, VALUERMCHECK)) {
 		return;
 	}
 	/* check the offset */
 	if (offset < 1 || offset > size) {
 		cob_set_exception (COB_EC_BOUND_REF_MOD);
-		cob_runtime_error ("Offset of '%s' out of bounds: %d", name, offset);
+		cb_get_jisword_buff (name, msgword, sizeof (msgword));
+		cob_runtime_error ("Offset of '%s' out of bounds: %d", msgword, offset);
 		cob_stop_run (1);
 	}
 
 	/* check the length */
 	if (length < 1 || offset + length - 1 > size) {
 		cob_set_exception (COB_EC_BOUND_REF_MOD);
-		cob_runtime_error ("Length of '%s' out of bounds: %d", name, length);
+		cb_get_jisword_buff (name, msgword, sizeof (msgword));
+		cob_runtime_error ("Length of '%s' out of bounds: %d", msgword, length);
 		cob_stop_run (1);
 	}
 }
@@ -1668,14 +1687,16 @@ cob_check_ref_mod (const int offset, const int length, const int size, const cha
 unsigned char *
 cob_external_addr (const char *exname, const int exlength)
 {
-	static struct cob_external *basext = NULL;
-	struct cob_external *eptr;
+	static struct cob_external	*basext = NULL;
+	struct cob_external		*eptr;
+	char				msgword[COB_MINI_BUFF];
 
 	for (eptr = basext; eptr; eptr = eptr->next) {
 		if (!strcmp (exname, eptr->ename)) {
 			if (exlength > eptr->esize) {
+				cb_get_jisword_buff (exname, msgword, sizeof (msgword));
 				cob_runtime_error ("EXTERNAL item '%s' has size > %d",
-						   exname, exlength);
+						   msgword, exlength);
 				cob_stop_run (1);
 			}
 			cob_initial_external = 0;
