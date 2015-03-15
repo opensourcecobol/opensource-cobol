@@ -2776,6 +2776,18 @@ cb_build_cond (cb_tree x)
 				x = cb_list_reverse (decimal_stack);
 				decimal_stack = NULL;
 			} else {
+				/* field comparison */
+				if (national_kanji_comparison (p->x, p->y) ||
+				    national_kanji_comparison (p->y, p->x)) {
+					cb_error_x (x, _("Invalid expression test"));
+				}
+
+				if (CB_EXCEPTION_ENABLE (COB_EC_BOUND_SUBSCRIPT)) {
+					/* optim'ed funcs below don't check subscript boundary */
+					x = cb_build_funcall_2 ("cob_cmp", p->x, p->y);
+					break;
+				}
+
 				if (cb_chk_num_cond (p->x, p->y)) {
 					size1 = cb_field_size (p->x);
 					x = cb_build_funcall_3 ("memcmp",
@@ -2789,12 +2801,6 @@ cb_build_cond (cb_tree x)
 				    && cb_fits_int (p->y)) {
 					x = cb_build_optim_cond (p);
 					break;
-				}
-
-				/* field comparison */
-				if (national_kanji_comparison (p->x, p->y) ||
-				    national_kanji_comparison (p->y, p->x)) {
-					cb_error_x (x, _("Invalid expression test"));
 				}
 				if ((CB_REF_OR_FIELD_P (p->x))
 				   && (CB_TREE_CATEGORY (p->x) == CB_CATEGORY_ALPHANUMERIC ||
