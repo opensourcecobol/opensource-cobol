@@ -4650,8 +4650,25 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 			output_indent ("{");
 		}
 		output_line ("if (!(cob_error_file->flag_select_features & COB_SELECT_FILE_STATUS)) {");
-		output_line ("	cob_default_error_handle ();");
-		output_line ("	cob_stop_run (1);");
+		switch (cb_abort_on_io_exception) {
+		case CB_ABORT_ON_IO_ANY:
+			output_line ("	cob_default_error_handle ();");
+			output_line ("	cob_stop_run (1);");
+			break;
+		case CB_ABORT_ON_IO_FATAL:
+			output_line ("	if (cob_error_file->file_status[0] == '3'");
+			output_line ("	    || cob_error_file->file_status[0] == '4'");
+			output_line ("	    || cob_error_file->file_status[0] == '9') {");
+			output_line ("		cob_default_error_handle ();");
+			output_line ("		cob_stop_run (1);");
+			output_line ("	}");
+			break;
+		case CB_ABORT_ON_IO_NEVER:
+		default:
+			output_line ("	/* Do nothing on unchecked file error status. */");
+			output_line ("	/*  (abort-on-io-exception is set to 'never') */");
+			break;
+		}
 		output_line ("}");
 		if (seen) {
 			output_line ("break;");

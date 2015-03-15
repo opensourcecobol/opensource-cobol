@@ -244,6 +244,17 @@ cb_load_conf (const char *fname, const int check_nodef, const int prefix_dir)
 					invalid_value (fname, line, name);
 					ret = -1;
 				}
+			} else if (strcmp (name, "abort-on-io-exception") == 0) {
+				if (strcmp (val, "any") == 0) {
+					cb_abort_on_io_exception = CB_ABORT_ON_IO_ANY;
+				} else if (strcmp (val, "fatal") == 0) {
+					cb_abort_on_io_exception = CB_ABORT_ON_IO_FATAL;
+				} else if (strcmp (val, "never") == 0) {
+					cb_abort_on_io_exception = CB_ABORT_ON_IO_NEVER;
+				} else {
+					invalid_value (fname, line, name);
+					ret = -1;
+				}
 			} else if (strcmp (name, "default-organization") == 0) {
 				if (strcmp (val, "record-sequential") == 0) {
 					cb_default_organization = CB_ORG_RECORD_SEQUENTIAL;

@@ -236,6 +236,12 @@ enum cb_binary_size {
 	CB_BINARY_SIZE_1__8		/* 1,2,3,4,5,6,7,8 bytes */
 };
 
+enum cb_abort_on_io_exception {
+	CB_ABORT_ON_IO_ANY,
+	CB_ABORT_ON_IO_FATAL,
+	CB_ABORT_ON_IO_NEVER
+};
+
 enum cb_operation_type {
 	CB_OPERATION_READ,
 	CB_OPERATION_WRITE,
