@@ -25,4 +25,4 @@ cobcrun_SOURCES = cobcrun.c
 
 AM_LDFLAGS = $(COB_EXPORT_DYN)
 cobcrun_CFLAGS = $(AM_CFLAGS) -I$(top_srcdir)
-cobcrun_LDADD = $(top_builddir)/libcob/libcob.la
+cobcrun_LDADD = $(top_builddir)/libcob/libcob.la $(top_builddir)/lib/libsupport.a

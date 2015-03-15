@@ -72,7 +72,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog | od -x -An], [0], [ 96e5 e59c 9c96 96e5 e59c
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ e5 96 9c e5 96 9c e5 96 9c e5
 ])
 
 AT_CLEANUP
@@ -95,7 +95,7 @@ AT_CHECK([${COMPILE} -x prog.cob], [0], [],
 [prog.cob:8: Warning: Value size exceeds data size
 prog.cob:6: Warning: 'F0' defined here as PIC X(10)
 ])
-AT_CHECK([./prog | od -x -An], [0], [ 97e6 e6a5 ac9c aae8 e39e
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ e6 97 a5 e6 9c ac e8 aa 9e e3
 ])
 
 AT_CLEANUP
@@ -118,7 +118,7 @@ AT_CHECK([${COMPILE} -x prog.cob], [0], [],
 [prog.cob:8: Warning: Value size exceeds data size
 prog.cob:6: Warning: 'F0' defined here as PIC X(11)
 ])
-AT_CHECK([./prog | od -x -An], [0], [ 97e6 e6a5 ac9c aae8 e39e 0081
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ e6 97 a5 e6 9c ac e8 aa 9e e3 81
 ])
 
 AT_CLEANUP
@@ -139,7 +139,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog | od -x -An], [0], [ 97e6 e6a5 ac9c aae8 e39e
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ e6 97 a5 e6 9c ac e8 aa 9e e3
 ])
 
 AT_CLEANUP
@@ -276,7 +276,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog | od -x -An], [0], [ 97e6 a520 9ce6 00ac
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ e6 97 20 a5 e6 9c ac
 ])
 
 AT_CLEANUP
@@ -301,7 +301,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog | od -x -An], [0], [ 97e6 e6a5
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ e6 97 a5 e6
 ])
 
 AT_CLEANUP
@@ -325,7 +325,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE} -x prog.cob], [0])
-AT_CHECK([./prog | od -x -An], [0], [ 97e6 e6a5
+AT_CHECK([./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//'], [0], [ e6 97 a5 e6
 ])
 
 AT_CLEANUP
