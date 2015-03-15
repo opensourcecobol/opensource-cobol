@@ -793,6 +793,8 @@ start:
   /* program_definition */
   nested_list TOKEN_EOF
   {
+	current_section = NULL;
+	current_paragraph = NULL;
 	if (!current_program->flag_validated) {
 		current_program->flag_validated = 1;
 		cb_validate_program_body (current_program);
@@ -855,6 +857,8 @@ end_program:
   {
 	char			*s;
 
+	current_section = NULL;
+	current_paragraph = NULL;
 	if (CB_LITERAL_P ($2)) {
 		s = (char *)(CB_LITERAL ($2)->data);
 	} else {
@@ -881,6 +885,8 @@ end_mandatory:
   {
 	char			*s;
 
+	current_section = NULL;
+	current_paragraph = NULL;
 	if (CB_LITERAL_P ($2)) {
 		s = (char *)(CB_LITERAL ($2)->data);
 	} else {
@@ -905,6 +911,8 @@ end_function:
   {
 	char			*s;
 
+	current_section = NULL;
+	current_paragraph = NULL;
 	if (CB_LITERAL_P ($2)) {
 		s = (char *)(CB_LITERAL ($2)->data);
 	} else {

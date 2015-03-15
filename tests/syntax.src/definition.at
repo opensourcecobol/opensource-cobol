@@ -410,6 +410,27 @@ AT_CHECK([${COMPILE_ONLY} prog.cob], [0])
 AT_CLEANUP
 
 
+AT_SETUP([Omit para/sect label names in ref check msg.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       PROCEDURE        DIVISION.
+         L0. GO TO L1.
+         L1. GOBACK.
+         L1. GOBACK.
+         L2. STOP RUN.
+])
+
+AT_CHECK([${COMPILE_ONLY} prog.cob], [1], ,
+[prog.cob:6: Error: 'L1' ambiguous; need qualification
+prog.cob:7: Error: 'L1' in 'MAIN SECTION' defined here
+prog.cob:8: Error: 'L1' in 'MAIN SECTION' defined here
+])
+
+AT_CLEANUP
+
 ###
 ### File name
 ###
@@ -517,8 +538,7 @@ AT_DATA([prog.cob], [
 ])
 
 AT_CHECK([${COMPILE_ONLY} prog.cob], [1], ,
-[prog.cob: In section 'S-3':
-prog.cob:10: Error: 'L' ambiguous; need qualification
+[prog.cob:10: Error: 'L' ambiguous; need qualification
 prog.cob:6: Error: 'L' in 'S-1' defined here
 prog.cob:8: Error: 'L' in 'S-2' defined here
 ])
