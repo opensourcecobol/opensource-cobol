@@ -249,6 +249,17 @@ redefinition_warning (cb_tree x, cb_tree y)
 	}
 }
 
+#define jisword_cat(w, buf, len) {					\
+		size_t n = strnlen ((buf), (len));			\
+		cb_get_jisword_buff ((w), &((buf)[n]), (len) + 1 - n);	\
+	}
+
+#define jisword_quote(w, buf, len) {					\
+		strncpy ((buf), "'", (len));				\
+		cb_get_jisword_buff ((w), &((buf)[1]), (len));		\
+		strncat ((buf), "'", (len));				\
+	}
+
 void
 undefined_error (cb_tree x)
 {
@@ -259,11 +270,11 @@ undefined_error (cb_tree x)
 		errnamebuff = cobc_malloc (COB_NORMAL_BUFF);
 	}
 	r = CB_REFERENCE (x);
-	snprintf (errnamebuff, COB_NORMAL_MAX, "'%s'", CB_NAME (x));
+	jisword_quote (CB_NAME (x), errnamebuff, COB_NORMAL_MAX);
 	for (c = r->chain; c; c = CB_REFERENCE (c)->chain) {
-		strcat (errnamebuff, " in '");
-		strcat (errnamebuff, CB_NAME (c));
-		strcat (errnamebuff, "'");
+		strncat (errnamebuff, " in '", COB_NORMAL_MAX);
+		jisword_cat (CB_NAME (c), errnamebuff, COB_NORMAL_MAX);
+		strncat (errnamebuff, "'", COB_NORMAL_MAX);
 	}
 	cb_error_x (x, _("%s undefined"), errnamebuff);
 }
@@ -283,11 +294,11 @@ ambiguous_error (cb_tree x)
 			errnamebuff = cobc_malloc (COB_NORMAL_BUFF);
 		}
 		/* display error on the first time */
-		snprintf (errnamebuff, COB_NORMAL_MAX, "'%s'", CB_NAME (x));
+		jisword_quote (CB_NAME (x), errnamebuff, COB_NORMAL_MAX);
 		for (l = CB_REFERENCE (x)->chain; l; l = CB_REFERENCE (l)->chain) {
-			strcat (errnamebuff, " in '");
-			strcat (errnamebuff, CB_NAME (l));
-			strcat (errnamebuff, "'");
+			strncat (errnamebuff, " in '", COB_NORMAL_MAX);
+			jisword_cat (CB_NAME (l), errnamebuff, COB_NORMAL_MAX);
+			strncat (errnamebuff, "'", COB_NORMAL_MAX);
 		}
 		cb_error_x (x, _("%s ambiguous; need qualification"), errnamebuff);
 		w->error = 1;
@@ -295,27 +306,29 @@ ambiguous_error (cb_tree x)
 		/* display all fields with the same name */
 		for (l = w->items; l; l = CB_CHAIN (l)) {
 			y = CB_VALUE (l);
-			snprintf (errnamebuff, COB_NORMAL_MAX, "'%s' ", w->name);
+			jisword_quote (w->name, errnamebuff, COB_NORMAL_MAX);
 			switch (CB_TREE_TAG (y)) {
 			case CB_TAG_FIELD:
 				for (p = CB_FIELD (y)->parent; p; p = p->parent) {
-					strcat (errnamebuff, "in '");
-					strcat (errnamebuff, check_filler_name((char *)p->name));
-					strcat (errnamebuff, "' ");
+					strncat (errnamebuff, " in '", COB_NORMAL_MAX);
+					jisword_cat (check_filler_name((char *)p->name),
+						     errnamebuff, COB_NORMAL_MAX);
+					strncat (errnamebuff, "'", COB_NORMAL_MAX);
 				}
 				break;
 			case CB_TAG_LABEL:
 				l2 = CB_LABEL (y);
 				if (l2->section) {
-					strcat (errnamebuff, "in '");
-					strcat (errnamebuff, (const char *)(l2->section->name));
-					strcat (errnamebuff, "' ");
+					strncat (errnamebuff, " in '", COB_NORMAL_MAX);
+					jisword_cat ((const char *)(l2->section->name),
+						     errnamebuff, COB_NORMAL_MAX);
+					strncat (errnamebuff, "'", COB_NORMAL_MAX);
 				}
 				break;
 			default:
 				break;
 			}
-			strcat (errnamebuff, _("defined here"));
+			strcat (errnamebuff, _(" defined here"));
 			cb_error_x (y, errnamebuff);
 		}
 	}
