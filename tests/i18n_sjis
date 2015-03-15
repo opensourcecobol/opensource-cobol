@@ -303,11 +303,11 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
-at_format='..'
+at_format='...'
 # Description of all the test groups.
 at_help_all='1;user-defined-word.at:1;Program name;;
 2;user-defined-word.at:14;Field name;;
@@ -316,92 +316,104 @@ at_help_all='1;user-defined-word.at:1;Program name;;
 5;user-defined-word.at:77;Section name;;
 6;user-defined-word.at:99;Long section name;;
 7;user-defined-word.at:121;Too long section name;;
-8;user-defined-word.at:144;Nihongo Filename;;
-9;pic-x.at:1;Value clause;;
-10;pic-x.at:19;Move;;
-11;pic-x.at:38;Move with trunc;;
-12;pic-x.at:60;Move ALL with trunc and trimming;;
-13;pic-x.at:80;Move with trunc and trimming 1;;
-14;pic-x.at:103;Move from field with trunc and trimming 1;;
-15;pic-x.at:124;Move with padding;;
-16;pic-x.at:143;Move with justify;;
-17;pic-x.at:162;Move to alnum EDITED;;
-18;pic-x.at:181;Move to alnum EDITED (pic too short);;
-19;pic-x.at:203;Move to alnum EDITED (pic too long);;
-20;pic-x.at:222;Move to alnum EDITED (No char break);;
-21;pic-x.at:241;Move to alnum EDITED (char break & junk chars);;
-22;pic-x.at:261;Move group to group in bad alignment;;
-23;pic-x.at:286;Redifinition breaking char pos.;;
-24;pic-x.at:311;Ref mod(n:);;
-25;pic-x.at:330;Ref mod(n:m);;
-26;pic-x.at:349;STRING by size;;
-27;pic-x.at:372;STRING with delimiter;;
-28;pic-x.at:399;STRING with pointer;;
-29;pic-x.at:423;INSPECT REPLACING;;
-30;pic-x.at:442;INSPECT REPLACING by ZERO;;
-31;pic-x.at:461;INSPECT TALLYING;;
-32;pic-n.at:1;PIC N Value clause;;
-33;pic-n.at:19;PIC N Move;;
-34;pic-n.at:38;PIC N Move with trunc;;
-35;pic-n.at:60;PIC N Move with padding by full-width SPC;;
-36;pic-n.at:79;PIC N Move with justify;;
-37;pic-n.at:98;PIC N EDITED w/ VALUE;;
-38;pic-n.at:116;INITIALIZE PIC N EDITED;;
-39;pic-n.at:136;INITIALIZE PIC N EDITED TO VALUE;;
-40;pic-n.at:156;PIC N Move to NATIONAL EDITED;;
-41;pic-n.at:175;PIC N Move with half-width alnum conv.;;
-42;pic-n.at:194;PIC N Move with half-width kana conv.;;
-43;pic-n.at:214;PIC N Ref mod(n:);;
-44;pic-n.at:233;PIC N Ref mod(n:m);;
-45;pic-n.at:252;PIC N STRING by size;;
-46;pic-n.at:275;PIC N STRING with delimiter (causes warn);;
-47;pic-n.at:298;PIC N STRING with NATIONAL delimiter;;
-48;pic-n.at:321;PIC N STRING with pointer;;
-49;pic-n.at:345;PIC N INSPECT REPLACING;;
-50;pic-n.at:364;PIC N INSPECT REPLACING by ZERO;;
-51;pic-n.at:383;PIC N INSPECT REPLACING by NATIONAL ZERO;;
-52;pic-n.at:402;PIC N INSPECT TALLYING;;
-53;pic-n.at:422;PIC N Move with half-width dakuten kana.;;
-54;pic-n.at:441;PIC N Move with half-width han-dakuten kana.;;
-55;program-id.at:1;PROGRAM-ID NATIONAL C89 no warning;;
-56;program-id.at:20;PROGRAM-ID NATIONAL C89 warning;;
-57;program-id.at:42;PROGRAM-ID NATIONAL C89 ignore;;
-58;program-id.at:56;PROGRAM-ID NATIONAL 32 character no over;;
-59;program-id.at:71;PROGRAM-ID NATIONAL 32 character over;;
-60;error-print.at:1;undefined not message;;
-61;error-print.at:24;Encoding alphanumeric name item;;
-62;error-print.at:41;Encoding national name item;;
-63;error-print.at:58;Decoding national section name;;
-64;limits.at:1;Field length limit PIC A/VALID;;
-65;limits.at:17;Field length limit PIC A/TOO LONG;;
-66;limits.at:35;Field length limit PIC X/VALID;;
-67;limits.at:51;Field length limit PIC X/TOO LONG;;
-68;limits.at:69;Field length limit PIC B9/VALID;;
-69;limits.at:85;Field length limit PIC B9/TOO LONG;;
-70;limits.at:103;Field length limit PIC B/VALID;;
-71;limits.at:119;Field length limit PIC B/TOO LONG;;
-72;limits.at:137;Field length limit PIC BA/VALID;;
-73;limits.at:153;Field length limit PIC BA/TOO LONG;;
-74;limits.at:171;Field length limit PIC BX/VALID;;
-75;limits.at:187;Field length limit PIC BX/TOO LONG;;
-76;limits.at:205;Field length limit PIC N/VALID (SJIS);;
-77;limits.at:221;Field length limit PIC N/TOO LONG (SJIS);;
-78;limits.at:239;Field length limit PIC BN/VALID (SJIS);;
-79;limits.at:255;Field length limit PIC BN/TOO LONG (SJIS);;
-80;national.at:1;FUNCTION NATIONAL single-byte;;
-81;national.at:22;FUNCTION NATIONAL multi-byte;;
-82;national.at:43;FUNCTION NATIONAL KIGOU-exclamation;;
-83;national.at:64;FUNCTION NATIONAL KIGOU-yen;;
-84;national.at:85;FUNCTION NATIONAL KIGOU-plus;;
-85;national.at:106;FUNCTION NATIONAL (HanKana w/ Daku-on);;
-86;national.at:127;FUNCTION NATIONAL (HanKana w/ Han-daku-on);;
-87;national.at:148;N Literal (NO zenakaku conversion);;
-88;national.at:173;NC Literal (NO zenakaku conversion);;
-89;national.at:198;ND Literal (NO zenakaku conversion);;
-90;national.at:223;NX Literal;;
-91;mb-space.at:1;Zenkaku SPC delims in headings;;
-92;mb-space.at:19;Zenkaku SPC delims in record def;;
-93;mb-space.at:43;Zenkaku SPC delims in COPY stmt;;
+8;user-defined-word.at:145;Nihongo Filename;;
+9;user-defined-word.at:180;Nihongo field name in numeric test msg.;;
+10;user-defined-word.at:203;Nihongo field name in BASED test msg.;;
+11;user-defined-word.at:224;Nihongo field name in ODO test msg.;;
+12;user-defined-word.at:246;Nihongo field name in Subscript test msg.;;
+13;user-defined-word.at:268;Nihongo field name in length of ref_mod test msg.;;
+14;user-defined-word.at:290;Nihongo field name in offset of ref_mod test msg.;;
+15;user-defined-word.at:312;Nihongo field name in length of N_refmod test msg.;;
+16;user-defined-word.at:334;Nihongo field name in offset of N_refmod test msg.;;
+17;user-defined-word.at:356;Nihongo field name in extaddr test msg.;;
+18;user-defined-word.at:384;Nihongo field name in undefined error msg.;;
+19;user-defined-word.at:423;Nihongo field name in ambiguous error msg.;;
+20;user-defined-word.at:459;Nihongo label name in ambiguous error msg.;;
+21;pic-x.at:1;Value clause;;
+22;pic-x.at:19;Move;;
+23;pic-x.at:38;Move with trunc;;
+24;pic-x.at:60;Move ALL with trunc and trimming;;
+25;pic-x.at:80;Move with trunc and trimming 1;;
+26;pic-x.at:103;Move from field with trunc and trimming 1;;
+27;pic-x.at:124;Move with padding;;
+28;pic-x.at:143;Move with justify;;
+29;pic-x.at:162;Move to alnum EDITED;;
+30;pic-x.at:181;Move to alnum EDITED (pic too short);;
+31;pic-x.at:203;Move to alnum EDITED (pic too long);;
+32;pic-x.at:222;Move to alnum EDITED (No char break);;
+33;pic-x.at:241;Move to alnum EDITED (char break & junk chars);;
+34;pic-x.at:261;Move group to group in bad alignment;;
+35;pic-x.at:286;Redifinition breaking char pos.;;
+36;pic-x.at:311;Ref mod(n:);;
+37;pic-x.at:330;Ref mod(n:m);;
+38;pic-x.at:349;STRING by size;;
+39;pic-x.at:372;STRING with delimiter;;
+40;pic-x.at:399;STRING with pointer;;
+41;pic-x.at:423;INSPECT REPLACING;;
+42;pic-x.at:442;INSPECT REPLACING by ZERO;;
+43;pic-x.at:461;INSPECT TALLYING;;
+44;pic-n.at:1;PIC N Value clause;;
+45;pic-n.at:19;PIC N Move;;
+46;pic-n.at:38;PIC N Move with trunc;;
+47;pic-n.at:60;PIC N Move with padding by full-width SPC;;
+48;pic-n.at:79;PIC N Move with justify;;
+49;pic-n.at:98;PIC N EDITED w/ VALUE;;
+50;pic-n.at:116;INITIALIZE PIC N EDITED;;
+51;pic-n.at:136;INITIALIZE PIC N EDITED TO VALUE;;
+52;pic-n.at:156;PIC N Move to NATIONAL EDITED;;
+53;pic-n.at:175;PIC N Move with half-width alnum conv.;;
+54;pic-n.at:194;PIC N Move with half-width kana conv.;;
+55;pic-n.at:214;PIC N Ref mod(n:);;
+56;pic-n.at:233;PIC N Ref mod(n:m);;
+57;pic-n.at:252;PIC N STRING by size;;
+58;pic-n.at:275;PIC N STRING with delimiter (causes warn);;
+59;pic-n.at:298;PIC N STRING with NATIONAL delimiter;;
+60;pic-n.at:321;PIC N STRING with pointer;;
+61;pic-n.at:345;PIC N INSPECT REPLACING;;
+62;pic-n.at:364;PIC N INSPECT REPLACING by ZERO;;
+63;pic-n.at:383;PIC N INSPECT REPLACING by NATIONAL ZERO;;
+64;pic-n.at:402;PIC N INSPECT TALLYING;;
+65;pic-n.at:422;PIC N Move with half-width dakuten kana.;;
+66;pic-n.at:441;PIC N Move with half-width han-dakuten kana.;;
+67;program-id.at:1;PROGRAM-ID NATIONAL C89 no warning;;
+68;program-id.at:20;PROGRAM-ID NATIONAL C89 warning;;
+69;program-id.at:42;PROGRAM-ID NATIONAL C89 ignore;;
+70;program-id.at:56;PROGRAM-ID NATIONAL 32 character no over;;
+71;program-id.at:71;PROGRAM-ID NATIONAL 32 character over;;
+72;error-print.at:1;undefined not message;;
+73;error-print.at:24;Encoding alphanumeric name item;;
+74;error-print.at:41;Encoding national name item;;
+75;error-print.at:58;Decoding national section name;;
+76;limits.at:1;Field length limit PIC A/VALID;;
+77;limits.at:17;Field length limit PIC A/TOO LONG;;
+78;limits.at:35;Field length limit PIC X/VALID;;
+79;limits.at:51;Field length limit PIC X/TOO LONG;;
+80;limits.at:69;Field length limit PIC B9/VALID;;
+81;limits.at:85;Field length limit PIC B9/TOO LONG;;
+82;limits.at:103;Field length limit PIC B/VALID;;
+83;limits.at:119;Field length limit PIC B/TOO LONG;;
+84;limits.at:137;Field length limit PIC BA/VALID;;
+85;limits.at:153;Field length limit PIC BA/TOO LONG;;
+86;limits.at:171;Field length limit PIC BX/VALID;;
+87;limits.at:187;Field length limit PIC BX/TOO LONG;;
+88;limits.at:205;Field length limit PIC N/VALID (SJIS);;
+89;limits.at:221;Field length limit PIC N/TOO LONG (SJIS);;
+90;limits.at:239;Field length limit PIC BN/VALID (SJIS);;
+91;limits.at:255;Field length limit PIC BN/TOO LONG (SJIS);;
+92;national.at:1;FUNCTION NATIONAL single-byte;;
+93;national.at:22;FUNCTION NATIONAL multi-byte;;
+94;national.at:43;FUNCTION NATIONAL KIGOU-exclamation;;
+95;national.at:64;FUNCTION NATIONAL KIGOU-yen;;
+96;national.at:85;FUNCTION NATIONAL KIGOU-plus;;
+97;national.at:106;FUNCTION NATIONAL (HanKana w/ Daku-on);;
+98;national.at:127;FUNCTION NATIONAL (HanKana w/ Han-daku-on);;
+99;national.at:148;N Literal (NO zenakaku conversion);;
+100;national.at:173;NC Literal (NO zenakaku conversion);;
+101;national.at:198;ND Literal (NO zenakaku conversion);;
+102;national.at:223;NX Literal;;
+103;mb-space.at:1;Zenkaku SPC delims in headings;;
+104;mb-space.at:19;Zenkaku SPC delims in record def;;
+105;mb-space.at:43;Zenkaku SPC delims in COPY stmt;;
 '
 
 at_keywords=
@@ -1346,7 +1358,8 @@ cat >prog.cob <<'_ATEOF'
 
        IDENTIFICATION   DIVISION.
        PROGRAM-ID.      prog.
-       DATA             DIVISION.       WORKING-STORAGE  SECTION.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
        PROCEDURE        DIVISION.
        PERFORM s‚P‚Q‚R‚S‚T‚U‚V‚W‚X‚O123456789012345678901.
        PERFORM    ‚r|I—¹.
@@ -1359,22 +1372,22 @@ _ATEOF
 
 
 $at_traceoff
-echo "user-defined-word.at:137: \${COMPILE} -x prog.cob"
-echo user-defined-word.at:137 >$at_check_line_file
+echo "user-defined-word.at:138: \${COMPILE} -x prog.cob"
+echo user-defined-word.at:138 >$at_check_line_file
 ( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
-echo >>$at_stderr; echo "prog.cob:6: Error: User defined name must be less than 32 characters
-prog.cob:8: Error: User defined name must be less than 32 characters
+echo >>$at_stderr; echo "prog.cob:7: Error: User defined name must be less than 32 characters
+prog.cob:9: Error: User defined name must be less than 32 characters
 " | $at_diff - $at_stderr || at_failed=:
 $at_diff $at_devnull $at_stdout || at_failed=:
 case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    1) ;;
-   *) echo "user-defined-word.at:137: exit code was $at_status, expected 1"
+   *) echo "user-defined-word.at:138: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1392,13 +1405,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  8 ) # 8. user-defined-word.at:144: Nihongo Filename
-    at_setup_line='user-defined-word.at:144'
+  8 ) # 8. user-defined-word.at:145: Nihongo Filename
+    at_setup_line='user-defined-word.at:145'
     at_desc='Nihongo Filename'
     $at_quiet $ECHO_N "  8: Nihongo Filename                             $ECHO_C"
     at_xfail=no
     (
-      echo "8. user-defined-word.at:144: testing ..."
+      echo "8. user-defined-word.at:145: testing ..."
       $at_traceon
 
 
@@ -1433,8 +1446,8 @@ _ATEOF
 
 
 $at_traceoff
-echo "user-defined-word.at:174: \${COMPILE} -x prog.cob"
-echo user-defined-word.at:174 >$at_check_line_file
+echo "user-defined-word.at:175: \${COMPILE} -x prog.cob"
+echo user-defined-word.at:175 >$at_check_line_file
 ( $at_traceon; ${COMPILE} -x prog.cob ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1446,7 +1459,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "user-defined-word.at:174: exit code was $at_status, expected 0"
+   *) echo "user-defined-word.at:175: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1458,8 +1471,8 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "user-defined-word.at:175: ./prog"
-echo user-defined-word.at:175 >$at_check_line_file
+echo "user-defined-word.at:176: ./prog"
+echo user-defined-word.at:176 >$at_check_line_file
 ( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
@@ -1471,7 +1484,7 @@ case $at_status in
    77) echo 77 > $at_status_file
             exit 77;;
    0) ;;
-   *) echo "user-defined-word.at:175: exit code was $at_status, expected 0"
+   *) echo "user-defined-word.at:176: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1489,13 +1502,980 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  9 ) # 9. pic-x.at:1: Value clause
-    at_setup_line='pic-x.at:1'
-    at_desc='Value clause'
-    $at_quiet $ECHO_N "  9: Value clause                                 $ECHO_C"
+  9 ) # 9. user-defined-word.at:180: Nihongo field name in numeric test msg.
+    at_setup_line='user-defined-word.at:180'
+    at_desc='Nihongo field name in numeric test msg.'
+    $at_quiet $ECHO_N "  9: Nihongo field name in numeric test msg.      $ECHO_C"
     at_xfail=no
     (
-      echo "9. pic-x.at:1: testing ..."
+      echo "9. user-defined-word.at:180: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       numcheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  TEST-REC.
+         03  U€–Ú  PIC  9(4) VALUE  1000.
+       01  X€–Ú    PIC  X(4) VALUE 'ABCD'.
+       PROCEDURE         DIVISION.
+           MOVE X€–Ú TO TEST-REC.
+           ADD 1 TO U€–Ú.
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "user-defined-word.at:196: \${COMPILE} -debug -x prog.cob"
+echo user-defined-word.at:196 >$at_check_line_file
+( $at_traceon; ${COMPILE} -debug -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "user-defined-word.at:196: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "user-defined-word.at:197: ./prog"
+echo user-defined-word.at:197 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:11: libcob: 'U€–Ú' not numeric: 'ABCD'
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "user-defined-word.at:197: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  10 ) # 10. user-defined-word.at:203: Nihongo field name in BASED test msg.
+    at_setup_line='user-defined-word.at:203'
+    at_desc='Nihongo field name in BASED test msg.'
+    $at_quiet $ECHO_N " 10: Nihongo field name in BASED test msg.        $ECHO_C"
+    at_xfail=no
+    (
+      echo "10. user-defined-word.at:203: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       basedcheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  X€–Ú    PIC  X(4) VALUE 'ABCD'.
+       01  Y€–Ú    PIC  X(4) BASED.
+       PROCEDURE         DIVISION.
+           MOVE X€–Ú TO Y€–Ú.
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "user-defined-word.at:217: \${COMPILE} -debug -x prog.cob"
+echo user-defined-word.at:217 >$at_check_line_file
+( $at_traceon; ${COMPILE} -debug -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "user-defined-word.at:217: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "user-defined-word.at:218: ./prog"
+echo user-defined-word.at:218 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:9: libcob: BASED/LINKAGE item 'Y€–Ú' has NULL address
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "user-defined-word.at:218: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  11 ) # 11. user-defined-word.at:224: Nihongo field name in ODO test msg.
+    at_setup_line='user-defined-word.at:224'
+    at_desc='Nihongo field name in ODO test msg.'
+    $at_quiet $ECHO_N " 11: Nihongo field name in ODO test msg.          $ECHO_C"
+    at_xfail=no
+    (
+      echo "11. user-defined-word.at:224: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       odocheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  I€–Ú         PIC 9 VALUE 4.
+       01  X.
+         03  Y€–Ú       PIC 9 OCCURS 1 TO 3 DEPENDING ON I€–Ú.
+       PROCEDURE         DIVISION.
+           MOVE 1 TO Y€–Ú(3).
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "user-defined-word.at:239: \${COMPILE} -debug -x prog.cob"
+echo user-defined-word.at:239 >$at_check_line_file
+( $at_traceon; ${COMPILE} -debug -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "user-defined-word.at:239: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "user-defined-word.at:240: ./prog"
+echo user-defined-word.at:240 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:10: libcob: OCCURS DEPENDING ON 'I€–Ú' out of bounds: 4
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "user-defined-word.at:240: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  12 ) # 12. user-defined-word.at:246: Nihongo field name in Subscript test msg.
+    at_setup_line='user-defined-word.at:246'
+    at_desc='Nihongo field name in Subscript test msg.'
+    $at_quiet $ECHO_N " 12: Nihongo field name in Subscript test msg.    $ECHO_C"
+    at_xfail=no
+    (
+      echo "12. user-defined-word.at:246: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       odocheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  I€–Ú         PIC 9 VALUE 2.
+       01  X.
+         03  Y€–Ú       PIC 9 OCCURS 1 TO 3 DEPENDING ON I€–Ú.
+       PROCEDURE         DIVISION.
+           MOVE 1 TO Y€–Ú(3).
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "user-defined-word.at:261: \${COMPILE} -debug -x prog.cob"
+echo user-defined-word.at:261 >$at_check_line_file
+( $at_traceon; ${COMPILE} -debug -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "user-defined-word.at:261: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "user-defined-word.at:262: ./prog"
+echo user-defined-word.at:262 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:10: libcob: Subscript of 'Y€–Ú' out of bounds: 3
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "user-defined-word.at:262: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  13 ) # 13. user-defined-word.at:268: Nihongo field name in length of ref_mod test msg.
+    at_setup_line='user-defined-word.at:268'
+    at_desc='Nihongo field name in length of ref_mod test msg.'
+    $at_quiet $ECHO_N " 13: Nihongo field name in length of ref_mod test msg.$ECHO_C"
+    at_xfail=no
+    (
+      echo "13. user-defined-word.at:268: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       refcheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  I             PIC 9    VALUE 2.
+       01  J             PIC 9    VALUE 6.
+       01  X€–Ú         PIC X(5) VALUE "ABCDE".
+       PROCEDURE         DIVISION.
+           DISPLAY X€–Ú(I:J).
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "user-defined-word.at:283: \${COMPILE} -debug -x prog.cob"
+echo user-defined-word.at:283 >$at_check_line_file
+( $at_traceon; ${COMPILE} -debug -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "user-defined-word.at:283: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "user-defined-word.at:284: ./prog"
+echo user-defined-word.at:284 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:10: libcob: Length of 'X€–Ú' out of bounds: 6
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "user-defined-word.at:284: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  14 ) # 14. user-defined-word.at:290: Nihongo field name in offset of ref_mod test msg.
+    at_setup_line='user-defined-word.at:290'
+    at_desc='Nihongo field name in offset of ref_mod test msg.'
+    $at_quiet $ECHO_N " 14: Nihongo field name in offset of ref_mod test msg.$ECHO_C"
+    at_xfail=no
+    (
+      echo "14. user-defined-word.at:290: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       refcheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  I             PIC 9    VALUE 6.
+       01  J             PIC 9    VALUE 2.
+       01  X€–Ú         PIC X(5) VALUE "ABCDE".
+       PROCEDURE         DIVISION.
+           DISPLAY X€–Ú(I:J).
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "user-defined-word.at:305: \${COMPILE} -debug -x prog.cob"
+echo user-defined-word.at:305 >$at_check_line_file
+( $at_traceon; ${COMPILE} -debug -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "user-defined-word.at:305: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "user-defined-word.at:306: ./prog"
+echo user-defined-word.at:306 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:10: libcob: Offset of 'X€–Ú' out of bounds: 6
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "user-defined-word.at:306: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  15 ) # 15. user-defined-word.at:312: Nihongo field name in length of N_refmod test msg.
+    at_setup_line='user-defined-word.at:312'
+    at_desc='Nihongo field name in length of N_refmod test msg.'
+    $at_quiet $ECHO_N " 15: Nihongo field name in length of N_refmod test msg.$ECHO_C"
+    at_xfail=no
+    (
+      echo "15. user-defined-word.at:312: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       refcheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  I             PIC 9    VALUE 2.
+       01  J             PIC 99   VALUE 18.
+       01  X€–Ú         PIC N(5) VALUE "‚`‚a‚b‚c‚d".
+       PROCEDURE         DIVISION.
+           DISPLAY X€–Ú(I:J).
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "user-defined-word.at:327: \${COMPILE} -debug -x prog.cob"
+echo user-defined-word.at:327 >$at_check_line_file
+( $at_traceon; ${COMPILE} -debug -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "user-defined-word.at:327: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "user-defined-word.at:328: ./prog"
+echo user-defined-word.at:328 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:10: libcob: Length of 'X€–Ú' out of bounds: 18
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "user-defined-word.at:328: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  16 ) # 16. user-defined-word.at:334: Nihongo field name in offset of N_refmod test msg.
+    at_setup_line='user-defined-word.at:334'
+    at_desc='Nihongo field name in offset of N_refmod test msg.'
+    $at_quiet $ECHO_N " 16: Nihongo field name in offset of N_refmod test msg.$ECHO_C"
+    at_xfail=no
+    (
+      echo "16. user-defined-word.at:334: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       refcheck.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  I             PIC 99   VALUE 18.
+       01  J             PIC 9    VALUE 2.
+       01  X€–Ú         PIC N(5) VALUE "‚`‚a‚b‚c‚d".
+       PROCEDURE         DIVISION.
+           DISPLAY X€–Ú(I:J).
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "user-defined-word.at:349: \${COMPILE} -debug -x prog.cob"
+echo user-defined-word.at:349 >$at_check_line_file
+( $at_traceon; ${COMPILE} -debug -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "user-defined-word.at:349: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "user-defined-word.at:350: ./prog"
+echo user-defined-word.at:350 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:10: libcob: Offset of 'X€–Ú' out of bounds: 18
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "user-defined-word.at:350: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  17 ) # 17. user-defined-word.at:356: Nihongo field name in extaddr test msg.
+    at_setup_line='user-defined-word.at:356'
+    at_desc='Nihongo field name in extaddr test msg.'
+    $at_quiet $ECHO_N " 17: Nihongo field name in extaddr test msg.      $ECHO_C"
+    at_xfail=no
+    (
+      echo "17. user-defined-word.at:356: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       check1.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  X€–Ú         PIC X(5) EXTERNAL.
+       PROCEDURE         DIVISION.
+           CALL 'check2'.
+
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.       check2.
+       DATA              DIVISION.
+       WORKING-STORAGE   SECTION.
+       01  X€–Ú         PIC X(6) EXTERNAL.
+       PROCEDURE         DIVISION.
+           END PROGRAM check2.
+           END PROGRAM check1.
+_ATEOF
+
+
+$at_traceoff
+echo "user-defined-word.at:377: \${COMPILE} -debug -x prog.cob"
+echo user-defined-word.at:377 >$at_check_line_file
+( $at_traceon; ${COMPILE} -debug -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "user-defined-word.at:377: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "user-defined-word.at:378: ./prog"
+echo user-defined-word.at:378 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:8: libcob: EXTERNAL item 'X€–Ú' has size > 6
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "user-defined-word.at:378: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  18 ) # 18. user-defined-word.at:384: Nihongo field name in undefined error msg.
+    at_setup_line='user-defined-word.at:384'
+    at_desc='Nihongo field name in undefined error msg.'
+    $at_quiet $ECHO_N " 18: Nihongo field name in undefined error msg.   $ECHO_C"
+    at_xfail=no
+    (
+      echo "18. user-defined-word.at:384: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 GW’c€–Ú.
+          03 A€–Ú PIC X.
+       PROCEDURE        DIVISION.
+001009     DISPLAY NO-FLD.
+001010     DISPLAY NO-FLD IN G-GRP.
+001011     DISPLAY NO-FLD IN NO-GRP.
+001012     DISPLAY NO€–Ú.
+001013     DISPLAY NO€–Ú IN GW’c€–Ú.
+001014     DISPLAY NO€–Ú IN NOW’c€–Ú.
+001015     DISPLAY NO-FLD IN GW’c€–Ú.
+001016     DISPLAY NO-FLD IN NOW’c€–Ú.
+001017     DISPLAY NO€–Ú IN G-GRP.
+001018     DISPLAY NO€–Ú IN NO-GRP.
+001019     DISPLAY NO€–Ú IN GW’c€–Ú IN NOW’c€–Ú.
+_ATEOF
+
+
+$at_traceoff
+echo "user-defined-word.at:407: \${COMPILE} -debug -x prog.cob"
+echo user-defined-word.at:407 >$at_check_line_file
+( $at_traceon; ${COMPILE} -debug -x prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:9: Error: 'NO-FLD' undefined
+prog.cob:10: Error: 'NO-FLD' in 'G-GRP' undefined
+prog.cob:11: Error: 'NO-FLD' in 'NO-GRP' undefined
+prog.cob:12: Error: 'NO€–Ú' undefined
+prog.cob:13: Error: 'NO€–Ú' in 'GW’c€–Ú' undefined
+prog.cob:14: Error: 'NO€–Ú' in 'NOW’c€–Ú' undefined
+prog.cob:15: Error: 'NO-FLD' in 'GW’c€–Ú' undefined
+prog.cob:16: Error: 'NO-FLD' in 'NOW’c€–Ú' undefined
+prog.cob:17: Error: 'NO€–Ú' in 'G-GRP' undefined
+prog.cob:18: Error: 'NO€–Ú' in 'NO-GRP' undefined
+prog.cob:19: Error: 'NO€–Ú' in 'GW’c€–Ú' in 'NOW’c€–Ú' undefined
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "user-defined-word.at:407: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  19 ) # 19. user-defined-word.at:423: Nihongo field name in ambiguous error msg.
+    at_setup_line='user-defined-word.at:423'
+    at_desc='Nihongo field name in ambiguous error msg.'
+    $at_quiet $ECHO_N " 19: Nihongo field name in ambiguous error msg.   $ECHO_C"
+    at_xfail=no
+    (
+      echo "19. user-defined-word.at:423: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 A€–Ú PIC X.
+       01 G1W’c.
+          03 A€–Ú PIC X.
+          03 B€–Ú PIC X.
+          03 G2W’c.
+             05 A€–Ú PIC X.
+             05 B€–Ú PIC X.
+       PROCEDURE        DIVISION.
+001014     DISPLAY A€–Ú.
+001015     DISPLAY B€–Ú IN G1W’c.
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "user-defined-word.at:443: \${COMPILE_ONLY} prog.cob"
+echo user-defined-word.at:443 >$at_check_line_file
+( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:8: Warning: Redefinition of 'A€–Ú'
+prog.cob:6: Warning: 'A€–Ú' previously defined here
+prog.cob:11: Warning: Redefinition of 'A€–Ú'
+prog.cob:6: Warning: 'A€–Ú' previously defined here
+prog.cob:14: Error: 'A€–Ú' ambiguous; need qualification
+prog.cob:6: Error: 'A€–Ú' defined here
+prog.cob:8: Error: 'A€–Ú' in 'G1W’c' defined here
+prog.cob:11: Error: 'A€–Ú' in 'G2W’c' in 'G1W’c' defined here
+prog.cob:15: Error: 'B€–Ú' in 'G1W’c' ambiguous; need qualification
+prog.cob:9: Error: 'B€–Ú' in 'G1W’c' defined here
+prog.cob:12: Error: 'B€–Ú' in 'G2W’c' in 'G1W’c' defined here
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "user-defined-word.at:443: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  20 ) # 20. user-defined-word.at:459: Nihongo label name in ambiguous error msg.
+    at_setup_line='user-defined-word.at:459'
+    at_desc='Nihongo label name in ambiguous error msg.'
+    $at_quiet $ECHO_N " 20: Nihongo label name in ambiguous error msg.   $ECHO_C"
+    at_xfail=no
+    (
+      echo "20. user-defined-word.at:459: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       PROCEDURE        DIVISION.
+001006   L0Œ©o‚µ.
+001007     GO TO L1Œ©o‚µ.
+001008     GO TO L2Œ©o‚µ IN S1ß.
+001009   L1Œ©o‚µ. GOBACK.
+001010   L1Œ©o‚µ. GOBACK.
+001011 S1ß             SECTION.
+001012   L2Œ©o‚µ. GOBACK.
+001013   L2Œ©o‚µ. GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "user-defined-word.at:476: \${COMPILE_ONLY} prog.cob"
+echo user-defined-word.at:476 >$at_check_line_file
+( $at_traceon; ${COMPILE_ONLY} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:7: Error: 'L1Œ©o‚µ' ambiguous; need qualification
+prog.cob:9: Error: 'L1Œ©o‚µ' in 'MAIN SECTION' defined here
+prog.cob:10: Error: 'L1Œ©o‚µ' in 'MAIN SECTION' defined here
+prog.cob:8: Error: 'L2Œ©o‚µ' in 'S1ß' ambiguous; need qualification
+prog.cob:12: Error: 'L2Œ©o‚µ' in 'S1ß' defined here
+prog.cob:13: Error: 'L2Œ©o‚µ' in 'S1ß' defined here
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "user-defined-word.at:476: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  21 ) # 21. pic-x.at:1: Value clause
+    at_setup_line='pic-x.at:1'
+    at_desc='Value clause'
+    $at_quiet $ECHO_N " 21: Value clause                                 $ECHO_C"
+    at_xfail=no
+    (
+      echo "21. pic-x.at:1: testing ..."
       $at_traceon
 
 
@@ -1569,13 +2549,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  10 ) # 10. pic-x.at:19: Move
+  22 ) # 22. pic-x.at:19: Move
     at_setup_line='pic-x.at:19'
     at_desc='Move'
-    $at_quiet $ECHO_N " 10: Move                                         $ECHO_C"
+    $at_quiet $ECHO_N " 22: Move                                         $ECHO_C"
     at_xfail=no
     (
-      echo "10. pic-x.at:19: testing ..."
+      echo "22. pic-x.at:19: testing ..."
       $at_traceon
 
 
@@ -1650,13 +2630,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  11 ) # 11. pic-x.at:38: Move with trunc
+  23 ) # 23. pic-x.at:38: Move with trunc
     at_setup_line='pic-x.at:38'
     at_desc='Move with trunc'
-    $at_quiet $ECHO_N " 11: Move with trunc                              $ECHO_C"
+    $at_quiet $ECHO_N " 23: Move with trunc                              $ECHO_C"
     at_xfail=no
     (
-      echo "11. pic-x.at:38: testing ..."
+      echo "23. pic-x.at:38: testing ..."
       $at_traceon
 
 
@@ -1733,13 +2713,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  12 ) # 12. pic-x.at:60: Move ALL with trunc and trimming
+  24 ) # 24. pic-x.at:60: Move ALL with trunc and trimming
     at_setup_line='pic-x.at:60'
     at_desc='Move ALL with trunc and trimming'
-    $at_quiet $ECHO_N " 12: Move ALL with trunc and trimming             $ECHO_C"
+    $at_quiet $ECHO_N " 24: Move ALL with trunc and trimming             $ECHO_C"
     at_xfail=no
     (
-      echo "12. pic-x.at:60: testing ..."
+      echo "24. pic-x.at:60: testing ..."
       $at_traceon
 
 
@@ -1783,15 +2763,15 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-x.at:75: ./prog | od -x -An"
+echo "pic-x.at:75: ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *\$//'"
 echo pic-x.at:75 >$at_check_line_file
-( $at_traceon; ./prog | od -x -An ) >$at_stdout 2>$at_stder1
+( $at_traceon; ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//' ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
 $at_diff $at_devnull $at_stderr || at_failed=:
-echo >>$at_stdout; echo " ec8a ec8a ec8a 0020
+echo >>$at_stdout; echo " 8a ec 8a ec 8a ec 20
 " | $at_diff - $at_stdout || at_failed=:
 case $at_status in
    77) echo 77 > $at_status_file
@@ -1815,13 +2795,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  13 ) # 13. pic-x.at:80: Move with trunc and trimming 1
+  25 ) # 25. pic-x.at:80: Move with trunc and trimming 1
     at_setup_line='pic-x.at:80'
     at_desc='Move with trunc and trimming 1'
-    $at_quiet $ECHO_N " 13: Move with trunc and trimming 1               $ECHO_C"
+    $at_quiet $ECHO_N " 25: Move with trunc and trimming 1               $ECHO_C"
     at_xfail=no
     (
-      echo "13. pic-x.at:80: testing ..."
+      echo "25. pic-x.at:80: testing ..."
       $at_traceon
 
 
@@ -1867,15 +2847,15 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-x.at:98: ./prog | od -x -An"
+echo "pic-x.at:98: ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *\$//'"
 echo pic-x.at:98 >$at_check_line_file
-( $at_traceon; ./prog | od -x -An ) >$at_stdout 2>$at_stder1
+( $at_traceon; ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//' ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
 $at_diff $at_devnull $at_stderr || at_failed=:
-echo >>$at_stdout; echo " fa93 7b96 ea8c 0082
+echo >>$at_stdout; echo " 93 fa 96 7b 8c ea 82
 " | $at_diff - $at_stdout || at_failed=:
 case $at_status in
    77) echo 77 > $at_status_file
@@ -1899,13 +2879,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  14 ) # 14. pic-x.at:103: Move from field with trunc and trimming 1
+  26 ) # 26. pic-x.at:103: Move from field with trunc and trimming 1
     at_setup_line='pic-x.at:103'
     at_desc='Move from field with trunc and trimming 1'
-    $at_quiet $ECHO_N " 14: Move from field with trunc and trimming 1    $ECHO_C"
+    $at_quiet $ECHO_N " 26: Move from field with trunc and trimming 1    $ECHO_C"
     at_xfail=no
     (
-      echo "14. pic-x.at:103: testing ..."
+      echo "26. pic-x.at:103: testing ..."
       $at_traceon
 
 
@@ -1950,15 +2930,15 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-x.at:119: ./prog | od -x -An"
+echo "pic-x.at:119: ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *\$//'"
 echo pic-x.at:119 >$at_check_line_file
-( $at_traceon; ./prog | od -x -An ) >$at_stdout 2>$at_stder1
+( $at_traceon; ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//' ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
 $at_diff $at_devnull $at_stderr || at_failed=:
-echo >>$at_stdout; echo " fa93 7b96 ea8c 0082
+echo >>$at_stdout; echo " 93 fa 96 7b 8c ea 82
 " | $at_diff - $at_stdout || at_failed=:
 case $at_status in
    77) echo 77 > $at_status_file
@@ -1982,13 +2962,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  15 ) # 15. pic-x.at:124: Move with padding
+  27 ) # 27. pic-x.at:124: Move with padding
     at_setup_line='pic-x.at:124'
     at_desc='Move with padding'
-    $at_quiet $ECHO_N " 15: Move with padding                            $ECHO_C"
+    $at_quiet $ECHO_N " 27: Move with padding                            $ECHO_C"
     at_xfail=no
     (
-      echo "15. pic-x.at:124: testing ..."
+      echo "27. pic-x.at:124: testing ..."
       $at_traceon
 
 
@@ -2063,13 +3043,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  16 ) # 16. pic-x.at:143: Move with justify
+  28 ) # 28. pic-x.at:143: Move with justify
     at_setup_line='pic-x.at:143'
     at_desc='Move with justify'
-    $at_quiet $ECHO_N " 16: Move with justify                            $ECHO_C"
+    $at_quiet $ECHO_N " 28: Move with justify                            $ECHO_C"
     at_xfail=no
     (
-      echo "16. pic-x.at:143: testing ..."
+      echo "28. pic-x.at:143: testing ..."
       $at_traceon
 
 
@@ -2144,13 +3124,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  17 ) # 17. pic-x.at:162: Move to alnum EDITED
+  29 ) # 29. pic-x.at:162: Move to alnum EDITED
     at_setup_line='pic-x.at:162'
     at_desc='Move to alnum EDITED'
-    $at_quiet $ECHO_N " 17: Move to alnum EDITED                         $ECHO_C"
+    $at_quiet $ECHO_N " 29: Move to alnum EDITED                         $ECHO_C"
     at_xfail=no
     (
-      echo "17. pic-x.at:162: testing ..."
+      echo "29. pic-x.at:162: testing ..."
       $at_traceon
 
 
@@ -2225,13 +3205,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  18 ) # 18. pic-x.at:181: Move to alnum EDITED (pic too short)
+  30 ) # 30. pic-x.at:181: Move to alnum EDITED (pic too short)
     at_setup_line='pic-x.at:181'
     at_desc='Move to alnum EDITED (pic too short)'
-    $at_quiet $ECHO_N " 18: Move to alnum EDITED (pic too short)         $ECHO_C"
+    $at_quiet $ECHO_N " 30: Move to alnum EDITED (pic too short)         $ECHO_C"
     at_xfail=no
     (
-      echo "18. pic-x.at:181: testing ..."
+      echo "30. pic-x.at:181: testing ..."
       $at_traceon
 
 
@@ -2308,13 +3288,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  19 ) # 19. pic-x.at:203: Move to alnum EDITED (pic too long)
+  31 ) # 31. pic-x.at:203: Move to alnum EDITED (pic too long)
     at_setup_line='pic-x.at:203'
     at_desc='Move to alnum EDITED (pic too long)'
-    $at_quiet $ECHO_N " 19: Move to alnum EDITED (pic too long)          $ECHO_C"
+    $at_quiet $ECHO_N " 31: Move to alnum EDITED (pic too long)          $ECHO_C"
     at_xfail=no
     (
-      echo "19. pic-x.at:203: testing ..."
+      echo "31. pic-x.at:203: testing ..."
       $at_traceon
 
 
@@ -2389,13 +3369,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  20 ) # 20. pic-x.at:222: Move to alnum EDITED (No char break)
+  32 ) # 32. pic-x.at:222: Move to alnum EDITED (No char break)
     at_setup_line='pic-x.at:222'
     at_desc='Move to alnum EDITED (No char break)'
-    $at_quiet $ECHO_N " 20: Move to alnum EDITED (No char break)         $ECHO_C"
+    $at_quiet $ECHO_N " 32: Move to alnum EDITED (No char break)         $ECHO_C"
     at_xfail=no
     (
-      echo "20. pic-x.at:222: testing ..."
+      echo "32. pic-x.at:222: testing ..."
       $at_traceon
 
 
@@ -2470,13 +3450,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  21 ) # 21. pic-x.at:241: Move to alnum EDITED (char break & junk chars)
+  33 ) # 33. pic-x.at:241: Move to alnum EDITED (char break & junk chars)
     at_setup_line='pic-x.at:241'
     at_desc='Move to alnum EDITED (char break & junk chars)'
-    $at_quiet $ECHO_N " 21: Move to alnum EDITED (char break & junk chars)$ECHO_C"
+    $at_quiet $ECHO_N " 33: Move to alnum EDITED (char break & junk chars)$ECHO_C"
     at_xfail=no
     (
-      echo "21. pic-x.at:241: testing ..."
+      echo "33. pic-x.at:241: testing ..."
       $at_traceon
 
 
@@ -2520,15 +3500,15 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-x.at:256: ./prog | od -x -An"
+echo "pic-x.at:256: ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *\$//'"
 echo pic-x.at:256 >$at_check_line_file
-( $at_traceon; ./prog | od -x -An ) >$at_stdout 2>$at_stder1
+( $at_traceon; ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//' ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
 $at_diff $at_devnull $at_stderr || at_failed=:
-echo >>$at_stdout; echo " 2093 96fa 007b
+echo >>$at_stdout; echo " 93 20 fa 96 7b
 " | $at_diff - $at_stdout || at_failed=:
 case $at_status in
    77) echo 77 > $at_status_file
@@ -2552,13 +3532,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  22 ) # 22. pic-x.at:261: Move group to group in bad alignment
+  34 ) # 34. pic-x.at:261: Move group to group in bad alignment
     at_setup_line='pic-x.at:261'
     at_desc='Move group to group in bad alignment'
-    $at_quiet $ECHO_N " 22: Move group to group in bad alignment         $ECHO_C"
+    $at_quiet $ECHO_N " 34: Move group to group in bad alignment         $ECHO_C"
     at_xfail=no
     (
-      echo "22. pic-x.at:261: testing ..."
+      echo "34. pic-x.at:261: testing ..."
       $at_traceon
 
 
@@ -2607,15 +3587,15 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-x.at:281: ./prog | od -x -An"
+echo "pic-x.at:281: ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *\$//'"
 echo pic-x.at:281 >$at_check_line_file
-( $at_traceon; ./prog | od -x -An ) >$at_stdout 2>$at_stder1
+( $at_traceon; ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//' ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
 $at_diff $at_devnull $at_stderr || at_failed=:
-echo >>$at_stdout; echo " fa93 0096
+echo >>$at_stdout; echo " 93 fa 96
 " | $at_diff - $at_stdout || at_failed=:
 case $at_status in
    77) echo 77 > $at_status_file
@@ -2639,13 +3619,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  23 ) # 23. pic-x.at:286: Redifinition breaking char pos.
+  35 ) # 35. pic-x.at:286: Redifinition breaking char pos.
     at_setup_line='pic-x.at:286'
     at_desc='Redifinition breaking char pos.'
-    $at_quiet $ECHO_N " 23: Redifinition breaking char pos.              $ECHO_C"
+    $at_quiet $ECHO_N " 35: Redifinition breaking char pos.              $ECHO_C"
     at_xfail=no
     (
-      echo "23. pic-x.at:286: testing ..."
+      echo "35. pic-x.at:286: testing ..."
       $at_traceon
 
 
@@ -2693,15 +3673,15 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-x.at:305: ./prog | od -x -An"
+echo "pic-x.at:305: ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *\$//'"
 echo pic-x.at:305 >$at_check_line_file
-( $at_traceon; ./prog | od -x -An ) >$at_stdout 2>$at_stder1
+( $at_traceon; ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//' ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
 $at_diff $at_devnull $at_stderr || at_failed=:
-echo >>$at_stdout; echo " fa93 0096
+echo >>$at_stdout; echo " 93 fa 96
 " | $at_diff - $at_stdout || at_failed=:
 case $at_status in
    77) echo 77 > $at_status_file
@@ -2725,13 +3705,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  24 ) # 24. pic-x.at:311: Ref mod(n:)
+  36 ) # 36. pic-x.at:311: Ref mod(n:)
     at_setup_line='pic-x.at:311'
     at_desc='Ref mod(n:)'
-    $at_quiet $ECHO_N " 24: Ref mod(n:)                                  $ECHO_C"
+    $at_quiet $ECHO_N " 36: Ref mod(n:)                                  $ECHO_C"
     at_xfail=no
     (
-      echo "24. pic-x.at:311: testing ..."
+      echo "36. pic-x.at:311: testing ..."
       $at_traceon
 
 
@@ -2806,13 +3786,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  25 ) # 25. pic-x.at:330: Ref mod(n:m)
+  37 ) # 37. pic-x.at:330: Ref mod(n:m)
     at_setup_line='pic-x.at:330'
     at_desc='Ref mod(n:m)'
-    $at_quiet $ECHO_N " 25: Ref mod(n:m)                                 $ECHO_C"
+    $at_quiet $ECHO_N " 37: Ref mod(n:m)                                 $ECHO_C"
     at_xfail=no
     (
-      echo "25. pic-x.at:330: testing ..."
+      echo "37. pic-x.at:330: testing ..."
       $at_traceon
 
 
@@ -2887,13 +3867,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  26 ) # 26. pic-x.at:349: STRING by size
+  38 ) # 38. pic-x.at:349: STRING by size
     at_setup_line='pic-x.at:349'
     at_desc='STRING by size'
-    $at_quiet $ECHO_N " 26: STRING by size                               $ECHO_C"
+    $at_quiet $ECHO_N " 38: STRING by size                               $ECHO_C"
     at_xfail=no
     (
-      echo "26. pic-x.at:349: testing ..."
+      echo "38. pic-x.at:349: testing ..."
       $at_traceon
 
 
@@ -2972,13 +3952,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  27 ) # 27. pic-x.at:372: STRING with delimiter
+  39 ) # 39. pic-x.at:372: STRING with delimiter
     at_setup_line='pic-x.at:372'
     at_desc='STRING with delimiter'
-    $at_quiet $ECHO_N " 27: STRING with delimiter                        $ECHO_C"
+    $at_quiet $ECHO_N " 39: STRING with delimiter                        $ECHO_C"
     at_xfail=no
     (
-      echo "27. pic-x.at:372: testing ..."
+      echo "39. pic-x.at:372: testing ..."
       $at_traceon
 
 
@@ -3060,13 +4040,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  28 ) # 28. pic-x.at:399: STRING with pointer
+  40 ) # 40. pic-x.at:399: STRING with pointer
     at_setup_line='pic-x.at:399'
     at_desc='STRING with pointer'
-    $at_quiet $ECHO_N " 28: STRING with pointer                          $ECHO_C"
+    $at_quiet $ECHO_N " 40: STRING with pointer                          $ECHO_C"
     at_xfail=no
     (
-      echo "28. pic-x.at:399: testing ..."
+      echo "40. pic-x.at:399: testing ..."
       $at_traceon
 
 
@@ -3146,13 +4126,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  29 ) # 29. pic-x.at:423: INSPECT REPLACING
+  41 ) # 41. pic-x.at:423: INSPECT REPLACING
     at_setup_line='pic-x.at:423'
     at_desc='INSPECT REPLACING'
-    $at_quiet $ECHO_N " 29: INSPECT REPLACING                            $ECHO_C"
+    $at_quiet $ECHO_N " 41: INSPECT REPLACING                            $ECHO_C"
     at_xfail=no
     (
-      echo "29. pic-x.at:423: testing ..."
+      echo "41. pic-x.at:423: testing ..."
       $at_traceon
 
 
@@ -3227,13 +4207,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  30 ) # 30. pic-x.at:442: INSPECT REPLACING by ZERO
+  42 ) # 42. pic-x.at:442: INSPECT REPLACING by ZERO
     at_setup_line='pic-x.at:442'
     at_desc='INSPECT REPLACING by ZERO'
-    $at_quiet $ECHO_N " 30: INSPECT REPLACING by ZERO                    $ECHO_C"
+    $at_quiet $ECHO_N " 42: INSPECT REPLACING by ZERO                    $ECHO_C"
     at_xfail=no
     (
-      echo "30. pic-x.at:442: testing ..."
+      echo "42. pic-x.at:442: testing ..."
       $at_traceon
 
 
@@ -3308,13 +4288,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  31 ) # 31. pic-x.at:461: INSPECT TALLYING
+  43 ) # 43. pic-x.at:461: INSPECT TALLYING
     at_setup_line='pic-x.at:461'
     at_desc='INSPECT TALLYING'
-    $at_quiet $ECHO_N " 31: INSPECT TALLYING                             $ECHO_C"
+    $at_quiet $ECHO_N " 43: INSPECT TALLYING                             $ECHO_C"
     at_xfail=no
     (
-      echo "31. pic-x.at:461: testing ..."
+      echo "43. pic-x.at:461: testing ..."
       $at_traceon
 
 
@@ -3390,13 +4370,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  32 ) # 32. pic-n.at:1: PIC N Value clause
+  44 ) # 44. pic-n.at:1: PIC N Value clause
     at_setup_line='pic-n.at:1'
     at_desc='PIC N Value clause'
-    $at_quiet $ECHO_N " 32: PIC N Value clause                           $ECHO_C"
+    $at_quiet $ECHO_N " 44: PIC N Value clause                           $ECHO_C"
     at_xfail=no
     (
-      echo "32. pic-n.at:1: testing ..."
+      echo "44. pic-n.at:1: testing ..."
       $at_traceon
 
 
@@ -3470,13 +4450,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  33 ) # 33. pic-n.at:19: PIC N Move
+  45 ) # 45. pic-n.at:19: PIC N Move
     at_setup_line='pic-n.at:19'
     at_desc='PIC N Move'
-    $at_quiet $ECHO_N " 33: PIC N Move                                   $ECHO_C"
+    $at_quiet $ECHO_N " 45: PIC N Move                                   $ECHO_C"
     at_xfail=no
     (
-      echo "33. pic-n.at:19: testing ..."
+      echo "45. pic-n.at:19: testing ..."
       $at_traceon
 
 
@@ -3551,13 +4531,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  34 ) # 34. pic-n.at:38: PIC N Move with trunc
+  46 ) # 46. pic-n.at:38: PIC N Move with trunc
     at_setup_line='pic-n.at:38'
     at_desc='PIC N Move with trunc'
-    $at_quiet $ECHO_N " 34: PIC N Move with trunc                        $ECHO_C"
+    $at_quiet $ECHO_N " 46: PIC N Move with trunc                        $ECHO_C"
     at_xfail=no
     (
-      echo "34. pic-n.at:38: testing ..."
+      echo "46. pic-n.at:38: testing ..."
       $at_traceon
 
 
@@ -3634,13 +4614,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  35 ) # 35. pic-n.at:60: PIC N Move with padding by full-width SPC
+  47 ) # 47. pic-n.at:60: PIC N Move with padding by full-width SPC
     at_setup_line='pic-n.at:60'
     at_desc='PIC N Move with padding by full-width SPC'
-    $at_quiet $ECHO_N " 35: PIC N Move with padding by full-width SPC    $ECHO_C"
+    $at_quiet $ECHO_N " 47: PIC N Move with padding by full-width SPC    $ECHO_C"
     at_xfail=no
     (
-      echo "35. pic-n.at:60: testing ..."
+      echo "47. pic-n.at:60: testing ..."
       $at_traceon
 
 
@@ -3715,13 +4695,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  36 ) # 36. pic-n.at:79: PIC N Move with justify
+  48 ) # 48. pic-n.at:79: PIC N Move with justify
     at_setup_line='pic-n.at:79'
     at_desc='PIC N Move with justify'
-    $at_quiet $ECHO_N " 36: PIC N Move with justify                      $ECHO_C"
+    $at_quiet $ECHO_N " 48: PIC N Move with justify                      $ECHO_C"
     at_xfail=no
     (
-      echo "36. pic-n.at:79: testing ..."
+      echo "48. pic-n.at:79: testing ..."
       $at_traceon
 
 
@@ -3796,13 +4776,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  37 ) # 37. pic-n.at:98: PIC N EDITED w/ VALUE
+  49 ) # 49. pic-n.at:98: PIC N EDITED w/ VALUE
     at_setup_line='pic-n.at:98'
     at_desc='PIC N EDITED w/ VALUE'
-    $at_quiet $ECHO_N " 37: PIC N EDITED w/ VALUE                        $ECHO_C"
+    $at_quiet $ECHO_N " 49: PIC N EDITED w/ VALUE                        $ECHO_C"
     at_xfail=no
     (
-      echo "37. pic-n.at:98: testing ..."
+      echo "49. pic-n.at:98: testing ..."
       $at_traceon
 
 
@@ -3876,13 +4856,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  38 ) # 38. pic-n.at:116: INITIALIZE PIC N EDITED
+  50 ) # 50. pic-n.at:116: INITIALIZE PIC N EDITED
     at_setup_line='pic-n.at:116'
     at_desc='INITIALIZE PIC N EDITED'
-    $at_quiet $ECHO_N " 38: INITIALIZE PIC N EDITED                      $ECHO_C"
+    $at_quiet $ECHO_N " 50: INITIALIZE PIC N EDITED                      $ECHO_C"
     at_xfail=no
     (
-      echo "38. pic-n.at:116: testing ..."
+      echo "50. pic-n.at:116: testing ..."
       $at_traceon
 
 
@@ -3958,13 +4938,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  39 ) # 39. pic-n.at:136: INITIALIZE PIC N EDITED TO VALUE
+  51 ) # 51. pic-n.at:136: INITIALIZE PIC N EDITED TO VALUE
     at_setup_line='pic-n.at:136'
     at_desc='INITIALIZE PIC N EDITED TO VALUE'
-    $at_quiet $ECHO_N " 39: INITIALIZE PIC N EDITED TO VALUE             $ECHO_C"
+    $at_quiet $ECHO_N " 51: INITIALIZE PIC N EDITED TO VALUE             $ECHO_C"
     at_xfail=no
     (
-      echo "39. pic-n.at:136: testing ..."
+      echo "51. pic-n.at:136: testing ..."
       $at_traceon
 
 
@@ -4040,13 +5020,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  40 ) # 40. pic-n.at:156: PIC N Move to NATIONAL EDITED
+  52 ) # 52. pic-n.at:156: PIC N Move to NATIONAL EDITED
     at_setup_line='pic-n.at:156'
     at_desc='PIC N Move to NATIONAL EDITED'
-    $at_quiet $ECHO_N " 40: PIC N Move to NATIONAL EDITED                $ECHO_C"
+    $at_quiet $ECHO_N " 52: PIC N Move to NATIONAL EDITED                $ECHO_C"
     at_xfail=no
     (
-      echo "40. pic-n.at:156: testing ..."
+      echo "52. pic-n.at:156: testing ..."
       $at_traceon
 
 
@@ -4121,13 +5101,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  41 ) # 41. pic-n.at:175: PIC N Move with half-width alnum conv.
+  53 ) # 53. pic-n.at:175: PIC N Move with half-width alnum conv.
     at_setup_line='pic-n.at:175'
     at_desc='PIC N Move with half-width alnum conv.'
-    $at_quiet $ECHO_N " 41: PIC N Move with half-width alnum conv.       $ECHO_C"
+    $at_quiet $ECHO_N " 53: PIC N Move with half-width alnum conv.       $ECHO_C"
     at_xfail=no
     (
-      echo "41. pic-n.at:175: testing ..."
+      echo "53. pic-n.at:175: testing ..."
       $at_traceon
 
 
@@ -4202,13 +5182,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  42 ) # 42. pic-n.at:194: PIC N Move with half-width kana conv.
+  54 ) # 54. pic-n.at:194: PIC N Move with half-width kana conv.
     at_setup_line='pic-n.at:194'
     at_desc='PIC N Move with half-width kana conv.'
-    $at_quiet $ECHO_N " 42: PIC N Move with half-width kana conv.        $ECHO_C"
+    $at_quiet $ECHO_N " 54: PIC N Move with half-width kana conv.        $ECHO_C"
     at_xfail=no
     (
-      echo "42. pic-n.at:194: testing ..."
+      echo "54. pic-n.at:194: testing ..."
       $at_traceon
 
 
@@ -4252,15 +5232,15 @@ fi
 $at_traceon
 
 $at_traceoff
-echo "pic-n.at:209: ./prog | od -x -An"
+echo "pic-n.at:209: ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *\$//'"
 echo pic-n.at:209 >$at_check_line_file
-( $at_traceon; ./prog | od -x -An ) >$at_stdout 2>$at_stder1
+( $at_traceon; ./prog | od -tx1 -An | sed -e 's/  */ /g' -e 's/ *$//' ) >$at_stdout 2>$at_stder1
 at_status=$?
 grep '^ *+' $at_stder1 >&2
 grep -v '^ *+' $at_stder1 >$at_stderr
 at_failed=false
 $at_diff $at_devnull $at_stderr || at_failed=:
-echo >>$at_stdout; echo " 5283 8183 5f83 5283 5b81 7183 5b81
+echo >>$at_stdout; echo " 83 52 83 81 83 5f 83 52 81 5b 83 71 81 5b
 " | $at_diff - $at_stdout || at_failed=:
 case $at_status in
    77) echo 77 > $at_status_file
@@ -4284,13 +5264,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  43 ) # 43. pic-n.at:214: PIC N Ref mod(n:)
+  55 ) # 55. pic-n.at:214: PIC N Ref mod(n:)
     at_setup_line='pic-n.at:214'
     at_desc='PIC N Ref mod(n:)'
-    $at_quiet $ECHO_N " 43: PIC N Ref mod(n:)                            $ECHO_C"
+    $at_quiet $ECHO_N " 55: PIC N Ref mod(n:)                            $ECHO_C"
     at_xfail=no
     (
-      echo "43. pic-n.at:214: testing ..."
+      echo "55. pic-n.at:214: testing ..."
       $at_traceon
 
 
@@ -4365,13 +5345,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  44 ) # 44. pic-n.at:233: PIC N Ref mod(n:m)
+  56 ) # 56. pic-n.at:233: PIC N Ref mod(n:m)
     at_setup_line='pic-n.at:233'
     at_desc='PIC N Ref mod(n:m)'
-    $at_quiet $ECHO_N " 44: PIC N Ref mod(n:m)                           $ECHO_C"
+    $at_quiet $ECHO_N " 56: PIC N Ref mod(n:m)                           $ECHO_C"
     at_xfail=no
     (
-      echo "44. pic-n.at:233: testing ..."
+      echo "56. pic-n.at:233: testing ..."
       $at_traceon
 
 
@@ -4446,13 +5426,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  45 ) # 45. pic-n.at:252: PIC N STRING by size
+  57 ) # 57. pic-n.at:252: PIC N STRING by size
     at_setup_line='pic-n.at:252'
     at_desc='PIC N STRING by size'
-    $at_quiet $ECHO_N " 45: PIC N STRING by size                         $ECHO_C"
+    $at_quiet $ECHO_N " 57: PIC N STRING by size                         $ECHO_C"
     at_xfail=no
     (
-      echo "45. pic-n.at:252: testing ..."
+      echo "57. pic-n.at:252: testing ..."
       $at_traceon
 
 
@@ -4531,13 +5511,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  46 ) # 46. pic-n.at:275: PIC N STRING with delimiter (causes warn)
+  58 ) # 58. pic-n.at:275: PIC N STRING with delimiter (causes warn)
     at_setup_line='pic-n.at:275'
     at_desc='PIC N STRING with delimiter (causes warn)'
-    $at_quiet $ECHO_N " 46: PIC N STRING with delimiter (causes warn)    $ECHO_C"
+    $at_quiet $ECHO_N " 58: PIC N STRING with delimiter (causes warn)    $ECHO_C"
     at_xfail=no
     (
-      echo "46. pic-n.at:275: testing ..."
+      echo "58. pic-n.at:275: testing ..."
       $at_traceon
 
 
@@ -4616,13 +5596,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  47 ) # 47. pic-n.at:298: PIC N STRING with NATIONAL delimiter
+  59 ) # 59. pic-n.at:298: PIC N STRING with NATIONAL delimiter
     at_setup_line='pic-n.at:298'
     at_desc='PIC N STRING with NATIONAL delimiter'
-    $at_quiet $ECHO_N " 47: PIC N STRING with NATIONAL delimiter         $ECHO_C"
+    $at_quiet $ECHO_N " 59: PIC N STRING with NATIONAL delimiter         $ECHO_C"
     at_xfail=no
     (
-      echo "47. pic-n.at:298: testing ..."
+      echo "59. pic-n.at:298: testing ..."
       $at_traceon
 
 
@@ -4701,13 +5681,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  48 ) # 48. pic-n.at:321: PIC N STRING with pointer
+  60 ) # 60. pic-n.at:321: PIC N STRING with pointer
     at_setup_line='pic-n.at:321'
     at_desc='PIC N STRING with pointer'
-    $at_quiet $ECHO_N " 48: PIC N STRING with pointer                    $ECHO_C"
+    $at_quiet $ECHO_N " 60: PIC N STRING with pointer                    $ECHO_C"
     at_xfail=no
     (
-      echo "48. pic-n.at:321: testing ..."
+      echo "60. pic-n.at:321: testing ..."
       $at_traceon
 
 
@@ -4787,13 +5767,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  49 ) # 49. pic-n.at:345: PIC N INSPECT REPLACING
+  61 ) # 61. pic-n.at:345: PIC N INSPECT REPLACING
     at_setup_line='pic-n.at:345'
     at_desc='PIC N INSPECT REPLACING'
-    $at_quiet $ECHO_N " 49: PIC N INSPECT REPLACING                      $ECHO_C"
+    $at_quiet $ECHO_N " 61: PIC N INSPECT REPLACING                      $ECHO_C"
     at_xfail=no
     (
-      echo "49. pic-n.at:345: testing ..."
+      echo "61. pic-n.at:345: testing ..."
       $at_traceon
 
 
@@ -4868,13 +5848,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  50 ) # 50. pic-n.at:364: PIC N INSPECT REPLACING by ZERO
+  62 ) # 62. pic-n.at:364: PIC N INSPECT REPLACING by ZERO
     at_setup_line='pic-n.at:364'
     at_desc='PIC N INSPECT REPLACING by ZERO'
-    $at_quiet $ECHO_N " 50: PIC N INSPECT REPLACING by ZERO              $ECHO_C"
+    $at_quiet $ECHO_N " 62: PIC N INSPECT REPLACING by ZERO              $ECHO_C"
     at_xfail=no
     (
-      echo "50. pic-n.at:364: testing ..."
+      echo "62. pic-n.at:364: testing ..."
       $at_traceon
 
 
@@ -4949,13 +5929,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  51 ) # 51. pic-n.at:383: PIC N INSPECT REPLACING by NATIONAL ZERO
+  63 ) # 63. pic-n.at:383: PIC N INSPECT REPLACING by NATIONAL ZERO
     at_setup_line='pic-n.at:383'
     at_desc='PIC N INSPECT REPLACING by NATIONAL ZERO'
-    $at_quiet $ECHO_N " 51: PIC N INSPECT REPLACING by NATIONAL ZERO     $ECHO_C"
+    $at_quiet $ECHO_N " 63: PIC N INSPECT REPLACING by NATIONAL ZERO     $ECHO_C"
     at_xfail=no
     (
-      echo "51. pic-n.at:383: testing ..."
+      echo "63. pic-n.at:383: testing ..."
       $at_traceon
 
 
@@ -5030,13 +6010,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  52 ) # 52. pic-n.at:402: PIC N INSPECT TALLYING
+  64 ) # 64. pic-n.at:402: PIC N INSPECT TALLYING
     at_setup_line='pic-n.at:402'
     at_desc='PIC N INSPECT TALLYING'
-    $at_quiet $ECHO_N " 52: PIC N INSPECT TALLYING                       $ECHO_C"
+    $at_quiet $ECHO_N " 64: PIC N INSPECT TALLYING                       $ECHO_C"
     at_xfail=no
     (
-      echo "52. pic-n.at:402: testing ..."
+      echo "64. pic-n.at:402: testing ..."
       $at_traceon
 
 
@@ -5112,13 +6092,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  53 ) # 53. pic-n.at:422: PIC N Move with half-width dakuten kana.
+  65 ) # 65. pic-n.at:422: PIC N Move with half-width dakuten kana.
     at_setup_line='pic-n.at:422'
     at_desc='PIC N Move with half-width dakuten kana.'
-    $at_quiet $ECHO_N " 53: PIC N Move with half-width dakuten kana.     $ECHO_C"
+    $at_quiet $ECHO_N " 65: PIC N Move with half-width dakuten kana.     $ECHO_C"
     at_xfail=no
     (
-      echo "53. pic-n.at:422: testing ..."
+      echo "65. pic-n.at:422: testing ..."
       $at_traceon
 
 
@@ -5193,13 +6173,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  54 ) # 54. pic-n.at:441: PIC N Move with half-width han-dakuten kana.
+  66 ) # 66. pic-n.at:441: PIC N Move with half-width han-dakuten kana.
     at_setup_line='pic-n.at:441'
     at_desc='PIC N Move with half-width han-dakuten kana.'
-    $at_quiet $ECHO_N " 54: PIC N Move with half-width han-dakuten kana. $ECHO_C"
+    $at_quiet $ECHO_N " 66: PIC N Move with half-width han-dakuten kana. $ECHO_C"
     at_xfail=no
     (
-      echo "54. pic-n.at:441: testing ..."
+      echo "66. pic-n.at:441: testing ..."
       $at_traceon
 
 
@@ -5274,13 +6254,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  55 ) # 55. program-id.at:1: PROGRAM-ID NATIONAL C89 no warning
+  67 ) # 67. program-id.at:1: PROGRAM-ID NATIONAL C89 no warning
     at_setup_line='program-id.at:1'
     at_desc='PROGRAM-ID NATIONAL C89 no warning'
-    $at_quiet $ECHO_N " 55: PROGRAM-ID NATIONAL C89 no warning           $ECHO_C"
+    $at_quiet $ECHO_N " 67: PROGRAM-ID NATIONAL C89 no warning           $ECHO_C"
     at_xfail=no
     (
-      echo "55. program-id.at:1: testing ..."
+      echo "67. program-id.at:1: testing ..."
       $at_traceon
 
 
@@ -5333,13 +6313,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  56 ) # 56. program-id.at:20: PROGRAM-ID NATIONAL C89 warning
+  68 ) # 68. program-id.at:20: PROGRAM-ID NATIONAL C89 warning
     at_setup_line='program-id.at:20'
     at_desc='PROGRAM-ID NATIONAL C89 warning'
-    $at_quiet $ECHO_N " 56: PROGRAM-ID NATIONAL C89 warning              $ECHO_C"
+    $at_quiet $ECHO_N " 68: PROGRAM-ID NATIONAL C89 warning              $ECHO_C"
     at_xfail=no
     (
-      echo "56. program-id.at:20: testing ..."
+      echo "68. program-id.at:20: testing ..."
       $at_traceon
 
 
@@ -5394,13 +6374,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  57 ) # 57. program-id.at:42: PROGRAM-ID NATIONAL C89 ignore
+  69 ) # 69. program-id.at:42: PROGRAM-ID NATIONAL C89 ignore
     at_setup_line='program-id.at:42'
     at_desc='PROGRAM-ID NATIONAL C89 ignore'
-    $at_quiet $ECHO_N " 57: PROGRAM-ID NATIONAL C89 ignore               $ECHO_C"
+    $at_quiet $ECHO_N " 69: PROGRAM-ID NATIONAL C89 ignore               $ECHO_C"
     at_xfail=no
     (
-      echo "57. program-id.at:42: testing ..."
+      echo "69. program-id.at:42: testing ..."
       $at_traceon
 
 
@@ -5446,13 +6426,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  58 ) # 58. program-id.at:56: PROGRAM-ID NATIONAL 32 character no over
+  70 ) # 70. program-id.at:56: PROGRAM-ID NATIONAL 32 character no over
     at_setup_line='program-id.at:56'
     at_desc='PROGRAM-ID NATIONAL 32 character no over'
-    $at_quiet $ECHO_N " 58: PROGRAM-ID NATIONAL 32 character no over     $ECHO_C"
+    $at_quiet $ECHO_N " 70: PROGRAM-ID NATIONAL 32 character no over     $ECHO_C"
     at_xfail=no
     (
-      echo "58. program-id.at:56: testing ..."
+      echo "70. program-id.at:56: testing ..."
       $at_traceon
 
 
@@ -5499,13 +6479,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  59 ) # 59. program-id.at:71: PROGRAM-ID NATIONAL 32 character over
+  71 ) # 71. program-id.at:71: PROGRAM-ID NATIONAL 32 character over
     at_setup_line='program-id.at:71'
     at_desc='PROGRAM-ID NATIONAL 32 character over'
-    $at_quiet $ECHO_N " 59: PROGRAM-ID NATIONAL 32 character over        $ECHO_C"
+    $at_quiet $ECHO_N " 71: PROGRAM-ID NATIONAL 32 character over        $ECHO_C"
     at_xfail=no
     (
-      echo "59. program-id.at:71: testing ..."
+      echo "71. program-id.at:71: testing ..."
       $at_traceon
 
 
@@ -5553,13 +6533,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  60 ) # 60. error-print.at:1: undefined not message
+  72 ) # 72. error-print.at:1: undefined not message
     at_setup_line='error-print.at:1'
     at_desc='undefined not message'
-    $at_quiet $ECHO_N " 60: undefined not message                        $ECHO_C"
+    $at_quiet $ECHO_N " 72: undefined not message                        $ECHO_C"
     at_xfail=no
     (
-      echo "60. error-print.at:1: testing ..."
+      echo "72. error-print.at:1: testing ..."
       $at_traceon
 
 
@@ -5613,13 +6593,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  61 ) # 61. error-print.at:24: Encoding alphanumeric name item
+  73 ) # 73. error-print.at:24: Encoding alphanumeric name item
     at_setup_line='error-print.at:24'
     at_desc='Encoding alphanumeric name item'
-    $at_quiet $ECHO_N " 61: Encoding alphanumeric name item              $ECHO_C"
+    $at_quiet $ECHO_N " 73: Encoding alphanumeric name item              $ECHO_C"
     at_xfail=no
     (
-      echo "61. error-print.at:24: testing ..."
+      echo "73. error-print.at:24: testing ..."
       $at_traceon
 
 
@@ -5667,13 +6647,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  62 ) # 62. error-print.at:41: Encoding national name item
+  74 ) # 74. error-print.at:41: Encoding national name item
     at_setup_line='error-print.at:41'
     at_desc='Encoding national name item'
-    $at_quiet $ECHO_N " 62: Encoding national name item                  $ECHO_C"
+    $at_quiet $ECHO_N " 74: Encoding national name item                  $ECHO_C"
     at_xfail=no
     (
-      echo "62. error-print.at:41: testing ..."
+      echo "74. error-print.at:41: testing ..."
       $at_traceon
 
 
@@ -5721,13 +6701,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  63 ) # 63. error-print.at:58: Decoding national section name
+  75 ) # 75. error-print.at:58: Decoding national section name
     at_setup_line='error-print.at:58'
     at_desc='Decoding national section name'
-    $at_quiet $ECHO_N " 63: Decoding national section name               $ECHO_C"
+    $at_quiet $ECHO_N " 75: Decoding national section name               $ECHO_C"
     at_xfail=no
     (
-      echo "63. error-print.at:58: testing ..."
+      echo "75. error-print.at:58: testing ..."
       $at_traceon
 
 
@@ -5780,13 +6760,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  64 ) # 64. limits.at:1: Field length limit PIC A/VALID
+  76 ) # 76. limits.at:1: Field length limit PIC A/VALID
     at_setup_line='limits.at:1'
     at_desc='Field length limit PIC A/VALID'
-    $at_quiet $ECHO_N " 64: Field length limit PIC A/VALID               $ECHO_C"
+    $at_quiet $ECHO_N " 76: Field length limit PIC A/VALID               $ECHO_C"
     at_xfail=no
     (
-      echo "64. limits.at:1: testing ..."
+      echo "76. limits.at:1: testing ..."
       $at_traceon
 
 
@@ -5834,13 +6814,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  65 ) # 65. limits.at:17: Field length limit PIC A/TOO LONG
+  77 ) # 77. limits.at:17: Field length limit PIC A/TOO LONG
     at_setup_line='limits.at:17'
     at_desc='Field length limit PIC A/TOO LONG'
-    $at_quiet $ECHO_N " 65: Field length limit PIC A/TOO LONG            $ECHO_C"
+    $at_quiet $ECHO_N " 77: Field length limit PIC A/TOO LONG            $ECHO_C"
     at_xfail=no
     (
-      echo "65. limits.at:17: testing ..."
+      echo "77. limits.at:17: testing ..."
       $at_traceon
 
 
@@ -5889,13 +6869,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  66 ) # 66. limits.at:35: Field length limit PIC X/VALID
+  78 ) # 78. limits.at:35: Field length limit PIC X/VALID
     at_setup_line='limits.at:35'
     at_desc='Field length limit PIC X/VALID'
-    $at_quiet $ECHO_N " 66: Field length limit PIC X/VALID               $ECHO_C"
+    $at_quiet $ECHO_N " 78: Field length limit PIC X/VALID               $ECHO_C"
     at_xfail=no
     (
-      echo "66. limits.at:35: testing ..."
+      echo "78. limits.at:35: testing ..."
       $at_traceon
 
 
@@ -5943,13 +6923,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  67 ) # 67. limits.at:51: Field length limit PIC X/TOO LONG
+  79 ) # 79. limits.at:51: Field length limit PIC X/TOO LONG
     at_setup_line='limits.at:51'
     at_desc='Field length limit PIC X/TOO LONG'
-    $at_quiet $ECHO_N " 67: Field length limit PIC X/TOO LONG            $ECHO_C"
+    $at_quiet $ECHO_N " 79: Field length limit PIC X/TOO LONG            $ECHO_C"
     at_xfail=no
     (
-      echo "67. limits.at:51: testing ..."
+      echo "79. limits.at:51: testing ..."
       $at_traceon
 
 
@@ -5998,13 +6978,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  68 ) # 68. limits.at:69: Field length limit PIC B9/VALID
+  80 ) # 80. limits.at:69: Field length limit PIC B9/VALID
     at_setup_line='limits.at:69'
     at_desc='Field length limit PIC B9/VALID'
-    $at_quiet $ECHO_N " 68: Field length limit PIC B9/VALID              $ECHO_C"
+    $at_quiet $ECHO_N " 80: Field length limit PIC B9/VALID              $ECHO_C"
     at_xfail=no
     (
-      echo "68. limits.at:69: testing ..."
+      echo "80. limits.at:69: testing ..."
       $at_traceon
 
 
@@ -6052,13 +7032,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  69 ) # 69. limits.at:85: Field length limit PIC B9/TOO LONG
+  81 ) # 81. limits.at:85: Field length limit PIC B9/TOO LONG
     at_setup_line='limits.at:85'
     at_desc='Field length limit PIC B9/TOO LONG'
-    $at_quiet $ECHO_N " 69: Field length limit PIC B9/TOO LONG           $ECHO_C"
+    $at_quiet $ECHO_N " 81: Field length limit PIC B9/TOO LONG           $ECHO_C"
     at_xfail=no
     (
-      echo "69. limits.at:85: testing ..."
+      echo "81. limits.at:85: testing ..."
       $at_traceon
 
 
@@ -6107,13 +7087,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  70 ) # 70. limits.at:103: Field length limit PIC B/VALID
+  82 ) # 82. limits.at:103: Field length limit PIC B/VALID
     at_setup_line='limits.at:103'
     at_desc='Field length limit PIC B/VALID'
-    $at_quiet $ECHO_N " 70: Field length limit PIC B/VALID               $ECHO_C"
+    $at_quiet $ECHO_N " 82: Field length limit PIC B/VALID               $ECHO_C"
     at_xfail=no
     (
-      echo "70. limits.at:103: testing ..."
+      echo "82. limits.at:103: testing ..."
       $at_traceon
 
 
@@ -6161,13 +7141,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  71 ) # 71. limits.at:119: Field length limit PIC B/TOO LONG
+  83 ) # 83. limits.at:119: Field length limit PIC B/TOO LONG
     at_setup_line='limits.at:119'
     at_desc='Field length limit PIC B/TOO LONG'
-    $at_quiet $ECHO_N " 71: Field length limit PIC B/TOO LONG            $ECHO_C"
+    $at_quiet $ECHO_N " 83: Field length limit PIC B/TOO LONG            $ECHO_C"
     at_xfail=no
     (
-      echo "71. limits.at:119: testing ..."
+      echo "83. limits.at:119: testing ..."
       $at_traceon
 
 
@@ -6216,13 +7196,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  72 ) # 72. limits.at:137: Field length limit PIC BA/VALID
+  84 ) # 84. limits.at:137: Field length limit PIC BA/VALID
     at_setup_line='limits.at:137'
     at_desc='Field length limit PIC BA/VALID'
-    $at_quiet $ECHO_N " 72: Field length limit PIC BA/VALID              $ECHO_C"
+    $at_quiet $ECHO_N " 84: Field length limit PIC BA/VALID              $ECHO_C"
     at_xfail=no
     (
-      echo "72. limits.at:137: testing ..."
+      echo "84. limits.at:137: testing ..."
       $at_traceon
 
 
@@ -6270,13 +7250,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  73 ) # 73. limits.at:153: Field length limit PIC BA/TOO LONG
+  85 ) # 85. limits.at:153: Field length limit PIC BA/TOO LONG
     at_setup_line='limits.at:153'
     at_desc='Field length limit PIC BA/TOO LONG'
-    $at_quiet $ECHO_N " 73: Field length limit PIC BA/TOO LONG           $ECHO_C"
+    $at_quiet $ECHO_N " 85: Field length limit PIC BA/TOO LONG           $ECHO_C"
     at_xfail=no
     (
-      echo "73. limits.at:153: testing ..."
+      echo "85. limits.at:153: testing ..."
       $at_traceon
 
 
@@ -6325,13 +7305,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  74 ) # 74. limits.at:171: Field length limit PIC BX/VALID
+  86 ) # 86. limits.at:171: Field length limit PIC BX/VALID
     at_setup_line='limits.at:171'
     at_desc='Field length limit PIC BX/VALID'
-    $at_quiet $ECHO_N " 74: Field length limit PIC BX/VALID              $ECHO_C"
+    $at_quiet $ECHO_N " 86: Field length limit PIC BX/VALID              $ECHO_C"
     at_xfail=no
     (
-      echo "74. limits.at:171: testing ..."
+      echo "86. limits.at:171: testing ..."
       $at_traceon
 
 
@@ -6379,13 +7359,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  75 ) # 75. limits.at:187: Field length limit PIC BX/TOO LONG
+  87 ) # 87. limits.at:187: Field length limit PIC BX/TOO LONG
     at_setup_line='limits.at:187'
     at_desc='Field length limit PIC BX/TOO LONG'
-    $at_quiet $ECHO_N " 75: Field length limit PIC BX/TOO LONG           $ECHO_C"
+    $at_quiet $ECHO_N " 87: Field length limit PIC BX/TOO LONG           $ECHO_C"
     at_xfail=no
     (
-      echo "75. limits.at:187: testing ..."
+      echo "87. limits.at:187: testing ..."
       $at_traceon
 
 
@@ -6434,13 +7414,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  76 ) # 76. limits.at:205: Field length limit PIC N/VALID (SJIS)
+  88 ) # 88. limits.at:205: Field length limit PIC N/VALID (SJIS)
     at_setup_line='limits.at:205'
     at_desc='Field length limit PIC N/VALID (SJIS)'
-    $at_quiet $ECHO_N " 76: Field length limit PIC N/VALID (SJIS)        $ECHO_C"
+    $at_quiet $ECHO_N " 88: Field length limit PIC N/VALID (SJIS)        $ECHO_C"
     at_xfail=no
     (
-      echo "76. limits.at:205: testing ..."
+      echo "88. limits.at:205: testing ..."
       $at_traceon
 
 
@@ -6488,13 +7468,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  77 ) # 77. limits.at:221: Field length limit PIC N/TOO LONG (SJIS)
+  89 ) # 89. limits.at:221: Field length limit PIC N/TOO LONG (SJIS)
     at_setup_line='limits.at:221'
     at_desc='Field length limit PIC N/TOO LONG (SJIS)'
-    $at_quiet $ECHO_N " 77: Field length limit PIC N/TOO LONG (SJIS)     $ECHO_C"
+    $at_quiet $ECHO_N " 89: Field length limit PIC N/TOO LONG (SJIS)     $ECHO_C"
     at_xfail=no
     (
-      echo "77. limits.at:221: testing ..."
+      echo "89. limits.at:221: testing ..."
       $at_traceon
 
 
@@ -6543,13 +7523,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  78 ) # 78. limits.at:239: Field length limit PIC BN/VALID (SJIS)
+  90 ) # 90. limits.at:239: Field length limit PIC BN/VALID (SJIS)
     at_setup_line='limits.at:239'
     at_desc='Field length limit PIC BN/VALID (SJIS)'
-    $at_quiet $ECHO_N " 78: Field length limit PIC BN/VALID (SJIS)       $ECHO_C"
+    $at_quiet $ECHO_N " 90: Field length limit PIC BN/VALID (SJIS)       $ECHO_C"
     at_xfail=no
     (
-      echo "78. limits.at:239: testing ..."
+      echo "90. limits.at:239: testing ..."
       $at_traceon
 
 
@@ -6597,13 +7577,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  79 ) # 79. limits.at:255: Field length limit PIC BN/TOO LONG (SJIS)
+  91 ) # 91. limits.at:255: Field length limit PIC BN/TOO LONG (SJIS)
     at_setup_line='limits.at:255'
     at_desc='Field length limit PIC BN/TOO LONG (SJIS)'
-    $at_quiet $ECHO_N " 79: Field length limit PIC BN/TOO LONG (SJIS)    $ECHO_C"
+    $at_quiet $ECHO_N " 91: Field length limit PIC BN/TOO LONG (SJIS)    $ECHO_C"
     at_xfail=no
     (
-      echo "79. limits.at:255: testing ..."
+      echo "91. limits.at:255: testing ..."
       $at_traceon
 
 
@@ -6652,13 +7632,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  80 ) # 80. national.at:1: FUNCTION NATIONAL single-byte
+  92 ) # 92. national.at:1: FUNCTION NATIONAL single-byte
     at_setup_line='national.at:1'
     at_desc='FUNCTION NATIONAL single-byte'
-    $at_quiet $ECHO_N " 80: FUNCTION NATIONAL single-byte                $ECHO_C"
+    $at_quiet $ECHO_N " 92: FUNCTION NATIONAL single-byte                $ECHO_C"
     at_xfail=no
     (
-      echo "80. national.at:1: testing ..."
+      echo "92. national.at:1: testing ..."
       $at_traceon
 
 
@@ -6735,13 +7715,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  81 ) # 81. national.at:22: FUNCTION NATIONAL multi-byte
+  93 ) # 93. national.at:22: FUNCTION NATIONAL multi-byte
     at_setup_line='national.at:22'
     at_desc='FUNCTION NATIONAL multi-byte'
-    $at_quiet $ECHO_N " 81: FUNCTION NATIONAL multi-byte                 $ECHO_C"
+    $at_quiet $ECHO_N " 93: FUNCTION NATIONAL multi-byte                 $ECHO_C"
     at_xfail=no
     (
-      echo "81. national.at:22: testing ..."
+      echo "93. national.at:22: testing ..."
       $at_traceon
 
 
@@ -6818,13 +7798,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  82 ) # 82. national.at:43: FUNCTION NATIONAL KIGOU-exclamation
+  94 ) # 94. national.at:43: FUNCTION NATIONAL KIGOU-exclamation
     at_setup_line='national.at:43'
     at_desc='FUNCTION NATIONAL KIGOU-exclamation'
-    $at_quiet $ECHO_N " 82: FUNCTION NATIONAL KIGOU-exclamation          $ECHO_C"
+    $at_quiet $ECHO_N " 94: FUNCTION NATIONAL KIGOU-exclamation          $ECHO_C"
     at_xfail=no
     (
-      echo "82. national.at:43: testing ..."
+      echo "94. national.at:43: testing ..."
       $at_traceon
 
 
@@ -6901,13 +7881,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  83 ) # 83. national.at:64: FUNCTION NATIONAL KIGOU-yen
+  95 ) # 95. national.at:64: FUNCTION NATIONAL KIGOU-yen
     at_setup_line='national.at:64'
     at_desc='FUNCTION NATIONAL KIGOU-yen'
-    $at_quiet $ECHO_N " 83: FUNCTION NATIONAL KIGOU-yen                  $ECHO_C"
+    $at_quiet $ECHO_N " 95: FUNCTION NATIONAL KIGOU-yen                  $ECHO_C"
     at_xfail=no
     (
-      echo "83. national.at:64: testing ..."
+      echo "95. national.at:64: testing ..."
       $at_traceon
 
 
@@ -6984,13 +7964,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  84 ) # 84. national.at:85: FUNCTION NATIONAL KIGOU-plus
+  96 ) # 96. national.at:85: FUNCTION NATIONAL KIGOU-plus
     at_setup_line='national.at:85'
     at_desc='FUNCTION NATIONAL KIGOU-plus'
-    $at_quiet $ECHO_N " 84: FUNCTION NATIONAL KIGOU-plus                 $ECHO_C"
+    $at_quiet $ECHO_N " 96: FUNCTION NATIONAL KIGOU-plus                 $ECHO_C"
     at_xfail=no
     (
-      echo "84. national.at:85: testing ..."
+      echo "96. national.at:85: testing ..."
       $at_traceon
 
 
@@ -7067,13 +8047,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  85 ) # 85. national.at:106: FUNCTION NATIONAL (HanKana w/ Daku-on)
+  97 ) # 97. national.at:106: FUNCTION NATIONAL (HanKana w/ Daku-on)
     at_setup_line='national.at:106'
     at_desc='FUNCTION NATIONAL (HanKana w/ Daku-on)'
-    $at_quiet $ECHO_N " 85: FUNCTION NATIONAL (HanKana w/ Daku-on)       $ECHO_C"
+    $at_quiet $ECHO_N " 97: FUNCTION NATIONAL (HanKana w/ Daku-on)       $ECHO_C"
     at_xfail=no
     (
-      echo "85. national.at:106: testing ..."
+      echo "97. national.at:106: testing ..."
       $at_traceon
 
 
@@ -7150,13 +8130,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  86 ) # 86. national.at:127: FUNCTION NATIONAL (HanKana w/ Han-daku-on)
+  98 ) # 98. national.at:127: FUNCTION NATIONAL (HanKana w/ Han-daku-on)
     at_setup_line='national.at:127'
     at_desc='FUNCTION NATIONAL (HanKana w/ Han-daku-on)'
-    $at_quiet $ECHO_N " 86: FUNCTION NATIONAL (HanKana w/ Han-daku-on)   $ECHO_C"
+    $at_quiet $ECHO_N " 98: FUNCTION NATIONAL (HanKana w/ Han-daku-on)   $ECHO_C"
     at_xfail=no
     (
-      echo "86. national.at:127: testing ..."
+      echo "98. national.at:127: testing ..."
       $at_traceon
 
 
@@ -7233,13 +8213,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  87 ) # 87. national.at:148: N Literal (NO zenakaku conversion)
+  99 ) # 99. national.at:148: N Literal (NO zenakaku conversion)
     at_setup_line='national.at:148'
     at_desc='N Literal (NO zenakaku conversion)'
-    $at_quiet $ECHO_N " 87: N Literal (NO zenakaku conversion)           $ECHO_C"
+    $at_quiet $ECHO_N " 99: N Literal (NO zenakaku conversion)           $ECHO_C"
     at_xfail=no
     (
-      echo "87. national.at:148: testing ..."
+      echo "99. national.at:148: testing ..."
       $at_traceon
 
 
@@ -7319,13 +8299,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  88 ) # 88. national.at:173: NC Literal (NO zenakaku conversion)
+  100 ) # 100. national.at:173: NC Literal (NO zenakaku conversion)
     at_setup_line='national.at:173'
     at_desc='NC Literal (NO zenakaku conversion)'
-    $at_quiet $ECHO_N " 88: NC Literal (NO zenakaku conversion)          $ECHO_C"
+    $at_quiet $ECHO_N "100: NC Literal (NO zenakaku conversion)          $ECHO_C"
     at_xfail=no
     (
-      echo "88. national.at:173: testing ..."
+      echo "100. national.at:173: testing ..."
       $at_traceon
 
 
@@ -7405,13 +8385,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  89 ) # 89. national.at:198: ND Literal (NO zenakaku conversion)
+  101 ) # 101. national.at:198: ND Literal (NO zenakaku conversion)
     at_setup_line='national.at:198'
     at_desc='ND Literal (NO zenakaku conversion)'
-    $at_quiet $ECHO_N " 89: ND Literal (NO zenakaku conversion)          $ECHO_C"
+    $at_quiet $ECHO_N "101: ND Literal (NO zenakaku conversion)          $ECHO_C"
     at_xfail=no
     (
-      echo "89. national.at:198: testing ..."
+      echo "101. national.at:198: testing ..."
       $at_traceon
 
 
@@ -7491,13 +8471,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  90 ) # 90. national.at:223: NX Literal
+  102 ) # 102. national.at:223: NX Literal
     at_setup_line='national.at:223'
     at_desc='NX Literal'
-    $at_quiet $ECHO_N " 90: NX Literal                                   $ECHO_C"
+    $at_quiet $ECHO_N "102: NX Literal                                   $ECHO_C"
     at_xfail=no
     (
-      echo "90. national.at:223: testing ..."
+      echo "102. national.at:223: testing ..."
       $at_traceon
 
 
@@ -7569,13 +8549,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  91 ) # 91. mb-space.at:1: Zenkaku SPC delims in headings
+  103 ) # 103. mb-space.at:1: Zenkaku SPC delims in headings
     at_setup_line='mb-space.at:1'
     at_desc='Zenkaku SPC delims in headings'
-    $at_quiet $ECHO_N " 91: Zenkaku SPC delims in headings               $ECHO_C"
+    $at_quiet $ECHO_N "103: Zenkaku SPC delims in headings               $ECHO_C"
     at_xfail=no
     (
-      echo "91. mb-space.at:1: testing ..."
+      echo "103. mb-space.at:1: testing ..."
       $at_traceon
 
 
@@ -7649,13 +8629,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  92 ) # 92. mb-space.at:19: Zenkaku SPC delims in record def
+  104 ) # 104. mb-space.at:19: Zenkaku SPC delims in record def
     at_setup_line='mb-space.at:19'
     at_desc='Zenkaku SPC delims in record def'
-    $at_quiet $ECHO_N " 92: Zenkaku SPC delims in record def             $ECHO_C"
+    $at_quiet $ECHO_N "104: Zenkaku SPC delims in record def             $ECHO_C"
     at_xfail=no
     (
-      echo "92. mb-space.at:19: testing ..."
+      echo "104. mb-space.at:19: testing ..."
       $at_traceon
 
 
@@ -7735,13 +8715,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  93 ) # 93. mb-space.at:43: Zenkaku SPC delims in COPY stmt
+  105 ) # 105. mb-space.at:43: Zenkaku SPC delims in COPY stmt
     at_setup_line='mb-space.at:43'
     at_desc='Zenkaku SPC delims in COPY stmt'
-    $at_quiet $ECHO_N " 93: Zenkaku SPC delims in COPY stmt              $ECHO_C"
+    $at_quiet $ECHO_N "105: Zenkaku SPC delims in COPY stmt              $ECHO_C"
     at_xfail=no
     (
-      echo "93. mb-space.at:43: testing ..."
+      echo "105. mb-space.at:43: testing ..."
       $at_traceon
 
 

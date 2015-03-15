@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -314,92 +314,93 @@ at_help_all='1;copy.at:22;COPY: file not found;copy;
 3;copy.at:69;COPY: separators;copy;
 4;copy.at:98;COPY: partial replacement;copy;
 5;copy.at:128;COPY: recursive replacement;copy;
-6;unmatured-copy.at:1;COPY: last line break in copybook;copy;
-7;definition.at:25;Invalid PROGRAM-ID;;
-8;definition.at:40;Invalid PROGRAM-ID type clause (1);;
-9;definition.at:55;Invalid PROGRAM-ID type clause (2);;
-10;definition.at:76;Undefined data name;;
-11;definition.at:93;Undefined group name;;
-12;definition.at:113;Undefined data name in group;;
-13;definition.at:135;Reference not a group name;;
-14;definition.at:158;Incomplete 01 definition;;
-15;definition.at:177;Same labels in different sections;;
-16;definition.at:201;Redefinition of 01 items;;
-17;definition.at:219;Redefinition of 01 and 02 items;;
-18;definition.at:237;Redefinition of 02 items;;
-19;definition.at:256;Redefinition of 77 items;;
-20;definition.at:274;Redefinition of 01 and 77 items;;
-21;definition.at:292;Redefinition of 88 items;;
-22;definition.at:311;Ambiguous reference to 02 items;;
-23;definition.at:336;Ambiguous reference to 02 and 03 items;;
-24;definition.at:360;Ambiguous reference with qualification;;
-25;definition.at:389;Unique reference with ambiguous qualifiers;;
-26;definition.at:424;Undefined procedure name;;
-27;definition.at:443;Redefinition of section names;;
-28;definition.at:462;Redefinition of section and paragraph names;;
-29;definition.at:481;Redefinition of paragraph names;;
-30;definition.at:504;Ambiguous reference to paragraph name;;
-31;definition.at:528;Non-matching level numbers (extension);;
-32;expression.at:21;Ambiguous AND/OR;;
-33;expression.at:45;START on SEQUENTIAL file;;
-34;subscripts.at:31;Subscripted item requires OCCURS clause;;
-35;subscripts.at:58;The number of subscripts;;
-36;occurs.at:28;OCCURS with level 01, 66, 77, and 88;;
-37;occurs.at:53;OCCURS with variable-occurrence data item;;
-38;occurs.at:90;Nested OCCURS clause;;
-39;occurs.at:136;OCCURS DEPENDING followed by another field;;
-40;occurs.at:174;OCCURS DEPENDING without TO clause;;
-41;redefines.at:28;REDEFINES: not following entry-name;redefines;
-42;redefines.at:49;REDEFINES: level 02 by 01;redefines;
-43;redefines.at:70;REDEFINES: level 03 by 02;redefines;
-44;redefines.at:92;REDEFINES: level 66;redefines;
-45;redefines.at:115;REDEFINES: level 88;redefines;
-46;redefines.at:144;REDEFINES: lower level number;redefines;
-47;redefines.at:170;REDEFINES: with OCCURS;redefines;
-48;redefines.at:191;REDEFINES: with subscript;redefines;
-49;redefines.at:213;REDEFINES: with variable occurrence;redefines;
-50;redefines.at:248;REDEFINES: with qualification;redefines;
-51;redefines.at:275;REDEFINES: multiple redefinition;redefines;
-52;redefines.at:303;REDEFINES: size exceeds;redefines;
-53;redefines.at:336;REDEFINES: with VALUE;redefines;
-54;redefines.at:364;REDEFINES: with intervention;redefines;
-55;redefines.at:393;REDEFINES: within REDEFINES;redefines;
-56;value.at:43;Numeric item (integer);;
-57;value.at:68;Numeric item (non-integer);;
-58;value.at:90;Numeric item with picture P;;
-59;value.at:121;Signed numeric literal;;
-60;value.at:146;Alphabetic item;;
-61;value.at:171;Alphanumeric item;;
-62;value.at:192;Alphanumeric group item;;
-63;value.at:226;Numeric-edited item;;
-64;value.at:249;Alphanumeric-edited item;;
-65;move.at:37;MOVE SPACE TO numeric or numeric-edited item;;
-66;move.at:62;MOVE ZERO TO alphabetic item;;
-67;move.at:87;MOVE alphabetic TO x;;
-68;move.at:116;MOVE alphanumeric TO x;;
-69;move.at:142;MOVE alphanumeric-edited TO x;;
-70;move.at:171;MOVE numeric (integer) TO x;;
-71;move.at:199;MOVE numeric (non-integer) TO x;;
-72;move.at:229;MOVE numeric-edited TO x;;
-73;move.at:263;Operands must be groups;;
-74;move.at:295;MOVE: misc;;
-75;multiply.at:28;Category check of Format 1;;
-76;multiply.at:66;Category check of Format 2;;
-77;multiply.at:106;Category check of literals;;
-78;set.at:24;SET: misc;;
-79;free-1col-aster.at:1;free_1col_aster OPTION;;
-80;free-1col-aster.at:15;newline_count with free_1col_aster;;
-81;indicator.at:1;dollarif defined - true;;
-82;indicator.at:19;dollarif defined - false;;
-83;indicator.at:39;dollarif value match - true;;
-84;indicator.at:59;dollarif value match - false;;
-85;indicator.at:79;dollarif value match - not true;;
-86;indicator.at:99;dollarif value match - not false;;
-87;indicator.at:119;column 7 is undefined value;;
-88;assign-external.at:1;ASSIGN TO DYNAMIC create file (assign_external);;
-89;error-recovery.at:1;parse-error recovery after Data desc.;;
-90;error-recovery.at:21;parse-error recovery after Headings.;;
-91;data-records.at:1;completely ignore DATA RECORDS;;
+6;copy.at:158;COPY: after REPLACE;;
+7;unmatured-copy.at:1;COPY: last line break in copybook;copy;
+8;definition.at:25;Invalid PROGRAM-ID;;
+9;definition.at:40;Invalid PROGRAM-ID type clause (1);;
+10;definition.at:55;Invalid PROGRAM-ID type clause (2);;
+11;definition.at:76;Undefined data name;;
+12;definition.at:93;Undefined group name;;
+13;definition.at:113;Undefined data name in group;;
+14;definition.at:135;Reference not a group name;;
+15;definition.at:158;Incomplete 01 definition;;
+16;definition.at:177;Same labels in different sections;;
+17;definition.at:201;Redefinition of 01 items;;
+18;definition.at:219;Redefinition of 01 and 02 items;;
+19;definition.at:237;Redefinition of 02 items;;
+20;definition.at:256;Redefinition of 77 items;;
+21;definition.at:274;Redefinition of 01 and 77 items;;
+22;definition.at:292;Redefinition of 88 items;;
+23;definition.at:311;Ambiguous reference to 02 items;;
+24;definition.at:336;Ambiguous reference to 02 and 03 items;;
+25;definition.at:360;Ambiguous reference with qualification;;
+26;definition.at:389;Unique reference with ambiguous qualifiers;;
+27;definition.at:424;Undefined procedure name;;
+28;definition.at:443;Redefinition of section names;;
+29;definition.at:462;Redefinition of section and paragraph names;;
+30;definition.at:481;Redefinition of paragraph names;;
+31;definition.at:504;Ambiguous reference to paragraph name;;
+32;definition.at:528;Non-matching level numbers (extension);;
+33;expression.at:21;Ambiguous AND/OR;;
+34;expression.at:45;START on SEQUENTIAL file;;
+35;subscripts.at:31;Subscripted item requires OCCURS clause;;
+36;subscripts.at:58;The number of subscripts;;
+37;occurs.at:28;OCCURS with level 01, 66, 77, and 88;;
+38;occurs.at:53;OCCURS with variable-occurrence data item;;
+39;occurs.at:90;Nested OCCURS clause;;
+40;occurs.at:136;OCCURS DEPENDING followed by another field;;
+41;occurs.at:174;OCCURS DEPENDING without TO clause;;
+42;redefines.at:28;REDEFINES: not following entry-name;redefines;
+43;redefines.at:49;REDEFINES: level 02 by 01;redefines;
+44;redefines.at:70;REDEFINES: level 03 by 02;redefines;
+45;redefines.at:92;REDEFINES: level 66;redefines;
+46;redefines.at:115;REDEFINES: level 88;redefines;
+47;redefines.at:144;REDEFINES: lower level number;redefines;
+48;redefines.at:170;REDEFINES: with OCCURS;redefines;
+49;redefines.at:191;REDEFINES: with subscript;redefines;
+50;redefines.at:213;REDEFINES: with variable occurrence;redefines;
+51;redefines.at:248;REDEFINES: with qualification;redefines;
+52;redefines.at:275;REDEFINES: multiple redefinition;redefines;
+53;redefines.at:303;REDEFINES: size exceeds;redefines;
+54;redefines.at:336;REDEFINES: with VALUE;redefines;
+55;redefines.at:364;REDEFINES: with intervention;redefines;
+56;redefines.at:393;REDEFINES: within REDEFINES;redefines;
+57;value.at:43;Numeric item (integer);;
+58;value.at:68;Numeric item (non-integer);;
+59;value.at:90;Numeric item with picture P;;
+60;value.at:121;Signed numeric literal;;
+61;value.at:146;Alphabetic item;;
+62;value.at:171;Alphanumeric item;;
+63;value.at:192;Alphanumeric group item;;
+64;value.at:226;Numeric-edited item;;
+65;value.at:249;Alphanumeric-edited item;;
+66;move.at:37;MOVE SPACE TO numeric or numeric-edited item;;
+67;move.at:62;MOVE ZERO TO alphabetic item;;
+68;move.at:87;MOVE alphabetic TO x;;
+69;move.at:116;MOVE alphanumeric TO x;;
+70;move.at:142;MOVE alphanumeric-edited TO x;;
+71;move.at:171;MOVE numeric (integer) TO x;;
+72;move.at:199;MOVE numeric (non-integer) TO x;;
+73;move.at:229;MOVE numeric-edited TO x;;
+74;move.at:263;Operands must be groups;;
+75;move.at:295;MOVE: misc;;
+76;multiply.at:28;Category check of Format 1;;
+77;multiply.at:66;Category check of Format 2;;
+78;multiply.at:106;Category check of literals;;
+79;set.at:24;SET: misc;;
+80;free-1col-aster.at:1;free_1col_aster OPTION;;
+81;free-1col-aster.at:15;newline_count with free_1col_aster;;
+82;indicator.at:1;dollarif defined - true;;
+83;indicator.at:19;dollarif defined - false;;
+84;indicator.at:39;dollarif value match - true;;
+85;indicator.at:59;dollarif value match - false;;
+86;indicator.at:79;dollarif value match - not true;;
+87;indicator.at:99;dollarif value match - not false;;
+88;indicator.at:119;column 7 is undefined value;;
+89;assign-external.at:1;ASSIGN TO DYNAMIC create file (assign_external);;
+90;error-recovery.at:1;parse-error recovery after Data desc.;;
+91;error-recovery.at:21;parse-error recovery after Headings.;;
+92;data-records.at:1;completely ignore DATA RECORDS;;
 '
 
 at_keywords=
@@ -1289,13 +1290,103 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  6 ) # 6. unmatured-copy.at:1: COPY: last line break in copybook
-    at_setup_line='unmatured-copy.at:1'
-    at_desc='COPY: last line break in copybook'
-    $at_quiet $ECHO_N "  6: COPY: last line break in copybook            $ECHO_C"
+  6 ) # 6. copy.at:158: COPY: after REPLACE
+    at_setup_line='copy.at:158'
+    at_desc='COPY: after REPLACE'
+    $at_quiet $ECHO_N "  6: COPY: after REPLACE                          $ECHO_C"
     at_xfail=no
     (
-      echo "6. unmatured-copy.at:1: testing ..."
+      echo "6. copy.at:158: testing ..."
+      $at_traceon
+
+
+cat >copy_rep01.inc <<'_ATEOF'
+
+       01 WK-02          PIC X(2) value SP.
+_ATEOF
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       REPLACE 'AA' BY 'ZZ'.
+       01 WK-01          PIC X(2) VALUE 'AA'.
+       COPY "copy_rep01.inc" REPLACING SP by space.
+       01 WK-03          PIC X(2) VALUE 'AA'.
+       PROCEDURE        DIVISION.
+           DISPLAY WK-01 WK-02 WK-03 NO ADVANCING
+           END-DISPLAY.
+           STOP RUN.
+_ATEOF
+
+
+$at_traceoff
+echo "copy.at:179: \${COMPILE} -o prog prog.cob"
+echo copy.at:179 >$at_check_line_file
+( $at_traceon; ${COMPILE} -o prog prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy.at:179: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "copy.at:180: ./prog"
+echo copy.at:180 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+echo >>$at_stdout; echo "ZZ  ZZ" | $at_diff - $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "copy.at:180: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  7 ) # 7. unmatured-copy.at:1: COPY: last line break in copybook
+    at_setup_line='unmatured-copy.at:1'
+    at_desc='COPY: last line break in copybook'
+    $at_quiet $ECHO_N "  7: COPY: last line break in copybook            $ECHO_C"
+    at_xfail=no
+    (
+      echo "7. unmatured-copy.at:1: testing ..."
       $at_traceon
 
 
@@ -1398,13 +1489,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  7 ) # 7. definition.at:25: Invalid PROGRAM-ID
+  8 ) # 8. definition.at:25: Invalid PROGRAM-ID
     at_setup_line='definition.at:25'
     at_desc='Invalid PROGRAM-ID'
-    $at_quiet $ECHO_N "  7: Invalid PROGRAM-ID                           $ECHO_C"
+    $at_quiet $ECHO_N "  8: Invalid PROGRAM-ID                           $ECHO_C"
     at_xfail=no
     (
-      echo "7. definition.at:25: testing ..."
+      echo "8. definition.at:25: testing ..."
       $at_traceon
 
 
@@ -1450,13 +1541,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  8 ) # 8. definition.at:40: Invalid PROGRAM-ID type clause (1)
+  9 ) # 9. definition.at:40: Invalid PROGRAM-ID type clause (1)
     at_setup_line='definition.at:40'
     at_desc='Invalid PROGRAM-ID type clause (1)'
-    $at_quiet $ECHO_N "  8: Invalid PROGRAM-ID type clause (1)           $ECHO_C"
+    $at_quiet $ECHO_N "  9: Invalid PROGRAM-ID type clause (1)           $ECHO_C"
     at_xfail=no
     (
-      echo "8. definition.at:40: testing ..."
+      echo "9. definition.at:40: testing ..."
       $at_traceon
 
 
@@ -1502,13 +1593,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  9 ) # 9. definition.at:55: Invalid PROGRAM-ID type clause (2)
+  10 ) # 10. definition.at:55: Invalid PROGRAM-ID type clause (2)
     at_setup_line='definition.at:55'
     at_desc='Invalid PROGRAM-ID type clause (2)'
-    $at_quiet $ECHO_N "  9: Invalid PROGRAM-ID type clause (2)           $ECHO_C"
+    $at_quiet $ECHO_N " 10: Invalid PROGRAM-ID type clause (2)           $ECHO_C"
     at_xfail=no
     (
-      echo "9. definition.at:55: testing ..."
+      echo "10. definition.at:55: testing ..."
       $at_traceon
 
 
@@ -1554,13 +1645,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  10 ) # 10. definition.at:76: Undefined data name
+  11 ) # 11. definition.at:76: Undefined data name
     at_setup_line='definition.at:76'
     at_desc='Undefined data name'
-    $at_quiet $ECHO_N " 10: Undefined data name                          $ECHO_C"
+    $at_quiet $ECHO_N " 11: Undefined data name                          $ECHO_C"
     at_xfail=no
     (
-      echo "10. definition.at:76: testing ..."
+      echo "11. definition.at:76: testing ..."
       $at_traceon
 
 
@@ -1608,13 +1699,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  11 ) # 11. definition.at:93: Undefined group name
+  12 ) # 12. definition.at:93: Undefined group name
     at_setup_line='definition.at:93'
     at_desc='Undefined group name'
-    $at_quiet $ECHO_N " 11: Undefined group name                         $ECHO_C"
+    $at_quiet $ECHO_N " 12: Undefined group name                         $ECHO_C"
     at_xfail=no
     (
-      echo "11. definition.at:93: testing ..."
+      echo "12. definition.at:93: testing ..."
       $at_traceon
 
 
@@ -1665,13 +1756,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  12 ) # 12. definition.at:113: Undefined data name in group
+  13 ) # 13. definition.at:113: Undefined data name in group
     at_setup_line='definition.at:113'
     at_desc='Undefined data name in group'
-    $at_quiet $ECHO_N " 12: Undefined data name in group                 $ECHO_C"
+    $at_quiet $ECHO_N " 13: Undefined data name in group                 $ECHO_C"
     at_xfail=no
     (
-      echo "12. definition.at:113: testing ..."
+      echo "13. definition.at:113: testing ..."
       $at_traceon
 
 
@@ -1724,13 +1815,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  13 ) # 13. definition.at:135: Reference not a group name
+  14 ) # 14. definition.at:135: Reference not a group name
     at_setup_line='definition.at:135'
     at_desc='Reference not a group name'
-    $at_quiet $ECHO_N " 13: Reference not a group name                   $ECHO_C"
+    $at_quiet $ECHO_N " 14: Reference not a group name                   $ECHO_C"
     at_xfail=no
     (
-      echo "13. definition.at:135: testing ..."
+      echo "14. definition.at:135: testing ..."
       $at_traceon
 
 
@@ -1781,13 +1872,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  14 ) # 14. definition.at:158: Incomplete 01 definition
+  15 ) # 15. definition.at:158: Incomplete 01 definition
     at_setup_line='definition.at:158'
     at_desc='Incomplete 01 definition'
-    $at_quiet $ECHO_N " 14: Incomplete 01 definition                     $ECHO_C"
+    $at_quiet $ECHO_N " 15: Incomplete 01 definition                     $ECHO_C"
     at_xfail=no
     (
-      echo "14. definition.at:158: testing ..."
+      echo "15. definition.at:158: testing ..."
       $at_traceon
 
 
@@ -1834,13 +1925,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  15 ) # 15. definition.at:177: Same labels in different sections
+  16 ) # 16. definition.at:177: Same labels in different sections
     at_setup_line='definition.at:177'
     at_desc='Same labels in different sections'
-    $at_quiet $ECHO_N " 15: Same labels in different sections            $ECHO_C"
+    $at_quiet $ECHO_N " 16: Same labels in different sections            $ECHO_C"
     at_xfail=no
     (
-      echo "15. definition.at:177: testing ..."
+      echo "16. definition.at:177: testing ..."
       $at_traceon
 
 
@@ -1893,13 +1984,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  16 ) # 16. definition.at:201: Redefinition of 01 items
+  17 ) # 17. definition.at:201: Redefinition of 01 items
     at_setup_line='definition.at:201'
     at_desc='Redefinition of 01 items'
-    $at_quiet $ECHO_N " 16: Redefinition of 01 items                     $ECHO_C"
+    $at_quiet $ECHO_N " 17: Redefinition of 01 items                     $ECHO_C"
     at_xfail=no
     (
-      echo "16. definition.at:201: testing ..."
+      echo "17. definition.at:201: testing ..."
       $at_traceon
 
 
@@ -1948,13 +2039,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  17 ) # 17. definition.at:219: Redefinition of 01 and 02 items
+  18 ) # 18. definition.at:219: Redefinition of 01 and 02 items
     at_setup_line='definition.at:219'
     at_desc='Redefinition of 01 and 02 items'
-    $at_quiet $ECHO_N " 17: Redefinition of 01 and 02 items              $ECHO_C"
+    $at_quiet $ECHO_N " 18: Redefinition of 01 and 02 items              $ECHO_C"
     at_xfail=no
     (
-      echo "17. definition.at:219: testing ..."
+      echo "18. definition.at:219: testing ..."
       $at_traceon
 
 
@@ -2003,13 +2094,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  18 ) # 18. definition.at:237: Redefinition of 02 items
+  19 ) # 19. definition.at:237: Redefinition of 02 items
     at_setup_line='definition.at:237'
     at_desc='Redefinition of 02 items'
-    $at_quiet $ECHO_N " 18: Redefinition of 02 items                     $ECHO_C"
+    $at_quiet $ECHO_N " 19: Redefinition of 02 items                     $ECHO_C"
     at_xfail=no
     (
-      echo "18. definition.at:237: testing ..."
+      echo "19. definition.at:237: testing ..."
       $at_traceon
 
 
@@ -2059,13 +2150,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  19 ) # 19. definition.at:256: Redefinition of 77 items
+  20 ) # 20. definition.at:256: Redefinition of 77 items
     at_setup_line='definition.at:256'
     at_desc='Redefinition of 77 items'
-    $at_quiet $ECHO_N " 19: Redefinition of 77 items                     $ECHO_C"
+    $at_quiet $ECHO_N " 20: Redefinition of 77 items                     $ECHO_C"
     at_xfail=no
     (
-      echo "19. definition.at:256: testing ..."
+      echo "20. definition.at:256: testing ..."
       $at_traceon
 
 
@@ -2114,13 +2205,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  20 ) # 20. definition.at:274: Redefinition of 01 and 77 items
+  21 ) # 21. definition.at:274: Redefinition of 01 and 77 items
     at_setup_line='definition.at:274'
     at_desc='Redefinition of 01 and 77 items'
-    $at_quiet $ECHO_N " 20: Redefinition of 01 and 77 items              $ECHO_C"
+    $at_quiet $ECHO_N " 21: Redefinition of 01 and 77 items              $ECHO_C"
     at_xfail=no
     (
-      echo "20. definition.at:274: testing ..."
+      echo "21. definition.at:274: testing ..."
       $at_traceon
 
 
@@ -2169,13 +2260,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  21 ) # 21. definition.at:292: Redefinition of 88 items
+  22 ) # 22. definition.at:292: Redefinition of 88 items
     at_setup_line='definition.at:292'
     at_desc='Redefinition of 88 items'
-    $at_quiet $ECHO_N " 21: Redefinition of 88 items                     $ECHO_C"
+    $at_quiet $ECHO_N " 22: Redefinition of 88 items                     $ECHO_C"
     at_xfail=no
     (
-      echo "21. definition.at:292: testing ..."
+      echo "22. definition.at:292: testing ..."
       $at_traceon
 
 
@@ -2225,13 +2316,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  22 ) # 22. definition.at:311: Ambiguous reference to 02 items
+  23 ) # 23. definition.at:311: Ambiguous reference to 02 items
     at_setup_line='definition.at:311'
     at_desc='Ambiguous reference to 02 items'
-    $at_quiet $ECHO_N " 22: Ambiguous reference to 02 items              $ECHO_C"
+    $at_quiet $ECHO_N " 23: Ambiguous reference to 02 items              $ECHO_C"
     at_xfail=no
     (
-      echo "22. definition.at:311: testing ..."
+      echo "23. definition.at:311: testing ..."
       $at_traceon
 
 
@@ -2287,13 +2378,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  23 ) # 23. definition.at:336: Ambiguous reference to 02 and 03 items
+  24 ) # 24. definition.at:336: Ambiguous reference to 02 and 03 items
     at_setup_line='definition.at:336'
     at_desc='Ambiguous reference to 02 and 03 items'
-    $at_quiet $ECHO_N " 23: Ambiguous reference to 02 and 03 items       $ECHO_C"
+    $at_quiet $ECHO_N " 24: Ambiguous reference to 02 and 03 items       $ECHO_C"
     at_xfail=no
     (
-      echo "23. definition.at:336: testing ..."
+      echo "24. definition.at:336: testing ..."
       $at_traceon
 
 
@@ -2348,13 +2439,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  24 ) # 24. definition.at:360: Ambiguous reference with qualification
+  25 ) # 25. definition.at:360: Ambiguous reference with qualification
     at_setup_line='definition.at:360'
     at_desc='Ambiguous reference with qualification'
-    $at_quiet $ECHO_N " 24: Ambiguous reference with qualification       $ECHO_C"
+    $at_quiet $ECHO_N " 25: Ambiguous reference with qualification       $ECHO_C"
     at_xfail=no
     (
-      echo "24. definition.at:360: testing ..."
+      echo "25. definition.at:360: testing ..."
       $at_traceon
 
 
@@ -2412,13 +2503,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  25 ) # 25. definition.at:389: Unique reference with ambiguous qualifiers
+  26 ) # 26. definition.at:389: Unique reference with ambiguous qualifiers
     at_setup_line='definition.at:389'
     at_desc='Unique reference with ambiguous qualifiers'
-    $at_quiet $ECHO_N " 25: Unique reference with ambiguous qualifiers   $ECHO_C"
+    $at_quiet $ECHO_N " 26: Unique reference with ambiguous qualifiers   $ECHO_C"
     at_xfail=no
     (
-      echo "25. definition.at:389: testing ..."
+      echo "26. definition.at:389: testing ..."
       $at_traceon
 
 
@@ -2473,13 +2564,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  26 ) # 26. definition.at:424: Undefined procedure name
+  27 ) # 27. definition.at:424: Undefined procedure name
     at_setup_line='definition.at:424'
     at_desc='Undefined procedure name'
-    $at_quiet $ECHO_N " 26: Undefined procedure name                     $ECHO_C"
+    $at_quiet $ECHO_N " 27: Undefined procedure name                     $ECHO_C"
     at_xfail=no
     (
-      echo "26. definition.at:424: testing ..."
+      echo "27. definition.at:424: testing ..."
       $at_traceon
 
 
@@ -2526,13 +2617,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  27 ) # 27. definition.at:443: Redefinition of section names
+  28 ) # 28. definition.at:443: Redefinition of section names
     at_setup_line='definition.at:443'
     at_desc='Redefinition of section names'
-    $at_quiet $ECHO_N " 27: Redefinition of section names                $ECHO_C"
+    $at_quiet $ECHO_N " 28: Redefinition of section names                $ECHO_C"
     at_xfail=no
     (
-      echo "27. definition.at:443: testing ..."
+      echo "28. definition.at:443: testing ..."
       $at_traceon
 
 
@@ -2582,13 +2673,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  28 ) # 28. definition.at:462: Redefinition of section and paragraph names
+  29 ) # 29. definition.at:462: Redefinition of section and paragraph names
     at_setup_line='definition.at:462'
     at_desc='Redefinition of section and paragraph names'
-    $at_quiet $ECHO_N " 28: Redefinition of section and paragraph names  $ECHO_C"
+    $at_quiet $ECHO_N " 29: Redefinition of section and paragraph names  $ECHO_C"
     at_xfail=no
     (
-      echo "28. definition.at:462: testing ..."
+      echo "29. definition.at:462: testing ..."
       $at_traceon
 
 
@@ -2638,13 +2729,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  29 ) # 29. definition.at:481: Redefinition of paragraph names
+  30 ) # 30. definition.at:481: Redefinition of paragraph names
     at_setup_line='definition.at:481'
     at_desc='Redefinition of paragraph names'
-    $at_quiet $ECHO_N " 29: Redefinition of paragraph names              $ECHO_C"
+    $at_quiet $ECHO_N " 30: Redefinition of paragraph names              $ECHO_C"
     at_xfail=no
     (
-      echo "29. definition.at:481: testing ..."
+      echo "30. definition.at:481: testing ..."
       $at_traceon
 
 
@@ -2698,13 +2789,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  30 ) # 30. definition.at:504: Ambiguous reference to paragraph name
+  31 ) # 31. definition.at:504: Ambiguous reference to paragraph name
     at_setup_line='definition.at:504'
     at_desc='Ambiguous reference to paragraph name'
-    $at_quiet $ECHO_N " 30: Ambiguous reference to paragraph name        $ECHO_C"
+    $at_quiet $ECHO_N " 31: Ambiguous reference to paragraph name        $ECHO_C"
     at_xfail=no
     (
-      echo "30. definition.at:504: testing ..."
+      echo "31. definition.at:504: testing ..."
       $at_traceon
 
 
@@ -2759,13 +2850,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  31 ) # 31. definition.at:528: Non-matching level numbers (extension)
+  32 ) # 32. definition.at:528: Non-matching level numbers (extension)
     at_setup_line='definition.at:528'
     at_desc='Non-matching level numbers (extension)'
-    $at_quiet $ECHO_N " 31: Non-matching level numbers (extension)       $ECHO_C"
+    $at_quiet $ECHO_N " 32: Non-matching level numbers (extension)       $ECHO_C"
     at_xfail=no
     (
-      echo "31. definition.at:528: testing ..."
+      echo "32. definition.at:528: testing ..."
       $at_traceon
 
 
@@ -2825,13 +2916,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  32 ) # 32. expression.at:21: Ambiguous AND/OR
+  33 ) # 33. expression.at:21: Ambiguous AND/OR
     at_setup_line='expression.at:21'
     at_desc='Ambiguous AND/OR'
-    $at_quiet $ECHO_N " 32: Ambiguous AND/OR                             $ECHO_C"
+    $at_quiet $ECHO_N " 33: Ambiguous AND/OR                             $ECHO_C"
     at_xfail=no
     (
-      echo "32. expression.at:21: testing ..."
+      echo "33. expression.at:21: testing ..."
       $at_traceon
 
 
@@ -2886,13 +2977,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  33 ) # 33. expression.at:45: START on SEQUENTIAL file
+  34 ) # 34. expression.at:45: START on SEQUENTIAL file
     at_setup_line='expression.at:45'
     at_desc='START on SEQUENTIAL file'
-    $at_quiet $ECHO_N " 33: START on SEQUENTIAL file                     $ECHO_C"
+    $at_quiet $ECHO_N " 34: START on SEQUENTIAL file                     $ECHO_C"
     at_xfail=no
     (
-      echo "33. expression.at:45: testing ..."
+      echo "34. expression.at:45: testing ..."
       $at_traceon
 
 
@@ -2951,13 +3042,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  34 ) # 34. subscripts.at:31: Subscripted item requires OCCURS clause
+  35 ) # 35. subscripts.at:31: Subscripted item requires OCCURS clause
     at_setup_line='subscripts.at:31'
     at_desc='Subscripted item requires OCCURS clause'
-    $at_quiet $ECHO_N " 34: Subscripted item requires OCCURS clause      $ECHO_C"
+    $at_quiet $ECHO_N " 35: Subscripted item requires OCCURS clause      $ECHO_C"
     at_xfail=no
     (
-      echo "34. subscripts.at:31: testing ..."
+      echo "35. subscripts.at:31: testing ..."
       $at_traceon
 
 
@@ -3012,13 +3103,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  35 ) # 35. subscripts.at:58: The number of subscripts
+  36 ) # 36. subscripts.at:58: The number of subscripts
     at_setup_line='subscripts.at:58'
     at_desc='The number of subscripts'
-    $at_quiet $ECHO_N " 35: The number of subscripts                     $ECHO_C"
+    $at_quiet $ECHO_N " 36: The number of subscripts                     $ECHO_C"
     at_xfail=no
     (
-      echo "35. subscripts.at:58: testing ..."
+      echo "36. subscripts.at:58: testing ..."
       $at_traceon
 
 
@@ -3084,13 +3175,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  36 ) # 36. occurs.at:28: OCCURS with level 01, 66, 77, and 88
+  37 ) # 37. occurs.at:28: OCCURS with level 01, 66, 77, and 88
     at_setup_line='occurs.at:28'
     at_desc='OCCURS with level 01, 66, 77, and 88'
-    $at_quiet $ECHO_N " 36: OCCURS with level 01, 66, 77, and 88         $ECHO_C"
+    $at_quiet $ECHO_N " 37: OCCURS with level 01, 66, 77, and 88         $ECHO_C"
     at_xfail=no
     (
-      echo "36. occurs.at:28: testing ..."
+      echo "37. occurs.at:28: testing ..."
       $at_traceon
 
 
@@ -3146,13 +3237,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  37 ) # 37. occurs.at:53: OCCURS with variable-occurrence data item
+  38 ) # 38. occurs.at:53: OCCURS with variable-occurrence data item
     at_setup_line='occurs.at:53'
     at_desc='OCCURS with variable-occurrence data item'
-    $at_quiet $ECHO_N " 37: OCCURS with variable-occurrence data item    $ECHO_C"
+    $at_quiet $ECHO_N " 38: OCCURS with variable-occurrence data item    $ECHO_C"
     at_xfail=no
     (
-      echo "37. occurs.at:53: testing ..."
+      echo "38. occurs.at:53: testing ..."
       $at_traceon
 
 
@@ -3202,13 +3293,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  38 ) # 38. occurs.at:90: Nested OCCURS clause
+  39 ) # 39. occurs.at:90: Nested OCCURS clause
     at_setup_line='occurs.at:90'
     at_desc='Nested OCCURS clause'
-    $at_quiet $ECHO_N " 38: Nested OCCURS clause                         $ECHO_C"
+    $at_quiet $ECHO_N " 39: Nested OCCURS clause                         $ECHO_C"
     at_xfail=no
     (
-      echo "38. occurs.at:90: testing ..."
+      echo "39. occurs.at:90: testing ..."
       $at_traceon
 
 
@@ -3262,13 +3353,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  39 ) # 39. occurs.at:136: OCCURS DEPENDING followed by another field
+  40 ) # 40. occurs.at:136: OCCURS DEPENDING followed by another field
     at_setup_line='occurs.at:136'
     at_desc='OCCURS DEPENDING followed by another field'
-    $at_quiet $ECHO_N " 39: OCCURS DEPENDING followed by another field   $ECHO_C"
+    $at_quiet $ECHO_N " 40: OCCURS DEPENDING followed by another field   $ECHO_C"
     at_xfail=no
     (
-      echo "39. occurs.at:136: testing ..."
+      echo "40. occurs.at:136: testing ..."
       $at_traceon
 
 
@@ -3328,13 +3419,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  40 ) # 40. occurs.at:174: OCCURS DEPENDING without TO clause
+  41 ) # 41. occurs.at:174: OCCURS DEPENDING without TO clause
     at_setup_line='occurs.at:174'
     at_desc='OCCURS DEPENDING without TO clause'
-    $at_quiet $ECHO_N " 40: OCCURS DEPENDING without TO clause           $ECHO_C"
+    $at_quiet $ECHO_N " 41: OCCURS DEPENDING without TO clause           $ECHO_C"
     at_xfail=no
     (
-      echo "40. occurs.at:174: testing ..."
+      echo "41. occurs.at:174: testing ..."
       $at_traceon
 
 
@@ -3383,13 +3474,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  41 ) # 41. redefines.at:28: REDEFINES: not following entry-name
+  42 ) # 42. redefines.at:28: REDEFINES: not following entry-name
     at_setup_line='redefines.at:28'
     at_desc='REDEFINES: not following entry-name'
-    $at_quiet $ECHO_N " 41: REDEFINES: not following entry-name          $ECHO_C"
+    $at_quiet $ECHO_N " 42: REDEFINES: not following entry-name          $ECHO_C"
     at_xfail=no
     (
-      echo "41. redefines.at:28: testing ..."
+      echo "42. redefines.at:28: testing ..."
       $at_traceon
 
 
@@ -3438,13 +3529,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  42 ) # 42. redefines.at:49: REDEFINES: level 02 by 01
+  43 ) # 43. redefines.at:49: REDEFINES: level 02 by 01
     at_setup_line='redefines.at:49'
     at_desc='REDEFINES: level 02 by 01'
-    $at_quiet $ECHO_N " 42: REDEFINES: level 02 by 01                    $ECHO_C"
+    $at_quiet $ECHO_N " 43: REDEFINES: level 02 by 01                    $ECHO_C"
     at_xfail=no
     (
-      echo "42. redefines.at:49: testing ..."
+      echo "43. redefines.at:49: testing ..."
       $at_traceon
 
 
@@ -3496,13 +3587,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  43 ) # 43. redefines.at:70: REDEFINES: level 03 by 02
+  44 ) # 44. redefines.at:70: REDEFINES: level 03 by 02
     at_setup_line='redefines.at:70'
     at_desc='REDEFINES: level 03 by 02'
-    $at_quiet $ECHO_N " 43: REDEFINES: level 03 by 02                    $ECHO_C"
+    $at_quiet $ECHO_N " 44: REDEFINES: level 03 by 02                    $ECHO_C"
     at_xfail=no
     (
-      echo "43. redefines.at:70: testing ..."
+      echo "44. redefines.at:70: testing ..."
       $at_traceon
 
 
@@ -3555,13 +3646,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  44 ) # 44. redefines.at:92: REDEFINES: level 66
+  45 ) # 45. redefines.at:92: REDEFINES: level 66
     at_setup_line='redefines.at:92'
     at_desc='REDEFINES: level 66'
-    $at_quiet $ECHO_N " 44: REDEFINES: level 66                          $ECHO_C"
+    $at_quiet $ECHO_N " 45: REDEFINES: level 66                          $ECHO_C"
     at_xfail=no
     (
-      echo "44. redefines.at:92: testing ..."
+      echo "45. redefines.at:92: testing ..."
       $at_traceon
 
 
@@ -3615,13 +3706,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  45 ) # 45. redefines.at:115: REDEFINES: level 88
+  46 ) # 46. redefines.at:115: REDEFINES: level 88
     at_setup_line='redefines.at:115'
     at_desc='REDEFINES: level 88'
-    $at_quiet $ECHO_N " 45: REDEFINES: level 88                          $ECHO_C"
+    $at_quiet $ECHO_N " 46: REDEFINES: level 88                          $ECHO_C"
     at_xfail=no
     (
-      echo "45. redefines.at:115: testing ..."
+      echo "46. redefines.at:115: testing ..."
       $at_traceon
 
 
@@ -3673,13 +3764,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  46 ) # 46. redefines.at:144: REDEFINES: lower level number
+  47 ) # 47. redefines.at:144: REDEFINES: lower level number
     at_setup_line='redefines.at:144'
     at_desc='REDEFINES: lower level number'
-    $at_quiet $ECHO_N " 46: REDEFINES: lower level number                $ECHO_C"
+    $at_quiet $ECHO_N " 47: REDEFINES: lower level number                $ECHO_C"
     at_xfail=no
     (
-      echo "46. redefines.at:144: testing ..."
+      echo "47. redefines.at:144: testing ..."
       $at_traceon
 
 
@@ -3733,13 +3824,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  47 ) # 47. redefines.at:170: REDEFINES: with OCCURS
+  48 ) # 48. redefines.at:170: REDEFINES: with OCCURS
     at_setup_line='redefines.at:170'
     at_desc='REDEFINES: with OCCURS'
-    $at_quiet $ECHO_N " 47: REDEFINES: with OCCURS                       $ECHO_C"
+    $at_quiet $ECHO_N " 48: REDEFINES: with OCCURS                       $ECHO_C"
     at_xfail=no
     (
-      echo "47. redefines.at:170: testing ..."
+      echo "48. redefines.at:170: testing ..."
       $at_traceon
 
 
@@ -3791,13 +3882,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  48 ) # 48. redefines.at:191: REDEFINES: with subscript
+  49 ) # 49. redefines.at:191: REDEFINES: with subscript
     at_setup_line='redefines.at:191'
     at_desc='REDEFINES: with subscript'
-    $at_quiet $ECHO_N " 48: REDEFINES: with subscript                    $ECHO_C"
+    $at_quiet $ECHO_N " 49: REDEFINES: with subscript                    $ECHO_C"
     at_xfail=no
     (
-      echo "48. redefines.at:191: testing ..."
+      echo "49. redefines.at:191: testing ..."
       $at_traceon
 
 
@@ -3850,13 +3941,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  49 ) # 49. redefines.at:213: REDEFINES: with variable occurrence
+  50 ) # 50. redefines.at:213: REDEFINES: with variable occurrence
     at_setup_line='redefines.at:213'
     at_desc='REDEFINES: with variable occurrence'
-    $at_quiet $ECHO_N " 49: REDEFINES: with variable occurrence          $ECHO_C"
+    $at_quiet $ECHO_N " 50: REDEFINES: with variable occurrence          $ECHO_C"
     at_xfail=no
     (
-      echo "49. redefines.at:213: testing ..."
+      echo "50. redefines.at:213: testing ..."
       $at_traceon
 
 
@@ -3919,13 +4010,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  50 ) # 50. redefines.at:248: REDEFINES: with qualification
+  51 ) # 51. redefines.at:248: REDEFINES: with qualification
     at_setup_line='redefines.at:248'
     at_desc='REDEFINES: with qualification'
-    $at_quiet $ECHO_N " 50: REDEFINES: with qualification                $ECHO_C"
+    $at_quiet $ECHO_N " 51: REDEFINES: with qualification                $ECHO_C"
     at_xfail=no
     (
-      echo "50. redefines.at:248: testing ..."
+      echo "51. redefines.at:248: testing ..."
       $at_traceon
 
 
@@ -3980,13 +4071,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  51 ) # 51. redefines.at:275: REDEFINES: multiple redefinition
+  52 ) # 52. redefines.at:275: REDEFINES: multiple redefinition
     at_setup_line='redefines.at:275'
     at_desc='REDEFINES: multiple redefinition'
-    $at_quiet $ECHO_N " 51: REDEFINES: multiple redefinition             $ECHO_C"
+    $at_quiet $ECHO_N " 52: REDEFINES: multiple redefinition             $ECHO_C"
     at_xfail=no
     (
-      echo "51. redefines.at:275: testing ..."
+      echo "52. redefines.at:275: testing ..."
       $at_traceon
 
 
@@ -4066,13 +4157,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  52 ) # 52. redefines.at:303: REDEFINES: size exceeds
+  53 ) # 53. redefines.at:303: REDEFINES: size exceeds
     at_setup_line='redefines.at:303'
     at_desc='REDEFINES: size exceeds'
-    $at_quiet $ECHO_N " 52: REDEFINES: size exceeds                      $ECHO_C"
+    $at_quiet $ECHO_N " 53: REDEFINES: size exceeds                      $ECHO_C"
     at_xfail=no
     (
-      echo "52. redefines.at:303: testing ..."
+      echo "53. redefines.at:303: testing ..."
       $at_traceon
 
 
@@ -4133,13 +4224,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  53 ) # 53. redefines.at:336: REDEFINES: with VALUE
+  54 ) # 54. redefines.at:336: REDEFINES: with VALUE
     at_setup_line='redefines.at:336'
     at_desc='REDEFINES: with VALUE'
-    $at_quiet $ECHO_N " 53: REDEFINES: with VALUE                        $ECHO_C"
+    $at_quiet $ECHO_N " 54: REDEFINES: with VALUE                        $ECHO_C"
     at_xfail=no
     (
-      echo "53. redefines.at:336: testing ..."
+      echo "54. redefines.at:336: testing ..."
       $at_traceon
 
 
@@ -4195,13 +4286,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  54 ) # 54. redefines.at:364: REDEFINES: with intervention
+  55 ) # 55. redefines.at:364: REDEFINES: with intervention
     at_setup_line='redefines.at:364'
     at_desc='REDEFINES: with intervention'
-    $at_quiet $ECHO_N " 54: REDEFINES: with intervention                 $ECHO_C"
+    $at_quiet $ECHO_N " 55: REDEFINES: with intervention                 $ECHO_C"
     at_xfail=no
     (
-      echo "54. redefines.at:364: testing ..."
+      echo "55. redefines.at:364: testing ..."
       $at_traceon
 
 
@@ -4258,13 +4349,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  55 ) # 55. redefines.at:393: REDEFINES: within REDEFINES
+  56 ) # 56. redefines.at:393: REDEFINES: within REDEFINES
     at_setup_line='redefines.at:393'
     at_desc='REDEFINES: within REDEFINES'
-    $at_quiet $ECHO_N " 55: REDEFINES: within REDEFINES                  $ECHO_C"
+    $at_quiet $ECHO_N " 56: REDEFINES: within REDEFINES                  $ECHO_C"
     at_xfail=no
     (
-      echo "55. redefines.at:393: testing ..."
+      echo "56. redefines.at:393: testing ..."
       $at_traceon
 
 
@@ -4316,13 +4407,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  56 ) # 56. value.at:43: Numeric item (integer)
+  57 ) # 57. value.at:43: Numeric item (integer)
     at_setup_line='value.at:43'
     at_desc='Numeric item (integer)'
-    $at_quiet $ECHO_N " 56: Numeric item (integer)                       $ECHO_C"
+    $at_quiet $ECHO_N " 57: Numeric item (integer)                       $ECHO_C"
     at_xfail=no
     (
-      echo "56. value.at:43: testing ..."
+      echo "57. value.at:43: testing ..."
       $at_traceon
 
 
@@ -4378,13 +4469,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  57 ) # 57. value.at:68: Numeric item (non-integer)
+  58 ) # 58. value.at:68: Numeric item (non-integer)
     at_setup_line='value.at:68'
     at_desc='Numeric item (non-integer)'
-    $at_quiet $ECHO_N " 57: Numeric item (non-integer)                   $ECHO_C"
+    $at_quiet $ECHO_N " 58: Numeric item (non-integer)                   $ECHO_C"
     at_xfail=no
     (
-      echo "57. value.at:68: testing ..."
+      echo "58. value.at:68: testing ..."
       $at_traceon
 
 
@@ -4437,13 +4528,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  58 ) # 58. value.at:90: Numeric item with picture P
+  59 ) # 59. value.at:90: Numeric item with picture P
     at_setup_line='value.at:90'
     at_desc='Numeric item with picture P'
-    $at_quiet $ECHO_N " 58: Numeric item with picture P                  $ECHO_C"
+    $at_quiet $ECHO_N " 59: Numeric item with picture P                  $ECHO_C"
     at_xfail=no
     (
-      echo "58. value.at:90: testing ..."
+      echo "59. value.at:90: testing ..."
       $at_traceon
 
 
@@ -4502,13 +4593,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  59 ) # 59. value.at:121: Signed numeric literal
+  60 ) # 60. value.at:121: Signed numeric literal
     at_setup_line='value.at:121'
     at_desc='Signed numeric literal'
-    $at_quiet $ECHO_N " 59: Signed numeric literal                       $ECHO_C"
+    $at_quiet $ECHO_N " 60: Signed numeric literal                       $ECHO_C"
     at_xfail=no
     (
-      echo "59. value.at:121: testing ..."
+      echo "60. value.at:121: testing ..."
       $at_traceon
 
 
@@ -4561,13 +4652,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  60 ) # 60. value.at:146: Alphabetic item
+  61 ) # 61. value.at:146: Alphabetic item
     at_setup_line='value.at:146'
     at_desc='Alphabetic item'
-    $at_quiet $ECHO_N " 60: Alphabetic item                              $ECHO_C"
+    $at_quiet $ECHO_N " 61: Alphabetic item                              $ECHO_C"
     at_xfail=no
     (
-      echo "60. value.at:146: testing ..."
+      echo "61. value.at:146: testing ..."
       $at_traceon
 
 
@@ -4623,13 +4714,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  61 ) # 61. value.at:171: Alphanumeric item
+  62 ) # 62. value.at:171: Alphanumeric item
     at_setup_line='value.at:171'
     at_desc='Alphanumeric item'
-    $at_quiet $ECHO_N " 61: Alphanumeric item                            $ECHO_C"
+    $at_quiet $ECHO_N " 62: Alphanumeric item                            $ECHO_C"
     at_xfail=no
     (
-      echo "61. value.at:171: testing ..."
+      echo "62. value.at:171: testing ..."
       $at_traceon
 
 
@@ -4681,13 +4772,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  62 ) # 62. value.at:192: Alphanumeric group item
+  63 ) # 63. value.at:192: Alphanumeric group item
     at_setup_line='value.at:192'
     at_desc='Alphanumeric group item'
-    $at_quiet $ECHO_N " 62: Alphanumeric group item                      $ECHO_C"
+    $at_quiet $ECHO_N " 63: Alphanumeric group item                      $ECHO_C"
     at_xfail=no
     (
-      echo "62. value.at:192: testing ..."
+      echo "63. value.at:192: testing ..."
       $at_traceon
 
 
@@ -4742,13 +4833,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  63 ) # 63. value.at:226: Numeric-edited item
+  64 ) # 64. value.at:226: Numeric-edited item
     at_setup_line='value.at:226'
     at_desc='Numeric-edited item'
-    $at_quiet $ECHO_N " 63: Numeric-edited item                          $ECHO_C"
+    $at_quiet $ECHO_N " 64: Numeric-edited item                          $ECHO_C"
     at_xfail=no
     (
-      echo "63. value.at:226: testing ..."
+      echo "64. value.at:226: testing ..."
       $at_traceon
 
 
@@ -4802,13 +4893,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  64 ) # 64. value.at:249: Alphanumeric-edited item
+  65 ) # 65. value.at:249: Alphanumeric-edited item
     at_setup_line='value.at:249'
     at_desc='Alphanumeric-edited item'
-    $at_quiet $ECHO_N " 64: Alphanumeric-edited item                     $ECHO_C"
+    $at_quiet $ECHO_N " 65: Alphanumeric-edited item                     $ECHO_C"
     at_xfail=no
     (
-      echo "64. value.at:249: testing ..."
+      echo "65. value.at:249: testing ..."
       $at_traceon
 
 
@@ -4861,13 +4952,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  65 ) # 65. move.at:37: MOVE SPACE TO numeric or numeric-edited item
+  66 ) # 66. move.at:37: MOVE SPACE TO numeric or numeric-edited item
     at_setup_line='move.at:37'
     at_desc='MOVE SPACE TO numeric or numeric-edited item'
-    $at_quiet $ECHO_N " 65: MOVE SPACE TO numeric or numeric-edited item $ECHO_C"
+    $at_quiet $ECHO_N " 66: MOVE SPACE TO numeric or numeric-edited item $ECHO_C"
     at_xfail=no
     (
-      echo "65. move.at:37: testing ..."
+      echo "66. move.at:37: testing ..."
       $at_traceon
 
 
@@ -4920,13 +5011,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  66 ) # 66. move.at:62: MOVE ZERO TO alphabetic item
+  67 ) # 67. move.at:62: MOVE ZERO TO alphabetic item
     at_setup_line='move.at:62'
     at_desc='MOVE ZERO TO alphabetic item'
-    $at_quiet $ECHO_N " 66: MOVE ZERO TO alphabetic item                 $ECHO_C"
+    $at_quiet $ECHO_N " 67: MOVE ZERO TO alphabetic item                 $ECHO_C"
     at_xfail=no
     (
-      echo "66. move.at:62: testing ..."
+      echo "67. move.at:62: testing ..."
       $at_traceon
 
 
@@ -4976,13 +5067,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  67 ) # 67. move.at:87: MOVE alphabetic TO x
+  68 ) # 68. move.at:87: MOVE alphabetic TO x
     at_setup_line='move.at:87'
     at_desc='MOVE alphabetic TO x'
-    $at_quiet $ECHO_N " 67: MOVE alphabetic TO x                         $ECHO_C"
+    $at_quiet $ECHO_N " 68: MOVE alphabetic TO x                         $ECHO_C"
     at_xfail=no
     (
-      echo "67. move.at:87: testing ..."
+      echo "68. move.at:87: testing ..."
       $at_traceon
 
 
@@ -5042,13 +5133,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  68 ) # 68. move.at:116: MOVE alphanumeric TO x
+  69 ) # 69. move.at:116: MOVE alphanumeric TO x
     at_setup_line='move.at:116'
     at_desc='MOVE alphanumeric TO x'
-    $at_quiet $ECHO_N " 68: MOVE alphanumeric TO x                       $ECHO_C"
+    $at_quiet $ECHO_N " 69: MOVE alphanumeric TO x                       $ECHO_C"
     at_xfail=no
     (
-      echo "68. move.at:116: testing ..."
+      echo "69. move.at:116: testing ..."
       $at_traceon
 
 
@@ -5106,13 +5197,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  69 ) # 69. move.at:142: MOVE alphanumeric-edited TO x
+  70 ) # 70. move.at:142: MOVE alphanumeric-edited TO x
     at_setup_line='move.at:142'
     at_desc='MOVE alphanumeric-edited TO x'
-    $at_quiet $ECHO_N " 69: MOVE alphanumeric-edited TO x                $ECHO_C"
+    $at_quiet $ECHO_N " 70: MOVE alphanumeric-edited TO x                $ECHO_C"
     at_xfail=no
     (
-      echo "69. move.at:142: testing ..."
+      echo "70. move.at:142: testing ..."
       $at_traceon
 
 
@@ -5172,13 +5263,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  70 ) # 70. move.at:171: MOVE numeric (integer) TO x
+  71 ) # 71. move.at:171: MOVE numeric (integer) TO x
     at_setup_line='move.at:171'
     at_desc='MOVE numeric (integer) TO x'
-    $at_quiet $ECHO_N " 70: MOVE numeric (integer) TO x                  $ECHO_C"
+    $at_quiet $ECHO_N " 71: MOVE numeric (integer) TO x                  $ECHO_C"
     at_xfail=no
     (
-      echo "70. move.at:171: testing ..."
+      echo "71. move.at:171: testing ..."
       $at_traceon
 
 
@@ -5237,13 +5328,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  71 ) # 71. move.at:199: MOVE numeric (non-integer) TO x
+  72 ) # 72. move.at:199: MOVE numeric (non-integer) TO x
     at_setup_line='move.at:199'
     at_desc='MOVE numeric (non-integer) TO x'
-    $at_quiet $ECHO_N " 71: MOVE numeric (non-integer) TO x              $ECHO_C"
+    $at_quiet $ECHO_N " 72: MOVE numeric (non-integer) TO x              $ECHO_C"
     at_xfail=no
     (
-      echo "71. move.at:199: testing ..."
+      echo "72. move.at:199: testing ..."
       $at_traceon
 
 
@@ -5304,13 +5395,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  72 ) # 72. move.at:229: MOVE numeric-edited TO x
+  73 ) # 73. move.at:229: MOVE numeric-edited TO x
     at_setup_line='move.at:229'
     at_desc='MOVE numeric-edited TO x'
-    $at_quiet $ECHO_N " 72: MOVE numeric-edited TO x                     $ECHO_C"
+    $at_quiet $ECHO_N " 73: MOVE numeric-edited TO x                     $ECHO_C"
     at_xfail=no
     (
-      echo "72. move.at:229: testing ..."
+      echo "73. move.at:229: testing ..."
       $at_traceon
 
 
@@ -5369,13 +5460,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  73 ) # 73. move.at:263: Operands must be groups
+  74 ) # 74. move.at:263: Operands must be groups
     at_setup_line='move.at:263'
     at_desc='Operands must be groups'
-    $at_quiet $ECHO_N " 73: Operands must be groups                      $ECHO_C"
+    $at_quiet $ECHO_N " 74: Operands must be groups                      $ECHO_C"
     at_xfail=no
     (
-      echo "73. move.at:263: testing ..."
+      echo "74. move.at:263: testing ..."
       $at_traceon
 
 
@@ -5434,13 +5525,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  74 ) # 74. move.at:295: MOVE: misc
+  75 ) # 75. move.at:295: MOVE: misc
     at_setup_line='move.at:295'
     at_desc='MOVE: misc'
-    $at_quiet $ECHO_N " 74: MOVE: misc                                   $ECHO_C"
+    $at_quiet $ECHO_N " 75: MOVE: misc                                   $ECHO_C"
     at_xfail=no
     (
-      echo "74. move.at:295: testing ..."
+      echo "75. move.at:295: testing ..."
       $at_traceon
 
 
@@ -5492,13 +5583,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  75 ) # 75. multiply.at:28: Category check of Format 1
+  76 ) # 76. multiply.at:28: Category check of Format 1
     at_setup_line='multiply.at:28'
     at_desc='Category check of Format 1'
-    $at_quiet $ECHO_N " 75: Category check of Format 1                   $ECHO_C"
+    $at_quiet $ECHO_N " 76: Category check of Format 1                   $ECHO_C"
     at_xfail=no
     (
-      echo "75. multiply.at:28: testing ..."
+      echo "76. multiply.at:28: testing ..."
       $at_traceon
 
 
@@ -5565,13 +5656,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  76 ) # 76. multiply.at:66: Category check of Format 2
+  77 ) # 77. multiply.at:66: Category check of Format 2
     at_setup_line='multiply.at:66'
     at_desc='Category check of Format 2'
-    $at_quiet $ECHO_N " 76: Category check of Format 2                   $ECHO_C"
+    $at_quiet $ECHO_N " 77: Category check of Format 2                   $ECHO_C"
     at_xfail=no
     (
-      echo "76. multiply.at:66: testing ..."
+      echo "77. multiply.at:66: testing ..."
       $at_traceon
 
 
@@ -5640,13 +5731,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  77 ) # 77. multiply.at:106: Category check of literals
+  78 ) # 78. multiply.at:106: Category check of literals
     at_setup_line='multiply.at:106'
     at_desc='Category check of literals'
-    $at_quiet $ECHO_N " 77: Category check of literals                   $ECHO_C"
+    $at_quiet $ECHO_N " 78: Category check of literals                   $ECHO_C"
     at_xfail=no
     (
-      echo "77. multiply.at:106: testing ..."
+      echo "78. multiply.at:106: testing ..."
       $at_traceon
 
 
@@ -5705,13 +5796,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  78 ) # 78. set.at:24: SET: misc
+  79 ) # 79. set.at:24: SET: misc
     at_setup_line='set.at:24'
     at_desc='SET: misc'
-    $at_quiet $ECHO_N " 78: SET: misc                                    $ECHO_C"
+    $at_quiet $ECHO_N " 79: SET: misc                                    $ECHO_C"
     at_xfail=no
     (
-      echo "78. set.at:24: testing ..."
+      echo "79. set.at:24: testing ..."
       $at_traceon
 
 
@@ -5761,13 +5852,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  79 ) # 79. free-1col-aster.at:1: free_1col_aster OPTION
+  80 ) # 80. free-1col-aster.at:1: free_1col_aster OPTION
     at_setup_line='free-1col-aster.at:1'
     at_desc='free_1col_aster OPTION'
-    $at_quiet $ECHO_N " 79: free_1col_aster OPTION                       $ECHO_C"
+    $at_quiet $ECHO_N " 80: free_1col_aster OPTION                       $ECHO_C"
     at_xfail=no
     (
-      echo "79. free-1col-aster.at:1: testing ..."
+      echo "80. free-1col-aster.at:1: testing ..."
       $at_traceon
 
 
@@ -5813,13 +5904,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  80 ) # 80. free-1col-aster.at:15: newline_count with free_1col_aster
+  81 ) # 81. free-1col-aster.at:15: newline_count with free_1col_aster
     at_setup_line='free-1col-aster.at:15'
     at_desc='newline_count with free_1col_aster'
-    $at_quiet $ECHO_N " 80: newline_count with free_1col_aster           $ECHO_C"
+    $at_quiet $ECHO_N " 81: newline_count with free_1col_aster           $ECHO_C"
     at_xfail=no
     (
-      echo "80. free-1col-aster.at:15: testing ..."
+      echo "81. free-1col-aster.at:15: testing ..."
       $at_traceon
 
 
@@ -5867,13 +5958,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  81 ) # 81. indicator.at:1: dollarif defined - true
+  82 ) # 82. indicator.at:1: dollarif defined - true
     at_setup_line='indicator.at:1'
     at_desc='dollarif defined - true'
-    $at_quiet $ECHO_N " 81: dollarif defined - true                      $ECHO_C"
+    $at_quiet $ECHO_N " 82: dollarif defined - true                      $ECHO_C"
     at_xfail=no
     (
-      echo "81. indicator.at:1: testing ..."
+      echo "82. indicator.at:1: testing ..."
       $at_traceon
 
 
@@ -5947,13 +6038,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  82 ) # 82. indicator.at:19: dollarif defined - false
+  83 ) # 83. indicator.at:19: dollarif defined - false
     at_setup_line='indicator.at:19'
     at_desc='dollarif defined - false'
-    $at_quiet $ECHO_N " 82: dollarif defined - false                     $ECHO_C"
+    $at_quiet $ECHO_N " 83: dollarif defined - false                     $ECHO_C"
     at_xfail=no
     (
-      echo "82. indicator.at:19: testing ..."
+      echo "83. indicator.at:19: testing ..."
       $at_traceon
 
 
@@ -6029,13 +6120,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  83 ) # 83. indicator.at:39: dollarif value match - true
+  84 ) # 84. indicator.at:39: dollarif value match - true
     at_setup_line='indicator.at:39'
     at_desc='dollarif value match - true'
-    $at_quiet $ECHO_N " 83: dollarif value match - true                  $ECHO_C"
+    $at_quiet $ECHO_N " 84: dollarif value match - true                  $ECHO_C"
     at_xfail=no
     (
-      echo "83. indicator.at:39: testing ..."
+      echo "84. indicator.at:39: testing ..."
       $at_traceon
 
 
@@ -6111,13 +6202,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  84 ) # 84. indicator.at:59: dollarif value match - false
+  85 ) # 85. indicator.at:59: dollarif value match - false
     at_setup_line='indicator.at:59'
     at_desc='dollarif value match - false'
-    $at_quiet $ECHO_N " 84: dollarif value match - false                 $ECHO_C"
+    $at_quiet $ECHO_N " 85: dollarif value match - false                 $ECHO_C"
     at_xfail=no
     (
-      echo "84. indicator.at:59: testing ..."
+      echo "85. indicator.at:59: testing ..."
       $at_traceon
 
 
@@ -6193,13 +6284,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  85 ) # 85. indicator.at:79: dollarif value match - not true
+  86 ) # 86. indicator.at:79: dollarif value match - not true
     at_setup_line='indicator.at:79'
     at_desc='dollarif value match - not true'
-    $at_quiet $ECHO_N " 85: dollarif value match - not true              $ECHO_C"
+    $at_quiet $ECHO_N " 86: dollarif value match - not true              $ECHO_C"
     at_xfail=no
     (
-      echo "85. indicator.at:79: testing ..."
+      echo "86. indicator.at:79: testing ..."
       $at_traceon
 
 
@@ -6275,13 +6366,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  86 ) # 86. indicator.at:99: dollarif value match - not false
+  87 ) # 87. indicator.at:99: dollarif value match - not false
     at_setup_line='indicator.at:99'
     at_desc='dollarif value match - not false'
-    $at_quiet $ECHO_N " 86: dollarif value match - not false             $ECHO_C"
+    $at_quiet $ECHO_N " 87: dollarif value match - not false             $ECHO_C"
     at_xfail=no
     (
-      echo "86. indicator.at:99: testing ..."
+      echo "87. indicator.at:99: testing ..."
       $at_traceon
 
 
@@ -6357,13 +6448,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  87 ) # 87. indicator.at:119: column 7 is undefined value
+  88 ) # 88. indicator.at:119: column 7 is undefined value
     at_setup_line='indicator.at:119'
     at_desc='column 7 is undefined value'
-    $at_quiet $ECHO_N " 87: column 7 is undefined value                  $ECHO_C"
+    $at_quiet $ECHO_N " 88: column 7 is undefined value                  $ECHO_C"
     at_xfail=no
     (
-      echo "87. indicator.at:119: testing ..."
+      echo "88. indicator.at:119: testing ..."
       $at_traceon
 
 
@@ -6412,13 +6503,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  88 ) # 88. assign-external.at:1: ASSIGN TO DYNAMIC create file (assign_external)
+  89 ) # 89. assign-external.at:1: ASSIGN TO DYNAMIC create file (assign_external)
     at_setup_line='assign-external.at:1'
     at_desc='ASSIGN TO DYNAMIC create file (assign_external)'
-    $at_quiet $ECHO_N " 88: ASSIGN TO DYNAMIC create file (assign_external)$ECHO_C"
+    $at_quiet $ECHO_N " 89: ASSIGN TO DYNAMIC create file (assign_external)$ECHO_C"
     at_xfail=no
     (
-      echo "88. assign-external.at:1: testing ..."
+      echo "89. assign-external.at:1: testing ..."
       $at_traceon
 
 
@@ -6530,13 +6621,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  89 ) # 89. error-recovery.at:1: parse-error recovery after Data desc.
+  90 ) # 90. error-recovery.at:1: parse-error recovery after Data desc.
     at_setup_line='error-recovery.at:1'
     at_desc='parse-error recovery after Data desc.'
-    $at_quiet $ECHO_N " 89: parse-error recovery after Data desc.        $ECHO_C"
+    $at_quiet $ECHO_N " 90: parse-error recovery after Data desc.        $ECHO_C"
     at_xfail=no
     (
-      echo "89. error-recovery.at:1: testing ..."
+      echo "90. error-recovery.at:1: testing ..."
       $at_traceon
 
 
@@ -6587,13 +6678,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  90 ) # 90. error-recovery.at:21: parse-error recovery after Headings.
+  91 ) # 91. error-recovery.at:21: parse-error recovery after Headings.
     at_setup_line='error-recovery.at:21'
     at_desc='parse-error recovery after Headings.'
-    $at_quiet $ECHO_N " 90: parse-error recovery after Headings.         $ECHO_C"
+    $at_quiet $ECHO_N " 91: parse-error recovery after Headings.         $ECHO_C"
     at_xfail=no
     (
-      echo "90. error-recovery.at:21: testing ..."
+      echo "91. error-recovery.at:21: testing ..."
       $at_traceon
 
 
@@ -6648,13 +6739,13 @@ $at_traceon
     at_status=`cat $at_status_file`
     ;;
 
-  91 ) # 91. data-records.at:1: completely ignore DATA RECORDS
+  92 ) # 92. data-records.at:1: completely ignore DATA RECORDS
     at_setup_line='data-records.at:1'
     at_desc='completely ignore DATA RECORDS'
-    $at_quiet $ECHO_N " 91: completely ignore DATA RECORDS               $ECHO_C"
+    $at_quiet $ECHO_N " 92: completely ignore DATA RECORDS               $ECHO_C"
     at_xfail=no
     (
-      echo "91. data-records.at:1: testing ..."
+      echo "92. data-records.at:1: testing ..."
       $at_traceon
 
 
