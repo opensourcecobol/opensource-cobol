@@ -165,3 +165,106 @@ AT_CHECK([${COMPILE} -fsign-ebcdic -o prog prog.cob])
 AT_CHECK([./prog], [0], [{ABCDEFGHI}JKLMNOPQR])
 
 AT_CLEANUP
+
+
+AT_SETUP([DISPLAY: Sign Separate])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 G1.
+         02 X1-S9-LS     PIC S9(4) LEADING SEPARATE.
+         02 FILLER       PIC  X(1) VALUE SPACE.
+         02 X1-S9-TS     PIC S9(4) TRAILING SEPARATE.
+       01 G2.
+         02 X2-S9-LS     PIC S9(4) LEADING SEPARATE.
+         02 FILLER       PIC  X(1) VALUE SPACE.
+         02 X2-S9-TS     PIC S9(4) TRAILING SEPARATE.
+       01 G3.
+         02 X3-S9-LS     PIC S9(4) LEADING SEPARATE   VALUE ZERO.
+         02 FILLER       PIC  X(1) VALUE SPACE.
+         02 X3-S9-TS     PIC S9(4) TRAILING SEPARATE  VALUE ZERO.
+       PROCEDURE        DIVISION.
+           MOVE ZERO TO X1-S9-LS.
+           MOVE ZERO TO X1-S9-TS.
+           DISPLAY G1.
+           INITIALIZE G2.
+           DISPLAY G2.
+           DISPLAY G3.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -fsign-ascii -o prog prog.cob])
+AT_CHECK([./prog], [0],
+[+0000 0000+
++0000 0000+
++0000 0000+
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([DISPLAY: Initialize Sign ASCII])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 G1.
+         02 X1-S9        PIC S9(4).
+       01 G2.
+         02 X2-S9        PIC S9(4).
+       01 G3.
+         02 X3-S9        PIC S9(4) VALUE ZERO.
+       PROCEDURE        DIVISION.
+           MOVE ZERO TO X1-S9.
+           DISPLAY G1.
+           INITIALIZE G2.
+           DISPLAY G2.
+           DISPLAY G3.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -fsign-ascii -o prog prog.cob])
+AT_CHECK([./prog], [0],
+[0000
+0000
+0000
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([DISPLAY: Initialize Sign EBCDIC])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 G1.
+         02 X1-S9        PIC S9(4).
+       01 G2.
+         02 X2-S9        PIC S9(4).
+       01 G3.
+         02 X3-S9        PIC S9(4) VALUE ZERO.
+       PROCEDURE        DIVISION.
+           MOVE ZERO TO X1-S9.
+           DISPLAY G1.
+           INITIALIZE G2.
+           DISPLAY G2.
+           DISPLAY G3.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -fsign-ebcdic -o prog prog.cob])
+AT_CHECK([./prog], [0],
+[000{
+000{
+000{
+])
+
+AT_CLEANUP
