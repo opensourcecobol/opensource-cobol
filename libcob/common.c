@@ -732,7 +732,7 @@ sort_compare (const void *data1, const void *data2)
 		f2.data = (unsigned char *)data2 + sort_keys[i].offset;
 		if (COB_FIELD_IS_NUMERIC(&f1)) {
 			cmp = cob_numeric_cmp (&f1, &f2);
-		}else if (COB_FIELD_IS_NATIONAL(&f1)) {
+		} else if (COB_FIELD_IS_NATIONAL(&f1)) {
 			cmp = national_cmps (f1.data, f2.data, f1.size, sort_collate);
 		} else {
 			cmp = alnum_cmps (f1.data, f2.data, f1.size, sort_collate);

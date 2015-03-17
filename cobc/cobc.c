@@ -406,7 +406,7 @@ cb_text_list_add (struct cb_text_list *list, const char *text)
 #ifdef _WIN32
 #define strndup(x,y) _strndup(x,y)
 char *
-_strndup(char *src, int size)
+_strndup (char *src, int size)
 {
 	char *dup;
 	int srclen;
@@ -414,17 +414,17 @@ _strndup(char *src, int size)
 	if (src == NULL) {
 		return NULL;
 	}
-	srclen = strlen(src);
+	srclen = strlen (src);
 	if (size > srclen) {
 		size = srclen;
 	}
-	dup = malloc(size + 1);
+	dup = malloc (size + 1);
 	if (dup == NULL) {
 		return NULL;
 	}
 
-	memset(dup, 0, size + 1);
-	memcpy(dup, src, size);
+	memset (dup, 0, size + 1);
+	memcpy (dup, src, size);
 	return dup;
 }
 #endif
@@ -817,7 +817,7 @@ cobc_sig_handler (int sig)
 static void
 cobc_print_version (void)
 {
-	puts ("opensource COBOL 1.3.2J");
+	puts ("opensource COBOL 1.4J");
 	puts ("OSS Consortium's patched version of OpenCOBOL1.1(Feb.06 2009)");
 #ifdef	I18N_UTF8
 	puts ("[unicode/utf-8 support]");
@@ -2267,13 +2267,13 @@ main (int argc, char *argv[])
 		putenv (p);
 	} else {
 #ifdef _WIN32
-		char *tmpdir = cobc_malloc(COB_SMALL_BUFF * sizeof(char));
-		if ((GetTempPathA(COB_SMALL_BUFF, tmpdir)) == 0) {
-			strcpy(tmpdir, "c:\\oscobol\\tmp");
+		char *tmpdir = cobc_malloc (COB_SMALL_BUFF * sizeof(char));
+		if ((GetTempPathA (COB_SMALL_BUFF, tmpdir)) == 0) {
+			strcpy (tmpdir, "c:\\oscobol\\tmp");
 		}
 		cob_tmpdir = tmpdir;
-		sprintf(buff, "TMPDIR=%s", cob_tmpdir);
-		putenv(buff);
+		sprintf (buff, "TMPDIR=%s", cob_tmpdir);
+		putenv (buff);
 #else
 		cob_tmpdir = "/tmp";
 		putenv ((char *)"TMPDIR=/tmp");

@@ -1816,7 +1816,7 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
 		value = CB_VALUE (f->values);
 
 		/* NATIONAL also needs no editing but mbchar conversion. */
-                if(CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL){
+                if (CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL) {
 			output_prefix ();
 			output ("cob_move(");
                         output_param (value, 1);
@@ -1825,7 +1825,7 @@ output_initialize_one (struct cb_initialize *p, cb_tree x)
                         output (");\n");
                         return;
                 }
-                if(CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL_EDITED){
+                if (CB_TREE_CATEGORY (x) == CB_CATEGORY_NATIONAL_EDITED) {
                         tmpx = cb_build_reference (f->name);
                         CB_REFERENCE (tmpx)->value = cb_ref (tmpx);
                         CB_TREE_CATEGORY (tmpx);
@@ -3032,8 +3032,8 @@ output_sort_proc (struct cb_sort_proc *p)
 	}
 	label_cache = l;
 	output_line ("frame_ptr->return_address = %d;", l->call_num);
-	output_prefix();
-	output("if (unlikely(*(int*)(");
+	output_prefix ();
+	output ("if (unlikely(*(int*)(");
 	output_param (p->sort_return, 0);
 	output (") != 0))\n");
 	output_prefix ();

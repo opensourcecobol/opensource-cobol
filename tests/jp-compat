@@ -303,7 +303,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cobc'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105'
+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109'
 # As many dots as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -414,6 +414,10 @@ at_help_all='1;split-keys.at:1;SPLIT KEYS (ALTERNATE KEY);;
 103;greater-less-than-equal.at:1;GREATER/LESS THAN (implicit 'OR') EQUAL;;
 104;file-desc.at:1;ignore invalid (too short) RECORD CONTAINS ;;
 105;file-desc.at:32;ignore invalid (too large) RECORD CONTAINS ;;
+106;abort-on-file-error.at:1;Abort option (default) on non-fatal f-status;;
+107;abort-on-file-error.at:35;Abort option (fatal) on non-fatal f-status;;
+108;abort-on-file-error.at:69;Abort option (default) on fatal f-status;;
+109;abort-on-file-error.at:100;Abort option (fatal) on fatal file status;;
 '
 
 at_keywords=
@@ -11238,6 +11242,382 @@ case $at_status in
             exit 77;;
    0) ;;
    *) echo "file-desc.at:59: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  106 ) # 106. abort-on-file-error.at:1: Abort option (default) on non-fatal f-status
+    at_setup_line='abort-on-file-error.at:1'
+    at_desc='Abort option (default) on non-fatal f-status'
+    $at_quiet $ECHO_N "106: Abort option (default) on non-fatal f-status $ECHO_C"
+    at_xfail=no
+    (
+      echo "106. abort-on-file-error.at:1: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN TO "./TEST-FILE"
+                        ORGANIZATION  INDEXED
+                        ACCESS MODE   DYNAMIC
+                        RECORD KEY TEST-KEY.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-REC.
+          03 TEST-KEY   PIC X(4).
+          03 TEST-DAT1  PIC X(4).
+       PROCEDURE        DIVISION.
+           OPEN  OUTPUT TEST-FILE.
+           MOVE "0001" TO TEST-KEY.
+           MOVE "+AOK" TO TEST-DAT1.
+           WRITE TEST-REC.
+           MOVE "-DUP" TO TEST-DAT1.
+           WRITE TEST-REC.
+           CLOSE TEST-FILE.
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "abort-on-file-error.at:30: \${COMPILE} prog.cob"
+echo abort-on-file-error.at:30 >$at_check_line_file
+( $at_traceon; ${COMPILE} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "abort-on-file-error.at:30: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "abort-on-file-error.at:31: ./prog >& /dev/null"
+echo abort-on-file-error.at:31 >$at_check_line_file
+( $at_traceon; ./prog >& /dev/null ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "abort-on-file-error.at:31: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  107 ) # 107. abort-on-file-error.at:35: Abort option (fatal) on non-fatal f-status
+    at_setup_line='abort-on-file-error.at:35'
+    at_desc='Abort option (fatal) on non-fatal f-status'
+    $at_quiet $ECHO_N "107: Abort option (fatal) on non-fatal f-status   $ECHO_C"
+    at_xfail=no
+    (
+      echo "107. abort-on-file-error.at:35: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN TO "./TEST-FILE"
+                        ORGANIZATION  INDEXED
+                        ACCESS MODE   DYNAMIC
+                        RECORD KEY TEST-KEY.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-REC.
+          03 TEST-KEY   PIC X(4).
+          03 TEST-DAT1  PIC X(4).
+       PROCEDURE        DIVISION.
+           OPEN  OUTPUT TEST-FILE.
+           MOVE "0001" TO TEST-KEY.
+           MOVE "+AOK" TO TEST-DAT1.
+           WRITE TEST-REC.
+           MOVE "-DUP" TO TEST-DAT1.
+           WRITE TEST-REC.
+           CLOSE TEST-FILE.
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "abort-on-file-error.at:64: \${COMPILE_JP_COMPAT} prog.cob"
+echo abort-on-file-error.at:64 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "abort-on-file-error.at:64: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "abort-on-file-error.at:65: ./prog"
+echo abort-on-file-error.at:65 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "abort-on-file-error.at:65: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  108 ) # 108. abort-on-file-error.at:69: Abort option (default) on fatal f-status
+    at_setup_line='abort-on-file-error.at:69'
+    at_desc='Abort option (default) on fatal f-status'
+    $at_quiet $ECHO_N "108: Abort option (default) on fatal f-status     $ECHO_C"
+    at_xfail=no
+    (
+      echo "108. abort-on-file-error.at:69: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN TO "nowhere"
+                        ORGANIZATION  INDEXED
+                        ACCESS MODE   DYNAMIC
+                        RECORD KEY TEST-KEY.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-REC.
+          03 TEST-KEY   PIC X(4).
+          03 TEST-DAT1  PIC X(4).
+       PROCEDURE        DIVISION.
+           OPEN  INPUT TEST-FILE.
+           CLOSE TEST-FILE.
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "abort-on-file-error.at:93: \${COMPILE} prog.cob"
+echo abort-on-file-error.at:93 >$at_check_line_file
+( $at_traceon; ${COMPILE} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "abort-on-file-error.at:93: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "abort-on-file-error.at:94: ./prog"
+echo abort-on-file-error.at:94 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:18: libcob: File does not exist (STATUS = 35) File : 'nowhere'
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "abort-on-file-error.at:94: exit code was $at_status, expected 1"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >$at_times_file
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat $at_status_file`
+    ;;
+
+  109 ) # 109. abort-on-file-error.at:100: Abort option (fatal) on fatal file status
+    at_setup_line='abort-on-file-error.at:100'
+    at_desc='Abort option (fatal) on fatal file status'
+    $at_quiet $ECHO_N "109: Abort option (fatal) on fatal file status    $ECHO_C"
+    at_xfail=no
+    (
+      echo "109. abort-on-file-error.at:100: testing ..."
+      $at_traceon
+
+
+cat >prog.cob <<'_ATEOF'
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+       SELECT TEST-FILE ASSIGN TO "nowhere"
+                        ORGANIZATION  INDEXED
+                        ACCESS MODE   DYNAMIC
+                        RECORD KEY TEST-KEY.
+       DATA             DIVISION.
+       FILE             SECTION.
+       FD TEST-FILE.
+       01 TEST-REC.
+          03 TEST-KEY   PIC X(4).
+          03 TEST-DAT1  PIC X(4).
+       PROCEDURE        DIVISION.
+           OPEN  INPUT TEST-FILE.
+           CLOSE TEST-FILE.
+           GOBACK.
+_ATEOF
+
+
+$at_traceoff
+echo "abort-on-file-error.at:124: \${COMPILE_JP_COMPAT} prog.cob"
+echo abort-on-file-error.at:124 >$at_check_line_file
+( $at_traceon; ${COMPILE_JP_COMPAT} prog.cob ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+$at_diff $at_devnull $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   0) ;;
+   *) echo "abort-on-file-error.at:124: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+  echo 1 > $at_status_file
+  exit 1
+fi
+
+$at_traceon
+
+$at_traceoff
+echo "abort-on-file-error.at:125: ./prog"
+echo abort-on-file-error.at:125 >$at_check_line_file
+( $at_traceon; ./prog ) >$at_stdout 2>$at_stder1
+at_status=$?
+grep '^ *+' $at_stder1 >&2
+grep -v '^ *+' $at_stder1 >$at_stderr
+at_failed=false
+echo >>$at_stderr; echo "prog.cob:18: libcob: File does not exist (STATUS = 35) File : 'nowhere'
+" | $at_diff - $at_stderr || at_failed=:
+$at_diff $at_devnull $at_stdout || at_failed=:
+case $at_status in
+   77) echo 77 > $at_status_file
+            exit 77;;
+   1) ;;
+   *) echo "abort-on-file-error.at:125: exit code was $at_status, expected 1"
       at_failed=:;;
 esac
 if $at_failed; then

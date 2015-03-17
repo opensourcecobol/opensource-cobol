@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: opensource COBOL v1.3.2J\n"
+"Project-Id-Version: opensource COBOL v1.4J\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
-"POT-Creation-Date: 2015-03-15 18:15+0900\n"
+"POT-Creation-Date: 2015-03-17 14:07+0900\n"
 "PO-Revision-Date: 2014-02-07 11:40+0900\n"
 "Last-Translator: Kazuyoshi Tanaka <kazuyoshi.tanaka.zs@hitachi-solutions."
 "com>\n"
@@ -815,8 +815,8 @@ msgstr "`%s' はレベル 01 か 77 でなければなりません"
 msgid "Wrong number of CALL parameters for '%s'"
 msgstr "CALL 文の引数の数が不当です `%s'"
 
-#: cobc/typeck.c:3603 cobc/typeck.c:3646 cobc/typeck.c:3668 cobc/typeck.c:6044
-#: cobc/typeck.c:6202 cobc/typeck.c:6273 cobc/typeck.c:7619
+#: cobc/typeck.c:3603 cobc/typeck.c:3646 cobc/typeck.c:3668 cobc/typeck.c:6047
+#: cobc/typeck.c:6205 cobc/typeck.c:6276 cobc/typeck.c:7622
 msgid "Operation not allowed on SORT files"
 msgstr "SORT ファイルには適用できない操作です"
 
@@ -974,129 +974,129 @@ msgstr "いくつかの桁は切り詰められます"
 msgid "Invalid NATIONAL string."
 msgstr "不当な各国語文字列"
 
-#: cobc/typeck.c:6210
+#: cobc/typeck.c:6213
 msgid "READ PREVIOUS only allowed for INDEXED SEQUENTIAL files"
 msgstr "READ PREVIOUS 指定は、INDEXED SEQUENTIAL ファイルでのみ有効です"
 
-#: cobc/typeck.c:6217
+#: cobc/typeck.c:6220
 msgid "KEY ignored with sequential READ"
 msgstr "順読み込みの READ であるため KEY は無視されます"
 
-#: cobc/typeck.c:6231 cobc/typeck.c:6802
+#: cobc/typeck.c:6234 cobc/typeck.c:6805
 msgid "Undefined compound keys"
 msgstr "未定義の複合キー"
 
-#: cobc/typeck.c:6261
+#: cobc/typeck.c:6264
 msgid "REWRITE requires a record name as subject"
 msgstr "REWRITE の作用対象にはレコード名を指定してください"
 
-#: cobc/typeck.c:6266
+#: cobc/typeck.c:6269
 msgid "REWRITE subject does not refer to a record name"
 msgstr "REWRITE の作用対象がレコード名を参照していません"
 
-#: cobc/typeck.c:6278 cobc/typeck.c:7624 cobc/parser.y:5560
+#: cobc/typeck.c:6281 cobc/typeck.c:7627 cobc/parser.y:5560
 msgid "INVALID KEY clause invalid with this file type"
 msgstr "このファイルタイプには INVALID KEY 句は指定できません"
 
-#: cobc/typeck.c:6281 cobc/typeck.c:7628 cobc/parser.y:5552
+#: cobc/typeck.c:6284 cobc/typeck.c:7631 cobc/parser.y:5552
 msgid "LOCK clause invalid with file LOCK AUTOMATIC"
 msgstr "LOCK AUTOMATIC のファイルにLOCK 句は指定できません"
 
-#: cobc/typeck.c:6313
+#: cobc/typeck.c:6316
 msgid "RELEASE requires a record name as subject"
 msgstr "RELEASE の作用対象にはレコード名を指定してください"
 
-#: cobc/typeck.c:6318
+#: cobc/typeck.c:6321
 msgid "RELEASE subject does not refer to a record name"
 msgstr "RELASE の作用対象がレコード名を参照していません"
 
-#: cobc/typeck.c:6325
+#: cobc/typeck.c:6328
 msgid "RELEASE not allowed on this record item"
 msgstr "この項目は RELEASE できません"
 
-#: cobc/typeck.c:6416
+#: cobc/typeck.c:6419
 #, c-format
 msgid "Undeclared key '%s'"
 msgstr "`%s' はキー宣言されていません"
 
-#: cobc/typeck.c:6420
+#: cobc/typeck.c:6423
 msgid "Invalid SEARCH ALL condition"
 msgstr "SEARCH ALL の条件式が不当です"
 
-#: cobc/typeck.c:6527
+#: cobc/typeck.c:6530
 msgid "The targets of SET must be either indexes or pointers"
 msgstr "SET 出来るのは 指標 か ポインタ だけです"
 
-#: cobc/typeck.c:6539 cobc/typeck.c:6543
+#: cobc/typeck.c:6542 cobc/typeck.c:6546
 msgid "SET targets must be PROGRAM-POINTER"
 msgstr "SET の作用対象にはPROGRAM-POINTERを指定してください"
 
-#: cobc/typeck.c:6557
+#: cobc/typeck.c:6560
 #, c-format
 msgid "The address of '%s' cannot be changed"
 msgstr "`%s' のアドレスは変更できません"
 
-#: cobc/typeck.c:6619 cobc/typeck.c:6624 cobc/typeck.c:6651 cobc/typeck.c:6656
+#: cobc/typeck.c:6622 cobc/typeck.c:6627 cobc/typeck.c:6654 cobc/typeck.c:6659
 msgid "Invalid SET statement"
 msgstr "不当な SET 文です"
 
-#: cobc/typeck.c:6660
+#: cobc/typeck.c:6663
 msgid "Field does not have FALSE clause"
 msgstr "項目は FALSE 節を持つことが出来ません"
 
-#: cobc/typeck.c:6694
+#: cobc/typeck.c:6697
 msgid "Invalid SORT filename"
 msgstr "不当な SORT ファイル名です"
 
-#: cobc/typeck.c:6710
+#: cobc/typeck.c:6713
 msgid "Table sort without keys not implemented yet"
 msgstr "キーなしの表ソートは未実装です"
 
-#: cobc/typeck.c:6734
+#: cobc/typeck.c:6737
 msgid "Invalid SORT USING parameter"
 msgstr "不当な SORT USING パラメタです"
 
-#: cobc/typeck.c:6759
+#: cobc/typeck.c:6762
 msgid "Invalid SORT GIVING parameter"
 msgstr "不当な SORT GIVING パラメタです"
 
-#: cobc/typeck.c:6934 cobc/typeck.c:6952 cobc/typeck.c:6973 cobc/typeck.c:6997
-#: cobc/typeck.c:7018 cobc/typeck.c:7046 cobc/typeck.c:7067 cobc/typeck.c:7112
-#: cobc/typeck.c:7140 cobc/typeck.c:7160 cobc/typeck.c:7295 cobc/typeck.c:7356
-#: cobc/typeck.c:7426 cobc/typeck.c:7490
+#: cobc/typeck.c:6937 cobc/typeck.c:6955 cobc/typeck.c:6976 cobc/typeck.c:7000
+#: cobc/typeck.c:7021 cobc/typeck.c:7049 cobc/typeck.c:7070 cobc/typeck.c:7115
+#: cobc/typeck.c:7143 cobc/typeck.c:7163 cobc/typeck.c:7298 cobc/typeck.c:7359
+#: cobc/typeck.c:7429 cobc/typeck.c:7493
 #, c-format
 msgid "%s  must be a non-comp type!"
 msgstr "`%s' 用途DISPLAY項目が必要です"
 
-#: cobc/typeck.c:6982 cobc/typeck.c:7006 cobc/typeck.c:7053 cobc/typeck.c:7081
-#: cobc/typeck.c:7120 cobc/typeck.c:7149 cobc/typeck.c:7173
+#: cobc/typeck.c:6985 cobc/typeck.c:7009 cobc/typeck.c:7056 cobc/typeck.c:7084
+#: cobc/typeck.c:7123 cobc/typeck.c:7152 cobc/typeck.c:7176
 #, c-format
 msgid "%s and %s and %s have not same national type!"
 msgstr "%s と %s と %s はすべて各国語項目が必要です"
 
-#: cobc/typeck.c:7079
+#: cobc/typeck.c:7082
 #, c-format
 msgid "%s and %s have not same national type!"
 msgstr "%s と %s は共に各国語項目が必要です"
 
-#: cobc/typeck.c:7537
+#: cobc/typeck.c:7540
 #, c-format
 msgid "%s must be national type!"
 msgstr "`%s' は各国語項目が必要です"
 
-#: cobc/typeck.c:7607
+#: cobc/typeck.c:7610
 msgid "WRITE requires a record name as subject"
 msgstr "WRITE の作用対象にはレコード名を指定してください"
 
-#: cobc/typeck.c:7612
+#: cobc/typeck.c:7615
 msgid "WRITE subject does not refer to a record name"
 msgstr "WRITE の作用対象がレコード名を参照していません"
 
-#: cobc/typeck.c:7631
+#: cobc/typeck.c:7634
 msgid "LOCK clause invalid here"
 msgstr "LOCK句は指定できません"
 
-#: cobc/typeck.c:7698
+#: cobc/typeck.c:7701
 msgid "Invalid mnemonic name"
 msgstr "不当な作成者語です"
 
