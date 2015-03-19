@@ -1,0 +1,60 @@
+			  opensource COBOL
+		http://www.osscons.jp/osscobol/
+
+This directory contains the project files and external libraries for Windows
+
+This package contains the following subdirectories:
+
+    cobc        COBOL compiler project
+    cobcrun     COBOL driver program project
+    libcob      COBOL run-time library project
+    vbisam      VBISAM file I/O library project
+    exinc       Header files of external library
+    exlib       DLL files of external library
+
+exlib directory has two external libraries "PDCurses" and "MPIR".
+
+============
+Requirements
+============
+
+OpenCOBOL requires the following external libraries to be installed:
+
+  o MPIR (libmpir) 2.6.0 or later
+    http://mpir.org/index.html
+
+    MPIR is distributed under GNU Lesser General Public License.
+
+  o PDCurses (pdcurses)
+    http://pdcurses.sourceforge.net
+    
+    If you want to use all of the opensource COBOL CUI featuers,
+    you need to apply the following path:
+    http://www.osscons.jp/osscobol/XXXX
+
+    PDCurses is distributed under public domain.
+
+============
+
+============
+Installation
+============
+
+To generate/install OpenCOBOL on Windows :
+
+**************************************
+
+    Open win32/opencobol.sln by Visual Studio.
+    run "Build Solution" on Visual Studio. 
+    
+************************************** 
+
+The "Build Solution" will default to "win32/BIN/x64/Debug" as
+the install path. You want to set files another path, 
+changing the project properties on the Visual Studio 
+or copying those file to any location.
+
+You need to set the location of installed files 
+to the environment variable "PATH" (ex. "c:\opensourceCOBOL/win32/BIN/x64/Debug")
+
+************************************** 
