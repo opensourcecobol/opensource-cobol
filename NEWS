@@ -1,5 +1,30 @@
 NEWS - user visible changes				-*- outline -*-
 
+* Changes in opensource COBOL 1.4.0J
+
+** New features
+
+*** Supports for Microsoft Windows ( Visual Studio and CL compiler )
+    Added win32 directory in opensource COBOL package, and prepared  Solution Files for Visual Studio.
+
+*** Enhanced CUI features
+    (1) Add a new function "CBL_OC_KEISEN".  This displays a KEISEN on the screen.
+    (2) Supports SJIS multi-byte character input and output on the screen.
+
+** Changes
+
+*** Added VBISAM to the opensource COBOL package
+
+** Other Updates
+
+*** added some tests
+
+*** updated message catalog for 'ja'
+
+*** bug fix some problem
+
+-----------------------------------------------------------------------
+
 * Changes in opensource COBOL 1.3.2J
 
 ** New features

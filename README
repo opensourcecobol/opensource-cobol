@@ -1,20 +1,26 @@
-			       OpenCOBOL
-		       http://www.opencobol.org/
-		http://sourceforge.net/projects/open-cobol/
+			  opensource COBOL
+		http://www.osscons.jp/osscobol/
 
-OpenCOBOL is an open-source COBOL compiler, which translates COBOL
-programs to C code and compiles it using GCC.
+opensource COBOL is open-source COBOL compiler an extension of the Japan-specific features.
+It's translates COBOL program to C code and compiles it using GCC or CL.
+
+It was forked from OpenCOBOL in 2012.
+See also OpenCOBOL project.
+    http://www.opencobol.org/
+    http://sourceforge.net/projects/open-cobol/
 
 This package contains the following subdirectories:
 
     cobc        COBOL compiler
     libcob      COBOL run-time library
-    bin		COBOL driver program
+    bin         COBOL driver program
     lib         static library and common headers
     config      configuration files
     po          international messages
     texi        Texinfo files
     tests       Test suite
+    vbisam      VBISAM file I/O library
+    win32       Project files for Windows
 
 All programs except those in lib and libcob are distributed under
 the GNU General Public License.  See COPYING for details.
@@ -23,6 +29,8 @@ Programs in lib and libcob are distributed under the GNU Lesser
 General Public License.  See COPYING.LIB for details.
 
 See AUTHORS for the author of each file.
+
+Please refer to the file "win32/README" about win32 directory.
 
 ============
 Requirements
@@ -40,7 +48,7 @@ Requirements
 	ALWAYS install the distro packages when available !!
   ***
 
-OpenCOBOL requires the following external libraries to be installed:
+opensource COBOL requires the following external libraries to be installed:
 
   o GNU MP (libgmp) 4.1.2 or later
     http://gmplib.org
@@ -128,12 +136,12 @@ Installation
   **
 	NOTE
 	Due to deficiencies in the tools used to prepare
-	OpenCOBOL (autoconf/automake/libtool), it is
+	opensource COBOL (autoconf/automake/libtool), it is
 	NOT generally possible to use path names with
 	spaces embedded within them (Mainly Cygwin/MingW/Windows ports).
   **
  
-To generate/install OpenCOBOL :
+To generate/install opensource COBOL on Linux:
 
 **************************************
 
@@ -142,7 +150,7 @@ To generate/install OpenCOBOL :
 
  Here you may run
     make check
- to run a series of OpenCOBOL test programs (must do!)
+ to run a series of opensource COBOL test programs (must do!)
  This MUST succeed - If not, please report.
 
     make install
@@ -246,11 +254,11 @@ There are the following configure options:
 Development
 ============
 
-If you wish to hack the OpenCOBOL source code, proceed
+If you wish to hack the opensource COBOL source code, proceed
 as follows.
 
 You need to install the following extra packages with specified
-minimum version before changing/building OpenCOBOL:
+minimum version before changing/building opensource COBOL:
 
 For compiling :
   o Bison 1.875
