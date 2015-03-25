@@ -68,25 +68,29 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..;$(SolutionDir)../lib;</IncludePath>
+    <IncludePath>%INCLUDE%;%INCLUDE%;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..;$(SolutionDir)../lib;</IncludePath>
     <OutDir>$(SolutionDir)\BIN\$(Platform)\$(Configuration)\</OutDir>
     <SourcePath>$(SolutionDir)..\bin;$(SolutionDir)..\lib</SourcePath>
+    <LibraryPath>%LIB%;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..;$(SolutionDir)../lib;</IncludePath>
+    <IncludePath>%INCLUDE%;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..;$(SolutionDir)../lib;</IncludePath>
     <OutDir>$(SolutionDir)\BIN\$(Platform)\$(Configuration)\</OutDir>
+    <LibraryPath>%LIB%;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..;$(SolutionDir)../lib;</IncludePath>
+    <IncludePath>%INCLUDE%;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..;$(SolutionDir)../lib;</IncludePath>
     <OutDir>$(SolutionDir)\BIN\$(Platform)\$(Configuration)\</OutDir>
     <SourcePath>$(SolutionDir)..\bin;$(SolutionDir)..\lib</SourcePath>
+    <LibraryPath>%LIB%;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..;$(SolutionDir)../lib;</IncludePath>
+    <IncludePath>%INCLUDE%;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..;$(SolutionDir)../lib;</IncludePath>
     <OutDir>$(SolutionDir)\BIN\$(Platform)\$(Configuration)\</OutDir>
+    <LibraryPath>%LIB%;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
