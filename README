@@ -1,8 +1,8 @@
 			  opensource COBOL
 		http://www.osscons.jp/osscobol/
 
-opensource COBOL is open-source COBOL compiler an extension of the Japan-specific features.
-It's translates COBOL program to C code and compiles it using GCC or CL.
+"opensource COBOL" is open-source COBOL compiler, an extension of the Japan-specific features.
+"opensource COBOL" translates COBOL program to C code and compiles it using GCC or CL.
 
 It was forked from OpenCOBOL in 2012.
 See also OpenCOBOL project.
@@ -30,7 +30,7 @@ General Public License.  See COPYING.LIB for details.
 
 See AUTHORS for the author of each file.
 
-Please refer to the file "win32/README" about win32 directory.
+Please refer to the file "win32/readme.txt" about win32 directory.
 
 ============
 Requirements

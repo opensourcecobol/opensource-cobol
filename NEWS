@@ -8,7 +8,8 @@ NEWS - user visible changes				-*- outline -*-
     Added win32 directory in opensource COBOL package, and prepared  Solution Files for Visual Studio.
 
 *** Enhanced CUI features
-    (1) Add a new function "CBL_OC_KEISEN".  This displays a KEISEN on the screen.
+    (1) Add a new function "CBL_OC_KEISEN". 
+        This displays a KEISEN ( vertical or horizontal ruled lines ) on the screen.
     (2) Supports SJIS multi-byte character input and output on the screen.
 
 ** Changes

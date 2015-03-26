@@ -1,7 +1,7 @@
               opensource COBOL
         http://www.osscons.jp/osscobol/
 
-This directory contains the project files and external libraries for Windows
+This directory contains the project files for Windows
 
 This package contains the following subdirectories:
 
@@ -59,7 +59,7 @@ when running "Build Solution".
 ************************************** 
 
 The "Build Solution" will default to "win32/BIN/x64/Debug" as
-the install path. You want to set files another path, 
+the install path. When you want to set files another path, 
 changing the project properties on the Visual Studio 
 or copying those file to any location.
 
