@@ -16,9 +16,41 @@ NEWS - user visible changes				-*- outline -*-
 
 *** Added VBISAM to the opensource COBOL package
 
+*** Fixed not to abandon REPLACE after following COPY REPLACING has done.
+
+*** Though old style STOP statement maybe skipped, it should be still at least recognized as non-nil statement on empty check.
+
+*** Stop editing initial value of national-edited item.
+
+*** Changed NATIONAL comparison to be independent on COLLATING SEQUENCE setting.
+
+*** Fixed memory leaks in decoding national words.
+
+*** Fixed behavior of COPY REPLACING LEADING/TRAILING according to the standard.
+
+*** Fixed undecoded national item names appear in runtime messages.
+
+*** Fixed undecoded national item names appear in compilation messages.
+
+*** Prefixing/Suffixing should have no effect on FILLER item.
+
+*** Fixed compilation error on some SOURCE FORMAT FREE usage.
+
+*** Fixed bug in field subscript boundary check in cond expression.
+
+*** Preserve system time when date is modified by COB_DATE.
+
+*** Avoid reporting wrong section/paragraph name in error message.
+
+*** Fixed bug in reference modification boundary check in MOVE statement.
+
+*** Fixed initialization bug of ZonedDecimal variable defined as SIGN SEPARATE.
+
+*** Fixed initialization bug of ZonedDecimal variable when using -fsign-ebcdic option.
+
 ** Other Updates
 
-*** added some tests
+*** added and enhanced some tests
 
 *** updated message catalog for 'ja'
 

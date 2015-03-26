@@ -283,7 +283,7 @@
 
 /* Define to 1 if you have the <vbisam.h> header file. */
 #ifndef _WIN32
-#define HAVE_VBISAM_H */
+#define HAVE_VBISAM_H 1
 #endif
 
 /* Define to 1 if you have the `vprintf' function. */
@@ -299,7 +299,7 @@
 #define ICONV_CONST 
 
 /* Name of package */
-#define PACKAGE "opensource-cobol-1.4J"
+#define PACKAGE "opensource-cobol-1.4.0J"
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "open-cobol-list@lists.sourceforge.net"
@@ -311,7 +311,7 @@
 #define PACKAGE_STRING "OpenCOBOL 1.1"
 
 /* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "opensource-cobol-1.4J"
+#define PACKAGE_TARNAME "opensource-cobol-1.4.0J"
 
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "1.1"
