@@ -5,10 +5,10 @@ NEWS - user visible changes				-*- outline -*-
 ** New features
 
 *** Supports for Microsoft Windows ( Visual Studio and CL compiler )
-    Added win32 directory in opensource COBOL package, and prepared  Solution Files for Visual Studio.
+    Added win32 directory in opensource COBOL package, and prepared Solution Files for Visual Studio.
 
 *** Enhanced CUI features
-    (1) Add a new function "CBL_OC_KEISEN". 
+    (1) Add a new function "CBL_OC_KEISEN".
         This displays a KEISEN ( vertical or horizontal ruled lines ) on the screen.
     (2) Supports SJIS multi-byte character input and output on the screen.
 
@@ -16,37 +16,37 @@ NEWS - user visible changes				-*- outline -*-
 
 *** Added VBISAM to the opensource COBOL package
 
-*** Fixed not to abandon REPLACE after following COPY REPLACING has done.
+*** Fixed not to abandon REPLACE after following COPY REPLACING has done
 
-*** Though old style STOP statement maybe skipped, it should be still at least recognized as non-nil statement on empty check.
+*** Though old style STOP statement maybe skipped, it should be still at least recognized as non-nil statement on empty check
 
-*** Stop editing initial value of national-edited item.
+*** Stop editing initial value of national-edited item
 
-*** Changed NATIONAL comparison to be independent on COLLATING SEQUENCE setting.
+*** Changed NATIONAL comparison to be independent on COLLATING SEQUENCE setting
 
-*** Fixed memory leaks in decoding national words.
+*** Fixed memory leaks in decoding national words
 
-*** Fixed behavior of COPY REPLACING LEADING/TRAILING according to the standard.
+*** Fixed behavior of COPY REPLACING LEADING/TRAILING according to the standard
 
-*** Fixed undecoded national item names appear in runtime messages.
+*** Fixed undecoded national item names appear in runtime messages
 
-*** Fixed undecoded national item names appear in compilation messages.
+*** Fixed undecoded national item names appear in compilation messages
 
-*** Prefixing/Suffixing should have no effect on FILLER item.
+*** Prefixing/Suffixing should have no effect on FILLER item
 
-*** Fixed compilation error on some SOURCE FORMAT FREE usage.
+*** Fixed compilation error on some SOURCE FORMAT FREE usage
 
-*** Fixed bug in field subscript boundary check in cond expression.
+*** Fixed bug in field subscript boundary check in cond expression
 
-*** Preserve system time when date is modified by COB_DATE.
+*** Preserve system time when date is modified by COB_DATE
 
-*** Avoid reporting wrong section/paragraph name in error message.
+*** Avoid reporting wrong section/paragraph name in error message
 
-*** Fixed bug in reference modification boundary check in MOVE statement.
+*** Fixed bug in reference modification boundary check in MOVE statement
 
-*** Fixed initialization bug of ZonedDecimal variable defined as SIGN SEPARATE.
+*** Fixed initialization bug of ZonedDecimal variable defined as SIGN SEPARATE
 
-*** Fixed initialization bug of ZonedDecimal variable when using -fsign-ebcdic option.
+*** Fixed initialization bug of ZonedDecimal variable when using -fsign-ebcdic option
 
 ** Other Updates
 
@@ -96,7 +96,7 @@ NEWS - user visible changes				-*- outline -*-
 
 *** implicitly substitute WRITE with REWRITE on the file opened in I-O mode (when set COB_IO_ASSUME_REWRITE=Y)
 
-*** treat sign-nibble 'C' as 'F' in unsigned packed numeric value, when also type checking.
+*** treat sign-nibble 'C' as 'F' in unsigned packed numeric value, when also type checking
 
 *** added another device naming format in assign clause (conf.parameter assign-clause: jph1)
 

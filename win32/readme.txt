@@ -24,9 +24,9 @@ opensource COBOL requires the following external libraries to be installed:
   o PDCurses (pdcurses)
     http://pdcurses.sourceforge.net
     
-    If you want to use all of the opensource COBOL CUI featuers,
+    If you want to use all of the opensource COBOL CUI features,
     you need to apply the following path:
-    http://www.osscons.jp/osscobol/XXXX
+    http://www.osscons.jp/osscobol/download/
 
     PDCurses is distributed under public domain.
 
