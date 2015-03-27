@@ -36,11 +36,35 @@ opensource COBOL requires the following external libraries to be installed:
 Installation
 ============
 
-To generate/install opensource COBOL on Windows :
+1. To generate requirements libraries :
+
+You need to create the following libraries.
 
 **************************************
 
-    
+  o MPIR (libmpir)
+    Download a MPIR package from (http://mpir.org/index.html).
+    Open build.vc10/mpir.sln by Visual Studio.
+    Build a project for your system ( Usually "dll_mpir_gc" ).
+
+For more information, please refer to the README in MPIR
+
+**************************************
+
+  o PDCurses
+    Download a MPIR package from (http://pdcurses.sourceforge.net).
+    Move directory to pdcurs34\win32 on your console.
+    run "nmake" command to build libraries.
+       nmake -f vcwin32.mak WIDE=Y DLL=Y
+
+For more information, please refer to the README in PDCurses
+
+**************************************
+
+2. To generate/install opensource COBOL on Windows :
+
+**************************************
+
     Open win32/opencobol.sln by Visual Studio.
     run "Build Solution" on Visual Studio. 
 
@@ -52,7 +76,7 @@ when running "Build Solution".
     INCLUDE     Path of requirements headers.
                 Deploy headers "curses.h","curspriv.h" from pdcurses
                 and "gmp.h" from mpir.
-    LIB         Path of requirements library.
+    LIB         Path of requirements libraries.
                 Deploy libraries "pdcurses.lib" from pdcurses
                 and "mpir.lib" from mpir.
 
