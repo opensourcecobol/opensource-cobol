@@ -111,11 +111,20 @@ static void switch_to_buffer (const int lineno, const char *filename,
 
 %}
 
-ZENSPC		[\x81][\x40]
-SJIS		[\x81-\x9F\xE0-\xFC][\x40-\x7E\x80-\xFC]
-SJIS_EX_ZENSPC	[\x82-\x9F\xE0-\xFC][\x40-\x7E\x80-\xFC]|[\x81][\x40-\x7E\x80-\xFC]{-}[\x40]
-JPNWORD		[\xA0-\xDF]|{SJIS_EX_ZENSPC}
-WORD		([_0-9A-Z-]|{JPNWORD})+
+ZENSPC		[\xE3][\x80][\x80]
+U00_7F		[\x00-\x7F]
+U80_7FF		[\xC2-\xDF][\x80-\xBF]
+U800_FFF	[\xE0][\xA0-\xBF][\x80-\xBF]
+U1000_CFFF	[\xE1-\xEC][\x80-\xBF][\x80-\xBF]
+U1000_EX_ZENSPC	[\xE1-\xE2][\x80-\xBF][\x80-\xBF]|[\xE3][\x80-\xBF][\x81-\xBF]|[\xE3][\x81-\xBF][\x80-\xBF]|[\xE4-\xEC][\x80-\xBF][\x80-\xBF]
+UD000_D7FF	[\xED][\x80-\x9F][\x80-\xBF]
+UE000_FFFF	[\xEE-\xEF][\x80-\xBF][\x80-\xBF]
+U10000_3FFFF	[\xF0][\x90-\xBF][\x80-\xBF][\x80-\xBF]
+U30000_FFFFF	[\xF1-\xF3][\x80-\xBF][\x80-\xBF][\x80-\xBF]
+U100000_10FFFF	[\xF4][\x80-\x8F][\x80-\xBF][\x80-\xBF]
+UTF8_EXT	{U80_7FF}|{U800_FFF}|{U1000_EX_ZENSPC}|{UD000_D7FF}|{UE000_FFFF}|{U10000_3FFFF}|{U30000_FFFFF}|{U100000_10FFFF}
+UTF8		{U00_7F}|{UTF8_EXT}
+WORD		({UTF8_EXT}|[_0-9A-Z-])+
 
 NUMRIC_LITERAL	[+-]?[0-9,.]*[0-9]
 ALNUM_LITERAL	\"[^\"\n]*\"|\'[^\'\n]*\'
