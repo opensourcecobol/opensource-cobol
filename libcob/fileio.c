@@ -5119,6 +5119,7 @@ CBL_COPY_FILE (unsigned char *fname1, unsigned char *fname2)
 {
 	char	*fn1;
 	char	*fn2;
+	char	buf[COB_SMALL_BUFF];
 	int	flag = O_BINARY;
 	int	ret;
 	int	i;
@@ -5154,8 +5155,8 @@ CBL_COPY_FILE (unsigned char *fname1, unsigned char *fname2)
 	}
 	free (fn2);
 	ret = 0;
-	while ((i = read (fd1, fn1, sizeof(fn1))) > 0) {
-		if (write (fd2, fn1, (size_t)i) < 0) {
+	while ((i = read (fd1, buf, sizeof(buf))) > 0) {
+		if (write (fd2, buf, (size_t)i) < 0) {
 			ret = -1;
 			break;
 		}
