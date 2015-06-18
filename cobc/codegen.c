@@ -4109,12 +4109,12 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 
 	/* Note spare byte at end */
 	if (prog->currency_symbol != '\\') {
-		output (", %d, '%c', '%c', '%c', %d, %d, %d, 0 };\n",
+		output (", %d, '%c', '%c', '%c', %d, %d, %d, 0, NULL };\n",
 			cb_display_sign, prog->decimal_point, prog->currency_symbol,
 			prog->numeric_separator, cb_filename_mapping, cb_binary_truncate,
 			cb_pretty_display);
 	} else {
-		output (", %d, '%c', '\\%c', '%c', %d, %d, %d, 0 };\n",
+		output (", %d, '%c', '\\%c', '%c', %d, %d, %d, 0, NULL };\n",
 			cb_display_sign, prog->decimal_point, prog->currency_symbol,
 			prog->numeric_separator, cb_filename_mapping, cb_binary_truncate,
 			cb_pretty_display);
@@ -4360,6 +4360,7 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 				prog->program_id);
 		}
 	}
+	output_line("cob_set_programid(&module, \"%s\");", prog->program_id);
 	if (prog->decimal_index_max) {
 		output_line ("/* Initialize decimal numbers */");
 		for (i = 0; i < prog->decimal_index_max; i++) {

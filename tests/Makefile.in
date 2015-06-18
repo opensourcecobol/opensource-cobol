@@ -328,7 +328,8 @@ jp_compat_DEPENDENCIES = \
 	jp-compat.src/io-control.at \
 	jp-compat.src/greater-less-than-equal.at \
 	jp-compat.src/file-desc.at \
-	jp-compat.src/abort-on-file-error.at
+	jp-compat.src/abort-on-file-error.at \
+	jp-compat.src/system-routine.at
 
 EXTRA_DIST = $(srcdir)/package.m4 $(TESTS) \
 	$(syntax_DEPENDENCIES) \
