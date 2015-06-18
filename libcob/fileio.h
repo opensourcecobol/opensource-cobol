@@ -337,6 +337,7 @@ COB_EXPIMP int cob_acuw_mkdir	(unsigned char *);
 COB_EXPIMP int cob_acuw_copyfile	(unsigned char *, unsigned char *, unsigned char *);
 COB_EXPIMP int cob_acuw_file_info	(unsigned char *, unsigned char *);
 COB_EXPIMP int cob_acuw_file_delete	(unsigned char *, unsigned char *);
+COB_EXPIMP int cob_acuw_list_directory	(unsigned char *, ...);
 
 /* SORT routines */
 COB_EXPIMP void	cob_file_sort_init	(cob_file *, const int,

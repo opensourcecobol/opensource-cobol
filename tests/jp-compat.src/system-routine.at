@@ -1,0 +1,47 @@
+AT_SETUP([CALL C$LIST-DIRECTORY])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01  PATTERN       PIC X(5) VALUE "*".
+       01  DIRECTORY     PIC X(256) VALUE
+       "./list".
+       01  FILENAME      PIC X(30).
+       01  MYDIR         PIC 9(8) COMP-5.
+       PROCEDURE        DIVISION.
+           CALL "C$LIST-DIRECTORY" USING 1,
+                                         DIRECTORY,
+                                         PATTERN
+           END-CALL.
+           MOVE RETURN-CODE TO MYDIR.
+           CALL "C$LIST-DIRECTORY" USING 2,
+                                         MYDIR,
+                                         FILENAME
+           END-CALL.
+           PERFORM WITH TEST AFTER UNTIL FILENAME = SPACES
+             DISPLAY FILENAME "/"
+             CALL "C$LIST-DIRECTORY" USING 2,
+                                           MYDIR,
+                                           FILENAME
+             END-CALL
+           END-PERFORM.
+           CALL "C$LIST-DIRECTORY" USING 3, MYDIR
+           END-CALL.
+           MOVE 0           TO RETURN-CODE.
+           EXIT PROGRAM.
+])
+
+AT_CHECK([mkdir list])
+AT_CHECK([echo -n 1 >list/input1.txt])
+AT_CHECK([echo -n 1 >list/input2.txt])
+
+AT_CHECK([${COMPILE} prog.cob])
+AT_CHECK([./prog], [0],
+[input1.txt                    /
+input2.txt                    /
+])
+
+AT_CLEANUP
+
