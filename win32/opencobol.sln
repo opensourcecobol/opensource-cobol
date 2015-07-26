@@ -1,11 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcob", "libcob\libcob.vcxproj", "{7094F52E-C69B-4045-839D-41102E27F8D9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9A3D4A76-5165-4A4F-A7CC-266A9F42E667} = {9A3D4A76-5165-4A4F-A7CC-266A9F42E667}
+		{5C080698-F600-43F1-9FFF-25F186C6E17D} = {5C080698-F600-43F1-9FFF-25F186C6E17D}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vbisam", "vbisam\vbisam.vcxproj", "{9A3D4A76-5165-4A4F-A7CC-266A9F42E667}"
@@ -13,6 +14,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cobc", "cobc\cobc.vcxproj", "{00FEA320-E22B-447E-82AD-22F7688D69D0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cobcrun", "cobcrun\cobcrun.vcxproj", "{8A844907-F618-4A12-B236-08C9393B0CC7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pdcurses", "pdcurses\pdcurses.vcxproj", "{5C080698-F600-43F1-9FFF-25F186C6E17D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +57,14 @@ Global
 		{8A844907-F618-4A12-B236-08C9393B0CC7}.Release|Win32.Build.0 = Release|Win32
 		{8A844907-F618-4A12-B236-08C9393B0CC7}.Release|x64.ActiveCfg = Release|x64
 		{8A844907-F618-4A12-B236-08C9393B0CC7}.Release|x64.Build.0 = Release|x64
+		{5C080698-F600-43F1-9FFF-25F186C6E17D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5C080698-F600-43F1-9FFF-25F186C6E17D}.Debug|Win32.Build.0 = Debug|Win32
+		{5C080698-F600-43F1-9FFF-25F186C6E17D}.Debug|x64.ActiveCfg = Debug|x64
+		{5C080698-F600-43F1-9FFF-25F186C6E17D}.Debug|x64.Build.0 = Debug|x64
+		{5C080698-F600-43F1-9FFF-25F186C6E17D}.Release|Win32.ActiveCfg = Release|Win32
+		{5C080698-F600-43F1-9FFF-25F186C6E17D}.Release|Win32.Build.0 = Release|Win32
+		{5C080698-F600-43F1-9FFF-25F186C6E17D}.Release|x64.ActiveCfg = Release|x64
+		{5C080698-F600-43F1-9FFF-25F186C6E17D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
