@@ -351,6 +351,7 @@ struct cob_module {
 	const unsigned char		flag_binary_truncate;
 	const unsigned char		flag_pretty_display;
 	const unsigned char		spare8;
+	char				*program_id;
 };
 
 /*******************************/
@@ -447,6 +448,7 @@ COB_EXPIMP int cob_return_args	(unsigned char *);
 COB_EXPIMP int cob_parameter_size	(unsigned char *);
 COB_EXPIMP int cob_acuw_sleep	(unsigned char *);
 COB_EXPIMP int cob_acuw_justify	(unsigned char *, ...);
+COB_EXPIMP int cob_acuw_calledby	(unsigned char *);
 
 /* Utilities */
 
@@ -458,6 +460,9 @@ COB_EXPIMP void		cob_set_location	(const char *, const char *,
 						 const char *, const char *);
 COB_EXPIMP void		cob_ready_trace		(void);
 COB_EXPIMP void		cob_reset_trace		(void);
+
+COB_EXPIMP void		cob_set_programid	(struct cob_module *,
+						const char *);
 
 /* Switch */
 
