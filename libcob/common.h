@@ -351,7 +351,7 @@ struct cob_module {
 	const unsigned char		flag_binary_truncate;
 	const unsigned char		flag_pretty_display;
 	const unsigned char		spare8;
-	char				*program_id;
+	char			*program_id;
 };
 
 /*******************************/
@@ -462,7 +462,7 @@ COB_EXPIMP void		cob_ready_trace		(void);
 COB_EXPIMP void		cob_reset_trace		(void);
 
 COB_EXPIMP void		cob_set_programid	(struct cob_module *,
-						const char *);
+						 const char *);
 
 /* Switch */
 

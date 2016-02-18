@@ -4360,7 +4360,7 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 				prog->program_id);
 		}
 	}
-	output_line("cob_set_programid(&module, \"%s\");", prog->program_id);
+	output_line ("cob_set_programid(&module, \"%s\");", prog->program_id);
 	if (prog->decimal_index_max) {
 		output_line ("/* Initialize decimal numbers */");
 		for (i = 0; i < prog->decimal_index_max; i++) {

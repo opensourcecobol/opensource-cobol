@@ -2659,14 +2659,15 @@ cob_acuw_justify (unsigned char *data, ...)
 }
 
 void
-cob_set_programid(struct cob_module *module, const char *program_name){
+cob_set_programid (struct cob_module *module, const char *program_name)
+{
 	int length;
-	length = strlen(program_name);
-	if (module->program_id != NULL){
-		free(module->program_id);
+	length = strlen (program_name);
+	if (module->program_id != NULL) {
+		free (module->program_id);
 	}
-	module->program_id = cob_malloc((const size_t)length+1);
-	strcpy(module->program_id, program_name);
+	module->program_id = cob_malloc ((const size_t) length+1);
+	strcpy (module->program_id, program_name);
 }
 
 int
@@ -2676,12 +2677,12 @@ cob_acuw_calledby (unsigned char *data)
 	cob_field *f1;
 	char *called_program_name;
 
-	COB_CHK_PARMS(C$CALLEDBY, 1);
+	COB_CHK_PARMS (C$CALLEDBY, 1);
 
 	if (cob_current_module->cob_procedure_parameters[0]) {
 		f1 = cob_current_module->cob_procedure_parameters[0];
 		if (cob_current_module->next == NULL){
-			memset(f1->data, ' ', (int)f1->size);
+			memset (f1->data, ' ', (int)f1->size);
 			return 0;
 		}else{
 			called_program_name = (const char *)cob_current_module->next->program_id;
@@ -2689,10 +2690,10 @@ cob_acuw_calledby (unsigned char *data)
 				return -1;
 			}
 			length = (int)f1->size;
-			if (strlen(called_program_name) < length){
-				length = strlen(called_program_name);
+			if (strlen (called_program_name) < length){
+				length = strlen (called_program_name);
 			}
-			memcpy(f1->data, called_program_name, length);
+			memcpy (f1->data, called_program_name, length);
 		}
 	}
 	return 1;
