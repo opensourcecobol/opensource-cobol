@@ -4133,15 +4133,15 @@ cob_invoke_fun (int operate, char *f, cob_field *key, char *rec,
 			} else if (ret == '0') {
 				iRet = 0;
 			}
-			cob_exception_code = atoi(p_excpcode);
+			cob_exception_code = atoi (p_excpcode);
 			//ascii [0]->0x30 [9]->0x39
-			if(fnstatus != NULL){
+			if (fnstatus != NULL) {
 				status1 = fnstatus->data[0] - 0x30;
-			}else{
+			} else {
 				status1 = p_tmpfnstatus[0] - 0x30;
 			}
-			if ((status1 > 0 && status1 <= 9) && cob_exception_code == 0){
-				cob_set_exception(status_exception[status1]);
+			if ((status1 > 0 && status1 <= 9) && cob_exception_code == 0) {
+				cob_set_exception (status_exception[status1]);
 			}
 		}
 	}
