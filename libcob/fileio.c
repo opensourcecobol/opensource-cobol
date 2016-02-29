@@ -5469,17 +5469,17 @@ cob_acuw_file_delete (unsigned char *file_name, unsigned char *file_type)
 }
 
 int
-cob_listdir_open(cob_field *f_dirname, cob_field *f_pattern)
+cob_listdir_open (cob_field *f_dirname, cob_field *f_pattern)
 {
 	//FIXME: now not use file pattern(ex. *).
 #ifdef _WIN32
-	char *dirname = cob_str_from_fld(f_dirname);
-	char *pattern = cob_str_from_fld(f_pattern);
+	char *dirname = cob_str_from_fld (f_dirname);
+	char *pattern = cob_str_from_fld (f_pattern);
 
-	LPCTSTR lpFileName = cob_malloc(strlen(dirname) + 1 + strlen(pattern) + 1);
+	LPCTSTR lpFileName = cob_malloc (strlen(dirname) + 1 + strlen (pattern) + 1);
 
-	if (listdir_filedata == NULL){
-		listdir_filedata = cob_malloc(sizeof(LPWIN32_FIND_DATA));
+	if (listdir_filedata == NULL) {
+		listdir_filedata = cob_malloc (sizeof (LPWIN32_FIND_DATA));
 	}
 
 	strcpy (lpFileName, dirname);
@@ -5494,9 +5494,9 @@ cob_listdir_open(cob_field *f_dirname, cob_field *f_pattern)
 	}
 
 #else
-	char *dirname = cob_str_from_fld(f_dirname);
-	listdir_handle = opendir(dirname);
-	free(dirname);
+	char *dirname = cob_str_from_fld (f_dirname);
+	listdir_handle = opendir (dirname);
+	free (dirname);
 	if (listdir_handle == NULL) {
 		return 0;
 	}
@@ -5506,42 +5506,42 @@ cob_listdir_open(cob_field *f_dirname, cob_field *f_pattern)
 }
 
 int
-cob_listdir_next(cob_field *f_handle, cob_field *f_filename)
+cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 {
 	//FIXME: now not use handle.
 	char *filename;
 	int length;
 
 #ifndef _WIN32
-	listdir_filedata = readdir(listdir_handle);
+	listdir_filedata = readdir (listdir_handle);
 #endif
 #ifdef _WIN32
 	filename = listdir_filedata->cFileName;
 #else
-	listdir_filedata = readdir(listdir_handle);
-	if (listdir_filedata == NULL){
+	listdir_filedata = readdir (listdir_handle);
+	if (listdir_filedata == NULL) {
 		filename = " ";
 	}else{
 		filename = listdir_filedata->d_name;
 	}
 #endif
-	length = strlen(filename);
+	length = strlen (filename);
 
 	if (length > f_filename->size) {
 		length = f_filename->size;
 	}
-	memset(f_filename->data, ' ', f_filename->size);
-	memcpy(f_filename->data, filename, length);
+	memset (f_filename->data, ' ', f_filename->size);
+	memcpy (f_filename->data, filename, length);
 #ifdef _WIN32
-	if(!FindNextFile (listdir_handle, listdir_filedata)) {
-		strcpy(listdir_filedata->cFileName, " ");
+	if (!FindNextFile (listdir_handle, listdir_filedata)) {
+		strcpy (listdir_filedata->cFileName, " ");
 	}
 #endif
 	return 0;
 }
 
 int
-cob_listdir_close(cob_field *f_handle)
+cob_listdir_close (cob_field *f_handle)
 {
 	//FIXME: now not use handle.
 #ifdef _WIN32
@@ -5558,26 +5558,26 @@ cob_acuw_list_directory (unsigned char *data, ...)
 	int operation_code = -1;
 	int return_code;
 
-	COB_CHK_PARMS(C$LIST-DIRECTORY, 1);
+	COB_CHK_PARMS (C$LIST-DIRECTORY, 1);
 
-	if (cob_current_module->cob_procedure_parameters[0] == NULL){
+	if (cob_current_module->cob_procedure_parameters[0] == NULL) {
 		return -1;
 	}
 
-	operation_code = cob_get_int(cob_current_module->cob_procedure_parameters[0]);
+	operation_code = cob_get_int (cob_current_module->cob_procedure_parameters[0]);
 
 	switch (operation_code)
 	{
 	case 1://LISTDIR-OPEN(value:1)
-		return_code = cob_listdir_open(cob_current_module->cob_procedure_parameters[1],
+		return_code = cob_listdir_open (cob_current_module->cob_procedure_parameters[1],
 			cob_current_module->cob_procedure_parameters[2]);
 		break;
 	case 2://LISTDIR-NEXT(value:2)
-		return_code = cob_listdir_next(cob_current_module->cob_procedure_parameters[1],
+		return_code = cob_listdir_next (cob_current_module->cob_procedure_parameters[1],
 			cob_current_module->cob_procedure_parameters[2]);
 		break;
 	case 3://LISTDIR-CLOSE(value:3)
-		return_code = cob_listdir_close(cob_current_module->cob_procedure_parameters[1]);
+		return_code = cob_listdir_close (cob_current_module->cob_procedure_parameters[1]);
 		break;
 	default:
 		//error
