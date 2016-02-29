@@ -4460,6 +4460,10 @@ cancel_list:
   {
 	cb_emit_cancel ($2);
   }
+| ALL
+  {
+	cb_emit_cancel_all ();
+  }
 ;
 
 

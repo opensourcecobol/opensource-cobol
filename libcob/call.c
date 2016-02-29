@@ -56,6 +56,10 @@
 #include <windows.h>
 /* Prototype */
 static char *	lt_dlerror (void);
+void			init_call_stack_list (void);
+struct call_stack_list
+				cob_create_call_stack_list (const char *);
+void			cob_cancel_call_stack_list (struct call_stack_list *);
 
 static HMODULE
 lt_dlopen (const char *x)
@@ -144,6 +148,12 @@ static struct call_hash *call_table = NULL;
 #else
 static struct call_hash **call_table = NULL;
 #endif
+
+/*
+ * Call List
+ */
+struct call_stack_list		*call_stack_list_head = NULL;
+struct call_stack_list		*current_call_stack_list = NULL;
 
 struct system_table {
 	const char		*syst_name;
@@ -685,4 +695,99 @@ coblongjmp (struct cobjmp_buf *jbuf)
 	}
 	cobjmp_primed = 0;
 	longjmp (jbuf->cbj_jmp_buf, 1);
+}
+
+void
+init_call_stack_list()
+{
+	if (!call_stack_list_head) {
+		call_stack_list_head = cob_malloc (sizeof (struct call_stack_list));
+		memset (call_stack_list_head, 0, sizeof (struct call_stack_list));
+	}
+	current_call_stack_list = call_stack_list_head;
+}
+
+struct call_stack_list *
+cob_create_call_stack_list (char *name)
+{
+	struct call_stack_list *new_list = cob_malloc (sizeof (struct call_stack_list));
+	memset (new_list, 0, sizeof (struct call_stack_list));
+	new_list->parent = current_call_stack_list;
+	new_list->name = cob_malloc (strlen(name) + 1);
+	strcpy (new_list->name, name);
+	current_call_stack_list = new_list;
+	return new_list;
+}
+
+void
+cob_push_call_stack_list (char *name)
+{
+	if (!current_call_stack_list) {
+		init_call_stack_list ();
+	}
+
+	struct call_stack_list *p = current_call_stack_list->children;
+	if (!p) {
+		current_call_stack_list->children = cob_create_call_stack_list (name);
+		return;
+	}
+	if (strcmp (p->name, name) == 0) {
+		current_call_stack_list = p;
+		return;
+	}
+	if (!p->sister) {
+		p->sister = cob_create_call_stack_list (name);
+		return;
+	}
+
+	p = p->sister;
+	for (;;) {
+		if (strcmp (p->name, name) == 0) {
+			current_call_stack_list = p;
+			return;
+		}
+		if (p->sister == NULL) {
+			break;
+		}
+		p = p->sister;
+	}
+	current_call_stack_list->sister = cob_create_call_stack_list (name);
+	return;
+}
+
+void
+cob_pop_call_stack_list ()
+{
+	current_call_stack_list = current_call_stack_list->parent;
+}
+
+void
+cob_cancel_call_stack_list (struct call_stack_list *p)
+{
+	if (!p) {
+		/*No program*/
+		return;
+	}
+	static cob_field_attr a_2 = {33, 0, 0, 0, NULL};
+	cob_field f = {strlen (p->name), (unsigned char *) p->name, &a_2};
+	cob_field_cancel (&f);
+	if (p->children) {
+		cob_cancel_call_stack_list (p->children);
+	}
+	struct call_stack_list *s = p->sister;
+	while (s != NULL) {
+		cob_cancel_call_stack_list (s);
+		s = s->sister;
+	}
+}
+
+void
+cob_cancel_all()
+{
+	if (!current_call_stack_list) {
+		cob_runtime_error ("Call to 'cob_cancel_all' current stack is NULL");
+		return;
+	}
+	cob_cancel_call_stack_list (current_call_stack_list->children);
+	return;
 }

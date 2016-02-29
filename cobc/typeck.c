@@ -3583,6 +3583,12 @@ cb_emit_cancel (cb_tree prog)
 	cb_emit (cb_build_funcall_1 ("cob_field_cancel", prog));
 }
 
+void
+cb_emit_cancel_all ()
+{
+	cb_emit (cb_build_funcall_0 ("cob_cancel_all"));
+}
+
 /*
  * CLOSE statement
  */

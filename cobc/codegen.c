@@ -4333,6 +4333,7 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 	output_line ("/* Push module stack */");
 	output_line ("module.next = cob_current_module;");
 	output_line ("cob_current_module = &module;");
+	output_line ("cob_push_call_stack_list(\"%s\");", prog->program_id);
 	output_newline ();
 
 	/* Initialization */
@@ -4600,6 +4601,7 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 		output_newline ();
 	}
 	output_line ("/* Pop module stack */");
+	output_line ("cob_pop_call_stack_list();");
 	output_line ("cob_current_module = cob_current_module->next;");
 	output_newline ();
 	if (cb_flag_traceall) {
