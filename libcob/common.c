@@ -2681,16 +2681,16 @@ cob_acuw_calledby (unsigned char *data)
 
 	if (cob_current_module->cob_procedure_parameters[0]) {
 		f1 = cob_current_module->cob_procedure_parameters[0];
-		if (cob_current_module->next == NULL){
+		if (cob_current_module->next == NULL) {
 			memset (f1->data, ' ', (int)f1->size);
 			return 0;
-		}else{
+		} else {
 			called_program_name = (const char *)cob_current_module->next->program_id;
-			if (called_program_name == NULL){
+			if (called_program_name == NULL) {
 				return -1;
 			}
 			length = (int)f1->size;
-			if (strlen (called_program_name) < length){
+			if (strlen (called_program_name) < length) {
 				length = strlen (called_program_name);
 			}
 			memcpy (f1->data, called_program_name, length);

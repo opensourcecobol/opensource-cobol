@@ -351,7 +351,7 @@ struct cob_module {
 	const unsigned char		flag_binary_truncate;
 	const unsigned char		flag_pretty_display;
 	const unsigned char		spare8;
-	char			*program_id;
+	char				*program_id;
 };
 
 /*******************************/
