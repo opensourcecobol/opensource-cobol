@@ -5512,9 +5512,6 @@ cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 	char *filename;
 	int length;
 
-#ifndef _WIN32
-	listdir_filedata = readdir (listdir_handle);
-#endif
 #ifdef _WIN32
 	filename = listdir_filedata->cFileName;
 #else
