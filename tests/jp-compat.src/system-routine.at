@@ -39,7 +39,9 @@ AT_CHECK([echo -n 1 >list/input2.txt])
 
 AT_CHECK([${COMPILE} prog.cob])
 AT_CHECK([./prog], [0],
-[input1.txt                    /
+[.                             /
+..                            /
+input1.txt                    /
 input2.txt                    /
 ])
 
