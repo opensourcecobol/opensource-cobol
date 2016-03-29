@@ -36,7 +36,7 @@ struct call_stack_list {
 	struct call_stack_list	*parent;
 	struct call_stack_list	*children;
 	struct call_stack_list	*sister;
-	const char			*name;
+	const char		*name;
 };
 
 DECLNORET COB_EXPIMP void	cob_call_error		(void) COB_A_NORETURN;

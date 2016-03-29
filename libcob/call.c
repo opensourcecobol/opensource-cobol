@@ -58,7 +58,7 @@
 static char *	lt_dlerror (void);
 void			init_call_stack_list (void);
 struct call_stack_list
-				cob_create_call_stack_list (const char *);
+			cob_create_call_stack_list (const char *);
 void			cob_cancel_call_stack_list (struct call_stack_list *);
 
 static HMODULE
@@ -698,7 +698,7 @@ coblongjmp (struct cobjmp_buf *jbuf)
 }
 
 void
-init_call_stack_list()
+init_call_stack_list ()
 {
 	if (!call_stack_list_head) {
 		call_stack_list_head = cob_malloc (sizeof (struct call_stack_list));
@@ -713,7 +713,7 @@ cob_create_call_stack_list (char *name)
 	struct call_stack_list *new_list = cob_malloc (sizeof (struct call_stack_list));
 	memset (new_list, 0, sizeof (struct call_stack_list));
 	new_list->parent = current_call_stack_list;
-	new_list->name = cob_malloc (strlen(name) + 1);
+	new_list->name = cob_malloc (strlen (name) + 1);
 	strcpy (new_list->name, name);
 	current_call_stack_list = new_list;
 	return new_list;
@@ -782,7 +782,7 @@ cob_cancel_call_stack_list (struct call_stack_list *p)
 }
 
 void
-cob_cancel_all()
+cob_cancel_all ()
 {
 	if (!current_call_stack_list) {
 		cob_runtime_error ("Call to 'cob_cancel_all' current stack is NULL");
