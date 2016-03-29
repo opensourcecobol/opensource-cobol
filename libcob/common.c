@@ -2661,7 +2661,7 @@ cob_acuw_justify (unsigned char *data, ...)
 void
 cob_set_programid (struct cob_module *module, const char *program_name)
 {
-	int length;
+	int	length;
 	length = strlen (program_name);
 	if (module->program_id != NULL) {
 		free (module->program_id);
@@ -2673,9 +2673,9 @@ cob_set_programid (struct cob_module *module, const char *program_name)
 int
 cob_acuw_calledby (unsigned char *data)
 {
-	int length;
-	cob_field *f1;
-	char *called_program_name;
+	int		length;
+	cob_field	*f1;
+	char		*called_program_name;
 
 	COB_CHK_PARMS (C$CALLEDBY, 1);
 
@@ -2700,7 +2700,6 @@ cob_acuw_calledby (unsigned char *data)
 }
 
 char *
-
 cb_get_jisword_buff (const char *name, char *jbuf, size_t n)
 {
 	size_t		siz;
