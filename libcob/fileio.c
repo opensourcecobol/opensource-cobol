@@ -4119,29 +4119,41 @@ cob_invoke_fun (int operate, char *f, cob_field *key, char *rec,
 	char	ret = '0';
 	char	oper[OPENMODESIZE];
 	char	excpcode[EXCPTCODESIZE];
+	char	*p_excpcode = excpcode;
+	char	tmpfnstatus[2];
+	char	*p_tmpfnstatus = tmpfnstatus;
+	int		status1 = 0;
 	int	(*funcint)();
 
 	sprintf (excpcode, "%05d", 0);
 	sprintf (oper, "%02d", operate);
+	sprintf (tmpfnstatus, "%02d", 0);
 	s = getenv (TIS_DEFINE_USERFH);
 	if (s != NULL) {
 		strcpy (funname, s);
 		funcint = cob_resolve_1 (funname);
 		if (funcint) {
 			if (fnstatus == NULL) {
-				funcint (oper, f, key, rec, NULL, openMode,
-					 startCond, read_opts, &excpcode, (char*)&ret);
+				funcint (oper, f, key, rec, &p_tmpfnstatus, openMode,
+					startCond, read_opts, &p_excpcode, (char*)&ret);
 			} else {
 				funcint (oper, f, key, rec, fnstatus->data, openMode,
-					 startCond, read_opts, &excpcode, (char*)&ret);
+					startCond, read_opts, &p_excpcode, (char*)&ret);
 			}
 			if (ret == '1') {
 				iRet = 1;
 			} else if (ret == '0') {
 				iRet = 0;
 			}
-			if (excpcode != NULL) {
-				cob_exception_code = atoi (excpcode);
+			cob_exception_code = atoi (p_excpcode);
+			//ascii [0]->0x30 [9]->0x39
+			if (fnstatus != NULL) {
+				status1 = fnstatus->data[0] - 0x30;
+			} else {
+				status1 = p_tmpfnstatus[0] - 0x30;
+			}
+			if ((status1 > 0 && status1 <= 9) && cob_exception_code == 0) {
+				cob_set_exception (status_exception[status1]);
 			}
 		}
 	}
