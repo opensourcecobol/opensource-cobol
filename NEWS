@@ -1,5 +1,23 @@
 NEWS - user visible changes				-*- outline -*-
 
+* Changes in opensource COBOL 1.5.0J
+
+** New features
+
+*** ADD new functions and features.
+    (1) Add a new function "C$CALLEDBY".
+        This gets the program name that called itself.
+    (2) Add a new function "C$LIST-DIRECTORY".
+        This gets the list of files in the target directory.
+    (3) Add a new feature "CANCEL ALL".
+        This cancel subprogram and all subprograms that callded by it.
+
+** Other Updates
+
+*** bug fix some problem
+
+-----------------------------------------------------------------------
+
 * Changes in opensource COBOL 1.4.0J
 
 ** New features
