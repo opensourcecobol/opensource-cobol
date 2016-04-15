@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: opensource COBOL v1.4J\n"
+"Project-Id-Version: opensource COBOL v1.5J\n"
 "Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
 "POT-Creation-Date: 2015-03-17 14:07+0900\n"
 "PO-Revision-Date: 2014-02-07 11:40+0900\n"

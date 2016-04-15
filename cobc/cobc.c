@@ -817,7 +817,7 @@ cobc_sig_handler (int sig)
 static void
 cobc_print_version (void)
 {
-	puts ("opensource COBOL 1.4J");
+	puts ("opensource COBOL 1.5J");
 	puts ("OSS Consortium's patched version of OpenCOBOL1.1(Feb.06 2009)");
 #ifdef	I18N_UTF8
 	puts ("[unicode/utf-8 support]");
