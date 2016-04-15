@@ -56,6 +56,10 @@
 #include <fcntl.h>
 #endif
 
+#ifndef _WIN32
+#include <dirent.h>
+#endif
+
 #ifdef _WIN32
 
 #define WIN32_LEAN_AND_MEAN
@@ -198,6 +202,14 @@ struct cobsort {
 };
 
 /* End SORT definitions */
+
+#ifdef _WIN32
+HANDLE				listdir_handle;
+LPWIN32_FIND_DATA	listdir_filedata;
+#else
+DIR					*listdir_handle;
+struct dirent		*listdir_filedata;
+#endif
 
 #define        OPENMODESIZE  3
 #define        READOPTSSIZE  4
@@ -5454,6 +5466,121 @@ cob_acuw_file_delete (unsigned char *file_name, unsigned char *file_type)
 		ret = 128;
 	}
 	return ret;
+}
+
+int
+cob_listdir_open (cob_field *f_dirname, cob_field *f_pattern)
+{
+	//FIXME: now not use file pattern(ex. *).
+#ifdef _WIN32
+	char *dirname = cob_str_from_fld (f_dirname);
+	char *pattern = cob_str_from_fld (f_pattern);
+
+	LPCTSTR lpFileName = cob_malloc (strlen(dirname) + 1 + strlen (pattern) + 1);
+
+	if (listdir_filedata == NULL) {
+		listdir_filedata = cob_malloc (sizeof (LPWIN32_FIND_DATA));
+	}
+
+	strcpy (lpFileName, dirname);
+	strcat (lpFileName, "\\");
+	strcat (lpFileName, pattern);
+	listdir_handle = FindFirstFile (lpFileName, listdir_filedata);
+	free (dirname);
+	free (pattern);
+	free (lpFileName);
+	if (listdir_handle == INVALID_HANDLE_VALUE) {
+		return 0;
+	}
+
+#else
+	char *dirname = cob_str_from_fld (f_dirname);
+	listdir_handle = opendir (dirname);
+	free (dirname);
+	if (listdir_handle == NULL) {
+		return 0;
+	}
+	
+#endif
+	return listdir_handle;
+}
+
+int
+cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
+{
+	//FIXME: now not use handle.
+	char *filename;
+	int length;
+
+#ifdef _WIN32
+	filename = listdir_filedata->cFileName;
+#else
+	listdir_filedata = readdir (listdir_handle);
+	if (listdir_filedata == NULL) {
+		filename = " ";
+	}else{
+		filename = listdir_filedata->d_name;
+	}
+#endif
+	length = strlen (filename);
+
+	if (length > f_filename->size) {
+		length = f_filename->size;
+	}
+	memset (f_filename->data, ' ', f_filename->size);
+	memcpy (f_filename->data, filename, length);
+#ifdef _WIN32
+	if (!FindNextFile (listdir_handle, listdir_filedata)) {
+		strcpy (listdir_filedata->cFileName, " ");
+	}
+#endif
+	return 0;
+}
+
+int
+cob_listdir_close (cob_field *f_handle)
+{
+	//FIXME: now not use handle.
+#ifdef _WIN32
+	FindClose (listdir_handle);
+#else
+	closedir (listdir_handle);
+#endif
+	return 0;
+}
+
+int
+cob_acuw_list_directory (unsigned char *data, ...)
+{
+	int operation_code = -1;
+	int return_code;
+
+	COB_CHK_PARMS (C$LIST-DIRECTORY, 1);
+
+	if (cob_current_module->cob_procedure_parameters[0] == NULL) {
+		return -1;
+	}
+
+	operation_code = cob_get_int (cob_current_module->cob_procedure_parameters[0]);
+
+	switch (operation_code)
+	{
+	case 1://LISTDIR-OPEN(value:1)
+		return_code = cob_listdir_open (cob_current_module->cob_procedure_parameters[1],
+			cob_current_module->cob_procedure_parameters[2]);
+		break;
+	case 2://LISTDIR-NEXT(value:2)
+		return_code = cob_listdir_next (cob_current_module->cob_procedure_parameters[1],
+			cob_current_module->cob_procedure_parameters[2]);
+		break;
+	case 3://LISTDIR-CLOSE(value:3)
+		return_code = cob_listdir_close (cob_current_module->cob_procedure_parameters[1]);
+		break;
+	default:
+		//error
+		return -1;
+	}
+	return return_code;
 }
 
 /* SORT */
