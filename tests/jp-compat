@@ -10027,7 +10027,7 @@ cat >prog.cob <<'_ATEOF'
                                          FILENAME
            END-CALL.
            PERFORM WITH TEST AFTER UNTIL FILENAME = SPACES
-             DISPLAY FILENAME "/"
+             DISPLAY FUNCTION TRIM(FILENAME)
              CALL "C$LIST-DIRECTORY" USING 2,
                                            MYDIR,
                                            FILENAME
@@ -10079,6 +10079,18 @@ at_fn_check_status 0 $at_status "$at_srcdir/system-routine.at:82"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
+{ set +x
+$as_echo "$at_srcdir/system-routine.at:83: ls -1f list > list1"
+at_fn_check_prepare_trace "system-routine.at:83"
+( $at_check_trace; ls -1f list > list1
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/system-routine.at:83"
+$at_failed && at_fn_log_failure
+$at_traceon; }
 
 { set +x
 $as_echo "$at_srcdir/system-routine.at:84: \${COMPILE} prog.cob"
@@ -10101,16 +10113,12 @@ at_fn_check_prepare_trace "system-routine.at:85"
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo ".                             /
-..                            /
-input1.txt                    /
-input2.txt                    /
+echo >>"$at_stdout"; $as_echo "`cat list1`
 " | \
   $at_diff - "$at_stdout" || at_failed=:
 at_fn_check_status 0 $at_status "$at_srcdir/system-routine.at:85"
 $at_failed && at_fn_log_failure
 $at_traceon; }
-
 
   set +x
   $at_times_p && times >"$at_times_file"

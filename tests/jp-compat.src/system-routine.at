@@ -65,7 +65,7 @@ AT_DATA([prog.cob], [
                                          FILENAME
            END-CALL.
            PERFORM WITH TEST AFTER UNTIL FILENAME = SPACES
-             DISPLAY FILENAME "/"
+             DISPLAY FUNCTION TRIM(FILENAME)
              CALL "C$LIST-DIRECTORY" USING 2,
                                            MYDIR,
                                            FILENAME
@@ -80,14 +80,10 @@ AT_DATA([prog.cob], [
 AT_CHECK([mkdir list])
 AT_CHECK([echo -n 1 >list/input1.txt])
 AT_CHECK([echo -n 1 >list/input2.txt])
-
+AT_CHECK([ls -1f list > list1])
 AT_CHECK([${COMPILE} prog.cob])
-AT_CHECK([./prog], [0],
-[.                             /
-..                            /
-input1.txt                    /
-input2.txt                    /
-])
-
+AT_CHECK_UNQUOTED([./prog], [0],
+[`cat list1`]
+)
 AT_CLEANUP
 
