@@ -1,8 +1,10 @@
-/* A Bison parser, made by GNU Bison 2.7.  */
 
-/* Bison implementation for Yacc-like parsers in C
+/* A Bison parser, made by GNU Bison 2.4.1.  */
+
+/* Skeleton implementation for Bison's Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989-1990, 2000-2012 Free Software Foundation, Inc.
+      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
+   Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +46,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "2.7"
+#define YYBISON_VERSION "2.4.1"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -58,11 +60,14 @@
 /* Pull parsers.  */
 #define YYPULL 1
 
+/* Using locations.  */
+#define YYLSP_NEEDED 0
 
 
 
 /* Copy the first part of user declarations.  */
-/* Line 371 of yacc.c  */
+
+/* Line 189 of yacc.c  */
 #line 26 "parser.y"
 
 #include "config.h"
@@ -347,16 +352,14 @@ setup_use_file (struct cb_file *fileptr)
 }
 
 
-/* Line 371 of yacc.c  */
-#line 352 "parser.c"
 
-# ifndef YY_NULL
-#  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULL nullptr
-#  else
-#   define YY_NULL 0
-#  endif
-# endif
+/* Line 189 of yacc.c  */
+#line 358 "parser.c"
+
+/* Enabling traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 0
+#endif
 
 /* Enabling verbose error messages.  */
 #ifdef YYERROR_VERBOSE
@@ -366,17 +369,11 @@ setup_use_file (struct cb_file *fileptr)
 # define YYERROR_VERBOSE 0
 #endif
 
-/* In a future release of Bison, this section will be replaced
-   by #include "parser.h".  */
-#ifndef YY_YY_PARSER_H_INCLUDED
-# define YY_YY_PARSER_H_INCLUDED
-/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 0
+/* Enabling the token table.  */
+#ifndef YYTOKEN_TABLE
+# define YYTOKEN_TABLE 0
 #endif
-#if YYDEBUG
-extern int yydebug;
-#endif
+
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -836,6 +833,7 @@ extern int yydebug;
 #endif
 
 
+
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef int YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
@@ -843,28 +841,12 @@ typedef int YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
-extern YYSTYPE yylval;
-
-#ifdef YYPARSE_PARAM
-#if defined __STDC__ || defined __cplusplus
-int yyparse (void *YYPARSE_PARAM);
-#else
-int yyparse ();
-#endif
-#else /* ! YYPARSE_PARAM */
-#if defined __STDC__ || defined __cplusplus
-int yyparse (void);
-#else
-int yyparse ();
-#endif
-#endif /* ! YYPARSE_PARAM */
-
-#endif /* !YY_YY_PARSER_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-/* Line 390 of yacc.c  */
-#line 868 "parser.c"
+
+/* Line 264 of yacc.c  */
+#line 850 "parser.c"
 
 #ifdef short
 # undef short
@@ -914,27 +896,27 @@ typedef short int yytype_int16;
 #define YYSIZE_MAXIMUM ((YYSIZE_T) -1)
 
 #ifndef YY_
-# if defined YYENABLE_NLS && YYENABLE_NLS
+# if YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* INFRINGES ON USER NAME SPACE */
-#   define YY_(Msgid) dgettext ("bison-runtime", Msgid)
+#   define YY_(msgid) dgettext ("bison-runtime", msgid)
 #  endif
 # endif
 # ifndef YY_
-#  define YY_(Msgid) Msgid
+#  define YY_(msgid) msgid
 # endif
 #endif
 
 /* Suppress unused-variable warnings by "using" E.  */
 #if ! defined lint || defined __GNUC__
-# define YYUSE(E) ((void) (E))
+# define YYUSE(e) ((void) (e))
 #else
-# define YYUSE(E) /* empty */
+# define YYUSE(e) /* empty */
 #endif
 
 /* Identity function, used to suppress warnings about constant conditions.  */
 #ifndef lint
-# define YYID(N) (N)
+# define YYID(n) (n)
 #else
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
@@ -967,12 +949,11 @@ YYID (yyi)
 #    define alloca _alloca
 #   else
 #    define YYSTACK_ALLOC alloca
-#    if ! defined _ALLOCA_H && ! defined EXIT_SUCCESS && (defined __STDC__ || defined __C99__FUNC__ \
+#    if ! defined _ALLOCA_H && ! defined _STDLIB_H && (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 #     include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
-      /* Use EXIT_SUCCESS as a witness for stdlib.h.  */
-#     ifndef EXIT_SUCCESS
-#      define EXIT_SUCCESS 0
+#     ifndef _STDLIB_H
+#      define _STDLIB_H 1
 #     endif
 #    endif
 #   endif
@@ -995,24 +976,24 @@ YYID (yyi)
 #  ifndef YYSTACK_ALLOC_MAXIMUM
 #   define YYSTACK_ALLOC_MAXIMUM YYSIZE_MAXIMUM
 #  endif
-#  if (defined __cplusplus && ! defined EXIT_SUCCESS \
+#  if (defined __cplusplus && ! defined _STDLIB_H \
        && ! ((defined YYMALLOC || defined malloc) \
 	     && (defined YYFREE || defined free)))
 #   include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
-#   ifndef EXIT_SUCCESS
-#    define EXIT_SUCCESS 0
+#   ifndef _STDLIB_H
+#    define _STDLIB_H 1
 #   endif
 #  endif
 #  ifndef YYMALLOC
 #   define YYMALLOC malloc
-#   if ! defined malloc && ! defined EXIT_SUCCESS && (defined __STDC__ || defined __C99__FUNC__ \
+#   if ! defined malloc && ! defined _STDLIB_H && (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 void *malloc (YYSIZE_T); /* INFRINGES ON USER NAME SPACE */
 #   endif
 #  endif
 #  ifndef YYFREE
 #   define YYFREE free
-#   if ! defined free && ! defined EXIT_SUCCESS && (defined __STDC__ || defined __C99__FUNC__ \
+#   if ! defined free && ! defined _STDLIB_H && (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 void free (void *); /* INFRINGES ON USER NAME SPACE */
 #   endif
@@ -1041,7 +1022,23 @@ union yyalloc
      ((N) * (sizeof (yytype_int16) + sizeof (YYSTYPE)) \
       + YYSTACK_GAP_MAXIMUM)
 
-# define YYCOPY_NEEDED 1
+/* Copy COUNT objects from FROM to TO.  The source and destination do
+   not overlap.  */
+# ifndef YYCOPY
+#  if defined __GNUC__ && 1 < __GNUC__
+#   define YYCOPY(To, From, Count) \
+      __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
+#  else
+#   define YYCOPY(To, From, Count)		\
+      do					\
+	{					\
+	  YYSIZE_T yyi;				\
+	  for (yyi = 0; yyi < (Count); yyi++)	\
+	    (To)[yyi] = (From)[yyi];		\
+	}					\
+      while (YYID (0))
+#  endif
+# endif
 
 /* Relocate STACK from its old location to the new one.  The
    local variables YYSIZE and YYSTACKSIZE give the old and new number of
@@ -1060,26 +1057,6 @@ union yyalloc
     while (YYID (0))
 
 #endif
-
-#if defined YYCOPY_NEEDED && YYCOPY_NEEDED
-/* Copy COUNT objects from SRC to DST.  The source and destination do
-   not overlap.  */
-# ifndef YYCOPY
-#  if defined __GNUC__ && 1 < __GNUC__
-#   define YYCOPY(Dst, Src, Count) \
-      __builtin_memcpy (Dst, Src, (Count) * sizeof (*(Src)))
-#  else
-#   define YYCOPY(Dst, Src, Count)              \
-      do                                        \
-        {                                       \
-          YYSIZE_T yyi;                         \
-          for (yyi = 0; yyi < (Count); yyi++)   \
-            (Dst)[yyi] = (Src)[yyi];            \
-        }                                       \
-      while (YYID (0))
-#  endif
-# endif
-#endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  3
@@ -1946,7 +1923,7 @@ static const yytype_uint16 yyrline[] =
 };
 #endif
 
-#if YYDEBUG || YYERROR_VERBOSE || 0
+#if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
@@ -2220,7 +2197,7 @@ static const char *const yytname[] =
   "_from", "_in", "_is", "_is_are", "_key", "_line_or_lines", "_lines",
   "_literal", "_mode", "_number", "_of", "_on", "_in_order", "_other",
   "_program", "_record", "_right", "_set", "_sign", "_sign_is", "_size",
-  "_status", "_tape", "_than", "_then", "_times", "_to", "_when", "_with", YY_NULL
+  "_status", "_tape", "_than", "_then", "_times", "_to", "_when", "_with", 0
 };
 #endif
 
@@ -2609,8 +2586,8 @@ static const yytype_uint8 yyr2[] =
        0,     1,     0,     1,     0,     1,     0,     1
 };
 
-/* YYDEFACT[STATE-NAME] -- Default reduction number in state STATE-NUM.
-   Performed when YYTABLE doesn't specify something else to do.  Zero
+/* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
+   STATE-NUM when YYTABLE doesn't specify something else to do.  Zero
    means the default is an error.  */
 static const yytype_uint16 yydefact[] =
 {
@@ -3251,7 +3228,8 @@ static const yytype_int16 yypgoto[] =
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
-   number is the opposite.  If YYTABLE_NINF, syntax error.  */
+   number is the opposite.  If zero, do what YYDEFACT says.
+   If YYTABLE_NINF, syntax error.  */
 #define YYTABLE_NINF -1597
 static const yytype_int16 yytable[] =
 {
@@ -3822,12 +3800,6 @@ static const yytype_int16 yytable[] =
        0,     0,     0,     0,  1029,     0,     0,   297,     0,     0,
        0,     0,     0,   443
 };
-
-#define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-1738)))
-
-#define yytable_value_is_error(Yytable_value) \
-  YYID (0)
 
 static const yytype_int16 yycheck[] =
 {
@@ -4653,50 +4625,78 @@ static const yytype_uint16 yystos[] =
 
 /* Like YYERROR except do call yyerror.  This remains here temporarily
    to ease the transition to the new meaning of YYERROR, for GCC.
-   Once GCC version 2 has supplanted version 1, this can go.  However,
-   YYFAIL appears to be in use.  Nevertheless, it is formally deprecated
-   in Bison 2.4.2's NEWS entry, where a plan to phase it out is
-   discussed.  */
+   Once GCC version 2 has supplanted version 1, this can go.  */
 
 #define YYFAIL		goto yyerrlab
-#if defined YYFAIL
-  /* This is here to suppress warnings from the GCC cpp's
-     -Wunused-macros.  Normally we don't worry about that warning, but
-     some users do, and we want to make it easy for users to remove
-     YYFAIL uses, which will produce warnings from Bison 2.5.  */
-#endif
 
 #define YYRECOVERING()  (!!yyerrstatus)
 
-#define YYBACKUP(Token, Value)                                  \
-do                                                              \
-  if (yychar == YYEMPTY)                                        \
-    {                                                           \
-      yychar = (Token);                                         \
-      yylval = (Value);                                         \
-      YYPOPSTACK (yylen);                                       \
-      yystate = *yyssp;                                         \
-      goto yybackup;                                            \
-    }                                                           \
-  else                                                          \
-    {                                                           \
+#define YYBACKUP(Token, Value)					\
+do								\
+  if (yychar == YYEMPTY && yylen == 1)				\
+    {								\
+      yychar = (Token);						\
+      yylval = (Value);						\
+      yytoken = YYTRANSLATE (yychar);				\
+      YYPOPSTACK (1);						\
+      goto yybackup;						\
+    }								\
+  else								\
+    {								\
       yyerror (YY_("syntax error: cannot back up")); \
       YYERROR;							\
     }								\
 while (YYID (0))
 
-/* Error token number */
+
 #define YYTERROR	1
 #define YYERRCODE	256
 
 
-/* This macro is provided for backward compatibility. */
+/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
+   If N is 0, then set CURRENT to the empty location which ends
+   the previous symbol: RHS[0] (always defined).  */
+
+#define YYRHSLOC(Rhs, K) ((Rhs)[K])
+#ifndef YYLLOC_DEFAULT
+# define YYLLOC_DEFAULT(Current, Rhs, N)				\
+    do									\
+      if (YYID (N))                                                    \
+	{								\
+	  (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;	\
+	  (Current).first_column = YYRHSLOC (Rhs, 1).first_column;	\
+	  (Current).last_line    = YYRHSLOC (Rhs, N).last_line;		\
+	  (Current).last_column  = YYRHSLOC (Rhs, N).last_column;	\
+	}								\
+      else								\
+	{								\
+	  (Current).first_line   = (Current).last_line   =		\
+	    YYRHSLOC (Rhs, 0).last_line;				\
+	  (Current).first_column = (Current).last_column =		\
+	    YYRHSLOC (Rhs, 0).last_column;				\
+	}								\
+    while (YYID (0))
+#endif
+
+
+/* YY_LOCATION_PRINT -- Print the location on the stream.
+   This macro was not mandated originally: define only if we know
+   we won't break user code: when these are the locations we know.  */
+
 #ifndef YY_LOCATION_PRINT
-# define YY_LOCATION_PRINT(File, Loc) ((void) 0)
+# if YYLTYPE_IS_TRIVIAL
+#  define YY_LOCATION_PRINT(File, Loc)			\
+     fprintf (File, "%d.%d-%d.%d",			\
+	      (Loc).first_line, (Loc).first_column,	\
+	      (Loc).last_line,  (Loc).last_column)
+# else
+#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
+# endif
 #endif
 
 
 /* YYLEX -- calling `yylex' with the right arguments.  */
+
 #ifdef YYLEX_PARAM
 # define YYLEX yylex (YYLEX_PARAM)
 #else
@@ -4746,8 +4746,6 @@ yy_symbol_value_print (yyoutput, yytype, yyvaluep)
     YYSTYPE const * const yyvaluep;
 #endif
 {
-  FILE *yyo = yyoutput;
-  YYUSE (yyo);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
@@ -4759,7 +4757,7 @@ yy_symbol_value_print (yyoutput, yytype, yyvaluep)
   switch (yytype)
     {
       default:
-        break;
+	break;
     }
 }
 
@@ -4885,6 +4883,7 @@ int yydebug;
 # define YYMAXDEPTH 10000
 #endif
 
+
 
 #if YYERROR_VERBOSE
 
@@ -4987,145 +4986,115 @@ yytnamerr (char *yyres, const char *yystr)
 }
 # endif
 
-/* Copy into *YYMSG, which is of size *YYMSG_ALLOC, an error message
-   about the unexpected token YYTOKEN for the state stack whose top is
-   YYSSP.
-
-   Return 0 if *YYMSG was successfully written.  Return 1 if *YYMSG is
-   not large enough to hold the message.  In that case, also set
-   *YYMSG_ALLOC to the required number of bytes.  Return 2 if the
-   required number of bytes is too large to store.  */
-static int
-yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
-                yytype_int16 *yyssp, int yytoken)
+/* Copy into YYRESULT an error message about the unexpected token
+   YYCHAR while in state YYSTATE.  Return the number of bytes copied,
+   including the terminating null byte.  If YYRESULT is null, do not
+   copy anything; just return the number of bytes that would be
+   copied.  As a special case, return 0 if an ordinary "syntax error"
+   message will do.  Return YYSIZE_MAXIMUM if overflow occurs during
+   size calculation.  */
+static YYSIZE_T
+yysyntax_error (char *yyresult, int yystate, int yychar)
 {
-  YYSIZE_T yysize0 = yytnamerr (YY_NULL, yytname[yytoken]);
-  YYSIZE_T yysize = yysize0;
-  enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
-  /* Internationalized format string. */
-  const char *yyformat = YY_NULL;
-  /* Arguments of yyformat. */
-  char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-  /* Number of reported tokens (one for the "unexpected", one per
-     "expected"). */
-  int yycount = 0;
+  int yyn = yypact[yystate];
 
-  /* There are many possibilities here to consider:
-     - Assume YYFAIL is not used.  It's too flawed to consider.  See
-       <http://lists.gnu.org/archive/html/bison-patches/2009-12/msg00024.html>
-       for details.  YYERROR is fine as it does not invoke this
-       function.
-     - If this state is a consistent state with a default action, then
-       the only way this function was invoked is if the default action
-       is an error action.  In that case, don't check for expected
-       tokens because there are none.
-     - The only way there can be no lookahead present (in yychar) is if
-       this state is a consistent state with a default action.  Thus,
-       detecting the absence of a lookahead is sufficient to determine
-       that there is no unexpected or expected token to report.  In that
-       case, just report a simple "syntax error".
-     - Don't assume there isn't a lookahead just because this state is a
-       consistent state with a default action.  There might have been a
-       previous inconsistent state, consistent state with a non-default
-       action, or user semantic action that manipulated yychar.
-     - Of course, the expected token list depends on states to have
-       correct lookahead information, and it depends on the parser not
-       to perform extra reductions after fetching a lookahead from the
-       scanner and before detecting a syntax error.  Thus, state merging
-       (from LALR or IELR) and default reductions corrupt the expected
-       token list.  However, the list is correct for canonical LR with
-       one exception: it will still contain any token that will not be
-       accepted due to an error action in a later state.
-  */
-  if (yytoken != YYEMPTY)
+  if (! (YYPACT_NINF < yyn && yyn <= YYLAST))
+    return 0;
+  else
     {
-      int yyn = yypact[*yyssp];
-      yyarg[yycount++] = yytname[yytoken];
-      if (!yypact_value_is_default (yyn))
-        {
-          /* Start YYX at -YYN if negative to avoid negative indexes in
-             YYCHECK.  In other words, skip the first -YYN actions for
-             this state because they are default actions.  */
-          int yyxbegin = yyn < 0 ? -yyn : 0;
-          /* Stay within bounds of both yycheck and yytname.  */
-          int yychecklim = YYLAST - yyn + 1;
-          int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
-          int yyx;
+      int yytype = YYTRANSLATE (yychar);
+      YYSIZE_T yysize0 = yytnamerr (0, yytname[yytype]);
+      YYSIZE_T yysize = yysize0;
+      YYSIZE_T yysize1;
+      int yysize_overflow = 0;
+      enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
+      char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+      int yyx;
 
-          for (yyx = yyxbegin; yyx < yyxend; ++yyx)
-            if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR
-                && !yytable_value_is_error (yytable[yyx + yyn]))
-              {
-                if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
-                  {
-                    yycount = 1;
-                    yysize = yysize0;
-                    break;
-                  }
-                yyarg[yycount++] = yytname[yyx];
-                {
-                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULL, yytname[yyx]);
-                  if (! (yysize <= yysize1
-                         && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
-                    return 2;
-                  yysize = yysize1;
-                }
-              }
-        }
+# if 0
+      /* This is so xgettext sees the translatable formats that are
+	 constructed on the fly.  */
+      YY_("syntax error, unexpected %s");
+      YY_("syntax error, unexpected %s, expecting %s");
+      YY_("syntax error, unexpected %s, expecting %s or %s");
+      YY_("syntax error, unexpected %s, expecting %s or %s or %s");
+      YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s");
+# endif
+      char *yyfmt;
+      char const *yyf;
+      static char const yyunexpected[] = "syntax error, unexpected %s";
+      static char const yyexpecting[] = ", expecting %s";
+      static char const yyor[] = " or %s";
+      char yyformat[sizeof yyunexpected
+		    + sizeof yyexpecting - 1
+		    + ((YYERROR_VERBOSE_ARGS_MAXIMUM - 2)
+		       * (sizeof yyor - 1))];
+      char const *yyprefix = yyexpecting;
+
+      /* Start YYX at -YYN if negative to avoid negative indexes in
+	 YYCHECK.  */
+      int yyxbegin = yyn < 0 ? -yyn : 0;
+
+      /* Stay within bounds of both yycheck and yytname.  */
+      int yychecklim = YYLAST - yyn + 1;
+      int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+      int yycount = 1;
+
+      yyarg[0] = yytname[yytype];
+      yyfmt = yystpcpy (yyformat, yyunexpected);
+
+      for (yyx = yyxbegin; yyx < yyxend; ++yyx)
+	if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
+	  {
+	    if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
+	      {
+		yycount = 1;
+		yysize = yysize0;
+		yyformat[sizeof yyunexpected - 1] = '\0';
+		break;
+	      }
+	    yyarg[yycount++] = yytname[yyx];
+	    yysize1 = yysize + yytnamerr (0, yytname[yyx]);
+	    yysize_overflow |= (yysize1 < yysize);
+	    yysize = yysize1;
+	    yyfmt = yystpcpy (yyfmt, yyprefix);
+	    yyprefix = yyor;
+	  }
+
+      yyf = YY_(yyformat);
+      yysize1 = yysize + yystrlen (yyf);
+      yysize_overflow |= (yysize1 < yysize);
+      yysize = yysize1;
+
+      if (yysize_overflow)
+	return YYSIZE_MAXIMUM;
+
+      if (yyresult)
+	{
+	  /* Avoid sprintf, as that infringes on the user's name space.
+	     Don't have undefined behavior even if the translation
+	     produced a string with the wrong number of "%s"s.  */
+	  char *yyp = yyresult;
+	  int yyi = 0;
+	  while ((*yyp = *yyf) != '\0')
+	    {
+	      if (*yyp == '%' && yyf[1] == 's' && yyi < yycount)
+		{
+		  yyp += yytnamerr (yyp, yyarg[yyi++]);
+		  yyf += 2;
+		}
+	      else
+		{
+		  yyp++;
+		  yyf++;
+		}
+	    }
+	}
+      return yysize;
     }
-
-  switch (yycount)
-    {
-# define YYCASE_(N, S)                      \
-      case N:                               \
-        yyformat = S;                       \
-      break
-      YYCASE_(0, YY_("syntax error"));
-      YYCASE_(1, YY_("syntax error, unexpected %s"));
-      YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
-      YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
-      YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
-      YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
-# undef YYCASE_
-    }
-
-  {
-    YYSIZE_T yysize1 = yysize + yystrlen (yyformat);
-    if (! (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
-      return 2;
-    yysize = yysize1;
-  }
-
-  if (*yymsg_alloc < yysize)
-    {
-      *yymsg_alloc = 2 * yysize;
-      if (! (yysize <= *yymsg_alloc
-             && *yymsg_alloc <= YYSTACK_ALLOC_MAXIMUM))
-        *yymsg_alloc = YYSTACK_ALLOC_MAXIMUM;
-      return 1;
-    }
-
-  /* Avoid sprintf, as that infringes on the user's name space.
-     Don't have undefined behavior even if the translation
-     produced a string with the wrong number of "%s"s.  */
-  {
-    char *yyp = *yymsg;
-    int yyi = 0;
-    while ((*yyp = *yyformat) != '\0')
-      if (*yyp == '%' && yyformat[1] == 's' && yyi < yycount)
-        {
-          yyp += yytnamerr (yyp, yyarg[yyi++]);
-          yyformat += 2;
-        }
-      else
-        {
-          yyp++;
-          yyformat++;
-        }
-  }
-  return 0;
 }
 #endif /* YYERROR_VERBOSE */
+
 
 /*-----------------------------------------------.
 | Release the memory associated to this symbol.  |
@@ -5154,35 +5123,40 @@ yydestruct (yymsg, yytype, yyvaluep)
     {
 
       default:
-        break;
+	break;
     }
 }
 
-
+/* Prevent warnings from -Wmissing-prototypes.  */
+#ifdef YYPARSE_PARAM
+#if defined __STDC__ || defined __cplusplus
+int yyparse (void *YYPARSE_PARAM);
+#else
+int yyparse ();
+#endif
+#else /* ! YYPARSE_PARAM */
+#if defined __STDC__ || defined __cplusplus
+int yyparse (void);
+#else
+int yyparse ();
+#endif
+#endif /* ! YYPARSE_PARAM */
 
 
 /* The lookahead symbol.  */
 int yychar;
 
-
-#ifndef YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-# define YY_IGNORE_MAYBE_UNINITIALIZED_END
-#endif
-#ifndef YY_INITIAL_VALUE
-# define YY_INITIAL_VALUE(Value) /* Nothing. */
-#endif
-
 /* The semantic value of the lookahead symbol.  */
-YYSTYPE yylval YY_INITIAL_VALUE(yyval_default);
+YYSTYPE yylval;
 
 /* Number of syntax errors so far.  */
 int yynerrs;
 
 
-/*----------.
-| yyparse.  |
-`----------*/
+
+/*-------------------------.
+| yyparse or yypush_parse.  |
+`-------------------------*/
 
 #ifdef YYPARSE_PARAM
 #if (defined __STDC__ || defined __C99__FUNC__ \
@@ -5206,6 +5180,8 @@ yyparse ()
 #endif
 #endif
 {
+
+
     int yystate;
     /* Number of tokens to shift before error messages enabled.  */
     int yyerrstatus;
@@ -5214,7 +5190,7 @@ yyparse ()
        `yyss': related to states.
        `yyvs': related to semantic values.
 
-       Refer to the stacks through separate pointers, to allow yyoverflow
+       Refer to the stacks thru separate pointers, to allow yyoverflow
        to reallocate them elsewhere.  */
 
     /* The state stack.  */
@@ -5232,7 +5208,7 @@ yyparse ()
   int yyn;
   int yyresult;
   /* Lookahead token as an internal (translated) token number.  */
-  int yytoken = 0;
+  int yytoken;
   /* The variables used to return semantic value and location from the
      action routines.  */
   YYSTYPE yyval;
@@ -5250,8 +5226,9 @@ yyparse ()
      Keep to zero when no symbol should be popped.  */
   int yylen = 0;
 
-  yyssp = yyss = yyssa;
-  yyvsp = yyvs = yyvsa;
+  yytoken = 0;
+  yyss = yyssa;
+  yyvs = yyvsa;
   yystacksize = YYINITDEPTH;
 
   YYDPRINTF ((stderr, "Starting parse\n"));
@@ -5260,6 +5237,14 @@ yyparse ()
   yyerrstatus = 0;
   yynerrs = 0;
   yychar = YYEMPTY; /* Cause a token to be read.  */
+
+  /* Initialize stack pointers.
+     Waste one element of value and location stack
+     so that they stay on the same level as the state stack.
+     The wasted elements are never initialized.  */
+  yyssp = yyss;
+  yyvsp = yyvs;
+
   goto yysetstate;
 
 /*------------------------------------------------------------.
@@ -5351,7 +5336,7 @@ yybackup:
 
   /* First try to decide what to do without reference to lookahead token.  */
   yyn = yypact[yystate];
-  if (yypact_value_is_default (yyn))
+  if (yyn == YYPACT_NINF)
     goto yydefault;
 
   /* Not known => get a lookahead token if don't already have one.  */
@@ -5382,8 +5367,8 @@ yybackup:
   yyn = yytable[yyn];
   if (yyn <= 0)
     {
-      if (yytable_value_is_error (yyn))
-        goto yyerrlab;
+      if (yyn == 0 || yyn == YYTABLE_NINF)
+	goto yyerrlab;
       yyn = -yyn;
       goto yyreduce;
     }
@@ -5400,9 +5385,7 @@ yybackup:
   yychar = YYEMPTY;
 
   yystate = yyn;
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   *++yyvsp = yylval;
-  YY_IGNORE_MAYBE_UNINITIALIZED_END
 
   goto yynewstate;
 
@@ -5439,7 +5422,8 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 771 "parser.y"
     {
 	perform_stack = NULL;
@@ -5462,11 +5446,12 @@ yyreduce:
 	current_program = cb_build_program (NULL, 0);
 	cb_build_registers ();
 	current_program->flag_main = cb_flag_main;
-  }
+  ;}
     break;
 
   case 3:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 795 "parser.y"
     {
 	current_section = NULL;
@@ -5484,47 +5469,54 @@ yyreduce:
 	if (!current_program->entry_list) {
 		emit_entry (current_program->program_id, 0, NULL);
 	}
-  }
+  ;}
     break;
 
   case 8:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 826 "parser.y"
-    { cb_validate_program_environment (current_program); }
+    { cb_validate_program_environment (current_program); ;}
     break;
 
   case 9:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 827 "parser.y"
-    { cb_validate_program_data (current_program); }
+    { cb_validate_program_data (current_program); ;}
     break;
 
   case 11:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 835 "parser.y"
-    { cb_validate_program_environment (current_program); }
+    { cb_validate_program_environment (current_program); ;}
     break;
 
   case 12:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 836 "parser.y"
-    { cb_validate_program_data (current_program); }
+    { cb_validate_program_data (current_program); ;}
     break;
 
   case 14:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 844 "parser.y"
-    { cb_validate_program_environment (current_program); }
+    { cb_validate_program_environment (current_program); ;}
     break;
 
   case 15:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 845 "parser.y"
-    { cb_validate_program_data (current_program); }
+    { cb_validate_program_data (current_program); ;}
     break;
 
   case 21:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 857 "parser.y"
     {
 	char			*s;
@@ -5549,11 +5541,12 @@ yyreduce:
 		current_program->flag_validated = 1;
 		cb_validate_program_body (current_program);
 	}
-  }
+  ;}
     break;
 
   case 22:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 885 "parser.y"
     {
 	char			*s;
@@ -5576,11 +5569,12 @@ yyreduce:
 		current_program->flag_validated = 1;
 		cb_validate_program_body (current_program);
 	}
-  }
+  ;}
     break;
 
   case 23:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 911 "parser.y"
     {
 	char			*s;
@@ -5603,11 +5597,12 @@ yyreduce:
 		current_program->flag_validated = 1;
 		cb_validate_program_body (current_program);
 	}
-  }
+  ;}
     break;
 
   case 24:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 942 "parser.y"
     {
 	current_section = NULL;
@@ -5644,11 +5639,12 @@ yyreduce:
 	}
 	depth++;
 	current_program->program_id = cb_build_program_id ((yyvsp[(3) - (4)]), (yyvsp[(4) - (4)]));
-  }
+  ;}
     break;
 
   case 26:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 983 "parser.y"
     {
 	cb_error (_("FUNCTION-ID is not yet implemented"));
@@ -5689,138 +5685,155 @@ yyreduce:
 	current_program->prog_type = CB_FUNCTION_TYPE;
 	current_program->flag_recursive = 1;
 	current_program->flag_initial = 1;
-  }
+  ;}
     break;
 
   case 29:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1031 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 30:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1032 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 33:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1041 "parser.y"
     {
 	if (!current_program->nested_level) {
 		cb_error (_("COMMON may only be used in a nested program"));
 	}
 	current_program->flag_common = 1;
-  }
+  ;}
     break;
 
   case 34:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1048 "parser.y"
     {
 	if (!current_program->nested_level) {
 		cb_error (_("COMMON may only be used in a nested program"));
 	}
 	current_program->flag_common = 1;
-  }
+  ;}
     break;
 
   case 36:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1059 "parser.y"
     {
 	current_program->flag_initial = 1;
-  }
+  ;}
     break;
 
   case 37:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1063 "parser.y"
     {
 	current_program->flag_recursive = 1;
 	current_program->flag_initial = 1;
-  }
+  ;}
     break;
 
   case 41:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1088 "parser.y"
     {
 	if (current_program->nested_level) {
 		cb_error (_("CONFIGURATION SECTION not allowed in nested programs"));
 	}
-  }
+  ;}
     break;
 
   case 53:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1123 "parser.y"
     {
 	cb_verify (cb_debugging_line, "DEBUGGING MODE");
-  }
+  ;}
     break;
 
   case 54:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1129 "parser.y"
-    { }
+    { ;}
     break;
 
   case 65:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1160 "parser.y"
     {
 	cb_verify (cb_memory_size_clause, "MEMORY SIZE");
-  }
+  ;}
     break;
 
   case 68:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1172 "parser.y"
     {
 	current_program->collating_sequence = (yyvsp[(4) - (4)]);
-  }
+  ;}
     break;
 
   case 69:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1179 "parser.y"
     {
 	/* Ignore */
-  }
+  ;}
     break;
 
   case 75:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1204 "parser.y"
     {
 	current_program->function_spec_list = (yyvsp[(2) - (3)]);
-  }
+  ;}
     break;
 
   case 76:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1208 "parser.y"
     {
 	functions_are_all = 1;
-  }
+  ;}
     break;
 
   case 77:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1214 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 78:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1216 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 96:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1257 "parser.y"
     {
 	save_tree_1 = lookup_system_name (CB_NAME ((yyvsp[(1) - (3)])));
@@ -5830,11 +5843,12 @@ yyreduce:
 		cb_error_x (save_tree_1, _("Invalid CRT clause"));
 	}
 	/* current_program->flag_screen = 1; */
-  }
+  ;}
     break;
 
   case 97:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1267 "parser.y"
     {
 	save_tree_1 = lookup_system_name (CB_NAME ((yyvsp[(1) - (3)])));
@@ -5844,11 +5858,12 @@ yyreduce:
 		cb_define ((yyvsp[(3) - (3)]), save_tree_1);
 	}
 	save_tree_2 = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 99:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1278 "parser.y"
     {
 	save_tree_1 = lookup_system_name (CB_NAME ((yyvsp[(1) - (2)])));
@@ -5856,11 +5871,12 @@ yyreduce:
 		cb_error_x ((yyvsp[(1) - (2)]), _("Unknown system-name '%s'"), CB_NAME ((yyvsp[(1) - (2)])));
 	}
 	save_tree_2 = NULL;
-  }
+  ;}
     break;
 
   case 101:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1287 "parser.y"
     {
 	if (cb_enable_special_names_argument_clause) {
@@ -5874,11 +5890,12 @@ yyreduce:
 	} else {
 		cb_error (_("SPECIAL-NAMES with ARGUMENT-NUMBER clause is not yet supported"));
 	}
-  }
+  ;}
     break;
 
   case 102:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1301 "parser.y"
     {
 	if (cb_enable_special_names_argument_clause) {
@@ -5892,11 +5909,12 @@ yyreduce:
 	} else {
 		cb_error (_("SPECIAL-NAMES with ARGUMENT-VALUE clause is not yet supported"));
 	}
-  }
+  ;}
     break;
 
   case 103:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1315 "parser.y"
     {
 	if (cb_enable_special_names_environment_clause) {
@@ -5910,11 +5928,12 @@ yyreduce:
 	} else {
 		cb_error (_("SPECIAL-NAMES with ENVIRONMENT-NAME clause is not yet supported"));
 	}
-  }
+  ;}
     break;
 
   case 104:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1329 "parser.y"
     {
 	if (cb_enable_special_names_environment_clause) {
@@ -5928,11 +5947,12 @@ yyreduce:
 	} else {
 		cb_error (_("SPECIAL-NAMES with ENVIRONMENT-VALUE clause is not yet supported"));
 	}
-  }
+  ;}
     break;
 
   case 109:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1355 "parser.y"
     {
 	if (!save_tree_2 && !cb_switch_no_mnemonic) {
@@ -5940,186 +5960,214 @@ yyreduce:
 	} else {
 		cb_define_switch_name ((yyvsp[(4) - (4)]), save_tree_1, (yyvsp[(1) - (4)]), save_tree_2);
 	}
-  }
+  ;}
     break;
 
   case 110:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1365 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 111:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1366 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 112:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1374 "parser.y"
     {
 	save_tree_1 = (yyvsp[(2) - (2)]);
-  }
+  ;}
     break;
 
   case 113:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1378 "parser.y"
     {
 	current_program->alphabet_name_list =
 		cb_list_add (current_program->alphabet_name_list, (yyvsp[(5) - (5)]));
-  }
+  ;}
     break;
 
   case 114:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1385 "parser.y"
-    { (yyval) = cb_build_alphabet_name (save_tree_1, CB_ALPHABET_NATIVE); }
+    { (yyval) = cb_build_alphabet_name (save_tree_1, CB_ALPHABET_NATIVE); ;}
     break;
 
   case 115:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1386 "parser.y"
-    { (yyval) = cb_build_alphabet_name (save_tree_1, CB_ALPHABET_STANDARD_1); }
+    { (yyval) = cb_build_alphabet_name (save_tree_1, CB_ALPHABET_STANDARD_1); ;}
     break;
 
   case 116:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1387 "parser.y"
-    { (yyval) = cb_build_alphabet_name (save_tree_1, CB_ALPHABET_STANDARD_2); }
+    { (yyval) = cb_build_alphabet_name (save_tree_1, CB_ALPHABET_STANDARD_2); ;}
     break;
 
   case 117:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1388 "parser.y"
-    { (yyval) = cb_build_alphabet_name (save_tree_1, CB_ALPHABET_EBCDIC); }
+    { (yyval) = cb_build_alphabet_name (save_tree_1, CB_ALPHABET_EBCDIC); ;}
     break;
 
   case 118:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1390 "parser.y"
     {
 	(yyval) = cb_build_alphabet_name (save_tree_1, CB_ALPHABET_CUSTOM);
 	CB_ALPHABET_NAME ((yyval))->custom_list = (yyvsp[(1) - (1)]);
-  }
+  ;}
     break;
 
   case 119:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1397 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 120:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1399 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 121:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1403 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 122:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1404 "parser.y"
-    { (yyval) = cb_build_pair ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_pair ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 123:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1406 "parser.y"
     {
 	(yyval) = cb_list_init ((yyvsp[(1) - (2)]));
 	save_tree_2 = (yyval);
-  }
+  ;}
     break;
 
   case 124:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1411 "parser.y"
     {
 	(yyval) = (yyvsp[(3) - (4)]);
-  }
+  ;}
     break;
 
   case 127:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1422 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 128:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1423 "parser.y"
-    { (yyval) = cb_space; }
+    { (yyval) = cb_space; ;}
     break;
 
   case 129:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1424 "parser.y"
-    { (yyval) = cb_zero; }
+    { (yyval) = cb_zero; ;}
     break;
 
   case 130:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1425 "parser.y"
-    { (yyval) = cb_quote; }
+    { (yyval) = cb_quote; ;}
     break;
 
   case 131:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1426 "parser.y"
-    { (yyval) = cb_norm_high; }
+    { (yyval) = cb_norm_high; ;}
     break;
 
   case 132:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1427 "parser.y"
-    { (yyval) = cb_norm_low; }
+    { (yyval) = cb_norm_low; ;}
     break;
 
   case 133:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1431 "parser.y"
-    { cb_list_add (save_tree_2, (yyvsp[(1) - (1)])); }
+    { cb_list_add (save_tree_2, (yyvsp[(1) - (1)])); ;}
     break;
 
   case 134:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1432 "parser.y"
-    { cb_list_add (save_tree_2, cb_space); }
+    { cb_list_add (save_tree_2, cb_space); ;}
     break;
 
   case 135:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1433 "parser.y"
-    { cb_list_add (save_tree_2, cb_zero); }
+    { cb_list_add (save_tree_2, cb_zero); ;}
     break;
 
   case 136:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1434 "parser.y"
-    { cb_list_add (save_tree_2, cb_quote); }
+    { cb_list_add (save_tree_2, cb_quote); ;}
     break;
 
   case 137:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1435 "parser.y"
-    { cb_list_add (save_tree_2, cb_norm_high); }
+    { cb_list_add (save_tree_2, cb_norm_high); ;}
     break;
 
   case 138:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1436 "parser.y"
-    { cb_list_add (save_tree_2, cb_norm_low); }
+    { cb_list_add (save_tree_2, cb_norm_low); ;}
     break;
 
   case 139:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1444 "parser.y"
     {
 	if ((yyvsp[(3) - (3)])) {
@@ -6127,11 +6175,12 @@ yyreduce:
 			cb_list_add (current_program->symbolic_list, (yyvsp[(3) - (3)]));
 	}
 	PENDING ("SYMBOLIC CHARACTERS");
-  }
+  ;}
     break;
 
   case 140:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1455 "parser.y"
     {
 	if (cb_list_length ((yyvsp[(1) - (3)])) != cb_list_length ((yyvsp[(3) - (3)]))) {
@@ -6140,63 +6189,72 @@ yyreduce:
 	} else {
 		(yyval) = NULL;
 	}
-  }
+  ;}
     break;
 
   case 141:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1466 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 142:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1467 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 143:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1471 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 144:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1472 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 145:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1480 "parser.y"
     {
 	current_program->class_name_list =
 			cb_list_add (current_program->class_name_list,
 			cb_build_class_name ((yyvsp[(2) - (4)]), (yyvsp[(4) - (4)])));
-  }
+  ;}
     break;
 
   case 146:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1488 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 147:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1489 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 148:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1493 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 149:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1495 "parser.y"
     {
 	/* if (CB_LITERAL ($1)->data[0] < CB_LITERAL ($3)->data[0]) */
@@ -6205,11 +6263,12 @@ yyreduce:
 	} else {
 		(yyval) = cb_build_pair ((yyvsp[(3) - (3)]), (yyvsp[(1) - (3)]));
 	}
-  }
+  ;}
     break;
 
   case 150:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1509 "parser.y"
     {
 	cb_tree	l;
@@ -6219,11 +6278,12 @@ yyreduce:
 		current_program->locale_list =
 			cb_list_add (current_program->locale_list, l);
 	}
-  }
+  ;}
     break;
 
   case 151:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1524 "parser.y"
     {
 	unsigned char *s = CB_LITERAL ((yyvsp[(4) - (4)]))->data;
@@ -6284,44 +6344,50 @@ yyreduce:
 		break;
 	}
 	current_program->currency_symbol = s[0];
-  }
+  ;}
     break;
 
   case 152:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1591 "parser.y"
     {
 	current_program->decimal_point = ',';
 	current_program->numeric_separator = '.';
-  }
+  ;}
     break;
 
   case 153:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1601 "parser.y"
-    { current_program->cursor_pos = (yyvsp[(3) - (3)]); }
+    { current_program->cursor_pos = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 154:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1608 "parser.y"
-    { current_program->crt_status = (yyvsp[(4) - (4)]); }
+    { current_program->crt_status = (yyvsp[(4) - (4)]); ;}
     break;
 
   case 155:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1615 "parser.y"
-    {  PENDING ("SCREEN CONTROL"); }
+    {  PENDING ("SCREEN CONTROL"); ;}
     break;
 
   case 156:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1621 "parser.y"
-    {  PENDING ("EVENT STATUS"); }
+    {  PENDING ("EVENT STATUS"); ;}
     break;
 
   case 159:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1633 "parser.y"
     {
 	/* hack for MF compatibility */
@@ -6330,11 +6396,12 @@ yyreduce:
 	} else {
 		cb_error (_("INPUT-OUTPUT SECTION header missing"));
 	}
-  }
+  ;}
     break;
 
   case 161:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1642 "parser.y"
     {
 	/* hack for MF compatibility */
@@ -6343,11 +6410,12 @@ yyreduce:
 	} else {
 		cb_error (_("INPUT-OUTPUT SECTION header missing"));
 	}
-  }
+  ;}
     break;
 
   case 167:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1667 "parser.y"
     {
 	organized_seen = 0;
@@ -6362,78 +6430,87 @@ yyreduce:
 	/* register the file */
 	current_program->file_list =
 		cb_cons (CB_TREE (current_file), current_program->file_list);
-  }
+  ;}
     break;
 
   case 168:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1682 "parser.y"
     {
 	validate_file (current_file, (yyvsp[(3) - (6)]));
-  }
+  ;}
     break;
 
   case 186:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1714 "parser.y"
     {
 	current_file->assign = cb_build_assignment_name (current_file, (yyvsp[(5) - (5)]));
-  }
+  ;}
     break;
 
   case 187:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1718 "parser.y"
     {
 	current_file->fileid_assign = 1;
 	current_file->assign = cb_build_assignment_name (current_file, cb_build_reference ("DISK"));
-  }
+  ;}
     break;
 
   case 188:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1723 "parser.y"
     {
 	current_file->fileid_assign = 1;
 	current_file->assign = cb_build_assignment_name (current_file, cb_build_reference ("PRINTER"));
-  }
+  ;}
     break;
 
   case 191:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1731 "parser.y"
-    { current_file->organization = COB_ORG_LINE_SEQUENTIAL; }
+    { current_file->organization = COB_ORG_LINE_SEQUENTIAL; ;}
     break;
 
   case 193:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1736 "parser.y"
     {
 	current_file->external_assign = 1;
-  }
+  ;}
     break;
 
   case 194:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1740 "parser.y"
     {
 	current_file->external_assign = 0;
-  }
+  ;}
     break;
 
   case 196:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1748 "parser.y"
     {
 	const char	*s;
 
 	s = "$#@DUMMY@#$";
 	(yyval) = cb_build_alphanumeric_literal ((unsigned char *)s, strlen (s));
-  }
+  ;}
     break;
 
   case 197:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1755 "parser.y"
     {
 
@@ -6450,41 +6527,47 @@ yyreduce:
 		}
 		(yyval) = (yyvsp[(1) - (2)]);
 	}
-  }
+  ;}
     break;
 
   case 198:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1774 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 199:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1775 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 201:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1785 "parser.y"
-    { current_file->access_mode = COB_ACCESS_SEQUENTIAL; }
+    { current_file->access_mode = COB_ACCESS_SEQUENTIAL; ;}
     break;
 
   case 202:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1786 "parser.y"
-    { current_file->access_mode = COB_ACCESS_DYNAMIC; }
+    { current_file->access_mode = COB_ACCESS_DYNAMIC; ;}
     break;
 
   case 203:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1787 "parser.y"
-    { current_file->access_mode = COB_ACCESS_RANDOM; }
+    { current_file->access_mode = COB_ACCESS_RANDOM; ;}
     break;
 
   case 204:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1795 "parser.y"
     {
 	struct cb_alt_key *p;
@@ -6504,11 +6587,12 @@ yyreduce:
 		for (; l->next; l = l->next);
 		l->next = p;
 	}
-  }
+  ;}
     break;
 
   case 205:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1815 "parser.y"
     {
 #if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) || defined(WITH_INDEX_EXTFH)
@@ -6552,19 +6636,21 @@ yyreduce:
 #else
 	PENDING ("SPLIT KEYS");
 #endif
-  }
+  ;}
     break;
 
   case 206:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1861 "parser.y"
     {
 	key_component_list = NULL;
-  }
+  ;}
     break;
 
   case 209:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1870 "parser.y"
     {
 	struct cb_key_component *c;
@@ -6577,80 +6663,91 @@ yyreduce:
 		for (c = key_component_list; c->next != NULL; c = c->next);
 		c->next = comp;
 	}
-  }
+  ;}
     break;
 
   case 210:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1885 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 211:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1886 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 212:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1887 "parser.y"
-    { (yyval) = cb_int('='); }
+    { (yyval) = cb_int('='); ;}
     break;
 
   case 213:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1894 "parser.y"
     {
 	PENDING ("COLLATING SEQUENCE");
-  }
+  ;}
     break;
 
   case 214:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1904 "parser.y"
     {
 	current_file->file_status = (yyvsp[(4) - (5)]);
 	if ((yyvsp[(5) - (5)])) {
 		PENDING ("2nd FILE STATUS");
 	}
-  }
+  ;}
     break;
 
   case 219:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1925 "parser.y"
-    { current_file->lock_mode = COB_LOCK_MANUAL; }
+    { current_file->lock_mode = COB_LOCK_MANUAL; ;}
     break;
 
   case 220:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1926 "parser.y"
-    { current_file->lock_mode = COB_LOCK_AUTOMATIC; }
+    { current_file->lock_mode = COB_LOCK_AUTOMATIC; ;}
     break;
 
   case 221:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1927 "parser.y"
-    { current_file->lock_mode = COB_LOCK_EXCLUSIVE; }
+    { current_file->lock_mode = COB_LOCK_EXCLUSIVE; ;}
     break;
 
   case 224:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1933 "parser.y"
     {
 	current_file->lock_mode |= COB_LOCK_MULTIPLE;
-  }
+  ;}
     break;
 
   case 225:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1936 "parser.y"
-    { PENDING ("WITH ROLLBACK"); }
+    { PENDING ("WITH ROLLBACK"); ;}
     break;
 
   case 230:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1953 "parser.y"
     {
 	if (organized_seen) {
@@ -6659,11 +6756,12 @@ yyreduce:
 		current_file->organization = COB_ORG_INDEXED;
 		organized_seen = 1;
 	}
-  }
+  ;}
     break;
 
   case 231:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1962 "parser.y"
     {
 	if (organized_seen) {
@@ -6672,11 +6770,12 @@ yyreduce:
 		current_file->organization = COB_ORG_SEQUENTIAL;
 		organized_seen = 1;
 	}
-  }
+  ;}
     break;
 
   case 232:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1971 "parser.y"
     {
 	if (organized_seen) {
@@ -6685,11 +6784,12 @@ yyreduce:
 		current_file->organization = cb_default_organization;
 		organized_seen = 1;
 	}
-  }
+  ;}
     break;
 
   case 233:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1980 "parser.y"
     {
 	if (organized_seen) {
@@ -6698,11 +6798,12 @@ yyreduce:
 		current_file->organization = COB_ORG_RELATIVE;
 		organized_seen = 1;
 	}
-  }
+  ;}
     break;
 
   case 234:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 1989 "parser.y"
     {
 	if (organized_seen) {
@@ -6711,33 +6812,37 @@ yyreduce:
 		current_file->organization = COB_ORG_LINE_SEQUENTIAL;
 		organized_seen = 1;
 	}
-  }
+  ;}
     break;
 
   case 235:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2004 "parser.y"
     {
 	cb_verify (cb_padding_character_clause, "PADDING CHARACTER");
-  }
+  ;}
     break;
 
   case 236:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2013 "parser.y"
-    { /* ignored */ }
+    { /* ignored */ ;}
     break;
 
   case 237:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2021 "parser.y"
     {
 	current_file->key = (yyvsp[(4) - (4)]);
-  }
+  ;}
     break;
 
   case 238:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2025 "parser.y"
     {
 	/* SPLIT KEY use */
@@ -6769,59 +6874,68 @@ yyreduce:
 #else
 	PENDING ("SPLIT KEYS");
 #endif
-  }
+  ;}
     break;
 
   case 239:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2062 "parser.y"
-    { current_file->key = (yyvsp[(4) - (4)]); }
+    { current_file->key = (yyvsp[(4) - (4)]); ;}
     break;
 
   case 240:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2069 "parser.y"
-    { /* ignored */ }
+    { /* ignored */ ;}
     break;
 
   case 241:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2070 "parser.y"
-    { /* ignored */ }
+    { /* ignored */ ;}
     break;
 
   case 242:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2077 "parser.y"
-    { current_file->sharing = (yyvsp[(3) - (3)]); }
+    { current_file->sharing = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 243:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2081 "parser.y"
-    { (yyval) = NULL; PENDING ("SHARING ALL OTHER"); }
+    { (yyval) = NULL; PENDING ("SHARING ALL OTHER"); ;}
     break;
 
   case 244:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2082 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 245:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2083 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 246:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2089 "parser.y"
-    { PENDING ("NOMINAL KEY"); }
+    { PENDING ("NOMINAL KEY"); ;}
     break;
 
   case 257:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2120 "parser.y"
     {
 	cb_tree l;
@@ -6843,95 +6957,108 @@ yyreduce:
 		/* SAME SORT-MERGE */
 		break;
 	}
-  }
+  ;}
     break;
 
   case 258:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2144 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 259:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2145 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 260:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2146 "parser.y"
-    { (yyval) = cb_int2; }
+    { (yyval) = cb_int2; ;}
     break;
 
   case 261:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2147 "parser.y"
-    { (yyval) = cb_int2; }
+    { (yyval) = cb_int2; ;}
     break;
 
   case 262:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2154 "parser.y"
     {
 	cb_verify (cb_multiple_file_tape_clause, "MULTIPLE FILE TAPE");
-  }
+  ;}
     break;
 
   case 265:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2165 "parser.y"
-    { }
+    { ;}
     break;
 
   case 271:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2182 "parser.y"
     {
 	PENDING ("APPLY COMMITMENT-CONTROL");
-  }
+  ;}
     break;
 
   case 272:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2186 "parser.y"
     {
 	PENDING ("APPLY CYL-OVERFLOW");
-  }
+  ;}
     break;
 
   case 273:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2190 "parser.y"
     {
 	PENDING ("APPLY CORE-INDEX");
-  }
+  ;}
     break;
 
   case 274:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2194 "parser.y"
     {
 	PENDING ("APPLY FORMS-OVERLAY");
-  }
+  ;}
     break;
 
   case 275:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2198 "parser.y"
     {
 	PENDING ("APPLY CLOSE-NOFEED");
-  }
+  ;}
     break;
 
   case 279:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2223 "parser.y"
-    { current_storage = CB_STORAGE_FILE; }
+    { current_storage = CB_STORAGE_FILE; ;}
     break;
 
   case 281:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2226 "parser.y"
     {
 	/* hack for MF compatibility */
@@ -6941,11 +7068,12 @@ yyreduce:
 		cb_error (_("FILE SECTION header missing"));
 	}
 	current_storage = CB_STORAGE_FILE;
-  }
+  ;}
     break;
 
   case 285:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2245 "parser.y"
     {
 	if ((yyvsp[(3) - (3)]) && (yyvsp[(3) - (3)]) != cb_error_node) {
@@ -6953,11 +7081,12 @@ yyreduce:
 	} else {
 		cb_error (_("RECORD description missing or invalid"));
 	}
-  }
+  ;}
     break;
 
   case 286:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2257 "parser.y"
     {
 	if ((yyvsp[(2) - (2)]) && (yyvsp[(2) - (2)]) != cb_error_node) {
@@ -6965,23 +7094,26 @@ yyreduce:
 	} else {
 		cb_error (_("RECORD description missing or invalid"));
 	}
-  }
+  ;}
     break;
 
   case 288:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2268 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 289:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2269 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 290:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2279 "parser.y"
     {
 	if ((yyvsp[(1) - (1)]) == cb_error_node) {
@@ -6992,48 +7124,53 @@ yyreduce:
 	if ((yyvsp[(0) - (1)]) == cb_int1) {
 		current_file->organization = COB_ORG_SORT;
 	}
-  }
+  ;}
     break;
 
   case 291:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2290 "parser.y"
     {
 	/* Shut up bison */
 	dummy_tree = (yyvsp[(2) - (4)]);
-  }
+  ;}
     break;
 
   case 294:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2302 "parser.y"
     {
 	if (current_file->global) {
 		cb_error (_("File cannot have both EXTERNAL and GLOBAL clauses"));
 	}
 	current_file->external = 1;
-  }
+  ;}
     break;
 
   case 295:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2309 "parser.y"
     {
 	if (current_file->external) {
 		cb_error (_("File cannot have both EXTERNAL and GLOBAL clauses"));
 	}
 	current_file->global = 1;
-  }
+  ;}
     break;
 
   case 306:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2332 "parser.y"
-    { /* ignored */ }
+    { /* ignored */ ;}
     break;
 
   case 310:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2342 "parser.y"
     {
 	if (current_file->organization == COB_ORG_LINE_SEQUENTIAL) {
@@ -7045,11 +7182,12 @@ yyreduce:
 			cb_error (_("RECORD clause invalid"));
 		}
 	}
-  }
+  ;}
     break;
 
   case 311:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2354 "parser.y"
     {
 	int	error_ind = 0;
@@ -7074,11 +7212,12 @@ yyreduce:
 			cb_error (_("RECORD clause invalid"));
 		}
 	}
-  }
+  ;}
     break;
 
   case 312:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2380 "parser.y"
     {
 	int	error_ind = 0;
@@ -7099,77 +7238,87 @@ yyreduce:
 	if (error_ind) {
 		cb_error (_("RECORD clause invalid"));
 	}
-  }
+  ;}
     break;
 
   case 314:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2404 "parser.y"
     {
 	current_file->record_depending = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 315:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2410 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 316:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2411 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 317:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2415 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 318:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2416 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 319:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2424 "parser.y"
     {
 	cb_verify (cb_label_records_clause, "LABEL RECORDS");
-  }
+  ;}
     break;
 
   case 322:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2439 "parser.y"
     {
 	cb_verify (cb_value_of_clause, "VALUE OF");
-  }
+  ;}
     break;
 
   case 323:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2443 "parser.y"
     {
 	if (!current_file->assign) {
 		current_file->assign = cb_build_assignment_name (current_file, (yyvsp[(5) - (5)]));
 	}
-  }
+  ;}
     break;
 
   case 326:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2459 "parser.y"
     {
 	cb_verify (cb_data_records_clause, "DATA RECORDS");
-  }
+  ;}
     break;
 
   case 327:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2470 "parser.y"
     {
 	if (current_file->organization != COB_ORG_LINE_SEQUENTIAL
@@ -7184,41 +7333,46 @@ yyreduce:
 		}
 		current_linage++;
 	}
-  }
+  ;}
     break;
 
   case 333:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2498 "parser.y"
     {
 	current_file->latfoot = (yyvsp[(4) - (5)]);
-  }
+  ;}
     break;
 
   case 334:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2505 "parser.y"
     {
 	current_file->lattop = (yyvsp[(3) - (4)]);
-  }
+  ;}
     break;
 
   case 335:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2512 "parser.y"
     {
 	current_file->latbot = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 336:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2521 "parser.y"
-    { /* ignore */ }
+    { /* ignore */ ;}
     break;
 
   case 337:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2529 "parser.y"
     {
 	if ((yyvsp[(3) - (3)]) != cb_error_node) {
@@ -7231,66 +7385,74 @@ yyreduce:
 			PENDING ("CODE-SET");
 		}
 	}
-  }
+  ;}
     break;
 
   case 338:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2547 "parser.y"
     {
 	cb_warning (_("file descriptor REPORT IS"));
-  }
+  ;}
     break;
 
   case 339:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2551 "parser.y"
     {
 	cb_warning (_("file descriptor REPORTS ARE"));
-  }
+  ;}
     break;
 
   case 341:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2562 "parser.y"
-    { current_storage = CB_STORAGE_WORKING; }
+    { current_storage = CB_STORAGE_WORKING; ;}
     break;
 
   case 342:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2564 "parser.y"
     {
 	if ((yyvsp[(5) - (5)])) {
 		current_program->working_storage =
 			cb_field_add (current_program->working_storage, CB_FIELD ((yyvsp[(5) - (5)])));
 	}
-  }
+  ;}
     break;
 
   case 343:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2573 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 344:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2574 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 345:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2578 "parser.y"
     {
 	current_field = NULL;
 	description_field = NULL;
 	cb_clear_real_field ();
-  }
+  ;}
     break;
 
   case 346:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2584 "parser.y"
     {
 	struct cb_field *p;
@@ -7299,11 +7461,12 @@ yyreduce:
 		cb_validate_field (p);
 	}
 	(yyval) = CB_TREE (description_field);
-  }
+  ;}
     break;
 
   case 351:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2604 "parser.y"
     {
 	cb_tree x;
@@ -7314,11 +7477,12 @@ yyreduce:
 	} else {
 		current_field = CB_FIELD (x);
 	}
-  }
+  ;}
     break;
 
   case 352:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2615 "parser.y"
     {
 	if (!qualifier && (current_field->level == 66 || current_field->flag_item_78)) {
@@ -7331,11 +7495,12 @@ yyreduce:
 	if (!description_field) {
 		description_field = current_field;
 	}
-  }
+  ;}
     break;
 
   case 353:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2628 "parser.y"
     {
 	cb_tree x;
@@ -7346,11 +7511,12 @@ yyreduce:
 	} else {
 		current_field = CB_FIELD (x);
 	}
-  }
+  ;}
     break;
 
   case 354:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2639 "parser.y"
     {
 	if (!qualifier) {
@@ -7361,11 +7527,12 @@ yyreduce:
 		description_field = current_field;
 	}
 	
-  }
+  ;}
     break;
 
   case 358:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2666 "parser.y"
     {
 	if (CB_TREE_CLASS ((yyvsp[(1) - (1)])) == CB_CLASS_NUMERIC) {
@@ -7383,78 +7550,87 @@ yyreduce:
 		/* cause syntax error */
 		cb_unget_token (LITERAL, (yyvsp[(1) - (1)]));
 	}
-  }
+  ;}
     break;
 
   case 359:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2687 "parser.y"
     {
 	(yyval) = cb_build_filler ();
 	qualifier = NULL;
 	non_const_word = 0;
-  }
+  ;}
     break;
 
   case 360:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2693 "parser.y"
     {
 	(yyval) = cb_build_filler ();
 	qualifier = NULL;
 	non_const_word = 0;
-  }
+  ;}
     break;
 
   case 361:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2699 "parser.y"
     {
 	(yyval) = (yyvsp[(1) - (1)]);
 	qualifier = (yyvsp[(1) - (1)]);
 	non_const_word = 0;
-  }
+  ;}
     break;
 
   case 362:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2708 "parser.y"
     {
 	(yyval) = (yyvsp[(1) - (1)]);
 	qualifier = (yyvsp[(1) - (1)]);
 	non_const_word = 0;
-  }
+  ;}
     break;
 
   case 364:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2717 "parser.y"
     {
 	current_field->flag_is_global = 1;
 	cb_error (_("CONSTANT with GLOBAL clause is not yet supported"));
-  }
+  ;}
     break;
 
   case 365:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2724 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 366:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2725 "parser.y"
-    { (yyval) = cb_build_const_length ((yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_const_length ((yyvsp[(3) - (3)])); ;}
     break;
 
   case 367:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2726 "parser.y"
-    { (yyval) = cb_build_const_length ((yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_const_length ((yyvsp[(3) - (3)])); ;}
     break;
 
   case 368:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2731 "parser.y"
     {
 	cb_tree x;
@@ -7470,29 +7646,32 @@ yyreduce:
 	cb_needs_01 = 1;
 	/* Ignore return value */
 	cb_validate_78_item (CB_FIELD (x));
-  }
+  ;}
     break;
 
   case 369:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2750 "parser.y"
     {
 	/* required to check redefines */
 	(yyval) = NULL;
-  }
+  ;}
     break;
 
   case 370:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2756 "parser.y"
     {
 	/* required to check redefines */
 	(yyval) = cb_true;
-  }
+  ;}
     break;
 
   case 386:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2785 "parser.y"
     {
 	if ((yyvsp[(0) - (2)]) != NULL) {
@@ -7508,11 +7687,12 @@ yyreduce:
 	if (current_field->redefines == NULL) {
 		YYERROR;
 	}
-  }
+  ;}
     break;
 
   case 387:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2807 "parser.y"
     {
 	if (current_storage != CB_STORAGE_WORKING) {
@@ -7531,28 +7711,31 @@ yyreduce:
 		current_field->flag_external = 1;
 		has_external = 1;
 	}
-  }
+  ;}
     break;
 
   case 388:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2828 "parser.y"
-    { current_field->ename = NULL; }
+    { current_field->ename = NULL; ;}
     break;
 
   case 389:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2830 "parser.y"
     {
 	struct cb_field *x;
 
 	x = CB_FIELD(cb_build_field (cb_build_reference ((char *)(CB_LITERAL ((yyvsp[(2) - (2)]))->data))));
 	current_field->ename = x->name;
- }
+ ;}
     break;
 
   case 390:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2842 "parser.y"
     {
 	if (current_field->level != 1 && current_field->level != 77) {
@@ -7566,209 +7749,242 @@ yyreduce:
 	} else {
 		current_field->flag_is_global = 1;
 	}
-  }
+  ;}
     break;
 
   case 391:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2861 "parser.y"
-    { current_field->pic = CB_PICTURE ((yyvsp[(1) - (1)])); }
+    { current_field->pic = CB_PICTURE ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 394:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2873 "parser.y"
-    { current_field->usage = CB_USAGE_BINARY; }
+    { current_field->usage = CB_USAGE_BINARY; ;}
     break;
 
   case 395:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2874 "parser.y"
-    { current_field->usage = CB_USAGE_BINARY; }
+    { current_field->usage = CB_USAGE_BINARY; ;}
     break;
 
   case 396:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2875 "parser.y"
-    { current_field->usage = CB_USAGE_FLOAT; }
+    { current_field->usage = CB_USAGE_FLOAT; ;}
     break;
 
   case 397:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2876 "parser.y"
-    { current_field->usage = CB_USAGE_DOUBLE; }
+    { current_field->usage = CB_USAGE_DOUBLE; ;}
     break;
 
   case 398:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2877 "parser.y"
-    { current_field->usage = CB_USAGE_PACKED; }
+    { current_field->usage = CB_USAGE_PACKED; ;}
     break;
 
   case 399:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2878 "parser.y"
-    { current_field->usage = CB_USAGE_BINARY; }
+    { current_field->usage = CB_USAGE_BINARY; ;}
     break;
 
   case 400:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2879 "parser.y"
-    { current_field->usage = CB_USAGE_COMP_5; }
+    { current_field->usage = CB_USAGE_COMP_5; ;}
     break;
 
   case 401:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2880 "parser.y"
-    { current_field->usage = CB_USAGE_COMP_X; }
+    { current_field->usage = CB_USAGE_COMP_X; ;}
     break;
 
   case 402:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2881 "parser.y"
-    { current_field->usage = CB_USAGE_DISPLAY; }
+    { current_field->usage = CB_USAGE_DISPLAY; ;}
     break;
 
   case 403:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2882 "parser.y"
-    { current_field->usage = CB_USAGE_INDEX; }
+    { current_field->usage = CB_USAGE_INDEX; ;}
     break;
 
   case 404:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2883 "parser.y"
-    { current_field->usage = CB_USAGE_PACKED; }
+    { current_field->usage = CB_USAGE_PACKED; ;}
     break;
 
   case 405:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2885 "parser.y"
     {
 	current_field->usage = CB_USAGE_POINTER;
 	current_field->flag_is_pointer = 1;
-  }
+  ;}
     break;
 
   case 406:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2890 "parser.y"
     {
 	current_field->usage = CB_USAGE_PROGRAM_POINTER;
 	current_field->flag_is_pointer = 1;
-  }
+  ;}
     break;
 
   case 407:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2894 "parser.y"
-    { current_field->usage = CB_USAGE_SIGNED_SHORT; }
+    { current_field->usage = CB_USAGE_SIGNED_SHORT; ;}
     break;
 
   case 408:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2895 "parser.y"
-    { current_field->usage = CB_USAGE_SIGNED_INT; }
+    { current_field->usage = CB_USAGE_SIGNED_INT; ;}
     break;
 
   case 409:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2896 "parser.y"
-    { current_field->usage = CB_USAGE_SIGNED_LONG; }
+    { current_field->usage = CB_USAGE_SIGNED_LONG; ;}
     break;
 
   case 410:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2897 "parser.y"
-    { current_field->usage = CB_USAGE_UNSIGNED_SHORT; }
+    { current_field->usage = CB_USAGE_UNSIGNED_SHORT; ;}
     break;
 
   case 411:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2898 "parser.y"
-    { current_field->usage = CB_USAGE_UNSIGNED_INT; }
+    { current_field->usage = CB_USAGE_UNSIGNED_INT; ;}
     break;
 
   case 412:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2899 "parser.y"
-    { current_field->usage = CB_USAGE_UNSIGNED_LONG; }
+    { current_field->usage = CB_USAGE_UNSIGNED_LONG; ;}
     break;
 
   case 413:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2900 "parser.y"
-    { current_field->usage = CB_USAGE_SIGNED_CHAR; }
+    { current_field->usage = CB_USAGE_SIGNED_CHAR; ;}
     break;
 
   case 414:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2901 "parser.y"
-    { current_field->usage = CB_USAGE_UNSIGNED_CHAR; }
+    { current_field->usage = CB_USAGE_UNSIGNED_CHAR; ;}
     break;
 
   case 415:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2902 "parser.y"
-    { current_field->usage = CB_USAGE_SIGNED_CHAR; }
+    { current_field->usage = CB_USAGE_SIGNED_CHAR; ;}
     break;
 
   case 416:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2903 "parser.y"
-    { current_field->usage = CB_USAGE_SIGNED_SHORT; }
+    { current_field->usage = CB_USAGE_SIGNED_SHORT; ;}
     break;
 
   case 417:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2904 "parser.y"
-    { current_field->usage = CB_USAGE_UNSIGNED_SHORT; }
+    { current_field->usage = CB_USAGE_UNSIGNED_SHORT; ;}
     break;
 
   case 418:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2905 "parser.y"
-    { current_field->usage = CB_USAGE_SIGNED_SHORT; }
+    { current_field->usage = CB_USAGE_SIGNED_SHORT; ;}
     break;
 
   case 419:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2906 "parser.y"
-    { current_field->usage = CB_USAGE_SIGNED_INT; }
+    { current_field->usage = CB_USAGE_SIGNED_INT; ;}
     break;
 
   case 420:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2907 "parser.y"
-    { current_field->usage = CB_USAGE_UNSIGNED_INT; }
+    { current_field->usage = CB_USAGE_UNSIGNED_INT; ;}
     break;
 
   case 421:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2908 "parser.y"
-    { current_field->usage = CB_USAGE_SIGNED_INT; }
+    { current_field->usage = CB_USAGE_SIGNED_INT; ;}
     break;
 
   case 422:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2909 "parser.y"
-    { current_field->usage = CB_USAGE_SIGNED_LONG; }
+    { current_field->usage = CB_USAGE_SIGNED_LONG; ;}
     break;
 
   case 423:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2910 "parser.y"
-    { current_field->usage = CB_USAGE_UNSIGNED_LONG; }
+    { current_field->usage = CB_USAGE_UNSIGNED_LONG; ;}
     break;
 
   case 424:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2911 "parser.y"
-    { current_field->usage = CB_USAGE_SIGNED_LONG; }
+    { current_field->usage = CB_USAGE_SIGNED_LONG; ;}
     break;
 
   case 425:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2913 "parser.y"
     {
 	if (sizeof(long) == 4) {
@@ -7776,11 +7992,12 @@ yyreduce:
 	} else {
 		current_field->usage = CB_USAGE_SIGNED_LONG;
 	}
-  }
+  ;}
     break;
 
   case 426:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2921 "parser.y"
     {
 	if (sizeof(long) == 4) {
@@ -7788,11 +8005,12 @@ yyreduce:
 	} else {
 		current_field->usage = CB_USAGE_UNSIGNED_LONG;
 	}
-  }
+  ;}
     break;
 
   case 427:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2929 "parser.y"
     {
 	if (sizeof(long) == 4) {
@@ -7800,35 +8018,39 @@ yyreduce:
 	} else {
 		current_field->usage = CB_USAGE_SIGNED_LONG;
 	}
-  }
+  ;}
     break;
 
   case 428:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2936 "parser.y"
-    { PENDING ("USAGE NATIONAL");}
+    { PENDING ("USAGE NATIONAL");;}
     break;
 
   case 429:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2944 "parser.y"
     {
 	current_field->flag_sign_separate = CB_INTEGER ((yyvsp[(3) - (3)]))->val;
 	current_field->flag_sign_leading  = 1;
-  }
+  ;}
     break;
 
   case 430:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2949 "parser.y"
     {
 	current_field->flag_sign_separate = CB_INTEGER ((yyvsp[(3) - (3)]))->val;
 	current_field->flag_sign_leading  = 0;
-  }
+  ;}
     break;
 
   case 434:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2966 "parser.y"
     {
 	if (current_field->occurs_depending && !((yyvsp[(3) - (6)]))) {
@@ -7841,31 +8063,35 @@ yyreduce:
 		cb_error (_("Maximum OCCURS depth exceeded"));
 	}
 	current_field->flag_occurs = 1;
-  }
+  ;}
     break;
 
   case 435:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2981 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 436:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2982 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 438:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2987 "parser.y"
     {
 	current_field->occurs_depending = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 441:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 2996 "parser.y"
     {
 	if ((yyvsp[(1) - (1)])) {
@@ -7886,11 +8112,12 @@ yyreduce:
 		current_field->keys = keys;
 		current_field->nkeys = nkeys;
 	}
-  }
+  ;}
     break;
 
   case 442:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3020 "parser.y"
     {
 	cb_tree l;
@@ -7903,81 +8130,93 @@ yyreduce:
 		}
 	}
 	(yyval) = (yyvsp[(4) - (4)]);
-  }
+  ;}
     break;
 
   case 443:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3035 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 444:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3036 "parser.y"
-    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 445:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3040 "parser.y"
-    { (yyval) = cb_int (COB_ASCENDING); }
+    { (yyval) = cb_int (COB_ASCENDING); ;}
     break;
 
   case 446:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3041 "parser.y"
-    { (yyval) = cb_int (COB_DESCENDING); }
+    { (yyval) = cb_int (COB_DESCENDING); ;}
     break;
 
   case 449:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3048 "parser.y"
     {
 	current_field->index_list = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 450:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3054 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 451:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3056 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 452:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3061 "parser.y"
     {
 	(yyval) = cb_build_index ((yyvsp[(1) - (1)]), cb_int1, 1, current_field);
-  }
+  ;}
     break;
 
   case 453:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3070 "parser.y"
-    { current_field->flag_justified = 1; }
+    { current_field->flag_justified = 1; ;}
     break;
 
   case 454:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3077 "parser.y"
-    { current_field->flag_synchronized = 1; }
+    { current_field->flag_synchronized = 1; ;}
     break;
 
   case 458:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3089 "parser.y"
-    { current_field->flag_blank_zero = 1; }
+    { current_field->flag_blank_zero = 1; ;}
     break;
 
   case 459:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3097 "parser.y"
     {
 	if (current_storage != CB_STORAGE_WORKING &&
@@ -7997,58 +8236,66 @@ yyreduce:
 	} else {
 		current_field->flag_item_based = 1;
 	}
-  }
+  ;}
     break;
 
   case 460:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3121 "parser.y"
-    { current_field->values = cb_list_init ((yyvsp[(3) - (3)])); }
+    { current_field->values = cb_list_init ((yyvsp[(3) - (3)])); ;}
     break;
 
   case 461:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3125 "parser.y"
-    { current_field->values = (yyvsp[(3) - (3)]); }
+    { current_field->values = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 463:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3130 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 464:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3131 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 465:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3135 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 466:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3136 "parser.y"
-    { (yyval) = cb_build_pair ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_pair ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 468:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3141 "parser.y"
     {
 	if (current_field->level != 88) {
 		cb_error (_("FALSE clause only allowed for 88 level"));
 	}
 	current_field->false_88 = cb_list_init ((yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 469:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3154 "parser.y"
     {
 	if (cb_ref ((yyvsp[(2) - (2)])) != cb_error_node) {
@@ -8060,11 +8307,12 @@ yyreduce:
 			current_field->pic = current_field->redefines->pic;
 		}
 	}
-  }
+  ;}
     break;
 
   case 470:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3166 "parser.y"
     {
 	if (cb_ref ((yyvsp[(2) - (4)])) != cb_error_node && cb_ref ((yyvsp[(4) - (4)])) != cb_error_node) {
@@ -8079,11 +8327,12 @@ yyreduce:
 			current_field->rename_thru = CB_FIELD (cb_ref ((yyvsp[(4) - (4)])));
 		}
 	}
-  }
+  ;}
     break;
 
   case 471:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3186 "parser.y"
     {
 	if (current_field->flag_item_based) {
@@ -8091,107 +8340,120 @@ yyreduce:
 	} else {
 		current_field->flag_any_length = 1;
 	}
-  }
+  ;}
     break;
 
   case 473:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3201 "parser.y"
     {
 	current_storage = CB_STORAGE_LOCAL;
 	if (current_program->nested_level) {
 		cb_error (_("LOCAL-STORAGE not allowed in nested programs"));
 	}
-  }
+  ;}
     break;
 
   case 474:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3208 "parser.y"
     {
 	if ((yyvsp[(5) - (5)])) {
 		current_program->local_storage = CB_FIELD ((yyvsp[(5) - (5)]));
 	}
-  }
+  ;}
     break;
 
   case 476:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3221 "parser.y"
-    { current_storage = CB_STORAGE_LINKAGE; }
+    { current_storage = CB_STORAGE_LINKAGE; ;}
     break;
 
   case 477:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3223 "parser.y"
     {
 	if ((yyvsp[(5) - (5)])) {
 		current_program->linkage_storage = CB_FIELD ((yyvsp[(5) - (5)]));
 	}
-  }
+  ;}
     break;
 
   case 479:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3236 "parser.y"
     {
 	cb_error (_("REPORT SECTION not supported"));
 	current_storage = CB_STORAGE_REPORT;
-  }
+  ;}
     break;
 
   case 486:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3269 "parser.y"
     {
 	cb_warning (_("Report description using defaults"));
-  }
+  ;}
     break;
 
   case 488:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3277 "parser.y"
     {
 	cb_error (_("GLOBAL is not allowed with RD"));
-  }
+  ;}
     break;
 
   case 497:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3300 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 498:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3301 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 520:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3357 "parser.y"
-    { cb_warning (_("looking for Report line TYPE")); }
+    { cb_warning (_("looking for Report line TYPE")); ;}
     break;
 
   case 571:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3462 "parser.y"
-    { current_storage = CB_STORAGE_SCREEN; }
+    { current_storage = CB_STORAGE_SCREEN; ;}
     break;
 
   case 572:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3463 "parser.y"
     {
 	current_field = NULL;
 	description_field = NULL;
 	cb_clear_real_field ();
-  }
+  ;}
     break;
 
   case 573:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3469 "parser.y"
     {
 	struct cb_field *p;
@@ -8201,11 +8463,12 @@ yyreduce:
 	}
 	current_program->screen_storage = description_field;
 	current_program->flag_screen = 1;
-  }
+  ;}
     break;
 
   case 579:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3493 "parser.y"
     {
 	cb_tree x;
@@ -8221,11 +8484,12 @@ yyreduce:
 		current_field->screen_foreg = current_field->parent->screen_foreg;
 		current_field->screen_backg = current_field->parent->screen_backg;
 	}
-  }
+  ;}
     break;
 
   case 580:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3509 "parser.y"
     {
 	if (!qualifier && (current_field->level == 88 ||
@@ -8243,259 +8507,294 @@ yyreduce:
 	if (!description_field) {
 		description_field = current_field;
 	}
-  }
+  ;}
     break;
 
   case 583:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3533 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_BLANK_LINE; }
+    { current_field->screen_flag |= COB_SCREEN_BLANK_LINE; ;}
     break;
 
   case 584:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3534 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_BLANK_SCREEN; }
+    { current_field->screen_flag |= COB_SCREEN_BLANK_SCREEN; ;}
     break;
 
   case 585:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3535 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_BELL; }
+    { current_field->screen_flag |= COB_SCREEN_BELL; ;}
     break;
 
   case 586:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3536 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_BLINK; }
+    { current_field->screen_flag |= COB_SCREEN_BLINK; ;}
     break;
 
   case 587:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3537 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_ERASE_EOL; }
+    { current_field->screen_flag |= COB_SCREEN_ERASE_EOL; ;}
     break;
 
   case 588:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3538 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_ERASE_EOS; }
+    { current_field->screen_flag |= COB_SCREEN_ERASE_EOS; ;}
     break;
 
   case 589:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3539 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_HIGHLIGHT; }
+    { current_field->screen_flag |= COB_SCREEN_HIGHLIGHT; ;}
     break;
 
   case 590:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3540 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_LOWLIGHT; }
+    { current_field->screen_flag |= COB_SCREEN_LOWLIGHT; ;}
     break;
 
   case 591:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3541 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_REVERSE; }
+    { current_field->screen_flag |= COB_SCREEN_REVERSE; ;}
     break;
 
   case 592:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3542 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_UNDERLINE; }
+    { current_field->screen_flag |= COB_SCREEN_UNDERLINE; ;}
     break;
 
   case 593:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3543 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_OVERLINE; }
+    { current_field->screen_flag |= COB_SCREEN_OVERLINE; ;}
     break;
 
   case 594:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3544 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_AUTO; }
+    { current_field->screen_flag |= COB_SCREEN_AUTO; ;}
     break;
 
   case 595:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3545 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_SECURE; }
+    { current_field->screen_flag |= COB_SCREEN_SECURE; ;}
     break;
 
   case 596:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3546 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_REQUIRED; }
+    { current_field->screen_flag |= COB_SCREEN_REQUIRED; ;}
     break;
 
   case 597:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3547 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_FULL; }
+    { current_field->screen_flag |= COB_SCREEN_FULL; ;}
     break;
 
   case 598:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3548 "parser.y"
-    { current_field->screen_flag |= COB_SCREEN_PROMPT; }
+    { current_field->screen_flag |= COB_SCREEN_PROMPT; ;}
     break;
 
   case 599:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3550 "parser.y"
     {
 	current_field->screen_line = (yyvsp[(5) - (5)]);
-  }
+  ;}
     break;
 
   case 600:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3554 "parser.y"
     {
 	current_field->screen_column = (yyvsp[(5) - (5)]);
-  }
+  ;}
     break;
 
   case 601:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3558 "parser.y"
     {
 	current_field->screen_foreg = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 602:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3562 "parser.y"
     {
 	current_field->screen_backg = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 610:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3573 "parser.y"
     {
 	current_field->screen_from = (yyvsp[(2) - (2)]);
 	current_field->screen_to = (yyvsp[(2) - (2)]);
 	current_field->screen_flag |= COB_SCREEN_PROMPT;
 	current_field->screen_flag |= COB_SCREEN_INPUT;
-  }
+  ;}
     break;
 
   case 611:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3580 "parser.y"
     {
 	current_field->screen_from = (yyvsp[(2) - (2)]);
-  }
+  ;}
     break;
 
   case 612:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3584 "parser.y"
     {
 	current_field->screen_to = (yyvsp[(2) - (2)]);
 	current_field->screen_flag |= COB_SCREEN_PROMPT;
 	current_field->screen_flag |= COB_SCREEN_INPUT;
-  }
+  ;}
     break;
 
   case 613:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3593 "parser.y"
     {
 	/* Nothing */
-  }
+  ;}
     break;
 
   case 614:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3597 "parser.y"
     {
 	current_field->screen_flag |= COB_SCREEN_LINE_PLUS;
-  }
+  ;}
     break;
 
   case 615:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3601 "parser.y"
     {
 	current_field->screen_flag |= COB_SCREEN_LINE_PLUS;
-  }
+  ;}
     break;
 
   case 616:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3605 "parser.y"
     {
 	current_field->screen_flag |= COB_SCREEN_LINE_MINUS;
-  }
+  ;}
     break;
 
   case 617:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3609 "parser.y"
     {
 	current_field->screen_flag |= COB_SCREEN_LINE_MINUS;
-  }
+  ;}
     break;
 
   case 618:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3616 "parser.y"
     {
 	/* Nothing */
-  }
+  ;}
     break;
 
   case 619:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3620 "parser.y"
     {
 	current_field->screen_flag |= COB_SCREEN_COLUMN_PLUS;
-  }
+  ;}
     break;
 
   case 620:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3624 "parser.y"
     {
 	current_field->screen_flag |= COB_SCREEN_COLUMN_PLUS;
-  }
+  ;}
     break;
 
   case 621:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3628 "parser.y"
     {
 	current_field->screen_flag |= COB_SCREEN_COLUMN_MINUS;
-  }
+  ;}
     break;
 
   case 622:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3632 "parser.y"
     {
 	current_field->screen_flag |= COB_SCREEN_COLUMN_MINUS;
-  }
+  ;}
     break;
 
   case 623:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3640 "parser.y"
     {
 	current_field->occurs_max = cb_get_int ((yyvsp[(2) - (3)]));
 	current_field->occurs_min = current_field->occurs_max;
 	current_field->indexes++;
 	current_field->flag_occurs = 1;
-  }
+  ;}
     break;
 
   case 625:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3654 "parser.y"
     {
 	current_section = NULL;
@@ -8505,11 +8804,12 @@ yyreduce:
 	cb_define_system_name ("SYSOUT");
 	cb_define_system_name ("SYSERR");
 	cb_set_in_procedure ();
-  }
+  ;}
     break;
 
   case 626:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3664 "parser.y"
     {
 	if (current_program->flag_main && !current_program->flag_chained && (yyvsp[(3) - (7)])) {
@@ -8519,11 +8819,12 @@ yyreduce:
 	if (current_program->source_name) {
 		emit_entry (current_program->source_name, 1, (yyvsp[(3) - (7)]));
 	}
-  }
+  ;}
     break;
 
   case 627:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3674 "parser.y"
     {
 	if (current_paragraph) {
@@ -8538,76 +8839,86 @@ yyreduce:
 		}
 		emit_statement (cb_build_perform_exit (current_section));
 	}
-  }
+  ;}
     break;
 
   case 628:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3691 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 629:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3693 "parser.y"
     {
 	call_mode = CB_CALL_BY_REFERENCE;
 	size_mode = CB_SIZE_4;
-  }
+  ;}
     break;
 
   case 630:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3697 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 631:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3699 "parser.y"
     {
 	call_mode = CB_CALL_BY_REFERENCE;
 	current_program->flag_chained = 1;
-  }
+  ;}
     break;
 
   case 632:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3703 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 633:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3707 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 634:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3709 "parser.y"
-    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 635:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3714 "parser.y"
     {
 	(yyval) = cb_build_pair (cb_int (call_mode), cb_build_identifier ((yyvsp[(4) - (4)])));
 	CB_SIZES ((yyval)) = size_mode;
-  }
+  ;}
     break;
 
   case 637:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3723 "parser.y"
     {
 	call_mode = CB_CALL_BY_REFERENCE;
-  }
+  ;}
     break;
 
   case 638:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3727 "parser.y"
     {
 	if (current_program->flag_chained) {
@@ -8615,11 +8926,12 @@ yyreduce:
 	} else {
 		call_mode = CB_CALL_BY_VALUE;
 	}
-  }
+  ;}
     break;
 
   case 640:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3739 "parser.y"
     {
 	if (call_mode != CB_CALL_BY_VALUE) {
@@ -8627,11 +8939,12 @@ yyreduce:
 	} else {
 		size_mode = CB_SIZE_AUTO;
 	}
-  }
+  ;}
     break;
 
   case 641:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3747 "parser.y"
     {
 	if (call_mode != CB_CALL_BY_VALUE) {
@@ -8639,11 +8952,12 @@ yyreduce:
 	} else {
 		size_mode = CB_SIZE_4;
 	}
-  }
+  ;}
     break;
 
   case 642:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3755 "parser.y"
     {
 	unsigned char *s = CB_LITERAL ((yyvsp[(4) - (4)]))->data;
@@ -8672,11 +8986,12 @@ yyreduce:
 			break;
 		}
 	}
-  }
+  ;}
     break;
 
   case 643:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3784 "parser.y"
     {
 	unsigned char *s = CB_LITERAL ((yyvsp[(3) - (3)]))->data;
@@ -8705,31 +9020,34 @@ yyreduce:
 			break;
 		}
 	}
-  }
+  ;}
     break;
 
   case 645:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3817 "parser.y"
     {
 	if (call_mode != CB_CALL_BY_REFERENCE) {
 		cb_error (_("OPTIONAL only allowed for BY REFERENCE items"));
 	}
-  }
+  ;}
     break;
 
   case 646:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3826 "parser.y"
     {
 	if (current_program->prog_type == CB_FUNCTION_TYPE) {
 		cb_error (_("RETURNING clause is required for a FUNCTION"));
 	}
-  }
+  ;}
     break;
 
   case 647:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3832 "parser.y"
     {
 	if (cb_ref ((yyvsp[(2) - (2)])) != cb_error_node) {
@@ -8738,17 +9056,19 @@ yyreduce:
 			cb_error (_("RETURNING item is not defined in LINKAGE SECTION"));
 		}
 	}
-  }
+  ;}
     break;
 
   case 649:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3843 "parser.y"
-    { in_declaratives = 1; }
+    { in_declaratives = 1; ;}
     break;
 
   case 650:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3846 "parser.y"
     {
 	in_declaratives = 0;
@@ -8766,11 +9086,12 @@ yyreduce:
 		emit_statement (cb_build_perform_exit (current_section));
 		current_section = NULL;
 	}
-  }
+  ;}
     break;
 
   case 656:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3879 "parser.y"
     {
 	if (next_label_list) {
@@ -8786,19 +9107,21 @@ yyreduce:
 		next_label_id++;
 	}
 	/* check_unreached = 0; */
-  }
+  ;}
     break;
 
   case 657:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3895 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 658:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3907 "parser.y"
     {
 	non_const_word = 0;
@@ -8826,11 +9149,12 @@ yyreduce:
 	current_section->is_section = 1;
 	current_paragraph = NULL;
 	emit_statement (CB_TREE (current_section));
-  }
+  ;}
     break;
 
   case 659:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3938 "parser.y"
     {
 	cb_tree label;
@@ -8864,11 +9188,12 @@ yyreduce:
 			cb_cons (CB_TREE (current_paragraph), current_section->children);
 	}
 	emit_statement (CB_TREE (current_paragraph));
-  }
+  ;}
     break;
 
   case 660:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3975 "parser.y"
     {
 	non_const_word = 0;
@@ -8877,51 +9202,57 @@ yyreduce:
 		cb_error_x ((yyvsp[(1) - (1)]), _("Unknown statement '%s'"), CB_NAME ((yyvsp[(1) - (1)])));
 	}
 	YYERROR;
-  }
+  ;}
     break;
 
   case 661:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3986 "parser.y"
-    { (yyval) = cb_build_section_name ((yyvsp[(1) - (1)]), 0); }
+    { (yyval) = cb_build_section_name ((yyvsp[(1) - (1)]), 0); ;}
     break;
 
   case 663:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3990 "parser.y"
-    { /* ignore */ }
+    { /* ignore */ ;}
     break;
 
   case 664:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 3999 "parser.y"
     {
 	(yyval) = current_program->exec_list;
 	current_program->exec_list = NULL;
-  }
+  ;}
     break;
 
   case 665:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4003 "parser.y"
     {
 	(yyval) = CB_TREE (current_statement);
 	current_statement = NULL;
-  }
+  ;}
     break;
 
   case 666:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4008 "parser.y"
     {
 	(yyval) = cb_list_reverse (current_program->exec_list);
 	current_program->exec_list = (yyvsp[(1) - (3)]);
 	current_statement = CB_STATEMENT ((yyvsp[(2) - (3)]));
-  }
+  ;}
     break;
 
   case 667:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4016 "parser.y"
     {
 	cb_tree label;
@@ -8939,11 +9270,12 @@ yyreduce:
 		current_section->children =
 			cb_cons (CB_TREE (current_paragraph), current_section->children);
 	}
-  }
+  ;}
     break;
 
   case 718:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4088 "parser.y"
     {
 	if (cb_verify (cb_next_sentence_phrase, "NEXT SENTENCE")) {
@@ -8957,11 +9289,12 @@ yyreduce:
 		emit_statement (cb_build_goto (label, NULL));
 	}
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 719:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4110 "parser.y"
     {
 	BEGIN_STATEMENT ("ACCEPT", TERM_ACCEPT);
@@ -8969,489 +9302,558 @@ yyreduce:
 	fgc = NULL;
 	bgc = NULL;
 	scroll = NULL;
-  }
+  ;}
     break;
 
   case 721:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4123 "parser.y"
     {
 	cb_emit_accept ((yyvsp[(1) - (4)]), (yyvsp[(2) - (4)]), fgc, bgc, scroll, dispattrs);
-  }
+  ;}
     break;
 
   case 722:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4127 "parser.y"
     {
 	PENDING ("ACCEPT .. FROM ESCAPE KEY");
-  }
+  ;}
     break;
 
   case 723:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4131 "parser.y"
     {
 	cb_emit_accept_line_or_col ((yyvsp[(1) - (3)]), 0);
-  }
+  ;}
     break;
 
   case 724:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4135 "parser.y"
     {
 	cb_emit_accept_line_or_col ((yyvsp[(1) - (3)]), 1);
-  }
+  ;}
     break;
 
   case 725:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4139 "parser.y"
     {
 	cb_emit_accept_date ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 726:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4143 "parser.y"
     {
 	cb_emit_accept_date_yyyymmdd ((yyvsp[(1) - (4)]));
-  }
+  ;}
     break;
 
   case 727:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4147 "parser.y"
     {
 	cb_emit_accept_day ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 728:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4151 "parser.y"
     {
 	cb_emit_accept_day_yyyyddd ((yyvsp[(1) - (4)]));
-  }
+  ;}
     break;
 
   case 729:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4155 "parser.y"
     {
 	cb_emit_accept_day_of_week ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 730:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4159 "parser.y"
     {
 	cb_emit_accept_time ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 731:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4163 "parser.y"
     {
 	cb_emit_accept_command_line ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 732:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4167 "parser.y"
     {
 	cb_emit_accept_environment ((yyvsp[(1) - (4)]));
-  }
+  ;}
     break;
 
   case 733:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4171 "parser.y"
     { 
 	cb_emit_get_environment ((yyvsp[(4) - (5)]), (yyvsp[(1) - (5)]));
-  }
+  ;}
     break;
 
   case 734:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4175 "parser.y"
     {
 	cb_emit_accept_arg_number ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 735:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4179 "parser.y"
     {
 	cb_emit_accept_arg_value ((yyvsp[(1) - (4)]));
-  }
+  ;}
     break;
 
   case 736:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4183 "parser.y"
     {
 	cb_emit_accept_mnemonic ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 737:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4187 "parser.y"
     {
 	cb_emit_accept_name ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 738:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4193 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 739:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4194 "parser.y"
-    { (yyval) = cb_build_pair ((yyvsp[(2) - (3)]), (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_pair ((yyvsp[(2) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 740:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4195 "parser.y"
-    { (yyval) = cb_build_pair ((yyvsp[(3) - (3)]), (yyvsp[(2) - (3)])); }
+    { (yyval) = cb_build_pair ((yyvsp[(3) - (3)]), (yyvsp[(2) - (3)])); ;}
     break;
 
   case 741:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4196 "parser.y"
-    { (yyval) = cb_build_pair ((yyvsp[(2) - (2)]), NULL); }
+    { (yyval) = cb_build_pair ((yyvsp[(2) - (2)]), NULL); ;}
     break;
 
   case 742:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4197 "parser.y"
-    { (yyval) = cb_build_pair (NULL, (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_build_pair (NULL, (yyvsp[(2) - (2)])); ;}
     break;
 
   case 743:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4198 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 744:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4202 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 745:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4206 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 746:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4207 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 751:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4220 "parser.y"
-    { dispattrs |= COB_SCREEN_BELL; }
+    { dispattrs |= COB_SCREEN_BELL; ;}
     break;
 
   case 752:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4221 "parser.y"
-    { dispattrs |= COB_SCREEN_BLINK; }
+    { dispattrs |= COB_SCREEN_BLINK; ;}
     break;
 
   case 753:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4222 "parser.y"
-    { dispattrs |= COB_SCREEN_HIGHLIGHT; }
+    { dispattrs |= COB_SCREEN_HIGHLIGHT; ;}
     break;
 
   case 754:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4223 "parser.y"
-    { dispattrs |= COB_SCREEN_LOWLIGHT; }
+    { dispattrs |= COB_SCREEN_LOWLIGHT; ;}
     break;
 
   case 755:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4224 "parser.y"
-    { dispattrs |= COB_SCREEN_REVERSE; }
+    { dispattrs |= COB_SCREEN_REVERSE; ;}
     break;
 
   case 756:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4225 "parser.y"
-    { dispattrs |= COB_SCREEN_UNDERLINE; }
+    { dispattrs |= COB_SCREEN_UNDERLINE; ;}
     break;
 
   case 757:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4226 "parser.y"
-    { dispattrs |= COB_SCREEN_OVERLINE; }
+    { dispattrs |= COB_SCREEN_OVERLINE; ;}
     break;
 
   case 758:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4228 "parser.y"
     {
 	fgc = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 759:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4232 "parser.y"
     {
 	bgc = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 760:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4236 "parser.y"
     {
 	scroll = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 761:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4240 "parser.y"
     {
 	dispattrs |= COB_SCREEN_SCROLL_DOWN;
 	scroll = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 762:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4244 "parser.y"
-    { dispattrs |= COB_SCREEN_AUTO; }
+    { dispattrs |= COB_SCREEN_AUTO; ;}
     break;
 
   case 763:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4245 "parser.y"
-    { dispattrs |= COB_SCREEN_FULL; }
+    { dispattrs |= COB_SCREEN_FULL; ;}
     break;
 
   case 764:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4246 "parser.y"
-    { dispattrs |= COB_SCREEN_REQUIRED; }
+    { dispattrs |= COB_SCREEN_REQUIRED; ;}
     break;
 
   case 765:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4247 "parser.y"
-    { dispattrs |= COB_SCREEN_SECURE; }
+    { dispattrs |= COB_SCREEN_SECURE; ;}
     break;
 
   case 766:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4248 "parser.y"
-    { dispattrs |= COB_SCREEN_UPDATE; }
+    { dispattrs |= COB_SCREEN_UPDATE; ;}
     break;
 
   case 767:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4249 "parser.y"
-    { dispattrs |= COB_SCREEN_PROMPT; }
+    { dispattrs |= COB_SCREEN_PROMPT; ;}
     break;
 
   case 768:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4253 "parser.y"
-    { terminator_warning (TERM_ACCEPT); }
+    { terminator_warning (TERM_ACCEPT); ;}
     break;
 
   case 769:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4254 "parser.y"
-    { terminator_clear (TERM_ACCEPT); }
+    { terminator_clear (TERM_ACCEPT); ;}
     break;
 
   case 770:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4263 "parser.y"
-    { BEGIN_STATEMENT ("ADD", TERM_ADD); }
+    { BEGIN_STATEMENT ("ADD", TERM_ADD); ;}
     break;
 
   case 772:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4270 "parser.y"
     {
 	cb_emit_arithmetic ((yyvsp[(3) - (4)]), '+', cb_build_binary_list ((yyvsp[(1) - (4)]), '+'));
-  }
+  ;}
     break;
 
   case 773:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4274 "parser.y"
     {
 	cb_emit_arithmetic ((yyvsp[(4) - (5)]), 0, cb_build_binary_list ((yyvsp[(1) - (5)]), '+'));
-  }
+  ;}
     break;
 
   case 774:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4278 "parser.y"
     {
 	cb_emit_corresponding (cb_build_add, (yyvsp[(4) - (6)]), (yyvsp[(2) - (6)]), (yyvsp[(5) - (6)]));
-  }
+  ;}
     break;
 
   case 776:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4284 "parser.y"
-    { cb_list_add ((yyvsp[(0) - (2)]), (yyvsp[(2) - (2)])); }
+    { cb_list_add ((yyvsp[(0) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 777:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4288 "parser.y"
-    { terminator_warning (TERM_ADD); }
+    { terminator_warning (TERM_ADD); ;}
     break;
 
   case 778:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4289 "parser.y"
-    { terminator_clear (TERM_ADD); }
+    { terminator_clear (TERM_ADD); ;}
     break;
 
   case 779:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4298 "parser.y"
-    { BEGIN_STATEMENT ("ALLOCATE", 0); }
+    { BEGIN_STATEMENT ("ALLOCATE", 0); ;}
     break;
 
   case 781:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4304 "parser.y"
     {
 	cb_emit_allocate ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]), NULL, (yyvsp[(2) - (3)]));
-  }
+  ;}
     break;
 
   case 782:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4308 "parser.y"
     {
 	cb_emit_allocate (NULL, (yyvsp[(5) - (5)]), (yyvsp[(1) - (5)]), (yyvsp[(3) - (5)]));
-  }
+  ;}
     break;
 
   case 783:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4314 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 784:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4315 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 785:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4325 "parser.y"
     {
 	cb_error (_("ALTER statement is obsolete and unsupported"));
-  }
+  ;}
     break;
 
   case 790:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4343 "parser.y"
-    { BEGIN_STATEMENT ("CALL", TERM_CALL); }
+    { BEGIN_STATEMENT ("CALL", TERM_CALL); ;}
     break;
 
   case 791:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4347 "parser.y"
     {
 	cb_emit_call ((yyvsp[(3) - (8)]), (yyvsp[(4) - (8)]), (yyvsp[(5) - (8)]), (yyvsp[(6) - (8)]), (yyvsp[(7) - (8)]));
-  }
+  ;}
     break;
 
   case 792:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4353 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 793:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4355 "parser.y"
     {
 	call_mode = CB_CALL_BY_REFERENCE;
 	size_mode = CB_SIZE_4;
-  }
+  ;}
     break;
 
   case 794:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4359 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 795:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4363 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 796:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4365 "parser.y"
-    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 797:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4370 "parser.y"
     {
 	if (call_mode != CB_CALL_BY_REFERENCE) {
 		cb_error (_("OMITTED only allowed with BY REFERENCE"));
 	}
 	(yyval) = cb_build_pair (cb_int (call_mode), cb_null);
-  }
+  ;}
     break;
 
   case 798:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4377 "parser.y"
     {
 	(yyval) = cb_build_pair (cb_int (call_mode), (yyvsp[(3) - (3)]));
 	CB_SIZES ((yyval)) = size_mode;
-  }
+  ;}
     break;
 
   case 800:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4386 "parser.y"
     {
 	call_mode = CB_CALL_BY_REFERENCE;
-  }
+  ;}
     break;
 
   case 801:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4390 "parser.y"
     {
 	if (current_program->flag_chained) {
@@ -9459,11 +9861,12 @@ yyreduce:
 	} else {
 		call_mode = CB_CALL_BY_CONTENT;
 	}
-  }
+  ;}
     break;
 
   case 802:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4398 "parser.y"
     {
 	if (current_program->flag_chained) {
@@ -9471,236 +9874,269 @@ yyreduce:
 	} else {
 		call_mode = CB_CALL_BY_VALUE;
 	}
-  }
+  ;}
     break;
 
   case 803:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4408 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 804:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4409 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 805:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4410 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 806:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4415 "parser.y"
     {
 	(yyval) = NULL;
-  }
+  ;}
     break;
 
   case 807:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4419 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 808:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4423 "parser.y"
     {
 	(yyval) = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 809:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4430 "parser.y"
     {
 	(yyval) = NULL;
-  }
+  ;}
     break;
 
   case 810:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4434 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 811:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4438 "parser.y"
     {
 	(yyval) = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 812:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4444 "parser.y"
-    { terminator_warning (TERM_CALL); }
+    { terminator_warning (TERM_CALL); ;}
     break;
 
   case 813:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4445 "parser.y"
-    { terminator_clear (TERM_CALL); }
+    { terminator_clear (TERM_CALL); ;}
     break;
 
   case 814:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4454 "parser.y"
-    { BEGIN_STATEMENT ("CANCEL", 0); }
+    { BEGIN_STATEMENT ("CANCEL", 0); ;}
     break;
 
   case 817:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4460 "parser.y"
     {
 	cb_emit_cancel ((yyvsp[(2) - (2)]));
-  }
+  ;}
     break;
 
   case 818:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4464 "parser.y"
     {
 	cb_emit_cancel_all ();
-  }
+  ;}
     break;
 
   case 819:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4475 "parser.y"
-    { BEGIN_STATEMENT ("CLOSE", 0); }
+    { BEGIN_STATEMENT ("CLOSE", 0); ;}
     break;
 
   case 822:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4482 "parser.y"
     {
 	BEGIN_IMPLICIT_STATEMENT ((yyvsp[(2) - (3)]));
 	if ((yyvsp[(2) - (3)]) != cb_error_node) {
 		cb_emit_close ((yyvsp[(2) - (3)]), (yyvsp[(3) - (3)]));
 	}
-  }
+  ;}
     break;
 
   case 823:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4491 "parser.y"
-    { (yyval) = cb_int (COB_CLOSE_NORMAL); }
+    { (yyval) = cb_int (COB_CLOSE_NORMAL); ;}
     break;
 
   case 824:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4492 "parser.y"
-    { (yyval) = cb_int (COB_CLOSE_UNIT); }
+    { (yyval) = cb_int (COB_CLOSE_UNIT); ;}
     break;
 
   case 825:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4493 "parser.y"
-    { (yyval) = cb_int (COB_CLOSE_UNIT_REMOVAL); }
+    { (yyval) = cb_int (COB_CLOSE_UNIT_REMOVAL); ;}
     break;
 
   case 826:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4494 "parser.y"
-    { (yyval) = cb_int (COB_CLOSE_NO_REWIND); }
+    { (yyval) = cb_int (COB_CLOSE_NO_REWIND); ;}
     break;
 
   case 827:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4495 "parser.y"
-    { (yyval) = cb_int (COB_CLOSE_LOCK); }
+    { (yyval) = cb_int (COB_CLOSE_LOCK); ;}
     break;
 
   case 830:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4506 "parser.y"
-    { BEGIN_STATEMENT ("COMPUTE", TERM_COMPUTE); }
+    { BEGIN_STATEMENT ("COMPUTE", TERM_COMPUTE); ;}
     break;
 
   case 832:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4513 "parser.y"
     {
 	cb_emit_arithmetic ((yyvsp[(1) - (4)]), 0, (yyvsp[(3) - (4)]));
-  }
+  ;}
     break;
 
   case 833:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4519 "parser.y"
-    { terminator_warning (TERM_COMPUTE); }
+    { terminator_warning (TERM_COMPUTE); ;}
     break;
 
   case 834:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4520 "parser.y"
-    { terminator_clear (TERM_COMPUTE); }
+    { terminator_clear (TERM_COMPUTE); ;}
     break;
 
   case 837:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4531 "parser.y"
     {
 	BEGIN_STATEMENT ("COMMIT", 0);
 	cb_emit_commit ();
-  }
+  ;}
     break;
 
   case 838:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4544 "parser.y"
     {
 	BEGIN_STATEMENT ("CONTINUE", 0);
 	cb_emit_continue ();
-  }
+  ;}
     break;
 
   case 839:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4556 "parser.y"
-    { BEGIN_STATEMENT ("DELETE", TERM_DELETE); }
+    { BEGIN_STATEMENT ("DELETE", TERM_DELETE); ;}
     break;
 
   case 840:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4559 "parser.y"
     {
 	if ((yyvsp[(3) - (6)]) != cb_error_node) {
 		cb_emit_delete ((yyvsp[(3) - (6)]));
 	}
-  }
+  ;}
     break;
 
   case 841:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4567 "parser.y"
-    { terminator_warning (TERM_DELETE); }
+    { terminator_warning (TERM_DELETE); ;}
     break;
 
   case 842:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4568 "parser.y"
-    { terminator_clear (TERM_DELETE); }
+    { terminator_clear (TERM_DELETE); ;}
     break;
 
   case 843:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4577 "parser.y"
-    { BEGIN_STATEMENT ("DELETE-FILE", 0); }
+    { BEGIN_STATEMENT ("DELETE-FILE", 0); ;}
     break;
 
   case 844:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4579 "parser.y"
     {
 	cb_tree l;
@@ -9710,11 +10146,12 @@ yyreduce:
 			cb_emit_delete_file (CB_VALUE (l));
 		}
 	}
-  }
+  ;}
     break;
 
   case 845:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4597 "parser.y"
     {
 	BEGIN_STATEMENT ("DISPLAY", TERM_DISPLAY);
@@ -9722,277 +10159,316 @@ yyreduce:
 	fgc = NULL;
 	bgc = NULL;
 	scroll = NULL;
-  }
+  ;}
     break;
 
   case 847:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4610 "parser.y"
     {
 	cb_emit_env_name ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 848:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4614 "parser.y"
     {
 	cb_emit_env_value ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 849:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4618 "parser.y"
     {
 	cb_emit_arg_number ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 850:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4622 "parser.y"
     {
 	cb_emit_command_line ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 851:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4626 "parser.y"
     {
 	cb_emit_display ((yyvsp[(1) - (4)]), cb_int0, (yyvsp[(3) - (4)]), (yyvsp[(2) - (4)]), fgc, bgc, scroll, dispattrs);
-  }
+  ;}
     break;
 
   case 852:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4630 "parser.y"
     {
 	cb_emit_display_mnemonic ((yyvsp[(1) - (6)]), (yyvsp[(4) - (6)]), (yyvsp[(5) - (6)]), (yyvsp[(2) - (6)]), fgc, bgc, scroll, dispattrs);
-  }
+  ;}
     break;
 
   case 853:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4634 "parser.y"
     {
 	cb_tree word = cb_build_display_upon_direct ((yyvsp[(4) - (6)]));
 	cb_emit_display ((yyvsp[(1) - (6)]), word, (yyvsp[(5) - (6)]), (yyvsp[(2) - (6)]), fgc, bgc, scroll, dispattrs);
-  }
+  ;}
     break;
 
   case 854:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4639 "parser.y"
     {
 	cb_emit_display ((yyvsp[(1) - (6)]), cb_int0, (yyvsp[(5) - (6)]), (yyvsp[(2) - (6)]), fgc, bgc, scroll, dispattrs);
-  }
+  ;}
     break;
 
   case 855:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4643 "parser.y"
     {
 	cb_emit_display ((yyvsp[(1) - (6)]), cb_int0, (yyvsp[(5) - (6)]), (yyvsp[(2) - (6)]), fgc, bgc, scroll, dispattrs);
-  }
+  ;}
     break;
 
   case 856:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4649 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 857:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4650 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 858:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4651 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 861:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4661 "parser.y"
-    { dispattrs |= COB_SCREEN_BELL; }
+    { dispattrs |= COB_SCREEN_BELL; ;}
     break;
 
   case 862:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4662 "parser.y"
-    { dispattrs |= COB_SCREEN_BLINK; }
+    { dispattrs |= COB_SCREEN_BLINK; ;}
     break;
 
   case 863:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4663 "parser.y"
-    { dispattrs |= COB_SCREEN_ERASE_EOL; }
+    { dispattrs |= COB_SCREEN_ERASE_EOL; ;}
     break;
 
   case 864:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4664 "parser.y"
-    { dispattrs |= COB_SCREEN_ERASE_EOS; }
+    { dispattrs |= COB_SCREEN_ERASE_EOS; ;}
     break;
 
   case 865:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4665 "parser.y"
-    { dispattrs |= COB_SCREEN_HIGHLIGHT; }
+    { dispattrs |= COB_SCREEN_HIGHLIGHT; ;}
     break;
 
   case 866:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4666 "parser.y"
-    { dispattrs |= COB_SCREEN_LOWLIGHT; }
+    { dispattrs |= COB_SCREEN_LOWLIGHT; ;}
     break;
 
   case 867:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4667 "parser.y"
-    { dispattrs |= COB_SCREEN_REVERSE; }
+    { dispattrs |= COB_SCREEN_REVERSE; ;}
     break;
 
   case 868:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4668 "parser.y"
-    { dispattrs |= COB_SCREEN_UNDERLINE; }
+    { dispattrs |= COB_SCREEN_UNDERLINE; ;}
     break;
 
   case 869:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4669 "parser.y"
-    { dispattrs |= COB_SCREEN_OVERLINE; }
+    { dispattrs |= COB_SCREEN_OVERLINE; ;}
     break;
 
   case 870:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4671 "parser.y"
     {
 	fgc = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 871:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4675 "parser.y"
     {
 	bgc = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 872:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4679 "parser.y"
     {
 	scroll = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 873:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4683 "parser.y"
     {
 	dispattrs |= COB_SCREEN_SCROLL_DOWN;
 	scroll = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 874:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4687 "parser.y"
-    { dispattrs |= COB_SCREEN_BLANK_LINE; }
+    { dispattrs |= COB_SCREEN_BLANK_LINE; ;}
     break;
 
   case 875:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4688 "parser.y"
-    { dispattrs |= COB_SCREEN_BLANK_SCREEN; }
+    { dispattrs |= COB_SCREEN_BLANK_SCREEN; ;}
     break;
 
   case 876:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4692 "parser.y"
-    { terminator_warning (TERM_DISPLAY); }
+    { terminator_warning (TERM_DISPLAY); ;}
     break;
 
   case 877:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4693 "parser.y"
-    { terminator_clear (TERM_DISPLAY); }
+    { terminator_clear (TERM_DISPLAY); ;}
     break;
 
   case 878:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4702 "parser.y"
-    { BEGIN_STATEMENT ("DIVIDE", TERM_DIVIDE); }
+    { BEGIN_STATEMENT ("DIVIDE", TERM_DIVIDE); ;}
     break;
 
   case 880:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4709 "parser.y"
     {
 	cb_emit_arithmetic ((yyvsp[(3) - (4)]), '/', (yyvsp[(1) - (4)]));
-  }
+  ;}
     break;
 
   case 881:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4713 "parser.y"
     {
 	cb_emit_arithmetic ((yyvsp[(5) - (6)]), 0, cb_build_binary_op ((yyvsp[(3) - (6)]), '/', (yyvsp[(1) - (6)])));
-  }
+  ;}
     break;
 
   case 882:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4717 "parser.y"
     {
 	cb_emit_arithmetic ((yyvsp[(5) - (6)]), 0, cb_build_binary_op ((yyvsp[(1) - (6)]), '/', (yyvsp[(3) - (6)])));
-  }
+  ;}
     break;
 
   case 883:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4721 "parser.y"
     {
 	cb_emit_divide ((yyvsp[(3) - (8)]), (yyvsp[(1) - (8)]), (yyvsp[(5) - (8)]), (yyvsp[(7) - (8)]));
-  }
+  ;}
     break;
 
   case 884:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4725 "parser.y"
     {
 	cb_emit_divide ((yyvsp[(1) - (8)]), (yyvsp[(3) - (8)]), (yyvsp[(5) - (8)]), (yyvsp[(7) - (8)]));
-  }
+  ;}
     break;
 
   case 885:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4731 "parser.y"
-    { terminator_warning (TERM_DIVIDE); }
+    { terminator_warning (TERM_DIVIDE); ;}
     break;
 
   case 886:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4732 "parser.y"
-    { terminator_clear (TERM_DIVIDE); }
+    { terminator_clear (TERM_DIVIDE); ;}
     break;
 
   case 887:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4741 "parser.y"
-    { BEGIN_STATEMENT ("ENTRY", 0); }
+    { BEGIN_STATEMENT ("ENTRY", 0); ;}
     break;
 
   case 888:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4743 "parser.y"
     {
 	if (current_program->nested_level) {
@@ -10004,11 +10480,12 @@ yyreduce:
 		emit_entry ((char *)(CB_LITERAL ((yyvsp[(3) - (4)]))->data), 1, (yyvsp[(4) - (4)]));
 	}
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 889:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4763 "parser.y"
     {
 	BEGIN_STATEMENT ("EVALUATE", TERM_EVALUATE);
@@ -10018,37 +10495,41 @@ yyreduce:
 	}
 	eval_inc = 0;
 	eval_inc2 = 0;
-  }
+  ;}
     break;
 
   case 890:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4774 "parser.y"
     {
 	cb_emit_evaluate ((yyvsp[(3) - (5)]), (yyvsp[(4) - (5)]));
 	eval_level--;
-  }
+  ;}
     break;
 
   case 891:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4781 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 892:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4784 "parser.y"
     {
  	if (!cb_allow_missing_also_clause_in_evaluate && (yyvsp[(2) - (3)]) != cb_int1) {
  		cb_error  (_("Invalid expression"));
  	}
  	(yyval) = cb_list_add ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 893:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4794 "parser.y"
     {
 	(yyval) = (yyvsp[(1) - (1)]);
@@ -10057,29 +10538,32 @@ yyreduce:
 	} else {
 		eval_check[eval_level][eval_inc++] = 1;
 	}
-  }
+  ;}
     break;
 
   case 894:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4803 "parser.y"
     {
 	(yyval) = cb_true;
 	eval_check[eval_level][eval_inc++] = 2;
-  }
+  ;}
     break;
 
   case 895:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4808 "parser.y"
     {
 	(yyval) = cb_false;
 	eval_check[eval_level][eval_inc++] = 3;
-  }
+  ;}
     break;
 
   case 896:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4816 "parser.y"
     {
 	(yyval) = (yyvsp[(1) - (2)]);
@@ -10105,31 +10589,35 @@ yyreduce:
 		}
 		(yyval) = cb_list_add ((yyval), (yyvsp[(2) - (2)]));
 	}
-  }
+  ;}
     break;
 
   case 897:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4844 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 898:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4846 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 899:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4851 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 900:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4855 "parser.y"
     {
 	if (!cb_allow_empty_imperative_statement && (yyvsp[(3) - (3)]) == NULL) {
@@ -10137,27 +10625,30 @@ yyreduce:
 	}
 	(yyval) = cb_cons ((yyvsp[(3) - (3)]), (yyvsp[(1) - (3)]));
 	eval_inc2 = 0;
-  }
+  ;}
     break;
 
   case 901:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4866 "parser.y"
     {
 	(yyval) = NULL;
-  }
+  ;}
     break;
 
   case 902:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4870 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 903:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4874 "parser.y"
     {
 	if (!cb_allow_empty_imperative_statement && (yyvsp[(3) - (3)]) == NULL) {
@@ -10165,40 +10656,45 @@ yyreduce:
 	}
 	(yyval) = cb_cons ((yyvsp[(3) - (3)]), NULL);
 	eval_inc2 = 0;
-  }
+  ;}
     break;
 
   case 904:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4884 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_init ((yyvsp[(2) - (2)])); ;}
     break;
 
   case 905:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4886 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 906:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4890 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 907:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4893 "parser.y"
     {
  	if (!cb_allow_missing_also_clause_in_evaluate && (yyvsp[(2) - (3)]) != cb_int1) {
  		cb_error  (_("Invalid expression"));
  	}
  	(yyval) = cb_list_add ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 908:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4903 "parser.y"
     {
 	cb_tree not;
@@ -10227,65 +10723,75 @@ yyreduce:
 		(yyval) = cb_build_pair (not, cb_build_pair (e1, e2));
 		eval_inc2++;
 	}
-  }
+  ;}
     break;
 
   case 909:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4931 "parser.y"
-    { (yyval) = cb_any; eval_inc2++; }
+    { (yyval) = cb_any; eval_inc2++; ;}
     break;
 
   case 910:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4932 "parser.y"
-    { (yyval) = cb_true; eval_inc2++; }
+    { (yyval) = cb_true; eval_inc2++; ;}
     break;
 
   case 911:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4933 "parser.y"
-    { (yyval) = cb_false; eval_inc2++; }
+    { (yyval) = cb_false; eval_inc2++; ;}
     break;
 
   case 912:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4936 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 913:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4937 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 914:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4941 "parser.y"
-    { terminator_warning (TERM_EVALUATE); }
+    { terminator_warning (TERM_EVALUATE); ;}
     break;
 
   case 915:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4942 "parser.y"
-    { terminator_clear (TERM_EVALUATE); }
+    { terminator_clear (TERM_EVALUATE); ;}
     break;
 
   case 916:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4951 "parser.y"
-    { BEGIN_STATEMENT ("EXIT", 0); }
+    { BEGIN_STATEMENT ("EXIT", 0); ;}
     break;
 
   case 918:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4956 "parser.y"
-    { /* nothing */ }
+    { /* nothing */ ;}
     break;
 
   case 919:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4958 "parser.y"
     {
 	if (in_declaratives && use_global_ind) {
@@ -10293,11 +10799,12 @@ yyreduce:
 	}
 	check_unreached = 1;
 	cb_emit_exit (0);
-  }
+  ;}
     break;
 
   case 920:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4966 "parser.y"
     {
 	struct cb_perform	*p;
@@ -10314,11 +10821,12 @@ yyreduce:
 		}
 		cb_emit_goto (cb_list_init (p->exit_label), NULL);
 	}
-  }
+  ;}
     break;
 
   case 921:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 4983 "parser.y"
     {
 	struct cb_perform	*p;
@@ -10335,11 +10843,12 @@ yyreduce:
 		}
 		cb_emit_goto (cb_list_init (p->cycle_label), NULL);
 	}
-  }
+  ;}
     break;
 
   case 922:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5000 "parser.y"
     {
 	cb_tree	plabel;
@@ -10357,11 +10866,12 @@ yyreduce:
 		}
 		cb_emit_goto (cb_list_init (current_section->exit_label_ref), NULL);
 	}
-  }
+  ;}
     break;
 
   case 923:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5018 "parser.y"
     {
 	cb_tree	plabel;
@@ -10379,461 +10889,530 @@ yyreduce:
 		}
 		cb_emit_goto (cb_list_init (current_paragraph->exit_label_ref), NULL);
 	}
-  }
+  ;}
     break;
 
   case 924:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5042 "parser.y"
-    { BEGIN_STATEMENT ("FREE", 0); }
+    { BEGIN_STATEMENT ("FREE", 0); ;}
     break;
 
   case 925:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5044 "parser.y"
     {
 	cb_emit_free ((yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 926:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5055 "parser.y"
-    { BEGIN_STATEMENT ("GENERATE", 0); }
+    { BEGIN_STATEMENT ("GENERATE", 0); ;}
     break;
 
   case 927:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5057 "parser.y"
     {
 	PENDING("GENERATE");
-  }
+  ;}
     break;
 
   case 928:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5068 "parser.y"
-    { BEGIN_STATEMENT ("GO TO", 0); }
+    { BEGIN_STATEMENT ("GO TO", 0); ;}
     break;
 
   case 929:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5070 "parser.y"
     {
 	cb_emit_goto ((yyvsp[(4) - (5)]), (yyvsp[(5) - (5)]));
-  }
+  ;}
     break;
 
   case 930:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5077 "parser.y"
     {
 	check_unreached = 1;
 	(yyval) = NULL;
-  }
+  ;}
     break;
 
   case 931:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5082 "parser.y"
     {
 	check_unreached = 0;
 	(yyval) = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 932:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5094 "parser.y"
-    { BEGIN_STATEMENT ("GOBACK", 0); }
+    { BEGIN_STATEMENT ("GOBACK", 0); ;}
     break;
 
   case 933:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5095 "parser.y"
     {
 	check_unreached = 1;
 	cb_emit_exit (1);
-  }
+  ;}
     break;
 
   case 934:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5107 "parser.y"
-    { BEGIN_STATEMENT ("IF", TERM_IF); }
+    { BEGIN_STATEMENT ("IF", TERM_IF); ;}
     break;
 
   case 935:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5109 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 936:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5114 "parser.y"
     {
 	if (!cb_allow_empty_imperative_statement && (yyvsp[(6) - (8)]) == NULL) {
 		cb_error (_("syntax error"));
 	}
 	cb_emit_if ((yyvsp[(3) - (8)]), (yyvsp[(6) - (8)]), (yyvsp[(7) - (8)]));
-  }
+  ;}
     break;
 
   case 938:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5125 "parser.y"
     {
 	(yyval) = NULL;
-  }
+  ;}
     break;
 
   case 939:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5129 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 940:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5133 "parser.y"
     {
 	if (!cb_allow_empty_imperative_statement && (yyvsp[(3) - (3)]) == NULL) {
 		cb_error (_("syntax error"));
 	}
 	(yyval) = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 941:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5142 "parser.y"
-    { terminator_warning (TERM_IF); }
+    { terminator_warning (TERM_IF); ;}
     break;
 
   case 942:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5143 "parser.y"
-    { terminator_clear (TERM_IF); }
+    { terminator_clear (TERM_IF); ;}
     break;
 
   case 943:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5152 "parser.y"
-    { BEGIN_STATEMENT ("INITIALIZE", 0); }
+    { BEGIN_STATEMENT ("INITIALIZE", 0); ;}
     break;
 
   case 944:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5154 "parser.y"
     {
 	cb_emit_initialize ((yyvsp[(3) - (7)]), (yyvsp[(4) - (7)]), (yyvsp[(5) - (7)]), (yyvsp[(6) - (7)]), (yyvsp[(7) - (7)]));
-  }
+  ;}
     break;
 
   case 945:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5160 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 946:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5161 "parser.y"
-    { (yyval) = cb_true; }
+    { (yyval) = cb_true; ;}
     break;
 
   case 947:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5165 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 948:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5166 "parser.y"
-    { (yyval) = cb_true; }
+    { (yyval) = cb_true; ;}
     break;
 
   case 949:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5167 "parser.y"
-    { (yyval) = (yyvsp[(1) - (3)]); }
+    { (yyval) = (yyvsp[(1) - (3)]); ;}
     break;
 
   case 950:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5171 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 951:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5173 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 952:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5177 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 953:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5179 "parser.y"
-    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 954:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5183 "parser.y"
-    { (yyval) = cb_build_pair ((yyvsp[(1) - (4)]), (yyvsp[(4) - (4)])); }
+    { (yyval) = cb_build_pair ((yyvsp[(1) - (4)]), (yyvsp[(4) - (4)])); ;}
     break;
 
   case 955:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5187 "parser.y"
-    { (yyval) = cb_int (CB_CATEGORY_ALPHABETIC); }
+    { (yyval) = cb_int (CB_CATEGORY_ALPHABETIC); ;}
     break;
 
   case 956:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5188 "parser.y"
-    { (yyval) = cb_int (CB_CATEGORY_ALPHANUMERIC); }
+    { (yyval) = cb_int (CB_CATEGORY_ALPHANUMERIC); ;}
     break;
 
   case 957:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5189 "parser.y"
-    { (yyval) = cb_int (CB_CATEGORY_NUMERIC); }
+    { (yyval) = cb_int (CB_CATEGORY_NUMERIC); ;}
     break;
 
   case 958:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5190 "parser.y"
-    { (yyval) = cb_int (CB_CATEGORY_ALPHANUMERIC_EDITED); }
+    { (yyval) = cb_int (CB_CATEGORY_ALPHANUMERIC_EDITED); ;}
     break;
 
   case 959:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5191 "parser.y"
-    { (yyval) = cb_int (CB_CATEGORY_NUMERIC_EDITED); }
+    { (yyval) = cb_int (CB_CATEGORY_NUMERIC_EDITED); ;}
     break;
 
   case 960:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5192 "parser.y"
-    { (yyval) = cb_int (CB_CATEGORY_NATIONAL); }
+    { (yyval) = cb_int (CB_CATEGORY_NATIONAL); ;}
     break;
 
   case 961:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5193 "parser.y"
-    { (yyval) = cb_int (CB_CATEGORY_NATIONAL_EDITED); }
+    { (yyval) = cb_int (CB_CATEGORY_NATIONAL_EDITED); ;}
     break;
 
   case 962:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5197 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 963:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5198 "parser.y"
-    { (yyval) = cb_true; }
+    { (yyval) = cb_true; ;}
     break;
 
   case 964:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5207 "parser.y"
-    { BEGIN_STATEMENT ("INITIATE", 0); }
+    { BEGIN_STATEMENT ("INITIATE", 0); ;}
     break;
 
   case 965:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5209 "parser.y"
     {
 	PENDING("INITIATE");
-  }
+  ;}
     break;
 
   case 966:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5220 "parser.y"
     {
 	BEGIN_STATEMENT ("INSPECT", 0);
 	sending_id = 0;
 	inspect_keyword = 0;
-  }
+  ;}
     break;
 
   case 968:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5229 "parser.y"
-    { save_tree_1 = (yyvsp[(1) - (1)]); sending_id = 0; }
+    { save_tree_1 = (yyvsp[(1) - (1)]); sending_id = 0; ;}
     break;
 
   case 969:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5230 "parser.y"
-    { save_tree_1 = (yyvsp[(1) - (1)]); sending_id = 1; }
+    { save_tree_1 = (yyvsp[(1) - (1)]); sending_id = 1; ;}
     break;
 
   case 970:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5231 "parser.y"
-    { save_tree_1 = (yyvsp[(1) - (1)]); sending_id = 1; }
+    { save_tree_1 = (yyvsp[(1) - (1)]); sending_id = 1; ;}
     break;
 
   case 973:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5240 "parser.y"
-    { cb_emit_inspect (save_tree_1, (yyvsp[(1) - (1)]), cb_int0, 0); }
+    { cb_emit_inspect (save_tree_1, (yyvsp[(1) - (1)]), cb_int0, 0); ;}
     break;
 
   case 974:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5241 "parser.y"
-    { cb_emit_inspect (save_tree_1, (yyvsp[(1) - (1)]), cb_int1, 1); }
+    { cb_emit_inspect (save_tree_1, (yyvsp[(1) - (1)]), cb_int1, 1); ;}
     break;
 
   case 975:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5242 "parser.y"
-    { cb_emit_inspect (save_tree_1, (yyvsp[(1) - (1)]), cb_int0, 2); }
+    { cb_emit_inspect (save_tree_1, (yyvsp[(1) - (1)]), cb_int0, 2); ;}
     break;
 
   case 976:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5248 "parser.y"
-    { cb_init_tarrying (); }
+    { cb_init_tarrying (); ;}
     break;
 
   case 977:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5249 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 978:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5253 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 979:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5254 "parser.y"
-    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 980:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5258 "parser.y"
-    { (yyval) = cb_build_tarrying_data ((yyvsp[(1) - (2)])); }
+    { (yyval) = cb_build_tarrying_data ((yyvsp[(1) - (2)])); ;}
     break;
 
   case 981:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5259 "parser.y"
-    { (yyval) = cb_build_tarrying_characters ((yyvsp[(2) - (2)])); }
+    { (yyval) = cb_build_tarrying_characters ((yyvsp[(2) - (2)])); ;}
     break;
 
   case 982:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5260 "parser.y"
-    { (yyval) = cb_build_tarrying_all (); }
+    { (yyval) = cb_build_tarrying_all (); ;}
     break;
 
   case 983:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5261 "parser.y"
-    { (yyval) = cb_build_tarrying_leading (); }
+    { (yyval) = cb_build_tarrying_leading (); ;}
     break;
 
   case 984:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5262 "parser.y"
-    { (yyval) = cb_build_tarrying_trailing (); }
+    { (yyval) = cb_build_tarrying_trailing (); ;}
     break;
 
   case 985:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5263 "parser.y"
-    { (yyval) = cb_build_tarrying_value ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_build_tarrying_value ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 986:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5269 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); inspect_keyword = 0; }
+    { (yyval) = (yyvsp[(2) - (2)]); inspect_keyword = 0; ;}
     break;
 
   case 987:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5273 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 988:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5274 "parser.y"
-    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 989:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5279 "parser.y"
     {
 	(yyval) = cb_build_replacing_characters ((yyvsp[(3) - (4)]), (yyvsp[(4) - (4)]), save_tree_1);
 	inspect_keyword = 0;
-  }
+  ;}
     break;
 
   case 990:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5283 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 991:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5287 "parser.y"
-    { /* Nothing */ }
+    { /* Nothing */ ;}
     break;
 
   case 992:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5288 "parser.y"
-    { inspect_keyword = 1; }
+    { inspect_keyword = 1; ;}
     break;
 
   case 993:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5289 "parser.y"
-    { inspect_keyword = 2; }
+    { inspect_keyword = 2; ;}
     break;
 
   case 994:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5290 "parser.y"
-    { inspect_keyword = 3; }
+    { inspect_keyword = 3; ;}
     break;
 
   case 995:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5291 "parser.y"
-    { inspect_keyword = 4; }
+    { inspect_keyword = 4; ;}
     break;
 
   case 996:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5296 "parser.y"
     {
 	switch (inspect_keyword) {
@@ -10854,11 +11433,12 @@ yyreduce:
 			(yyval) = cb_error_node;
 			break;
 	}
-  }
+  ;}
     break;
 
   case 997:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5322 "parser.y"
     {
 	if (cb_validate_inspect (save_tree_1, (yyvsp[(2) - (5)]), (yyvsp[(4) - (5)])) < 0 ) {
@@ -10866,91 +11446,104 @@ yyreduce:
 	} else {
 		(yyval) = cb_build_converting ((yyvsp[(2) - (5)]), (yyvsp[(4) - (5)]), (yyvsp[(5) - (5)]));
 	}
-  }
+  ;}
     break;
 
   case 998:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5334 "parser.y"
-    { (yyval) = cb_build_inspect_region_start (); }
+    { (yyval) = cb_build_inspect_region_start (); ;}
     break;
 
   case 999:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5336 "parser.y"
-    { (yyval) = cb_build_inspect_region ((yyvsp[(1) - (4)]), (yyvsp[(2) - (4)]), (yyvsp[(4) - (4)])); }
+    { (yyval) = cb_build_inspect_region ((yyvsp[(1) - (4)]), (yyvsp[(2) - (4)]), (yyvsp[(4) - (4)])); ;}
     break;
 
   case 1002:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5347 "parser.y"
-    { BEGIN_STATEMENT ("MERGE", 0); }
+    { BEGIN_STATEMENT ("MERGE", 0); ;}
     break;
 
   case 1004:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5357 "parser.y"
-    { BEGIN_STATEMENT ("MOVE", 0); }
+    { BEGIN_STATEMENT ("MOVE", 0); ;}
     break;
 
   case 1006:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5363 "parser.y"
     {
 	cb_emit_move ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 1007:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5367 "parser.y"
     {
 	cb_emit_move_corresponding ((yyvsp[(2) - (4)]), (yyvsp[(4) - (4)]));
-  }
+  ;}
     break;
 
   case 1008:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5378 "parser.y"
-    { BEGIN_STATEMENT ("MULTIPLY", TERM_MULTIPLY); }
+    { BEGIN_STATEMENT ("MULTIPLY", TERM_MULTIPLY); ;}
     break;
 
   case 1010:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5385 "parser.y"
     {
 	cb_emit_arithmetic ((yyvsp[(3) - (4)]), '*', (yyvsp[(1) - (4)]));
-  }
+  ;}
     break;
 
   case 1011:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5389 "parser.y"
     {
 	cb_emit_arithmetic ((yyvsp[(5) - (6)]), 0, cb_build_binary_op ((yyvsp[(1) - (6)]), '*', (yyvsp[(3) - (6)])));
-  }
+  ;}
     break;
 
   case 1012:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5395 "parser.y"
-    { terminator_warning (TERM_MULTIPLY); }
+    { terminator_warning (TERM_MULTIPLY); ;}
     break;
 
   case 1013:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5396 "parser.y"
-    { terminator_clear (TERM_MULTIPLY); }
+    { terminator_clear (TERM_MULTIPLY); ;}
     break;
 
   case 1014:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5405 "parser.y"
-    { BEGIN_STATEMENT ("OPEN", 0); }
+    { BEGIN_STATEMENT ("OPEN", 0); ;}
     break;
 
   case 1017:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5412 "parser.y"
     {
 	cb_tree l;
@@ -10960,217 +11553,247 @@ yyreduce:
 			cb_emit_open (CB_VALUE (l), (yyvsp[(2) - (5)]), (yyvsp[(3) - (5)]));
 		}
 	}
-  }
+  ;}
     break;
 
   case 1018:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5424 "parser.y"
-    { (yyval) = cb_int (COB_OPEN_INPUT); }
+    { (yyval) = cb_int (COB_OPEN_INPUT); ;}
     break;
 
   case 1019:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5425 "parser.y"
-    { (yyval) = cb_int (COB_OPEN_OUTPUT); }
+    { (yyval) = cb_int (COB_OPEN_OUTPUT); ;}
     break;
 
   case 1020:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5426 "parser.y"
-    { (yyval) = cb_int (COB_OPEN_I_O); }
+    { (yyval) = cb_int (COB_OPEN_I_O); ;}
     break;
 
   case 1021:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5427 "parser.y"
-    { (yyval) = cb_int (COB_OPEN_EXTEND); }
+    { (yyval) = cb_int (COB_OPEN_EXTEND); ;}
     break;
 
   case 1022:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5431 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1023:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5432 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 1024:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5436 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1025:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5437 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1026:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5438 "parser.y"
-    { PENDING ("OPEN ... WITH LOCK"); }
+    { PENDING ("OPEN ... WITH LOCK"); ;}
     break;
 
   case 1027:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5450 "parser.y"
-    { BEGIN_STATEMENT ("PERFORM", TERM_PERFORM); }
+    { BEGIN_STATEMENT ("PERFORM", TERM_PERFORM); ;}
     break;
 
   case 1029:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5456 "parser.y"
     {
 	cb_emit_perform ((yyvsp[(2) - (2)]), (yyvsp[(1) - (2)]));
-  }
+  ;}
     break;
 
   case 1030:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5460 "parser.y"
     {
 	perform_stack = cb_cons ((yyvsp[(1) - (1)]), perform_stack);
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1031:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5465 "parser.y"
     {
 	perform_stack = CB_CHAIN (perform_stack);
 	cb_emit_perform ((yyvsp[(1) - (4)]), (yyvsp[(3) - (4)]));
-  }
+  ;}
     break;
 
   case 1032:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5470 "parser.y"
     {
 	cb_emit_perform ((yyvsp[(1) - (2)]), NULL);
-  }
+  ;}
     break;
 
   case 1033:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5476 "parser.y"
-    { terminator_error (); }
+    { terminator_error (); ;}
     break;
 
   case 1034:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5477 "parser.y"
-    { terminator_clear (TERM_PERFORM); }
+    { terminator_clear (TERM_PERFORM); ;}
     break;
 
   case 1035:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5482 "parser.y"
     {
 	CB_REFERENCE ((yyvsp[(1) - (1)]))->length = cb_true; /* return from $1 */
 	(yyval) = cb_build_pair ((yyvsp[(1) - (1)]), (yyvsp[(1) - (1)]));
-  }
+  ;}
     break;
 
   case 1036:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5487 "parser.y"
     {
 	CB_REFERENCE ((yyvsp[(3) - (3)]))->length = cb_true; /* return from $3 */
 	(yyval) = cb_build_pair ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 1037:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5495 "parser.y"
     {
 	(yyval) = cb_build_perform_once (NULL);
-  }
+  ;}
     break;
 
   case 1038:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5499 "parser.y"
     {
 	(yyval) = cb_build_perform_forever (NULL);
-  }
+  ;}
     break;
 
   case 1039:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5503 "parser.y"
     {
 	(yyval) = cb_build_perform_times ((yyvsp[(1) - (2)]));
 	current_program->loop_counter++;
-  }
+  ;}
     break;
 
   case 1040:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5508 "parser.y"
     {
 	cb_tree varying;
 
 	varying = cb_list_init (cb_build_perform_varying (NULL, NULL, NULL, (yyvsp[(3) - (3)])));
 	(yyval) = cb_build_perform_until ((yyvsp[(1) - (3)]), varying);
-  }
+  ;}
     break;
 
   case 1041:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5515 "parser.y"
     {
 	(yyval) = cb_build_perform_until ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 1042:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5521 "parser.y"
-    { (yyval) = CB_BEFORE; }
+    { (yyval) = CB_BEFORE; ;}
     break;
 
   case 1043:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5522 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 1044:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5526 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 1045:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5528 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 1046:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5533 "parser.y"
     {
 	(yyval) = cb_build_perform_varying ((yyvsp[(1) - (7)]), (yyvsp[(3) - (7)]), (yyvsp[(5) - (7)]), (yyvsp[(7) - (7)]));
-  }
+  ;}
     break;
 
   case 1047:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5544 "parser.y"
-    { BEGIN_STATEMENT ("READ", TERM_READ); }
+    { BEGIN_STATEMENT ("READ", TERM_READ); ;}
     break;
 
   case 1048:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5547 "parser.y"
     {
 	if ((yyvsp[(3) - (10)]) != cb_error_node) {
@@ -11194,75 +11817,85 @@ yyreduce:
 			cb_emit_read ((yyvsp[(3) - (10)]), (yyvsp[(4) - (10)]), (yyvsp[(6) - (10)]), (yyvsp[(8) - (10)]), (yyvsp[(7) - (10)]));
 		}
 	}
-  }
+  ;}
     break;
 
   case 1049:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5573 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1050:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5574 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 1051:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5578 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1052:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5580 "parser.y"
     {
 	(yyval) = cb_int3;
-  }
+  ;}
     break;
 
   case 1053:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5584 "parser.y"
     {
 	(yyval) = cb_int1;
-  }
+  ;}
     break;
 
   case 1054:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5588 "parser.y"
     {
 	(yyval) = cb_int2;
-  }
+  ;}
     break;
 
   case 1055:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5592 "parser.y"
     {
 	(yyval) = cb_int3;
-  }
+  ;}
     break;
 
   case 1056:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5596 "parser.y"
     {
 	(yyval) = cb_int4;
-  }
+  ;}
     break;
 
   case 1057:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5602 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1058:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5604 "parser.y"
     {
 #if	defined(WITH_CISAM) || defined(WITH_DISAM) || defined(WITH_VBISAM) || defined(WITH_INDEX_EXTFH)
@@ -11274,73 +11907,83 @@ yyreduce:
 		(yyval) = (yyvsp[(3) - (3)]);
 	}
 #endif
-  }
+  ;}
     break;
 
   case 1062:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5623 "parser.y"
-    { terminator_warning (TERM_READ); }
+    { terminator_warning (TERM_READ); ;}
     break;
 
   case 1063:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5624 "parser.y"
-    { terminator_clear (TERM_READ); }
+    { terminator_clear (TERM_READ); ;}
     break;
 
   case 1064:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5633 "parser.y"
-    { BEGIN_STATEMENT ("RELEASE", 0); }
+    { BEGIN_STATEMENT ("RELEASE", 0); ;}
     break;
 
   case 1065:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5635 "parser.y"
     {
 	if ((yyvsp[(3) - (4)]) != cb_error_node) {
 		cb_emit_release ((yyvsp[(3) - (4)]), (yyvsp[(4) - (4)]));
 	}
-  }
+  ;}
     break;
 
   case 1066:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5648 "parser.y"
-    { BEGIN_STATEMENT ("RETURN", TERM_RETURN); }
+    { BEGIN_STATEMENT ("RETURN", TERM_RETURN); ;}
     break;
 
   case 1067:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5651 "parser.y"
     {
 	if ((yyvsp[(3) - (7)]) != cb_error_node) {
 		cb_emit_return ((yyvsp[(3) - (7)]), (yyvsp[(5) - (7)]));
 	}
-  }
+  ;}
     break;
 
   case 1068:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5659 "parser.y"
-    { terminator_warning (TERM_RETURN); }
+    { terminator_warning (TERM_RETURN); ;}
     break;
 
   case 1069:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5660 "parser.y"
-    { terminator_clear (TERM_RETURN); }
+    { terminator_clear (TERM_RETURN); ;}
     break;
 
   case 1070:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5669 "parser.y"
-    { BEGIN_STATEMENT ("REWRITE", TERM_REWRITE); }
+    { BEGIN_STATEMENT ("REWRITE", TERM_REWRITE); ;}
     break;
 
   case 1071:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5672 "parser.y"
     {
 	if ((yyvsp[(3) - (7)]) != cb_error_node) {
@@ -11352,238 +11995,271 @@ yyreduce:
 		}
 		cb_emit_rewrite ((yyvsp[(3) - (7)]), (yyvsp[(4) - (7)]), (yyvsp[(5) - (7)]));
 	}
-  }
+  ;}
     break;
 
   case 1072:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5686 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1073:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5688 "parser.y"
     {
 	(yyval) = cb_int1;
-  }
+  ;}
     break;
 
   case 1074:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5692 "parser.y"
     {
 	(yyval) = cb_int2;
-  }
+  ;}
     break;
 
   case 1075:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5698 "parser.y"
-    { terminator_warning (TERM_REWRITE); }
+    { terminator_warning (TERM_REWRITE); ;}
     break;
 
   case 1076:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5699 "parser.y"
-    { terminator_clear (TERM_REWRITE); }
+    { terminator_clear (TERM_REWRITE); ;}
     break;
 
   case 1077:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5709 "parser.y"
     {
 	BEGIN_STATEMENT ("ROLLBACK", 0);
 	cb_emit_rollback ();
-  }
+  ;}
     break;
 
   case 1078:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5721 "parser.y"
-    { BEGIN_STATEMENT ("SEARCH", TERM_SEARCH); }
+    { BEGIN_STATEMENT ("SEARCH", TERM_SEARCH); ;}
     break;
 
   case 1080:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5728 "parser.y"
     {
 	cb_emit_search ((yyvsp[(1) - (4)]), (yyvsp[(2) - (4)]), (yyvsp[(3) - (4)]), (yyvsp[(4) - (4)]));
-  }
+  ;}
     break;
 
   case 1081:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5732 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1082:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5736 "parser.y"
     {
 	cb_emit_search_all ((yyvsp[(2) - (7)]), (yyvsp[(3) - (7)]), (yyvsp[(5) - (7)]), (yyvsp[(7) - (7)]));
-  }
+  ;}
     break;
 
   case 1083:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5742 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1084:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5743 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 1085:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5747 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1086:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5749 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1087:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5753 "parser.y"
     {
 	(yyval) = (yyvsp[(4) - (4)]);
-  }
+  ;}
     break;
 
   case 1088:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5759 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1089:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5760 "parser.y"
-    { (yyval) = (yyvsp[(1) - (2)]); CB_IF ((yyvsp[(1) - (2)]))->stmt2 = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(1) - (2)]); CB_IF ((yyvsp[(1) - (2)]))->stmt2 = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 1090:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5765 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1091:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5769 "parser.y"
     {
 	(yyval) = cb_build_if ((yyvsp[(2) - (4)]), (yyvsp[(4) - (4)]), NULL);
-  }
+  ;}
     break;
 
   case 1092:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5775 "parser.y"
-    { terminator_warning (TERM_SEARCH); }
+    { terminator_warning (TERM_SEARCH); ;}
     break;
 
   case 1093:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5776 "parser.y"
-    { terminator_clear (TERM_SEARCH); }
+    { terminator_clear (TERM_SEARCH); ;}
     break;
 
   case 1094:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5785 "parser.y"
-    { BEGIN_STATEMENT ("SET", 0); }
+    { BEGIN_STATEMENT ("SET", 0); ;}
     break;
 
   case 1101:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5801 "parser.y"
     {
 	cb_emit_setenv ((yyvsp[(2) - (4)]), (yyvsp[(4) - (4)]));
-  }
+  ;}
     break;
 
   case 1102:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5810 "parser.y"
     {
 	cb_emit_set_to ((yyvsp[(1) - (4)]), cb_build_ppointer ((yyvsp[(4) - (4)])));
-  }
+  ;}
     break;
 
   case 1103:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5814 "parser.y"
     {
 	cb_emit_set_to ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 1104:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5823 "parser.y"
     {
 	cb_emit_set_up_down ((yyvsp[(1) - (4)]), (yyvsp[(2) - (4)]), (yyvsp[(4) - (4)]));
-  }
+  ;}
     break;
 
   case 1105:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5829 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 1106:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5830 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 1109:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5842 "parser.y"
     {
 	cb_emit_set_on_off ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 1112:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5856 "parser.y"
     {
 	cb_emit_set_true ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 1113:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5860 "parser.y"
     {
 	cb_emit_set_false ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 1114:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5871 "parser.y"
-    { BEGIN_STATEMENT ("SORT", 0); }
+    { BEGIN_STATEMENT ("SORT", 0); ;}
     break;
 
   case 1116:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5877 "parser.y"
     {
 	cb_emit_sort_init ((yyvsp[(1) - (4)]), (yyvsp[(2) - (4)]), (yyvsp[(4) - (4)]));
@@ -11592,27 +12268,30 @@ yyreduce:
 	}
 	/* used in sort_input/sort_output */
 	save_tree_1 = (yyvsp[(1) - (4)]);
-  }
+  ;}
     break;
 
   case 1117:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5886 "parser.y"
     {
 	cb_emit_sort_finish ((yyvsp[(1) - (7)]));
-  }
+  ;}
     break;
 
   case 1118:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5893 "parser.y"
     {
 	(yyval) = NULL;
-  }
+  ;}
     break;
 
   case 1119:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5898 "parser.y"
     {
 	cb_tree l;
@@ -11629,51 +12308,58 @@ yyreduce:
 		}
 		(yyval) = cb_list_append ((yyvsp[(1) - (6)]), (yyvsp[(6) - (6)]));
 	}
-  }
+  ;}
     break;
 
   case 1120:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5917 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1121:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5918 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1123:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5922 "parser.y"
-    { /* nothing */ }
+    { /* nothing */ ;}
     break;
 
   case 1124:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5926 "parser.y"
-    { (yyval) = cb_null; }
+    { (yyval) = cb_null; ;}
     break;
 
   case 1125:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5927 "parser.y"
-    { (yyval) = cb_ref ((yyvsp[(3) - (3)])); }
+    { (yyval) = cb_ref ((yyvsp[(3) - (3)])); ;}
     break;
 
   case 1126:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5932 "parser.y"
     {
 	if (CB_FILE_P (cb_ref (save_tree_1))) {
 		cb_error (_("File sort requires USING or INPUT PROCEDURE"));
 	}
-  }
+  ;}
     break;
 
   case 1127:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5938 "parser.y"
     {
 	if (!CB_FILE_P (cb_ref (save_tree_1))) {
@@ -11681,11 +12367,12 @@ yyreduce:
 	} else {
 		cb_emit_sort_using (save_tree_1, (yyvsp[(2) - (2)]));
 	}
-  }
+  ;}
     break;
 
   case 1128:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5946 "parser.y"
     {
 	if (!CB_FILE_P (cb_ref (save_tree_1))) {
@@ -11693,21 +12380,23 @@ yyreduce:
 	} else {
 		cb_emit_sort_input ((yyvsp[(4) - (4)]), save_tree_1);
 	}
-  }
+  ;}
     break;
 
   case 1129:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5957 "parser.y"
     {
 	if (CB_FILE_P (cb_ref (save_tree_1))) {
 		cb_error (_("File sort requires GIVING or OUTPUT PROCEDURE"));
 	}
-  }
+  ;}
     break;
 
   case 1130:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5963 "parser.y"
     {
 	if (!CB_FILE_P (cb_ref (save_tree_1))) {
@@ -11715,11 +12404,12 @@ yyreduce:
 	} else {
 		cb_emit_sort_giving (save_tree_1, (yyvsp[(2) - (2)]));
 	}
-  }
+  ;}
     break;
 
   case 1131:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5971 "parser.y"
     {
 	if (!CB_FILE_P (cb_ref (save_tree_1))) {
@@ -11727,23 +12417,26 @@ yyreduce:
 	} else {
 		cb_emit_sort_output ((yyvsp[(4) - (4)]), save_tree_1);
 	}
-  }
+  ;}
     break;
 
   case 1132:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5986 "parser.y"
-    { BEGIN_STATEMENT ("START", TERM_START); }
+    { BEGIN_STATEMENT ("START", TERM_START); ;}
     break;
 
   case 1133:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5987 "parser.y"
-    { (yyval) = cb_int (COB_EQ); }
+    { (yyval) = cb_int (COB_EQ); ;}
     break;
 
   case 1134:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 5990 "parser.y"
     {
 	if (CB_FILE_P (cb_ref ((yyvsp[(3) - (7)])))) {
@@ -11758,17 +12451,19 @@ yyreduce:
 		cb_error_x ((yyvsp[(3) - (7)]), _("'%s' is not a file name"), CB_NAME ((yyvsp[(3) - (7)])));
 		(yyval) = cb_error_node;
 	}
-  }
+  ;}
     break;
 
   case 1135:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6007 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1136:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6009 "parser.y"
     {
 	(yyvsp[(0) - (4)]) = (yyvsp[(3) - (4)]);
@@ -11781,379 +12476,436 @@ yyreduce:
 		(yyval) = (yyvsp[(4) - (4)]);
  	}
 #endif
-  }
+  ;}
     break;
 
   case 1137:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6024 "parser.y"
-    { (yyval) = cb_int (((yyvsp[(1) - (2)]) == cb_int1) ? COB_NE : COB_EQ); }
+    { (yyval) = cb_int (((yyvsp[(1) - (2)]) == cb_int1) ? COB_NE : COB_EQ); ;}
     break;
 
   case 1138:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6025 "parser.y"
-    { (yyval) = cb_int (((yyvsp[(1) - (2)]) == cb_int1) ? COB_LE : COB_GT); }
+    { (yyval) = cb_int (((yyvsp[(1) - (2)]) == cb_int1) ? COB_LE : COB_GT); ;}
     break;
 
   case 1139:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6026 "parser.y"
-    { (yyval) = cb_int (((yyvsp[(1) - (2)]) == cb_int1) ? COB_GE : COB_LT); }
+    { (yyval) = cb_int (((yyvsp[(1) - (2)]) == cb_int1) ? COB_GE : COB_LT); ;}
     break;
 
   case 1140:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6027 "parser.y"
-    { (yyval) = cb_int (((yyvsp[(1) - (2)]) == cb_int1) ? COB_LT : COB_GE); }
+    { (yyval) = cb_int (((yyvsp[(1) - (2)]) == cb_int1) ? COB_LT : COB_GE); ;}
     break;
 
   case 1141:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6028 "parser.y"
-    { (yyval) = cb_int (((yyvsp[(1) - (2)]) == cb_int1) ? COB_GT : COB_LE); }
+    { (yyval) = cb_int (((yyvsp[(1) - (2)]) == cb_int1) ? COB_GT : COB_LE); ;}
     break;
 
   case 1142:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6032 "parser.y"
-    { terminator_warning (TERM_START); }
+    { terminator_warning (TERM_START); ;}
     break;
 
   case 1143:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6033 "parser.y"
-    { terminator_clear (TERM_START); }
+    { terminator_clear (TERM_START); ;}
     break;
 
   case 1144:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6042 "parser.y"
-    { BEGIN_STATEMENT ("STOP", 0); }
+    { BEGIN_STATEMENT ("STOP", 0); ;}
     break;
 
   case 1145:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6044 "parser.y"
     {
 	cb_emit_stop_run ((yyvsp[(4) - (4)]));
-  }
+  ;}
     break;
 
   case 1146:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6047 "parser.y"
-    { BEGIN_STATEMENT ("STOP", 0); }
+    { BEGIN_STATEMENT ("STOP", 0); ;}
     break;
 
   case 1147:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6048 "parser.y"
     {
 	cb_verify (cb_stop_literal_statement, "STOP literal");
-  }
+  ;}
     break;
 
   case 1148:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6054 "parser.y"
-    { (yyval) = current_program->cb_return_code; }
+    { (yyval) = current_program->cb_return_code; ;}
     break;
 
   case 1149:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6055 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 1150:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6056 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 1151:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6065 "parser.y"
-    { BEGIN_STATEMENT ("STRING", TERM_STRING); }
+    { BEGIN_STATEMENT ("STRING", TERM_STRING); ;}
     break;
 
   case 1152:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6068 "parser.y"
     {
 	cb_emit_string ((yyvsp[(3) - (8)]), (yyvsp[(5) - (8)]), (yyvsp[(6) - (8)]));
-  }
+  ;}
     break;
 
   case 1153:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6074 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 1154:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6075 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1155:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6079 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1156:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6080 "parser.y"
-    { (yyval) = cb_build_pair (cb_int0, NULL); }
+    { (yyval) = cb_build_pair (cb_int0, NULL); ;}
     break;
 
   case 1157:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6081 "parser.y"
-    { (yyval) = cb_build_pair ((yyvsp[(3) - (3)]), NULL); }
+    { (yyval) = cb_build_pair ((yyvsp[(3) - (3)]), NULL); ;}
     break;
 
   case 1158:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6085 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 1159:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6086 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 1160:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6090 "parser.y"
-    { terminator_warning (TERM_STRING); }
+    { terminator_warning (TERM_STRING); ;}
     break;
 
   case 1161:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6091 "parser.y"
-    { terminator_clear (TERM_STRING); }
+    { terminator_clear (TERM_STRING); ;}
     break;
 
   case 1162:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6100 "parser.y"
-    { BEGIN_STATEMENT ("SUBTRACT", TERM_SUBTRACT); }
+    { BEGIN_STATEMENT ("SUBTRACT", TERM_SUBTRACT); ;}
     break;
 
   case 1164:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6107 "parser.y"
     {
 	cb_emit_arithmetic ((yyvsp[(3) - (4)]), '-', cb_build_binary_list ((yyvsp[(1) - (4)]), '+'));
-  }
+  ;}
     break;
 
   case 1165:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6111 "parser.y"
     {
 	cb_emit_arithmetic ((yyvsp[(5) - (6)]), 0, cb_build_binary_list (cb_cons ((yyvsp[(3) - (6)]), (yyvsp[(1) - (6)])), '-'));
-  }
+  ;}
     break;
 
   case 1166:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6115 "parser.y"
     {
 	cb_emit_corresponding (cb_build_sub, (yyvsp[(4) - (6)]), (yyvsp[(2) - (6)]), (yyvsp[(5) - (6)]));
-  }
+  ;}
     break;
 
   case 1167:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6121 "parser.y"
-    { terminator_warning (TERM_SUBTRACT); }
+    { terminator_warning (TERM_SUBTRACT); ;}
     break;
 
   case 1168:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6122 "parser.y"
-    { terminator_clear (TERM_SUBTRACT); }
+    { terminator_clear (TERM_SUBTRACT); ;}
     break;
 
   case 1169:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6132 "parser.y"
     {
 	BEGIN_STATEMENT ("SUPPRESS", 0);
 	PENDING("SUPPRESS");
-  }
+  ;}
     break;
 
   case 1172:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6147 "parser.y"
-    { BEGIN_STATEMENT ("TERMINATE", 0); }
+    { BEGIN_STATEMENT ("TERMINATE", 0); ;}
     break;
 
   case 1173:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6149 "parser.y"
     {
 	PENDING("TERMINATE");
-  }
+  ;}
     break;
 
   case 1174:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6160 "parser.y"
-    { BEGIN_STATEMENT ("TRANSFORM", 0); }
+    { BEGIN_STATEMENT ("TRANSFORM", 0); ;}
     break;
 
   case 1175:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6162 "parser.y"
     {
 	cb_tree		x;
 
 	x = cb_build_converting ((yyvsp[(5) - (7)]), (yyvsp[(7) - (7)]), cb_build_inspect_region_start ());
 	cb_emit_inspect ((yyvsp[(3) - (7)]), x, cb_int0, 2);
-  }
+  ;}
     break;
 
   case 1176:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6176 "parser.y"
-    { BEGIN_STATEMENT ("UNLOCK", 0); }
+    { BEGIN_STATEMENT ("UNLOCK", 0); ;}
     break;
 
   case 1177:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6178 "parser.y"
     {
 	if ((yyvsp[(3) - (4)]) != cb_error_node) {
 		cb_emit_unlock ((yyvsp[(3) - (4)]));
 	}
-  }
+  ;}
     break;
 
   case 1181:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6197 "parser.y"
-    { BEGIN_STATEMENT ("UNSTRING", TERM_UNSTRING); }
+    { BEGIN_STATEMENT ("UNSTRING", TERM_UNSTRING); ;}
     break;
 
   case 1182:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6201 "parser.y"
     {
 	cb_emit_unstring ((yyvsp[(3) - (9)]), (yyvsp[(4) - (9)]), (yyvsp[(5) - (9)]), (yyvsp[(6) - (9)]), (yyvsp[(7) - (9)]));
-  }
+  ;}
     break;
 
   case 1183:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6207 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1184:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6209 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 1185:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6213 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 1186:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6215 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 1187:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6220 "parser.y"
     {
 	(yyval) = cb_build_unstring_delimited ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)]));
-  }
+  ;}
     break;
 
   case 1188:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6226 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_init ((yyvsp[(2) - (2)])); ;}
     break;
 
   case 1189:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6228 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1190:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6233 "parser.y"
     {
 	(yyval) = cb_build_unstring_into ((yyvsp[(1) - (3)]), (yyvsp[(2) - (3)]), (yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 1191:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6239 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1192:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6240 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 1193:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6244 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1194:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6245 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 1195:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6249 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1196:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6250 "parser.y"
-    { (yyval) = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 1197:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6254 "parser.y"
-    { terminator_warning (TERM_UNSTRING); }
+    { terminator_warning (TERM_UNSTRING); ;}
     break;
 
   case 1198:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6255 "parser.y"
-    { terminator_clear (TERM_UNSTRING); }
+    { terminator_clear (TERM_UNSTRING); ;}
     break;
 
   case 1202:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6273 "parser.y"
     {
 	if (!in_declaratives) {
@@ -12171,28 +12923,31 @@ yyreduce:
 					     CB_TREE (current_section));
 		}
 	}
-  }
+  ;}
     break;
 
   case 1203:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6294 "parser.y"
     {
 	use_global_ind = 0;
-  }
+  ;}
     break;
 
   case 1204:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6298 "parser.y"
     {
 	use_global_ind = 1;
 	current_program->flag_global_use = 1;
-  }
+  ;}
     break;
 
   case 1205:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6306 "parser.y"
     {
 	cb_tree		l;
@@ -12202,69 +12957,77 @@ yyreduce:
 			setup_use_file (CB_FILE (cb_ref (CB_VALUE (l))));
 		}
 	}
-  }
+  ;}
     break;
 
   case 1206:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6316 "parser.y"
     {
 	current_program->global_handler[COB_OPEN_INPUT].handler_label = current_section;
 	current_program->global_handler[COB_OPEN_INPUT].handler_prog = current_program;
-  }
+  ;}
     break;
 
   case 1207:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6321 "parser.y"
     {
 	current_program->global_handler[COB_OPEN_OUTPUT].handler_label = current_section;
 	current_program->global_handler[COB_OPEN_OUTPUT].handler_prog = current_program;
-  }
+  ;}
     break;
 
   case 1208:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6326 "parser.y"
     {
 	current_program->global_handler[COB_OPEN_I_O].handler_label = current_section;
 	current_program->global_handler[COB_OPEN_I_O].handler_prog = current_program;
-  }
+  ;}
     break;
 
   case 1209:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6331 "parser.y"
     {
 	current_program->global_handler[COB_OPEN_EXTEND].handler_label = current_section;
 	current_program->global_handler[COB_OPEN_EXTEND].handler_prog = current_program;
-  }
+  ;}
     break;
 
   case 1222:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6363 "parser.y"
     {
 	PENDING ("USE FOR DEBUGGING");
-  }
+  ;}
     break;
 
   case 1225:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6375 "parser.y"
     {
 	PENDING ("USE BEFORE REPORTING");
-  }
+  ;}
     break;
 
   case 1226:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6386 "parser.y"
-    { BEGIN_STATEMENT ("WRITE", TERM_WRITE); }
+    { BEGIN_STATEMENT ("WRITE", TERM_WRITE); ;}
     break;
 
   case 1227:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6389 "parser.y"
     {
 	if ((yyvsp[(3) - (8)]) != cb_error_node) {
@@ -12276,759 +13039,867 @@ yyreduce:
 		}
 		cb_emit_write ((yyvsp[(3) - (8)]), (yyvsp[(4) - (8)]), (yyvsp[(6) - (8)]), (yyvsp[(5) - (8)]));
 	}
-  }
+  ;}
     break;
 
   case 1228:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6403 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1229:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6404 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 1230:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6409 "parser.y"
     {
 	(yyval) = cb_int0;
-  }
+  ;}
     break;
 
   case 1231:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6413 "parser.y"
     {
 	(yyval) = cb_build_write_advancing_lines ((yyvsp[(1) - (4)]), (yyvsp[(3) - (4)]));
-  }
+  ;}
     break;
 
   case 1232:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6417 "parser.y"
     {
 	(yyval) = cb_build_write_advancing_mnemonic ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 1233:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6421 "parser.y"
     {
 	(yyval) = cb_build_write_advancing_page ((yyvsp[(1) - (3)]));
-  }
+  ;}
     break;
 
   case 1234:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6427 "parser.y"
-    { (yyval) = CB_BEFORE; }
+    { (yyval) = CB_BEFORE; ;}
     break;
 
   case 1235:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6428 "parser.y"
-    { (yyval) = CB_AFTER; }
+    { (yyval) = CB_AFTER; ;}
     break;
 
   case 1239:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6437 "parser.y"
-    { terminator_warning (TERM_WRITE); }
+    { terminator_warning (TERM_WRITE); ;}
     break;
 
   case 1240:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6438 "parser.y"
-    { terminator_clear (TERM_WRITE); }
+    { terminator_clear (TERM_WRITE); ;}
     break;
 
   case 1241:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6453 "parser.y"
     {
 	current_statement->handler_id = COB_EC_IMP_ACCEPT;
-  }
+  ;}
     break;
 
   case 1242:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6461 "parser.y"
     {
 	current_statement->handler_id = COB_EC_IMP_DISPLAY;
-  }
+  ;}
     break;
 
   case 1244:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6468 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1245:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6472 "parser.y"
     {
 	current_statement->handler1 = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 1247:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6479 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1248:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6483 "parser.y"
     {
 	current_statement->handler2 = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 1251:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6499 "parser.y"
     {
 	check_unreached = 0;
 	current_statement->handler_id = COB_EC_SIZE;
-  }
+  ;}
     break;
 
   case 1252:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6504 "parser.y"
     {
 	current_statement->handler1 = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 1254:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6511 "parser.y"
     {
 	check_unreached = 0;
 	current_statement->handler_id = COB_EC_SIZE;
-  }
+  ;}
     break;
 
   case 1255:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6516 "parser.y"
     {
 	current_statement->handler2 = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 1256:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6528 "parser.y"
     {
 	current_statement->handler_id = COB_EC_OVERFLOW;
-  }
+  ;}
     break;
 
   case 1258:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6535 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1259:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6539 "parser.y"
     {
 	current_statement->handler1 = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 1261:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6546 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1262:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6550 "parser.y"
     {
 	current_statement->handler2 = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 1263:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6562 "parser.y"
     {
 	current_statement->handler_id = COB_EC_I_O_AT_END;
 	current_statement->handler1 = (yyvsp[(1) - (1)]);
-  }
+  ;}
     break;
 
   case 1264:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6567 "parser.y"
     {
 	current_statement->handler_id = COB_EC_I_O_AT_END;
 	current_statement->handler2 = (yyvsp[(1) - (1)]);
-  }
+  ;}
     break;
 
   case 1265:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6572 "parser.y"
     {
 	current_statement->handler_id = COB_EC_I_O_AT_END;
 	current_statement->handler1 = (yyvsp[(1) - (2)]);
 	current_statement->handler2 = (yyvsp[(2) - (2)]);
-  }
+  ;}
     break;
 
   case 1266:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6581 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1267:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6585 "parser.y"
     {
 	(yyval) = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 1268:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6592 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1269:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6596 "parser.y"
     {
 	(yyval) = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 1270:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6608 "parser.y"
     {
 	current_statement->handler_id = COB_EC_I_O_EOP;
 	current_statement->handler1 = (yyvsp[(1) - (1)]);
-  }
+  ;}
     break;
 
   case 1271:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6613 "parser.y"
     {
 	current_statement->handler_id = COB_EC_I_O_EOP;
 	current_statement->handler2 = (yyvsp[(1) - (1)]);
-  }
+  ;}
     break;
 
   case 1272:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6618 "parser.y"
     {
 	current_statement->handler_id = COB_EC_I_O_EOP;
 	current_statement->handler1 = (yyvsp[(1) - (2)]);
 	current_statement->handler2 = (yyvsp[(2) - (2)]);
-  }
+  ;}
     break;
 
   case 1273:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6627 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1274:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6631 "parser.y"
     {
 	(yyval) = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 1275:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6638 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1276:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6642 "parser.y"
     {
 	(yyval) = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 1279:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6658 "parser.y"
     {
 	current_statement->handler_id = COB_EC_I_O_INVALID_KEY;
 	current_statement->handler1 = (yyvsp[(1) - (1)]);
-  }
+  ;}
     break;
 
   case 1280:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6663 "parser.y"
     {
 	current_statement->handler_id = COB_EC_I_O_INVALID_KEY;
 	current_statement->handler2 = (yyvsp[(1) - (1)]);
-  }
+  ;}
     break;
 
   case 1281:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6668 "parser.y"
     {
 	current_statement->handler_id = COB_EC_I_O_INVALID_KEY;
 	current_statement->handler1 = (yyvsp[(1) - (2)]);
 	current_statement->handler2 = (yyvsp[(2) - (2)]);
-  }
+  ;}
     break;
 
   case 1282:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6677 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1283:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6681 "parser.y"
     {
 	(yyval) = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 1284:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6688 "parser.y"
     {
 	check_unreached = 0;
-  }
+  ;}
     break;
 
   case 1285:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6692 "parser.y"
     {
 	(yyval) = (yyvsp[(3) - (3)]);
-  }
+  ;}
     break;
 
   case 1286:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6704 "parser.y"
     {
 	(yyval) = cb_one;
-  }
+  ;}
     break;
 
   case 1287:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6708 "parser.y"
     {
 	(yyval) = (yyvsp[(2) - (3)]);
-  }
+  ;}
     break;
 
   case 1288:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6720 "parser.y"
     {
 	(yyval) = cb_build_cond ((yyvsp[(1) - (1)]));
-  }
+  ;}
     break;
 
   case 1289:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6727 "parser.y"
     {
 	(yyval) = cb_build_expr ((yyvsp[(1) - (1)]));
-  }
+  ;}
     break;
 
   case 1290:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6733 "parser.y"
     {
 	current_expr = NULL;
-  }
+  ;}
     break;
 
   case 1291:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6737 "parser.y"
     {
 	(yyval) = cb_list_reverse (current_expr);
-  }
+  ;}
     break;
 
   case 1292:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6743 "parser.y"
-    { push_expr ('x', (yyvsp[(2) - (2)])); }
+    { push_expr ('x', (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1293:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6744 "parser.y"
-    { push_expr (')', NULL); }
+    { push_expr (')', NULL); ;}
     break;
 
   case 1294:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6746 "parser.y"
-    { push_expr ('O', NULL); }
+    { push_expr ('O', NULL); ;}
     break;
 
   case 1295:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6747 "parser.y"
-    { push_expr ('9', NULL); }
+    { push_expr ('9', NULL); ;}
     break;
 
   case 1296:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6748 "parser.y"
-    { push_expr ('A', NULL); }
+    { push_expr ('A', NULL); ;}
     break;
 
   case 1297:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6749 "parser.y"
-    { push_expr ('L', NULL); }
+    { push_expr ('L', NULL); ;}
     break;
 
   case 1298:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6750 "parser.y"
-    { push_expr ('U', NULL); }
+    { push_expr ('U', NULL); ;}
     break;
 
   case 1299:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6751 "parser.y"
-    { push_expr ('x', (yyvsp[(2) - (2)])); }
+    { push_expr ('x', (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1300:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6753 "parser.y"
-    { push_expr ('O', NULL); }
+    { push_expr ('O', NULL); ;}
     break;
 
   case 1301:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6754 "parser.y"
-    { push_expr ('9', NULL); }
+    { push_expr ('9', NULL); ;}
     break;
 
   case 1302:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6755 "parser.y"
-    { push_expr ('A', NULL); }
+    { push_expr ('A', NULL); ;}
     break;
 
   case 1303:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6756 "parser.y"
-    { push_expr ('L', NULL); }
+    { push_expr ('L', NULL); ;}
     break;
 
   case 1304:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6757 "parser.y"
-    { push_expr ('U', NULL); }
+    { push_expr ('U', NULL); ;}
     break;
 
   case 1305:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6758 "parser.y"
-    { push_expr ('x', (yyvsp[(2) - (2)])); }
+    { push_expr ('x', (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1306:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6760 "parser.y"
-    { push_expr ('P', NULL); }
+    { push_expr ('P', NULL); ;}
     break;
 
   case 1307:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6761 "parser.y"
-    { push_expr ('N', NULL); }
+    { push_expr ('N', NULL); ;}
     break;
 
   case 1308:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6763 "parser.y"
-    { push_expr ('P', NULL); }
+    { push_expr ('P', NULL); ;}
     break;
 
   case 1309:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6764 "parser.y"
-    { push_expr ('N', NULL); }
+    { push_expr ('N', NULL); ;}
     break;
 
   case 1310:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6765 "parser.y"
-    { push_expr ('x', cb_zero); }
+    { push_expr ('x', cb_zero); ;}
     break;
 
   case 1314:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6772 "parser.y"
-    { push_expr ('(', NULL); }
+    { push_expr ('(', NULL); ;}
     break;
 
   case 1315:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6774 "parser.y"
-    { push_expr ('+', NULL); }
+    { push_expr ('+', NULL); ;}
     break;
 
   case 1316:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6775 "parser.y"
-    { push_expr ('-', NULL); }
+    { push_expr ('-', NULL); ;}
     break;
 
   case 1317:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6776 "parser.y"
-    { push_expr ('^', NULL); }
+    { push_expr ('^', NULL); ;}
     break;
 
   case 1318:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6778 "parser.y"
-    { push_expr ('!', NULL); }
+    { push_expr ('!', NULL); ;}
     break;
 
   case 1319:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6779 "parser.y"
-    { push_expr ('!', NULL); }
+    { push_expr ('!', NULL); ;}
     break;
 
   case 1320:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6781 "parser.y"
-    { push_expr ('+', NULL); }
+    { push_expr ('+', NULL); ;}
     break;
 
   case 1321:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6782 "parser.y"
-    { push_expr ('-', NULL); }
+    { push_expr ('-', NULL); ;}
     break;
 
   case 1322:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6783 "parser.y"
-    { push_expr ('*', NULL); }
+    { push_expr ('*', NULL); ;}
     break;
 
   case 1323:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6784 "parser.y"
-    { push_expr ('/', NULL); }
+    { push_expr ('/', NULL); ;}
     break;
 
   case 1324:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6785 "parser.y"
-    { push_expr ('^', NULL); }
+    { push_expr ('^', NULL); ;}
     break;
 
   case 1325:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6787 "parser.y"
-    { push_expr ('=', NULL); }
+    { push_expr ('=', NULL); ;}
     break;
 
   case 1326:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6788 "parser.y"
-    { push_expr ('>', NULL); }
+    { push_expr ('>', NULL); ;}
     break;
 
   case 1327:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6789 "parser.y"
-    { push_expr ('<', NULL); }
+    { push_expr ('<', NULL); ;}
     break;
 
   case 1328:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6790 "parser.y"
-    { push_expr (']', NULL); }
+    { push_expr (']', NULL); ;}
     break;
 
   case 1329:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6791 "parser.y"
-    { push_expr ('[', NULL); }
+    { push_expr ('[', NULL); ;}
     break;
 
   case 1330:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6792 "parser.y"
-    { push_expr ('~', NULL); }
+    { push_expr ('~', NULL); ;}
     break;
 
   case 1331:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6794 "parser.y"
-    { push_expr ('=', NULL); }
+    { push_expr ('=', NULL); ;}
     break;
 
   case 1332:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6795 "parser.y"
-    { push_expr ('>', NULL); }
+    { push_expr ('>', NULL); ;}
     break;
 
   case 1333:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6796 "parser.y"
-    { push_expr ('<', NULL); }
+    { push_expr ('<', NULL); ;}
     break;
 
   case 1334:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6797 "parser.y"
-    { push_expr (']', NULL); }
+    { push_expr (']', NULL); ;}
     break;
 
   case 1335:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6798 "parser.y"
-    { push_expr ('[', NULL); }
+    { push_expr ('[', NULL); ;}
     break;
 
   case 1336:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6799 "parser.y"
-    { push_expr ('~', NULL); }
+    { push_expr ('~', NULL); ;}
     break;
 
   case 1337:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6801 "parser.y"
-    { push_expr ('&', NULL); }
+    { push_expr ('&', NULL); ;}
     break;
 
   case 1338:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6802 "parser.y"
-    { push_expr ('|', NULL); }
+    { push_expr ('|', NULL); ;}
     break;
 
   case 1352:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6814 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 1353:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6815 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 1357:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6824 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1358:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6825 "parser.y"
-    { (yyval) = cb_build_binary_op ((yyvsp[(1) - (3)]), '+', (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_binary_op ((yyvsp[(1) - (3)]), '+', (yyvsp[(3) - (3)])); ;}
     break;
 
   case 1359:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6826 "parser.y"
-    { (yyval) = cb_build_binary_op ((yyvsp[(1) - (3)]), '-', (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_binary_op ((yyvsp[(1) - (3)]), '-', (yyvsp[(3) - (3)])); ;}
     break;
 
   case 1360:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6827 "parser.y"
-    { (yyval) = cb_build_binary_op ((yyvsp[(1) - (3)]), '*', (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_binary_op ((yyvsp[(1) - (3)]), '*', (yyvsp[(3) - (3)])); ;}
     break;
 
   case 1361:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6828 "parser.y"
-    { (yyval) = cb_build_binary_op ((yyvsp[(1) - (3)]), '/', (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_binary_op ((yyvsp[(1) - (3)]), '/', (yyvsp[(3) - (3)])); ;}
     break;
 
   case 1362:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6829 "parser.y"
-    { (yyval) = (yyvsp[(2) - (2)]); }
+    { (yyval) = (yyvsp[(2) - (2)]); ;}
     break;
 
   case 1363:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6830 "parser.y"
-    { (yyval) = cb_build_binary_op (cb_zero, '-', (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_build_binary_op (cb_zero, '-', (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1364:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6831 "parser.y"
-    { (yyval) = cb_build_binary_op ((yyvsp[(1) - (3)]), '^', (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_binary_op ((yyvsp[(1) - (3)]), '^', (yyvsp[(3) - (3)])); ;}
     break;
 
   case 1365:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6832 "parser.y"
-    { (yyval) = (yyvsp[(2) - (3)]); }
+    { (yyval) = (yyvsp[(2) - (3)]); ;}
     break;
 
   case 1366:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6844 "parser.y"
     {
 	if (current_linage > 1) {
@@ -13040,11 +13911,12 @@ yyreduce:
 	} else {
 		(yyval) = linage_file->linage_ctr;
 	}
-  }
+  ;}
     break;
 
   case 1367:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6856 "parser.y"
     {
 	if (CB_FILE_P (cb_ref ((yyvsp[(3) - (3)])))) {
@@ -13053,29 +13925,33 @@ yyreduce:
 		cb_error_x ((yyvsp[(3) - (3)]), _("'%s' is not a file name"), CB_NAME ((yyvsp[(3) - (3)])));
 		(yyval) = cb_error_node;
 	}
-  }
+  ;}
     break;
 
   case 1368:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6870 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1369:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6872 "parser.y"
-    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_append ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1370:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6876 "parser.y"
-    { (yyval) = cb_build_pair ((yyvsp[(2) - (2)]), (yyvsp[(1) - (2)])); }
+    { (yyval) = cb_build_pair ((yyvsp[(2) - (2)]), (yyvsp[(1) - (2)])); ;}
     break;
 
   case 1371:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6883 "parser.y"
     {
 	cb_tree x;
@@ -13092,11 +13968,12 @@ yyreduce:
 		}
 	}
 	(yyval) = x;
-  }
+  ;}
     break;
 
   case 1372:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6905 "parser.y"
     {
 	cb_tree x;
@@ -13111,19 +13988,21 @@ yyreduce:
 	} else {
 		(yyval) = (yyvsp[(1) - (1)]);
 	}
-  }
+  ;}
     break;
 
   case 1373:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6925 "parser.y"
     {
 	(yyval) = cb_list_init ((yyvsp[(1) - (1)]));
-  }
+  ;}
     break;
 
   case 1374:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6929 "parser.y"
     {
 	cb_tree		l;
@@ -13136,11 +14015,12 @@ yyreduce:
 		}
 		(yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)]));
 	}
-  }
+  ;}
     break;
 
   case 1375:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6945 "parser.y"
     {
 	if (CB_FILE_P (cb_ref ((yyvsp[(1) - (1)])))) {
@@ -13149,106 +14029,121 @@ yyreduce:
 		cb_error_x ((yyvsp[(1) - (1)]), _("'%s' is not a file name"), CB_NAME ((yyvsp[(1) - (1)])));
 		(yyval) = cb_error_node;
 	}
-  }
+  ;}
     break;
 
   case 1376:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6958 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 1377:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6960 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1378:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6964 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1379:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6970 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1380:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6972 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1381:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6977 "parser.y"
     {
 	(yyval) = (yyvsp[(1) - (1)]);
 	CB_REFERENCE ((yyval))->offset = CB_TREE (current_section);
 	current_program->label_list = cb_cons ((yyval), current_program->label_list);
-  }
+  ;}
     break;
 
   case 1385:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 6992 "parser.y"
     {
 	(yyval) = cb_build_reference ((char *)(CB_LITERAL ((yyvsp[(1) - (1)]))->data));
 	(yyval)->source_file = (yyvsp[(1) - (1)])->source_file;
 	(yyval)->source_line = (yyvsp[(1) - (1)])->source_line;
-  }
+  ;}
     break;
 
   case 1386:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7002 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 1387:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7003 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1388:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7008 "parser.y"
     {
 	(yyval) = (yyvsp[(1) - (1)]);
 	current_program->reference_list = cb_cons ((yyval), current_program->reference_list);
-  }
+  ;}
     break;
 
   case 1389:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7017 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 1390:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7018 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1391:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7022 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1392:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7023 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1395:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7035 "parser.y"
     {
 	(yyval) = (yyvsp[(1) - (1)]);
@@ -13256,160 +14151,185 @@ yyreduce:
 		redefinition_error ((yyval));
 		(yyval) = cb_error_node;
 	}
-  }
+  ;}
     break;
 
   case 1396:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7054 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 1397:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7055 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1399:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7060 "parser.y"
-    { (yyval) = cb_build_address ((yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_address ((yyvsp[(3) - (3)])); ;}
     break;
 
   case 1400:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7064 "parser.y"
-    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_list_init ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 1401:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7065 "parser.y"
-    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); }
+    { (yyval) = cb_list_add ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 1403:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7070 "parser.y"
-    { (yyval) = cb_build_length ((yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_length ((yyvsp[(3) - (3)])); ;}
     break;
 
   case 1404:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7071 "parser.y"
-    { (yyval) = cb_build_length ((yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_length ((yyvsp[(3) - (3)])); ;}
     break;
 
   case 1405:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7072 "parser.y"
-    { (yyval) = cb_build_length ((yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_length ((yyvsp[(3) - (3)])); ;}
     break;
 
   case 1406:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7073 "parser.y"
-    { (yyval) = cb_build_ppointer ((yyvsp[(4) - (4)])); }
+    { (yyval) = cb_build_ppointer ((yyvsp[(4) - (4)])); ;}
     break;
 
   case 1407:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7074 "parser.y"
-    { (yyval) = cb_build_address ((yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_address ((yyvsp[(3) - (3)])); ;}
     break;
 
   case 1412:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7082 "parser.y"
-    { (yyval) = cb_build_length ((yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_length ((yyvsp[(3) - (3)])); ;}
     break;
 
   case 1413:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7083 "parser.y"
-    { (yyval) = cb_build_length ((yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_length ((yyvsp[(3) - (3)])); ;}
     break;
 
   case 1414:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7084 "parser.y"
-    { (yyval) = cb_build_length ((yyvsp[(3) - (3)])); }
+    { (yyval) = cb_build_length ((yyvsp[(3) - (3)])); ;}
     break;
 
   case 1420:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7096 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1421:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7097 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1433:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7131 "parser.y"
-    { (yyval) = cb_zero; }
+    { (yyval) = cb_zero; ;}
     break;
 
   case 1434:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7139 "parser.y"
-    { (yyval) = cb_build_identifier ((yyvsp[(1) - (1)])); }
+    { (yyval) = cb_build_identifier ((yyvsp[(1) - (1)])); ;}
     break;
 
   case 1435:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7143 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1436:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7144 "parser.y"
-    { (yyval) = (yyvsp[(1) - (2)]); }
+    { (yyval) = (yyvsp[(1) - (2)]); ;}
     break;
 
   case 1437:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7145 "parser.y"
-    { (yyval) = (yyvsp[(1) - (2)]); }
+    { (yyval) = (yyvsp[(1) - (2)]); ;}
     break;
 
   case 1438:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7146 "parser.y"
-    { (yyval) = (yyvsp[(1) - (3)]); }
+    { (yyval) = (yyvsp[(1) - (3)]); ;}
     break;
 
   case 1439:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7150 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1440:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7151 "parser.y"
-    { (yyval) = (yyvsp[(1) - (3)]); CB_REFERENCE ((yyvsp[(1) - (3)]))->chain = (yyvsp[(3) - (3)]); }
+    { (yyval) = (yyvsp[(1) - (3)]); CB_REFERENCE ((yyvsp[(1) - (3)]))->chain = (yyvsp[(3) - (3)]); ;}
     break;
 
   case 1441:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7156 "parser.y"
     {
 	if (cb_ref ((yyvsp[(0) - (3)])) != cb_error_node) {
 		(yyval) = (yyvsp[(0) - (3)]);
 		CB_REFERENCE ((yyvsp[(0) - (3)]))->subs = cb_list_reverse ((yyvsp[(2) - (3)]));
 	}
-  }
+  ;}
     break;
 
   case 1442:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7166 "parser.y"
     {
 	if (cb_ref ((yyvsp[(0) - (4)])) != cb_error_node) {
@@ -13427,11 +14347,12 @@ yyreduce:
 		}
 		CB_REFERENCE ((yyvsp[(0) - (4)]))->offset = (yyvsp[(2) - (4)]);
 	}
-  }
+  ;}
     break;
 
   case 1443:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7184 "parser.y"
     {
 	if (cb_ref ((yyvsp[(0) - (5)])) != cb_error_node) {
@@ -13451,11 +14372,12 @@ yyreduce:
 		CB_REFERENCE ((yyvsp[(0) - (5)]))->offset = (yyvsp[(2) - (5)]);
 		CB_REFERENCE ((yyvsp[(0) - (5)]))->length = (yyvsp[(4) - (5)]);
 	}
-  }
+  ;}
     break;
 
   case 1444:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7211 "parser.y"
     {
 	if (cb_tree_category ((yyvsp[(1) - (1)])) != CB_CATEGORY_NUMERIC) {
@@ -13464,451 +14386,501 @@ yyreduce:
 		cb_error (_("Integer value expected"));
 	}
 	(yyval) = (yyvsp[(1) - (1)]);
-  }
+  ;}
     break;
 
   case 1445:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7222 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1446:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7224 "parser.y"
     {
 	(yyval) = (yyvsp[(2) - (2)]);
 	if (CB_LITERAL_P ((yyvsp[(2) - (2)]))) {
 		CB_LITERAL ((yyvsp[(2) - (2)]))->all = 1;
 	}
-  }
+  ;}
     break;
 
   case 1447:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7233 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1448:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7234 "parser.y"
-    { (yyval) = cb_concat_literals ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); }
+    { (yyval) = cb_concat_literals ((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 1449:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7238 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1450:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7239 "parser.y"
-    { (yyval) = cb_space; }
+    { (yyval) = cb_space; ;}
     break;
 
   case 1451:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7240 "parser.y"
-    { (yyval) = cb_zero; }
+    { (yyval) = cb_zero; ;}
     break;
 
   case 1452:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7241 "parser.y"
-    { (yyval) = cb_quote; }
+    { (yyval) = cb_quote; ;}
     break;
 
   case 1453:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7242 "parser.y"
-    { (yyval) = cb_high; }
+    { (yyval) = cb_high; ;}
     break;
 
   case 1454:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7243 "parser.y"
-    { (yyval) = cb_low; }
+    { (yyval) = cb_low; ;}
     break;
 
   case 1455:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7244 "parser.y"
-    { (yyval) = cb_null; }
+    { (yyval) = cb_null; ;}
     break;
 
   case 1456:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7253 "parser.y"
     {
 	(yyval) = cb_build_intrinsic ((yyvsp[(1) - (2)]), NULL, (yyvsp[(2) - (2)]));
-  }
+  ;}
     break;
 
   case 1457:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7257 "parser.y"
     {
 	(yyval) = cb_build_intrinsic ((yyvsp[(1) - (2)]), NULL, (yyvsp[(2) - (2)]));
-  }
+  ;}
     break;
 
   case 1458:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7261 "parser.y"
     {
 	(yyval) = cb_build_intrinsic ((yyvsp[(1) - (5)]), cb_list_init ((yyvsp[(3) - (5)])), (yyvsp[(5) - (5)]));
-  }
+  ;}
     break;
 
   case 1459:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7265 "parser.y"
     {
 	(yyval) = cb_build_intrinsic ((yyvsp[(1) - (5)]), cb_list_init ((yyvsp[(3) - (5)])), (yyvsp[(5) - (5)]));
-  }
+  ;}
     break;
 
   case 1460:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7269 "parser.y"
     {
 	(yyval) = cb_build_intrinsic ((yyvsp[(1) - (5)]), cb_list_init ((yyvsp[(3) - (5)])), (yyvsp[(5) - (5)]));
-  }
+  ;}
     break;
 
   case 1461:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7273 "parser.y"
     {
 	(yyval) = cb_build_intrinsic ((yyvsp[(1) - (5)]), (yyvsp[(3) - (5)]), (yyvsp[(5) - (5)]));
-  }
+  ;}
     break;
 
   case 1462:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7277 "parser.y"
     {
 	(yyval) = cb_build_intrinsic ((yyvsp[(1) - (5)]), (yyvsp[(3) - (5)]), (yyvsp[(5) - (5)]));
-  }
+  ;}
     break;
 
   case 1463:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7281 "parser.y"
     {
 	(yyval) = cb_build_intrinsic ((yyvsp[(1) - (5)]), (yyvsp[(3) - (5)]), (yyvsp[(5) - (5)]));
-  }
+  ;}
     break;
 
   case 1464:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7285 "parser.y"
     {
 	(yyval) = cb_build_intrinsic ((yyvsp[(1) - (5)]), (yyvsp[(3) - (5)]), (yyvsp[(5) - (5)]));
-  }
+  ;}
     break;
 
   case 1465:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7289 "parser.y"
     {
 	(yyval) = cb_build_intrinsic ((yyvsp[(1) - (4)]), (yyvsp[(3) - (4)]), NULL);
-  }
+  ;}
     break;
 
   case 1466:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7293 "parser.y"
     {
 	(yyval) = cb_build_intrinsic ((yyvsp[(1) - (5)]), (yyvsp[(3) - (5)]), (yyvsp[(5) - (5)]));
-  }
+  ;}
     break;
 
   case 1467:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7297 "parser.y"
     {
 	(yyval) = cb_build_intrinsic ((yyvsp[(1) - (2)]), (yyvsp[(2) - (2)]), NULL);
-  }
+  ;}
     break;
 
   case 1468:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7303 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1469:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7304 "parser.y"
-    { (yyval) = cb_build_pair ((yyvsp[(2) - (4)]), NULL); }
+    { (yyval) = cb_build_pair ((yyvsp[(2) - (4)]), NULL); ;}
     break;
 
   case 1470:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7305 "parser.y"
-    { (yyval) = cb_build_pair ((yyvsp[(2) - (5)]), (yyvsp[(4) - (5)])); }
+    { (yyval) = cb_build_pair ((yyvsp[(2) - (5)]), (yyvsp[(4) - (5)])); ;}
     break;
 
   case 1471:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7309 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1472:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7310 "parser.y"
-    { (yyval) = (yyvsp[(2) - (3)]); }
+    { (yyval) = (yyvsp[(2) - (3)]); ;}
     break;
 
   case 1473:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7314 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1474:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7315 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 1475:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7321 "parser.y"
     {
 	cb_tree	x;
 
 	x = cb_list_init ((yyvsp[(1) - (1)]));
 	(yyval) = cb_list_add (x, cb_int0);
-  }
+  ;}
     break;
 
   case 1476:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7328 "parser.y"
     {
 	cb_tree	x;
 
 	x = cb_list_init ((yyvsp[(1) - (3)]));
 	(yyval) = cb_list_add (x, cb_int1);
-  }
+  ;}
     break;
 
   case 1477:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7335 "parser.y"
     {
 	cb_tree	x;
 
 	x = cb_list_init ((yyvsp[(1) - (3)]));
 	(yyval) = cb_list_add (x, cb_int2);
-  }
+  ;}
     break;
 
   case 1478:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7345 "parser.y"
     {
 	cb_tree	x;
 
 	x = cb_list_init ((yyvsp[(1) - (1)]));
 	(yyval) = cb_list_add (x, cb_null);
-  }
+  ;}
     break;
 
   case 1479:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7352 "parser.y"
     {
 	cb_tree	x;
 
 	x = cb_list_init ((yyvsp[(1) - (3)]));
 	(yyval) = cb_list_add (x, (yyvsp[(3) - (3)]));
-  }
+  ;}
     break;
 
   case 1480:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7362 "parser.y"
     {
 	cb_tree	x;
 
 	x = cb_list_init ((yyvsp[(1) - (1)]));
 	(yyval) = cb_list_add (x, cb_null);
-  }
+  ;}
     break;
 
   case 1481:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7369 "parser.y"
     {
 	cb_tree	x;
 
 	x = cb_list_init ((yyvsp[(1) - (3)]));
 	(yyval) = cb_list_add (x, cb_ref ((yyvsp[(3) - (3)])));
-  }
+  ;}
     break;
 
   case 1482:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7382 "parser.y"
     {
 	non_const_word = 1;
-  }
+  ;}
     break;
 
   case 1483:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7392 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 1484:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7393 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 1485:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7397 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 1486:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7398 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 1487:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7402 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1488:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7403 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 1489:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7407 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 1490:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7408 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 1491:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7409 "parser.y"
-    { (yyval) = cb_int2; }
+    { (yyval) = cb_int2; ;}
     break;
 
   case 1492:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7413 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 1493:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7414 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 1494:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7418 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 1495:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7419 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 1496:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7423 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 1497:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7424 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 1498:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7428 "parser.y"
-    { (yyval) = cb_int0; }
+    { (yyval) = cb_int0; ;}
     break;
 
   case 1499:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7429 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 1511:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7442 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 1540:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7457 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1541:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7457 "parser.y"
-    { (yyval) = cb_int1; }
+    { (yyval) = cb_int1; ;}
     break;
 
   case 1552:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7462 "parser.y"
-    { (yyval) = NULL; }
+    { (yyval) = NULL; ;}
     break;
 
   case 1553:
-/* Line 1792 of yacc.c  */
+
+/* Line 1455 of yacc.c  */
 #line 7462 "parser.y"
-    { (yyval) = (yyvsp[(1) - (1)]); }
+    { (yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
 
-/* Line 1792 of yacc.c  */
-#line 13899 "parser.c"
+
+/* Line 1455 of yacc.c  */
+#line 14882 "parser.c"
       default: break;
     }
-  /* User semantic actions sometimes alter yychar, and that requires
-     that yytoken be updated with the new translation.  We take the
-     approach of translating immediately before every use of yytoken.
-     One alternative is translating here after every semantic action,
-     but that translation would be missed if the semantic action invokes
-     YYABORT, YYACCEPT, or YYERROR immediately after altering yychar or
-     if it invokes YYBACKUP.  In the case of YYABORT or YYACCEPT, an
-     incorrect destructor might then be invoked immediately.  In the
-     case of YYERROR or YYBACKUP, subsequent parser actions might lead
-     to an incorrect destructor call or verbose syntax error message
-     before the lookahead is translated.  */
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
 
   YYPOPSTACK (yylen);
@@ -13936,10 +14908,6 @@ yyreduce:
 | yyerrlab -- here on detecting error |
 `------------------------------------*/
 yyerrlab:
-  /* Make sure we have latest lookahead translation.  See comments at
-     user semantic actions for why this is necessary.  */
-  yytoken = yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (yychar);
-
   /* If not already recovering from an error, report this error.  */
   if (!yyerrstatus)
     {
@@ -13947,36 +14915,37 @@ yyerrlab:
 #if ! YYERROR_VERBOSE
       yyerror (YY_("syntax error"));
 #else
-# define YYSYNTAX_ERROR yysyntax_error (&yymsg_alloc, &yymsg, \
-                                        yyssp, yytoken)
       {
-        char const *yymsgp = YY_("syntax error");
-        int yysyntax_error_status;
-        yysyntax_error_status = YYSYNTAX_ERROR;
-        if (yysyntax_error_status == 0)
-          yymsgp = yymsg;
-        else if (yysyntax_error_status == 1)
-          {
-            if (yymsg != yymsgbuf)
-              YYSTACK_FREE (yymsg);
-            yymsg = (char *) YYSTACK_ALLOC (yymsg_alloc);
-            if (!yymsg)
-              {
-                yymsg = yymsgbuf;
-                yymsg_alloc = sizeof yymsgbuf;
-                yysyntax_error_status = 2;
-              }
-            else
-              {
-                yysyntax_error_status = YYSYNTAX_ERROR;
-                yymsgp = yymsg;
-              }
-          }
-        yyerror (yymsgp);
-        if (yysyntax_error_status == 2)
-          goto yyexhaustedlab;
+	YYSIZE_T yysize = yysyntax_error (0, yystate, yychar);
+	if (yymsg_alloc < yysize && yymsg_alloc < YYSTACK_ALLOC_MAXIMUM)
+	  {
+	    YYSIZE_T yyalloc = 2 * yysize;
+	    if (! (yysize <= yyalloc && yyalloc <= YYSTACK_ALLOC_MAXIMUM))
+	      yyalloc = YYSTACK_ALLOC_MAXIMUM;
+	    if (yymsg != yymsgbuf)
+	      YYSTACK_FREE (yymsg);
+	    yymsg = (char *) YYSTACK_ALLOC (yyalloc);
+	    if (yymsg)
+	      yymsg_alloc = yyalloc;
+	    else
+	      {
+		yymsg = yymsgbuf;
+		yymsg_alloc = sizeof yymsgbuf;
+	      }
+	  }
+
+	if (0 < yysize && yysize <= yymsg_alloc)
+	  {
+	    (void) yysyntax_error (yymsg, yystate, yychar);
+	    yyerror (yymsg);
+	  }
+	else
+	  {
+	    yyerror (YY_("syntax error"));
+	    if (yysize != 0)
+	      goto yyexhaustedlab;
+	  }
       }
-# undef YYSYNTAX_ERROR
 #endif
     }
 
@@ -14035,7 +15004,7 @@ yyerrlab1:
   for (;;)
     {
       yyn = yypact[yystate];
-      if (!yypact_value_is_default (yyn))
+      if (yyn != YYPACT_NINF)
 	{
 	  yyn += YYTERROR;
 	  if (0 <= yyn && yyn <= YYLAST && yycheck[yyn] == YYTERROR)
@@ -14058,9 +15027,7 @@ yyerrlab1:
       YY_STACK_PRINT (yyss, yyssp);
     }
 
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   *++yyvsp = yylval;
-  YY_IGNORE_MAYBE_UNINITIALIZED_END
 
 
   /* Shift the error token.  */
@@ -14084,7 +15051,7 @@ yyabortlab:
   yyresult = 1;
   goto yyreturn;
 
-#if !defined yyoverflow || YYERROR_VERBOSE
+#if !defined(yyoverflow) || YYERROR_VERBOSE
 /*-------------------------------------------------.
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
@@ -14096,13 +15063,8 @@ yyexhaustedlab:
 
 yyreturn:
   if (yychar != YYEMPTY)
-    {
-      /* Make sure we have latest lookahead translation.  See comments at
-         user semantic actions for why this is necessary.  */
-      yytoken = YYTRANSLATE (yychar);
-      yydestruct ("Cleanup: discarding lookahead",
-                  yytoken, &yylval);
-    }
+     yydestruct ("Cleanup: discarding lookahead",
+		 yytoken, &yylval);
   /* Do not reclaim the symbols of the rule which action triggered
      this YYABORT or YYACCEPT.  */
   YYPOPSTACK (yylen);
@@ -14126,6 +15088,8 @@ yyreturn:
 }
 
 
-/* Line 2055 of yacc.c  */
+
+/* Line 1675 of yacc.c  */
 #line 7487 "parser.y"
+
 
