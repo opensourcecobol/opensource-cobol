@@ -82,8 +82,7 @@ AT_CHECK([echo -n 1 >list/input1.txt])
 AT_CHECK([echo -n 1 >list/input2.txt])
 AT_CHECK([ls -1f list > list1])
 AT_CHECK([${COMPILE} prog.cob])
-AT_CHECK_UNQUOTED([./prog], [0],
-[`cat list1`]
-)
+AT_CHECK([./prog > list2])
+AT_CHECK([diff list1 list2], [0],[])
 AT_CLEANUP
 
