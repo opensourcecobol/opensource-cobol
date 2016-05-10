@@ -10106,17 +10106,28 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/system-routine.at:85: ./prog"
+$as_echo "$at_srcdir/system-routine.at:85: ./prog > list2"
 at_fn_check_prepare_trace "system-routine.at:85"
-( $at_check_trace; ./prog
+( $at_check_trace; ./prog > list2
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "`cat list1`
-" | \
-  $at_diff - "$at_stdout" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
 at_fn_check_status 0 $at_status "$at_srcdir/system-routine.at:85"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/system-routine.at:86: diff list1 list2"
+at_fn_check_prepare_trace "system-routine.at:86"
+( $at_check_trace; diff list1 list2
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/system-routine.at:86"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
