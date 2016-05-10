@@ -12,10 +12,6 @@ NEWS - user visible changes				-*- outline -*-
     (3) Add a new feature "CANCEL ALL".
         This cancel subprogram and all subprograms that callded by it.
 
-** Other Updates
-
-*** bug fix some problem
-
 -----------------------------------------------------------------------
 
 * Changes in opensource COBOL 1.4.0J
