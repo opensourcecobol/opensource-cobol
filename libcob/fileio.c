@@ -5531,7 +5531,7 @@ cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 #else
 	listdir_filedata = readdir (listdir_handle);
 	if (listdir_filedata == NULL) {
-		filename = " ";
+		filename = NULL;
 	}else{
 		filename = listdir_filedata->d_name;
 	}
@@ -5542,7 +5542,9 @@ cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 		length = f_filename->size;
 	}
 	memset (f_filename->data, ' ', f_filename->size);
-	memcpy (f_filename->data, filename, length);
+	if(filename != NULL){
+		memcpy (f_filename->data, filename, length);
+	}
 #ifdef _WIN32
 	if (!FindNextFile (listdir_handle, listdir_filedata)) {
 		strcpy (listdir_filedata->cFileName, " ");
