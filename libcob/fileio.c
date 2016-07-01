@@ -5515,7 +5515,8 @@ cob_listdir_open (cob_field *f_dirname, cob_field *f_pattern)
 	}
 	
 #endif
-	return listdir_handle;
+	//FIXME: now not use handle.
+	return 0;
 }
 
 static int
