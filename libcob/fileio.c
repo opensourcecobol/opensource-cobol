@@ -5481,7 +5481,7 @@ cob_acuw_file_delete (unsigned char *file_name, unsigned char *file_type)
 	return ret;
 }
 
-int
+static int
 cob_listdir_open (cob_field *f_dirname, cob_field *f_pattern)
 {
 	//FIXME: now not use file pattern(ex. *).
@@ -5518,7 +5518,7 @@ cob_listdir_open (cob_field *f_dirname, cob_field *f_pattern)
 	return listdir_handle;
 }
 
-int
+static int
 cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 {
 	//FIXME: now not use handle.
@@ -5550,7 +5550,7 @@ cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 	return 0;
 }
 
-int
+static int
 cob_listdir_close (cob_field *f_handle)
 {
 	//FIXME: now not use handle.
