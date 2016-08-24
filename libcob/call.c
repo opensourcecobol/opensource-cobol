@@ -714,6 +714,7 @@ void *
 cobsavenv2 (struct cobjmp_buf *jbuf, const int jsize)
 {
 	int	jtemp;
+	COB_UNUSED(jtemp);
 
 	/* Shut up compiler */
 	jtemp = jsize;

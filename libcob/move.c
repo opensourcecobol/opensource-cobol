@@ -554,6 +554,7 @@ cob_move_fp_to_display (cob_field *f1, cob_field *f2)
 	char		*x, *y;
 	char		buff[64];
 	char		buff2[64];
+	COB_UNUSED(frac);
 
 	memset ((ucharptr)buff, 0, sizeof (buff));
 	memset ((ucharptr)buff2, 0, sizeof (buff2));

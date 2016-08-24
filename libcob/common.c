@@ -2095,6 +2095,9 @@ cobcommandline (int flags, int *pargc, char ***pargv, char ***penvp, char **pnam
 	char		**spenvp;
 	char		*spname;
 	int		sflags;
+	COB_UNUSED(spenvp);
+	COB_UNUSED(spname);
+	COB_UNUSED(sflags);
 
 	if (!cob_initialized) {
 		cob_runtime_error ("'cobcommandline' - Runtime has not been initialized");

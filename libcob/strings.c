@@ -268,6 +268,7 @@ cob_inspect_before (const cob_field *str)
 	unsigned char	*p2;
 	unsigned int	n;
 	int		fig;
+	COB_UNUSED(sign);
 
 	switch (COB_FIELD_TYPE (str)) {
 	case COB_TYPE_NUMERIC_DISPLAY:

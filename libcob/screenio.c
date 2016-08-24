@@ -1611,6 +1611,8 @@ CBL_OC_KEISEN (unsigned char * cmd, unsigned char * line, unsigned char * col, u
 	int	k_lng2;
 	int	k_color;
 	int	k_prn;
+	COB_UNUSED(k_color);
+	COB_UNUSED(k_prn);
 
 	COB_CHK_PARMS (CBL_OC_ATTRIBUTE, 5);
 
