@@ -23,7 +23,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([OpenCOBOL],[1.1],[open-cobol-list@lists.sourceforge.net],[opensource-cobol-1.5.0J])
+AC_INIT([opensource COBOL],[1.5.1],[ws-opensource-cobol-contact@osscons.jp],[opensource-cobol-1.5.1J])
 AC_CONFIG_SRCDIR([libcob.h])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_TESTDIR([tests])

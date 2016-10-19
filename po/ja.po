@@ -5,8 +5,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: opensource COBOL v1.5J\n"
-"Report-Msgid-Bugs-To: open-cobol-list@lists.sourceforge.net\n"
+"Project-Id-Version: opensource COBOL v1.5.1J\n"
+"Report-Msgid-Bugs-To: ws-opensource-cobol-contact@osscons.jp\n"
 "POT-Creation-Date: 2016-05-10 19:09+0900\n"
 "PO-Revision-Date: 2014-02-07 11:40+0900\n"
 "Last-Translator: Kazuyoshi Tanaka <kazuyoshi.tanaka.zs@hitachi-solutions."

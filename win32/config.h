@@ -299,22 +299,22 @@
 #define ICONV_CONST 
 
 /* Name of package */
-#define PACKAGE "opensource-cobol-1.5.0J"
+#define PACKAGE "opensource-cobol-1.5.1J"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "open-cobol-list@lists.sourceforge.net"
+#define PACKAGE_BUGREPORT "ws-opensource-cobol-contact@osscons.jp"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "OpenCOBOL"
+#define PACKAGE_NAME "opensource COBOL"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "OpenCOBOL 1.1"
+#define PACKAGE_STRING "opensource COBOL 1.5.1J"
 
 /* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "opensource-cobol-1.5.0J"
+#define PACKAGE_TARNAME "opensource-cobol-1.5.1J"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.1"
+#define PACKAGE_VERSION "1.5.1"
 
 /* Define a patch level */
 #define PATCH_LEVEL 0
