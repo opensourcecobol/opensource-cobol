@@ -5482,7 +5482,7 @@ cob_acuw_file_delete (unsigned char *file_name, unsigned char *file_type)
 	return ret;
 }
 
-int
+static int
 cob_listdir_open (cob_field *f_dirname, cob_field *f_pattern)
 {
 	//FIXME: now not use file pattern(ex. *).
@@ -5516,10 +5516,11 @@ cob_listdir_open (cob_field *f_dirname, cob_field *f_pattern)
 	}
 	
 #endif
-	return listdir_handle;
+	//FIXME: now not use handle.
+	return 0;
 }
 
-int
+static int
 cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 {
 	//FIXME: now not use handle.
@@ -5531,7 +5532,7 @@ cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 #else
 	listdir_filedata = readdir (listdir_handle);
 	if (listdir_filedata == NULL) {
-		filename = " ";
+		filename = NULL;
 	}else{
 		filename = listdir_filedata->d_name;
 	}
@@ -5542,7 +5543,9 @@ cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 		length = f_filename->size;
 	}
 	memset (f_filename->data, ' ', f_filename->size);
-	memcpy (f_filename->data, filename, length);
+	if(filename != NULL){
+		memcpy (f_filename->data, filename, length);
+	}
 #ifdef _WIN32
 	if (!FindNextFile (listdir_handle, listdir_filedata)) {
 		strcpy (listdir_filedata->cFileName, " ");
@@ -5551,7 +5554,7 @@ cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 	return 0;
 }
 
-int
+static int
 cob_listdir_close (cob_field *f_handle)
 {
 	//FIXME: now not use handle.

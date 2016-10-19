@@ -832,6 +832,7 @@ cb_reference_type_check (cb_tree ref, cb_tree x, const char *name, int size, int
 	char			strbuf[256];
 	int			offset = 0 ;
 	int			ret = 0;
+	COB_UNUSED(r);
 
 	r = CB_REFERENCE (ref);
 	switch (CB_TREE_TAG (x)) {

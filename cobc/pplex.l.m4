@@ -758,6 +758,7 @@ check_dollar_directive (char *buff, int *line_size)
 	char			sbuff[5][256];
 	int			isDEFINED, isNOT;
 	int			i;
+	COB_UNUSED(n);
 
 	if (cb_source_format == CB_FORMAT_FIXED) {
 		if (*line_size < 8) {

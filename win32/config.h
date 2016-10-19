@@ -274,7 +274,7 @@
 #define HAVE_SYS_TYPES_H 1
 
 /* Has timezone variable */
-#define HAVE_TIMEZONE 1
+/* #undef HAVE_TIMEZONE */
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #ifndef _WIN32
