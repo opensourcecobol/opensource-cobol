@@ -5536,13 +5536,13 @@ cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 		filename = listdir_filedata->d_name;
 	}
 #endif
-	length = strlen (filename);
-
-	if (length > f_filename->size) {
-		length = f_filename->size;
-	}
 	memset (f_filename->data, ' ', f_filename->size);
+
 	if(filename != NULL){
+		length = strlen (filename);
+		if (length > f_filename->size) {
+			length = f_filename->size;
+		}
 		memcpy (f_filename->data, filename, length);
 	}
 #ifdef _WIN32
