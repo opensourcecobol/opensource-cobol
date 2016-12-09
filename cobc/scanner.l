@@ -78,7 +78,17 @@ static void count_lines (char *text);
 %x PICTURE_STATE FUNCTION_STATE
 
 
-JPNWORD [\xA0-\xDF]|([\x81-\x9F\xE0-\xFC][\x40-\x7E\x80-\xFC])
+U00_7F		[\x00-\x7F]
+U80_7FF		[\xC2-\xDF][\x80-\xBF]
+U800_FFF	[\xE0][\xA0-\xBF][\x80-\xBF]
+U1000_CFFF	[\xE1-\xEC][\x80-\xBF][\x80-\xBF]
+UD000_D7FF	[\xED][\x80-\x9F][\x80-\xBF]
+UE000_FFFF	[\xEE-\xEF][\x80-\xBF][\x80-\xBF]
+U10000_3FFFF	[\xF0][\x90-\xBF][\x80-\xBF][\x80-\xBF]
+U30000_FFFFF	[\xF1-\xF3][\x80-\xBF][\x80-\xBF][\x80-\xBF]
+U100000_10FFFF	[\xF4][\x80-\x8F][\x80-\xBF][\x80-\xBF]
+UTF8_EXT	{U80_7FF}|{U800_FFF}|{U1000_CFFF}|{UD000_D7FF}|{UE000_FFFF}|{U10000_3FFFF}|{U30000_FFFFF}|{U100000_10FFFF}
+UTF8		{U00_7F}|{UTF8_EXT}
 
 
 %%
@@ -554,7 +564,7 @@ H\"[^\"\n]*\" {
 }
 
 
-([A-Z0-9]|{JPNWORD})(([_A-Z0-9-]|{JPNWORD})*([A-Z0-9]|{JPNWORD}+))? {
+([A-Z0-9]|{UTF8_EXT})(([_A-Z0-9-]|{UTF8_EXT})*([A-Z0-9]|{UTF8_EXT})+)? {
 
 	struct cb_word			*word;
 	struct cb_level_78		*p78;
