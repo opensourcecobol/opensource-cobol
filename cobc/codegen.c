@@ -998,6 +998,7 @@ output_param (cb_tree x, int id)
 	int			extrefs;
 	int			sav_stack_id;
 	char			fname[12];
+	COB_UNUSED(extrefs);
 
 	param_id = id;
 

@@ -215,6 +215,7 @@ struct dirent		*listdir_filedata;
 #define        READOPTSSIZE  4
 #define        STARTCONDSIZE 2
 #define        EXCPTCODESIZE 6
+#define        FNSTATUSSIZE  3
 
 cob_file		*cob_error_file;
 
@@ -4120,7 +4121,7 @@ cob_invoke_fun (int operate, char *f, cob_field *key, char *rec,
 	char	oper[OPENMODESIZE];
 	char	excpcode[EXCPTCODESIZE];
 	char	*p_excpcode = excpcode;
-	char	tmpfnstatus[2];
+	char	tmpfnstatus[FNSTATUSSIZE];
 	char	*p_tmpfnstatus = tmpfnstatus;
 	int		status1 = 0;
 	int	(*funcint)();
@@ -5481,7 +5482,7 @@ cob_acuw_file_delete (unsigned char *file_name, unsigned char *file_type)
 	return ret;
 }
 
-int
+static int
 cob_listdir_open (cob_field *f_dirname, cob_field *f_pattern)
 {
 	//FIXME: now not use file pattern(ex. *).
@@ -5515,10 +5516,11 @@ cob_listdir_open (cob_field *f_dirname, cob_field *f_pattern)
 	}
 	
 #endif
-	return listdir_handle;
+	//FIXME: now not use handle.
+	return 0;
 }
 
-int
+static int
 cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 {
 	//FIXME: now not use handle.
@@ -5530,18 +5532,20 @@ cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 #else
 	listdir_filedata = readdir (listdir_handle);
 	if (listdir_filedata == NULL) {
-		filename = " ";
+		filename = NULL;
 	}else{
 		filename = listdir_filedata->d_name;
 	}
 #endif
-	length = strlen (filename);
-
-	if (length > f_filename->size) {
-		length = f_filename->size;
-	}
 	memset (f_filename->data, ' ', f_filename->size);
-	memcpy (f_filename->data, filename, length);
+
+	if(filename != NULL){
+		length = strlen (filename);
+		if (length > f_filename->size) {
+			length = f_filename->size;
+		}
+		memcpy (f_filename->data, filename, length);
+	}
 #ifdef _WIN32
 	if (!FindNextFile (listdir_handle, listdir_filedata)) {
 		strcpy (listdir_filedata->cFileName, " ");
@@ -5550,7 +5554,7 @@ cob_listdir_next (cob_field *f_handle, cob_field *f_filename)
 	return 0;
 }
 
-int
+static int
 cob_listdir_close (cob_field *f_handle)
 {
 	//FIXME: now not use handle.
