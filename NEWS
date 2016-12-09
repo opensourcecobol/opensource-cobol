@@ -1,5 +1,21 @@
 NEWS - user visible changes				-*- outline -*-
 
+* Changes in opensource COBOL 1.5.1J
+
+** Bug fixes
+
+*** build error on Windows.
+
+*** test failure caused by missing inline-function declarations on gcc5.
+
+*** compiler warnings on v1.3 or later.
+
+** Changes
+
+*** update solution file in Visual Studio to 2015.
+
+-----------------------------------------------------------------------
+
 * Changes in opensource COBOL 1.5.0J
 
 ** New features
