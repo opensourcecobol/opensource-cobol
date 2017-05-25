@@ -832,6 +832,7 @@ cb_reference_type_check (cb_tree ref, cb_tree x, const char *name, int size, int
 	char			strbuf[256];
 	int			offset = 0 ;
 	int			ret = 0;
+	COB_UNUSED(r);
 
 	r = CB_REFERENCE (ref);
 	switch (CB_TREE_TAG (x)) {
@@ -3581,6 +3582,12 @@ cb_emit_cancel (cb_tree prog)
 		return;
 	}
 	cb_emit (cb_build_funcall_1 ("cob_field_cancel", prog));
+}
+
+void
+cb_emit_cancel_all ()
+{
+	cb_emit (cb_build_funcall_0 ("cob_cancel_all"));
 }
 
 /*

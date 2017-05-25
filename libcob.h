@@ -37,6 +37,7 @@ extern "C" {
 #include <libcob/strings.h>
 #include <libcob/termio.h>
 #include <libcob/intrinsic.h>
+#include <libcob/codegen.h>
 
 #ifdef __cplusplus
 }

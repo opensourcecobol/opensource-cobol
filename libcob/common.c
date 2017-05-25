@@ -2095,6 +2095,9 @@ cobcommandline (int flags, int *pargc, char ***pargv, char ***penvp, char **pnam
 	char		**spenvp;
 	char		*spname;
 	int		sflags;
+	COB_UNUSED(spenvp);
+	COB_UNUSED(spname);
+	COB_UNUSED(sflags);
 
 	if (!cob_initialized) {
 		cob_runtime_error ("'cobcommandline' - Runtime has not been initialized");
@@ -2659,47 +2662,47 @@ cob_acuw_justify (unsigned char *data, ...)
 }
 
 void
-cob_set_programid(struct cob_module *module, const char *program_name){
-	int length;
-	length = strlen(program_name);
-	if (module->program_id != NULL){
-		free(module->program_id);
+cob_set_programid (struct cob_module *module, const char *program_name)
+{
+	int	length;
+	length = strlen (program_name);
+	if (module->program_id != NULL) {
+		free (module->program_id);
 	}
-	module->program_id = cob_malloc((const size_t)length+1);
-	strcpy(module->program_id, program_name);
+	module->program_id = cob_malloc ((const size_t) length+1);
+	strcpy (module->program_id, program_name);
 }
 
 int
 cob_acuw_calledby (unsigned char *data)
 {
-	int length;
-	cob_field *f1;
-	char *called_program_name;
+	int		length;
+	cob_field	*f1;
+	char		*called_program_name;
 
-	COB_CHK_PARMS(C$CALLEDBY, 1);
+	COB_CHK_PARMS (C$CALLEDBY, 1);
 
 	if (cob_current_module->cob_procedure_parameters[0]) {
 		f1 = cob_current_module->cob_procedure_parameters[0];
-		if (cob_current_module->next == NULL){
-			memset(f1->data, ' ', (int)f1->size);
+		if (cob_current_module->next == NULL) {
+			memset (f1->data, ' ', (int)f1->size);
 			return 0;
-		}else{
-			called_program_name = (const char *)cob_current_module->next->program_id;
-			if (called_program_name == NULL){
+		} else {
+			called_program_name = (char *)cob_current_module->next->program_id;
+			if (called_program_name == NULL) {
 				return -1;
 			}
 			length = (int)f1->size;
-			if (strlen(called_program_name) < length){
-				length = strlen(called_program_name);
+			if (strlen (called_program_name) < length) {
+				length = strlen (called_program_name);
 			}
-			memcpy(f1->data, called_program_name, length);
+			memcpy (f1->data, called_program_name, length);
 		}
 	}
 	return 1;
 }
 
 char *
-
 cb_get_jisword_buff (const char *name, char *jbuf, size_t n)
 {
 	size_t		siz;

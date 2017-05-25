@@ -30,11 +30,9 @@
 /* Force symbol exports */
 #define	COB_LIB_EXPIMP
 
+#define	COB_LIB_INCLUDE
 #include "libcob.h"
 #include "coblocal.h"
-
-#define	COB_LIB_INCLUDE
-#include "codegen.h"
 
 #define DECIMAL_NAN	-128
 #define DECIMAL_CHECK(d1,d2) \

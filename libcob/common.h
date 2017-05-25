@@ -462,7 +462,7 @@ COB_EXPIMP void		cob_ready_trace		(void);
 COB_EXPIMP void		cob_reset_trace		(void);
 
 COB_EXPIMP void		cob_set_programid	(struct cob_module *,
-						const char *);
+						 const char *);
 
 /* Switch */
 

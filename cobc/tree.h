@@ -1420,6 +1420,7 @@ extern void		cb_emit_call (cb_tree prog, cb_tree cb_using, cb_tree returning,
 				cb_tree on_exception, cb_tree not_on_exception);
 
 extern void		cb_emit_cancel (cb_tree prog);
+extern void		cb_emit_cancel_all (void);
 
 extern void		cb_emit_close (cb_tree file, cb_tree opt);
 

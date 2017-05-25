@@ -1,4 +1,4 @@
-This is open-cobol.info, produced by makeinfo version 4.8 from
+This is open-cobol.info, produced by makeinfo version 4.13 from
 open-cobol.texi.
 
 INFO-DIR-SECTION COBOL
@@ -770,36 +770,36 @@ not complete and not very useful yet.
 
 
 Tag Table:
-Node: Top1000
-Node: Getting Started2809
-Node: Hello World!2988
-Node: Compile3873
-Node: Compiler Options4234
-Node: Built Target4599
-Ref: Built Target-Footnote-15820
-Node: Source Format5873
-Node: Warning Options6253
-Node: Multiple Sources6639
-Node: Static Linking7321
-Node: Dynamic Linking8846
-Ref: Dynamic Linking-Footnote-110246
-Ref: Dynamic Linking-Footnote-210299
-Node: Building Library10352
-Node: Using Library10737
-Node: C Interface11310
-Node: Main C Program11656
-Node: Static C to COBOL12573
-Node: Dynamic C to COBOL14061
-Node: Static COBOL to C15513
-Node: Dynamic COBOL to C16947
-Node: Customize17354
-Node: Customizing Compiler17580
-Node: Customizing Library18160
-Node: Optimize18583
-Node: Optimize Options18888
-Node: Optimize Call19430
-Node: Optimize Binary19810
-Node: Debug20392
-Node: Debug Options20531
+Node: Top1001
+Node: Getting Started2810
+Node: Hello World!2989
+Node: Compile3874
+Node: Compiler Options4235
+Node: Built Target4600
+Ref: Built Target-Footnote-15821
+Node: Source Format5874
+Node: Warning Options6254
+Node: Multiple Sources6640
+Node: Static Linking7322
+Node: Dynamic Linking8847
+Ref: Dynamic Linking-Footnote-110247
+Ref: Dynamic Linking-Footnote-210300
+Node: Building Library10353
+Node: Using Library10738
+Node: C Interface11311
+Node: Main C Program11657
+Node: Static C to COBOL12574
+Node: Dynamic C to COBOL14062
+Node: Static COBOL to C15514
+Node: Dynamic COBOL to C16948
+Node: Customize17355
+Node: Customizing Compiler17581
+Node: Customizing Library18161
+Node: Optimize18584
+Node: Optimize Options18889
+Node: Optimize Call19431
+Node: Optimize Binary19811
+Node: Debug20393
+Node: Debug Options20532
 
 End Tag Table

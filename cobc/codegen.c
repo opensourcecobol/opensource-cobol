@@ -998,6 +998,7 @@ output_param (cb_tree x, int id)
 	int			extrefs;
 	int			sav_stack_id;
 	char			fname[12];
+	COB_UNUSED(extrefs);
 
 	param_id = id;
 
@@ -4333,6 +4334,7 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 	output_line ("/* Push module stack */");
 	output_line ("module.next = cob_current_module;");
 	output_line ("cob_current_module = &module;");
+	output_line ("cob_push_call_stack_list(\"%s\");", prog->program_id);
 	output_newline ();
 
 	/* Initialization */
@@ -4360,7 +4362,7 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 				prog->program_id);
 		}
 	}
-	output_line("cob_set_programid(&module, \"%s\");", prog->program_id);
+	output_line ("cob_set_programid (&module, \"%s\");", prog->program_id);
 	if (prog->decimal_index_max) {
 		output_line ("/* Initialize decimal numbers */");
 		for (i = 0; i < prog->decimal_index_max; i++) {
@@ -4601,6 +4603,7 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 		output_newline ();
 	}
 	output_line ("/* Pop module stack */");
+	output_line ("cob_pop_call_stack_list();");
 	output_line ("cob_current_module = cob_current_module->next;");
 	output_newline ();
 	if (cb_flag_traceall) {
