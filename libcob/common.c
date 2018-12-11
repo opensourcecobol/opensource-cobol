@@ -2947,3 +2947,10 @@ cob_national (const unsigned char * src_data, int src_size)
 	return dst_data;
 }
 #endif /*I18N_UTF8*/
+void
+cob_chk_divzero (void)
+{
+	if (cob_exception_code == cob_exception_tab_code[COB_EC_SIZE_ZERO_DIVIDE]) {
+		cob_stop_run (1);
+	}
+}

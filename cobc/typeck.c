@@ -2300,6 +2300,9 @@ decimal_compute (const int op, cb_tree x, cb_tree y)
 		return 1; /* don't ABORT (), continue parsing */
 	}
 	dpush (cb_build_funcall_2 (func, x, y));
+	if (cb_zero_division_error) {
+		dpush (cb_build_funcall_0 ("cob_chk_divzero"));
+	}
 	return 0;
 }
 
@@ -7716,4 +7719,19 @@ cb_build_write_advancing_page (cb_tree pos)
 	int opt = (pos == CB_BEFORE) ? COB_WRITE_BEFORE : COB_WRITE_AFTER;
 
 	return cb_int (opt | COB_WRITE_PAGE);
+}
+cb_tree
+cb_check_zero_division (cb_tree x)
+{
+	if (x == cb_error_node) {
+		return cb_error_node;
+	}
+	if (! CB_NUMERIC_LITERAL_P (x)) {
+		return x;
+	}
+	if (cb_get_int(x) == 0) {
+		cb_error_x (x, _("Divide by zero has occurred."));
+		return cb_error_node;
+	}
+	return x;
 }

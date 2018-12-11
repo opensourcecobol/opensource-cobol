@@ -296,6 +296,7 @@ COB_EXPIMP struct cob_module	*cob_current_module;
 COB_EXPIMP int			cob_call_params;
 COB_EXPIMP int			cob_save_call_params;
 COB_EXPIMP int			cob_initial_external;
+COB_EXPIMP void			cob_chk_divzero (void);
 
 /* convert a digit (e.g., '0') into an integer (e.g., 0) */
 #define cob_d2i(x)		((x) - '0')

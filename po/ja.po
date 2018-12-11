@@ -1799,3 +1799,6 @@ msgstr "コンパイラ実装間で非互換を発生しやすい記述を警告する"
 
 #~ msgid "%s  must be a numeric type!"
 #~ msgstr "`%s' は数字項目ではありません"
+
+msgid "Divide by zero has occurred."
+msgstr "ゼロで除算が発生しました。"
