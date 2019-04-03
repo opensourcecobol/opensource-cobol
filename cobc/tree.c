@@ -2251,6 +2251,12 @@ cb_build_binary_op (cb_tree x, int op, cb_tree y)
 		if (x == cb_error_node || y == cb_error_node) {
 			return cb_error_node;
 		}
+		if (cb_zero_division_error && op == '/') {
+			y = cb_check_zero_division (y);
+			if (y == cb_error_node) {
+				return cb_error_node;
+			}
+		}
 		category = CB_CATEGORY_NUMERIC;
 		break;
 

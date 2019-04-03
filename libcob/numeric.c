@@ -1066,6 +1066,10 @@ cob_decimal_div (cob_decimal *d1, cob_decimal *d2)
 	if (unlikely(mpz_sgn (d2->value) == 0)) {
 		d1->scale = DECIMAL_NAN;
 		cob_set_exception (COB_EC_SIZE_ZERO_DIVIDE);
+		if (cob_error_on_exit_flag) {
+			cob_runtime_error ("Detected division by zero.");
+			cob_stop_run (1);
+		}
 		return;
 	}
 	if (unlikely(mpz_sgn (d1->value) == 0)) {

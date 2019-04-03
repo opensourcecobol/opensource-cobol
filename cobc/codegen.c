@@ -3267,6 +3267,12 @@ output_stmt (cb_tree x)
 			output_line ("cob_exception_code = 0;");
 		}
 
+		if (cb_zero_division_error && p->name &&
+			((strcmp (p->name, "DIVIDE") == 0) || (strcmp (p->name, "COMPUTE") == 0)) &&
+				(!p->handler1 && !p->handler2)) {
+			output_line ("cob_error_on_exit_flag = 1;");
+		}
+
 		if (p->null_check) {
 			output_stmt (p->null_check);
 		}

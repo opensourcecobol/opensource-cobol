@@ -169,6 +169,7 @@ struct cob_module	*cob_current_module = NULL;
 
 int			cob_initialized = 0;
 int			cob_exception_code = 0;
+int			cob_error_on_exit_flag = 0;
 
 int			cob_call_params = 0;
 int			cob_save_call_params = 0;

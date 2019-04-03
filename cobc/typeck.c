@@ -7717,3 +7717,22 @@ cb_build_write_advancing_page (cb_tree pos)
 
 	return cb_int (opt | COB_WRITE_PAGE);
 }
+
+cb_tree
+cb_check_zero_division (cb_tree x)
+{
+	if (x == cb_error_node) {
+		return cb_error_node;
+	}
+
+	if (! CB_NUMERIC_LITERAL_P (x)) {
+		return x;
+	}
+
+	if (cb_get_int(x) == 0) {
+		cb_error_x (x, _("Detected division by zero."));	
+		return cb_error_node;
+	}
+
+	return x;
+}

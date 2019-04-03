@@ -1100,6 +1100,10 @@ msgstr "LOCK句は指定できません"
 msgid "Invalid mnemonic name"
 msgstr "不当な作成者語です"
 
+#: cobc/typeck.c:7733
+msgid "Detected division by zero."
+msgstr "ゼロでの除算が検出されました。"
+
 #: cobc/pplex.l:157
 msgid "PROCESS statement is ignored"
 msgstr "PROCESS 文は無視されます"
