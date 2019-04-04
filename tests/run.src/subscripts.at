@@ -421,3 +421,49 @@ AT_CHECK([./prog], [1], ,
 ])
 
 AT_CLEANUP
+
+
+AT_SETUP([Subscript out of bounds without debug])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 G.
+         02 X           PIC X OCCURS 10.
+       01 I             PIC 9 VALUE 0.
+       01 Z             PIC X.
+       PROCEDURE        DIVISION.
+           MOVE Z TO X(I).
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_DEFAULT} -o prog prog.cob])
+AT_CHECK([./prog], [0])
+
+AT_CLEANUP
+
+
+AT_SETUP([Subscript out of bounds check option])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 G.
+         02 X           PIC X OCCURS 10.
+       01 I             PIC 9 VALUE 0.
+       01 Z             PIC X.
+       PROCEDURE        DIVISION.
+           MOVE Z TO X(I).
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_JP_COMPAT_DEFAULT} -o prog prog.cob])
+AT_CHECK([./prog], [1], ,
+[libcob: Subscript of 'X' out of bounds: 0
+])
+
+AT_CLEANUP
