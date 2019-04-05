@@ -110,7 +110,7 @@ msgstr "  -O, -O2, -Os          最適化を有功にします"
 #: cobc/cobc.c:855
 msgid "  -g                    Enable C compiler debug / stack check / trace"
 msgstr ""
-"  -c                    Cコンパイラのデバッグオプション/スタックチェック/ト"
+"  -g                    Cコンパイラのデバッグオプション/スタックチェック/ト"
 "レースを有効にします"
 
 #: cobc/cobc.c:856
