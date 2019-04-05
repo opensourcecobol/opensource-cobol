@@ -2331,6 +2331,10 @@ main (int argc, char *argv[])
 	if (cb_enable_check_subscript_out_of_bounds) {
 		CB_EXCEPTION_ENABLE (COB_EC_BOUND_SUBSCRIPT) = 1;
 	}
+	if (cb_enable_expect_compute_string_error) {
+		CB_EXCEPTION_ENABLE (COB_EC_DATA_INCOMPATIBLE) = 1;
+	}
+
 
 	/* Check the filename */
 	if (iargs == argc) {

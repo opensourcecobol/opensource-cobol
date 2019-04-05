@@ -62,6 +62,7 @@ CB_CONFIG_BOOLEAN (cb_ignore_invalid_record_contains, "ignore-invalid-record-con
 CB_CONFIG_BOOLEAN (cb_zero_division_error, "zero_division_error")
 CB_CONFIG_BOOLEAN (cb_enable_check_subscript_out_of_bounds, "enable-check-subscript-out-of-bounds")
 CB_CONFIG_BOOLEAN (cb_enable_expect_numeric_error, "enable-expect-numeric-error")
+CB_CONFIG_BOOLEAN (cb_enable_expect_compute_string_error, "enable-expect-compute-string-error")
 CB_CONFIG_SUPPORT (cb_author_paragraph, "author-paragraph")
 CB_CONFIG_SUPPORT (cb_memory_size_clause, "memory-size-clause")
 CB_CONFIG_SUPPORT (cb_multiple_file_tape_clause, "multiple-file-tape-clause")
