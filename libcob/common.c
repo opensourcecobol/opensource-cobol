@@ -208,6 +208,11 @@ cob_sig_handler (int sig)
 		}
 		fprintf (stderr, "Attempt to reference unallocated memory (Signal SIGSEGV)\n");
 		fprintf (stderr, "Abnormal termination - File contents may be incorrect\n");
+		fprintf (stderr, "---- trace start ----\n");
+		void *trace[128];
+		int n = backtrace(trace, sizeof(trace) / sizeof(trace[0]));
+		backtrace_symbols_fd(trace, n, 1);
+		fprintf (stderr, "---- trace  end  ----\n");
 		fflush (stderr);
 		exit (SIGSEGV);
 	}
