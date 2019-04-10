@@ -2327,6 +2327,15 @@ main (int argc, char *argv[])
 	/* Process command line arguments */
 	iargs = process_command_line (argc, argv);
 
+	/* Process config file options */
+	if (cb_enable_check_subscript_out_of_bounds) {
+		CB_EXCEPTION_ENABLE (COB_EC_BOUND_SUBSCRIPT) = 1;
+	}
+	if (cb_enable_expect_compute_string_error) {
+		CB_EXCEPTION_ENABLE (COB_EC_DATA_INCOMPATIBLE) = 1;
+	}
+
+
 	/* Check the filename */
 	if (iargs == argc) {
 		fprintf (stderr, "cobc: No input files\n");

@@ -502,6 +502,8 @@ COB_EXPIMP void cob_check_ref_mod_national		(int, int, int, const char *);
 COB_EXPIMP int  cob_check_env			(const char *, const char *);
 COB_EXPIMP void cob_check_ref_mod			(const int, const int,
 						 const int, const char *);
+COB_EXPIMP void cob_check_mvstrnum			(cob_field *, cob_field *);
+
 
 /* Comparison functions */
 COB_EXPIMP int cob_numeric_cmp			(cob_field *, cob_field *);

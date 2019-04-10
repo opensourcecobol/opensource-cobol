@@ -312,3 +312,24 @@ AT_CHECK([${COMPILE_ONLY} prog.cob], [1], ,
 ])
 
 AT_CLEANUP
+
+
+AT_SETUP([MOVE string TO numeric])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X-ABC         PIC 999.
+       PROCEDURE        DIVISION.
+           MOVE "abc" TO X-ABC.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_JP_COMPAT} prog.cob], [1], ,
+[prog.cob:8: Error: Numeric value is expected
+prog.cob:6: Error: 'X-ABC' defined here as PIC 999
+])
+
+AT_CLEANUP
