@@ -422,9 +422,9 @@ SHELL=${CONFIG_SHELL-/bin/sh}
 
 # Identity of this package.
 PACKAGE_NAME='opensource COBOL'
-PACKAGE_TARNAME='opensource-cobol-1.5.1J'
-PACKAGE_VERSION='1.5.1'
-PACKAGE_STRING='opensource COBOL 1.5.1J'
+PACKAGE_TARNAME='opensource-cobol-1.5.2J'
+PACKAGE_VERSION='1.5.2'
+PACKAGE_STRING='opensource COBOL 1.5.2J'
 PACKAGE_BUGREPORT='ws-opensource-cobol-contact@osscons.jp'
 
 ac_unique_file="libcob.h"
@@ -1858,8 +1858,8 @@ fi
 
 
 # Define the identity of the package.
- PACKAGE='opensource-cobol-1.5.1J'
- VERSION='1.5.1'
+ PACKAGE='opensource-cobol-1.5.2J'
+ VERSION='1.5.2'
 
 
 cat >>confdefs.h <<_ACEOF
