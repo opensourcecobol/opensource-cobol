@@ -1077,7 +1077,7 @@ Execution tuning:
 _ATEOF
 cat <<_ATEOF || at_write_fail=1
 
-Report bugs to <open-cobol-list@lists.sourceforge.net>.
+Report bugs to <ws-opensource-cobol-contact@osscons.jp>.
 _ATEOF
   exit $at_write_fail
 fi
@@ -1734,7 +1734,7 @@ at_func_group_postprocess ()
     sed "s/^ */$as_me: WARNING: /" <<_ATEOF
       A failure happened in a test group before any test could be
       run. This means that test suite is improperly designed.  Please
-      report this failure to <open-cobol-list@lists.sourceforge.net>.
+      report this failure to <ws-opensource-cobol-contact@osscons.jp>.
 _ATEOF
     $as_echo "$at_setup_line" >"$at_check_line_file"
   fi
@@ -2034,7 +2034,7 @@ _ASBOX
   echo
   $as_echo "Please send \`${at_testdir+${at_testdir}/}$as_me.log' and all information you think might help:
 
-   To: <open-cobol-list@lists.sourceforge.net>
+   To: <ws-opensource-cobol-contact@osscons.jp>
    Subject: [OpenCOBOL 1.1] $as_me: $at_fail_list${at_fail_list:+ failed${at_xpass_list:+, }}$at_xpass_list${at_xpass_list:+ passed unexpectedly}
 "
   if test $at_debug_p = false; then

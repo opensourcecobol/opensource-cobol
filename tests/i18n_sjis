@@ -972,7 +972,7 @@ Execution tuning:
 _ATEOF
 cat <<_ATEOF || at_write_fail=1
 
-Report bugs to <open-cobol-list@lists.sourceforge.net>.
+Report bugs to <ws-opensource-cobol-contact@osscons.jp>.
 _ATEOF
   exit $at_write_fail
 fi
@@ -1629,7 +1629,7 @@ at_func_group_postprocess ()
     sed "s/^ */$as_me: WARNING: /" <<_ATEOF
       A failure happened in a test group before any test could be
       run. This means that test suite is improperly designed.  Please
-      report this failure to <open-cobol-list@lists.sourceforge.net>.
+      report this failure to <ws-opensource-cobol-contact@osscons.jp>.
 _ATEOF
     $as_echo "$at_setup_line" >"$at_check_line_file"
   fi
@@ -1929,7 +1929,7 @@ _ASBOX
   echo
   $as_echo "Please send \`${at_testdir+${at_testdir}/}$as_me.log' and all information you think might help:
 
-   To: <open-cobol-list@lists.sourceforge.net>
+   To: <ws-opensource-cobol-contact@osscons.jp>
    Subject: [OpenCOBOL 1.1] $as_me: $at_fail_list${at_fail_list:+ failed${at_xpass_list:+, }}$at_xpass_list${at_xpass_list:+ passed unexpectedly}
 "
   if test $at_debug_p = false; then
@@ -1962,7 +1962,7 @@ echo "#                             -*- compilation -*-" >> "$at_group_log"
 cat >prog.cob <<'_ATEOF'
 
        IDENTIFICATION   DIVISION.
-       PROGRAM-ID.      “ú–{Œê‚ÌƒvƒƒOƒ‰ƒ€–¼.
+       PROGRAM-ID.      ï¿½ï¿½ï¿½{ï¿½ï¿½Ìƒvï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
        PROCEDURE        DIVISION.
            STOP RUN.
 _ATEOF
@@ -2012,10 +2012,10 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 ‚n|•¶Žš—ñ PIC X(7) USAGE DISPLAY.
+       01 ï¿½nï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PIC X(7) USAGE DISPLAY.
        PROCEDURE        DIVISION.
-           MOVE "Unicode" TO ‚n|•¶Žš—ñ.
-           DISPLAY ‚n|•¶Žš—ñ WITH NO ADVANCING.
+           MOVE "Unicode" TO ï¿½nï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+           DISPLAY ï¿½nï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
 
@@ -2084,14 +2084,14 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01   €–Ú‚`‚a‚b‚c‚d‚e‚f‚g‚O‚P‚Q‚R‚S5
+       01   ï¿½ï¿½ï¿½Ú‚`ï¿½aï¿½bï¿½cï¿½dï¿½eï¿½fï¿½gï¿½Oï¿½Pï¿½Qï¿½Rï¿½S5
             PIC X(7).
        PROCEDURE        DIVISION.
            MOVE "Unicode"
              TO
-           €–Ú‚`‚a‚b‚c‚d‚e‚f‚g‚O‚P‚Q‚R‚S5.
+           ï¿½ï¿½ï¿½Ú‚`ï¿½aï¿½bï¿½cï¿½dï¿½eï¿½fï¿½gï¿½Oï¿½Pï¿½Qï¿½Rï¿½S5.
            DISPLAY
-            €–Ú‚`‚a‚b‚c‚d‚e‚f‚g‚O‚P‚Q‚R‚S5
+            ï¿½ï¿½ï¿½Ú‚`ï¿½aï¿½bï¿½cï¿½dï¿½eï¿½fï¿½gï¿½Oï¿½Pï¿½Qï¿½Rï¿½S5
 	     WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -2161,10 +2161,10 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 €–Ú‚Q PIC X(1) VALUE "A".
-       01 €–Ú‚q PIC X(1) VALUE "B".
+       01 ï¿½ï¿½ï¿½Ú‚Q PIC X(1) VALUE "A".
+       01 ï¿½ï¿½ï¿½Ú‚q PIC X(1) VALUE "B".
        PROCEDURE        DIVISION.
-           DISPLAY €–Ú‚Q €–Ú‚q WITH NO ADVANCING.
+           DISPLAY ï¿½ï¿½ï¿½Ú‚Q ï¿½ï¿½ï¿½Ú‚q WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
 
@@ -2234,11 +2234,11 @@ cat >prog.cob <<'_ATEOF'
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
        PROCEDURE        DIVISION.
-       PERFORM    ‚r|‰Šú‰».
-       PERFORM    ‚r|I—¹.
-       ‚r|‰Šú‰»       SECTION.
+       PERFORM    ï¿½rï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+       PERFORM    ï¿½rï¿½|ï¿½Iï¿½ï¿½.
+       ï¿½rï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½       SECTION.
            DISPLAY "Hello, " WITH NO ADVANCING.
-       ‚r|I—¹         SECTION.
+       ï¿½rï¿½|ï¿½Iï¿½ï¿½         SECTION.
            DISPLAY "and good bye." WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -2309,11 +2309,11 @@ cat >prog.cob <<'_ATEOF'
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
        PROCEDURE        DIVISION.
-       PERFORM s‚P‚Q‚R‚S‚T‚U‚V‚W‚X‚O1234567890.
-       PERFORM    ‚r|I—¹.
-       s‚P‚Q‚R‚S‚T‚U‚V‚W‚X‚O1234567890 SECTION.
+       PERFORM sï¿½Pï¿½Qï¿½Rï¿½Sï¿½Tï¿½Uï¿½Vï¿½Wï¿½Xï¿½O1234567890.
+       PERFORM    ï¿½rï¿½|ï¿½Iï¿½ï¿½.
+       sï¿½Pï¿½Qï¿½Rï¿½Sï¿½Tï¿½Uï¿½Vï¿½Wï¿½Xï¿½O1234567890 SECTION.
            DISPLAY "Hello, " WITH NO ADVANCING.
-       ‚r|I—¹         SECTION.
+       ï¿½rï¿½|ï¿½Iï¿½ï¿½         SECTION.
            DISPLAY "and good bye." WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -2384,11 +2384,11 @@ cat >prog.cob <<'_ATEOF'
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
        PROCEDURE        DIVISION.
-       PERFORM s‚P‚Q‚R‚S‚T‚U‚V‚W‚X‚O123456789012345678901.
-       PERFORM    ‚r|I—¹.
-       s‚P‚Q‚R‚S‚T‚U‚V‚W‚X‚O123456789012345678901 SECTION.
+       PERFORM sï¿½Pï¿½Qï¿½Rï¿½Sï¿½Tï¿½Uï¿½Vï¿½Wï¿½Xï¿½O123456789012345678901.
+       PERFORM    ï¿½rï¿½|ï¿½Iï¿½ï¿½.
+       sï¿½Pï¿½Qï¿½Rï¿½Sï¿½Tï¿½Uï¿½Vï¿½Wï¿½Xï¿½O123456789012345678901 SECTION.
            DISPLAY "Hello, " WITH NO ADVANCING.
-       ‚r|I—¹         SECTION.
+       ï¿½rï¿½|ï¿½Iï¿½ï¿½         SECTION.
            DISPLAY "and good bye." WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -2442,25 +2442,25 @@ cat >prog.cob <<'_ATEOF'
        ENVIRONMENT      DIVISION.
        INPUT-OUTPUT     SECTION.
        FILE-CONTROL.
-       SELECT ƒeƒXƒgƒtƒ@ƒCƒ‹ ASSIGN TO "./ƒeƒXƒg_ƒtƒ@ƒCƒ‹"
+       SELECT ï¿½eï¿½Xï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ ASSIGN TO "./ï¿½eï¿½Xï¿½g_ï¿½tï¿½@ï¿½Cï¿½ï¿½"
                         ORGANIZATION IS  INDEXED
                         ACCESS MODE  IS  SEQUENTIAL
                         RECORD KEY   IS  TEST-KEY.
        DATA             DIVISION.
        FILE             SECTION.
-       FD ƒeƒXƒgƒtƒ@ƒCƒ‹.
+       FD ï¿½eï¿½Xï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½.
        01 TEST-KEY      PIC X(10).
        PROCEDURE        DIVISION.
-           OPEN  OUTPUT ƒeƒXƒgƒtƒ@ƒCƒ‹.
+           OPEN  OUTPUT ï¿½eï¿½Xï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½.
            MOVE "TEST000000" TO TEST-KEY.
            WRITE TEST-KEY.
-           CLOSE ƒeƒXƒgƒtƒ@ƒCƒ‹.
-           OPEN  INPUT  ƒeƒXƒgƒtƒ@ƒCƒ‹.
-           READ  ƒeƒXƒgƒtƒ@ƒCƒ‹
+           CLOSE ï¿½eï¿½Xï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½.
+           OPEN  INPUT  ï¿½eï¿½Xï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½.
+           READ  ï¿½eï¿½Xï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½
                NOT AT END
                    DISPLAY "OK" NO ADVANCING
            END-READ.
-           CLOSE ƒeƒXƒgƒtƒ@ƒCƒ‹.
+           CLOSE ï¿½eï¿½Xï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½.
            STOP RUN.
 _ATEOF
 
@@ -2530,11 +2530,11 @@ cat >prog.cob <<'_ATEOF'
        DATA              DIVISION.
        WORKING-STORAGE   SECTION.
        01  TEST-REC.
-         03  U€–Ú  PIC  9(4) VALUE  1000.
-       01  X€–Ú    PIC  X(4) VALUE 'ABCD'.
+         03  Uï¿½ï¿½ï¿½ï¿½  PIC  9(4) VALUE  1000.
+       01  Xï¿½ï¿½ï¿½ï¿½    PIC  X(4) VALUE 'ABCD'.
        PROCEDURE         DIVISION.
-           MOVE X€–Ú TO TEST-REC.
-           ADD 1 TO U€–Ú.
+           MOVE Xï¿½ï¿½ï¿½ï¿½ TO TEST-REC.
+           ADD 1 TO Uï¿½ï¿½ï¿½ï¿½.
            GOBACK.
 _ATEOF
 
@@ -2571,7 +2571,7 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:11: libcob: 'U€–Ú' not numeric: 'ABCD'
+echo >>"$at_stderr"; $as_echo "prog.cob:11: libcob: 'Uï¿½ï¿½ï¿½ï¿½' not numeric: 'ABCD'
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -2604,10 +2604,10 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.       basedcheck.
        DATA              DIVISION.
        WORKING-STORAGE   SECTION.
-       01  X€–Ú    PIC  X(4) VALUE 'ABCD'.
-       01  Y€–Ú    PIC  X(4) BASED.
+       01  Xï¿½ï¿½ï¿½ï¿½    PIC  X(4) VALUE 'ABCD'.
+       01  Yï¿½ï¿½ï¿½ï¿½    PIC  X(4) BASED.
        PROCEDURE         DIVISION.
-           MOVE X€–Ú TO Y€–Ú.
+           MOVE Xï¿½ï¿½ï¿½ï¿½ TO Yï¿½ï¿½ï¿½ï¿½.
            GOBACK.
 _ATEOF
 
@@ -2644,7 +2644,7 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:9: libcob: BASED/LINKAGE item 'Y€–Ú' has NULL address
+echo >>"$at_stderr"; $as_echo "prog.cob:9: libcob: BASED/LINKAGE item 'Yï¿½ï¿½ï¿½ï¿½' has NULL address
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -2677,11 +2677,11 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.       odocheck.
        DATA              DIVISION.
        WORKING-STORAGE   SECTION.
-       01  I€–Ú         PIC 9 VALUE 4.
+       01  Iï¿½ï¿½ï¿½ï¿½         PIC 9 VALUE 4.
        01  X.
-         03  Y€–Ú       PIC 9 OCCURS 1 TO 3 DEPENDING ON I€–Ú.
+         03  Yï¿½ï¿½ï¿½ï¿½       PIC 9 OCCURS 1 TO 3 DEPENDING ON Iï¿½ï¿½ï¿½ï¿½.
        PROCEDURE         DIVISION.
-           MOVE 1 TO Y€–Ú(3).
+           MOVE 1 TO Yï¿½ï¿½ï¿½ï¿½(3).
            GOBACK.
 _ATEOF
 
@@ -2718,7 +2718,7 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:10: libcob: OCCURS DEPENDING ON 'I€–Ú' out of bounds: 4
+echo >>"$at_stderr"; $as_echo "prog.cob:10: libcob: OCCURS DEPENDING ON 'Iï¿½ï¿½ï¿½ï¿½' out of bounds: 4
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -2751,11 +2751,11 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.       odocheck.
        DATA              DIVISION.
        WORKING-STORAGE   SECTION.
-       01  I€–Ú         PIC 9 VALUE 2.
+       01  Iï¿½ï¿½ï¿½ï¿½         PIC 9 VALUE 2.
        01  X.
-         03  Y€–Ú       PIC 9 OCCURS 1 TO 3 DEPENDING ON I€–Ú.
+         03  Yï¿½ï¿½ï¿½ï¿½       PIC 9 OCCURS 1 TO 3 DEPENDING ON Iï¿½ï¿½ï¿½ï¿½.
        PROCEDURE         DIVISION.
-           MOVE 1 TO Y€–Ú(3).
+           MOVE 1 TO Yï¿½ï¿½ï¿½ï¿½(3).
            GOBACK.
 _ATEOF
 
@@ -2792,7 +2792,7 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:10: libcob: Subscript of 'Y€–Ú' out of bounds: 3
+echo >>"$at_stderr"; $as_echo "prog.cob:10: libcob: Subscript of 'Yï¿½ï¿½ï¿½ï¿½' out of bounds: 3
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -2827,9 +2827,9 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE   SECTION.
        01  I             PIC 9    VALUE 2.
        01  J             PIC 9    VALUE 6.
-       01  X€–Ú         PIC X(5) VALUE "ABCDE".
+       01  Xï¿½ï¿½ï¿½ï¿½         PIC X(5) VALUE "ABCDE".
        PROCEDURE         DIVISION.
-           DISPLAY X€–Ú(I:J).
+           DISPLAY Xï¿½ï¿½ï¿½ï¿½(I:J).
            GOBACK.
 _ATEOF
 
@@ -2866,7 +2866,7 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:10: libcob: Length of 'X€–Ú' out of bounds: 6
+echo >>"$at_stderr"; $as_echo "prog.cob:10: libcob: Length of 'Xï¿½ï¿½ï¿½ï¿½' out of bounds: 6
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -2901,9 +2901,9 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE   SECTION.
        01  I             PIC 9    VALUE 6.
        01  J             PIC 9    VALUE 2.
-       01  X€–Ú         PIC X(5) VALUE "ABCDE".
+       01  Xï¿½ï¿½ï¿½ï¿½         PIC X(5) VALUE "ABCDE".
        PROCEDURE         DIVISION.
-           DISPLAY X€–Ú(I:J).
+           DISPLAY Xï¿½ï¿½ï¿½ï¿½(I:J).
            GOBACK.
 _ATEOF
 
@@ -2940,7 +2940,7 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:10: libcob: Offset of 'X€–Ú' out of bounds: 6
+echo >>"$at_stderr"; $as_echo "prog.cob:10: libcob: Offset of 'Xï¿½ï¿½ï¿½ï¿½' out of bounds: 6
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -2975,9 +2975,9 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE   SECTION.
        01  I             PIC 9    VALUE 2.
        01  J             PIC 99   VALUE 18.
-       01  X€–Ú         PIC N(5) VALUE "‚`‚a‚b‚c‚d".
+       01  Xï¿½ï¿½ï¿½ï¿½         PIC N(5) VALUE "ï¿½`ï¿½aï¿½bï¿½cï¿½d".
        PROCEDURE         DIVISION.
-           DISPLAY X€–Ú(I:J).
+           DISPLAY Xï¿½ï¿½ï¿½ï¿½(I:J).
            GOBACK.
 _ATEOF
 
@@ -3014,7 +3014,7 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:10: libcob: Length of 'X€–Ú' out of bounds: 18
+echo >>"$at_stderr"; $as_echo "prog.cob:10: libcob: Length of 'Xï¿½ï¿½ï¿½ï¿½' out of bounds: 18
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -3049,9 +3049,9 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE   SECTION.
        01  I             PIC 99   VALUE 18.
        01  J             PIC 9    VALUE 2.
-       01  X€–Ú         PIC N(5) VALUE "‚`‚a‚b‚c‚d".
+       01  Xï¿½ï¿½ï¿½ï¿½         PIC N(5) VALUE "ï¿½`ï¿½aï¿½bï¿½cï¿½d".
        PROCEDURE         DIVISION.
-           DISPLAY X€–Ú(I:J).
+           DISPLAY Xï¿½ï¿½ï¿½ï¿½(I:J).
            GOBACK.
 _ATEOF
 
@@ -3088,7 +3088,7 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:10: libcob: Offset of 'X€–Ú' out of bounds: 18
+echo >>"$at_stderr"; $as_echo "prog.cob:10: libcob: Offset of 'Xï¿½ï¿½ï¿½ï¿½' out of bounds: 18
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -3121,7 +3121,7 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.       check1.
        DATA              DIVISION.
        WORKING-STORAGE   SECTION.
-       01  X€–Ú         PIC X(5) EXTERNAL.
+       01  Xï¿½ï¿½ï¿½ï¿½         PIC X(5) EXTERNAL.
        PROCEDURE         DIVISION.
            CALL 'check2'.
 
@@ -3129,7 +3129,7 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.       check2.
        DATA              DIVISION.
        WORKING-STORAGE   SECTION.
-       01  X€–Ú         PIC X(6) EXTERNAL.
+       01  Xï¿½ï¿½ï¿½ï¿½         PIC X(6) EXTERNAL.
        PROCEDURE         DIVISION.
            END PROGRAM check2.
            END PROGRAM check1.
@@ -3168,7 +3168,7 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:8: libcob: EXTERNAL item 'X€–Ú' has size > 6
+echo >>"$at_stderr"; $as_echo "prog.cob:8: libcob: EXTERNAL item 'Xï¿½ï¿½ï¿½ï¿½' has size > 6
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -3201,20 +3201,20 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 GW’c€–Ú.
-          03 A€–Ú PIC X.
+       01 Gï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½.
+          03 Aï¿½ï¿½ï¿½ï¿½ PIC X.
        PROCEDURE        DIVISION.
 001009     DISPLAY NO-FLD.
 001010     DISPLAY NO-FLD IN G-GRP.
 001011     DISPLAY NO-FLD IN NO-GRP.
-001012     DISPLAY NO€–Ú.
-001013     DISPLAY NO€–Ú IN GW’c€–Ú.
-001014     DISPLAY NO€–Ú IN NOW’c€–Ú.
-001015     DISPLAY NO-FLD IN GW’c€–Ú.
-001016     DISPLAY NO-FLD IN NOW’c€–Ú.
-001017     DISPLAY NO€–Ú IN G-GRP.
-001018     DISPLAY NO€–Ú IN NO-GRP.
-001019     DISPLAY NO€–Ú IN GW’c€–Ú IN NOW’c€–Ú.
+001012     DISPLAY NOï¿½ï¿½ï¿½ï¿½.
+001013     DISPLAY NOï¿½ï¿½ï¿½ï¿½ IN Gï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½.
+001014     DISPLAY NOï¿½ï¿½ï¿½ï¿½ IN NOï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½.
+001015     DISPLAY NO-FLD IN Gï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½.
+001016     DISPLAY NO-FLD IN NOï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½.
+001017     DISPLAY NOï¿½ï¿½ï¿½ï¿½ IN G-GRP.
+001018     DISPLAY NOï¿½ï¿½ï¿½ï¿½ IN NO-GRP.
+001019     DISPLAY NOï¿½ï¿½ï¿½ï¿½ IN Gï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½ IN NOï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½.
 _ATEOF
 
 
@@ -3234,14 +3234,14 @@ at_failed=false
 echo >>"$at_stderr"; $as_echo "prog.cob:9: Error: 'NO-FLD' undefined
 prog.cob:10: Error: 'NO-FLD' in 'G-GRP' undefined
 prog.cob:11: Error: 'NO-FLD' in 'NO-GRP' undefined
-prog.cob:12: Error: 'NO€–Ú' undefined
-prog.cob:13: Error: 'NO€–Ú' in 'GW’c€–Ú' undefined
-prog.cob:14: Error: 'NO€–Ú' in 'NOW’c€–Ú' undefined
-prog.cob:15: Error: 'NO-FLD' in 'GW’c€–Ú' undefined
-prog.cob:16: Error: 'NO-FLD' in 'NOW’c€–Ú' undefined
-prog.cob:17: Error: 'NO€–Ú' in 'G-GRP' undefined
-prog.cob:18: Error: 'NO€–Ú' in 'NO-GRP' undefined
-prog.cob:19: Error: 'NO€–Ú' in 'GW’c€–Ú' in 'NOW’c€–Ú' undefined
+prog.cob:12: Error: 'NOï¿½ï¿½ï¿½ï¿½' undefined
+prog.cob:13: Error: 'NOï¿½ï¿½ï¿½ï¿½' in 'Gï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½' undefined
+prog.cob:14: Error: 'NOï¿½ï¿½ï¿½ï¿½' in 'NOï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½' undefined
+prog.cob:15: Error: 'NO-FLD' in 'Gï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½' undefined
+prog.cob:16: Error: 'NO-FLD' in 'NOï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½' undefined
+prog.cob:17: Error: 'NOï¿½ï¿½ï¿½ï¿½' in 'G-GRP' undefined
+prog.cob:18: Error: 'NOï¿½ï¿½ï¿½ï¿½' in 'NO-GRP' undefined
+prog.cob:19: Error: 'NOï¿½ï¿½ï¿½ï¿½' in 'Gï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½' in 'NOï¿½Wï¿½cï¿½ï¿½ï¿½ï¿½' undefined
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -3274,16 +3274,16 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 A€–Ú PIC X.
-       01 G1W’c.
-          03 A€–Ú PIC X.
-          03 B€–Ú PIC X.
-          03 G2W’c.
-             05 A€–Ú PIC X.
-             05 B€–Ú PIC X.
+       01 Aï¿½ï¿½ï¿½ï¿½ PIC X.
+       01 G1ï¿½Wï¿½c.
+          03 Aï¿½ï¿½ï¿½ï¿½ PIC X.
+          03 Bï¿½ï¿½ï¿½ï¿½ PIC X.
+          03 G2ï¿½Wï¿½c.
+             05 Aï¿½ï¿½ï¿½ï¿½ PIC X.
+             05 Bï¿½ï¿½ï¿½ï¿½ PIC X.
        PROCEDURE        DIVISION.
-001014     DISPLAY A€–Ú.
-001015     DISPLAY B€–Ú IN G1W’c.
+001014     DISPLAY Aï¿½ï¿½ï¿½ï¿½.
+001015     DISPLAY Bï¿½ï¿½ï¿½ï¿½ IN G1ï¿½Wï¿½c.
            GOBACK.
 _ATEOF
 
@@ -3301,17 +3301,17 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:8: Warning: Redefinition of 'A€–Ú'
-prog.cob:6: Warning: 'A€–Ú' previously defined here
-prog.cob:11: Warning: Redefinition of 'A€–Ú'
-prog.cob:6: Warning: 'A€–Ú' previously defined here
-prog.cob:14: Error: 'A€–Ú' ambiguous; need qualification
-prog.cob:6: Error: 'A€–Ú' defined here
-prog.cob:8: Error: 'A€–Ú' in 'G1W’c' defined here
-prog.cob:11: Error: 'A€–Ú' in 'G2W’c' in 'G1W’c' defined here
-prog.cob:15: Error: 'B€–Ú' in 'G1W’c' ambiguous; need qualification
-prog.cob:9: Error: 'B€–Ú' in 'G1W’c' defined here
-prog.cob:12: Error: 'B€–Ú' in 'G2W’c' in 'G1W’c' defined here
+echo >>"$at_stderr"; $as_echo "prog.cob:8: Warning: Redefinition of 'Aï¿½ï¿½ï¿½ï¿½'
+prog.cob:6: Warning: 'Aï¿½ï¿½ï¿½ï¿½' previously defined here
+prog.cob:11: Warning: Redefinition of 'Aï¿½ï¿½ï¿½ï¿½'
+prog.cob:6: Warning: 'Aï¿½ï¿½ï¿½ï¿½' previously defined here
+prog.cob:14: Error: 'Aï¿½ï¿½ï¿½ï¿½' ambiguous; need qualification
+prog.cob:6: Error: 'Aï¿½ï¿½ï¿½ï¿½' defined here
+prog.cob:8: Error: 'Aï¿½ï¿½ï¿½ï¿½' in 'G1ï¿½Wï¿½c' defined here
+prog.cob:11: Error: 'Aï¿½ï¿½ï¿½ï¿½' in 'G2ï¿½Wï¿½c' in 'G1ï¿½Wï¿½c' defined here
+prog.cob:15: Error: 'Bï¿½ï¿½ï¿½ï¿½' in 'G1ï¿½Wï¿½c' ambiguous; need qualification
+prog.cob:9: Error: 'Bï¿½ï¿½ï¿½ï¿½' in 'G1ï¿½Wï¿½c' defined here
+prog.cob:12: Error: 'Bï¿½ï¿½ï¿½ï¿½' in 'G2ï¿½Wï¿½c' in 'G1ï¿½Wï¿½c' defined here
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -3344,14 +3344,14 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        PROCEDURE        DIVISION.
-001006   L0Œ©o‚µ.
-001007     GO TO L1Œ©o‚µ.
-001008     GO TO L2Œ©o‚µ IN S1ß.
-001009   L1Œ©o‚µ. GOBACK.
-001010   L1Œ©o‚µ. GOBACK.
-001011 S1ß             SECTION.
-001012   L2Œ©o‚µ. GOBACK.
-001013   L2Œ©o‚µ. GOBACK.
+001006   L0ï¿½ï¿½ï¿½oï¿½ï¿½.
+001007     GO TO L1ï¿½ï¿½ï¿½oï¿½ï¿½.
+001008     GO TO L2ï¿½ï¿½ï¿½oï¿½ï¿½ IN S1ï¿½ï¿½.
+001009   L1ï¿½ï¿½ï¿½oï¿½ï¿½. GOBACK.
+001010   L1ï¿½ï¿½ï¿½oï¿½ï¿½. GOBACK.
+001011 S1ï¿½ï¿½             SECTION.
+001012   L2ï¿½ï¿½ï¿½oï¿½ï¿½. GOBACK.
+001013   L2ï¿½ï¿½ï¿½oï¿½ï¿½. GOBACK.
 _ATEOF
 
 
@@ -3368,12 +3368,12 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:7: Error: 'L1Œ©o‚µ' ambiguous; need qualification
-prog.cob:9: Error: 'L1Œ©o‚µ' in 'MAIN SECTION' defined here
-prog.cob:10: Error: 'L1Œ©o‚µ' in 'MAIN SECTION' defined here
-prog.cob:8: Error: 'L2Œ©o‚µ' in 'S1ß' ambiguous; need qualification
-prog.cob:12: Error: 'L2Œ©o‚µ' in 'S1ß' defined here
-prog.cob:13: Error: 'L2Œ©o‚µ' in 'S1ß' defined here
+echo >>"$at_stderr"; $as_echo "prog.cob:7: Error: 'L1ï¿½ï¿½ï¿½oï¿½ï¿½' ambiguous; need qualification
+prog.cob:9: Error: 'L1ï¿½ï¿½ï¿½oï¿½ï¿½' in 'MAIN SECTION' defined here
+prog.cob:10: Error: 'L1ï¿½ï¿½ï¿½oï¿½ï¿½' in 'MAIN SECTION' defined here
+prog.cob:8: Error: 'L2ï¿½ï¿½ï¿½oï¿½ï¿½' in 'S1ï¿½ï¿½' ambiguous; need qualification
+prog.cob:12: Error: 'L2ï¿½ï¿½ï¿½oï¿½ï¿½' in 'S1ï¿½ï¿½' defined here
+prog.cob:13: Error: 'L2ï¿½ï¿½ï¿½oï¿½ï¿½' in 'S1ï¿½ï¿½' defined here
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -3406,7 +3406,7 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC X(14) VALUE "“ú–{Œê‚Ì•¶Žš—ñ".
+       01 F0 PIC X(14) VALUE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½".
        PROCEDURE        DIVISION.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
@@ -3446,7 +3446,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú–{Œê‚Ì•¶Žš—ñ" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:15"
 
@@ -3479,7 +3479,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC X(14).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -3518,7 +3518,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú–{Œê‚Ì•¶Žš—ñ" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:34"
 
@@ -3551,7 +3551,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC X(6).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -3593,7 +3593,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú–{Œê" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½{ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:56"
 
@@ -3626,7 +3626,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC X(7).
        PROCEDURE        DIVISION.
-           MOVE ALL "Šì" TO F0.
+           MOVE ALL "ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -3700,7 +3700,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC X(7).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -3775,7 +3775,7 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 FS PIC X(14) VALUE "“ú–{Œê‚Ì•¶Žš—ñ".
+       01 FS PIC X(14) VALUE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½".
        01 F0 PIC X(7).
        PROCEDURE        DIVISION.
            MOVE FS TO F0.
@@ -3852,7 +3852,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC X(16).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -3891,7 +3891,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú–{Œê‚Ì•¶Žš—ñ  " | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½  " | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:139"
 
@@ -3924,7 +3924,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC X(15) JUSTIFIED RIGHT.
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -3963,7 +3963,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo " “ú–{Œê‚Ì•¶Žš—ñ" | \
+echo >>"$at_stdout"; $as_echo " ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:158"
 
@@ -3996,7 +3996,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC XXXX/XXXXBXXXX0.
        PROCEDURE        DIVISION.
-           MOVE "“ú–{’†‘•¶Žš" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -4035,7 +4035,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú–{/’†‘ •¶Žš0" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½{/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½0" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:177"
 
@@ -4068,7 +4068,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC XX/XXBXX0.
        PROCEDURE        DIVISION.
-           MOVE "“ú–{’†‘•¶Žš" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -4110,7 +4110,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú/–{ ’†0" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½/ï¿½{ ï¿½ï¿½0" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:199"
 
@@ -4143,7 +4143,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC XX/XXBXX0.
        PROCEDURE        DIVISION.
-           MOVE "“ú–{" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -4182,7 +4182,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú/–{   0" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½/ï¿½{   0" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:218"
 
@@ -4215,7 +4215,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC X(2)BX(2).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -4254,7 +4254,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú –{" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ ï¿½{" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:237"
 
@@ -4287,7 +4287,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC X(1)BX(3).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -4360,7 +4360,7 @@ cat >prog.cob <<'_ATEOF'
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
        01 F0.
-       03     XX0    PIC X(4) VALUE "“ú–{".
+       03     XX0    PIC X(4) VALUE "ï¿½ï¿½ï¿½{".
        01 F1.
        03     XX1    PIC X(3).
        03     FILLER PIC X(1).
@@ -4439,7 +4439,7 @@ cat >prog.cob <<'_ATEOF'
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
        01 F0.
-       03     XX0    PIC X(4) VALUE "“ú–{".
+       03     XX0    PIC X(4) VALUE "ï¿½ï¿½ï¿½{".
        01 F1 REDEFINES F0.
        03     XX1    PIC X(3).
        03     FILLER PIC X(1).
@@ -4518,7 +4518,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC X(14).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0(9:) WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -4557,7 +4557,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "•¶Žš—ñ" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:326"
 
@@ -4590,7 +4590,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC X(14).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0(9:4) WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -4629,7 +4629,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "•¶Žš" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:345"
 
@@ -4660,9 +4660,9 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC X(4)  VALUE "Ž„‚Ì".
-       01 F1 PIC X(6)  VALUE "–¼‘O‚Í".
-       01 F2 PIC X(10) VALUE "‚ ‚è‚Ü‚¹‚ñ".
+       01 F0 PIC X(4)  VALUE "ï¿½ï¿½ï¿½ï¿½".
+       01 F1 PIC X(6)  VALUE "ï¿½ï¿½ï¿½Oï¿½ï¿½".
+       01 F2 PIC X(10) VALUE "ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½".
        01 FF PIC X(20).
        PROCEDURE        DIVISION.
            STRING F0 F1 F2 DELIMITED BY SIZE
@@ -4705,7 +4705,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "Ž„‚Ì–¼‘O‚Í‚ ‚è‚Ü‚¹‚ñ" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½Ì–ï¿½ï¿½Oï¿½Í‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:368"
 
@@ -4736,12 +4736,12 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC X(4)  VALUE "Ž„‚Ì".
-       01 F1 PIC X(8)  VALUE "–¼‘O¢‚Í".
-       01 F2 PIC X(12) VALUE "¢‚ ‚è‚Ü‚¹‚ñ".
+       01 F0 PIC X(4)  VALUE "ï¿½ï¿½ï¿½ï¿½".
+       01 F1 PIC X(8)  VALUE "ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½".
+       01 F2 PIC X(12) VALUE "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½".
        01 FF PIC X(8).
        PROCEDURE        DIVISION.
-           STRING F0 F1 F2 DELIMITED BY "¢"
+           STRING F0 F1 F2 DELIMITED BY "ï¿½ï¿½"
              INTO FF.
            DISPLAY FF WITH NO ADVANCING.
            STOP RUN.
@@ -4761,9 +4761,9 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:12: Warning: F0 and '¢' and FF have not same national type!
-prog.cob:12: Warning: F1 and '¢' and FF have not same national type!
-prog.cob:12: Warning: F2 and '¢' and FF have not same national type!
+echo >>"$at_stderr"; $as_echo "prog.cob:12: Warning: F0 and 'ï¿½ï¿½' and FF have not same national type!
+prog.cob:12: Warning: F1 and 'ï¿½ï¿½' and FF have not same national type!
+prog.cob:12: Warning: F2 and 'ï¿½ï¿½' and FF have not same national type!
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -4785,7 +4785,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "Ž„‚Ì–¼‘O" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½Ì–ï¿½ï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:395"
 
@@ -4816,10 +4816,10 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC X(4)  VALUE "Ž„‚Ì".
-       01 F1 PIC X(6)  VALUE "–¼‘O‚Í".
-       01 F2 PIC X(10) VALUE "‚ ‚è‚Ü‚¹‚ñ".
-       01 FF PIC X(20) VALUE "Œ¾‚¦‚Ü‚¹‚ñ›¦¢¡~".
+       01 F0 PIC X(4)  VALUE "ï¿½ï¿½ï¿½ï¿½".
+       01 F1 PIC X(6)  VALUE "ï¿½ï¿½ï¿½Oï¿½ï¿½".
+       01 F2 PIC X(10) VALUE "ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½".
+       01 FF PIC X(20) VALUE "ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ñ›ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~".
        01 FP PIC 99    VALUE 11.
        PROCEDURE        DIVISION.
            STRING F0 F1 F2 DELIMITED BY SIZE
@@ -4862,7 +4862,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "Œ¾‚¦‚Ü‚¹‚ñŽ„‚Ì–¼‘O‚Í" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ñŽ„‚Ì–ï¿½ï¿½Oï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:419"
 
@@ -4893,9 +4893,9 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC X(20)  VALUE "‚P‚Q‚R‚S‚T‚P‚Q‚R‚S‚T".
+       01 F0 PIC X(20)  VALUE "ï¿½Pï¿½Qï¿½Rï¿½Sï¿½Tï¿½Pï¿½Qï¿½Rï¿½Sï¿½T".
        PROCEDURE        DIVISION.
-           INSPECT F0 REPLACING ALL "‚T" BY "‚O".
+           INSPECT F0 REPLACING ALL "ï¿½T" BY "ï¿½O".
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -4934,7 +4934,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "‚P‚Q‚R‚S‚O‚P‚Q‚R‚S‚O" | \
+echo >>"$at_stdout"; $as_echo "ï¿½Pï¿½Qï¿½Rï¿½Sï¿½Oï¿½Pï¿½Qï¿½Rï¿½Sï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:438"
 
@@ -4965,9 +4965,9 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC X(20)  VALUE "‚P‚Q‚R‚S‚T‚P‚Q‚R‚S‚T".
+       01 F0 PIC X(20)  VALUE "ï¿½Pï¿½Qï¿½Rï¿½Sï¿½Tï¿½Pï¿½Qï¿½Rï¿½Sï¿½T".
        PROCEDURE        DIVISION.
-           INSPECT F0 REPLACING ALL "‚T" BY ZERO.
+           INSPECT F0 REPLACING ALL "ï¿½T" BY ZERO.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -5006,7 +5006,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "‚P‚Q‚R‚S‚O‚P‚Q‚R‚S‚O" | \
+echo >>"$at_stdout"; $as_echo "ï¿½Pï¿½Qï¿½Rï¿½Sï¿½Oï¿½Pï¿½Qï¿½Rï¿½Sï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-x.at:457"
 
@@ -5037,10 +5037,10 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC X(30)  VALUE "‚P‚Q‚R‚S‚T‚P‚Q‚R‚S‚T".
+       01 F0 PIC X(30)  VALUE "ï¿½Pï¿½Qï¿½Rï¿½Sï¿½Tï¿½Pï¿½Qï¿½Rï¿½Sï¿½T".
        01 CN PIC 99.
        PROCEDURE        DIVISION.
-           INSPECT F0 TALLYING CN FOR ALL "‚S‚T".
+           INSPECT F0 TALLYING CN FOR ALL "ï¿½Sï¿½T".
            DISPLAY CN WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -5110,7 +5110,7 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC N(7) VALUE "“ú–{Œê‚Ì•¶Žš—ñ".
+       01 F0 PIC N(7) VALUE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½".
        PROCEDURE        DIVISION.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
@@ -5150,7 +5150,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú–{Œê‚Ì•¶Žš—ñ" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:15"
 
@@ -5183,7 +5183,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC N(7).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -5222,7 +5222,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú–{Œê‚Ì•¶Žš—ñ" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:34"
 
@@ -5255,7 +5255,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC N(3).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -5297,7 +5297,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú–{Œê" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½{ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:56"
 
@@ -5330,7 +5330,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC N(9).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -5369,7 +5369,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú–{Œê‚Ì•¶Žš—ñ@@" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½@" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:75"
 
@@ -5402,7 +5402,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC N(9) JUSTIFIED RIGHT.
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -5441,7 +5441,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "@@“ú–{Œê‚Ì•¶Žš—ñ" | \
+echo >>"$at_stdout"; $as_echo "ï¿½@ï¿½@ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:94"
 
@@ -5472,7 +5472,7 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC NN/NNBNN0 VALUE '“ú–{^’†‘@•¶Žš‚O'.
+       01 F0 PIC NN/NNBNN0 VALUE 'ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½O'.
        PROCEDURE        DIVISION.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
@@ -5512,7 +5512,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú–{^’†‘@•¶Žš‚O" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:112"
 
@@ -5543,9 +5543,9 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC NN/NNBNN0 VALUE '“ú–{^’†‘@•¶Žš‚O'.
+       01 F0 PIC NN/NNBNN0 VALUE 'ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½O'.
        PROCEDURE        DIVISION.
-           MOVE "t‰ÄH“~Š¦’g" TO F0.
+           MOVE "ï¿½tï¿½ÄHï¿½~ï¿½ï¿½ï¿½g" TO F0.
            INITIALIZE F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
@@ -5585,7 +5585,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "@@^@@@@@‚O" | \
+echo >>"$at_stdout"; $as_echo "ï¿½@ï¿½@ï¿½^ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:132"
 
@@ -5616,9 +5616,9 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC NN/NNBNN0 VALUE '“ú–{^’†‘@•¶Žš‚O'.
+       01 F0 PIC NN/NNBNN0 VALUE 'ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½O'.
        PROCEDURE        DIVISION.
-           MOVE "t‰ÄH“~Š¦’g" TO F0.
+           MOVE "ï¿½tï¿½ÄHï¿½~ï¿½ï¿½ï¿½g" TO F0.
            INITIALIZE F0 NATIONAL TO VALUE.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
@@ -5658,7 +5658,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú–{^’†‘@•¶Žš‚O" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:152"
 
@@ -5691,7 +5691,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC NN/NNBNN0.
        PROCEDURE        DIVISION.
-           MOVE "“ú–{’†‘•¶Žš" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -5730,7 +5730,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "“ú–{^’†‘@•¶Žš‚O" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:171"
 
@@ -5802,7 +5802,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "‚\`‚a‚b‚O‚P‚Q‚R" | \
+echo >>"$at_stdout"; $as_echo "ï¿½\`ï¿½aï¿½bï¿½Oï¿½Pï¿½Qï¿½R" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:190"
 
@@ -5835,7 +5835,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC N(7).
        PROCEDURE        DIVISION.
-           MOVE "ºÒÀÞº°Ë°" TO F0.
+           MOVE "ï¿½ï¿½ï¿½Þºï¿½Ë°" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -5909,7 +5909,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC N(7).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0(5:) WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -5948,7 +5948,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "•¶Žš—ñ" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:229"
 
@@ -5981,7 +5981,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC N(7).
        PROCEDURE        DIVISION.
-           MOVE "“ú–{Œê‚Ì•¶Žš—ñ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½{ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½" TO F0.
            DISPLAY F0(5:2) WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -6020,7 +6020,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "•¶Žš" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:248"
 
@@ -6051,9 +6051,9 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC N(2)  VALUE "Ž„‚Ì".
-       01 F1 PIC N(3)  VALUE "–¼‘O‚Í".
-       01 F2 PIC N(5) VALUE "‚ ‚è‚Ü‚¹‚ñ".
+       01 F0 PIC N(2)  VALUE "ï¿½ï¿½ï¿½ï¿½".
+       01 F1 PIC N(3)  VALUE "ï¿½ï¿½ï¿½Oï¿½ï¿½".
+       01 F2 PIC N(5) VALUE "ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½".
        01 FF PIC N(10).
        PROCEDURE        DIVISION.
            STRING F0 F1 F2 DELIMITED BY SIZE
@@ -6096,7 +6096,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "Ž„‚Ì–¼‘O‚Í‚ ‚è‚Ü‚¹‚ñ" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½Ì–ï¿½ï¿½Oï¿½Í‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:271"
 
@@ -6127,12 +6127,12 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC N(2)  VALUE "Ž„‚Ì".
-       01 F1 PIC N(4)  VALUE "–¼‘O¢‚Í".
-       01 F2 PIC N(6) VALUE "¢‚ ‚è‚Ü‚¹‚ñ".
+       01 F0 PIC N(2)  VALUE "ï¿½ï¿½ï¿½ï¿½".
+       01 F1 PIC N(4)  VALUE "ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½".
+       01 F2 PIC N(6) VALUE "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½".
        01 FF PIC N(4).
        PROCEDURE        DIVISION.
-           STRING F0 F1 F2 DELIMITED BY "¢"
+           STRING F0 F1 F2 DELIMITED BY "ï¿½ï¿½"
              INTO FF.
            DISPLAY FF WITH NO ADVANCING.
            STOP RUN.
@@ -6172,7 +6172,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "Ž„‚Ì–¼‘O" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½Ì–ï¿½ï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:294"
 
@@ -6203,12 +6203,12 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC N(2)  VALUE "Ž„‚Ì".
-       01 F1 PIC N(4)  VALUE "–¼‘O¢‚Í".
-       01 F2 PIC N(6) VALUE "¢‚ ‚è‚Ü‚¹‚ñ".
+       01 F0 PIC N(2)  VALUE "ï¿½ï¿½ï¿½ï¿½".
+       01 F1 PIC N(4)  VALUE "ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½".
+       01 F2 PIC N(6) VALUE "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½".
        01 FF PIC N(4).
        PROCEDURE        DIVISION.
-           STRING F0 F1 F2 DELIMITED BY N"¢"
+           STRING F0 F1 F2 DELIMITED BY N"ï¿½ï¿½"
              INTO FF.
            DISPLAY FF WITH NO ADVANCING.
            STOP RUN.
@@ -6248,7 +6248,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "Ž„‚Ì–¼‘O" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½Ì–ï¿½ï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:317"
 
@@ -6279,10 +6279,10 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC N(2)  VALUE "Ž„‚Ì".
-       01 F1 PIC N(3)  VALUE "–¼‘O‚Í".
-       01 F2 PIC N(5)  VALUE "‚ ‚è‚Ü‚¹‚ñ".
-       01 FF PIC N(10) VALUE "Œ¾‚¦‚Ü‚¹‚ñ›¦¢¡~".
+       01 F0 PIC N(2)  VALUE "ï¿½ï¿½ï¿½ï¿½".
+       01 F1 PIC N(3)  VALUE "ï¿½ï¿½ï¿½Oï¿½ï¿½".
+       01 F2 PIC N(5)  VALUE "ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½".
+       01 FF PIC N(10) VALUE "ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ñ›ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~".
        01 FP PIC 99    VALUE 6.
        PROCEDURE        DIVISION.
            STRING F0 F1 F2 DELIMITED BY SIZE
@@ -6325,7 +6325,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "Œ¾‚¦‚Ü‚¹‚ñŽ„‚Ì–¼‘O‚Í" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ñŽ„‚Ì–ï¿½ï¿½Oï¿½ï¿½" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:341"
 
@@ -6356,9 +6356,9 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC N(10)  VALUE "‚P‚Q‚R‚S‚T‚P‚Q‚R‚S‚T".
+       01 F0 PIC N(10)  VALUE "ï¿½Pï¿½Qï¿½Rï¿½Sï¿½Tï¿½Pï¿½Qï¿½Rï¿½Sï¿½T".
        PROCEDURE        DIVISION.
-           INSPECT F0 REPLACING ALL "‚T" BY "‚O".
+           INSPECT F0 REPLACING ALL "ï¿½T" BY "ï¿½O".
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -6397,7 +6397,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "‚P‚Q‚R‚S‚O‚P‚Q‚R‚S‚O" | \
+echo >>"$at_stdout"; $as_echo "ï¿½Pï¿½Qï¿½Rï¿½Sï¿½Oï¿½Pï¿½Qï¿½Rï¿½Sï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:360"
 
@@ -6428,9 +6428,9 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC N(10)  VALUE "‚P‚Q‚R‚S‚T‚P‚Q‚R‚S‚T".
+       01 F0 PIC N(10)  VALUE "ï¿½Pï¿½Qï¿½Rï¿½Sï¿½Tï¿½Pï¿½Qï¿½Rï¿½Sï¿½T".
        PROCEDURE        DIVISION.
-           INSPECT F0 REPLACING ALL "‚T" BY ZERO.
+           INSPECT F0 REPLACING ALL "ï¿½T" BY ZERO.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -6469,7 +6469,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "‚P‚Q‚R‚S‚O‚P‚Q‚R‚S‚O" | \
+echo >>"$at_stdout"; $as_echo "ï¿½Pï¿½Qï¿½Rï¿½Sï¿½Oï¿½Pï¿½Qï¿½Rï¿½Sï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:379"
 
@@ -6500,9 +6500,9 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC N(10)  VALUE "‚P‚Q‚R‚S‚T‚P‚Q‚R‚S‚T".
+       01 F0 PIC N(10)  VALUE "ï¿½Pï¿½Qï¿½Rï¿½Sï¿½Tï¿½Pï¿½Qï¿½Rï¿½Sï¿½T".
        PROCEDURE        DIVISION.
-           INSPECT F0 REPLACING ALL N"‚T" BY ZERO.
+           INSPECT F0 REPLACING ALL N"ï¿½T" BY ZERO.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -6541,7 +6541,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "‚P‚Q‚R‚S‚O‚P‚Q‚R‚S‚O" | \
+echo >>"$at_stdout"; $as_echo "ï¿½Pï¿½Qï¿½Rï¿½Sï¿½Oï¿½Pï¿½Qï¿½Rï¿½Sï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:398"
 
@@ -6572,10 +6572,10 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 F0 PIC N(10)  VALUE "‚P‚Q‚R‚S‚T‚P‚Q‚R‚S‚T".
+       01 F0 PIC N(10)  VALUE "ï¿½Pï¿½Qï¿½Rï¿½Sï¿½Tï¿½Pï¿½Qï¿½Rï¿½Sï¿½T".
        01 CN PIC 99.
        PROCEDURE        DIVISION.
-           INSPECT F0 TALLYING CN FOR ALL "‚S‚T".
+           INSPECT F0 TALLYING CN FOR ALL "ï¿½Sï¿½T".
            DISPLAY CN WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -6647,7 +6647,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC N(7).
        PROCEDURE        DIVISION.
-           MOVE "ÞÀÞ¥³Þ¨ÝÁ" TO F0.
+           MOVE "ï¿½ï¿½Þ¥ï¿½Þ¨ï¿½ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -6686,7 +6686,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "Jƒ_Eƒ”ƒBƒ“ƒ\`" | \
+echo >>"$at_stdout"; $as_echo "ï¿½Jï¿½_ï¿½Eï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½\`" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:437"
 
@@ -6719,7 +6719,7 @@ cat >prog.cob <<'_ATEOF'
        WORKING-STORAGE  SECTION.
        01 F0 PIC N(7).
        PROCEDURE        DIVISION.
-           MOVE "ßÎßÝÃÞØÝ¸Þ" TO F0.
+           MOVE "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½" TO F0.
            DISPLAY F0 WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -6758,7 +6758,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "Kƒ|ƒ“ƒfƒŠƒ“ƒO" | \
+echo >>"$at_stdout"; $as_echo "ï¿½Kï¿½|ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½O" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/pic-n.at:456"
 
@@ -6793,10 +6793,10 @@ _ATEOF
 cat >prog.cob <<'_ATEOF'
 
        IDENTIFICATION   DIVISION.
-       PROGRAM-ID.      “Œ‹ž“s.
+       PROGRAM-ID.      ï¿½ï¿½ï¿½ï¿½ï¿½s.
        DATA             DIVISION.
        PROCEDURE DIVISION.
-           END PROGRAM “Œ‹ž“s.
+           END PROGRAM ï¿½ï¿½ï¿½ï¿½ï¿½s.
 _ATEOF
 
 
@@ -6848,10 +6848,10 @@ _ATEOF
 cat >prog.cob <<'_ATEOF'
 
        IDENTIFICATION   DIVISION.
-       PROGRAM-ID.      “Œ‹ž˜pŠÝ`˜p‹Ç.
+       PROGRAM-ID.      ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Ý`ï¿½pï¿½ï¿½.
        DATA             DIVISION.
        PROCEDURE DIVISION.
-           END PROGRAM “Œ‹ž˜pŠÝ`˜p‹Ç.
+           END PROGRAM ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Ý`ï¿½pï¿½ï¿½.
 _ATEOF
 
 
@@ -6899,10 +6899,10 @@ echo "#                             -*- compilation -*-" >> "$at_group_log"
 cat >prog.cob <<'_ATEOF'
 
        IDENTIFICATION   DIVISION.
-       PROGRAM-ID.      “Œ‹ž˜pŠÝ`˜p‹Ç.
+       PROGRAM-ID.      ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Ý`ï¿½pï¿½ï¿½.
        DATA             DIVISION.
        PROCEDURE DIVISION.
-           END PROGRAM “Œ‹ž˜pŠÝ`˜p‹Ç.
+           END PROGRAM ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Ý`ï¿½pï¿½ï¿½.
 _ATEOF
 
 
@@ -6947,8 +6947,8 @@ echo "#                             -*- compilation -*-" >> "$at_group_log"
 cat >prog.cob <<'_ATEOF'
 
        IDENTIFICATION   DIVISION.
-       PROGRAM-ID.      ‚ ‚¢‚¤‚¦‚¨‚©‚«‚­‚¯‚±‚³‚µ‚·‚¹‚»
-      -‚½‚¿‚Â‚Ä‚Æ‚È‚É‚Ê‚Ë‚Ì‚Í‚Ð‚Ó‚Ö‚Ù.
+       PROGRAM-ID.      ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+      -ï¿½ï¿½ï¿½ï¿½ï¿½Â‚Ä‚Æ‚È‚É‚Ê‚Ë‚Ì‚Í‚Ð‚Ó‚Ö‚ï¿½.
        DATA             DIVISION.
        PROCEDURE DIVISION.
            STOP RUN.
@@ -6996,8 +6996,8 @@ echo "#                             -*- compilation -*-" >> "$at_group_log"
 cat >prog.cob <<'_ATEOF'
 
        IDENTIFICATION   DIVISION.
-       PROGRAM-ID.      ‚ ‚¢‚¤‚¦‚¨‚©‚«‚­‚¯‚±‚³‚µ‚·‚¹‚»
-      -‚½‚¿‚Â‚Ä‚Æ‚È‚É‚Ê‚Ë‚Ì‚Í‚Ð‚Ó‚Ö‚Ù‚Ü‚Ý.
+       PROGRAM-ID.      ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+      -ï¿½ï¿½ï¿½ï¿½ï¿½Â‚Ä‚Æ‚È‚É‚Ê‚Ë‚Ì‚Í‚Ð‚Ó‚Ö‚Ù‚Ü‚ï¿½.
        DATA             DIVISION.
        PROCEDURE DIVISION.
            STOP RUN.
@@ -7052,10 +7052,10 @@ cat >prog.cob <<'_ATEOF'
        working-storage section.
        01 wk-01.
          03 wk-02  pic x(2).
-         03 ‚—‚‹|‚O‚R  redefines wk-02 pic n(2).
+         03 ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½Oï¿½R  redefines wk-02 pic n(2).
        01 cnt  pic 9(1).
        procedure division.
-          inspect ‚—‚‹|‚O‚R tallying cnt
+          inspect ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½Oï¿½R tallying cnt
             for characters before initial space.
           stop run.
 _ATEOF
@@ -7074,7 +7074,7 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:8: Error: Size of '‚—‚‹|‚O‚R' larger than size of 'wk-02'
+echo >>"$at_stderr"; $as_echo "prog.cob:8: Error: Size of 'ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½Oï¿½R' larger than size of 'wk-02'
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -7158,7 +7158,7 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        PROCEDURE DIVISION.
-           DISPLAY A___‚ ___A.
+           DISPLAY A___ï¿½ï¿½___A.
            STOP RUN.
 _ATEOF
 
@@ -7176,7 +7176,7 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob:6: Error: 'A___‚ ___A' undefined
+echo >>"$at_stderr"; $as_echo "prog.cob:6: Error: 'A___ï¿½ï¿½___A' undefined
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -7209,10 +7209,10 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        PROCEDURE        DIVISION.
-       ƒeƒXƒg SECTION.
-           MOVE 1 TO €–Ú1.
-       ƒeƒXƒg’i—Ž.
-           MOVE 1 TO €–Ú2.
+       ï¿½eï¿½Xï¿½g SECTION.
+           MOVE 1 TO ï¿½ï¿½ï¿½ï¿½1.
+       ï¿½eï¿½Xï¿½gï¿½iï¿½ï¿½.
+           MOVE 1 TO ï¿½ï¿½ï¿½ï¿½2.
 _ATEOF
 
 
@@ -7229,10 +7229,10 @@ else
 fi
 at_status=$?
 at_failed=false
-echo >>"$at_stderr"; $as_echo "prog.cob: In section 'ƒeƒXƒg':
-prog.cob:7: Error: '€–Ú1' undefined
-prog.cob: In paragraph 'ƒeƒXƒg’i—Ž':
-prog.cob:9: Error: '€–Ú2' undefined
+echo >>"$at_stderr"; $as_echo "prog.cob: In section 'ï¿½eï¿½Xï¿½g':
+prog.cob:7: Error: 'ï¿½ï¿½ï¿½ï¿½1' undefined
+prog.cob: In paragraph 'ï¿½eï¿½Xï¿½gï¿½iï¿½ï¿½':
+prog.cob:9: Error: 'ï¿½ï¿½ï¿½ï¿½2' undefined
 " | \
   $at_diff - "$at_stderr" || at_failed=:
 at_func_diff_devnull "$at_stdout" || at_failed=:
@@ -8124,7 +8124,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "‚\`‚a‚b‚c‚y" | \
+echo >>"$at_stdout"; $as_echo "ï¿½\`ï¿½aï¿½bï¿½cï¿½y" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/national.at:18"
 
@@ -8158,7 +8158,7 @@ cat >prog.cob <<'_ATEOF'
        01 I-STR    PIC X(9).
        01 O-STR    PIC X(12).
        PROCEDURE        DIVISION.
-           MOVE "A‚aC‚P2‚R" TO I-STR.
+           MOVE "Aï¿½aCï¿½P2ï¿½R" TO I-STR.
            MOVE FUNCTION NATIONAL(I-STR) TO O-STR.
            DISPLAY O-STR WITH NO ADVANCING.
            STOP RUN.
@@ -8198,7 +8198,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "‚\`‚a‚b‚P‚Q‚R" | \
+echo >>"$at_stdout"; $as_echo "ï¿½\`ï¿½aï¿½bï¿½Pï¿½Qï¿½R" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/national.at:39"
 
@@ -8272,7 +8272,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "IIIII" | \
+echo >>"$at_stdout"; $as_echo "ï¿½Iï¿½Iï¿½Iï¿½Iï¿½I" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/national.at:60"
 
@@ -8346,7 +8346,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "        " | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½        " | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/national.at:81"
 
@@ -8420,7 +8420,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "{@      " | \
+echo >>"$at_stdout"; $as_echo "ï¿½{ï¿½@      " | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/national.at:102"
 
@@ -8454,7 +8454,7 @@ cat >prog.cob <<'_ATEOF'
        01 I-STR    PIC X(16).
        01 O-STR    PIC X(16).
        PROCEDURE        DIVISION.
-           MOVE "ÚÃÞ¨¶Þ¶Þ" TO I-STR.
+           MOVE "ï¿½ï¿½Þ¨ï¿½Þ¶ï¿½" TO I-STR.
            MOVE FUNCTION NATIONAL(I-STR) TO O-STR.
            DISPLAY O-STR WITH NO ADVANCING.
            STOP RUN.
@@ -8494,7 +8494,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "ƒŒƒfƒBƒKƒK@@@" | \
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½fï¿½Bï¿½Kï¿½Kï¿½@ï¿½@ï¿½@" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/national.at:123"
 
@@ -8528,7 +8528,7 @@ cat >prog.cob <<'_ATEOF'
        01 I-STR    PIC X(10).
        01 O-STR    PIC X(10).
        PROCEDURE        DIVISION.
-           MOVE "ÎßËßÝ" TO I-STR.
+           MOVE "ï¿½ï¿½ï¿½ï¿½ï¿½" TO I-STR.
            MOVE FUNCTION NATIONAL(I-STR) TO O-STR.
            DISPLAY O-STR WITH NO ADVANCING.
            STOP RUN.
@@ -8568,7 +8568,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "ƒ|ƒsƒ“@@" | \
+echo >>"$at_stdout"; $as_echo "ï¿½|ï¿½sï¿½ï¿½ï¿½@ï¿½@" | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/national.at:144"
 
@@ -8598,9 +8598,9 @@ cat >prog.cob <<'_ATEOF'
        IDENTIFICATION   DIVISION.
        PROGRAM-ID.      prog.
        PROCEDURE        DIVISION.
-           DISPLAY N"‚¢‚ë‚Í".
-           DISPLAY N"²ÛÊ".
-           DISPLAY N"ÎßËßÝ".
+           DISPLAY N"ï¿½ï¿½ï¿½ï¿½ï¿½".
+           DISPLAY N"ï¿½ï¿½ï¿½".
+           DISPLAY N"ï¿½ï¿½ï¿½ï¿½ï¿½".
            DISPLAY N"ABC".
            DISPLAY N"#$%".
            STOP RUN.
@@ -8640,9 +8640,9 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "‚¢‚ë‚Í
-²ÛÊ
-ÎßËßÝ
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½
 ABC
 #\$%
 " | \
@@ -8675,9 +8675,9 @@ cat >prog.cob <<'_ATEOF'
        IDENTIFICATION   DIVISION.
        PROGRAM-ID.      prog.
        PROCEDURE        DIVISION.
-           DISPLAY NC"‚¢‚ë‚Í".
-           DISPLAY NC"²ÛÊ".
-           DISPLAY NC"ÎßËßÝ".
+           DISPLAY NC"ï¿½ï¿½ï¿½ï¿½ï¿½".
+           DISPLAY NC"ï¿½ï¿½ï¿½".
+           DISPLAY NC"ï¿½ï¿½ï¿½ï¿½ï¿½".
            DISPLAY NC"ABC".
            DISPLAY NC"#$%".
            STOP RUN.
@@ -8717,9 +8717,9 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "‚¢‚ë‚Í
-²ÛÊ
-ÎßËßÝ
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½
 ABC
 #\$%
 " | \
@@ -8752,9 +8752,9 @@ cat >prog.cob <<'_ATEOF'
        IDENTIFICATION   DIVISION.
        PROGRAM-ID.      prog.
        PROCEDURE        DIVISION.
-           DISPLAY ND"‚¢‚ë‚Í".
-           DISPLAY ND"²ÛÊ".
-           DISPLAY ND"ÎßËßÝ".
+           DISPLAY ND"ï¿½ï¿½ï¿½ï¿½ï¿½".
+           DISPLAY ND"ï¿½ï¿½ï¿½".
+           DISPLAY ND"ï¿½ï¿½ï¿½ï¿½ï¿½".
            DISPLAY ND"ABC".
            DISPLAY ND"#$%".
            STOP RUN.
@@ -8794,9 +8794,9 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "‚¢‚ë‚Í
-²ÛÊ
-ÎßËßÝ
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½
 ABC
 #\$%
 " | \
@@ -8867,7 +8867,7 @@ fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "‚¢‚ë‚Í
+echo >>"$at_stdout"; $as_echo "ï¿½ï¿½ï¿½ï¿½ï¿½
 " | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/national.at:234"
@@ -8895,12 +8895,12 @@ echo "#                             -*- compilation -*-" >> "$at_group_log"
 
 cat >prog.cob <<'_ATEOF'
 
-       IDENTIFICATION@DIVISION.
+       IDENTIFICATIONï¿½@DIVISION.
        PROGRAM-ID.      prog.
-       DATA @@@@@ DIVISION.
-       WORKING-STORAGE@ SECTION.
-       01 €–Ú PIC X.
-       PROCEDURE @@DIVISION.
+       DATA ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ DIVISION.
+       WORKING-STORAGEï¿½@ SECTION.
+       01 ï¿½ï¿½ï¿½ï¿½ PIC X.
+       PROCEDURE ï¿½@ï¿½@DIVISION.
            DISPLAY "OK" WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
@@ -8970,15 +8970,15 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       01 €–Ú@PIC X(40) VALUE
+       01 ï¿½ï¿½ï¿½Ú@PIC X(40) VALUE
           "Zen SPC between item name and PIC clause".
-@     01  F00 PIC X.
-  @   01  F01 PIC X.
-       01@F02 PIC X.
-       01@F03 PIC@X.
-       01@F04 PIC X@.
+ï¿½@     01  F00 PIC X.
+  ï¿½@   01  F01 PIC X.
+       01ï¿½@F02 PIC X.
+       01ï¿½@F03 PICï¿½@X.
+       01ï¿½@F04 PIC Xï¿½@.
        PROCEDURE        DIVISION.
-           DISPLAY €–Ú WITH NO ADVANCING.
+           DISPLAY ï¿½ï¿½ï¿½ï¿½ WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
 
@@ -9043,12 +9043,12 @@ echo "#                             -*- compilation -*-" >> "$at_group_log"
 
 cat >inc.cpy <<'_ATEOF'
 
-       01 €–Ú@PIC X(2) VALUE "OK".
-@     01  F00 PIC X.
-  @   01  F01 PIC X.
-       01@F02 PIC X.
-       01@F03 PIC@X.
-       01@F04 PIC X@.
+       01 ï¿½ï¿½ï¿½Ú@PIC X(2) VALUE "OK".
+ï¿½@     01  F00 PIC X.
+  ï¿½@   01  F01 PIC X.
+       01ï¿½@F02 PIC X.
+       01ï¿½@F03 PICï¿½@X.
+       01ï¿½@F04 PIC Xï¿½@.
 _ATEOF
 
 
@@ -9058,9 +9058,9 @@ cat >prog.cob <<'_ATEOF'
        PROGRAM-ID.      prog.
        DATA             DIVISION.
        WORKING-STORAGE  SECTION.
-       COPY @inc.
+       COPY ï¿½@inc.
        PROCEDURE        DIVISION.
-           DISPLAY €–Ú WITH NO ADVANCING.
+           DISPLAY ï¿½ï¿½ï¿½ï¿½ WITH NO ADVANCING.
            STOP RUN.
 _ATEOF
 
