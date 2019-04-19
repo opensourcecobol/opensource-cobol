@@ -1,5 +1,44 @@
 NEWS - user visible changes				-*- outline -*-
 
+* Changes in opensource COBOL 1.5.2J
+
+** New features
+
+*** ADD new Error check.
+    (1) Detected division by zero.
+        Compile check: use the character "0".
+        Runtime check: use variable with value 0.
+        
+        Use this option, Add the following values to config.
+        enable-zero-division-error:		yes
+        
+    (2) Check subscript out of bounds.
+        This feature was previously included in the debug options.
+        
+        Use this option, Add the following values to config.
+        enable-check-subscript-out-of-bounds:	yes
+        
+    (3) Expect numeric error.
+        Compile check: Move const string to numeric variable.
+        Runtime check: Move variable included string to numeric variable.
+        
+        Use this option, Add the following values to config.
+        enable-expect-numeric-error:		yes
+        
+    (4) Expect compute string error.
+        This feature was previously included in the debug options.
+        
+        Use this option, Add the following values to config.
+        enable-expect-compute-string-error:	yes
+        
+
+** Bug fixes
+
+*** Correct errors in Japanese translation on cobc help.
+
+
+-----------------------------------------------------------------------
+
 * Changes in opensource COBOL 1.5.1J
 
 ** Bug fixes

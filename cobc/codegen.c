@@ -6,12 +6,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, 51 Franklin Street, Fifth Floor
@@ -1594,7 +1594,7 @@ initialize_type (struct cb_initialize *p, struct cb_field *f, int topfield)
 			} else if (cb_tree_type (CB_TREE (f)) == COB_TYPE_NUMERIC_DISPLAY) {
 				if (f->flag_sign_separate) {
 					return INITIALIZE_ONE;
-				} else if (cb_display_sign == COB_DISPLAY_SIGN_EBCDIC 
+				} else if (cb_display_sign == COB_DISPLAY_SIGN_EBCDIC
 				             && f->pic->have_sign) {
 					return INITIALIZE_ONE;
 				} else {
@@ -3265,6 +3265,12 @@ output_stmt (cb_tree x)
 		if (p->handler1 || p->handler2 || (p->file && CB_EXCEPTION_ENABLE (COB_EC_I_O))) {
 
 			output_line ("cob_exception_code = 0;");
+		}
+
+		if (cb_enable_zero_division_error && p->name &&
+			((strcmp (p->name, "DIVIDE") == 0) || (strcmp (p->name, "COMPUTE") == 0)) &&
+				(!p->handler1 && !p->handler2)) {
+			output_line ("cob_error_on_exit_flag = 1;");
 		}
 
 		if (p->null_check) {

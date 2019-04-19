@@ -1324,7 +1324,7 @@ repeat:
 			if (count_value == 0) {
 				goto error;
 			} else if (count_value == CHARACTER_LENGTH_OVERFLOW) {
-				n = CHARACTER_LENGTH_OVERFLOW;	
+				n = CHARACTER_LENGTH_OVERFLOW;
 			} else if (n != CHARACTER_LENGTH_OVERFLOW) {
 				remain = INT_MAX - n;
 				if (remain < (count_value - 1)) {
@@ -1837,7 +1837,7 @@ static void
 compute_composite_key (cb_tree key, struct cb_key_component *component_list)
 {
 	int cb;
-	char pic[32]; 
+	char pic[32];
 	struct cb_key_component *key_component;
 	struct cb_field *composite_key;
 
@@ -1883,7 +1883,7 @@ finalize_file (struct cb_file *f, struct cb_field *records)
 				compute_composite_key (alt_key->key, alt_key->component_list);
 			}
 		}
-	} 
+	}
 
 	/* check the record size if it is limited */
 	if (cb_ignore_invalid_record_contains) {
@@ -2250,6 +2250,12 @@ cb_build_binary_op (cb_tree x, int op, cb_tree y)
 		y = cb_check_numeric_value (y);
 		if (x == cb_error_node || y == cb_error_node) {
 			return cb_error_node;
+		}
+		if (cb_enable_zero_division_error && op == '/') {
+			y = cb_check_zero_division (y);
+			if (y == cb_error_node) {
+				return cb_error_node;
+			}
 		}
 		category = CB_CATEGORY_NUMERIC;
 		break;

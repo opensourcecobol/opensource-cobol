@@ -169,6 +169,7 @@ struct cob_module	*cob_current_module = NULL;
 
 int			cob_initialized = 0;
 int			cob_exception_code = 0;
+int			cob_error_on_exit_flag = 0;
 
 int			cob_call_params = 0;
 int			cob_save_call_params = 0;
@@ -1689,6 +1690,35 @@ cob_check_ref_mod (const int offset, const int length, const int size, const cha
 		cob_runtime_error ("Length of '%s' out of bounds: %d", msgword, length);
 		cob_stop_run (1);
 	}
+}
+
+void
+cob_check_mvstrnum (cob_field *src, cob_field *dst)
+{
+	size_t	i;
+
+	switch (COB_FIELD_TYPE (src)) {
+	case COB_TYPE_ALPHANUMERIC:
+	case COB_TYPE_ALPHANUMERIC_ALL:
+	case COB_TYPE_ALPHANUMERIC_EDITED:
+		switch (COB_FIELD_TYPE (dst)) {
+		case COB_TYPE_NUMERIC:
+		/*case COB_TYPE_NUMERIC_DISPLAY:*/
+		case COB_TYPE_NUMERIC_BINARY:
+		case COB_TYPE_NUMERIC_PACKED:
+		case COB_TYPE_NUMERIC_FLOAT:
+		case COB_TYPE_NUMERIC_DOUBLE:
+		case COB_TYPE_NUMERIC_EDITED:
+			for (i=0; i<src->size; i++) {
+				if (! isdigit(COB_FIELD_DATA (src) [i])) {
+					cob_runtime_error ("Numeric value is expected");
+					cob_stop_run (1);
+				}
+			}
+			break;
+		}
+		break;
+    }
 }
 
 unsigned char *

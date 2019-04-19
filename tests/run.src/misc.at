@@ -2026,3 +2026,49 @@ AT_CHECK([${COMPILE} -o prog prog.cob])
 AT_CHECK([./prog], [0], [021027013])
 
 AT_CLEANUP
+
+
+AT_SETUP([MOVE x TO numeric])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X-ABC         PIC 999.
+       01 X             PIC XXX VALUE "abc".
+       PROCEDURE        DIVISION.
+           MOVE X TO X-ABC.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_JP_COMPAT} prog.cob], [0])
+AT_CHECK([./prog], [1], [],
+[prog.cob:9: libcob: Numeric value is expected
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([COMPUTE include string])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X.
+          03 X-ABC      PIC 999.
+       01 Y             PIC 999 VALUE 100.
+       PROCEDURE        DIVISION.
+           MOVE "abc" TO X.
+           COMPUTE Y = X-ABC + Y.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE_JP_COMPAT_DEFAULT} prog.cob], [0])
+AT_CHECK([./prog], [1], [],
+[libcob: 'X-ABC' not numeric: 'abc'
+])
+
+AT_CLEANUP

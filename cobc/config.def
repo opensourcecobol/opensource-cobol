@@ -6,12 +6,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, 51 Franklin Street, Fifth Floor
@@ -59,6 +59,10 @@ CB_CONFIG_BOOLEAN (cb_switch_no_mnemonic, "switch-no-mnemonic")
 CB_CONFIG_BOOLEAN (cb_allow_is_in_sort_key_spec, "allow-is-in-sort-key-spec")
 CB_CONFIG_BOOLEAN (cb_allow_search_key_in_rhs, "allow-search-key-in-rhs")
 CB_CONFIG_BOOLEAN (cb_ignore_invalid_record_contains, "ignore-invalid-record-contains")
+CB_CONFIG_BOOLEAN (cb_enable_zero_division_error, "enable-zero-division-error")
+CB_CONFIG_BOOLEAN (cb_enable_check_subscript_out_of_bounds, "enable-check-subscript-out-of-bounds")
+CB_CONFIG_BOOLEAN (cb_enable_expect_numeric_error, "enable-expect-numeric-error")
+CB_CONFIG_BOOLEAN (cb_enable_expect_compute_string_error, "enable-expect-compute-string-error")
 CB_CONFIG_SUPPORT (cb_author_paragraph, "author-paragraph")
 CB_CONFIG_SUPPORT (cb_memory_size_clause, "memory-size-clause")
 CB_CONFIG_SUPPORT (cb_multiple_file_tape_clause, "multiple-file-tape-clause")

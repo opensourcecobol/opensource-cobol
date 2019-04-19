@@ -290,6 +290,7 @@ enum cob_exception_id {
 
 COB_EXPIMP int			cob_initialized;
 COB_EXPIMP int			cob_exception_code;
+COB_EXPIMP int			cob_error_on_exit_flag;
 
 COB_EXPIMP struct cob_module	*cob_current_module;
 
@@ -501,6 +502,8 @@ COB_EXPIMP void cob_check_ref_mod_national		(int, int, int, const char *);
 COB_EXPIMP int  cob_check_env			(const char *, const char *);
 COB_EXPIMP void cob_check_ref_mod			(const int, const int,
 						 const int, const char *);
+COB_EXPIMP void cob_check_mvstrnum			(cob_field *, cob_field *);
+
 
 /* Comparison functions */
 COB_EXPIMP int cob_numeric_cmp			(cob_field *, cob_field *);

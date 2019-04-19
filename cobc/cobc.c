@@ -817,7 +817,7 @@ cobc_sig_handler (int sig)
 static void
 cobc_print_version (void)
 {
-	puts ("opensource COBOL 1.5.1J");
+	puts ("opensource COBOL 1.5.2J");
 	puts ("OSS Consortium's patched version of OpenCOBOL1.1(Feb.06 2009)");
 #ifdef	I18N_UTF8
 	puts ("[unicode/utf-8 support]");
@@ -2326,6 +2326,15 @@ main (int argc, char *argv[])
 
 	/* Process command line arguments */
 	iargs = process_command_line (argc, argv);
+
+	/* Process config file options */
+	if (cb_enable_check_subscript_out_of_bounds) {
+		CB_EXCEPTION_ENABLE (COB_EC_BOUND_SUBSCRIPT) = 1;
+	}
+	if (cb_enable_expect_compute_string_error) {
+		CB_EXCEPTION_ENABLE (COB_EC_DATA_INCOMPATIBLE) = 1;
+	}
+
 
 	/* Check the filename */
 	if (iargs == argc) {

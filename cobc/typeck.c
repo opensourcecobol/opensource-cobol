@@ -4689,6 +4689,56 @@ move_error (cb_tree src, cb_tree dst, const size_t value_flag, const int flag,
 	return 0;
 }
 
+static void
+error_destination (cb_tree x)
+{
+	struct cb_reference     *r;
+	struct cb_field         *f;
+	cb_tree                 loc;
+
+	r = CB_REFERENCE (x);
+	f = CB_FIELD (r->value);
+	loc = CB_TREE (f);
+
+	if (r->offset) {
+		return;
+	}
+
+	if (!strcmp (f->name, "RETURN-CODE") ||
+			!strcmp (f->name, "SORT-RETURN") ||
+			!strcmp (f->name, "NUMBER-OF-CALL-PARAMETERS")) {
+		cb_error (_("Internal register '%s' defined as BINARY-LONG"), f->name);
+	} else if (f->pic) {
+		cb_error_x (loc, _("'%s' defined here as PIC %s"), check_filler_name ((char *)f->name), f->pic->orig);
+	} else {
+		cb_error_x (loc, _("'%s' defined here as a group of length %d"), check_filler_name ((char *)f->name), f->size);
+	}
+}
+
+static int
+move_error2 (cb_tree src, cb_tree dst, const size_t value_flag, const int flag,
+		const int src_flag, const char *msg)
+{
+	cb_tree loc;
+
+	loc = src->source_line ? src : dst;
+	if (value_flag) {
+		/* VALUE clause */
+		cb_error_x (loc, msg);
+	} else {
+		/* MOVE statement */
+		if (flag) {
+			cb_error_x (loc, msg);
+			if (src_flag) {
+				error_destination (src);
+			}
+			error_destination (dst);
+		}
+	}
+
+	return 0;
+}
+
 /* count the number of free places in an alphanumeric edited field */
 static int
 count_pic_alphanumeric_edited (struct cb_field *field)
@@ -5335,6 +5385,11 @@ numlit_overflow:
 	return 0;
 
 expect_numeric:
+	if (cb_enable_expect_numeric_error) {
+		return move_error2 (src, dst, is_value, 1, 0,
+				   _("Numeric value is expected"));
+	}
+
 	return move_error (src, dst, is_value, cb_warn_strict_typing, 0,
 			   _("Numeric value is expected"));
 
@@ -6029,6 +6084,11 @@ cb_emit_move (cb_tree src, cb_tree dsts)
 	}
 
 	for (l = dsts; l; l = CB_CHAIN (l)) {
+		if (cb_enable_expect_numeric_error) {
+			if (CB_TREE_TAG (src) == CB_TAG_REFERENCE) {
+				cb_emit (cb_build_funcall_2 ("cob_check_mvstrnum", src, CB_VALUE (l)));
+			}
+		}
 		cb_emit (cb_build_move (src, CB_VALUE (l)));
 	}
 }
@@ -7716,4 +7776,23 @@ cb_build_write_advancing_page (cb_tree pos)
 	int opt = (pos == CB_BEFORE) ? COB_WRITE_BEFORE : COB_WRITE_AFTER;
 
 	return cb_int (opt | COB_WRITE_PAGE);
+}
+
+cb_tree
+cb_check_zero_division (cb_tree x)
+{
+	if (x == cb_error_node) {
+		return cb_error_node;
+	}
+
+	if (! CB_NUMERIC_LITERAL_P (x)) {
+		return x;
+	}
+
+	if (cb_get_int(x) == 0) {
+		cb_error_x (x, _("Detected division by zero."));	
+		return cb_error_node;
+	}
+
+	return x;
 }

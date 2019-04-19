@@ -260,6 +260,7 @@ extern int		cb_fits_long_long (cb_tree x);
 extern int		cb_get_int (cb_tree x);
 extern int		cb_is_digist_data (cb_tree x);
 extern long long	cb_get_long_long (cb_tree x);
+extern cb_tree          cb_check_zero_division(cb_tree x);
 
 /*
  * Constants
