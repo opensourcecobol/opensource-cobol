@@ -75,6 +75,9 @@ static struct {
   {"ARGUMENT-VALUE",	CB_INTERFACE_NAME, CB_ARGUMENT_VALUE, NULL},
   {"ENVIRONMENT-NAME",	CB_INTERFACE_NAME, CB_ENVIRONMENT_NAME, NULL},
   {"ENVIRONMENT-VALUE",	CB_INTERFACE_NAME, CB_ENVIRONMENT_VALUE, NULL},
+  {"JSON-KEY",	CB_INTERFACE_NAME, CB_JSON_NAME, NULL},
+  {"JSON-NAME",	CB_INTERFACE_NAME, CB_JSON_NAME, NULL},
+  {"JSON-VALUE",	CB_INTERFACE_NAME, CB_JSON_VALUE, NULL},
   {NULL, 0, 0, NULL}
 };
 
@@ -364,6 +367,9 @@ static const struct reserved reserved_words[] = {
   {"INVALID",			INVALID},		/* 2002 */
   {"INVOKE",			-1},			/* 2002 */
   {"IS",			IS},			/* 2002 */
+  {"JSON-KEY",			JSON_KEY},	/* extension */
+  {"JSON-NAME",			JSON_NAME},	/* extension */
+  {"JSON-VALUE",			JSON_VALUE},	/* extension */
   {"JUST",			JUSTIFIED},		/* 2002 */
   {"JUSTIFIED",			JUSTIFIED},		/* 2002 */
   {"KEY",			KEY},			/* 2002 */

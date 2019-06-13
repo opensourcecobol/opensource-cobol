@@ -3366,6 +3366,15 @@ cb_emit_accept_environment (cb_tree var)
 }
 
 void
+cb_emit_accept_json (cb_tree var)
+{
+	if (cb_validate_one (var)) {
+		return;
+	}
+	cb_emit (cb_build_funcall_1 ("cob_accept_json", var));
+}
+
+void
 cb_emit_accept_arg_number (cb_tree var)
 {
 	if (cb_validate_one (var)) {
@@ -3412,6 +3421,9 @@ cb_emit_accept_mnemonic (cb_tree var, cb_tree mnemonic)
 		case CB_ENVIRONMENT_VALUE:
 			cb_emit_accept_environment (var);
 			break;
+		case CB_JSON_VALUE:
+			cb_emit_accept_json (var);
+			break;
 		default:
 			cb_error_x (mnemonic, _("Invalid interface name '%s'"),
 				    cb_name (mnemonic));
@@ -3443,7 +3455,6 @@ cb_emit_accept_name (cb_tree var, cb_tree name)
 			}
 		}
 	}
-
 	cb_error_x (name, _("'%s' undefined in SPECIAL-NAMES"), CB_NAME (name));
 }
 
@@ -3700,6 +3711,33 @@ cb_emit_env_value (cb_tree value)
 }
 
 void
+cb_emit_json_key (cb_tree value)
+{
+	if (cb_validate_one (value)) {
+		return;
+	}
+	cb_emit (cb_build_funcall_1 ("cob_display_json_key", value));
+}
+
+void
+cb_emit_json_name (cb_tree value)
+{
+	if (cb_validate_one (value)) {
+		return;
+	}
+	cb_emit (cb_build_funcall_1 ("cob_display_json", value));
+}
+
+void
+cb_emit_json_value (cb_tree value)
+{
+	if (cb_validate_one (value)) {
+		return;
+	}
+	cb_emit (cb_build_funcall_1 ("cob_display_json_value", value));
+}
+
+void
 cb_emit_arg_number (cb_tree value)
 {
 	if (cb_validate_one (value)) {
@@ -3848,6 +3886,12 @@ cb_emit_display_mnemonic (cb_tree values, cb_tree mnemonic, cb_tree no_adv,
 			break;
 		case CB_ENVIRONMENT_VALUE:
 			cb_emit_env_value (v);
+			break;
+		case CB_JSON_NAME:
+			cb_emit_json_name (v);
+			break;
+		case CB_JSON_VALUE:
+			cb_emit_json_value (v);
 			break;
 		default:
 			cb_error_x (mnemonic, _("Invalid interface name '%s'"), cb_name (mnemonic));

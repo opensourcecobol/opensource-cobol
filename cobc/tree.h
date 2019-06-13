@@ -142,7 +142,9 @@ enum cb_interface_name {
 	CB_ARGUMENT_NUMBER,
 	CB_ARGUMENT_VALUE,
 	CB_ENVIRONMENT_NAME,
-	CB_ENVIRONMENT_VALUE
+	CB_ENVIRONMENT_VALUE,
+	CB_JSON_NAME,
+	CB_JSON_VALUE
 };
 
 enum cb_class {
@@ -1408,6 +1410,7 @@ extern void		cb_emit_accept_time (cb_tree var);
 extern void		cb_emit_accept_command_line (cb_tree var);
 extern void		cb_emit_get_environment (cb_tree envvar, cb_tree envval);
 extern void		cb_emit_accept_environment (cb_tree var);
+extern void		cb_emit_accept_json (cb_tree var);
 extern void		cb_emit_accept_mnemonic (cb_tree var, cb_tree mnemonic);
 extern void		cb_emit_accept_name (cb_tree var, cb_tree name);
 extern void		cb_emit_accept_arg_number (cb_tree var);
@@ -1446,6 +1449,9 @@ extern cb_tree		cb_build_display_upon (cb_tree x);
 extern cb_tree		cb_build_display_upon_direct (cb_tree x);
 extern void		cb_emit_env_name (cb_tree value);
 extern void		cb_emit_env_value (cb_tree value);
+extern void		cb_emit_json_key (cb_tree value);
+extern void		cb_emit_json_name (cb_tree value);
+extern void		cb_emit_json_value (cb_tree value);
 extern void		cb_emit_arg_number (cb_tree value);
 extern void		cb_emit_command_line (cb_tree value);
 

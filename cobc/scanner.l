@@ -485,6 +485,21 @@ H\"[^\"\n]*\" {
 	return UPON_ENVIRONMENT_VALUE;
 }
 
+"UPON"[ \t\n]+"JSON-KEY" {
+	count_lines (yytext);
+	return UPON_JSON_KEY;
+}
+
+"UPON"[ \t\n]+"JSON-NAME" {
+	count_lines (yytext);
+	return UPON_JSON_NAME;
+}
+
+"UPON"[ \t\n]+"JSON-VALUE" {
+	count_lines (yytext);
+	return UPON_JSON_VALUE;
+}
+
 "UPON"[ \t\n]+"ARGUMENT-NUMBER" {
 	count_lines (yytext);
 	return UPON_ARGUMENT_NUMBER;

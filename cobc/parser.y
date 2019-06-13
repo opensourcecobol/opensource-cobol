@@ -459,6 +459,9 @@ setup_use_file (struct cb_file *fileptr)
 %token ENVIRONMENT
 %token ENVIRONMENT_NAME		"ENVIRONMENT-NAME"
 %token ENVIRONMENT_VALUE	"ENVIRONMENT-VALUE"
+%token JSON_KEY			"JSON-KEY"
+%token JSON_NAME		"JSON-NAME"
+%token JSON_VALUE		"JSON-VALUE"
 %token EOL
 %token EOP
 %token EOS
@@ -737,6 +740,9 @@ setup_use_file (struct cb_file *fileptr)
 %token UPON_COMMAND_LINE	"UPON COMMAND-LINE"
 %token UPON_ENVIRONMENT_NAME	"UPON ENVIRONMENT-NAME"
 %token UPON_ENVIRONMENT_VALUE	"UPON ENVIRONMENT-VALUE"
+%token UPON_JSON_KEY	"UPON JSON-KEY"
+%token UPON_JSON_NAME	"UPON JSON-NAME"
+%token UPON_JSON_VALUE	"UPON JSON-VALUE"
 %token UPPER_CASE_FUNC		"FUNCTION UPPER-CASE"
 %token USAGE
 %token USE
@@ -1337,6 +1343,34 @@ mnemonic_name_clause:
 		save_tree_2 = $3;
 	} else {
 		cb_error (_("SPECIAL-NAMES with ENVIRONMENT-VALUE clause is not yet supported"));
+	}
+  }
+| JSON_NAME _is undefined_word
+  {
+	if (cb_enable_special_names_environment_clause) {
+		save_tree_1 = lookup_system_name ("JSON-NAME");
+		if (save_tree_1 == cb_error_node) {
+			cb_error_x ($1, _("Unknown system-name '%s'"), CB_NAME ($1));
+		} else {
+			cb_define ($3, save_tree_1);
+		}
+		save_tree_2 = $3;
+	} else {
+		cb_error (_("SPECIAL-NAMES with JSON-NAME clause is not yet supported"));
+	}
+  }
+| JSON_VALUE _is undefined_word
+  {
+	if (cb_enable_special_names_environment_clause) {
+		save_tree_1 = lookup_system_name ("JSON-VALUE");
+		if (save_tree_1 == cb_error_node) {
+			cb_error_x ($1, _("Unknown system-name '%s'"), CB_NAME ($1));
+		} else {
+			cb_define ($3, save_tree_1);
+		}
+		save_tree_2 = $3;
+	} else {
+		cb_error (_("SPECIAL-NAMES with JSON-VALUE clause is not yet supported"));
 	}
   }
 ;
@@ -4167,6 +4201,10 @@ accept_body:
   {
 	cb_emit_accept_environment ($1);
   }
+| identifier FROM JSON_VALUE on_accp_exception
+  {
+	cb_emit_accept_json ($1);
+  }
 | identifier FROM ENVIRONMENT simple_value on_accp_exception
   { 
 	cb_emit_get_environment ($4, $1);
@@ -4185,6 +4223,7 @@ accept_body:
   }
 | identifier FROM WORD
   {
+  printf("word\n");
 	cb_emit_accept_name ($1, $3);
   }
 ;
@@ -4613,6 +4652,18 @@ display_body:
 | id_or_lit UPON_ENVIRONMENT_VALUE on_disp_exception
   {
 	cb_emit_env_value ($1);
+  }
+| id_or_lit UPON_JSON_KEY on_disp_exception
+  {
+	cb_emit_json_key ($1);
+  }
+| id_or_lit UPON_JSON_NAME on_disp_exception
+  {
+	cb_emit_json_name ($1);
+  }
+| id_or_lit UPON_JSON_VALUE on_disp_exception
+  {
+	cb_emit_json_value ($1);
   }
 | id_or_lit UPON_ARGUMENT_NUMBER on_disp_exception
   {
