@@ -77,11 +77,13 @@ struct cob_alloc_cache {
 	size_t			size;
 };
 
+#ifdef	HAVE_JANSSON_H
 struct cob_json_list {
 	struct cob_json_list	*next;
 	char			*name;
 	json_t			*jsondata;
 };
+#endif
 
 #define COB_ERRBUF_SIZE	256
 
@@ -92,9 +94,11 @@ static char			**cob_argv = NULL;
 static struct cob_alloc_cache	*cob_alloc_base = NULL;
 
 static char			*cob_local_env = NULL;
+#ifdef	HAVE_JANSSON_H
 static char			*cob_local_json_key = NULL;
 static struct cob_json_list	*cob_local_json_list = NULL;
 static struct cob_json_list	*cob_current_json_list = NULL;
+#endif
 static int			current_arg = 1;
 static unsigned char		*commlnptr = NULL;
 static size_t			commlncnt = 0;
@@ -1944,6 +1948,7 @@ cob_accept_arg_value (cob_field *f)
 void
 cob_display_json_value (const cob_field *f)
 {
+#ifdef	HAVE_JANSSON_H
 	char	*js;
 	json_error_t	error;
 
@@ -1966,12 +1971,14 @@ cob_display_json_value (const cob_field *f)
 	}
 
 	free(js);
+#endif
 	return;
 }
 
 void
 cob_display_json (const cob_field *f)
 {
+#ifdef	HAVE_JANSSON_H
 	struct cob_json_list	*json_list;
 	char					json_name[COB_SMALL_BUFF];
 	
@@ -2008,11 +2015,14 @@ cob_display_json (const cob_field *f)
 	json_list->name = cob_malloc (strlen (json_name) + 1);
 	strcpy (json_list->name, json_name);
 	cob_current_json_list = json_list;
+#endif
+	return;
 }
 
 void
 cob_display_json_key (const cob_field *f)
 {
+#ifdef	HAVE_JANSSON_H
 	if (!cob_local_json_key) {
 		cob_local_json_key = cob_malloc (COB_SMALL_BUFF);
 	}
@@ -2021,11 +2031,14 @@ cob_display_json_key (const cob_field *f)
 		return;
 	}
 	cob_field_to_string (f, cob_local_json_key);
+#endif
+	return;
 }
 
 void
 cob_accept_json (cob_field *f)
 {
+	#ifdef	HAVE_JANSSON_H
 	json_t 		*current_json;
 	char		*tok;
 	char		*start_adr;
@@ -2095,6 +2108,8 @@ cob_accept_json (cob_field *f)
 	}
 
 	cob_hankaku_memcpy (f, (ucharptr)p, (int) strlen (p));
+#endif
+	return;
 }
 
 /*

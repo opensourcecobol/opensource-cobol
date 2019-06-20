@@ -134,6 +134,9 @@
 /* Define to 1 if you have the <isam.h> header file. */
 #undef HAVE_ISAM_H
 
+/* Define to 1 if you have the <jansson.h> header file. */
+#undef HAVE_JANSSON_H
+
 /* Define to 1 if you have the <kpathsea/getopt.h> header file. */
 #undef HAVE_KPATHSEA_GETOPT_H
 
@@ -151,6 +154,9 @@
 
 /* Define to 1 if you have the `ifisam' library (-lifisam). */
 #undef HAVE_LIBIFISAM
+
+/* Define to 1 if you have the `jansson' library (-ljansson). */
+#undef HAVE_LIBJANSSON
 
 /* Define to 1 if you have the `ltdl' library (-lltdl). */
 #undef HAVE_LIBLTDL
@@ -327,6 +333,9 @@
 
 /* Compile with an external ISAM handler */
 #undef WITH_INDEX_EXTFH
+
+/* use json function with jansson */
+#undef WITH_JANSSON
 
 /* Compile with an external SEQ/RAN handler */
 #undef WITH_SEQRA_EXTFH

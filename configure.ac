@@ -84,6 +84,7 @@ AH_TEMPLATE([COB_NO_SELFOPEN], [Can not dlopen self])
 AH_TEMPLATE([COB_STRFTIME], [Can use strftime for timezone])
 AH_TEMPLATE([COB_LI_IS_LL], [long int is long long])
 AH_TEMPLATE([HAVE_COLOR_SET], [curses has color_set function])
+AH_TEMPLATE([WITH_JANSSON], [use json function with jansson])
 
 AC_DEFINE(__USE_STRING_INLINES)
 
@@ -274,6 +275,19 @@ AC_ARG_WITH(varseq, [  --with-varseq           (OpenCOBOL) define variable seque
 		;;
 esac])
 AC_DEFINE_UNQUOTED(WITH_VARSEQ, $WITH_VARSEQ)
+
+USE_JSON=none
+
+AC_ARG_WITH(jansson,
+  [  --with-jansson          (OpenCOBOL) Use jansson for JSON function],
+  [ if test "$with_jansson" = "yes"
+    then
+	AC_CHECK_HEADERS([jansson.h], , AC_MSG_ERROR(jansson.h is required for JSON function))
+	AC_CHECK_LIB([jansson], [json_loads], , AC_MSG_ERROR(libjansson is required for JSON function))
+	AC_DEFINE(WITH_JANSSON)
+	LIBCOB_LIBS="$LIBCOB_LIBS -ljansson"
+	USE_JSON=jansson
+    fi ], [])
 
 # Checks for programs.
 # Stop the stupid tests for C++ and Fortran
@@ -864,4 +878,5 @@ else
 fi
 echo "  Use fcntl for file locking:                  ${ac_cv_func_fcntl}"
 echo "  Use ncurses/pdcurses/curses for screen I/O:  ${USE_NCURSES}"
+echo "  Use json library:                            ${USE_JSON}"
 echo ""
