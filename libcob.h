@@ -38,6 +38,7 @@ extern "C" {
 #include <libcob/termio.h>
 #include <libcob/intrinsic.h>
 #include <libcob/codegen.h>
+#include <libcob/json.h>
 
 #ifdef __cplusplus
 }

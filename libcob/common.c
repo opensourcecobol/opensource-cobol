@@ -52,9 +52,6 @@
 #include <locale.h>
 #endif
 
-#include <jansson.h>
-
-
 /* Force symbol exports */
 #define	COB_LIB_EXPIMP
 
@@ -77,14 +74,6 @@ struct cob_alloc_cache {
 	size_t			size;
 };
 
-#ifdef	HAVE_JANSSON_H
-struct cob_json_list {
-	struct cob_json_list	*next;
-	char			*name;
-	json_t			*jsondata;
-};
-#endif
-
 #define COB_ERRBUF_SIZE	256
 
 /* Local variables */
@@ -94,11 +83,6 @@ static char			**cob_argv = NULL;
 static struct cob_alloc_cache	*cob_alloc_base = NULL;
 
 static char			*cob_local_env = NULL;
-#ifdef	HAVE_JANSSON_H
-static char			*cob_local_json_key = NULL;
-static struct cob_json_list	*cob_local_json_list = NULL;
-static struct cob_json_list	*cob_current_json_list = NULL;
-#endif
 static int			current_arg = 1;
 static unsigned char		*commlnptr = NULL;
 static size_t			commlncnt = 0;
@@ -1939,177 +1923,6 @@ cob_accept_arg_value (cob_field *f)
 	}
 	cob_memcpy (f, (ucharptr)cob_argv[current_arg], (int) strlen (cob_argv[current_arg]));
 	current_arg++;
-}
-
-/*
- * Json variable
- */
-
-void
-cob_display_json_value (const cob_field *f)
-{
-#ifdef	HAVE_JANSSON_H
-	char	*js;
-	json_error_t	error;
-
-	if (!cob_current_json_list) {
-		cob_set_exception (COB_EC_IMP_DISPLAY);
-		return;
-	}
-	
-	if (cob_current_json_list->jsondata) {
-		json_decref (cob_current_json_list->jsondata);
-	}
-
-	js = cob_malloc (f->size + 1);
-	cob_field_to_string (f, js);
-
-	cob_current_json_list->jsondata = json_loads (js, 0, &error);
-	if (cob_current_json_list->jsondata == NULL) {
-		fputs (error.text, stderr);
-		cob_set_exception (COB_EC_IMP_DISPLAY);
-	}
-
-	free(js);
-#endif
-	return;
-}
-
-void
-cob_display_json (const cob_field *f)
-{
-#ifdef	HAVE_JANSSON_H
-	struct cob_json_list	*json_list;
-	char					json_name[COB_SMALL_BUFF];
-	
-	if (f->size > COB_SMALL_MAX) {
-		cob_set_exception (COB_EC_IMP_DISPLAY);
-		return;
-	}
-
-	memset (json_name, 0, COB_SMALL_BUFF);
-	cob_field_to_string (f, json_name);
-
-	if (!cob_local_json_list) {
-		cob_local_json_list = cob_malloc (sizeof (struct cob_json_list));
-		cob_local_json_list->next = NULL;
-		cob_local_json_list->jsondata = NULL;
-		cob_local_json_list->name = cob_malloc (strlen ("***COB_JSON_ROOT***") + 1);
-		strcpy (cob_local_json_list->name, "***COB_JSON_ROOT***");
-	}
-
-	json_list = cob_local_json_list;
-
-	while (json_list->next) {
-		json_list = json_list->next;
-		if (strcmp (json_name, json_list->name) == 0) {
-			cob_current_json_list = json_list;
-			return;
-		}
-	}
-
-	json_list->next = cob_malloc (sizeof (struct cob_json_list));
-	json_list = json_list->next;
-	json_list->next = NULL;
-	json_list->jsondata = NULL;
-	json_list->name = cob_malloc (strlen (json_name) + 1);
-	strcpy (json_list->name, json_name);
-	cob_current_json_list = json_list;
-#endif
-	return;
-}
-
-void
-cob_display_json_key (const cob_field *f)
-{
-#ifdef	HAVE_JANSSON_H
-	if (!cob_local_json_key) {
-		cob_local_json_key = cob_malloc (COB_SMALL_BUFF);
-	}
-	if (f->size > COB_SMALL_MAX) {
-		cob_set_exception (COB_EC_IMP_DISPLAY);
-		return;
-	}
-	cob_field_to_string (f, cob_local_json_key);
-#endif
-	return;
-}
-
-void
-cob_accept_json (cob_field *f)
-{
-	#ifdef	HAVE_JANSSON_H
-	json_t 		*current_json;
-	char		*tok;
-	char		*start_adr;
-	char		*end_adr;
-	char		p[COB_SMALL_BUFF];
-	char		buf[COB_SMALL_BUFF];
-	char		json_key_buf[COB_SMALL_BUFF];
-	int			array_index;
-
-	if (!cob_current_json_list) {
-		cob_set_exception (COB_EC_IMP_DISPLAY);
-		return;
-	}
-	if (!cob_current_json_list->jsondata) {
-		cob_set_exception (COB_EC_IMP_DISPLAY);
-		return;
-	}
-	if (!cob_local_json_key) {
-		cob_set_exception (COB_EC_IMP_DISPLAY);
-		return;
-	}
-	if (!*cob_local_json_key) {
-		cob_set_exception (COB_EC_IMP_DISPLAY);
-		return;
-	}
-
-	
-	
-	strncpy (json_key_buf, cob_local_json_key, COB_SMALL_BUFF);
-	tok = strtok (json_key_buf, ".");
-	current_json = cob_current_json_list->jsondata;
-
-	while (tok != NULL) {
-		start_adr = strchr (tok, (int)'[');
-		end_adr = strchr (tok, (int)']');
-		if ( start_adr && end_adr && (start_adr < end_adr)) {
-			memset (buf, 0, COB_SMALL_BUFF);
-			strncpy (buf, tok, start_adr - tok);
-			current_json = json_object_get (current_json, buf);
-
-			if (!json_is_array (current_json)) {
-				cob_set_exception (COB_EC_IMP_DISPLAY);
-				return;
-			}
-
-			memset (buf, 0, COB_SMALL_BUFF);
-			strncpy (buf, start_adr + 1, end_adr - start_adr - 1);
-			array_index = atoi (buf);
-			current_json = json_array_get (current_json, array_index);
-		} else {
-			current_json = json_object_get (current_json, tok);
-		}
-
-		tok = strtok(NULL, ".");
-	}
-
-	memset (p, 0, COB_SMALL_BUFF);
-	if(json_is_string (current_json)) {
-		snprintf (p, COB_SMALL_BUFF, "%s", json_string_value (current_json));
-	} else if (json_is_integer (current_json)) {
-		snprintf (p, COB_SMALL_BUFF, "%g", json_number_value (current_json));
-	}
-
-	if (!*p) {
-		cob_set_exception (COB_EC_IMP_DISPLAY);
-		return;
-	}
-
-	cob_hankaku_memcpy (f, (ucharptr)p, (int) strlen (p));
-#endif
-	return;
 }
 
 /*

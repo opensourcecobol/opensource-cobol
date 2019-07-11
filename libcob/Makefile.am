@@ -22,7 +22,7 @@
 
 lib_LTLIBRARIES = libcob.la
 libcob_la_SOURCES = common.c call.c strings.c move.c numeric.c \
-	intrinsic.c fileio.c termio.c screenio.c
+	intrinsic.c fileio.c termio.c screenio.c json.c
 
 libcob_la_CFLAGS = $(AM_CFLAGS) $(LIBCOB_CFLAGS) -I$(top_srcdir)
 libcob_la_LIBADD = $(LIBCOB_LIBS)
@@ -33,4 +33,4 @@ EXTRA_DIST = coblocal.h
 pkgincludedir = $(includedir)/libcob
 pkginclude_HEADERS = byteswap.h common.h move.h numeric.h exception.def \
 	termio.h fileio.h screenio.h strings.h call.h intrinsic.h \
-	codegen.h system.def
+	codegen.h system.def json.h

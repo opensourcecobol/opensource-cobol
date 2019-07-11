@@ -405,14 +405,10 @@ COB_EXPIMP void cob_accept_day		(cob_field *);
 COB_EXPIMP void cob_accept_day_yyyyddd	(cob_field *);
 COB_EXPIMP void cob_accept_day_of_week	(cob_field *);
 COB_EXPIMP void cob_accept_environment	(cob_field *);
-COB_EXPIMP void cob_accept_json		(cob_field *);
 COB_EXPIMP void cob_accept_time		(cob_field *);
 COB_EXPIMP void cob_display_command_line	(cob_field *);
 COB_EXPIMP void cob_display_environment	(const cob_field *);
 COB_EXPIMP void cob_display_env_value	(const cob_field *);
-COB_EXPIMP void cob_display_json		(const cob_field *);
-COB_EXPIMP void cob_display_json_key	(const cob_field *);
-COB_EXPIMP void cob_display_json_value	(const cob_field *);
 COB_EXPIMP void cob_display_arg_number	(cob_field *);
 COB_EXPIMP void cob_get_environment		(const cob_field *, cob_field *);
 COB_EXPIMP void	cob_set_environment		(const cob_field *,

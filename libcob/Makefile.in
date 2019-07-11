@@ -87,7 +87,7 @@ libcob_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_libcob_la_OBJECTS = libcob_la-common.lo libcob_la-call.lo \
 	libcob_la-strings.lo libcob_la-move.lo libcob_la-numeric.lo \
 	libcob_la-intrinsic.lo libcob_la-fileio.lo libcob_la-termio.lo \
-	libcob_la-screenio.lo
+	libcob_la-screenio.lo libcob_la-json.lo
 libcob_la_OBJECTS = $(am_libcob_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -244,7 +244,7 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 lib_LTLIBRARIES = libcob.la
 libcob_la_SOURCES = common.c call.c strings.c move.c numeric.c \
-	intrinsic.c fileio.c termio.c screenio.c
+	intrinsic.c fileio.c termio.c screenio.c json.c
 
 libcob_la_CFLAGS = $(AM_CFLAGS) $(LIBCOB_CFLAGS) -I$(top_srcdir)
 libcob_la_LIBADD = $(LIBCOB_LIBS)
@@ -253,7 +253,7 @@ AM_LDFLAGS = $(COB_FIX_LIB)
 EXTRA_DIST = coblocal.h
 pkginclude_HEADERS = byteswap.h common.h move.h numeric.h exception.def \
 	termio.h fileio.h screenio.h strings.h call.h intrinsic.h \
-	codegen.h system.def
+	codegen.h system.def json.h
 
 all: all-am
 
@@ -328,6 +328,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcob_la-common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcob_la-fileio.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcob_la-intrinsic.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcob_la-json.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcob_la-move.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcob_la-numeric.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcob_la-screenio.Plo@am__quote@
@@ -417,6 +418,13 @@ libcob_la-screenio.lo: screenio.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='screenio.c' object='libcob_la-screenio.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libcob_la_CFLAGS) $(CFLAGS) -c -o libcob_la-screenio.lo `test -f 'screenio.c' || echo '$(srcdir)/'`screenio.c
+
+libcob_la-json.lo: json.c
+@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libcob_la_CFLAGS) $(CFLAGS) -MT libcob_la-json.lo -MD -MP -MF "$(DEPDIR)/libcob_la-json.Tpo" -c -o libcob_la-json.lo `test -f 'json.c' || echo '$(srcdir)/'`json.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/libcob_la-json.Tpo" "$(DEPDIR)/libcob_la-json.Plo"; else rm -f "$(DEPDIR)/libcob_la-json.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='json.c' object='libcob_la-json.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libcob_la_CFLAGS) $(CFLAGS) -c -o libcob_la-json.lo `test -f 'json.c' || echo '$(srcdir)/'`json.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
