@@ -1168,7 +1168,7 @@ process_command_line (const int argc, char *argv[])
 #ifdef _MSC_VER
 			strcat (cob_define_flags, "/I ");
 #else
-			strcat (cob_define_flags, "-I");
+			strcat (cob_define_flags, " -I");
 #endif
 			strcat (cob_define_flags, "\"");
 			strcat (cob_define_flags, optarg);
