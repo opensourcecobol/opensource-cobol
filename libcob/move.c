@@ -1503,8 +1503,9 @@ cob_move (cob_field *src, cob_field *dst)
 	}
 
 	if (COB_FIELD_TYPE (src1) != COB_TYPE_GROUP) {
-		if ((!(COB_FIELD_TYPE (src1) == COB_TYPE_NATIONAL ||
-		       COB_FIELD_TYPE (src1) == COB_TYPE_NATIONAL_EDITED)) &&
+		if ((COB_FIELD_TYPE (src1) == COB_TYPE_NUMERIC_DISPLAY ||
+		     COB_FIELD_TYPE (src1) == COB_TYPE_ALPHANUMERIC ||
+		     COB_FIELD_TYPE (src1) == COB_TYPE_ALPHANUMERIC_EDITED) &&
 		    (COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL ||
 		     COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL_EDITED)) {
 #ifdef	I18N_UTF8
