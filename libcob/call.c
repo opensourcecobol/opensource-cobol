@@ -768,7 +768,7 @@ cob_push_call_stack_list (char *name)
 		}
 		p = p->sister;
 	}
-	current_call_stack_list->sister = cob_create_call_stack_list (name);
+	p->sister = cob_create_call_stack_list (name);
 	return;
 }
 
