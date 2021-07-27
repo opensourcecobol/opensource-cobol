@@ -605,6 +605,71 @@ AT_CHECK([./prog], [0],
 
 AT_CLEANUP
 
+AT_SETUP([CANCEL ALL horizontal program])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       PROCEDURE        DIVISION.
+           CALL "call01"
+           END-CALL.
+           CALL "call02"
+           END-CALL.
+           CALL "call03"
+           END-CALL.
+           CANCEL ALL.
+           CALL "call01"
+           END-CALL.
+           CALL "call02"
+           END-CALL.
+           CALL "call03"
+           END-CALL.
+           STOP RUN.
+])
+
+AT_DATA([call01.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      call01.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       PROCEDURE        DIVISION.
+           GOBACK.
+])
+
+AT_DATA([call02.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      call02.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       PROCEDURE        DIVISION.
+           GOBACK.
+])
+
+AT_DATA([call03.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      call03.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 X             PIC 9.
+       PROCEDURE        DIVISION.
+           ADD 1 TO X.
+           DISPLAY X
+           END-DISPLAY.
+           EXIT PROGRAM.
+           GOBACK.
+])
+
+AT_CHECK([${COMPILE} -o prog prog.cob])
+AT_CHECK([${COMPILE_MODULE} call01.cob])
+AT_CHECK([${COMPILE_MODULE} call02.cob])
+AT_CHECK([${COMPILE_MODULE} call03.cob])
+AT_CHECK([./prog], [0],
+[1
+1
+])
+
+AT_CLEANUP
+
 AT_SETUP([CALL binary literal parameter/LENGTH OF - so])
 
 AT_CHECK([test $SHREXT != "dll" || exit 77])
