@@ -316,10 +316,8 @@ cob_cancel_call_stack_list (struct call_stack_list *p)
 	if (p->children) {
 		cob_cancel_call_stack_list (p->children);
 	}
-	struct call_stack_list *s = p->sister;
-	while (s != NULL) {
-		cob_cancel_call_stack_list (s);
-		s = s->sister;
+	if (p->sister) {
+		cob_cancel_call_stack_list (p->sister);
 	}
 }
 
