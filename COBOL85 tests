@@ -1,0 +1,26 @@
+name: NIST COBOL85 tests
+
+on: [push]
+
+jobs:
+    check-bats-version:
+    runs-on: ubuntu-latest
+     
+    steps:
+      - name: Download and Build NIST COBOL85 tests
+        run: |
+             https://www.itl.nist.gov/div897/ctg/cobol_form.htm
+             uncompress newcob.val.Z
+        uses: actions/checkout@v3
+
+          
+      - name: Install opensource COBOL v1.5.2J
+        run: |
+            cd opensource-cobol/vbisam
+            ./configure --prefix=/usr/
+            make
+            sudo make install
+            cd ../
+            ./configure --prefix=/usr/ --with-vbisam
+            make
+            sudo make install
