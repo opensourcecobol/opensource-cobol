@@ -1,4 +1,4 @@
-name: run COBOL85 tests
+name: NIST COBOL85 tests
 on: [push]
 jobs:
   check-bats-version:
