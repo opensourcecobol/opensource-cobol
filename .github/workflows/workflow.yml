@@ -21,5 +21,10 @@ jobs:
           cd ../
           ./configure --prefix=/usr/ --with-vbisam
           sudo make install
+      - name: run NIST tests
+        run: |
+          cd tests/cobol85
+          make test
+
       
  
