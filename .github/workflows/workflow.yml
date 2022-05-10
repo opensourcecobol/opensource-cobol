@@ -1,0 +1,31 @@
+name: NIST COBOL85 tests
+on: [push]
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout opensource COBOL
+      - name: Checkout opensource COBOL
+        uses: actions/checkout@v2
+        
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libncurses5 libncurses5-dev libgmp-dev bison flex gettext automake autoconf
+      
+      - name: Install opensource COBOL
+        run: |
+          cd vbisam
+          ./configure --prefix=/usr/
+          sudo make install
+          cd ../
+          ./configure --prefix=/usr/ --with-vbisam
+          sudo make install
+      
+      - name: run NIST tests
+        run: |
+          cd tests/cobol85
+          make test
+
+      
+ 
