@@ -3838,7 +3838,7 @@ cob_unlock_file (cob_file *f, cob_field *fnstatus)
 	char	openMode[OPENMODESIZE];
 
 	memset (openMode, 0, sizeof (openMode));
-	sprintf (openMode, "%02d", f->last_open_mode);
+	sprintf (openMode, "%04d", f->last_open_mode);
 	if (cob_invoke_fun (COB_IO_UNLOCK, (char*)f, NULL, NULL, fnstatus, openMode, NULL, NULL)) {
 		return;
 	}

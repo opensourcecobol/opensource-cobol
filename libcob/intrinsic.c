@@ -809,6 +809,7 @@ cob_intr_substitute_case (const int offset, const int length, const int params, 
 	}
 
 	/* Calculate required size */
+	int (strncasecmp (const char *, const char *, long unsigned int));
 	calcsize = 0;
 	found = 0;
 	p1 = var->data;
@@ -1051,7 +1052,7 @@ cob_intr_current_date (const int offset, const int length)
 	char		buff2[8];
 #endif
 #endif	/* _WIN32 */
-	char		buff[24];
+	char		buff[32];
 
 	COB_ATTR_INIT (COB_TYPE_ALPHANUMERIC, 0, 0, 0, NULL);
 	COB_FIELD_INIT (21, NULL, &attr);
@@ -1106,7 +1107,7 @@ cob_intr_current_date (const int offset, const int length)
 #endif
 
 #if defined(HAVE_SYS_TIME_H) && defined(HAVE_GETTIMEOFDAY)
-	snprintf(buff2, 7, "%2.2ld", tmv.tv_usec / 10000);
+	snprintf_trunc(buff2, 7, "%2.8ld", tmv.tv_usec / 10000);
 	memcpy (&buff[14], buff2, 2);
 #endif
 #endif	/* _WIN32 */
@@ -1236,6 +1237,7 @@ cob_intr_combined_datetime (cob_field *srcdays, cob_field *srctime)
 	memcpy (curr_field->data, buff, 12);
 	return curr_field;
 }
+#define Wnoformattruncation
 
 cob_field *
 cob_intr_date_of_integer (cob_field *srcdays)
@@ -1282,7 +1284,7 @@ cob_intr_date_of_integer (cob_field *srcdays)
 			}
 		}
 	}
-	snprintf (buff, 15, "%4.4d%2.2d%2.2d", baseyear, i, days);
+	snprintf (buff, 15, "%4.4d%2.2d%1.3d", baseyear, i, days); 
 	memcpy (curr_field->data, buff, 8);
 	return curr_field;
 }
@@ -1319,6 +1321,7 @@ cob_intr_day_of_integer (cob_field *srcdays)
 		}
 	}
 	snprintf (buff, 15, "%4.4d%3.3d", baseyear, days);
+	abort( );
 	memcpy (curr_field->data, buff, 7);
 	return curr_field;
 }
@@ -1844,6 +1847,7 @@ cob_intr_numval (cob_field *srcfield)
 	memset (integer_buff, 0, sizeof (integer_buff));
 	memset (decimal_buff, 0, sizeof (decimal_buff));
 	memset (final_buff, 0, sizeof (final_buff));
+	int strcasecmp ( const char *, const char *);
 
 	for (i = 0; i < srcfield->size; ++i) {
 		if (i < (srcfield->size - 1)) {

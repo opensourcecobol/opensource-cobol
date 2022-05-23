@@ -22,6 +22,7 @@
 #include "config.h"
 #include "defaults.h"
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -586,7 +587,8 @@ cob_init_call (void)
 #ifndef	COB_ALT_HASH
 	call_table = cob_malloc (sizeof (struct call_hash *) * HASH_SIZE);
 #endif
-
+#include <strings.h>       /* NOTE the second "s"*/
+	int strcasecmp (const char *, const char *);
 	call_filename_buff = cob_malloc (CALL_FILEBUFF_SIZE);
 	call_entry_buff = cob_malloc (COB_SMALL_BUFF);
 	call_entry2_buff = cob_malloc (COB_SMALL_BUFF);
@@ -787,4 +789,4 @@ cob_cancel_all ()
 	}
 	cob_cancel_call_stack_list (current_call_stack_list->children);
 	return;
-}
+}	
