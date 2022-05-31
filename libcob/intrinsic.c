@@ -1287,7 +1287,7 @@ cob_intr_date_of_integer (cob_field *srcdays)
 			}
 		}
 	}
-        int snprintf (int *, const char *, unsigned short *); 
+        int snprintf (int *, const char *,int *, unsigned short *); 
 	snprintf (buff, 64, "%4.4d%2.2d%1.4hu", baseyear, i, (unsigned short)days); 
 	memcpy (curr_field->data, buff, 8);
 	return curr_field;
