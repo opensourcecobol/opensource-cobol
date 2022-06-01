@@ -55,8 +55,8 @@ main (int iArgc, char **ppcArgv)
 		cRecord [256];
 	struct	keydesc
 		sKeydesc;
-	char	cLogfileName [100],
-		cCommand [100];
+	char	cLogfileName [95],
+		cCommand [204];
 	char	cFileName [] = "IsamTest";
 
 	memset (&sKeydesc, 0, sizeof (sKeydesc));
@@ -89,13 +89,15 @@ main (int iArgc, char **ppcArgv)
 		isclose (iHandle);
 		sprintf (cLogfileName, "RECOVER");
 #ifdef	_WIN32
+		CFLAGS+=-fno-pie
+	        CXXFLAGS+=-fno-pie
 		sprintf (cCommand, "del /f /q %s", cLogfileName);
 #else
 		sprintf (cCommand, "rm -f %s; touch %s", cLogfileName, cLogfileName);
 #endif
-		system (cCommand);
 		return (0);
 	}
+
 	sprintf (cLogfileName, "RECOVER");
 #ifdef	_WIN32
 	iResult = open("RECOVER", O_CREAT | O_TRUNC | O_RDWR | O_BINARY, 0666);

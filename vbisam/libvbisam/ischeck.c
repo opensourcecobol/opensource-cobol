@@ -18,6 +18,9 @@
  */
 
 #include	"isinternal.h"
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 
 static char	*gpsdatarow;		/*  Buffer to hold rows read */
 static char	*gpsdatamap[2];		/*  Bitmap of 'used' data rows */
@@ -145,10 +148,11 @@ ibittestandreset (char *psmap, off_t tbit)
 }
 
 static int
-ipreamble (ihandle)
+ipreamble (int ihandle)
 {
 	struct DICTINFO	*psvbptr;
 	struct stat	sstat;
+	
 
 	psvbptr = psvbfile[ihandle];
 	printf ("Table node size: %d bytes\n", psvbptr->inodesize);
@@ -164,6 +168,7 @@ ipreamble (ihandle)
 		printf ("Unable to get data status!\n");
 		return -1;
 	}
+	
 	if (psvbptr->iopenmode & ISVARLEN) {
 		gtdatasize =
 		    (off_t) (sstat.st_size + psvbptr->iminrowlength + INTSIZE +

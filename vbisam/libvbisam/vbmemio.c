@@ -48,7 +48,7 @@ pvvbmalloc (const size_t size)
 
 	mptr = calloc (1, size);
 	if (unlikely(!mptr)) {
-		fprintf (stderr, "Cannot allocate %d bytes of memory - Aborting\n", size);
+		fprintf (stderr, "Cannot allocate %ld bytes of memory - Aborting\n", size );
 		fflush (stderr);
 		exit (1);
 	}
