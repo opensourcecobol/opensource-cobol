@@ -1110,8 +1110,7 @@ cob_intr_current_date (const int offset, const int length)
 #endif
 
 #if defined(HAVE_SYS_TIME_H) && defined(HAVE_GETTIMEOFDAY)
-	int snprintf_trunc (char *, int, const char *, long int);
-	snprintf_trunc(buff2, 7, "%2.8ld", tmv.tv_usec / 10000);
+	snprintf(buff2, 7, "%2.8ld", tmv.tv_usec / 10000);
 	memcpy (&buff[14], buff2, 2);
 #endif
 #endif	/* _WIN32 */
@@ -1287,7 +1286,7 @@ cob_intr_date_of_integer (cob_field *srcdays)
 			}
 		}
 	}
-        int snprintf (int *, const char *,int *, unsigned short *); 
+        
 	snprintf (buff, 64, "%4.4d%2.2d%1.4hu", baseyear, i, (unsigned short)days); 
 	memcpy (curr_field->data, buff, 8);
 	return curr_field;
