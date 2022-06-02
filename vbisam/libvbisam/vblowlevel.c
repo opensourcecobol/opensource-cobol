@@ -39,7 +39,7 @@ ivbopen (const char *pcfilename, const int iflags, const mode_t tmode)
 		iinitialized = 1;
 	}
 	if (stat (pcfilename, &sstat)) {
-		if (!iflags & O_CREAT) {
+		if (~iflags & O_CREAT) {
 			return -1;
 		}
 	} else {
