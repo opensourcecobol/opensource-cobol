@@ -27,6 +27,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#include <strings.h>
 
 #ifdef	HAVE_UNISTD_H
 #include <unistd.h>
