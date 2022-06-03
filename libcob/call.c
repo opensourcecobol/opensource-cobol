@@ -28,6 +28,7 @@
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <strings.h>
 #ifdef	HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -586,7 +587,7 @@ cob_init_call (void)
 #ifndef	COB_ALT_HASH
 	call_table = cob_malloc (sizeof (struct call_hash *) * HASH_SIZE);
 #endif
-
+        int strcasecmp (const char *, const char *);
 	call_filename_buff = cob_malloc (CALL_FILEBUFF_SIZE);
 	call_entry_buff = cob_malloc (COB_SMALL_BUFF);
 	call_entry2_buff = cob_malloc (COB_SMALL_BUFF);
