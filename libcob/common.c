@@ -1814,7 +1814,7 @@ cob_accept_time (cob_field *f)
 	time_t		t;
 #if defined(HAVE_SYS_TIME_H) && defined(HAVE_GETTIMEOFDAY)
 	struct timeval	tmv;
-	char		buff2[8];
+	char		buff2[18];
 #endif
 #endif
 	char		s[12];
