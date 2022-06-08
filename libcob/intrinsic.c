@@ -1048,7 +1048,7 @@ cob_intr_current_date (const int offset, const int length)
 	cob_field	field;
 #if defined(HAVE_SYS_TIME_H) && defined(HAVE_GETTIMEOFDAY)
 	struct timeval	tmv;
-	char		buff2[8];
+	char		buff2[17];
 #endif
 #endif	/* _WIN32 */
 	char		buff[24];
@@ -1106,7 +1106,7 @@ cob_intr_current_date (const int offset, const int length)
 #endif
 
 #if defined(HAVE_SYS_TIME_H) && defined(HAVE_GETTIMEOFDAY)
-	snprintf(buff2, 7, "%2.2ld", tmv.tv_usec / 10000);
+	snprintf(buff2, 17, "%2.2ld", tmv.tv_usec / 10000);
 	memcpy (&buff[14], buff2, 2);
 #endif
 #endif	/* _WIN32 */
@@ -1246,7 +1246,7 @@ cob_intr_date_of_integer (cob_field *srcdays)
 	int		leapyear = 365;
 	cob_field_attr	attr;
 	cob_field	field;
-	char		buff[16];
+	char		buff[25];
 
 	COB_ATTR_INIT (COB_TYPE_NUMERIC_DISPLAY, 8, 0, 0, NULL);
 	COB_FIELD_INIT (8, NULL, &attr);
@@ -1282,7 +1282,7 @@ cob_intr_date_of_integer (cob_field *srcdays)
 			}
 		}
 	}
-	snprintf (buff, 15, "%4.4d%2.2d%2.2d", baseyear, i, days);
+	snprintf (buff, 25, "%4.4d%2.2d%2.2d", baseyear, i, days);
 	memcpy (curr_field->data, buff, 8);
 	return curr_field;
 }
@@ -1295,7 +1295,7 @@ cob_intr_day_of_integer (cob_field *srcdays)
 	int		leapyear = 365;
 	cob_field_attr	attr;
 	cob_field	field;
-	char		buff[16];
+	char		buff[19];
 
 	COB_ATTR_INIT (COB_TYPE_NUMERIC_DISPLAY, 7, 0, 0, NULL);
 	COB_FIELD_INIT (7, NULL, &attr);
@@ -1318,7 +1318,7 @@ cob_intr_day_of_integer (cob_field *srcdays)
 			leapyear = 365;
 		}
 	}
-	snprintf (buff, 15, "%4.4d%3.3d", baseyear, days);
+	snprintf (buff, 19, "%4.4d%3.3d", baseyear, days);
 	memcpy (curr_field->data, buff, 7);
 	return curr_field;
 }
@@ -1837,7 +1837,7 @@ cob_intr_numval (cob_field *srcfield)
 	cob_field	field;
 	unsigned char	integer_buff[64];
 	unsigned char	decimal_buff[64];
-	unsigned char	final_buff[64];
+	unsigned char	final_buff[130];
 
 	COB_ATTR_INIT (COB_TYPE_NUMERIC_BINARY, 18, 0, COB_FLAG_HAVE_SIGN, NULL);
 	COB_FIELD_INIT (8, NULL, &attr);
@@ -1894,7 +1894,7 @@ cob_intr_numval (cob_field *srcfield)
 		make_field_entry (&field);
 		memcpy (curr_field->data, (char *)&llval, 8);
 	} else {
-		snprintf ((char *)final_buff, 63, "%s%s.%s", sign ? "-" : "",
+		snprintf ((char *)final_buff, 130, "%s%s.%s", sign ? "-" : "",
 			 integer_buff, decimal_buff);
 		sscanf ((char *)final_buff, "%lf", &val);
 		make_double_entry ();
@@ -1918,7 +1918,7 @@ cob_intr_numval_c (cob_field *srcfield, cob_field *currency)
 	cob_field	field;
 	unsigned char	integer_buff[64];
 	unsigned char	decimal_buff[64];
-	unsigned char	final_buff[64];
+	unsigned char	final_buff[130];
 
 	COB_ATTR_INIT (COB_TYPE_NUMERIC_BINARY, 18, 0, COB_FLAG_HAVE_SIGN, NULL);
 	COB_FIELD_INIT (8, NULL, &attr);
@@ -1993,7 +1993,7 @@ cob_intr_numval_c (cob_field *srcfield, cob_field *currency)
 		make_field_entry (&field);
 		memcpy (curr_field->data, (char *)&llval, 8);
 	} else {
-		snprintf ((char *)final_buff, 63, "%s%s.%s", sign ? "-" : "",
+		snprintf ((char *)final_buff, 130, "%s%s.%s", sign ? "-" : "",
 			 integer_buff, decimal_buff);
 		sscanf ((char *)final_buff, "%lf", &val);
 		make_double_entry ();
