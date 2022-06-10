@@ -489,7 +489,7 @@ cob_check_pos_status (int fret)
 	cob_field	*f;
 	int		sline;
 	int		scolumn;
-	char		datbuf[8];
+	char		datbuf[10];
 
 	if (fret) {
 		cob_set_exception (COB_EC_IMP_ACCEPT);

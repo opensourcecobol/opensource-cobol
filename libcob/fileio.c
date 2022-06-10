@@ -211,7 +211,7 @@ DIR					*listdir_handle;
 struct dirent		*listdir_filedata;
 #endif
 
-#define        OPENMODESIZE  3
+#define        OPENMODESIZE  5
 #define        READOPTSSIZE  4
 #define        STARTCONDSIZE 2
 #define        EXCPTCODESIZE 6
