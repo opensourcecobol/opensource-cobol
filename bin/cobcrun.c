@@ -53,7 +53,7 @@ cobcrun_print_version (void)
 {
 	int	year;
 	int	day;
-	char	buff[64];
+	char	buff[97];
 	char	month[64];
 
 	memset (buff, 0, sizeof(buff));
