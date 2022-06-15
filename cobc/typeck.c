@@ -221,7 +221,7 @@ static const char	*const bin_sub_funcs[] = {
 	"cob_subswp_s64_binary"
 };
 
-static const char	*const align_bin_compare_funcs[] = {
+static const char	*const align_bin_compare_funcs[] __attribute((unused)) = {
 	"cob_cmp_u8_binary",
 	"cob_cmp_align_u16_binary",
 	"cob_cmp_u24_binary",
@@ -256,7 +256,7 @@ static const char	*const align_bin_compare_funcs[] = {
 	"cob_cmpswp_align_s64_binary"
 };
 
-static const char	*const align_bin_add_funcs[] = {
+static const char	*const align_bin_add_funcs[] __attribute((unused)) = {
 	"cob_add_u8_binary",
 	"cob_add_align_u16_binary",
 	"cob_add_u24_binary",
@@ -291,7 +291,7 @@ static const char	*const align_bin_add_funcs[] = {
 	"cob_addswp_s64_binary"
 };
 
-static const char	*const align_bin_sub_funcs[] = {
+static const char	*const align_bin_sub_funcs[] __attribute((unused)) = {
 	"cob_sub_u8_binary",
 	"cob_sub_align_u16_binary",
 	"cob_sub_u24_binary",
