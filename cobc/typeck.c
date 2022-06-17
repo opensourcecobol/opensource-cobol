@@ -220,6 +220,10 @@ static const char	*const bin_sub_funcs[] = {
 	"cob_subswp_s56_binary",
 	"cob_subswp_s64_binary"
 };
+/**
+ *  * Add a sample comment
+ *   
+ */
 
 /* functions */
 
