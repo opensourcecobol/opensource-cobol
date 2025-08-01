@@ -498,7 +498,8 @@ AT_DATA([caller.cob], [
 
 AT_CHECK([${COMPILE_MODULE} -c callee.cob])
 AT_CHECK([${COMPILE} -c caller.cob])
-AT_CHECK([${COMPILE} -o prog caller.${OBJEXT} callee.${OBJEXT}])
+AT_CHECK([export COB_LDFLAGS="-z muldefs ${COB_LDFLAGS}"; \
+            ${COMPILE} -o prog caller.${OBJEXT} callee.${OBJEXT}])
 AT_CHECK([./prog], [0], [OK])
 
 AT_CLEANUP
