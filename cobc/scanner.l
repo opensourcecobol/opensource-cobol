@@ -802,6 +802,9 @@ read_literal (int mark, enum cb_category category)
 	}
 
 	while ((c = input ()) != EOF) {
+#if EOF != 0
+		if (unlikely (c == 0)) break;	/* fixes unexpected error case */
+#endif
 		plexbuff[i++] = c;
 		if (c == mark && (c = input ()) != mark) {
 			i--;
