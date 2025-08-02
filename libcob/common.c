@@ -590,7 +590,7 @@ national_cmps (const unsigned char *s1, const unsigned char *s2, const size_t si
 	}
 #else /*!I18N_UTF8*/
 	for (i = 0; i < size && !ret; i += 2) {
-		ret = ((s1[i] <<8 | s1[i + 1]) > (s2[i] <<8 | s2[i + 1]));
+		ret = ((s1[i] <<8 | s1[i + 1]) - (s2[i] <<8 | s2[i + 1]));
 	}
 #endif /*I18N_UTF8*/
 	return ret;
