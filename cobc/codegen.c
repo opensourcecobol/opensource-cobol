@@ -3764,6 +3764,19 @@ output_file_initialization (struct cb_file *f)
 	output_line ("%s%s->file_version = %d;", CB_PREFIX_FILE, f->cname, COB_FILE_VERSION);
 	if (f->external) {
 		output_indent ("}");
+		output_line ("else");
+		output_indent ("{");
+		nkeys = 0;
+		for (l = f->alt_key_list; l; l = l->next) {
+			nkeys++;
+			if (l->component_list != NULL) {
+				output ("(");
+				output_param (l->key, -1);
+				output (")->data = %s%s->keys[%d].field->data;\n", CB_PREFIX_FILE, f->cname,	
+					nkeys);
+			}
+		}
+		output_indent ("}");
 	}
 }
 
