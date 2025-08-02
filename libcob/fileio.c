@@ -1910,7 +1910,7 @@ dobuild:
 					}
 				}
 				/* additional change to BCS/JR patch: put off the simple-key assamption. */
-				if (fh->key[k].k_nparts == 1
+				if (fh->key[k].k_nparts == 1 && !f->keys[k].count_components
 				&& (fh->key[k].k_start != f->keys[k].offset
 				||  fh->key[k].k_leng != f->keys[k].field->size)) {
 					ret = COB_STATUS_39_CONFLICT_ATTRIBUTE;
